@@ -3,7 +3,7 @@
 }
 .half-star {
   background-image: url(../../assets/images/half-start.png);
-  width: 24px;
+  width: 1.5rem;
   background-repeat: no-repeat;
   background-size: 1.04rem;
   position: relative;
@@ -14,22 +14,30 @@
   cursor: pointer;
 }
 .rate {
-  height: 24px;
-  img {
-    display: inline-block !important;
-    max-width: 100%;
-    width: 20px;
-    margin-left: 3px;
+  .rate__icon__container {
+    line-height: 1;
+    &:not(:last-child) {
+      margin-right: 0.2rem;
+    }
+    .rate__icon {
+      font-size: 1.2rem;
+      &.grey {
+        color: #d7d7d7;
+      }
+      &.yellow {
+        color: #fd980e;
+      }
+    }
   }
 }
-.maxRate{
-  margin-right: .5rem;
+.maxRate {
+  margin-right: 0.5rem;
 }
-.smallRate{
-  margin-right: -.2rem;
+.smallRate {
+  margin-right: -0.2rem;
 }
-@media(max-width:540px){
-  .smallRate{
-    margin-right: -.5rem;
+@media (max-width: 540px) {
+  .smallRate {
+    margin-right: -0.5rem;
   }
 }

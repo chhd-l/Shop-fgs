@@ -5,8 +5,30 @@ import 'slick-carousel/slick/slick-theme.css';
 import '@/assets/css/heroCarousel.css';
 import './index.less';
 import { getBanner } from '@/api/home.js';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
+import { stgShowAuth, optimizeImage, getDeviceType } from '@/utils/utils';
+
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+
+function ATagContainer({
+  children,
+  href,
+  to,
+  isOuterLink,
+  className,
+  onClick
+}) {
+  return isOuterLink ? (
+    <a href={href} className={className} onClick={onClick}>
+      {children}
+    </a>
+  ) : (
+    <Link to={to} className={className} onClick={onClick}>
+      {children}
+    </Link>
+  );
+}
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -54,37 +76,54 @@ class HeroCarousel extends React.Component {
     this.state = {
       banner: []
     };
-    this.GABannerClick = this.GABannerClick.bind(this);
+    // this.GABannerClick = this.GABannerClick.bind(this);
   }
   componentDidMount() {
     getBanner().then((res) => {
-      this.setState({ banner: res.context });
+      let bannerList = stgShowAuth()
+        ? res.context
+        : res.context.filter(
+            (el) => el.webSkipUrl !== '/precise-cat-nutrition'
+          );
+      this.setState({
+        banner: bannerList.map((ele) => {
+          return Object.assign(ele, {
+            isOuterLinkForMobile: /^[http|https]/.test(ele.mobiSkipUrl),
+            isOuterLinkForPC: /^[http|https]/.test(ele.webSkipUrl)
+          });
+        })
+      });
     });
   }
   // 切换slider触发
   GABannerImpression(idx) {
     const cur_banner = this.state.banner[idx];
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
-      ecommerce: {
-        promoClick: {
-          promotions: [
-            {
-              id: cur_banner.bannerId, // Name or ID is required
-              name: cur_banner.bannerName,
-              creative: cur_banner.bannerName,
-              position: idx
-            }
-          ]
-        }
-      }
+    window?.dataLayer?.push({
+      event: 'homepageCarousselDisplay',
+      slideName: cur_banner.bannerName,
+      slidePosition: idx
     });
+    // dataLayer.push({
+    //   event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
+    //   ecommerce: {
+    //     promoClick: {
+    //       promotions: [
+    //         {
+    //           id: cur_banner.bannerId, // Name or ID is required
+    //           name: cur_banner.bannerName,
+    //           creative: cur_banner.bannerName,
+    //           position: idx
+    //         }
+    //       ]
+    //     }
+    //   }
+    // });
   }
   // 点击banner跳转时触发
   GABannerClick(idx) {
     const cur_banner = this.state.banner[idx];
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
+    window?.dataLayer?.push({
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
       ecommerce: {
         promoClick: {
           promotions: [
@@ -108,7 +147,7 @@ class HeroCarousel extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       initialSlide: 0,
-      autoplay: process.env.REACT_APP_LANG == 'de' ? true : false,
+      autoplay: ['de', 'ru', 'fr'].includes(window.__.env.REACT_APP_COUNTRY),
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
@@ -124,38 +163,56 @@ class HeroCarousel extends React.Component {
       return (
         <>
           <div className="hero-carousel__slide__video">
-            <video autoPlay={true} muted={true} loop={true} id="myVideo">
-              <source src={el.webUrl} type="video/mp4" />
-            </video>
+            {/* 手机端不展示video,由于ios safari会强制出来，加强隐藏判断 */}
+            {!isMobile ? (
+              <video autoPlay={true} muted={true} loop={true}>
+                <source src={el.webUrl} type="video/mp4" />
+              </video>
+            ) : null}
             {el.mobiSkipUrl ? (
-              <Link
+              <ATagContainer
                 className="h-100 mobileBanner"
-                onClick={this.GABannerClick.bind(this, i)}
+                // onClick={this.GABannerClick.bind(this, i)}
                 to={el.mobiSkipUrl}
+                href={el.mobiSkipUrl}
+                isOuterLink={el.isOuterLinkForMobile}
               >
-                <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
-              </Link>
+                <img
+                  className="w-100 mh-100"
+                  src={optimizeImage({
+                    originImageUrl: el.mobiUrl,
+                    width: 440
+                  })}
+                  alt="heroCarousel banner"
+                />
+              </ATagContainer>
             ) : (
-              <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
+              <img
+                className="w-100 mh-100"
+                src={optimizeImage({ originImageUrl: el.mobiUrl, width: 440 })}
+                alt="heroCarousel banner"
+              />
             )}
           </div>
           <div className="hero-carousel__slide__content">
             <div className="rc-gamma inherit-fontsize">
-              <h1>
+              <div style={{ lineHeight: 1.2 }}>
                 <FormattedMessage id="header.carouselInfo1" />
-              </h1>
+              </div>
             </div>
             <div className="rc-body inherit-fontsize">
               <FormattedMessage id="header.carouselInfo2" />
             </div>
             <div className="hero-carousel__slide__content__btn text-center">
-              <Link
+              <ATagContainer
                 className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
+                href={el.mobiSkipUrl}
                 to={el.mobiSkipUrl}
-                onClick={this.GABannerClick.bind(this, i)}
+                // onClick={this.GABannerClick.bind(this, i)}
+                isOuterLink={el.isOuterLinkForMobile}
               >
                 <FormattedMessage id="header.toBegin" />
-              </Link>
+              </ATagContainer>
             </div>
           </div>
         </>
@@ -163,57 +220,108 @@ class HeroCarousel extends React.Component {
     };
 
     return (
-      banner.length > 0 && (
-        <Slider {...settings}>
-          {banner.map((el, i) => (
-            <div className="hero-carousel__slide" key={i}>
-              <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                {el.isVideo && el.isVideo === '1' ? (
-                  videoJSX(el, i)
-                ) : (
-                  <>
-                    {el.webSkipUrl ? (
-                      <Link
-                        className="h-100"
-                        to={el.webSkipUrl}
-                        onClick={this.GABannerClick.bind(this, i)}
-                      >
+      <>
+        {banner.length > 0 && (
+          <Slider {...settings}>
+            {banner.map((el, i) => (
+              <div className="hero-carousel__slide" key={i}>
+                <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                  {el.isVideo && el.isVideo === '1' ? (
+                    videoJSX(el, i)
+                  ) : (
+                    <>
+                      {el.webSkipUrl ? (
+                        <ATagContainer
+                          className="h-100"
+                          to={el.webSkipUrl}
+                          href={el.webSkipUrl}
+                          isOuterLink={el.isOuterLinkForPC}
+                          // onClick={this.GABannerClick.bind(this, i)}
+                        >
+                          <img
+                            className="hidden md:block mh-100"
+                            src={optimizeImage({
+                              originImageUrl: el.webUrl,
+                              width: 1440
+                            })}
+                            // srcset={optimizeImage({
+                            //   originImageUrl: el.webUrl,
+                            //   conf: [
+                            //     {
+                            //       option: 'fit=contain,width=320',
+                            //       screen: '320w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=640',
+                            //       screen: '640w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=960',
+                            //       screen: '960w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=1280',
+                            //       screen: '1280w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=2560',
+                            //       screen: '2560w'
+                            //     }
+                            //   ]
+                            // })}
+                            alt="heroCarousel banner"
+                          />
+                        </ATagContainer>
+                      ) : (
                         <img
-                          className="rc-md-up mh-100"
-                          src={el.webUrl}
-                          alt=""
+                          className="hidden md:block mh-100"
+                          src={optimizeImage({
+                            originImageUrl: el.webUrl,
+                            width: 1440
+                          })}
+                          alt="heroCarousel banner"
                         />
-                      </Link>
-                    ) : (
-                      <img className="rc-md-up mh-100" src={el.webUrl} alt="" />
-                    )}
+                      )}
 
-                    {el.mobiSkipUrl ? (
-                      <Link
-                        className="h-100"
-                        to={el.mobiSkipUrl}
-                        onClick={this.GABannerClick.bind(this, i)}
-                      >
+                      {el.mobiSkipUrl ? (
+                        <ATagContainer
+                          className="h-100"
+                          to={el.mobiSkipUrl}
+                          href={el.mobiSkipUrl}
+                          isOuterLink={el.isOuterLinkForMobile}
+                          // onClick={this.GABannerClick.bind(this, i)}
+                        >
+                          <img
+                            className="block md:hidden w-100 mh-100"
+                            src={optimizeImage({
+                              originImageUrl: el.mobiUrl,
+                              width: 440
+                            })}
+                            alt="heroCarousel banner"
+                          />
+                        </ATagContainer>
+                      ) : (
                         <img
-                          className="rc-md-down w-100 mh-100"
-                          src={el.mobiUrl}
-                          alt=""
+                          className="block md:hidden w-100 mh-100"
+                          src={optimizeImage({
+                            originImageUrl: el.mobiUrl,
+                            width: 440
+                          })}
+                          alt="heroCarousel banner"
                         />
-                      </Link>
-                    ) : (
-                      <img
-                        className="rc-md-down w-100 mh-100"
-                        src={el.mobiUrl}
-                        alt=""
-                      />
-                    )}
-                  </>
-                )}
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </Slider>
-      )
+            ))}
+          </Slider>
+        )}
+        {/* 不要删除，seo用 */}
+        <h1 style={{ display: 'none' }}>
+          <FormattedMessage id="header.carouselInfo1" />
+        </h1>
+      </>
     );
   }
 }

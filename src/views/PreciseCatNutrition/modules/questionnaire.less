@@ -1,0 +1,99 @@
+.questionnaire-form{
+  .question-title{
+    color: #666;
+    font-size: 14px;
+    padding: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    @media (max-width: 769px) {
+      #question-tooltip+.question-tooltip{
+        display: block;
+      }
+    }
+    .iconfont-box{
+      position: relative;
+      padding-left: 5px;
+      cursor: pointer;
+      &:hover .question-tooltip{
+          display: block;
+      }
+      .iconinfo{
+        font-size: 18px;
+        color: #666;
+      }
+      .question-tooltip{
+        display: none;
+        position: absolute;
+        top: 35px;
+        right: -30px;
+        padding: 10px;
+        width: 260px;
+        z-index: 9;
+        background-color: #f6f6f6;
+        border: 1px solid #d7d7d7;
+        @media (max-width: 769px) {
+          left: auto;
+          right: -15px;
+          width: 190px;
+          top: 32px;
+        }
+        &::before{
+          content: ' ';
+          position: absolute;
+          top: -8px;
+          right: 32px;
+          width: 14px;
+          height: 14px;
+          border-left: 1px solid #d7d7d7;
+          border-top: 1px solid #d7d7d7;
+          background-color: #f6f6f6;
+          transform: rotate(45deg);
+          @media (max-width: 769px) {
+            left: auto;
+            right: 16px;
+          }
+        }
+      }
+    }
+  }
+  .questionnaire-form-content{
+    height: auto;
+    //overflow-y: scroll;
+    padding: 0 20px 0 2px;
+    @media (max-width: 769px) {
+      padding: 2px;
+      max-height: available;
+      overflow-y: visible;
+    }
+    .questionnaire-form-item{
+      padding-bottom: 18px;
+    }
+  }
+}
+
+.questionnaire-form-content::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+
+.questionnaire-form-content::-webkit-scrollbar-corner {
+  background: #f6f6f6;
+}
+
+.questionnaire-form-content::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  box-shadow: inset 0 0 8px #999;
+  -webkit-box-shadow: inset 0 0 8px #999;
+  background: #999;
+  border-radius: 4px;
+  height: 136px;
+}
+
+.questionnaire-form-content::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 8px #fff;
+  -webkit-box-shadow: inset 0 0 8px #fff;
+  background: #fff;
+  border-radius: 4px;
+}

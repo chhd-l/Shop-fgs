@@ -2,42 +2,17 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.css';
-import { FormattedMessage } from 'react-intl';
-import { setSeoConfig } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl-phraseapp';
+import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href
+@seoHoc()
 class RequestInvoices extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    };
-  }
-  
-  componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-  }
-  render(){
+  render() {
     return (
       <div>
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          match={this.props.match}
-        />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <div className="RequestInvoices">
           <h1>
             <FormattedMessage id="requestInvoices.title" />
@@ -46,8 +21,8 @@ class RequestInvoices extends React.Component {
             La facturación automática está en preparación. Por ahora, si desea
             solicitar facturas electrónicas, envíe la siguiente información a la
             dirección de correo electrónico ‘contacto.mex@royalcanin.com’ con el
-            título de correo electrónico de ‘Solicitar factura_tu nombre_ Fecha de
-            aplicación’ (por ejemplo, Solicitar factura_Calvin_21072020).{' '}
+            título de correo electrónico de ‘Solicitar factura_tu nombre_ Fecha
+            de aplicación’ (por ejemplo, Solicitar factura_Calvin_21072020).{' '}
           </p>
           <p>Información requerida para la facturación:</p>
           <ol>
@@ -58,7 +33,8 @@ class RequestInvoices extends React.Component {
               Delegacion/municipio, Estado, C.P.)
             </li>
             <li>
-              Uso del Tipo de CFDI (seleccione entre las siguientes dos opciones)
+              Uso del Tipo de CFDI (seleccione entre las siguientes dos
+              opciones)
               <ol>
                 <li>G01 Adquision de Mercancia</li>
                 <li>G03 Gastos Generales</li>
@@ -72,13 +48,13 @@ class RequestInvoices extends React.Component {
               </ol>
             </li>
             <li>
-              Número de pedido (consulte el correo electrónico de confirmación de
-              su pedido)
+              Número de pedido (consulte el correo electrónico de confirmación
+              de su pedido)
             </li>
             <li>Valor total del pedido / valor de la factura</li>
             <li> Dirección de correo electrónico para recibir facturas</li>
           </ol>
-  
+
           <p>
             Tenga en cuenta que, por lo general, el proceso de facturación
             demorará hasta 1 semana y la factura se enviará a la dirección que
@@ -86,7 +62,7 @@ class RequestInvoices extends React.Component {
             preste atención a su bandeja de entrada de correo electrónico a su
             debido tiempo.
           </p>
-  
+
           <p>
             Ante cualquier inquietud, comuníquese con
             ‘contacto.mex@royalcanin.com’. Gracias.
@@ -98,4 +74,3 @@ class RequestInvoices extends React.Component {
   }
 }
 export default RequestInvoices;
-

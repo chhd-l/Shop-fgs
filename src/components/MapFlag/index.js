@@ -1,7 +1,10 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
+import { withRouter } from 'react-router-dom';
 import './index.css';
+
+const localItemRoyal = window.__.localItemRoyal;
 
 @inject('clinicStore')
 @observer
@@ -20,16 +23,10 @@ class MapFlag extends React.Component {
     });
   };
   handleConfirm = (item) => {
-    const {
-      setSelectClinicId,
-      setSelectClinicName,
-      removeLinkClinicId,
-      removeLinkClinicName
-    } = this.props.clinicStore;
-    removeLinkClinicId();
-    removeLinkClinicName();
+    const { setSelectClinicId, setSelectClinicName } = this.props.clinicStore;
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
+    localItemRoyal.set('checkOutNeedShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };
   handleClose = () => {
@@ -76,7 +73,7 @@ class MapFlag extends React.Component {
                 d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
                 fill="#E2001A"
                 fillRule="evenodd"
-              ></path>
+              />
             </svg>
           </div>
         </div>
@@ -97,7 +94,7 @@ class MapFlag extends React.Component {
               style={{ marginBottom: '0' }}
             >
               <p>
-                <FormattedMessage id="clinic.vet"></FormattedMessage>
+                <FormattedMessage id="clinic.vet" />
               </p>
               <h4 className="rc-card__title rc-delta click-btn map-flag-title">
                 {this.props.obj.prescriberName}
@@ -122,7 +119,7 @@ class MapFlag extends React.Component {
                     className="rc-btn rc-btn--one rc-btn--sm"
                     onClick={() => this.handleConfirm(this.props.obj)}
                   >
-                    <FormattedMessage id="clinic.confirm"></FormattedMessage>
+                    <FormattedMessage id="clinic.confirm" />
                   </button>
                 )}
                 {this.props.mode === 'navigate' && (
@@ -130,7 +127,7 @@ class MapFlag extends React.Component {
                     className="rc-btn rc-btn--one rc-btn--sm"
                     onClick={() => this.handleNavigate(this.props.obj)}
                   >
-                    <FormattedMessage id="clinic.navigate"></FormattedMessage>
+                    <FormattedMessage id="clinic.navigate" />
                   </button>
                 )}
                 <button
@@ -145,11 +142,11 @@ class MapFlag extends React.Component {
               </div>
 
               {/* <div style={{marginTop:"1rem"}}>
-              <a className="rc-styled-link" 
-                style={{ backgroundColor: "gray",color: "white",padding: "5px",marginRight:"1rem"}} 
+              <a className="rc-styled-link"
+                style={{ backgroundColor: "gray",color: "white",padding: "5px",marginRight:"1rem"}}
                 onClick={this.handleClose}>Close</a>
-              <a className="rc-styled-link" 
-                style={{ backgroundColor: "red",color: "white",padding: "5px"}} 
+              <a className="rc-styled-link"
+                style={{ backgroundColor: "red",color: "white",padding: "5px"}}
                 onClick={this.handleConfirm}>Comfirm</a>
             </div> */}
             </div>
@@ -159,4 +156,4 @@ class MapFlag extends React.Component {
     );
   }
 }
-export default MapFlag;
+export default withRouter(MapFlag);

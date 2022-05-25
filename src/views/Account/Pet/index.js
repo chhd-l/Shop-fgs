@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
@@ -12,102 +12,70 @@ import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
-import { getCustomerInfo } from '@/api/user';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
-import Female from '@/assets/images/female.png';
-import Male from '@/assets/images/male.png';
+import { getDeviceType, getDictionary, formatDate } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
-
-const pageLink = window.location.href;
+import { myAccountPushEvent } from '@/utils/GA';
+import cn from 'classnames';
+import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 @injectIntl
 @inject('loginStore')
+@seoHoc('Account pet')
 @observer
 class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       petList: [],
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       isMobile: false,
-      loading: true
+      loading: true,
+      catBreedList: [],
+      dogBreedList: []
     };
+    this.isUk = window.__.env.REACT_APP_COUNTRY === 'uk';
   }
   componentDidMount() {
+    myAccountPushEvent('Pets');
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
+    this.getBreedList();
+  }
+
+  async getBreedList() {
+    const catBreedList = await getDictionary({ type: 'catBreed' });
+    const dogBreedList = await getDictionary({ type: 'dogBreed' });
+    this.setState({
+      catBreedList,
+      dogBreedList
     });
     this.getPetList();
   }
-  isHavePet() {
-    const { history } = this.props;
-    // history.push('/account/pets/petForm');
-  }
-  getUserInfo() {
+  get userInfo() {
     return this.props.loginStore.userInfo;
   }
 
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        this.props.loginStore.setUserInfo(context);
-
-        consumerAccount = context.consumerAccount;
-      });
-    }
-
-    return consumerAccount;
-  };
-
   getPetList = async () => {
-    this.setState({ loading: true });
-    if (!this.getAccount()) {
-      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
+    let customerId = this.userInfo && this.userInfo.customerId;
+    let consumerAccount = this.userInfo && this.userInfo.consumerAccount;
+    if (!customerId) {
+      // showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
       });
       return false;
     }
-    let params = {
-      consumerAccount: this.getAccount()
-    };
-    await getPetList(params)
+    getPetList({
+      customerId,
+      consumerAccount
+    })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          let petList = res.context.context;
-          this.setState({
-            loading: false,
-            petList: petList
-          });
-          // if (petList.length > 0) {
-          //   this.setState({
-          //     loading: false
-          //   });
-          //   this.isHavePet();
-          // } else {
-          //   this.setState({
-          //     loading: false,
-          //     petList: petList
-          //   });
-          // }
-        } else {
-          this.setState({
-            loading: false
-          });
-        }
+        let petList = res.context.context;
+        this.setState({
+          loading: false,
+          petList: petList
+        });
       })
       .catch((err) => {
         this.setState({
@@ -115,6 +83,29 @@ class Pet extends React.Component {
         });
       });
   };
+
+  petBreed(el) {
+    if (el.isPurebred === 0) {
+      return this.props.intl.messages['Mixed Breed'];
+    } else if (el.petsBreed && el.petsType === 'dog') {
+      return (
+        (this.state.dogBreedList.length &&
+          this.state.dogBreedList.filter(
+            (item) => item.valueEn == el.petsBreed
+          )?.[0]?.name) ||
+        el.petsBreed
+      );
+    } else {
+      return (
+        (this.state.catBreedList.length &&
+          this.state.catBreedList.filter(
+            (item) => item.valueEn == el.petsBreed
+          )?.[0]?.name) ||
+        el.petsBreed
+      );
+    }
+  }
+
   render() {
     const event = {
       page: {
@@ -127,25 +118,15 @@ class Pet extends React.Component {
       }
     };
     let { isMobile, petList, loading } = this.state;
+    console.log('petList', petList);
     return (
       <div id="Pets">
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -156,7 +137,7 @@ class Pet extends React.Component {
                   <Link to="/account">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                      <FormattedMessage id="home" />
+                      <FormattedMessage id="account.home" />
                     </span>
                   </Link>
                 </div>
@@ -190,20 +171,17 @@ class Pet extends React.Component {
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
-                          <div className="children-nomargin">
-                            <p style={{ wordBreak: 'break-all' }}>
-                              <FormattedMessage id="account.noPet"></FormattedMessage>
+                          <div className="children-nomargin text-break">
+                            <p>
+                              <FormattedMessage id="account.noPet" />
                             </p>
                           </div>
-                          <div
-                            className="rc-margin-top--xs"
-                            style={{ textAlign: isMobile ? 'center' : 'left' }}
-                          >
+                          <div className="rc-margin-top--xs text-center md:text-left">
                             <Link
                               className="rc-btn rc-btn--one"
                               to="/account/pets/petForm"
                             >
-                              <FormattedMessage id="account.addPet"></FormattedMessage>
+                              <FormattedMessage id="account.addPet" />
                             </Link>
                           </div>
                         </div>
@@ -216,52 +194,38 @@ class Pet extends React.Component {
                     </div>
                   ) : (
                     <div>
-                      <p className="title">
+                      <p className="title mb-4">
                         <FormattedMessage id="pet.petListTitle" />
                       </p>
                       {isMobile
-                        ? petList.map((el) => (
-                            <div className="petItem">
+                        ? petList.map((el, i) => (
+                            <div className="petItem" key={i}>
                               <div className="photo">
-                                <LazyLoad>
-                                  <img
-                                    style={{
-                                      width: '90px',
-                                      borderRadius: '50%'
-                                    }}
-                                    src={
-                                      (el.petsImg &&
-                                      el.petsImg.includes('https')
-                                        ? el.petsImg
-                                        : null) ||
-                                      (el.petsType === 'cat' ? Cat : Dog)
-                                    }
-                                  />
-                                </LazyLoad>
+                                {/* <LazyLoad> */}
+                                <img
+                                  style={{
+                                    width: '90px',
+                                    height: '90px',
+                                    objectFit: 'cover',
+                                    borderRadius: '50%'
+                                  }}
+                                  src={
+                                    (el.petsImg && el.petsImg.includes('https')
+                                      ? el.petsImg
+                                      : null) ||
+                                    (el.petsType === 'cat' ? Cat : Dog)
+                                  }
+                                  alt="Pet avatar"
+                                />
+                                {/* </LazyLoad> */}
                               </div>
-                              <div className="content">
-                                <h1 className="name red">
-                                  {el.petsName}{' '}
-                                  <LazyLoad>
-                                    <img
-                                      style={{ width: '20px' }}
-                                      src={!el.petsSex ? Male : Female}
-                                    />
-                                  </LazyLoad>
-                                </h1>
-                                <div className="key">
-                                  <span>
-                                    <FormattedMessage id="birthday" />
-                                  </span>
-                                  <span>
-                                    <FormattedMessage id="breed" />
-                                  </span>
-                                </div>
-                                <div className="value">
-                                  <span>{el.birthOfPets}</span>
-                                  <span>{el.petsBreed}</span>
-                                </div>
-                              </div>
+                              <PetInfoCover
+                                el={el}
+                                birthOfPets={formatDate({
+                                  date: el.birthOfPets?.split('T')[0]
+                                })}
+                                breed={this.petBreed(el)}
+                              />
                               <div className="operation">
                                 <Link
                                   className="edit rc-styled-link"
@@ -269,16 +233,32 @@ class Pet extends React.Component {
                                 >
                                   <FormattedMessage id="edit" />
                                 </Link>
+                              </div>
+                              <div className="weightTracker-wrap">
+                                {this.isUk ? (
+                                  <button className="rc-btn weightTracker-btn">
+                                    <i className="iconfont iconLogoff" />
+                                    <a
+                                      className="pl-2"
+                                      href="https://my.royalcanin.co.uk/account/pet_weights"
+                                      target="_blank"
+                                    >
+                                      <FormattedMessage id="Pet.weightTracker" />
+                                    </a>
+                                  </button>
+                                ) : null}
                               </div>
                             </div>
                           ))
-                        : this.state.petList.map((el) => (
-                            <div className="petItem">
+                        : this.state.petList.map((el, i) => (
+                            <div className="petItem" key={i}>
                               <div className="photo">
                                 <LazyLoad>
                                   <img
                                     style={{
                                       width: '90px',
+                                      height: '90px',
+                                      objectFit: 'cover',
                                       borderRadius: '50%'
                                     }}
                                     src={
@@ -288,55 +268,47 @@ class Pet extends React.Component {
                                         : null) ||
                                       (el.petsType === 'cat' ? Cat : Dog)
                                     }
+                                    alt="Pet avatar"
                                   />
                                 </LazyLoad>
                               </div>
-                              <div className="content">
-                                <h1 className="name red">
-                                  {el.petsName}{' '}
-                                  <LazyLoad>
-                                    <img
-                                      style={{ width: '15px' }}
-                                      src={!el.petsSex ? Male : Female}
-                                    />
-                                  </LazyLoad>
-                                </h1>
-                                <div className="key">
-                                  <span>
-                                    <FormattedMessage id="birthday" />
-                                  </span>
-                                  <span>
-                                    <FormattedMessage id="breed" />
-                                  </span>
-                                </div>
-                                <div className="value">
-                                  <span>{el.birthOfPets}</span>
-                                  <span>
-                                    {el.petsBreed && (
-                                      <FormattedMessage id={el.petsBreed} />
-                                    )}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="operation">
+                              <PetInfoCover
+                                el={el}
+                                birthOfPets={formatDate({
+                                  date: el.birthOfPets?.split('T')[0]
+                                })}
+                                breed={this.petBreed(el)}
+                              />
+                              <div className="operation weightTracker-wrap">
                                 <Link
                                   className="edit rc-styled-link"
                                   to={'/account/pets/petForm/' + el.petsId}
                                 >
                                   <FormattedMessage id="edit" />
                                 </Link>
+                                {this.isUk ? (
+                                  <button className="rc-btn weightTracker-btn">
+                                    <i className="iconfont iconLogoff" />
+                                    <a
+                                      className="pl-2"
+                                      href="https://my.royalcanin.co.uk/account/pet_weights"
+                                      target="_blank"
+                                    >
+                                      <FormattedMessage id="Pet.weightTracker" />
+                                    </a>
+                                  </button>
+                                ) : null}
                               </div>
                             </div>
                           ))}
                       <Link
-                        className="petItem addNew text-center ui-cursor-pointer"
+                        className="petItem addNew text-center ui-cursor-pointer block"
                         to="/account/pets/petForm"
-                        style={{
-                          display: 'block'
-                        }}
                       >
-                        <span style={{ fontSize: '25px' }} />{' '}
-                        <FormattedMessage id="pet.addNewPet" />
+                        <span className="iconfont iconjia mr-1 font-bold" />
+                        <span>
+                          <FormattedMessage id="pet.addNewPet" />
+                        </span>
                         {/* Add a new PET */}
                       </Link>
                     </div>
@@ -345,10 +317,42 @@ class Pet extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }
 }
 export default Pet;
+
+const PetInfoCover = ({ birthOfPets, breed, el }) => {
+  return (
+    <div className="content">
+      <h1 className="name red break-words">
+        {el.petsName}{' '}
+        <span
+          className={cn('iconfont', el.petsSex ? 'iconfemale' : 'iconmale')}
+          style={{ color: '#666' }}
+        />
+      </h1>
+      <div className="grid grid-cols-12 leading-normal text-lg md:text-base">
+        <div className="col-span-6 md:col-span-3 grid grid-cols-12">
+          <div className="col-span-12">
+            <span className="ui-text-overflow-line1">
+              <FormattedMessage id="birthday" />
+            </span>
+          </div>
+          <div className="col-span-12 font-medium">{birthOfPets}</div>
+        </div>
+        <div className="col-span-6 md:col-span-9 grid grid-cols-12">
+          <div className="col-span-12">
+            <span className="ui-text-overflow-line1">
+              <FormattedMessage id="breed" />
+            </span>
+          </div>
+          <div className="col-span-12 font-medium">{breed}</div>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,24 +1,25 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import PLPCover from '@/components/PLPCover';
 import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
-import Rate from '@/components/Rate';
-import Filters from './Filters';
-import FiltersPC from './FiltersPC';
-import find from 'lodash/find';
+import { Filters, FiltersPC } from './modules';
 import cloneDeep from 'lodash/cloneDeep';
+import flatMap from 'lodash/flatMap';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
+import ruFilterMap from './ruFilterMap.json';
 import {
   fetchHeaderNavigations,
   fetchFilterList,
@@ -26,121 +27,143 @@ import {
   queryStoreCateList,
   generateOptions,
   getParentNodesByChild,
-  formatMoney,
-  getParaByName,
   getDictionary,
   setSeoConfig,
   getDeviceType,
-  loadJS
+  loadJS,
+  filterObjectValue,
+  stgShowAuth,
+  optimizeImage
 } from '@/utils/utils';
+import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
+import { getSpecies } from '@/utils/GA';
+import bottomDescJson from './bottomDesc.json';
+import getTechnologyOrBreedsAttr, {
+  getFoodType
+} from '@/lib/get-technology-or-breedsAttr';
+import loadable from '@/lib/loadable-component';
+import SelectFilters from './modules/SelectFilters';
+import TopDesc from './modules/TopDesc';
+import cn from 'classnames';
+
 import './index.less';
 
-import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
-let isMobile = getDeviceType() === 'H5';
+const Exception = loadable(() => import('@/views/StaticPage/Exception'));
+const isHub = window.__.env.REACT_APP_HUB;
+const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
+const retailDog =
+  'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
-function getMuntiImg(item) {
-  let img;
-  if (
-    item.goodsImg ||
-    item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0]
-      .goodsInfoImg
-  ) {
-    img =
-      item.goodsImg ||
-      item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0]
-        .goodsInfoImg;
-    return `${img.replace('.jpg', '_250.jpg')}, ${img} 2x`;
-  } else {
-    img = IMG_DEFAULT;
-    return `${img}`;
+const filterAttrValue = (list, keyWords) => {
+  return (list || [])
+    .filter((attr) => attr?.goodsAttributeName?.toLowerCase() == keyWords)
+    .map((item) => item?.goodsAttributeValue);
+};
+
+function bSort(arr) {
+  var len = arr.length;
+  for (var i = 0; i < len - 1; i++) {
+    for (var j = 0; j < len - 1 - i; j++) {
+      if (arr[j]?.sort > arr[j + 1]?.sort) {
+        var temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
   }
+  return arr;
 }
-function ListItemH5ForFr(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam } = props;
-  // console.log('★★★★★★★★★ item: ',item);
-  return (
-    <div className="rc-column rc-column-pad fr-mobile-product">
+
+function ListItemForDefault(props) {
+  const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
+  return item && item.productFinder ? (
+    <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
-        className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden"
+        className="rc-card--product overflow-hidden"
         style={{ minHeight: '120px' }}
       >
-        {props.leftPromotionJSX}
-        {props.rightPromotionJSX}
-        <div className="h-100">
-          <Link
-            className="ui-cursor-pointer"
-            to={{
-              pathname: item
-                ? `/${item.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${item.goodsNo}` + sourceParam
-                : '',
-              state: { GAListParam, historyBreads: breadListByDeco }
-            }}
-            onClick={props.onClick}
-          >
-            <article
-              className="rc-card--a rc-text--center text-center"
-              style={{ flexWrap: 'wrap' }}
-            >
-              {item ? (
-                <picture
-                  className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
-                  style={{
-                    marginLeft: '-10px',
-                    paddingLeft: '5px',
-                    paddingRight: '15px',
-                    fontSize: '0'
-                  }}
+        <div className="fullHeight">
+          <span className="ui-cursor-pointer-pure">
+            <article className="rc-card--a rc-text--center text-center">
+              <div className="pb-0 justify-content-start rc-padding-top--md">
+                <div className="height-product-tile-plpOnly">
+                  <FormattedMessage id="plp.retail.cat.product.finder.title">
+                    {(txt) => (
+                      <h3
+                        className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break text-center"
+                        title={txt}
+                      >
+                        {txt}
+                      </h3>
+                    )}
+                  </FormattedMessage>
+                </div>
+                <div
+                  className=" text-center rc-padding-top--xs"
+                  style={{ fontSize: 'large' }}
                 >
-                  {/*循环遍历的图片*/}
-                  <LazyLoad style={{ width: '100%', height: '100%' }}>
+                  <FormattedMessage
+                    id="plp.retail.cat.product.finder.detail"
+                    values={{
+                      val: <br />
+                    }}
+                  />
+                </div>
+                <div style={{ margin: '0 auto' }}>
+                  <DistributeHubLinkOrATag
+                    href="/product-finder"
+                    to="/product-finder"
+                  >
+                    <button
+                      className="rc-btn rc-btn--two "
+                      style={{ marginTop: '1.1875rem' }}
+                    >
+                      <FormattedMessage id="plp.retail.cat.product.finder.button" />
+                    </button>
+                  </DistributeHubLinkOrATag>
+                </div>
+              </div>
+              <picture className="rc-card__image">
+                <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
+                  <div
+                    className="lazyload-wrapper"
+                    style={{
+                      width: '100%',
+                      height: '100%'
+                    }}
+                  >
                     <img
-                      src={
-                        item.goodsImg ||
-                        item.goodsInfos.sort(
-                          (a, b) => a.marketPrice - b.marketPrice
-                        )[0].goodsInfoImg ||
-                        IMG_DEFAULT
-                      }
-                      alt={item.goodsName}
-                      title={item.goodsName}
-                      className="ImgFitScreen"
+                      src={optimizeImage({
+                        originImageUrl: isDogPage
+                          ? retailDog
+                          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
+                        width: 300
+                      })}
+                      alt="product finder recomend retail cat find"
+                      title=""
+                      className="ImgFitScreen pt-3"
                       style={{
-                        maxWidth: '100%',
                         maxHeight: '100%',
-                        width: 'auto',
+                        width: isDogPage ? '175px' : '150px',
                         height: 'auto',
                         margin: 'auto'
                       }}
                     />
-                  </LazyLoad>
-                </picture>
-              ) : null}
-              {props.children}
-
-              {item ? (
-                <div
-                  class="rc-card__meta text-center col-12"
-                  style={{ margin: '0' }}
-                >
-                  {item.goodsSubtitle}
+                  </div>
                 </div>
-              ) : null}
+              </picture>
             </article>
-          </Link>
+          </span>
         </div>
       </article>
     </div>
-  );
-}
-function ListItem(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam } = props;
-  return (
+  ) : (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
         className="rc-card rc-card--product overflow-hidden"
@@ -169,11 +192,14 @@ function ListItem(props) {
               {item ? (
                 <picture className="rc-card__image">
                   <div
-                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem' }}
+                    className="d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                    style={{ height: '13rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
+                    <LazyLoad
+                      style={{ width: '100%', height: '100%' }}
+                      classNamePrefix="w-100 h-100 d-flex align-items-center"
+                    >
                       <img
                         src={
                           item.goodsImg ||
@@ -183,9 +209,9 @@ function ListItem(props) {
                           IMG_DEFAULT
                         }
                         // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
-                        alt={item.goodsName}
+                        alt={`${item.goodsName} product image`}
                         title={item.goodsName}
-                        className="ImgFitScreen pt-3"
+                        className="ImgFitScreen "
                         style={{
                           maxWidth: '50%',
                           maxHeight: '100%',
@@ -206,230 +232,83 @@ function ListItem(props) {
     </div>
   );
 }
-function ListItemBodyH5ForFr({ item }) {
-  return (
-    // <div
-    //   className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-    //   style={{ paddingRight: '3rem' }}
-    // >
-    <div
-      className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-      style={{ paddingRight: '0' }}
-    >
-      <div className="product-name" title={item.goodsName}>
-        {' '}
-        {item.goodsName}
-      </div>
-      <div className="product-price">
-        {item.toPrice ? (
-          <span className="mr-1" style={{ fontSize: '.8em' }}>
-            <FormattedMessage id="startFrom" />
-          </span>
-        ) : null}
-        {formatMoney(item.fromPrice)}
-        {item.toPrice ? (
-          <>
-            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-              <FormattedMessage id="startEnd" />
-            </span>
-            {formatMoney(item.toPrice)}
-          </>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-function ListItemBody({ item }) {
-  const defaultJSX = (
-    <>
-      <div className="height-product-tile-plpOnly">
-        <h3
-          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
-          title={item.goodsName}
-        >
-          {item.goodsName}
-        </h3>
-        {/*商品描述*/}
-        <h6
-          className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
-          style={{ color: '#4a4a4a' }}
-          title={item.goodsSubtitle}
-        >
-          {item.goodsSubtitle}
-        </h6>
-      </div>
-      {/*商品评分和评论数目*/}
-      <div
-        style={{
-          margin: '0 auto'
-        }}
-        className={`d-flex rc-card__price text-center RateFitScreen`}
-      >
-        <div>
-          <Rate def={item.avgEvaluate} disabled={true} marginSize="smallRate" />
-        </div>
-        <span
-          className="comments rc-margin-left--xs rc-text-colour--text"
-          style={{ marginTop: '3px' }}
-        >
-          ({item.goodsEvaluateNum})
-        </span>
-      </div>
-      <br />
-      <div
-        className="text-center NameFitScreen"
-        style={{
-          color: '#4a4a4a',
-          opacity: item.goodsInfos.length > 1 ? 1 : 0
-        }}
-      >
-        <FormattedMessage id="startFrom" />
-      </div>
-      {/*商品价格*/}
-      <div className="d-flex justify-content-center">
-        <div className="rc-card__price text-left PriceFitScreen">
-          <div
-            className={`rc-full-width PriceFitScreen flex`}
-            style={{ justifyContent: 'center' }}
-          >
-            <span
-              style={{
-                color: '#323232',
-                fontWeight: 400
-              }}
-              className="value sales"
-            >
-              {/* 最低marketPrice */}
-              {formatMoney(item.miMarketPrice)} {/* 划线价 */}
-              {item.miLinePrice && item.miLinePrice > 0 ? (
-                <span
-                  className="text-line-through rc-text-colour--text font-weight-lighter"
-                  style={{
-                    fontSize: '.8em'
-                  }}
-                >
-                  {formatMoney(item.miLinePrice)}
-                </span>
-              ) : null}
-            </span>
-          </div>
-          {item.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
-            <div
-              className="range position-relative SePriceScreen "
-              style={{ transform: 'translateX(24%)' }}
-            >
-              <span
-                style={{
-                  color: '#323232',
-                  fontWeight: 400
-                }}
-              >
-                {formatMoney(item.miSubscriptionPrice)}{' '}
-              </span>
-              <span
-                className="iconfont font-weight-bold red mr-1"
-                style={{
-                  fontSize: '.65em'
-                }}
-              >
-                &#xe675;
-              </span>
-              <span
-                className="red-text text-nowrap"
-                style={{
-                  fontSize: '.7em',
-                  transform: 'translateY(-50%)'
-                }}
-              >
-                <FormattedMessage id="autoshop" />
-              </span>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </>
-  );
-  return (
-    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
-      {process.env.REACT_APP_LANG === 'fr' ? (
-        <>
-          <div className="height-product-tile-plpOnly">
-            <h3
-              className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
-              title={item.goodsName}
-            >
-              {item.goodsName}
-            </h3>
-          </div>
-          <br />
-          {/*商品价格*/}
-          <div className="d-flex justify-content-center">
-            <div className="rc-card__price text-left PriceFitScreen">
-              <div className={`rc-full-width PriceFitScreen`}>
-                <span
-                  style={{
-                    color: '#000'
-                  }}
-                  className="value sales"
-                >
-                  {item.toPrice ? (
-                    <span className="mr-1" style={{ fontSize: '.8em' }}>
-                      <FormattedMessage id="startFrom" />
-                    </span>
-                  ) : null}
-                  {formatMoney(item.fromPrice)}
-                  {item.toPrice ? (
-                    <>
-                      <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startEnd" />
-                      </span>
-                      {formatMoney(item.toPrice)}
-                    </>
-                  ) : null}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="rc-card__meta text-center ui-text-overflow-line2 col-12"
-            style={{ padding: '0', marginBottom: '10px' }}
-          >
-            {item.goodsSubtitle}
-          </div>
-        </>
-      ) : (
-        defaultJSX
-      )}
-    </div>
-  );
-}
 
-function ProductFinderAd() {
+function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
+  // 当前种类，spt和retail类型相互链接
+  // 如: current is the dog spt, then the bottom desc link to the dog retail
+  // 如: current is the dog retail, then the bottom desc link to the dog spt
+  const key = `${isDogPage ? 'dog' : 'cat'}-${
+    isRetailProducts ? 'retail' : 'vet'
+  }`;
+  const descObj = bottomDescJson[key];
   return (
     {
       fr: (
-        <div className="ml-4 mr-4 pl-4 pr-4">
-          <div className="row d-flex align-items-center">
-            <div className="col-12 col-md-6">
-              <p className="rc-gamma rc-padding--none">
-                <FormattedMessage id="productFinder.recoTitle" />
-              </p>
-              <p>
-                <FormattedMessage id="productFinder.recoDesc" />
-              </p>
-              <Link to="/product-finder" className="rc-btn rc-btn--one">
-                <FormattedMessage id="productFinder.index" />
-              </Link>
+        <div className="ml-4 mr-4 pl-4 pr-4 pb-4 md:pb-0">
+          {isRetailProducts || isVetProducts ? null : (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  <img
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/product-finder-recomend.jpg`,
+                      width: 650
+                    })}
+                    alt="product finder recomend 22222"
+                  />
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p className="rc-gamma rc-padding--none">
+                  <FormattedMessage id="productFinder.recoTitle" />
+                </p>
+                <p>
+                  <FormattedMessage id="productFinder.recoDesc" />
+                </p>
+                <DistributeHubLinkOrATag
+                  to="/product-finder"
+                  href="/product-finder"
+                  className="rc-btn rc-btn--two"
+                >
+                  <FormattedMessage id="productFinder.index" />
+                </DistributeHubLinkOrATag>
+              </div>
             </div>
-            <div className="col-12 col-md-6">
-              <LazyLoad style={{ width: '100%', height: '100%' }} height={200}>
-                <img src={pfRecoImg} />
-              </LazyLoad>
+          )}
+          {descObj ? (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad style={{ width: '100%', height: '100%' }}>
+                  <img
+                    style={{ width: '100%' }}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img${descObj.img}`,
+                      width: 650
+                    })}
+                    alt={descObj.alt}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p
+                  className="rc-gamma rc-padding--none"
+                  style={{ fontSize: '2em', fontWight: 'border' }}
+                >
+                  {descObj.title}
+                </p>
+                <p>{descObj.desc}</p>
+                <Link to={descObj.link} className="rc-btn rc-btn--two">
+                  <FormattedMessage id="plp.retail.cat.button" />
+                </Link>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -439,7 +318,12 @@ function ProductFinderAd() {
 class List extends React.Component {
   constructor(props) {
     super(props);
+    const isDog = location.pathname.includes('dog');
+    const isRetailProducts =
+      isHub && location.pathname.includes('retail-products');
+    const isVetProducts = isHub && location.pathname.includes('vet-products');
     this.state = {
+      canonicalforTRSpecialPageSearchFlag: false, //为ru特殊页面做特殊canonical处理
       sourceParam: '',
       GAListParam: '', //GA list参数
       eEvents: '',
@@ -455,7 +339,7 @@ class List extends React.Component {
       currentPage: 1,
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
-
+      currentPageProductNum: 0,
       keywords: '',
       filterList: [],
 
@@ -469,7 +353,7 @@ class List extends React.Component {
 
       searchForm: {
         minMarketPrice: 0,
-        maxMarketPrice: null
+        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       },
       defaultFilterSearchForm: {
         // 初始化filter查询参数
@@ -480,28 +364,64 @@ class List extends React.Component {
       markPriceAndSubscriptionLangDict: [],
       actionFromFilter: false,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin',
+        headingTag: 'h2'
+      },
+      isDogPage: isDog,
+      isRetailProducts,
+      isVetProducts,
+      canonicalLink: { cur: '', prev: '', next: '' },
+      listLazyLoadSection: 1,
+      prefv1: '',
+      keywordsSearch: '',
+      baseSearchStr: '',
+      hiddenFilter: false,
+      invalidPage: false, //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
+      prefnParamListFromSearch: [],
+      filtersCounts: 0
     };
-    this.pageSize = 12;
+    this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
+    this.showSmartFeeder = isDog && this.hubGA;
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
-    const utm_source = getParaByName(search, 'utm_source'); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
+    const cateId = funcUrl({ name: 'cateId' });
+    const canonicalforRuSpecialPage = {
+      '/cats/retail-products': [
+        '?Breeds=20593290c7b240418c7d4021f0998cf4',
+        '?Breeds=1ee9220acf584cc292c884d7f5bd28a5'
+      ],
+      '/dogs/retail-products': [
+        '?Breeds=e6520f06c4f646aca454209302e09687&Sizes=0d5a89ea07ef4031a7ad66aef86b65b1',
+        '?Breeds=b6230b6f398347b397941f566400ada4&Sizes=83a4997cc9464552b380a496d399c593'
+      ]
+    };
+    if (
+      window.__.env.REACT_APP_COUNTRY === 'tr' &&
+      canonicalforRuSpecialPage[pathname]?.includes(search)
+    ) {
+      this.setState({ canonicalforTRSpecialPageSearchFlag: true });
+    }
+    const utm_source = funcUrl({ name: 'utm_source' }); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
         sourceParam: search
       });
     }
     const { category, keywords } = this.props.match.params;
-    const keywordsSearch = decodeURI(getParaByName(search, 'q'));
-    if (keywordsSearch) {
-      //表示从搜索来的
-      dataLayer[0].page.type = 'Search Results';
+    const keywordsSearch = decodeURI(funcUrl({ name: 'q' }) || '');
+    if (
+      keywordsSearch &&
+      window.dataLayer &&
+      dataLayer[0] &&
+      dataLayer[0].page &&
+      dataLayer[0].page.type
+    ) {
     }
     this.setState(
       {
@@ -514,15 +434,19 @@ class List extends React.Component {
             : keywordsSearch
             ? keywordsSearch
             : '',
-        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
+        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
+        cateId,
+        keywordsSearch,
+        currentPage: Number(funcUrl({ name: 'p' })) || 1
       },
       () => {
         this.initData();
+        this.pageGa();
       }
     );
-    setTimeout(() => {
-      this.stickyMobileRefineBar();
-    });
+    // setTimeout(() => {
+    //   this.stickyMobileRefineBar();
+    // });
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
@@ -537,10 +461,235 @@ class List extends React.Component {
         ]
       });
     });
+
+    // 除开prefn以外的其他参数
+    const baseSearchStr = this.removePrefnFromSearch();
+    // 点击filter，一律重置页码
+    this.setState({
+      baseSearchStr: removeArgFromUrl({
+        search: baseSearchStr,
+        name: 'p'
+      })
+    });
+
+    const prefnNum = (search.match(/prefn/gi) || []).length;
+
+    // ru filter seo 定制化 ==
+    let lifestagesPrefv = [],
+      sterilizedPrefv = [],
+      technologyPrefv = [],
+      breedsPrefv = [],
+      sizePrefvSeo = [];
+    let sizePrefv = []; //用于ga filter 传参size
+    for (let index = 0; index < prefnNum; index++) {
+      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
+      const fvEles = decodeURI(funcUrl({ name: `prefv${index + 1}` }) || '');
+      ruFilterMap.attributesList.map((item) => {
+        if (item.attributeName == fnEle) {
+          if (fvEles.includes('|')) {
+            if (fnEle == 'Lifestages') {
+              this.state.isDogPage
+                ? lifestagesPrefv.push(item.dogMultiSelection)
+                : lifestagesPrefv.push(item.catMultiSelection);
+            }
+            fnEle == 'Breeds' && breedsPrefv.push(item.multiSelection);
+            if (fnEle == 'Size') {
+              //XSmall + Mini  and  Maxi + Giant 特殊处理传值
+              if (
+                [
+                  'Миниатюрные-(до-4-кг)|Мелкие-(5-10-кг)',
+                  'Мелкие-(5-10-кг)|Миниатюрные-(до-4-кг)'
+                ].includes(fvEles)
+              ) {
+                sizePrefvSeo.push('мелких размеров');
+              } else if (
+                [
+                  'Крупные-(26-44--кг)|Очень-крупные--(более-45-кг)',
+                  'Очень-крупные--(более-45-кг)|Крупные-(26-44--кг)'
+                ].includes(fvEles)
+              ) {
+                sizePrefvSeo.push('крупных размеров');
+              } else {
+                sizePrefvSeo.push(item.multiSelection);
+              }
+            }
+          } else {
+            const attrNameEn = item.attributesValuesVOList.find(
+              (item) => item.attributeDetailNameEn == fvEles
+            )?.attributeDetailNameSeoEn;
+            if (fnEle == 'Lifestages') {
+              let attr = attrNameEn;
+              if (
+                this.state.isDogPage &&
+                ['Взрослая', 'Стареющая', 'Пожилая'].includes(fvEles)
+              ) {
+                attr = attrNameEn.replace('кошек', 'собак');
+              }
+              lifestagesPrefv.push(attr);
+            }
+            fnEle == 'Sterilized' && sterilizedPrefv.push(attrNameEn);
+            fnEle == 'Technology' && technologyPrefv.push(attrNameEn);
+            fnEle == 'Breeds' && breedsPrefv.push(attrNameEn);
+            fnEle == 'Size' && sizePrefvSeo.push(attrNameEn);
+          }
+        }
+      });
+
+      if (fnEle == 'Size') {
+        sizePrefv.push(fvEles);
+      }
+    }
+
+    if (!lifestagesPrefv.length && prefnNum) {
+      const foodType = this.state.isDogPage
+        ? 'корм для собак'
+        : 'корм для кошек';
+      lifestagesPrefv.push(foodType);
+    }
+    let allPrefv = [
+      ...technologyPrefv,
+      ...lifestagesPrefv,
+      ...sizePrefvSeo,
+      ...breedsPrefv,
+      ...sterilizedPrefv
+    ]?.join(' '); //要排序，因此这样写的==
+    const prefv1 = decodeURI(funcUrl({ name: 'prefv1' }) || '');
+    const animalType = this.state.isDogPage ? 'dog' : 'cat';
+
+    this.setState({
+      prefv1,
+      animalType,
+      sizePrefv: sizePrefv.join(' '),
+      allPrefv
+    });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
+
+  // canonical link logic
+  // 1. 去除prefn multi
+  // 2. 需要取值绝对地址
+  // 3. 使用generatePageLink方法生成当前页/上一页/下一页
+  handleCanonicalLink() {
+    const { currentPage } = this.state;
+    const curLink = this.generatePageLink(currentPage);
+    const prevLink = this.generatePageLink(currentPage - 1);
+    const nextLink = this.generatePageLink(currentPage + 1);
+    const cur = curLink
+      ? h(
+          this.removePrefnMultiFromSearch({
+            search: curLink.search
+          })
+        )
+      : '';
+    const prev = prevLink
+      ? h(
+          this.removePrefnMultiFromSearch({
+            search: prevLink.search
+          })
+        )
+      : '';
+    const next = nextLink
+      ? h(
+          this.removePrefnMultiFromSearch({
+            search: nextLink.search
+          })
+        )
+      : '';
+
+    function h(curSearch) {
+      return `${window.location.origin}${window.location.pathname}${
+        curSearch ? `?${curSearch}` : ''
+      }`;
+    }
+
+    this.setState({
+      canonicalLink: Object.assign(this.state.canonicalLink, {
+        cur,
+        prev,
+        next
+      })
+    });
   }
+
+  pageGa() {
+    const { pathname } = this.props.history.location;
+    if (pathname) {
+      let reDog = /^\/dog/; // 匹配dog开头
+      let reCat = /^\/cat/; // 匹配cat开头
+      let theme;
+      let type;
+      let specieId;
+      if (pathname.includes('dog')) {
+        theme = 'Dog';
+        type = 'Product Catalogue';
+        specieId = 2;
+      } else if (pathname.includes('cat')) {
+        theme = 'Cat';
+        type = 'Product Catalogue';
+        specieId = 1;
+      } else {
+        theme = '';
+        type = 'Product';
+        specieId = '';
+      }
+
+      let search = this.state.keywordsSearch
+        ? {
+            query: this.state.keywordsSearch,
+            results: parseFloat(sessionItemRoyal.get('search-results')),
+            type: 'with results'
+          }
+        : {};
+      let event = {
+        page: {
+          type,
+          theme,
+          path: pathname,
+          error: '',
+          hitTimestamp: new Date(),
+          filters: ''
+        },
+        search: {
+          ...search
+        },
+        pet: {
+          specieId
+        }
+      };
+      this.setState({
+        event
+      });
+    }
+  }
+  /**
+   * 移除以prefn或prefv开头的查询参数
+   * @returns {string}
+   */
+  removePrefnFromSearch() {
+    const allSearchParam = transferToObject();
+    let ret = funcUrl();
+    for (const key in allSearchParam) {
+      if (/^prefn/.test(key) || /^prefv/.test(key)) {
+        ret = removeArgFromUrl({ search: ret, name: key });
+      }
+    }
+    return ret;
+  }
+  /**
+   * remove prefn[2-9|0], only remain prefn1, remove prefv[2-9|0], only remain prefv1
+   * @param {string} param0 需要处理的search参数
+   * @returns {string} 处理后的search字符串，eg:'a=1&b=2&c=3'
+   */
+  removePrefnMultiFromSearch({ search = '' } = {}) {
+    let ret = search;
+    const allSearchParam = transferToObject({ search });
+    for (const key in allSearchParam) {
+      if (/^prefn[2-9|0]/.test(key) || /^prefv[2-9|0]/.test(key)) {
+        ret = removeArgFromUrl({ search: ret, name: key });
+      }
+    }
+    return ret.replace(/^\?/gi, '');
+  }
+  componentWillUnmount() {}
   get lastBreadListName() {
     const { breadList } = this.state;
     return (
@@ -571,30 +720,92 @@ class List extends React.Component {
     if (lastItem) {
       lastItem.link = { pathname, search };
     }
+
+    return ret;
+  }
+  get prevPageLink() {
+    return this.generatePageLink(this.state.currentPage - 1);
+  }
+  get nextPageLink() {
+    return this.generatePageLink(this.state.currentPage + 1);
+  }
+  /**
+   * 根据传入的页码，生成link参数
+   * @param {number} page 页码
+   * @returns {object} {pathname, search} | null
+   */
+  generatePageLink(page) {
+    const {
+      location: { pathname, search }
+    } = this.props;
+    let param;
+    let ret = { pathname };
+    // 超过页码范围
+    if (page < 1 || page > this.state.totalPage) {
+      return null;
+    }
+    if (page > 1) {
+      // 如果存在p参数，则替换，否则新增
+      param = funcUrl({ name: 'p', value: page, type: 1 });
+    } else {
+      // 第一页总是移除p参数
+      param = removeArgFromUrl({ search: search.substr(1), name: 'p' });
+    }
+
+    if (param) {
+      ret = Object.assign(ret, {
+        search: `?${param}`
+      });
+    }
+
     return ret;
   }
   //点击商品 埋点
   GAProductClick(item, index) {
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
-      ecommerce: {
-        click: {
-          actionField: { list: this.state.GAListParam }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-          products: [
-            {
-              name: item.goodsName,
-              id: item.goodsNo,
-              club: 'no',
-              brand: item.goodsBrand.brandName,
-              category: item.goodsCateName,
-              list: this.state.GAListParam,
-              position: index,
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
-            }
-          ]
+    window.dataLayer &&
+      dataLayer.push({
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+        ecommerce: {
+          click: {
+            actionField: { list: this.state.GAListParam },
+            products: [
+              {
+                name: item.goodsName,
+                id: item.goodsNo,
+                club: 'no',
+                brand: item.goodsBrand.brandName,
+                category: item.goodsCateName,
+                list: this.state.GAListParam,
+                position: index,
+                sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
+              }
+            ]
+          }
         }
-      }
-    });
+      });
+  }
+
+  //点击商品 hubGa埋点
+  hubGAProductClick(item, index) {
+    const { goodsInfos } = item;
+    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    const { defaultFilterSearchForm } = this.state;
+    let Filters = defaultFilterSearchForm?.attrList?.length
+      ? defaultFilterSearchForm.attrList.map((item) => {
+          let { attributeName = '', attributeValues = [] } = item;
+          let filter = attributeValues.map((val) => `${attributeName}|${val}`);
+          return filter;
+        })
+      : [];
+    let activeFilters = flatMap(Filters);
+    window.dataLayer &&
+      dataLayer.push({
+        event: 'plpProductClick',
+        plpProductClickItem: {
+          SKU,
+          activeFilters
+        }
+      });
   }
 
   // 商品列表 埋点
@@ -603,30 +814,181 @@ class List extends React.Component {
       return {
         name: item.goodsName,
         id: item.goodsNo,
-        brand: item.goodsBrand.brandName,
+        brand: item.goodsBrand ? item.goodsBrand.brandName : '',
         price: item.minMarketPrice,
         club: 'no',
         category: item.goodsCateName,
         list: this.state.GAListParam,
         position: index,
-        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
+        sku: item.goodsInfos
+          ? item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
+          : '',
         flag: ''
       };
     });
 
-    if (dataLayer[0] && dataLayer[0].search) {
+    if (window.dataLayer && dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
       dataLayer[0].search.results = totalElements;
       dataLayer[0].search.type = 'with results';
     }
 
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
-      ecommerce: {
-        impressions: impressions
-      }
-    });
+    window.dataLayer &&
+      dataLayer.push({
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+        ecommerce: {
+          impressions: impressions
+        }
+      });
   }
+
+  // hub商品列表 埋点
+  hubGAProductImpression(productList, totalElements, keywords, type) {
+    const { sizePrefv = [], filterList = [] } = this.state;
+    const filterPrefv = sizePrefv.split('|');
+    const sizeAttr = filterList.filter(
+      (item) => item.attributeName == 'Size'
+    )?.[0]?.attributesValueList;
+    let sizeFilter = [];
+    for (let index = 0; index < filterPrefv.length; index++) {
+      const attrName = sizeAttr?.filter(
+        (item) => item.attributeDetailNameEnSplitByLine == filterPrefv[index]
+      )?.[0]?.attributeDetailName;
+      sizeFilter.push(attrName);
+    }
+    const sizeCategory = sizeFilter.join('|');
+    const products = productList.map((item, index) => {
+      const {
+        fromPrice,
+        goodsCate,
+        goodsInfos,
+        goodsBrand,
+        goodsNo,
+        goodsName,
+        goodsAttributesValueRelVOAllList,
+        goodsCateName,
+        goodsImg
+      } = item;
+      const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
+      // const spezies = filterAttrValue(
+      //   goodsAttributesValueRelVOAllList,
+      //   'spezies'
+      // );
+      const specie = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'species'
+      ).toString();
+      const range = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'range'
+      ).toString();
+      const technology = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'technology'
+      ).toString();
+      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+      // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';//这个方法有时候数据没有breed，判断不了
+      // const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+      let productItem = {
+        price: fromPrice,
+        specie,
+        range,
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        technology,
+        brand: 'Royal Canin',
+        breed,
+        sizeCategory,
+        imageURL: goodsImg
+      };
+      let res = filterObjectValue(productItem);
+      return res;
+    });
+
+    // window.dataLayer &&
+    //   dataLayer.push({
+    //     products
+    //   });
+
+    type !== 'pageChange' &&
+      // setTimeout(() => {
+      window.dataLayer &&
+      dataLayer.push({
+        event: 'plpScreenLoad',
+        plpScreenLoad: {
+          nbResults: totalElements,
+          userRequest: keywords || '',
+          products //把单独的products放到plpScreenLoad这个event为了区分plp，pdp，checkout的products
+        }
+      });
+    // }, 3000gtm优化);
+
+    if (window.dataLayer && dataLayer[0] && dataLayer[0].search) {
+      dataLayer[0].search.query = keywords;
+      dataLayer[0].search.results = totalElements;
+      dataLayer[0].search.type = 'with results';
+    }
+  }
+
+  // hubGa点击页码切换埋点
+  hubGAPageChange(productList) {
+    const products = productList.map((item, index) => {
+      const {
+        fromPrice,
+        goodsCate,
+        goodsInfos,
+        goodsBrand,
+        goodsName,
+        goodsAttributesValueRelVOAllList,
+        goodsCateName,
+        goodsNo,
+        goodsImg
+      } = item;
+      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+      const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
+      // const spezies = filterAttrValue(
+      //   goodsAttributesValueRelVOAllList,
+      //   'spezies'
+      // );
+      const specie = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'species'
+      ).toString();
+      const range = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'range'
+      ).toString();
+      const technology = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'technology'
+      ).toString();
+      // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      // const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+
+      let productItem = {
+        price: fromPrice,
+        specie,
+        range,
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        technology,
+        brand: 'Royal Canin',
+        breed,
+        imageURL: goodsImg
+      };
+      let res = filterObjectValue(productItem);
+      return res;
+    });
+    window.dataLayer &&
+      dataLayer.push({
+        event: 'plpListLazyLoad',
+        plpListLazyLoadSection: this.state.listLazyLoadSection,
+        plpListLazyLoadProducts: products
+      });
+  }
+
   toggleFilterModal(status) {
     this.setState({ filterModalVisible: status });
   }
@@ -639,7 +1001,11 @@ class List extends React.Component {
       fetchFilterList()
     ])
       .then((res) => {
-        const routers = [...(res[0] || []), ...(res[1] || [])];
+        const routers = [
+          ...(res[0] || []),
+          ...(res[1]?.navigationResponseList || [])
+        ];
+        // console.log('666 >>> res: ',res);
         const targetRouter = routers.filter((r) => {
           const tempArr = [
             r.cateRouter,
@@ -697,7 +1063,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          this.prop.history.push('/404');
+          // this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =
@@ -705,7 +1071,9 @@ class List extends React.Component {
           (targetRouter && targetRouter.storeCateId) ||
           '';
         breadList = getParentNodesByChild({
-          data: generateOptions(res[1] || []).concat(res[0] || []),
+          data: generateOptions(res[1]?.navigationResponseList || []).concat(
+            res[0] || []
+          ),
           id: targetId,
           matchIdName:
             targetRouter && targetRouter.id
@@ -726,38 +1094,34 @@ class List extends React.Component {
         // 解析prefn/prefv, 匹配filter, 设置默认选中值
         const prefnNum = (search.match(/prefn/gi) || []).length;
         for (let index = 0; index < prefnNum; index++) {
-          const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+          const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }));
           const fvEles = decodeURI(
-            getParaByName(search, `prefv${index + 1}`)
+            funcUrl({ name: `prefv${index + 1}` }) || ''
           ).split('|');
-          const tItem = (res[3] || []).filter(
+          const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];
             Array.from(fvEles, (fvItem) => {
-              const { pathname } = this.props.history.location;
-              const isDog = pathname.includes('dog');
               const tFvItemList = tItem.attributesValueList.filter(
-                (t) => t.attributeDetailNameEn === fvItem
+                (t) => t.attributeDetailNameEnSplitByLine === fvItem
               );
-              const tFvItemForFirst = tFvItemList[0];
+              const tFvItemForFirst = tFvItemList;
               let tFvItem = tFvItemForFirst;
               if (tFvItemList.length > 1) {
                 tFvItem =
                   tItem.attributesValueList.filter(
-                    (t) =>
-                      t.attributeDetailNameEn === fvItem &&
-                      t.attributeDetailName
-                        .toLocaleLowerCase()
-                        .includes(`${isDog ? 'dog' : 'cat'}`)
-                  )[0] || tFvItemForFirst;
+                    (t) => t.attributeDetailNameEnSplitByLine === fvItem
+                  ) || tFvItemForFirst;
               }
 
-              if (tFvItem) {
-                attributeValues.push(tFvItem.attributeDetailName);
-                attributeValueIdList.push(tFvItem.id);
+              if (tFvItem.length > 0) {
+                attributeValues.push(
+                  ...tFvItem.map((t) => t.attributeDetailName)
+                );
+                attributeValueIdList.push(...tFvItem.map((t) => t.id));
               }
               return fvItem;
             });
@@ -770,6 +1134,35 @@ class List extends React.Component {
           }
         }
 
+        const isSpecialNeedFilter =
+          !this.state.isDogPage &&
+          window.__.env.REACT_APP_COUNTRY === 'fr' &&
+          (
+            (filters.find((ft) => ft.attributeName === 'Specific needs') || {})
+              .attributeValues || []
+          ).filter(
+            (attr) =>
+              attr === 'Maintien du poids de forme_Cat' ||
+              attr === 'Tendency to beg for food_Cat'
+          ).length > 0 &&
+          stgShowAuth();
+        if (
+          isSpecialNeedFilter ||
+          (this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk' &&
+            !window.__.env.REACT_APP_CLOSE_PRODUCT_FINDER)
+        ) {
+          this.pageSize = 8;
+        } else {
+          this.pageSize = 12;
+        }
+        const currPath = this.props.history.location.pathname;
+        const hiddenFilter =
+          currPath == targetRouter?.cateRouter &&
+          targetRouter.filterStatus === 0 &&
+          targetRouter.isPeriod === 1;
+        const invalidPage =
+          targetRouter?.cateRouter && targetRouter.isPeriod === 0;
         this.setState(
           {
             sortList,
@@ -790,17 +1183,15 @@ class List extends React.Component {
                 })
             },
             titleData: {
-              title:
-                (targetRouter && targetRouter.pageTitle) ||
-                (targetRouter && targetRouter.cateTitle),
+              title: targetRouter?.pageTitle || targetRouter?.cateTitle,
               description:
-                (targetRouter && targetRouter.pageDesc) ||
-                (targetRouter && targetRouter.cateDescription),
-              img:
-                (targetRouter && targetRouter.pageImg) ||
-                (targetRouter && targetRouter.cateImgForList)
+                targetRouter?.pageDesc || targetRouter?.cateDescription,
+              img: targetRouter?.pageImg || targetRouter?.cateImgForList
             },
-            breadList
+            hiddenFilter,
+            invalidPage,
+            breadList,
+            isSpecialNeedFilter
           },
           () => {
             this.getProductList();
@@ -835,15 +1226,32 @@ class List extends React.Component {
       });
     }
   }
-  handleFilterResData(res) {
-    const { state, pathname, search } = this.props.history.location;
-    let tmpList = res
-      .filter((ele) => +ele.filterStatus)
-      .sort((a) => (a.filterType === '0' ? -1 : 1))
-      .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
-      .sort((a) =>
-        a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
-      );
+  // 处理产品列表返回的filter list，
+  // 1 排序
+  // 2 根据默认参数设置filter select 状态
+  // 3 拼接router参数，用于点击filter时，跳转链接用
+  handleFilterResData(res, customFilter) {
+    const { baseSearchStr } = this.state;
+    const { pathname, search } = this.props.history.location;
+    // res只有默认的filter，没有自定义的filter了,并且sort在火狐浏览器有兼容问题，后端已排序，无需前端排序
+    let tmpList = res.filter((ele) => +ele.filterStatus);
+    //   .sort((a) => (a.filterType === '0' ? -1 : 1))
+    //   .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort: 1))
+    //   .sort((a) =>
+    //     a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
+    //   );
+    let filterList = tmpList.concat(customFilter);
+
+    // isVetProducts 暂时又要手动过滤掉'breeds'
+    const vetFilterList = filterList.filter(
+      (item) => item?.attributeName?.toLowerCase() !== 'breeds'
+    );
+    // 非isVetProducts 过滤掉'Size'
+    // const sptFilterList = filterList.filter(
+    //   (item) => item.attributeName !== 'Size'
+    // );
+    const allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
+    allFilterList?.forEach((item) => bSort(item.attributesValueList || []));
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -863,96 +1271,53 @@ class List extends React.Component {
     let prefnParamListFromSearch = [];
     const prefnNum = (search.match(/prefn/gi) || []).length;
     for (let index = 0; index < prefnNum; index++) {
-      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
       const fvEles = decodeURI(
-        getParaByName(search, `prefv${index + 1}`)
+        funcUrl({ name: `prefv${index + 1}` }) || ''
       ).split('|');
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
 
-    // 处理每个filter的router(处理url prefn/state)
+    this.handleCountFilters(prefnParamListFromSearch);
+
+    // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
-        let hasRouter = true;
-        let filters = cloneDeep((state && state.filters) || []);
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
-
-        // 该子节点是否存在于prefn中
-        const targetPIdxForPrefn = prefnParamList.findIndex(
+        const targetPIdx = prefnParamList.findIndex(
           (p) => p.prefn === pEle.attributeName
         );
-        const targetPItemForPrefn = prefnParamList[targetPIdxForPrefn];
-        // 该子节点是否存在于state.filters中
-        const targetPIdxForState = filters.findIndex(
-          (p) => p.attributeId === pEle.attributeId
-        );
-        const targetPItemForState = filters[targetPIdxForState];
+        const targetPItem = prefnParamList[targetPIdx];
         if (cEle.selected) {
-          // 该子节点被选中，
-          // 1.1 若存在于链接中，则从链接中移除
-          // 1.2 若存在于state中，则从state中移除
-          // 2 若移除后，子节点为空了，则移除该父节点
-          let idx;
-          if (targetPItemForPrefn) {
-            idx = targetPItemForPrefn.prefvs.findIndex(
-              (p) => p === cEle.attributeDetailNameEn
+          // 该子节点被选中，从链接中移除
+          // 1 若移除后，子节点为空了，则移除该父节点
+          if (targetPItem) {
+            const idx = targetPItem.prefvs.findIndex(
+              (p) => p === cEle.attributeDetailNameEnSplitByLine
             );
-            targetPItemForPrefn.prefvs.splice(idx, 1);
-            if (!targetPItemForPrefn.prefvs.length) {
-              prefnParamList.splice(targetPIdxForPrefn, 1);
-            }
-          } else if (targetPItemForState) {
-            idx = targetPItemForState.attributeValueIdList.findIndex(
-              (p) => p === cEle.id
-            );
-            targetPItemForState.attributeValueIdList.splice(idx, 1);
-            targetPItemForState.attributeValues.splice(idx, 1);
-            if (!targetPItemForState.attributeValueIdList.length) {
-              filters.splice(targetPIdxForState, 1);
+            targetPItem.prefvs.splice(idx, 1);
+            if (!targetPItem.prefvs.length) {
+              prefnParamList.splice(targetPIdx, 1);
             }
           }
         } else {
-          // 该子节点未被选中，在链接中新增prefn/新增state
+          // 该子节点未被选中，在链接中新增prefn/prefv
           // 1 该父节点存在于链接中，
           // 1-1 该子节点为多选，找出并拼接上该子节点
           // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
           // 2 该父节点不存在于链接中，直接新增
 
-          if (targetPItemForPrefn) {
+          if (targetPItem) {
             if (pEle.choiceStatus === 'Single choice') {
-              targetPItemForPrefn.prefvs = [cEle.attributeDetailNameEn];
+              targetPItem.prefvs = [cEle.attributeDetailNameEnSplitByLine];
             } else {
-              targetPItemForPrefn.prefvs.push(cEle.attributeDetailNameEn);
-            }
-          } else if (targetPItemForState) {
-            if (pEle.choiceStatus === 'Single choice') {
-              targetPItemForState.attributeValueIdList = [cEle.id];
-              targetPItemForState.attributeValues = [
-                cEle.attributeDetailNameEn
-              ];
-            } else {
-              targetPItemForState.attributeValueIdList.push(cEle.id);
-              targetPItemForState.attributeValues.push(
-                cEle.attributeDetailNameEn
-              );
+              targetPItem.prefvs.push(cEle.attributeDetailNameEnSplitByLine);
             }
           } else {
-            // 少于1级，就把参数拼接到url prefn上，否则就把参数拼接到state上
-            if (prefnParamList.length < 1) {
-              prefnParamList.push({
-                prefn: pEle.attributeName,
-                prefvs: [cEle.attributeDetailNameEn]
-              });
-            } else {
-              // hasRouter = false;
-              filters.push({
-                attributeId: pEle.attributeId,
-                attributeName: pEle.attributeName,
-                attributeValueIdList: [cEle.id],
-                attributeValues: [cEle.attributeDetailNameEn],
-                filterType: pEle.filterType
-              });
-            }
+            prefnParamList.push({
+              prefn: pEle.attributeName,
+              prefvs: [cEle.attributeDetailNameEnSplitByLine]
+            });
           }
         }
         const decoParam = prefnParamList.reduce(
@@ -968,20 +1333,30 @@ class List extends React.Component {
           },
           { i: 1, ret: '' }
         );
-        cEle.router = hasRouter
-          ? {
-              pathname,
-              search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : '',
-              state: {
-                filters
-              }
-            }
-          : null;
+
+        const search = decoParam.ret
+          ? `?${baseSearchStr ? `${baseSearchStr}&` : ''}${decoParam.ret.substr(
+              1
+            )}`
+          : `?${baseSearchStr}`;
+        cEle.router = {
+          pathname,
+          // 点击filter，都重置为第一页，删除p查询参数
+          search: `?${removeArgFromUrl({
+            search: search.substr(1),
+            name: 'p'
+          })}`
+        };
         return cEle;
       });
+
       return pEle;
     });
-    this.setState({ filterList: tmpList, initingFilter: false });
+    this.setState({
+      filterList: allFilterList,
+      initingFilter: false,
+      prefnParamListFromSearch
+    });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1010,8 +1385,7 @@ class List extends React.Component {
       return pItem;
     });
   }
-  async getProductList() {
-    const { history } = this.props;
+  async getProductList(type) {
     let {
       cateType,
       currentPage,
@@ -1022,10 +1396,8 @@ class List extends React.Component {
       filterList,
       searchForm,
       defaultFilterSearchForm,
-      actionFromFilter,
       sourceParam
     } = this.state;
-
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -1054,6 +1426,7 @@ class List extends React.Component {
         []
       ).filter((cItem) => cItem.selected);
       if (seletedList.length) {
+        // filterType: 0是属性， 1 是自定义；
         if (pItem.filterType === '0') {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
@@ -1063,40 +1436,15 @@ class List extends React.Component {
             filterType: pItem.filterType
           });
         } else {
+          // todo:why pItem.filterType ==='1'需要这么处理？目前单选项saleable的filterType是1，因此下方的.concat(goodsFilterRelList).map找不到attributeName，attributeValues；
           goodsFilterRelList.push({
-            attributeId: pItem.id,
-            attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
-            attributeName: pItem.attributeName,
-            filterType: pItem.filterType
+            filterId: pItem.id,
+            filterValueIdList: seletedList.map((s) => s.id)
           });
         }
       }
       return pItem;
     });
-
-    let urlPreVal = '';
-    let pathname = '';
-    goodsAttributesValueRelVOList
-      .concat(goodsFilterRelList)
-      .slice(0, 1)
-      .map((item, i) => {
-        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${
-          i + 1
-        }=${item.attributeValues.join('|')}`;
-        return item;
-      });
-
-    // 点击filter，触发局部刷新或整页面刷新
-    if (!initingList && actionFromFilter) {
-      pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
-      // history.push({
-      //   pathname,
-      //   state: {
-      //     filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
-      //   }
-      // });
-    }
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -1115,14 +1463,13 @@ class List extends React.Component {
 
     let params = {
       cateType,
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       cateId: this.state.cateId || '',
       pageNum: currentPage - 1,
       sortFlag: 11,
       pageSize: this.pageSize,
       keywords,
-      storeCateIds:
-        this.props.location.pathname == '/list/keywords' ? [] : storeCateIds, //暂时加一个判断，特定路由storeCateId为空
+      storeCateIds,
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -1148,76 +1495,71 @@ class List extends React.Component {
 
     getList(params)
       .then((res) => {
-        this.handleFilterResData(
-          (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
+        const esGoodsStoreGoodsFilterVOList = this.handledAttributeDetailNameEn(
+          res.context?.esGoodsStoreGoodsFilterVOList || []
         );
-        const esGoods = res.context.esGoods;
-        const totalElements = esGoods.totalElements;
+        const esGoodsCustomFilterVOList =
+          res.context?.esGoodsCustomFilterVOList || [];
+        this.handleFilterResData(
+          esGoodsStoreGoodsFilterVOList,
+          esGoodsCustomFilterVOList
+        );
+        const esGoodsPage = res.context.esGoodsPage;
+        const totalElements = esGoodsPage.totalElements;
         const keywords = this.state.keywords;
-        if (esGoods && esGoods.content.length) {
-          let goodsContent = esGoods.content;
-          if (res.context.goodsList) {
-            goodsContent = goodsContent.map((ele) => {
-              let ret = Object.assign({}, ele, {
-                // 最低marketPrice对应的划线价
-                miLinePrice: ele.goodsInfos.sort(
-                  (a, b) => a.marketPrice - b.marketPrice
-                )[0].linePrice,
-                taggingForText: (ele.taggingVOList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Text' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
-                )[0],
-                taggingForImage: (ele.taggingVOList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Image' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
-                )[0]
-              });
-              const tmpItem = find(
-                res.context.goodsList,
-                (g) => g.goodsId === ele.id
-              );
-              if (tmpItem) {
-                const {
-                  goodsCateName,
-                  goodsSubtitle,
-                  subscriptionStatus,
-                  avgEvaluate,
-                  minMarketPrice,
-                  goodsImg,
-                  miMarketPrice,
-                  goodsNo,
-                  ...others
-                } = tmpItem;
-                ret = Object.assign(ret, {
-                  goodsCateName,
-                  goodsSubtitle,
-                  subscriptionStatus,
-                  avgEvaluate,
-                  minMarketPrice,
-                  goodsImg,
-                  goodsNo
-                });
-              }
-              return ret;
+        if (esGoodsPage && esGoodsPage.content.length) {
+          let goodsContent = esGoodsPage.content;
+          goodsContent = goodsContent.map((ele) => {
+            const taggingVOList = (ele.taggingVOList || []).filter(
+              (t) => t.displayStatus
+            );
+
+            let ret = Object.assign({}, ele, {
+              // 最低marketPrice对应的划线价
+              miLinePrice: ele.goodsInfos.sort(
+                (a, b) => a.marketPrice - b.marketPrice
+              )?.[0]?.linePrice,
+              taggingForText: taggingVOList.filter(
+                (e) => e.taggingType === 'Text' && e.showPage?.includes('PLP')
+              )[0],
+              taggingForImage: taggingVOList.filter(
+                (e) => e.taggingType === 'Image' && e.showPage?.includes('PLP')
+              )[0],
+              technologyOrBreedsAttr: getTechnologyOrBreedsAttr(ele),
+              foodType: getFoodType(ele),
+              fromPrice: ele.fromPrice,
+              toPrice: ele.toPrice
             });
+            return ret;
+          });
+
+          if (this.state.isSpecialNeedFilter) {
+            goodsContent.splice(
+              goodsContent.length >= 4 ? 4 : goodsContent.length,
+              0,
+              { specificNeedCheck: true }
+            );
+          } else if (
+            this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk' &&
+            !window.__.env.REACT_APP_CLOSE_PRODUCT_FINDER
+          ) {
+            goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`;
+
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
               '@type': 'ItemList',
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
-                position: (esGoods.number + 1) * (i + 1),
-                url:
-                  `${urlPrefix}/${g.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${g.goodsNo}` + sourceParam
+                position: (esGoodsPage.number + 1) * (i + 1),
+                url: g.lowGoodsName
+                  ? `${urlPrefix}/${g.lowGoodsName
+                      .split(' ')
+                      .join('-')
+                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                  : ''
               }))
             }),
             type: 'application/ld+json'
@@ -1225,16 +1567,31 @@ class List extends React.Component {
           this.setState(
             {
               productList: goodsContent,
-              results: esGoods.totalElements,
-              currentPage: esGoods.number + 1,
-              totalPage: esGoods.totalPages
+              results: esGoodsPage.totalElements,
+              currentPage: esGoodsPage.number + 1,
+              totalPage: esGoodsPage.totalPages,
+              currentPageProductNum: esGoodsPage.numberOfElements
             },
             () => {
-              this.GAProductImpression(
-                this.state.productList,
-                totalElements,
-                keywords
-              );
+              this.handleCanonicalLink();
+              // plp页面初始化埋点
+              this.hubGA
+                ? this.hubGAProductImpression(
+                    esGoodsPage.content,
+                    totalElements,
+                    keywords,
+                    type
+                  )
+                : this.GAProductImpression(
+                    esGoodsPage.content,
+                    totalElements,
+                    keywords
+                  );
+
+              // hubGa点击页码切换埋点
+              this.hubGA &&
+                type === 'pageChange' &&
+                this.hubGAPageChange(esGoodsPage.content);
             }
           );
         } else {
@@ -1258,16 +1615,54 @@ class List extends React.Component {
         });
       });
   }
-  hanldePageNumChange = ({ currentPage }) => {
+
+  // 根据路由上的filter选项，计算出其选中了的filter个数
+  handleCountFilters(prefnParamListSearch) {
+    let filtersCounts = 0;
+    prefnParamListSearch.map((item) => (filtersCounts += item.prefvs.length));
     this.setState(
       {
-        currentPage
+        filtersCounts
       },
-      () => this.getProductList()
+      () => {
+        if (this.state.filtersCounts) {
+          let refineBarEl = document.getElementById('J-product-list');
+          if (refineBarEl) {
+            window.scrollTo({
+              top: refineBarEl.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }
     );
+  }
+
+  // 处理attributeDetailNameEn字段，处理空格为-
+  handledAttributeDetailNameEn(list) {
+    let tmpList = cloneDeep(list);
+    Array.from(tmpList, (ele) => {
+      (ele.attributesValueList || []).map((cEle) => {
+        if (cEle.attributeDetailNameEn) {
+          cEle.attributeDetailNameEnSplitByLine = cEle.attributeDetailNameEn
+            .split(' ')
+            .join('-');
+        }
+        return cEle;
+      });
+      return ele;
+    });
+    return tmpList;
+  }
+
+  hanldePageNumChange = ({ currentPage }) => {
+    this.props.history.push(this.generatePageLink(currentPage));
   };
+
   hanldeItemClick(item, index) {
-    this.GAProductClick(item, index);
+    this.hubGA
+      ? this.hubGAProductClick(item, index)
+      : this.GAProductClick(item, index);
   }
   getElementToPageTop(el) {
     if (el.parentElement) {
@@ -1277,8 +1672,9 @@ class List extends React.Component {
   }
 
   stickyMobileRefineBar() {
-    if (isMobile) {
-      var t = document.getElementById('refineBar').getBoundingClientRect().top;
+    if (isMobilePhone) {
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1286,7 +1682,9 @@ class List extends React.Component {
           this.setState({
             isTop: true
           });
-          document.querySelector('.rc-header').style.display = 'none';
+          if (document.querySelector('.rc-header')) {
+            document.querySelector('.rc-header').style.display = 'none';
+          }
         } else {
           document.querySelector('.rc-header').style.display = 'block';
           this.setState({
@@ -1306,17 +1704,12 @@ class List extends React.Component {
   onSortChange = (data) => {
     // 在筛选的时候不让他刷新页面
     this.setState(
-      { selectedSortParam: data, currentPage: 1, initingList: true },
+      {
+        selectedSortParam: data,
+        // currentPage: 1,
+        initingList: true
+      },
       () => this.getProductList()
-    );
-  };
-  updateOperatedFilterList = (data) => {
-    // 触发点击或跳转页面事件
-    this.setState(
-      { filterList: data, currentPage: 1, actionFromFilter: true },
-      () => {
-        this.getProductList();
-      }
     );
   };
   hanldePriceSliderChange = (val) => {
@@ -1337,17 +1730,34 @@ class List extends React.Component {
       );
     }, 500);
   };
+
+  // 处理mobile端已经选中的filters数量
+  handleFilterCounts = (filterList) => {
+    let filtersCounts = 0;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+        }
+      });
+    });
+
+    return <>{filtersCounts ? <span>({filtersCounts})</span> : null}</>;
+  };
+
   render() {
     const { breadListByDeco, lastBreadListName } = this;
-    const { history } = this.props;
-    const { pathname } = history.location;
+    const { canonicalLink } = this.state;
     const {
-      category,
+      history,
+      configStore: { maxGoodsPrice }
+    } = this.props;
+    const {
       results,
+      currentPageProductNum,
       productList,
       loading,
       titleData,
-      initingList,
       sortList,
       filterList,
       initingFilter,
@@ -1356,204 +1766,147 @@ class List extends React.Component {
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
       keywords,
-      breadList,
       eEvents,
-      GAListParam
+      GAListParam,
+      isDogPage,
+      baseSearchStr,
+      allPrefv,
+      prefv1,
+      animalType,
+      hiddenFilter,
+      invalidPage,
+      filtersCounts
     } = this.state;
-
-    let event;
-    if (pathname) {
-      let reDog = /^\/dog/; // 匹配dog开头
-      let reCat = /^\/cat/; // 匹配cat开头
-      let theme;
-      let type;
-      let specieId;
-      if (reDog.test(pathname)) {
-        theme = 'Dog';
-        type = 'Product Catalogue';
-        specieId = 1;
-      } else if (reCat.test(pathname)) {
-        theme = 'Cat';
-        type = 'Product Catalogue';
-        specieId = 2;
-      } else {
-        theme = '';
-        type = 'Product';
-        specieId = '';
-      }
-
-      event = {
-        page: {
-          type,
-          theme,
-          path: pathname,
-          error: '',
-          hitTimestamp: new Date(),
-          filters: ''
-        },
-        pet: {
-          specieId
-        }
-      };
-    }
-
     const _loadingJXS = Array(6)
       .fill(null)
       .map((item, i) => (
-        <ListItem key={i}>
+        <ListItemForDefault key={i}>
           <span className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
           </span>
-        </ListItem>
+        </ListItemForDefault>
       ));
+
+    const { title, metaDescription, metaKeywords } = this.state.seoConfig;
+    const h1Title =
+      window.__.env.REACT_APP_COUNTRY === 'ru'
+        ? titleData?.title?.toLowerCase()
+        : titleData?.title;
+    const titleSeo = title && titleData && title.replace(/{H1}/, h1Title);
+    const metaDescriptionSeo =
+      metaDescription && titleData && metaDescription.replace(/{H1}/, h1Title);
+    const ruFilterSeoTitle = title && title.replace(/{H1}/, allPrefv);
+    const ruFilterSeoDesc =
+      metaDescription && metaDescription.replace(/{H1}/, allPrefv);
+    const trFilterSeoTitle = prefv1 + ' ' + animalType + ' ' + titleSeo;
+    const trFilterSeoDesc =
+      prefv1 + ' ' + animalType + ' ' + metaDescriptionSeo;
+    const filterSeoTitle =
+      window.__.env.REACT_APP_COUNTRY === 'ru'
+        ? ruFilterSeoTitle
+        : trFilterSeoTitle;
+    const filterSeoDesc =
+      window.__.env.REACT_APP_COUNTRY === 'ru'
+        ? ruFilterSeoDesc
+        : trFilterSeoDesc;
+    const filterSeoWords =
+      window.__.env.REACT_APP_COUNTRY === 'ru' ? allPrefv : metaKeywords;
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
+        {this.state.event && (
+          <GoogleTagManager
+            key={this.props.location.key}
+            additionalEvents={this.state.event}
+            ecommerceEvents={eEvents}
+          />
+        )}
         <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
+          <link
+            rel="canonical"
+            href={
+              this.state.canonicalforTRSpecialPageSearchFlag
+                ? canonicalLink.cur.split('?')[0]
+                : canonicalLink.cur
+            }
+          />
+          {/* <link rel="canonical" href={canonicalLink.cur} /> */}
+          {canonicalLink.prev ? (
+            <link rel="prev" href={canonicalLink.prev} />
+          ) : null}
+          {canonicalLink.next ? (
+            <link rel="next" href={canonicalLink.next} />
+          ) : null}
+
+          <title>{this.state.prefv1 ? filterSeoTitle : titleSeo}</title>
           <meta
             name="description"
-            content={this.state.seoConfig.metaDescription}
+            content={this.state.prefv1 ? filterSeoDesc : metaDescriptionSeo}
           />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <meta
+            name="keywords"
+            content={this.state.prefv1 ? filterSeoWords : metaKeywords}
+          />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={history}
-          match={this.props.match}
-        />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <BannerTip />
-          <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
-          <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <Link to="/home" className="back-link">
-              <FormattedMessage id="homePage" />
-            </Link>
-          </div>
-          {titleData ? (
-            <div className="rc-max-width--lg rc-padding-x--sm">
-              <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
-                <div className="rc-column rc-double-width text-center text-md-left">
-                  <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
-                    <h1 className="rc-gamma rc-margin--none">
-                      {titleData.title}
-                    </h1>
-                    <div className="children-nomargin rc-body">
-                      <p>{titleData.description}</p>
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
+        {!invalidPage ? (
+          <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+            <BannerTip />
+            <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
+            <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
+              <DistributeHubLinkOrATag href="" to="/home" className="back-link">
+                <FormattedMessage id="homePage" />
+              </DistributeHubLinkOrATag>
+            </div>
+            {titleData && titleData.title && titleData.description ? (
+              <div className="rc-max-width--lg rc-padding-x--sm ">
+                <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
+                  <div className="rc-column rc-double-width text-center md:text-left p-0">
+                    <div className="rc-full-width">
+                      <h1 className="rc-gamma rc-margin--none top-desc-title">
+                        {titleData.title}
+                      </h1>
+                      <div className="children-nomargin rc-body">
+                        {isMobilePhone ? (
+                          <TopDesc text={titleData.description} />
+                        ) : (
+                          <p>{titleData.description}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="rc-column">
-                  <LazyLoad style={{ width: '100%' }}>
-                    <img src={titleData.img} className="mx-auto" alt="" />
-                  </LazyLoad>
+                  <div className="rc-column">
+                    {titleData.img && !isMobilePhone ? (
+                      <LazyLoad style={{ width: '100%' }}>
+                        <img
+                          src={optimizeImage({
+                            originImageUrl: titleData.img,
+                            width: 300
+                          })}
+                          className="mx-auto"
+                          alt="titleData image"
+                        />
+                      </LazyLoad>
+                    ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : null}
-          <div id="J-product-list" />
-          {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
-          <div
-            className="search-results rc-max-width--xl pt-sm-1 rc-padding--sm--desktop position-relative"
-            style={{ zIndex: 2 }}
-          >
-            <div className="search-nav border-bottom-0">
-              {keywords ? (
-                <div class="rc-padding-y--md--mobile rc-text--center">
-                  <div class="rc-intro">
-                    <FormattedMessage id="list.youSearchedFor" />:
-                  </div>
-                  <div class="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{keywords}"</b>
-                    {results > 0 && (
-                      <>
-                        (
-                        <FormattedMessage
-                          id="results"
-                          values={{ val: results }}
-                        />
-                        )
-                      </>
-                    )}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-            <section className="rc-bg-colour--brand3">
-              <div>
-                <div
-                  className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
-                  id="J_filter_contaner"
-                >
-                  <div
-                    className="refinements-fixed rc-column"
-                    style={{
-                      position: 'fixed',
-                      display: 'none',
-                      background: '#fff',
-                      zIndex: 22
-                    }}
-                  >
-                    <button
-                      className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example"
-                      onClick={this.toggleFilterModal.bind(this, true)}
-                    >
-                      <FormattedMessage id="filters" />
-                    </button>
-                    <aside
-                      className={`rc-filters border-top ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
-                    >
-                      {isMobile ? (
-                        <Filters
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`1-${filterList.length}`}
-                          inputLabelKey={1}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                        />
-                      ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`1-${filterList.length}`}
-                          inputLabelKey={1}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                        />
-                      )}
-                    </aside>
-                  </div>
-
-                  <div
-                    id="refineBar"
-                    className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
-                  >
-                    <div
-                      className="rc-meta rc-md-down"
-                      style={{ padding: '0 1em', fontSize: '1em' }}
-                    >
-                      <span className="font-weight-normal">
-                        {lastBreadListName}{' '}
-                      </span>
+            ) : (
+              <h1 style={{ display: 'none' }}>Royal canin</h1>
+            )}
+            <div id="J-product-list" />
+            {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
+            <div
+              className="search-results rc-max-width--xl pt-sm-1 rc-padding--sm--desktop position-relative"
+              style={{ zIndex: 2 }}
+            >
+              <div className="search-nav border-bottom-0">
+                {keywords ? (
+                  <div className="rc-padding-y--md--mobile rc-text--center">
+                    <div className="rc-intro">
+                      <FormattedMessage id="list.youSearchedFor" />:
+                    </div>
+                    <h1 className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
+                      <strong>"{keywords}"</strong>&nbsp;
                       {results > 0 && (
                         <>
                           (
@@ -1564,314 +1917,287 @@ class List extends React.Component {
                           )
                         </>
                       )}
-                    </div>
-                    <div
-                      className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
-                      style={{
-                        padding: '0 1rem',
-                        boxShadow: '0 2px 4px #f1f1f1'
-                      }}
-                    >
-                      <span
-                        style={{ marginRight: '1em' }}
-                        className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
-                      >
-                        {sortList.length > 0 && (
-                          <Selection
-                            key={sortList.length}
-                            selectedItemChange={this.onSortChange}
-                            optionList={sortList}
-                            selectedItemData={{
-                              value:
-                                (selectedSortParam &&
-                                  selectedSortParam.value) ||
-                                ''
-                            }}
-                            placeholder={<FormattedMessage id="sortBy" />}
-                            customInnerStyle={{
-                              paddingTop: '.7em',
-                              paddingBottom: '.7em',
-                              bottom: 0
-                            }}
-                          />
-                        )}
-                      </span>
-                      <i
-                        className={`rc-icon rc-filter--xs rc-iconography ${
-                          (filterModalVisible && !isTop) ||
-                          (!filterModalVisible && isTop)
-                            ? 'rc-brand1'
-                            : ''
-                        }`}
-                        data-filter-trigger="filter-example"
-                        style={{ position: 'relative', top: '0.4rem' }}
-                        onClick={this.toggleFilterModal.bind(
-                          this,
-                          !filterModalVisible
-                        )}
-                      />
-                      {/* <button
-                        className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
-                        data-filter-trigger="filter-example"
-                        onClick={this.toggleFilterModal.bind(this, true)}
-                      /> */}
-                    </div>
-                    <aside
-                      className={`rc-filters ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
-                    >
-                      {isMobile ? (
-                        <Filters
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`2-${filterList.length}`}
-                          inputLabelKey={2}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                        />
-                      ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`2-${filterList.length}`}
-                          inputLabelKey={2}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                        />
-                      )}
-                    </aside>
+                    </h1>
                   </div>
-                  <div
-                    className={`rc-column1 col-12 col-xl-9 rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
-                  >
-                    {!loading && (
-                      <>
-                        <div
-                          className="row pl-1"
-                          style={{ alignItems: 'center' }}
-                        >
-                          <div className="col-12 col-md-8 rc-md-up">
-                            <span className="font-weight-normal">
-                              {lastBreadListName}{' '}
-                            </span>
-                            (
-                            <FormattedMessage
-                              id="results"
-                              values={{ val: results }}
-                            />
-                            )
-                          </div>
-
-                          <div className="col-12 col-md-4  rc-md-up">
-                            <span
-                              style={{ position: 'relative', top: '2px' }}
-                              className="rc-select  page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
-                            >
-                              {sortList.length > 0 && (
-                                <Selection
-                                  key={sortList.length}
-                                  selectedItemChange={this.onSortChange}
-                                  optionList={sortList}
-                                  selectedItemData={{
-                                    value:
-                                      (selectedSortParam &&
-                                        selectedSortParam.value) ||
-                                      ''
-                                  }}
-                                  // placeholder={<FormattedMessage id="sortBy" />}
-                                  customInnerStyle={{
-                                    paddingTop: '.7em',
-                                    paddingBottom: '.7em'
-                                  }}
-                                />
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                    {!productList.length ? (
-                      <div className="row">
-                        <div className="col-12">
-                          <div className="ui-font-nothing rc-md-up">
-                            <i className="rc-icon rc-incompatible--sm rc-iconography" />
-                            <FormattedMessage id="list.errMsg" />
-                          </div>
-                          <div className="ui-font-nothing rc-md-down d-flex">
-                            <i className="rc-icon rc-incompatible--xs rc-iconography" />
-                            <FormattedMessage id="list.errMsg" />
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
-                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
-                          {loading
-                            ? _loadingJXS
-                            : productList.map((item, i) =>
-                                process.env.REACT_APP_LANG === 'fr' &&
-                                isMobile ? (
-                                  <ListItemH5ForFr
-                                    sourceParam={this.state.sourceParam}
-                                    key={item.id}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text fr-label"
-                                          style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            style={{
-                                              width: 'inherit',
-                                              height: 'inherit'
-                                            }}
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={GAListParam}
-                                    breadListByDeco={breadListByDeco}
-                                  >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBodyH5ForFr item={item} />
-                                    ) : (
-                                      <ListItemBody item={item} />
-                                    )}
-                                  </ListItemH5ForFr>
-                                ) : (
-                                  <ListItem
-                                    sourceParam={this.state.sourceParam}
-                                    key={item.id}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text"
-                                          style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={GAListParam}
-                                    breadListByDeco={breadListByDeco}
-                                  >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBodyH5ForFr item={item} />
-                                    ) : (
-                                      <ListItemBody item={item} />
-                                    )}
-                                  </ListItem>
-                                )
-                              )}
-                        </article>
-                        <div
-                          className="grid-footer rc-full-width"
-                          style={{ marginTop: '0.5rem' }}
-                        >
-                          <Pagination
-                            loading={this.state.loading}
-                            defaultCurrentPage={this.state.currentPage}
-                            key={this.state.currentPage}
-                            totalPage={this.state.totalPage}
-                            onPageNumChange={this.hanldePageNumChange}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                ) : null}
               </div>
-            </section>
-            <ProductFinderAd />
-          </div>
-        </main>
-        {process.env.REACT_APP_LANG == 'de' ? (
-          <div className="notate ml-2 mb-2">
-            <FormattedMessage
-              id="notate"
-              values={{
-                val: (
-                  <Link
-                    className="rc-styled-link"
-                    to={{
-                      pathname: '/faq',
-                      state: {
-                        catogery: 'catogery-1'
-                      }
+              <section className="rc-bg-colour--brand3">
+                <div>
+                  <div
+                    className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
+                    id="J_filter_contaner"
+                    style={{
+                      zIndex: 3
                     }}
                   >
-                    Versandkosten
-                  </Link>
-                )
-              }}
-              defaultMessage={' '}
-            />
-          </div>
-        ) : null}
+                    {hiddenFilter && !isMobilePhone ? null : (
+                      <div
+                        id="refineBar"
+                        className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
+                      >
+                        {hiddenFilter ? null : (
+                          <div className="flex md:hidden justify-content-between align-items-center list_select_choose flex-col">
+                            {/* // <div className="w-100 text-center"> */}
+                            <button
+                              onClick={this.toggleFilterModal.bind(
+                                this,
+                                !filterModalVisible
+                              )}
+                              className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4 d-flex justify-content-center align-items-center"
+                            >
+                              <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
+                              <FormattedMessage id="plp.filter" />
+                              {this.handleFilterCounts(filterList)}
+                            </button>
+                            <SelectFilters
+                              filterList={filterList}
+                              history={history}
+                              baseSearchStr={baseSearchStr}
+                            />
+                            {/* </div> */}
+                          </div>
+                        )}
+                        <aside
+                          className={`rc-filters ${
+                            filterModalVisible ? 'active' : ''
+                          }`}
+                        >
+                          {isMobilePhone ? (
+                            // <div className={`${showMegaMenu ? '' : 'rc-hidden'}`}>
+                            <Filters
+                              history={history}
+                              maxGoodsPrice={maxGoodsPrice}
+                              initing={initingFilter}
+                              onToggleFilterModal={this.toggleFilterModal}
+                              filterList={filterList}
+                              key={`2-${filterList.length}`}
+                              inputLabelKey={2}
+                              hanldePriceSliderChange={
+                                this.hanldePriceSliderChange
+                              }
+                              markPriceAndSubscriptionLangDict={
+                                markPriceAndSubscriptionLangDict
+                              }
+                              baseSearchStr={baseSearchStr}
+                              prefnParamListSearch={
+                                this.state.prefnParamListFromSearch
+                              }
+                            />
+                          ) : (
+                            <FiltersPC
+                              history={history}
+                              maxGoodsPrice={maxGoodsPrice}
+                              initing={initingFilter}
+                              onToggleFilterModal={this.toggleFilterModal}
+                              filterList={filterList}
+                              key={`2-${filterList.length}`}
+                              inputLabelKey={2}
+                              hanldePriceSliderChange={
+                                this.hanldePriceSliderChange
+                              }
+                              markPriceAndSubscriptionLangDict={
+                                markPriceAndSubscriptionLangDict
+                              }
+                              baseSearchStr={baseSearchStr}
+                              prefnParamListSearch={
+                                this.state.prefnParamListFromSearch
+                              }
+                              filtersCounts={filtersCounts}
+                            />
+                          )}
+                          {/* 由于么数据暂时隐藏注释 */}
+                          {/* {this.state.showSmartFeeder ? (
+                        <div className="smart-feeder-container">
+                          <p>Abonnement au distributeur connecté</p>
+                          <p>
+                            Un abonnement à l'alimentation de votre animal de
+                            compagnie couplé à un distributeur intelligent
+                          </p>
+                          <a
+                            href="https://www.royalcanin.com/fr/shop/smart-feeder-subscription"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                            style={{ minWidth: '110px' }}
+                          >
+                            Voir l'offre
+                          </a>
+                          <img src={smartFeeder} />
+                        </div>
+                      ) : null} */}
+                        </aside>
+                        <div className="text-center pt-3 rc-md-down border-top border-color-d7d7d7">
+                          {results > 0 && (
+                            <>
+                              <FormattedMessage
+                                id="plp.displayItems"
+                                values={{
+                                  num: (
+                                    <span className="font-weight-normal">
+                                      {currentPageProductNum}
+                                    </span>
+                                  ),
+                                  total: (
+                                    <span className="font-weight-normal">
+                                      {results}
+                                    </span>
+                                  )
+                                }}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    <div
+                      className={`rc-column1 col-12 ${
+                        hiddenFilter ? 'col-xl-12' : 'col-xl-9'
+                      } rc-triple-width product-tiles-container pt-4 px-4 md:px-2 md:pt-0`}
+                    >
+                      {!loading && (
+                        <>
+                          <div className="row rc-md-up align-items-center pl-2 pr-2">
+                            <div className="col-12 col-md-8 pt-3 pb-2">
+                              <span className="rc-intro rc-margin--none">
+                                <span className="medium">
+                                  {lastBreadListName}&nbsp;
+                                </span>
+                                (
+                                <FormattedMessage
+                                  id="results"
+                                  values={{ val: results }}
+                                />
+                                )
+                              </span>
+                            </div>
 
-        <Footer />
+                            <div className="col-12 col-md-4">
+                              <span
+                                style={{ position: 'relative', top: '2px' }}
+                                className="rc-select page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
+                              >
+                                {sortList.length > 0 && (
+                                  <Selection
+                                    key={sortList.length}
+                                    selectedItemChange={this.onSortChange}
+                                    optionList={sortList}
+                                    selectedItemData={{
+                                      value:
+                                        (selectedSortParam &&
+                                          selectedSortParam.value) ||
+                                        ''
+                                    }}
+                                    // placeholder={<FormattedMessage id="sortBy" />}
+                                    customInnerStyle={{
+                                      paddingTop: '.7em',
+                                      paddingBottom: '.7em'
+                                    }}
+                                  />
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {!productList.length ? (
+                        <div className="row">
+                          <div className="col-12">
+                            <div className="ui-font-nothing rc-md-up">
+                              <em className="rc-icon rc-incompatible--sm rc-iconography" />
+                              <FormattedMessage id="list.errMsg" />
+                            </div>
+                            <div className="ui-font-nothing rc-md-down d-flex pb-4">
+                              <em className="rc-icon rc-incompatible--xs rc-iconography" />
+                              <FormattedMessage id="list.errMsg" />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
+                          <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
+                            {loading
+                              ? _loadingJXS
+                              : productList.map((item, i) => {
+                                  return (
+                                    <div
+                                      className={cn(
+                                        `col-12 pr-0 md:pl-2 md:pr-2 mb-3 pl-0 BoxFitMonileScreen`,
+                                        `${
+                                          hiddenFilter ? 'col-md-3' : 'col-md-4'
+                                        }`
+                                      )}
+                                      key={i}
+                                    >
+                                      <PLPCover
+                                        item={item}
+                                        key={item.id}
+                                        isDogPage={isDogPage}
+                                        sourceParam={this.state.sourceParam}
+                                        GAListParam={GAListParam}
+                                        breadListByDeco={breadListByDeco}
+                                        headingTag={
+                                          this.state.seoConfig.headingTag
+                                        }
+                                        onClick={this.hanldeItemClick.bind(
+                                          this,
+                                          item,
+                                          i
+                                        )}
+                                      />
+                                    </div>
+                                  );
+                                })}
+                          </article>
+                          <div
+                            className="grid-footer rc-full-width"
+                            style={{ marginTop: '0.5rem' }}
+                            data-tms="Pagination"
+                          >
+                            <Pagination
+                              loading={this.state.loading}
+                              defaultCurrentPage={this.state.currentPage}
+                              key={this.state.currentPage}
+                              totalPage={this.state.totalPage}
+                              onPageNumChange={this.hanldePageNumChange}
+                              prevPageLink={this.prevPageLink}
+                              nextPageLink={this.nextPageLink}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <ProductFinderAd {...this.state} />
+            </div>
+            {window.__.env.REACT_APP_COUNTRY == 'de' ? (
+              <div className="notate ml-2 mb-2">
+                <FormattedMessage
+                  id="notate"
+                  values={{
+                    val: (
+                      <Link
+                        className="rc-styled-link"
+                        to={{
+                          pathname: '/faq',
+                          state: {
+                            catogery: 'catogery-1'
+                          }
+                        }}
+                      >
+                        Versandkosten
+                      </Link>
+                    )
+                  }}
+                  defaultMessage={' '}
+                />
+              </div>
+            ) : null}
+
+            <Footer />
+          </main>
+        ) : (
+          <Exception />
+        )}
       </div>
     );
   }

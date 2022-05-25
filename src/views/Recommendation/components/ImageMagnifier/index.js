@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import './index.less';
-import { FormattedMessage } from 'react-intl';
-import noPic from '@/assets/images/noPic.png'
-// import noPic from './images/noPic1.png';
-//import LeftImg from '@/assets/images/left.png'
-//import RightImg from '@/assets/images/right.png'
-import { getDeviceType } from '@/utils/utils.js'
+import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
+import { getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
 class ImageMagnifier extends Component {
@@ -197,12 +193,8 @@ class ImageMagnifier extends Component {
       {
         magnifierOff: true,
         params: Object.assign({}, this.state.params, {
-          width: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetWidth
-            : 10,
-          height: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetHeight
-            : 10
+          width: document.querySelector('.J_detail_img')?.offsetWidth || 10,
+          height: document.querySelector('.J_detail_img')?.offsetHeight || 10
         })
       },
       () => this.initParam()
@@ -364,13 +356,6 @@ class ImageMagnifier extends Component {
                 {taggingForText.taggingName}
               </div>
             ) : null}
-            {taggingForImage ? (
-              <div className="product-item-flag-image position-absolute">
-                <LazyLoad>
-                <img src={taggingForImage.taggingImgUrl} />
-                </LazyLoad>
-              </div>
-            ) : null}
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{
@@ -381,24 +366,24 @@ class ImageMagnifier extends Component {
                 ? images.map((el, i) => (
                     <div key={i}>
                       <LazyLoad>
-                      <img
-                        id="J_detail_img"
-                        style={cssStyle.imgStyle}
-                        src={currentImg || noPic}
-                        alt=""
-                      />
+                        <img
+                          className="J_detail_img"
+                          style={cssStyle.imgStyle}
+                          src={currentImg || noPic}
+                          alt="goods information image"
+                        />
                       </LazyLoad>
                     </div>
                   ))
                 : images.map((el, i) => (
                     <div key={i}>
                       <LazyLoad>
-                      <img
-                        id="J_detail_img"
-                        style={cssStyle.imgStyle}
-                        src={currentImg || this.state.maxImg || noPic}
-                        alt=""
-                      />
+                        <img
+                          className="J_detail_img"
+                          style={cssStyle.imgStyle}
+                          src={currentImg || this.state.maxImg || noPic}
+                          alt="goods information image"
+                        />
                       </LazyLoad>
                     </div>
                   ))}
@@ -439,20 +424,20 @@ class ImageMagnifier extends Component {
           {magnifierOff && !videoShow && (
             <div style={cssStyle.magnifierContainer}>
               <LazyLoad>
-              <img
-                style={cssStyle.imgStyle2}
-                src={currentImg || this.state.maxImg || noPic}
-                onLoad={this.handleImageLoaded.bind(this)}
-                onError={this.handleImageErrored.bind(this)}
-                alt=""
-              />
+                <img
+                  style={cssStyle.imgStyle2}
+                  src={currentImg || this.state.maxImg || noPic}
+                  onLoad={this.handleImageLoaded.bind(this)}
+                  onError={this.handleImageErrored.bind(this)}
+                  alt="current image"
+                />
               </LazyLoad>
               {!imgLoad && 'failed to load'}
             </div>
           )}
         </div>
         <div className="scrollOutBox">
-          <i
+          <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
             }`}
@@ -465,7 +450,7 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox"
+              className="text-center md:text-left imageInnerBox"
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
@@ -530,7 +515,7 @@ class ImageMagnifier extends Component {
             </div>
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
-          <i
+          <em
             className={`rc-icon rc-right rightArrow rc-iconography ${
               this.state.positionLeft === (imgCount - 5) * -69
                 ? ''

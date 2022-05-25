@@ -1,0 +1,59 @@
+.prescriber-modal {
+  .modal-dialog {
+    max-width: 1000px;
+    .prescriber-modal-content {
+      position: relative!important;
+      min-width: 100%;
+      padding: 82px 132px 86px 132px;
+      margin-left: 0;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      justify-content: center;
+      text-align: center;
+      .prescriber-modal-header {
+        font-size: 1.875rem;
+        color: #e2001a;
+        line-height: 34px;
+      }
+      .modal-body {
+        padding: 0;
+        font-size: 0.875rem;
+        color: #666666;
+        margin: 1.5rem 0;
+        line-height: 1.25rem;
+      }
+      .modal-footer {
+        border-top: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        .rc-styled-link {
+          color: #444444;
+          font-size: 1rem;
+          border-bottom: 1px solid #d7d7d7;
+        }
+        .middle-span-text {
+          margin: 0 1rem;
+          font-size: 1rem;
+          color: #666666;
+        }
+        .btn-primary:not(.btn-sm):after {
+          content: none;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .prescriber-modal {
+    .modal-dialog {
+      .prescriber-modal-content {
+        padding: .82rem 1.32rem .86rem 1.32rem;
+      }
+    }
+  }
+}

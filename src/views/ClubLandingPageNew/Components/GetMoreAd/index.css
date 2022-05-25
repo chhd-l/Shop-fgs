@@ -1,0 +1,96 @@
+.one-time-purchase-box {
+  box-shadow: 0vh 0vh 0.3vh 0.1vh #dcdcde;
+  padding: 1.5rem 1rem;
+}
+
+.club-program-box {
+  box-shadow: 0vh 0vh 0.3vh 0.1vh #ed001a;
+  padding: 1.5rem 1rem;
+}
+
+@media (max-width: 639.98px) {
+  .one-time-purchase-box {
+    box-shadow: 0vh 0vh 0.3vh 0.1vh #dcdcde;
+    margin: 0 2rem;
+    padding: 1.5rem 0;
+  }
+  .flexColumn {
+    flex-direction: column;
+  }
+  .widthsmall {
+    /* width: 80vw; */
+    /* margin-left: 7vw; */
+    /* height: 41vh; */
+    margin-bottom: 0rem;
+  }
+  .dewidthsmall {
+    /* width: 80vw; */
+    /* margin-left: 7vw; */
+    /* height: 39vh; */
+  }
+  .marginleftLogo {
+    margin-left: 3vw;
+  }
+  .fontwidth {
+    width: 40vw;
+  }
+  .buttonmargintop {
+    transform: translateY(7vh);
+  }
+  .textmobile15vw {
+    padding: 0;
+    margin-left: 0;
+    list-style-position: outside;
+  }
+  .mobileflex {
+    flex-direction: column;
+    margin-left: 4vw;
+    width: 80vw;
+  }
+  .paddingbottom0 {
+    padding: 0;
+  }
+  .paddingtop0 {
+    padding-top: 0;
+  }
+  .margintop3vh {
+    margin-top: 5vh;
+  }
+  .getmorebutton {
+    margin-top: 4vh;
+  }
+}
+
+@media (min-width: 639.98px) {
+  .clubmobilegetmore {
+    display: none;
+  }
+  .widthsmall {
+    height: 400px;
+  }
+  .trwithsmall {
+    height: 300px;
+  }
+  .dewidthsmall {
+    height: 45vh;
+  }
+  .text21vw {
+    width: 21vw;
+  }
+  .getmorebutton {
+    margin-top: 10vh;
+  }
+  .margintop10vh {
+    margin-top: 40px;
+  }
+  .margintoppx {
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+  .margintop15vh {
+    margin-top: 25px;
+  }
+  .getmoreaddheight {
+    height: 135px;
+  }
+}

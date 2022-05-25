@@ -1,0 +1,33 @@
+.height-product-tile-plpOnly.height-product-tile {
+  position: relative;
+}
+.height-product-tile-plpOnly {
+  .product-title {
+    line-height: 1.2 !important;
+    // height: 3.6rem; //高度会导致文字被隐藏，因此注释了
+  }
+}
+.card--product-contaner-price {
+  font-size: 0.8em;
+  color: #000;
+  .contaner-price__value {
+    font-size: 1.25em;
+  }
+}
+
+.plp-stock-status .stock__wrapper .stock .availability-msg > div {
+  display: inline;
+  margin-left: 0;
+  color: #444;
+}
+
+@media (max-width: 540px) {
+  .height-product-tile-plpOnly {
+    .product-title {
+      height: 3.2rem;
+    }
+  }
+  .plp-stock-status {
+    font-size: .875rem;
+  }
+}

@@ -1,0 +1,88 @@
+
+.week-calender{
+  position: relative;
+.week-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-left{
+    width: 30px;
+    cursor: pointer;
+    }
+    &-content{
+        flex: 1;
+
+        span{
+            height: 30px;
+            line-height: 30px;
+        }
+        // ul{
+        //     display: flex;
+        //     justify-content: space-around;
+        //     li{
+        //         flex: 1;
+        //         cursor: pointer;
+        //         display: flex;
+        //         flex-direction: column;
+        //         justify-content: center;
+        //         text-align: center;
+        //     }
+        // }
+    }
+    &-right{
+        cursor: pointer;
+        width: 30px;
+    }
+
+}
+  .not-time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 0%;
+    height: 60%;
+    left: 40px;
+    top: 88px;
+    bottom: 0;
+    right: 0;
+    background: #f3f4f6;
+    cursor: not-allowed;
+  }
+ul{
+    display: flex;
+    justify-content: space-around;
+    li{
+        flex: 1;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+
+    }
+}
+.week-content{
+    min-height: 200px;
+    max-height: 294px;
+    overflow: auto;
+    ul{
+        padding: 0 30px;
+    }
+     li{
+         padding: 0 10px;
+     }
+
+
+  [disabled]{
+    border: 2px solid;
+    border-color: #d7d7d7 !important;
+    cursor: not-allowed;
+    color: #d7d7d7;
+  }
+}
+}
+
+.weekbut{
+  border: 1px solid #cccccc;
+}

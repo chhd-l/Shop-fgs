@@ -1,37 +1,59 @@
-import en_US from '@/lang/en_US';
-import es_ES from '@/lang/es_ES';
-import de_DE from '@/lang/de_DE';
-import fr_FR from '@/lang/fr_FR';
-import ru_RU from '@/lang/ru_RU';
-import tr_TR from '@/lang/tr_TR';
+/**
+ *
+ * Multi language has integrated to Phrase app flatform.
+ * https://app.phrase.com/
+ * minytang@deloitte.com.cn/Test1106,,,^^^^^^
+ *
+ */
 
-const ENUM_LANGFILE = {
-  en: en_US,
-  es: es_ES,
-  de: de_DE,
-  fr: fr_FR,
-  ru: ru_RU,
-  tr: tr_TR
-};
+import Axios from 'axios';
 
-// export default ENUM_LANGFILE;
+async function getDynamicLanguage() {
+  // key - 对应对应语言文件名
+  const key = window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
+  const sessionItemRoyal = window.__.sessionItemRoyal;
+  const phraseSession = sessionItemRoyal.get('PHRASE_LANGUAGE');
+  let phraseRet = {};
+  if (phraseSession) {
+    phraseRet = JSON.parse(phraseSession);
+  } else {
+    try {
+      const res = await Axios({
+        method: 'get',
+        url: `https://d2cshop.blob.core.windows.net/cdn/phrase/${
+          window.__.env.REACT_APP_PHRASE_BRANCH || 'master'
+        }/${key}.json`,
+        // 禁用缓存
+        headers: { 'Cache-Control': 'no-cache' }
+      });
+      // const res = await Axios.get(
+      //   `https://d2cshop.blob.core.windows.net/cdn/phrase/${
+      //     window.__.env.REACT_APP_PHRASE_BRANCH || 'master'
+      //   }/${key}.json`
+      // );
 
-// ENUM_LANGFILE[process.env.REACT_APP_LANG]
+      // const url = `https://api.phrase.com/v2/projects/8f0d7f6b0396b8af7f08bf9f36d81259/locales/${key}/download?access_token=31950e3e49b165b8b2c604b65574e6cf279d9ea395e3718ce52b1ec335bef6e5&include_empty_translations=true&file_format=node_json`;
 
-const locales = {
-  en: require('@/lang/en_US'),
-  es: require('@/lang/es_ES'),
-  de: require('@/lang/de_DE'),
-  fr: require('@/lang/fr_FR'),
-  ru: require('@/lang/ru_RU'),
-  tr: require('@/lang/tr_TR')
-};
-// const locales = {
-//   en: import(/*webpackChunkName: "h-w1*/'@/lang/en_US'),
-//   es: import(/*webpackChunkName: "h-w1*/'@/lang/es_ES'),
-//   de: import(/*webpackChunkName: "h-w1*/'@/lang/de_DE'),
-//   fr: import(/*webpackChunkName: "h-w1*/'@/lang/fr_FR'),
-//   ru: import(/*webpackChunkName: "h-w1*/'@/lang/ru_RU'),
-//   tr: import(/*webpackChunkName: "h-w1*/'@/lang/tr_TR')
-// };
-export default locales[process.env.REACT_APP_LANG].default;
+      // const resJson = await fetch(url, {
+      //   method: 'get',
+      //   mode: 'cors',
+      //   cache: 'no-store',
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json'
+      //   }
+      // });
+      // const res = await resJson.json();
+      sessionItemRoyal.set('PHRASE_LANGUAGE', JSON.stringify(res.data));
+      phraseRet = res.data;
+    } catch (err) {
+      console.log('phrase langugage fetch error', err);
+    } finally {
+    }
+  }
+
+  const language = Object.assign(phraseRet || {});
+  return language;
+}
+
+export { getDynamicLanguage };

@@ -1,14 +1,14 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
 import { updateCustomerBaseInfo } from '@/api/user';
 import { getPrescriberByKeyWord, getPrescriberByCode } from '@/api/clinic';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
-import { withOktaAuth } from '@okta/okta-react';
+import { withOktaAuth } from '@okta/okta-react';
 
-@inject('configStore')
+@inject('configStore', 'clinicStore')
 @injectIntl
 @observer
 class ClinicEditForm extends React.Component {
@@ -21,11 +21,13 @@ class ClinicEditForm extends React.Component {
       errorMsg: '',
       form: {
         clinicName: '',
-        clinicId: ''
+        clinicId: '',
+        recommendationCode: ''
       },
       oldForm: {
         clinicName: '',
-        clinicId: ''
+        clinicId: '',
+        recommendationCode: ''
       },
       isValid: false
     };
@@ -35,11 +37,13 @@ class ClinicEditForm extends React.Component {
     const { data } = this.props;
     let form = {
       clinicName: data.clinicName,
-      clinicId: data.clinicId
+      clinicId: data.clinicId,
+      recommendationCode: data.recommendationCode || ''
     };
     let oldForm = {
       clinicName: data.clinicName,
-      clinicId: data.clinicId
+      clinicId: data.clinicId,
+      recommendationCode: data.recommendationCode || ''
     };
     this.setState({
       form: form,
@@ -52,11 +56,13 @@ class ClinicEditForm extends React.Component {
       const { data } = nextProps;
       let form = {
         clinicName: data.clinicName,
-        clinicId: data.clinicId
+        clinicId: data.clinicId,
+        recommendationCode: data.recommendationCode || ''
       };
       let oldForm = {
         clinicName: data.clinicName,
-        clinicId: data.clinicId
+        clinicId: data.clinicId,
+        recommendationCode: data.recommendationCode || ''
       };
       this.setState({
         form,
@@ -69,22 +75,38 @@ class ClinicEditForm extends React.Component {
     const { form } = this.state;
     this.setState({ loading: true });
     try {
-      const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+      const oktaTokenString =
+        this.props.authState && this.props.authState.accessToken
+          ? this.props.authState.accessToken.value
+          : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
       await updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
           defaultClinics: {
             clinicsId: form.clinicId,
-            clinicsName: form.clinicName
+            clinicsName: form.clinicName,
+            recommendationCode: form.recommendationCode || ''
           },
           oktaToken: oktaToken
         })
       );
 
       this.props.updateData(this.state.form);
+      //根据prescriber最新原则，更新账户里面的clinic信息也要更新缓存的clinic信息
+      if (
+        (form.recommendationCode !== this.state.oldForm.recommendationCode &&
+          window.__.env.REACT_APP_COUNTRY === 'de') ||
+        (form.clinicId !== this.state.oldForm.clinicId &&
+          window.__.env.REACT_APP_COUNTRY !== 'de')
+      ) {
+        this.props.clinicStore.setSelectClinicId(form.clinicId);
+        this.props.clinicStore.setSelectClinicName(form.clinicName);
+        this.props.clinicStore.setSelectClinicCode(form.recommendationCode);
+      }
       let oldForm = {
         clinicId: form.clinicId,
-        clinicName: form.clinicName
+        clinicName: form.clinicName,
+        recommendationCode: form.recommendationCode || ''
       };
       this.setState({
         // successTipVisible: true,
@@ -109,7 +131,8 @@ class ClinicEditForm extends React.Component {
       const { oldForm } = this.state;
       let form = {
         clinicId: oldForm.clinicId,
-        clinicName: oldForm.clinicName
+        clinicName: oldForm.clinicName,
+        recommendationCode: oldForm.recommendationCode || ''
       };
       this.setState({
         form,
@@ -121,7 +144,8 @@ class ClinicEditForm extends React.Component {
     const { oldForm } = this.state;
     let form = {
       clinicName: oldForm.clinicName,
-      clinicId: oldForm.clinicId
+      clinicId: oldForm.clinicId,
+      recommendationCode: oldForm.recommendationCode || ''
     };
     this.setState({
       form
@@ -132,6 +156,7 @@ class ClinicEditForm extends React.Component {
     const { form } = this.state;
     form.clinicName = data.prescriberName;
     form.clinicId = data.id;
+    form.recommendationCode = data.recommendationCode || '';
     this.setState({ form: form, isValid: !!form.clinicName });
   };
   handleClickEditBtn = () => {
@@ -149,6 +174,10 @@ class ClinicEditForm extends React.Component {
     this.changeEditFormVisible(false);
   };
   render() {
+    const {
+      configStore: { info, prescriberSelectTyped },
+      intl
+    } = this.props;
     const { editFormVisible, form, errorMsg } = this.state;
     const curPageAtCover = !editFormVisible;
     return (
@@ -156,26 +185,26 @@ class ClinicEditForm extends React.Component {
         {/* {this.state.loading ? <Loading positionAbsolute="true" /> : null} */}
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <svg
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                  style={{ width: '1.3em', height: '1.3em' }}
-                >
-                  <use xlinkHref="#iconclinic"></use>
-                </svg>
-                <FormattedMessage id="payment.clinicTitle2" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
-              >
-                <span>&larr; </span>
-                <FormattedMessage id="payment.clinicTitle2" />
-              </h5>
-            )}
+            <h5
+              className="mb-0 text-xl"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <img
+                className="account-info-icon align-middle mr-3 ml-1 inline-block"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/clinic.svg`}
+                alt="icons communication"
+                style={{ width: '1.3em', height: '1.3em' }}
+              />
+              <FormattedMessage id="account.clinicTitle2" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer text-xl"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              <FormattedMessage id="account.clinicTitle2" />
+            </h5>
 
             <FormattedMessage id="edit">
               {(txt) => (
@@ -194,7 +223,7 @@ class ClinicEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr
-            className={classNames('account-info-hr-border-color', {
+            className={classNames('account-info-hr-border-color my-4', {
               'border-0': editFormVisible
             })}
           />
@@ -242,20 +271,39 @@ class ClinicEditForm extends React.Component {
             <div className={`${editFormVisible ? '' : 'hidden'}`}>
               <SearchSelection
                 queryList={async ({ inputVal }) => {
-                  const res = await (this.props.configStore.prescriberMap
-                    ? getPrescriberByKeyWord({
-                        storeId: process.env.REACT_APP_STOREID,
-                        keyWord: inputVal
-                      })
-                    : getPrescriberByCode({
-                        storeId: process.env.REACT_APP_STOREID,
-                        code: inputVal
-                      }));
-                  return (
-                    (res.context && res.context.prescriberVo) ||
-                    []
-                  ).map((ele) =>
-                    Object.assign(ele, { name: ele.prescriberName })
+                  const param = {
+                    storeId: window.__.env.REACT_APP_STOREID,
+                    keyWord: inputVal,
+                    code: inputVal
+                  };
+
+                  const res = await (prescriberSelectTyped === 'PRESCRIBER_MAP'
+                    ? getPrescriberByKeyWord
+                    : getPrescriberByCode)(param);
+                  const prescriber =
+                    (res.context && res.context.prescriberVo) || [];
+                  if (
+                    prescriber.length === 0 &&
+                    prescriberSelectTyped === 'RECOMMENDATION_CODE'
+                  ) {
+                    this.setState({
+                      errorMsg:
+                        intl.messages['myAccount.dePrescriberCodeErrMsg']
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        errorMsg: ''
+                      });
+                    }, 3000);
+                  }
+                  return prescriber.map((ele) =>
+                    Object.assign(ele, {
+                      name: ele.prescriberName,
+                      recommendationCode:
+                        prescriberSelectTyped === 'PRESCRIBER_MAP'
+                          ? ''
+                          : inputVal
+                    })
                   );
                 }}
                 selectedItemChange={this.handleSelectedItemChange}

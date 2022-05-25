@@ -12,11 +12,6 @@
   background: url(../../assets/images/openVideo.png) center center no-repeat;
 }
 
-@media(max-width: 769px) {
-  .justify-content-center {
-    text-align: center;
-  }
-}
 .imageOutBox {
   width: 350px;
   height: 102px;
@@ -34,6 +29,10 @@
 .imageInnerBox .rc-img--square {
   margin-left: 5px;
 }
+.imageInnerBox > div {
+  width: 4rem;
+  height: 4rem;
+}
 .moveImg {
   width: 30px;
   /* height: 64px; */
@@ -42,7 +41,8 @@
   width: 414px;
   position: relative;
 }
-.rightArrow,.leftArrow {
+.rightArrow,
+.leftArrow {
   position: relative;
   top: -30px;
   cursor: pointer;
@@ -55,14 +55,14 @@
   position: absolute;
   overflow: hidden;
   width: 9000px;
-  transition: all .2s linear !important;
+  transition: all 0.2s linear !important;
 }
 .bigImageInnerBox div {
   width: 250px;
   /* height: 250px; */
   float: left;
 }
-@media(max-width: 769px) {
+@media (max-width: 769px) {
   .bigImageInnerBox div {
     width: 230px;
     height: 324px;

@@ -1,7 +1,8 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import { optimizeImage } from '@/utils/utils';
 
 export default function Help(props) {
   const { configStore } = props;
@@ -23,9 +24,9 @@ export default function Help(props) {
       </div>
       <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
         <div className="rc-margin-right--xs flex-grow-1">
-          <b>
+          <strong>
             <FormattedMessage id="help.byTelephone" />
-          </b>
+          </strong>
           <div className="children-nomargin">
             <p>{configStore.contactTimePeriod}</p>
           </div>
@@ -43,7 +44,10 @@ export default function Help(props) {
             <img
               className="ls-is-cached lazyloaded"
               alt="Par téléphone icon"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`,
+                width: 65
+              })}
             />
           </LazyLoad>
         </div>
@@ -51,7 +55,10 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`,
+                width: 65
+              })}
               alt="Par téléphone icon"
             />
           </LazyLoad>
@@ -62,16 +69,19 @@ export default function Help(props) {
         to="/help"
       >
         <div className="rc-margin-right--xs flex-grow-1">
-          <b>
+          <strong>
             <FormattedMessage id="help.byEmail" />
-          </b>
+          </strong>
           <div className="children-nomargin" />
         </div>
         <div className="rc-padding-left--xs rc-lg-up">
           <LazyLoad>
             <img
               className=" ls-is-cached lazyloaded"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`,
+                width: 65
+              })}
               alt="Par e-mail icon"
             />
           </LazyLoad>
@@ -80,7 +90,10 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`,
+                width: 65
+              })}
               alt="Par e-mail icon"
             />
           </LazyLoad>
@@ -91,9 +104,9 @@ export default function Help(props) {
         to="/faq"
       >
         <div className="rc-margin-right--xs flex-grow-1">
-          <b>
+          <strong>
             <FormattedMessage id="footer.FAQ" />
-          </b>
+          </strong>
           <div className="children-nomargin" />
         </div>
         <div className="rc-padding-left--xs rc-lg-up">
@@ -101,7 +114,10 @@ export default function Help(props) {
             <img
               className="ls-is-cached lazyloaded"
               alt="FAQ icon"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`,
+                width: 65
+              })}
             />
           </LazyLoad>
         </div>
@@ -109,7 +125,10 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`,
+                width: 65
+              })}
               alt="FAQ icon"
             />
           </LazyLoad>

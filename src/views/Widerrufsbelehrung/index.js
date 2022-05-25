@@ -3,93 +3,30 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { getFaq } from '../../api/faq';
-import { FormattedMessage } from 'react-intl';
-import Skeleton from 'react-skeleton-loader';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+@seoHoc()
 class Widerrufsbelehrung extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
-      dataFAQ: [],
       // 当前展开的FAQ
       showCur: -1,
       loading: true
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     window.scrollTo({ top: 0 });
-    getFaq({
-      language: process.env.REACT_APP_LANG,
-      storeId: process.env.REACT_APP_STOREID
-    })
-      .then((res) => {
-        this.setState(
-          {
-            dataFAQ: res.context,
-            loading: false
-          },
-          () => {
-            const widget = document.querySelector(
-              `#${this.props.match.params.catogery}`
-            );
-            if (widget) {
-              setTimeout(() => {
-                window.scrollTo({ top: widget.offsetTop - 90 });
-              });
-            }
-          }
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          loading: false
-        });
-      });
-  }
-  getElementToPageTop(el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
-  }
-  handleSelect(index) {
-    if (index === this.state.showCur) {
-      this.setState({
-        showCur: -1
-      });
-    } else {
-      this.setState({
-        showCur: index
-      });
-    }
   }
 
-  render(h) {
+  render() {
     const event = {
       page: {
         type: 'Content',
@@ -102,17 +39,12 @@ class Widerrufsbelehrung extends React.Component {
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header history={this.props.history} match={this.props.match} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
+        <Canonical />
+        <Header {...this.props} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div
@@ -166,7 +98,10 @@ class Widerrufsbelehrung extends React.Component {
                     Sie könenn dafür das Muster-Wiederrufsformular unten
                     verwenden, das jedoch nicht vorgeschrieben ist. Alternativ
                     gehen Sie bitte vor wie in Ziffer 8.3 der{` `}
-                    <Link className="rc-styled-link" to="/Terms-And-Conditions">{` allgemeinen Geschäftsbedingungen `}</Link>
+                    <Link
+                      className="rc-styled-link"
+                      to="/Terms-And-Conditions"
+                    >{` allgemeinen Geschäftsbedingungen `}</Link>
                     {` `}
                     beschrieben.{' '}
                   </p>
@@ -273,7 +208,8 @@ class Widerrufsbelehrung extends React.Component {
                     2, 50674 Köln
                   </p>
                   <p>
-                    Tel.: +49 (0) 221 937060-610, Fax: +49 (0) 221 937060-800
+                    Tel.: +49 (0) 221 937060-650, Fax: +49 (0) 221 937060-820
+                    oder per E-Mail an service.de@royalcanin.com
                   </p>
                   <p>
                     – Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*)
@@ -293,8 +229,8 @@ class Widerrufsbelehrung extends React.Component {
               </div>
             </dl>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

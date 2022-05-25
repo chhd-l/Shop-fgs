@@ -1,4 +1,5 @@
 import find from 'lodash/find';
+import { scrollIntoView } from '@/lib/scroll-to-utils';
 
 /**
  * 查找下一个最近的未complete的panel
@@ -32,45 +33,75 @@ export function isPrevReady({ list, curKey }) {
   return isReadyPrev;
 }
 
-// 滑动到视野区域内
-// export function scrollIntoView(element) {
-//   if (element) {
-//     window.scrollTo({
-//       top: getElementToPageTop(element) - 300,
-//       behavior: 'smooth'
-//     });
-//   }
-// }
-
-function getElementToPageTop(el) {
-  if (el.parentElement) {
-    return getElementToPageTop(el.parentElement) + el.offsetTop;
-  }
-  return el.offsetTop;
-}
-
-function getElementTop(element) {
-  var actualTop = element.offsetTop;
-  var current = element.offsetParent;
-
-  while (current !== null) {
-    actualTop += current.offsetTop;
-    current = current.offsetParent;
-  }
-
-  return actualTop;
-}
-
-function scrollIntoView(element) {
-  const headerElement = document.querySelector(`.rc-header__nav`);
-  if (element && headerElement) {
-    window.scroll({
-      top: getElementTop(element) - headerElement.offsetHeight,
-      behavior: 'smooth'
-    });
-  }
-}
-
 export function scrollPaymentPanelIntoView() {
   scrollIntoView(document.querySelector(`#J_checkout_panel_paymentMethod`));
+}
+
+/**
+ * 处理recomendation product参数
+ * @param {Object} ele 产品item info
+ * @returns
+ */
+export function handleRecoProductParamByItem({
+  ele,
+  paymentStore,
+  checkoutStore,
+  loginStore,
+  ...rest
+}) {
+  let recommendationInfos = {};
+  if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
+    recommendationInfos =
+      typeof ele.recommendationInfos == 'string'
+        ? JSON.parse(ele.recommendationInfos)
+        : ele.recommendationInfos;
+  }
+  const {
+    recommendationName = '',
+    recommendationId = '',
+    referenceObject = '',
+    recommenderId = '',
+    referenceData = '',
+    recommenderName = ''
+  } = recommendationInfos;
+  const referenceId = recommenderId || recommendationId;
+  let newRecommendationId =
+    ele.recommendationId == 'Felin'
+      ? 'Felin'
+      : recommendationId || ele.recommendationId || ''; // 优先去取recommendationInfos里面的recommendationId,如果是felin，特殊处理
+
+  // 把select pets info, 绑定到产品上, 封装下单参数
+  const { isLogin } = loginStore;
+  const { cartData, loginCartData } = checkoutStore;
+  const { petList, petSelectedIds } = paymentStore;
+  const auditProductIdx = (isLogin ? loginCartData : cartData).findIndex(
+    (l) => l.goodsInfoId === ele.goodsInfoId
+  );
+  const curPetInfo = petList.find(
+    (p) => p.petsId === petSelectedIds[auditProductIdx]
+  );
+
+  return {
+    //shelter和breeder产品参数 start
+    utmSource: ele.utmSource || '',
+    utmMedium: ele.utmMedium || '',
+    utmCampaign: ele.utmCampaign || '',
+    prefixFn: ele.prefixFn || '',
+    prefixBreed: ele.prefixBreed || '',
+    //shelter和breeder产品参数 end
+    referenceObject,
+    recommenderId,
+    referenceData,
+    recommenderName,
+    referenceId,
+    recommendationId: newRecommendationId,
+    recommendationName: recommendationName || ele.recommendationName || '',
+    //pet info bind start
+    petsId: curPetInfo?.petsId || '',
+    petsName: curPetInfo?.petsName || '',
+    petsType: curPetInfo?.petsType || '',
+    //pet info bind end
+    questionParams: ele.questionParams ? ele.questionParams : undefined,
+    periodTypeId: ele.periodTypeId
+  };
 }

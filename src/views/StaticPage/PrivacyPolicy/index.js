@@ -1,54 +1,20 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
 
+@seoHoc()
 class PrivacyPolicy extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    };
-  }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-  }
   render() {
     return (
       <div>
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
@@ -377,10 +343,10 @@ class PrivacyPolicy extends React.Component {
                 </p>
                 <p>
                   <LazyLoad>
-                  <img
-                    alt="logo"
-                    src="https://www.mars.com/sites/g/files/jydpyr121/files/styles/thumbnail/public/advertising-option-icon_0.png?itok=r-ki3CVH"
-                  />
+                    <img
+                      alt="rc logo"
+                      src="https://www.mars.com/sites/g/files/jydpyr121/files/styles/thumbnail/public/advertising-option-icon_0.png?itok=r-ki3CVH"
+                    />
                   </LazyLoad>
                 </p>
                 <p>
@@ -519,6 +485,13 @@ class PrivacyPolicy extends React.Component {
                     rel="nofollow"
                   >
                     Ad Choices
+                    {Boolean(
+                      window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    ) && (
+                      <span className="warning_blank">
+                        <FormattedMessage id="opensANewWindow" />
+                      </span>
+                    )}
                   </a>
                   .
                 </p>
@@ -1085,8 +1058,8 @@ class PrivacyPolicy extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

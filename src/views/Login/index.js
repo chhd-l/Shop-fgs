@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import './index.css';
 import Loading from '@/components/Loading';
@@ -59,16 +59,8 @@ class Login extends React.Component {
       loading: false
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    // console.log()
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -76,19 +68,13 @@ class Login extends React.Component {
     });
     getQuestions()
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.setState({
-            questionList: res.context
-          });
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.getDataFailed
-          );
-        }
+        this.setState({
+          questionList: res.context
+        });
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.getDataFailed
+          err.message || this.props.intl.messages.getDataFailed
         );
       });
   }
@@ -109,7 +95,9 @@ class Login extends React.Component {
     // this.inputBlur(e);
     this.setState({ loginForm: loginForm });
   }
-
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
+  }
   registerFormChange = ({ field, value }) => {
     const { registerForm } = this.state;
     registerForm[field] = value;
@@ -127,18 +115,16 @@ class Login extends React.Component {
     this.props.loginStore.removeUserInfo();
 
     const { history } = this.props;
+    let customerId = this.getUserInfo && this.getUserInfo.customerId;
     login(this.state.loginForm)
       .then((res) => {
         localItemRoyal.set('rc-token', res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
-
-        getCustomerInfo()
+        getCustomerInfo({ customerId })
           .then((customerInfoRes) => {
-            if (res.code === 'K-000000') {
-              userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
-              this.props.loginStore.setUserInfo(userinfo);
-            }
+            userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+            this.props.loginStore.setUserInfo(userinfo);
 
             history.push(
               (this.props.location.state &&
@@ -218,26 +204,16 @@ class Login extends React.Component {
 
     register(params)
       .then((res) => {
-        // debugger
-        if (res.code === 'K-000000') {
-          console.log(res);
-
-          localItemRoyal.set('rc-token', res.context.token);
-          let userinfo = res.context.customerDetail;
-          userinfo.customerAccount = res.context.accountName;
-          this.props.loginStore.setUserInfo(userinfo);
-          const { history } = this.props;
-          history.push('/account');
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.registerFailed
-          );
-        }
-        console.log(res);
+        localItemRoyal.set('rc-token', res.context.token);
+        let userinfo = res.context.customerDetail;
+        userinfo.customerAccount = res.context.accountName;
+        this.props.loginStore.setUserInfo(userinfo);
+        const { history } = this.props;
+        history.push('/account');
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.registerFailed
+          err.message || this.props.intl.messages.registerFailed
         );
       });
   };
@@ -268,7 +244,8 @@ class Login extends React.Component {
   };
 
   emailVerify = (email) => {
-    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    let reg =
+      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email);
   };
   passwordVerify = (password) => {
@@ -327,16 +304,16 @@ class Login extends React.Component {
                   type="image/svg+xml"
                 >
                   <LazyLoad>
-                  <img
-                    src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
-                    width="150"
-                    height="100"
-                    alt="Royal Canin logo"
-                    style={{
-                      backgroundImage:
-                        'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)'
-                    }}
-                  />
+                    <img
+                      src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
+                      width="150"
+                      height="100"
+                      alt="Royal Canin logo"
+                      style={{
+                        backgroundImage:
+                          'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)'
+                      }}
+                    />
                   </LazyLoad>
                 </object>
               </div>
@@ -347,15 +324,22 @@ class Login extends React.Component {
                 }}
               >
                 <div className="rc-column">
-                  <h1 className="rc-espilon imgBox">
+                  <div
+                    style={{ fontSize: '1.25rem' }}
+                    className="rc-espilon imgBox"
+                  >
                     <LazyLoad>
-                    <img src={bg1} style={{ display: 'inline' }} alt="" />
+                      <img
+                        src={bg1}
+                        style={{ display: 'inline' }}
+                        alt="login background image"
+                      />
                     </LazyLoad>
-                  </h1>
+                  </div>
                 </div>
 
                 <div className="rc-column loginForm">
-                  <h1 className="rc-espilon">
+                  <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                     <h3 style={{ fontSize: '32px' }}>
                       <span style={{ color: '#666' }}>
                         <FormattedMessage id="welcomeTo" />
@@ -456,7 +440,7 @@ class Login extends React.Component {
                                 });
                               }}
                             >
-                              <i className="icon-eye-open fa fa-eye"></i>
+                              <em className="icon-eye-open fa fa-eye"></em>
                             </span>
                           </div>
                         </div>
@@ -479,7 +463,7 @@ class Login extends React.Component {
                         style={{
                           width: '100%',
                           height: '60px',
-                          marginTop: '10px'
+                          marginTop: '.625rem'
                         }}
                       >
                         <div
@@ -496,7 +480,7 @@ class Login extends React.Component {
                           <label
                             className="rc-input__label--inline"
                             htmlFor="id-checkbox-cat"
-                            style={{ color: '#666', fontSize: '14px' }}
+                            style={{ color: '#666', fontSize: '.875rem' }}
                           >
                             <FormattedMessage id="rememberMe" />
                           </label>
@@ -506,7 +490,7 @@ class Login extends React.Component {
                           <a
                             className="rc-styled-link"
                             href="#/"
-                            style={{ color: '#666', fontSize: '14px' }}
+                            style={{ color: '#666', fontSize: '.875rem' }}
                             onClick={(e) => {
                               e.preventDefault();
                               this.setState({ type: 'forgetPassword' });
@@ -515,7 +499,7 @@ class Login extends React.Component {
                           >
                             <FormattedMessage id="forgetPassword" />
                           </a>
-                          {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
+                          {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: ".875rem" }}>
                           <FormattedMessage id="login.forgetPassword" />
                         </Link> */}
                         </p>
@@ -554,7 +538,7 @@ class Login extends React.Component {
                       </div>
                       <a
                         className="rc-styled-link"
-                        style={{ color: '#666', fontSize: '14px' }}
+                        style={{ color: '#666', fontSize: '.875rem' }}
                         onClick={() => {
                           window.location.href =
                             this.props.location.state &&
@@ -567,7 +551,7 @@ class Login extends React.Component {
                         {'>'}
                       </a>
                     </div>
-                  </h1>
+                  </div>
                 </div>
               </div>
               <div
@@ -630,17 +614,17 @@ class Login extends React.Component {
                     </aside>
                   </div>
                   <LazyLoad>
-                  <img
-                    src={bg2}
-                    className="registerImg"
-                    style={{
-                      width: '270px',
-                      position: 'absolute',
-                      bottom: '-120px',
-                      right: '-270px'
-                    }}
-                    alt=""
-                  />
+                    <img
+                      src={bg2}
+                      className="registerImg"
+                      style={{
+                        width: '270px',
+                        position: 'absolute',
+                        bottom: '-120px',
+                        right: '-270px'
+                      }}
+                      alt="login background image"
+                    />
                   </LazyLoad>
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">
@@ -761,10 +745,10 @@ class Login extends React.Component {
                             });
                           }}
                         >
-                          <i className="icon-eye-open fa fa-eye"></i>
+                          <em className="icon-eye-open fa fa-eye"></em>
                         </span>
                       </div>
-                      <p style={{ marginTop: '-20px' }}>
+                      <p style={{ marginTop: '-1.25rem' }}>
                         {' '}
                         <FormattedMessage id="login.passwordTip" />{' '}
                       </p>
@@ -801,7 +785,7 @@ class Login extends React.Component {
                             });
                           }}
                         >
-                          <i className="icon-eye-open fa fa-eye"></i>
+                          <em className="icon-eye-open fa fa-eye"></em>
                         </span>
                       </div>
                     </div>
@@ -866,7 +850,7 @@ class Login extends React.Component {
                   <label
                     className="rc-input__label--inline"
                     htmlFor="id-checkbox-cat"
-                    style={{ color: "#666", fontSize: "14px" }}
+                    style={{ color: "#666", fontSize: ".875rem" }}
                   >
                     Remember Me
                   </label>
@@ -898,6 +882,13 @@ class Login extends React.Component {
                       >
                         {' '}
                         <FormattedMessage id="userAgreement" />
+                        {Boolean(
+                          window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        ) && (
+                          <span className="warning_blank">
+                            <FormattedMessage id="opensANewWindow" />
+                          </span>
+                        )}
                       </a>
                       <FormattedMessage id="andThe" />
                       <a
@@ -906,6 +897,13 @@ class Login extends React.Component {
                         rel="nofollow"
                       >
                         <FormattedMessage id="privacyPolicy" />{' '}
+                        {Boolean(
+                          window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        ) && (
+                          <span className="warning_blank">
+                            <FormattedMessage id="opensANewWindow" />
+                          </span>
+                        )}
                       </a>
                       <FormattedMessage id="giveConsentPersonalData" />
                     </label>
@@ -954,17 +952,17 @@ class Login extends React.Component {
 
                 <div className="forgetBox" style={{ position: 'relative' }}>
                   <LazyLoad>
-                  <img
-                    src={bg2}
-                    className="registerImg"
-                    style={{
-                      width: '300px',
-                      position: 'absolute',
-                      bottom: '-120px',
-                      right: '-400px'
-                    }}
-                    alt=""
-                  />
+                    <img
+                      src={bg2}
+                      className="registerImg"
+                      style={{
+                        width: '300px',
+                        position: 'absolute',
+                        bottom: '-120px',
+                        right: '-400px'
+                      }}
+                      alt="login background image"
+                    />
                   </LazyLoad>
                   <p>
                     <FormattedMessage id="forgetPassword.forgetPasswordTip" />
@@ -1103,7 +1101,7 @@ class Login extends React.Component {
                                 })
                               }}
                             >
-                              <i className="icon-eye-open fa fa-eye"></i>
+                              <em className="icon-eye-open fa fa-eye"></em>
                             </span>
                           </div>
                         </div>
@@ -1271,11 +1269,11 @@ class Login extends React.Component {
                               })
                             }}
                           >
-                            <i className="icon-eye-open fa fa-eye"></i>
+                            <em className="icon-eye-open fa fa-eye"></em>
                           </span>
 
                         </div>
-                        <p style={{ marginTop: '-20px' }}>  <FormattedMessage id="login.passwordTip" /> </p>
+                        <p style={{ marginTop: '-1.25rem' }}>  <FormattedMessage id="login.passwordTip" /> </p>
 
                         <div className="input-append input-group miaa_input required">
                           <input
@@ -1305,7 +1303,7 @@ class Login extends React.Component {
                               })
                             }}
                           >
-                            <i className="icon-eye-open fa fa-eye"></i>
+                            <em className="icon-eye-open fa fa-eye"></em>
                           </span>
                         </div>
 
@@ -1441,8 +1439,8 @@ class Login extends React.Component {
 
                         </label>
                       </div>
-                      <div style={{ marginLeft: "20px" }}>
-                        <FormattedMessage id="requiredFields" />
+                      <div style={{ marginLeft: "1.25rem" }}>
+                        <FormattedMessage id="requiredFields2" />
                       </div>
                     </div>
 

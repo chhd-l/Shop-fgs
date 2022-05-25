@@ -2,19 +2,19 @@
   color: #333;
 }
 .recommendation h2 {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 .recommendProduct {
   width: 100%;
   padding: 50px 108px;
 }
 .recommendation .product-pricing__card__head {
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin-bottom: 0.625rem;
 }
 .recommendProduct .left {
   flex: 1;
-  border-right: 2px solid #f6f6f6 ;
+  border-right: 2px solid #f6f6f6;
 }
 .recommendProduct .right {
   flex: 4;
@@ -23,7 +23,7 @@
   width: 100%;
   height: 100%;
   display: flex;
-  box-shadow: 0px 0px 20px 20px #f6f6f6;
+  box-shadow: 0px 0px 1.25rem 1.25rem #f6f6f6;
 }
 .recommendProduct .left img {
   display: inline;
@@ -56,10 +56,10 @@
   position: relative;
   height: 100px;
   /* line-height: 80px; */
-  padding-bottom: 20px;
+  padding-bottom: 1.25rem;
 }
 .recommendProduct ul > li.active {
-  border-right: 2px solid rgba(226,0,26);
+  border-right: 2px solid rgba(226, 0, 26);
 }
 .recommendProduct ul > li.active i {
   position: absolute;
@@ -67,25 +67,25 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(226,0,26, 0.04);
+  background-color: rgba(226, 0, 26, 0.04);
 }
 .recommendProduct .right .main {
   display: flex;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
-.recommendProduct .right .main .pic{
-  padding: 10px;
+.recommendProduct .right .main .pic {
+  padding: 0.625rem;
   flex: 1;
 }
 
-.recommendProduct .right .main .text{
-  padding: 10px 40px 10px 10px;
+.recommendProduct .right .main .text {
+  padding: 0.625rem 40px 0.625rem 0.625rem;
   flex: 1;
   padding-top: 60px;
 }
 .recommendProduct .right .description {
   width: 80%;
-  margin: 10px auto;
+  margin: 0.625rem auto;
   padding: 30px;
   background-color: #f6f6f6;
 }
@@ -111,27 +111,45 @@
   text-align: center;
 }
 
-
+.jp-benefits {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.jp-benefits dl {
+  width: 200px;
+  text-align: center;
+}
+.jp-benefits dt img {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+.jp-benefits dd {
+  font-weight: 500;
+}
 
 @media (max-width: 480px) {
   .recommendation h2 {
     margin-top: 0;
   }
   .recommendation p {
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
   }
-  p > .rc-btn, p > .btn {
-      display: inline;
+  p > .rc-btn,
+  p > .btn {
+    display: inline;
   }
   .picList li > img {
     width: 107px;
     height: 47px;
   }
   .picList {
-    margin: 20px 0;
+    margin: 1.25rem 0;
   }
   .recommendProduct {
-    padding: 0 ;
+    padding: 0;
   }
   .recommendProduct .recommendProductInnerMobile ul li {
     float: left;
@@ -142,7 +160,7 @@
   }
   .recommendProduct ul > li.active {
     border-right: none;
-    border-bottom: 2px solid rgba(226,0,26);
+    border-bottom: 2px solid rgba(226, 0, 26);
   }
   .recommendProduct .top {
     text-align: center;
@@ -162,32 +180,53 @@
     padding: 0;
   }
   .recommendProduct .right .description {
-    padding: 20px;
+    padding: 1.25rem;
   }
   .recommendProduct .right .main .text {
-    padding: 0 20px;
+    padding: 0 1.25rem;
   }
   .recommendation .scrollOutBox {
     height: 100px;
   }
-  .recommendation p>.rc-btn, p>.btn {
+  .recommendation p > .rc-btn,
+  p > .btn {
     margin-right: 0;
   }
-  .recommendation p>.rc-btn+.rc-styled-link {
+  .recommendation p > .rc-btn + .rc-styled-link {
     margin-left: 0;
   }
   .recommendProduct .right .description {
     width: 90%;
   }
+
+  .jp-benefits {
+    flex-direction: column;
+  }
+  .jp-benefits dl {
+    width: 100%;
+    padding: 10px 1.25rem;
+  }
 }
 
-
-.wof{
-  display: inline-block!important;
+/* .wof {
+  display: inline-block !important;
   vertical-align: middle;
   width: 28px;
   height: 28px;
-  background: url("./images/wof.png") no-repeat;
+  background: url('./images/wof.png') no-repeat;
   background-size: 28px auto;
   background-position: center center;
+} */
+.wof {
+  display: inline-block !important;
+  vertical-align: middle;
+  /* width: 24px; */
+  /* height: 24px; */
+  /* background: url('./image/petCrew.png') no-repeat;
+  background-size: 24px auto;
+  background-position: center center; */
+}
+.wof::after {
+  content: '\e60d';
+  @apply text-rc-red text-lg;
 }

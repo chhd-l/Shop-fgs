@@ -1,11 +1,10 @@
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import React from 'react';
 import Rate from '@/components/Rate';
 import ImgUpload from '@/components/ImgUpload';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
 
-import '../index.css';
 @injectIntl
 class ReviewForm extends React.Component {
   constructor() {
@@ -90,12 +89,9 @@ class ReviewForm extends React.Component {
   render() {
     return (
       <div>
-        <div className="rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+        <div className="rc-five-column rc-padding-bottom--xs">
           <div className="rc-layout-container">
-            <div
-              className="rc-column padb0 padt0"
-              style={{ marginLeft: '-1rem' }}
-            >
+            <div className="rc-column py-0">
               <div className="">
                 <div className="rc-margin-top--xs">
                   <span className="ui-text-overflow-line2 text-break">
@@ -148,31 +144,35 @@ class ReviewForm extends React.Component {
                       onChange={(e) => this.handleTitleChange(e)}
                       onBlur={(e) => this.inputBlur(e)}
                     ></input>
-                    <label className="rc-input__label" htmlFor="reference"></label>
+                    <label
+                      className="rc-input__label"
+                      htmlFor="reference"
+                    ></label>
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="rc-column text-right padb0">
-              <div className="img-container">
+            <div className="rc-column text-right pb-0">
+              <div
+                className="inline-block"
+                style={{ width: '110px', height: '120px' }}
+              >
                 <LazyLoad>
-                <img
-                  className="product-img"
-                  src={this.props.product.pic}
-                  alt=""
-                />
+                  <img
+                    className="w-full"
+                    style={{ height: '120px' }}
+                    src={this.props.product.pic}
+                    alt="product image"
+                  />
                 </LazyLoad>
               </div>
             </div>
           </div>
           <div className="">
-            <div
-              className="rc-column padt0 padb0"
-              style={{ marginLeft: '-1rem' }}
-            >
+            <div>
               <FormattedMessage id="writeYourReview" />
-              <div className="padt20">
+              <div className="pt-2.5">
                 <span
                   className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                   input-setup="true"
@@ -201,8 +201,8 @@ class ReviewForm extends React.Component {
             </div>
           </div>
 
-          <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column mb-3" style={{ marginLeft: '-1rem' }}>
+          <div className="rc-layout-container rc-one-column pt-0">
+            <div className="rc-column mb-3">
               <div
                 className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                   this.state.errMessage ? null : 'hidden'
@@ -229,11 +229,12 @@ class ReviewForm extends React.Component {
               />
             </div>
           </div>
-          <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column padt0" style={{ marginLeft: '-1rem' }}>
-              <label>
+          <div className="rc-layout-container rc-one-column pt-0">
+            <div className="rc-column pt-0">
+              <label htmlFor="isAnonymous">
                 <input
                   name="isAnonymous"
+                  id="isAnonymous"
                   type="checkbox"
                   checked={
                     this.props.product.isAnonymous

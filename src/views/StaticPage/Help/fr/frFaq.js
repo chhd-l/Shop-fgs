@@ -1,56 +1,30 @@
 import React, { Component } from 'react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href;
-
+@seoHoc('Contact Us Page')
 class FrFaq extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Contact Us Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   render() {
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
+        <Canonical />
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-          <div className="rc-layout-container rc-five-column rc-match-heights text-center text-md-left">
+          <div className="rc-layout-container rc-five-column rc-match-heights text-center md:text-left">
             <div className="rc-column rc-triple-width">
               <div
                 className="background-cover"
                 style={{
-                  backgroundImage: `url(${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg)`
+                  backgroundImage: `url(${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg)`
                 }}
               >
                 <picture className="rc-card__image">
                   <LazyLoad>
                     <img
                       className=" lazyloaded"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg`}
+                      alt="help icon"
                     />
                   </LazyLoad>
                 </picture>
@@ -63,17 +37,18 @@ class FrFaq extends Component {
                     <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                       <p>
                         {`Vous pouvez également consulter notre rubrique `}
-                        <a
+                        <DistributeHubLinkOrATag
                           style={{
                             textDecoration: 'underline',
                             color: 'rgb(236,0,26)',
                             backgroundColor: 'rgb(255,255,255)',
                             padding: '0 3px'
                           }}
-                          href={`${process.env.REACT_APP_ACCESS_PATH}faq`}
+                          to="/faq"
+                          href="/about-us/faqs"
                         >
                           FAQ
-                        </a>
+                        </DistributeHubLinkOrATag>
                         qui vous apportera de nombreuses réponses.
                       </p>
                     </div>
@@ -81,7 +56,8 @@ class FrFaq extends Component {
                       <LazyLoad>
                         <img
                           className="lazyloaded"
-                          src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@90.jpg`}
+                          src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@90.jpg`}
+                          alt="faq icon"
                         />
                       </LazyLoad>
                     </div>

@@ -4,32 +4,13 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { inject, observer } from 'mobx-react';
-import Carouselem from '@/components/Carouselem';
 import LazyLoad from 'react-lazyload';
+import ProductCarousel from '@/components/ProductCarousel';
 import { list1, list2, list3, list4 } from './goods';
 import { Link } from 'react-router-dom';
-const localItemRoyal = window.__.localItemRoyal;
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class PromotionRefuge extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sourceParam: ''
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      sourceParam: this.props.location.search
-    });
-  }
-
   render(h) {
     const event = {
       page: {
@@ -41,16 +22,14 @@ class PromotionRefuge extends React.Component {
         type: 'Other'
       }
     };
+    const { sourceParam } = this.props.location.search;
     return (
       <div className="recommendation">
-        <GoogleTagManager additionalEvents={event} />
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -68,7 +47,7 @@ class PromotionRefuge extends React.Component {
                                 className="w-100 lazyloaded"
                                 alt="Adoption dans les refuges "
                                 title="Adoption dans les refuges "
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Shelterspromo_fr.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Shelterspromo_fr.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -141,15 +120,15 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Choisissez l’aliment le plus adapté à votre chaton
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list1}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2 px-md-0">
+                          <ProductCarousel
+                            goodsList={list1}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Choisissez l’aliment le plus adapté à votre
+                                chaton
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
@@ -164,15 +143,14 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco ">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Les besoins spécifiques de votre chat
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list2}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2">
+                          <ProductCarousel
+                            goodsList={list2}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Les besoins spécifiques de votre chat
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
@@ -187,15 +165,16 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Choisissez l’aliment le plus adapté à votre chien
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list3}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2">
+                          <div className="rc-margin-bottom--sm rc-padding--none"></div>
+                          <ProductCarousel
+                            goodsList={list3}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Choisissez l’aliment le plus adapté à votre
+                                chien
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
@@ -210,15 +189,14 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Les besoins spécifiques de votre chien
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list4}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2">
+                          <ProductCarousel
+                            goodsList={list4}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Les besoins spécifiques de votre chien
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
@@ -245,7 +223,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Sachet Royal Canin"
                                 title="Sachet Royal Canin"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -269,7 +247,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Expédition automatique"
                                 title="Expédition automatique"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -293,7 +271,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Livraison simplifiée"
                                 title="Livraison simplifiée"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -314,7 +292,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Abonnement flexible"
                                 title="Abonnement flexible"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -355,7 +333,7 @@ class PromotionRefuge extends React.Component {
                           <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                             <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                               <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                                <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                                <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                   <div>
                                     <b style={{ color: '#00A4A6' }}>
                                       Par téléphone
@@ -383,7 +361,7 @@ class PromotionRefuge extends React.Component {
                                       className="align-self-center widthAuto lazyloaded"
                                       alt="Par téléphone"
                                       title="Par téléphone"
-                                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service100@2x.png`}
+                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service100@2x.png`}
                                     />
                                   </LazyLoad>
                                 </div>
@@ -395,7 +373,7 @@ class PromotionRefuge extends React.Component {
                           <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                             <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                               <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                                <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                                <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                   <div>
                                     <b style={{ color: '#00A4A6' }}>Par mail</b>
                                     <p>
@@ -418,7 +396,7 @@ class PromotionRefuge extends React.Component {
                                       className="align-self-center widthAuto lazyloaded"
                                       alt="Par mail"
                                       title="Par mail"
-                                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon100@2x.png`}
+                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon100@2x.png`}
                                     />
                                   </LazyLoad>
                                 </div>
@@ -430,14 +408,14 @@ class PromotionRefuge extends React.Component {
                           <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                             <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                               <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                                <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                                <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                   <div>
                                     <b style={{ color: '#00A4A6' }}>
                                       Des questions?
                                     </b>
                                     <p>
                                       {`Vous pouvez également consulter notre rubrique `}
-                                      <Link
+                                      {/* <Link
                                         to="/faq"
                                         style={{
                                           backgroundColor: 'white',
@@ -445,7 +423,17 @@ class PromotionRefuge extends React.Component {
                                         }}
                                       >
                                         FAQ
-                                      </Link>
+                                      </Link> */}
+                                      <DistributeHubLinkOrATag
+                                        style={{
+                                          backgroundColor: 'white',
+                                          color: 'rgb(236,0,26)'
+                                        }}
+                                        to="/faq"
+                                        href="/about-us/faqs"
+                                      >
+                                        FAQ
+                                      </DistributeHubLinkOrATag>
                                       qui vous apportera de nombreuses réponses.
                                     </p>
                                   </div>
@@ -454,9 +442,9 @@ class PromotionRefuge extends React.Component {
                                   <LazyLoad>
                                     <img
                                       className="align-self-center widthAuto lazyloaded"
-                                      alt="FAQ"
+                                      alt="FAQ image"
                                       title="FAQ"
-                                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon100@2x.png`}
+                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon100@2x.png`}
                                     />
                                   </LazyLoad>
                                 </div>
@@ -471,8 +459,8 @@ class PromotionRefuge extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

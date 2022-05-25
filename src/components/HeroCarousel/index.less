@@ -11,15 +11,15 @@
     }
   }
   
-  .slick-slide {
-    font-size: 0;
-  }
+  // .slick-slide {
+  //   font-size: 0;
+  // }
   
   .rc-carousel__direction::before {
     display: none;
   }
   .slick-dots {
-    bottom: 1.5rem;
+    bottom: 0;
   }
   .icon-direction {
     color: #767676;
@@ -51,8 +51,8 @@
       font-size: 0;
       line-height: 0;
       display: block;
-      width: 20px;
-      height: 20px;
+      width: 1.25rem;
+      height: 1.25rem;
       padding: 5px;
       cursor: pointer;
       color: transparent;
@@ -63,14 +63,14 @@
         color: #f6f6f6;
         opacity: 1;
         // font-family: 'slick';
-        font-size: 6px;
-        line-height: 20px;
+        // font-size: 6px;
+        line-height: 1.25rem;
         position: absolute;
         top: 0;
         left: 0;
         width: 7px;
         height: 7px;
-        content: '•';
+        content: "\2022" !important;
         text-align: center;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;      
@@ -88,5 +88,5 @@
     margin-top: 110px;
   }
   .mt-20{
-    margin-top: -20px;
+    margin-top: -1.25rem;
   }

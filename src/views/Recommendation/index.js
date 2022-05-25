@@ -3,7 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -23,14 +23,13 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import {
   formatMoney,
   getDeviceType,
-  setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
@@ -39,18 +38,23 @@ import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 import './index.less';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
-@inject('configStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'clinicStore',
+  'clinicStore',
+  'configStore'
+)
 @injectIntl
+@seoHoc('SPT reco landing page')
 @observer
 class Help extends React.Component {
   constructor(props) {
@@ -66,11 +70,6 @@ class Help extends React.Component {
         goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: []
-      },
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
       },
       productList: [],
       currentDetail: {},
@@ -105,15 +104,8 @@ class Help extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  async componentDidMount() {
-    setSeoConfig({
-      pageName: 'SPT reco landing page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
+  componentWillUnmount() {}
+  componentDidMount() {
     this.setState({
       loading: true
     });
@@ -168,10 +160,15 @@ class Help extends React.Component {
         this.setState({ productList }, () => {
           this.checkoutStock();
         });
-        getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
-          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-          this.props.clinicStore.setAuditAuthority(res.context.auditAuthority);
+        getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
+          this.props.clinicStore.setLinkClinicId(
+            res2.context?.id || res2.context.prescriberId
+          );
+          this.props.clinicStore.setLinkClinicName(res2.context.prescriberName);
+          this.props.clinicStore.setLinkClinicCode(
+            res2.context?.recommendationCode || ''
+          );
+          this.props.clinicStore.setAuditAuthority(res2.context.auditAuthority);
           this.setState({ prescriberInfo: res.context, loading: false });
         });
       })
@@ -181,12 +178,8 @@ class Help extends React.Component {
       });
   }
   checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -198,7 +191,7 @@ class Help extends React.Component {
     }
     // console.log(inStockProducts, 'instock');
     let outOfStockVal = '';
-    outOfStockProducts.map((el, i) => {
+    outOfStockProducts.forEach((el, i) => {
       if (i === outOfStockProducts.length - 1) {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName;
       } else {
@@ -216,12 +209,8 @@ class Help extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     // console.log(outOfStockProducts, inStockProducts, '...1')
 
     if (outOfStockProducts.length > 0) {
@@ -234,9 +223,14 @@ class Help extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 0,
+            //推荐链接购买商品，推荐者信息跟着商品走
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationName: this.props.clinicStore.linkClinicName
           });
-          await this.props.checkoutStore.updateLoginCart();
+          await this.props.checkoutStore.updateLoginCart({
+            intl: this.props.intl
+          });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -244,7 +238,16 @@ class Help extends React.Component {
       this.props.history.push('/cart');
     }
   }
-  async hanldeUnloginAddToCart(products, path) {
+  async hanldeUnloginAddToCart({ productList: products, url: path }) {
+    const {
+      checkoutStore,
+      clinicStore,
+      loginStore,
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
+    let retPath = path;
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
 
@@ -289,18 +292,21 @@ class Help extends React.Component {
         selected: true,
         quantity: quantityNew,
         goodsInfoFlag: 0,
-        periodTypeId: null
+        periodTypeId: null,
+        //推荐链接购买商品，推荐者信息跟着商品走
+        recommendationId: this.props.clinicStore.linkClinicId,
+        recommendationName: this.props.clinicStore.linkClinicName
       });
       // console.log(idx, 'idx');
       if (idx > -1) {
         cartDataCopy.splice(idx, 1, tmpData);
       } else {
-        if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
+        if (cartDataCopy.length >= skuLimitThreshold.skuItemMaxNum) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorMaxCate"
-                values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+                values={{ val: skuLimitThreshold.skuItemMaxNum }}
               />
             )
           });
@@ -309,9 +315,21 @@ class Help extends React.Component {
         cartDataCopy.push(tmpData);
       }
       // console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: cartDataCopy,
+        intl: this.props.intl
+      });
     }
-    this.props.history.push(path);
+
+    if (retPath === '/checkout') {
+      retPath = await distributeLinktoPrecriberOrPaymentPage({
+        configStore: this.props.configStore,
+        checkoutStore,
+        clinicStore,
+        isLogin: loginStore.isLogin
+      });
+    }
+    this.props.history.push(retPath);
   }
   showErrorMsg = (msg) => {
     this.setState({
@@ -331,32 +349,18 @@ class Help extends React.Component {
   async buyNow(needLogin) {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+      localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     let totalPrice;
-    inStockProducts.map((el) => {
+    inStockProducts.forEach((el) => {
       // console.log(el, 'instock');
       totalPrice =
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       return el;
     });
-    if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      // console.log(totalPrice, 'instock');
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
     if (outOfStockProducts.length > 0) {
       sessionItemRoyal.set(
         'recommend_product',
@@ -365,61 +369,51 @@ class Help extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[1] });
       return false;
     } else {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await sitePurchase({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 0
-          });
-          await checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
-      let res = await getProductPetConfig({
-        goodsInfos: inStockProducts.map((el) => {
+      //游客直接购买调用sitePurchase加入后台购物车会报K-000002的错误
+      // for (let i = 0; i < inStockProducts.length; i++) {
+      //   try {
+      //     await sitePurchase({
+      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+      //       goodsNum: inStockProducts[i].recommendationNumber,
+      //       goodsCategory: '',
+      //       goodsInfoFlag: 0
+      //     });
+      //     await checkoutStore.updateLoginCart();
+      //   } catch (e) {
+      //     this.setState({ buttonLoading: false });
+      //   }
+      // }
+      if (loginStore.isLogin) {
+      } else {
+        inStockProducts.forEach((el) => {
           el.goodsInfo.buyCount = el.recommendationNumber;
           return el.goodsInfo;
-        })
-      });
-      // let handledData = inStockProducts.map((el, i) => {
-      //   el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-      //   el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-      //   el.sizeList = el.goodsInfo.goods.sizeList
-      //   return el;
-      // });
-      let handledData = res.context.goodsInfos;
-      let AuditData = handledData.filter((el) => el.auditCatFlag);
-      checkoutStore.setAuditData(AuditData);
-      let autoAuditFlag = res.context.autoAuditFlag;
-      checkoutStore.setPetFlag(res.context.petFlag);
-      checkoutStore.setAutoAuditFlag(autoAuditFlag);
-      sessionItemRoyal.set(
-        'recommend_product',
-        JSON.stringify(inStockProducts)
-      );
-      if (!needLogin) {
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore: this.props.configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: loginStore.isLogin
         });
-        url && history.push(url);
-        // history.push('/prescription');
+      }
+
+      // 会员跳转/cart；游客跳转/checkout, 并缓存cartData数据
+      if (loginStore.isLogin) {
+        await this.hanldeLoginAddToCart();
+      } else {
+        sessionItemRoyal.set(
+          'recommend_product',
+          JSON.stringify(inStockProducts)
+        );
+        if (!needLogin) {
+          await this.hanldeUnloginAddToCart({
+            productList: this.state.productList,
+            url: '/checkout'
+          });
+          // url && history.push(url);
+          // history.push('/prescription');
+        }
       }
     }
   }
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
+    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
+      this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -430,7 +424,7 @@ class Help extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart();
+          await checkoutStore.updateLoginCart({ intl: this.props.intl });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -449,7 +443,17 @@ class Help extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
-      const url = distributeLinktoPrecriberOrPaymentPage({
+
+      inStockProducts.forEach((el) => {
+        el.goodsInfo.buyCount = el.recommendationNumber;
+        return el.goodsInfo;
+      });
+      loginStore.isLogin
+        ? checkoutStore.setLoginCartData(inStockProducts)
+        : checkoutStore.setCartData(inStockProducts);
+      // todo 去掉未缺货产品，正常产品添加购物车有问题，需参考未缺货情况添加购物车
+
+      const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
         checkoutStore,
         clinicStore,
@@ -460,7 +464,7 @@ class Help extends React.Component {
     }
   }
   render(h) {
-    const { loginStore, history, configStore } = this.props;
+    const { loginStore, intl, configStore } = this.props;
     const event = {
       page: {
         type: 'Content',
@@ -514,11 +518,11 @@ class Help extends React.Component {
     let cur_recommendation2 = recommendation2;
     let cur_recommendation3 = recommendation3;
     let cur_recommendation4 = recommendation4;
-    if (process.env.REACT_APP_LANG === 'de') {
+    if (window.__.env.REACT_APP_COUNTRY === 'de') {
       cur_recommendation2 = de_recommendation2;
       cur_recommendation3 = de_recommendation3;
       cur_recommendation4 = de_recommendation4;
-    } else if (process.env.REACT_APP_LANG === 'es') {
+    } else if (window.__.env.REACT_APP_COUNTRY === 'mx') {
       cur_recommendation2 = mx_recommendation2;
       cur_recommendation3 = mx_recommendation3;
       cur_recommendation4 = mx_recommendation4;
@@ -526,23 +530,12 @@ class Help extends React.Component {
 
     return (
       <div className="recommendation recommendation_new">
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"
           needLogin={this.state.needLogin}
@@ -566,7 +559,7 @@ class Help extends React.Component {
             }`}
             style={{
               width: '50%',
-              margin: '20px auto 0'
+              margin: '1.25rem auto 0'
             }}
           >
             <aside
@@ -576,7 +569,7 @@ class Help extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <section className="text-center">
+          <section className="text-center px-2 md:px-0">
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
             </h2>
@@ -596,7 +589,10 @@ class Help extends React.Component {
                   if (loginStore.isLogin) {
                     this.hanldeLoginAddToCart();
                   } else {
-                    this.hanldeUnloginAddToCart(productList, '/cart');
+                    this.hanldeUnloginAddToCart({
+                      productList: productList,
+                      url: '/cart'
+                    });
                   }
                 }}
               >
@@ -606,7 +602,7 @@ class Help extends React.Component {
           </section>
 
           {/* 商品信息 begin */}
-          <section className="rc-layout-container rc-three-column recommendProduct re-custom">
+          <section className="rc-layout-container rc-three-column recommendProduct re-custom p-0 md:py-12	md:px-28">
             {this.state.loading ? (
               <Skeleton color="#f5f5f5" width="100%" height="100%" count="3" />
             ) : getDeviceType() === 'PC' ? (
@@ -617,7 +613,7 @@ class Help extends React.Component {
                     <div className="rc-column d-flex rdt-left-box">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         <div className={`rc-full-width`}>
-                          <div className="d-flex justify-content-center ui-margin-top-1-md-down">
+                          <div className="d-flex ui-margin-top-1-md-down text-center md:text-left">
                             {
                               <div className="details-img-container">
                                 <ImageMagnifier
@@ -652,7 +648,7 @@ class Help extends React.Component {
                           style={{
                             color: '#E2001A',
                             marginTop: '50px',
-                            marginBottom: '10px'
+                            marginBottom: '.625rem'
                           }}
                         >
                           {productList[activeIndex].goodsInfo.goodsInfoName}
@@ -672,7 +668,7 @@ class Help extends React.Component {
                               style={{
                                 flex: 3,
                                 fontWeight: '200',
-                                fontSize: '20px'
+                                fontSize: '1.25rem'
                               }}
                             >
                               {MaxLinePrice > 0 ? (
@@ -700,7 +696,7 @@ class Help extends React.Component {
                             style={{
                               flex: 3,
                               fontWeight: '200',
-                              fontSize: '20px'
+                              fontSize: '1.25rem'
                             }}
                           >
                             {/* {MaxMarketPrice > 0 ? (
@@ -734,7 +730,7 @@ class Help extends React.Component {
                               style={{
                                 flex: 3,
                                 fontWeight: '200',
-                                fontSize: '20px'
+                                fontSize: '1.25rem'
                               }}
                             >
                               {MaxSubPrice > 0 ? (
@@ -775,19 +771,19 @@ class Help extends React.Component {
                       <div className="rc-column description">
                         <LazyLoad>
                           <img
-                            alt=""
+                            alt="store logo"
                             src={storeLogo}
                             style={{
                               float: 'left',
                               width: '60px',
-                              marginRight: '20px'
+                              marginRight: '1.25rem'
                             }}
                           />
                         </LazyLoad>
                         <div className="des-content">
                           <p
                             style={{
-                              fontSize: '16px',
+                              fontSize: '1rem',
                               color: '#333333',
                               fontWeight: '500',
                               letterSpacing: '0'
@@ -797,7 +793,7 @@ class Help extends React.Component {
                           </p>
                           <p
                             style={{
-                              fontSize: '12px',
+                              fontSize: '.75rem',
                               letterSpacing: '0'
                             }}
                           >
@@ -813,7 +809,7 @@ class Help extends React.Component {
                           </p>
                           <p
                             style={{
-                              fontSize: '12px',
+                              fontSize: '.75rem',
                               letterSpacing: '0'
                             }}
                           >
@@ -840,10 +836,10 @@ class Help extends React.Component {
                             onClick={() => this.setState({ activeIndex: i })}
                             className={`${i === activeIndex ? 'active' : ''}`}
                           >
-                            <i></i>
+                            <em></em>
                             <LazyLoad>
                               <img
-                                alt=""
+                                alt="goods information image"
                                 src={
                                   el.goodsInfo.goodsInfoImg ||
                                   el.goodsInfo.goods.goodsImg
@@ -854,7 +850,7 @@ class Help extends React.Component {
                               style={{
                                 verticalAlign: 'middle',
                                 textAlign: 'left',
-                                padding: '15px 10px 10px 70px',
+                                padding: '.9375rem .625rem .625rem 70px',
                                 flexWrap: 'wrap'
                               }}
                             >
@@ -902,14 +898,14 @@ class Help extends React.Component {
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
-                            history={history}
+                            intl={intl}
                           >
                             <FormattedMessage id="checkout" />
                           </LoginButton>
                         )}
                       </div>
                       {!loginStore.isLogin && (
-                        <div style={{ width: '100%', marginTop: '10px' }}>
+                        <div style={{ width: '100%', marginTop: '.625rem' }}>
                           <button
                             className={`rc-styled-link color-999`}
                             onClick={() => {
@@ -933,7 +929,7 @@ class Help extends React.Component {
                     <div
                       style={{
                         width: '100%',
-                        padding: '0 32px 20px 0px',
+                        padding: '0 32px 1.25rem 0px',
                         textAlign: 'left',
                         fontWeight: '500'
                       }}
@@ -945,10 +941,10 @@ class Help extends React.Component {
                         {productList.map((el, i) => (
                           // <li onClick={() => this.setState({ activeIndex: i })} className={`${i === activeIndex ? 'active' : ''}`}>
                           <li onClick={() => this.setState({ activeIndex: i })}>
-                            <i></i>
+                            <em></em>
                             <LazyLoad>
                               <img
-                                alt=""
+                                alt="goods information image"
                                 src={
                                   el.goodsInfo.goodsInfoImg ||
                                   el.goodsInfo.goods.goodsImg
@@ -981,7 +977,7 @@ class Help extends React.Component {
                                     style={{
                                       flex: 3,
                                       fontWeight: '200',
-                                      fontSize: '20px'
+                                      fontSize: '1.25rem'
                                     }}
                                   >
                                     {MaxLinePrice > 0 ? (
@@ -1089,14 +1085,14 @@ class Help extends React.Component {
                                   ? ''
                                   : 'rc-btn-solid-disabled'
                               }`}
-                              history={history}
+                              intl={intl}
                             >
                               <FormattedMessage id="checkout" />
                             </LoginButton>
                           )}
                         </div>
                         {!loginStore.isLogin && (
-                          <div style={{ width: '100%', marginTop: '20px' }}>
+                          <div style={{ width: '100%', marginTop: '1.25rem' }}>
                             <button
                               className={`rc-styled-link color-999`}
                               onClick={() => {
@@ -1112,19 +1108,19 @@ class Help extends React.Component {
                         <div className="rec-other-info">
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="store logo"
                               src={storeLogo}
                               style={{
                                 float: 'left',
                                 width: '60px',
-                                marginRight: '20px'
+                                marginRight: '1.25rem'
                               }}
                             />
                           </LazyLoad>
                           <div className="des-content">
                             <p
                               style={{
-                                fontSize: '18px',
+                                fontSize: '1.125rem',
                                 color: '#333333',
                                 fontWeight: '500',
                                 letterSpacing: '0'
@@ -1134,7 +1130,7 @@ class Help extends React.Component {
                             </p>
                             <p
                               style={{
-                                fontSize: '12px',
+                                fontSize: '.75rem',
                                 letterSpacing: '0'
                               }}
                             >
@@ -1150,7 +1146,7 @@ class Help extends React.Component {
                             </p>
                             <p
                               style={{
-                                fontSize: '12px',
+                                fontSize: '.75rem',
                                 letterSpacing: '0'
                               }}
                             >
@@ -1190,12 +1186,16 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={recommendation1} style={{ width: '100%' }} alt="" />
+                <img
+                  src={recommendation1}
+                  style={{ width: '100%' }}
+                  alt="recommendation image"
+                />
               </LazyLoad>
             </div>
           </div>
           <div className="help-page" style={{ marginBottom: '1rem' }}>
-            <section style={{ textAlign: 'center' }}>
+            <section className="text-center px-2 md:px-0">
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
                 <FormattedMessage id="recommendation.thirdTitle" />
               </h2>
@@ -1210,7 +1210,7 @@ class Help extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
+                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center md:text-left rc-margin-top--lg--mobile">
                             {/* <div className="rc-padding-bottom--none--mobile" style={{ width: '40%' }}>
                               <h1 className="rc-beta" style={{ margin: '0 0 0 1rem' }}>
                                 <font style={{ verticalAlign: "inherit" }}>
@@ -1226,7 +1226,7 @@ class Help extends React.Component {
                               </div>
                             </div> */}
                           </div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                             <div className="rc-column rc-double-width rc-padding--none">
                               <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                                 <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -1325,7 +1325,7 @@ class Help extends React.Component {
                                     <img
                                       className="w-100"
                                       src={helpImg}
-                                      alt=""
+                                      alt="help-icon"
                                       title=""
                                     />
                                   </LazyLoad>
@@ -1356,17 +1356,29 @@ class Help extends React.Component {
           >
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation2} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation2}
+                  alt="recommendation image"
+                />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation3} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation3}
+                  alt="recommendation image"
+                />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation4} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation4}
+                  alt="recommendation image"
+                />
               </LazyLoad>
             </li>
           </section>
@@ -1378,9 +1390,8 @@ class Help extends React.Component {
               <FormattedMessage id="recommendation.fiveContent" />
             </p>
           </section>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }

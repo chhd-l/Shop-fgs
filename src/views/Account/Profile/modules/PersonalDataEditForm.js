@@ -1,21 +1,26 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
-import findIndex from 'lodash/findIndex';
-import CitySearchSelection from '@/components/CitySearchSelection';
+import { inject, observer } from 'mobx-react';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
+import ValidationAddressModal from '@/components/validationAddressModal';
+import Loading from '@/components/Loading';
+import { AddressForm } from '@/components/Address';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
-import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
-import { updateCustomerBaseInfo } from '@/api/user';
-import Selection from '@/components/Selection';
-import DatePicker from 'react-datepicker';
+import { validData, handleDateForIos } from '@/utils/utils';
+import { updateCustomerBaseInfo, getCustomerInfo } from '@/api/user';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
 import classNames from 'classnames';
-import { withOktaAuth } from '@okta/okta-react';
-
+import { withOktaAuth } from '@okta/okta-react';
+import { myAccountActionPushEvent } from '@/utils/GA';
+import { format } from 'date-fns';
 @injectIntl
+@inject('loginStore')
+@observer
 class PersonalDataEditForm extends React.Component {
   static defaultProps = {
-    originData: null
+    originData: null,
+    editFormVisible: false,
+    personalDataIsEdit: false,
+    updateIsEditFlag: () => {}
   };
   constructor(props) {
     super(props);
@@ -24,46 +29,61 @@ class PersonalDataEditForm extends React.Component {
       loading: false,
       successTipVisible: false,
       errorMsg: '',
+      successMsg: '',
       form: {
         firstName: '',
         lastName: '',
         birthdate: '',
         email: '',
+        countryId: '',
         country: '',
+        provinceNo: '',
+        provinceId: '',
+        province: '',
+        city: '',
+        cityId: '',
+        area: '',
+        areaId: '',
         phoneNumber: '',
         rfc: '',
         address1: '',
         address2: '',
-        postCode: '',
-        city: ''
+        postCode: ''
       },
       oldForm: {},
-      countryList: [],
+      provinceList: [], // 省份列表
       isValid: false,
-      errMsgObj: {}
+      errMsgObj: {},
+      formAddressValid: false,
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
+      selectValidationOption: 'suggestedAddress'
     };
     this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
       this
     );
   }
   componentDidMount() {
-    const { data } = this.props;
+    const { data, editFormVisible } = this.props;
+
     this.setState(
       {
-        form: Object.assign({}, data, {
-          birthdate: format(new Date(), 'yyyy-MM-dd')
-        }),
-        oldForm: Object.assign({}, data)
+        form: Object.assign({}, data),
+        oldForm: Object.assign({}, data),
+        editFormVisible
       },
       () => {
         this.validFormData();
       }
     );
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
+
+    // 如果是编辑成功后返回，显示成功提示
+    if (this.props.personalDataIsEdit) {
+      this.showSuccessMsg();
+    }
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   handleInputChange = (e) => {
     const target = e.target;
@@ -73,7 +93,7 @@ class PersonalDataEditForm extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+    if (name === 'phoneNumber' && window.__.env.REACT_APP_COUNTRY === 'fr') {
       value = value.replace(/^[0]/, '+(33)');
     }
     form[name] = value;
@@ -83,12 +103,17 @@ class PersonalDataEditForm extends React.Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { errMsgObj } = this.state;
     const target = e.target;
     const targetRule = PRESONAL_INFO_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [target.name]: ''
@@ -102,6 +127,7 @@ class PersonalDataEditForm extends React.Component {
       });
     }
   };
+  // 错误消息
   showErrMsg(msg) {
     this.setState({
       errorMsg: msg
@@ -116,6 +142,20 @@ class PersonalDataEditForm extends React.Component {
       });
     }, 5000);
   }
+  // 成功消息
+  showSuccessMsg() {
+    this.setState({
+      successTipVisible: true
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        successTipVisible: false
+      });
+      this.props.updateIsEditFlag(false);
+    }, 5000);
+  }
+  // 取消编辑按钮
   handleCancel = () => {
     const { oldForm } = this.state;
     this.setState({
@@ -128,139 +168,245 @@ class PersonalDataEditForm extends React.Component {
       behavior: 'smooth'
     });
   };
+
   changeEditFormVisible = (status) => {
     this.setState({ editFormVisible: status });
     this.props.updateEditOperationPanelName(status ? 'My account' : '');
   };
-  handleSave = async () => {
+
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    if (data && data?.address1 != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.showNextPanel();
+    }
+  };
+  // 确认选择地址,切换到下一个最近的未complete的panel
+  confirmValidationAddress() {
+    const { form, selectValidationOption, validationAddress } = this.state;
+    let oldForm = JSON.parse(JSON.stringify(form));
+    let theform = [];
+    if (selectValidationOption == 'suggestedAddress') {
+      form.address1 = validationAddress.address1;
+      form.city = validationAddress.city;
+      form.postCode = validationAddress.postalCode;
+
+      form.province = validationAddress.provinceCode;
+      form.provinceId = validationAddress.provinceId
+        ? validationAddress.provinceId
+        : form.provinceId;
+
+      // 地址校验返回参数
+      form.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, form);
+    } else {
+      theform = JSON.parse(JSON.stringify(oldForm));
+    }
+    this.setState(
+      {
+        form: Object.assign({}, theform)
+      },
+      () => {
+        // 下一步
+        this.showNextPanel();
+      }
+    );
+  }
+  // 保存数据
+  handleSave = () => {
+    // 不校验地址，进入下一步
+    this.showNextPanel();
+  };
+  // 显示下一步操作
+  showNextPanel = async () => {
+    this.setState({
+      validationModalVisible: false
+    });
     try {
       const { form } = this.state;
       this.setState({ loading: true });
-      const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+      const oktaTokenString = this.props.authState?.accessToken?.value || '';
       let oktaToken = 'Bearer ' + oktaTokenString;
-      let param = Object.assign({}, this.props.originData, {
+      let mydata = {
         firstName: form.firstName,
         lastName: form.lastName,
         email: form.email,
         birthDay: form.birthdate
-          ? form.birthdate.split('/').join('-')
-          : form.birthdate,
-        countryId: form.country,
+          ? format(new Date(handleDateForIos(form.birthdate)), 'yyyy-MM-dd')
+          : '',
+        countryId: form.countryId,
+        country: form.country,
+        county: form?.county,
         contactPhone: form.phoneNumber,
         reference: form.rfc,
         address1: form.address1,
         address2: form.address2,
         postalCode: form.postCode,
-        cityId: form.city,
+        city: form.city,
+        cityId: form.cityId,
+        area: form.area,
+        areaId: form.areaId,
+        entrance: form.entrance,
+        apartment: form.apartment,
         communicationEmail: form.communicationEmail,
         communicationPhone: form.communicationPhone,
         oktaToken: oktaToken
-      });
+      };
+      if (window.__.env.REACT_APP_COUNTRY === 'us') {
+        mydata.province = form.province;
+        mydata.provinceId = form.provinceId;
+      }
+      //日本
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        mydata.province = form.province;
+        mydata.provinceId = form.provinceId;
+        mydata.region = form.region;
+        mydata.firstNameKatakana = form.firstNameKatakana;
+        mydata.lastNameKatakana = form.lastNameKatakana;
+      }
+      let param = Object.assign({}, this.props.originData, mydata);
 
       await updateCustomerBaseInfo(param);
+
+      const customerId = this.userInfo && this.userInfo.customerId;
+      let res = await getCustomerInfo({ customerId });
+
+      const context = res.context;
+      this.props.loginStore.setUserInfo(context);
+
       this.props.updateData();
       this.changeEditFormVisible(false);
+      this.props.updateIsEditFlag(true);
     } catch (err) {
       this.showErrMsg(err.message);
+      this.setState({
+        loading: false,
+        validationModalVisible: false,
+        validationLoading: false
+      });
     } finally {
       this.setState({
-        loading: false
+        loading: false,
+        validationModalVisible: false,
+        validationLoading: false
       });
     }
   };
   // 表单验证
   validFormData = async () => {
+    const { intl } = this.props;
+    const { form } = this.state;
     try {
-      // console.log('★★★★★★★★★ validFormData: ',this.state.isValid);
-      await validData(PRESONAL_INFO_RULE, this.state.form);
+      // console.log('★★★★★★★★★ valiFormData: ', form);
+      if (!form?.formRule || (form?.formRule).length <= 0) {
+        return;
+      }
+      await validData({ rule: form.formRule, data: form, intl }); // 数据验证
+      // await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
     }
   };
-  onDateChange(date) {
-    const { form } = this.state;
-    form['birthdate'] = format(date, 'yyyy-MM-dd');
-    this.setState({ form }, () => {
-      this.validFormData();
-    });
-  }
-  computedList(key) {
-    let tmp = this.state[`${key}List`].map((c) => {
-      return {
-        value: c.id.toString(),
-        name: c.name
-      };
-    });
-    tmp.unshift({ value: '', name: '' });
-    return tmp;
-  }
-  handleSelectedItemChange(key, data) {
-    const { form } = this.state;
-    form[key] = data.value;
-    this.setState({ form: form }, () => {
-      this.validFormData();
-    });
-  }
-  handleClickEditBtn = () => {
+  // 编辑个人信息
+  handleClickEditBtn = async () => {
+    myAccountActionPushEvent('Edit profile info');
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
     this.changeEditFormVisible(true);
+    // todo
+    await this.props.updateData();
     this.validFormData();
   };
   handleClickGoBack = () => {
     this.changeEditFormVisible(false);
-  };
-  handleCityInputChange = (data) => {
-    const { form } = this.state;
-    form.city = data.id;
-    form.cityName = data.cityName;
-    this.setState({ form });
   };
   handleCommunicationCheckBoxChange(item) {
     let { form } = this.state;
     form[item.type] = !+form[item.type] ? '1' : '0';
     this.setState({ form });
   }
+  // form表单返回数据
+  handleEditFormChange = (data) => {
+    this.setState(
+      {
+        form: data
+      },
+      () => {
+        this.validFormData();
+      }
+    );
+  };
+  // 俄罗斯地址校验flag，控制按钮是否可用
+  getFormAddressValidFlag = (flag) => {
+    console.log('666 >>> PersonalDataEditForm: ', flag);
+    this.setState(
+      {
+        formAddressValid: flag
+      },
+      () => {
+        if (flag) {
+          this.validFormData();
+        }
+      }
+    );
+  };
+
   render() {
     const {
       editFormVisible,
       form,
       isValid,
+      formAddressValid,
       errorMsg,
       successTipVisible,
-      errMsgObj
+      errMsgObj,
+      validationLoading,
+      validationModalVisible,
+      selectValidationOption
     } = this.state;
     const { data } = this.props;
     const curPageAtCover = !editFormVisible;
     return (
       <div className={classNames({ border: curPageAtCover })}>
-        {/* {this.state.loading ? (
-          <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
-        ) : null} */}
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <svg
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                >
-                  <use xlinkHref="#iconaccount"></use>
-                </svg>
+            <h5
+              className="mb-0 text-xl"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <img
+                className="account-info-icon align-middle mr-3 ml-1 inline-block"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/account.svg`}
+                alt="icons account"
+              />
+              <FormattedMessage id="account.myAccount" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer text-xl"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                <FormattedMessage id="account.profile" />
+              ) : (
                 <FormattedMessage id="account.myAccount" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
-              >
-                <span>&larr; </span>
-                <FormattedMessage id="account.myAccount" />
-              </h5>
-            )}
+              )}
+            </h5>
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
@@ -278,7 +424,7 @@ class PersonalDataEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr
-            className={classNames('account-info-hr-border-color', {
+            className={classNames('account-info-hr-border-color my-4', {
               'border-0': editFormVisible
             })}
           />
@@ -313,11 +459,12 @@ class PersonalDataEditForm extends React.Component {
               role="alert"
             >
               <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                <FormattedMessage id="saveSuccessfullly" />
+                <FormattedMessage id="saveSuccessfullly2" />
               </p>
             </aside>
 
             {/* preview form */}
+            {/* {JSON.stringify(data)} */}
             {data ? (
               <div
                 className={`row userProfileInfo text-break ${
@@ -331,400 +478,62 @@ class PersonalDataEditForm extends React.Component {
                   },
                   {
                     name: <FormattedMessage id="name" />,
-                    val: [data.firstName, data.lastName]
+                    val: (window.__.env.REACT_APP_COUNTRY === 'jp'
+                      ? [data.lastName, data.firstName]
+                      : [data.firstName, data.lastName]
+                    )
                       .filter((el) => el)
                       .join(' ')
                   },
                   {
-                    name: <FormattedMessage id="payment.phoneNumber" />,
-                    val: data.phoneNumber
+                    name:
+                      window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                        <FormattedMessage id="payment.phoneNumber" />
+                      ),
+                    val:
+                      window.__.env.REACT_APP_COUNTRY === 'us'
+                        ? null
+                        : data.phoneNumber
                   },
                   {
-                    name: <FormattedMessage id="payment.address1" />,
-                    val: data.address1
+                    name:
+                      window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                        <FormattedMessage id="payment.address1" />
+                      ),
+                    val:
+                      window.__.env.REACT_APP_COUNTRY === 'us'
+                        ? null
+                        : data.address1
                   }
                 ].map((item, i) => (
-                  <>
-                    <div className="col-6 col-md-9">{item.name}</div>
-                    <div className="col-6 col-md-3">{item.val}</div>
-                  </>
+                  <React.Fragment key={i}>
+                    <div className="col-6 col-md-8">{item.name}</div>
+                    <div className="col-6 col-md-4">{item.val}</div>
+                  </React.Fragment>
                 ))}
               </div>
             ) : null}
+
             {/* edit form */}
             <div
               className={classNames('userProfileInfoEdit', {
                 hidden: !editFormVisible
               })}
             >
-              <div className="row">
-                <div className="form-group col-lg-6 required">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="firstName"
-                  >
-                    <FormattedMessage id="payment.firstName" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control"
-                      id="firstName"
-                      data-name="profile_personalInfo"
-                      alt="Name"
-                      name="firstName"
-                      required=""
-                      aria-required="true"
-                      value={form.firstName}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                    />
-                    <label className="rc-input__label" htmlFor="firstName" />
-                  </span>
-                  {errMsgObj.firstName && (
-                    <div className="text-danger-2">{errMsgObj.firstName}</div>
-                  )}
-                </div>
-                <div className="form-group col-lg-6 required">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="lastname"
-                  >
-                    <FormattedMessage id="payment.lastName" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control"
-                      id="lastname"
-                      data-name="profile_personalInfo"
-                      alt="Фамилия"
-                      data-pattern-mismatch="Please match the requested format"
-                      data-missing-error="Это поле обязательно для заполнения."
-                      name="lastName"
-                      required=""
-                      aria-required="true"
-                      value={form.lastName}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                    />
-                    <label className="rc-input__label" htmlFor="lastname" />
-                  </span>
-                  {errMsgObj.lastName && (
-                    <div className="text-danger-2">{errMsgObj.lastName}</div>
-                  )}
-                </div>
-                <div className="form-group col-lg-6 required">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="email"
-                  >
-                    <FormattedMessage id="account.Email" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                    style={{ opacity: 0.8 }}
-                  >
-                    <input
-                      type="email"
-                      className="rc-input__control"
-                      id="email"
-                      data-name="profile_personalInfo"
-                      alt="E-mail"
-                      data-pattern-mismatch="Please match the requested format"
-                      data-missing-error="Это поле обязательно для заполнения."
-                      name="email"
-                      required=""
-                      aria-required="true"
-                      value={form.email}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                      pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$"
-                      disabled
-                    />
-                    <label className="rc-input__label" htmlFor="email" />
-                  </span>
-                  {errMsgObj.email && (
-                    <div className="text-danger-2">{errMsgObj.email}</div>
-                  )}
-                </div>
-                <div className="form-group col-lg-6">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="birthdate"
-                  >
-                    <FormattedMessage id="account.birthDate" />
-                  </label>
-                  <DatePicker
-                    className="receiveDate"
-                    style={{ padding: '.95rem 0' }}
-                    placeholder="Select Date"
-                    dateFormat={datePickerConfig.format}
-                    locale={datePickerConfig.locale}
-                    maxDate={new Date()}
-                    selected={
-                      form.birthdate ? new Date(form.birthdate) : new Date()
-                    }
-                    onChange={(date) => this.onDateChange(date)}
-                  />
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
-                  <div
-                    className="invalid-birthdate invalid-feedback"
-                    style={{ display: 'none' }}
-                  >
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
-                </div>
+              {this.state.editFormVisible && (
+                <AddressForm
+                  initData={form}
+                  isLogin={true}
+                  personalData={true}
+                  updateData={this.handleEditFormChange}
+                  getFormAddressValidFlag={this.getFormAddressValidFlag}
+                />
+              )}
 
-                <div className="form-group col-lg-6 required">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="address1"
-                  >
-                    <FormattedMessage id="payment.address1" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control"
-                      id="address1"
-                      data-name="profile_personalInfo"
-                      alt="address1"
-                      name="address1"
-                      required=""
-                      aria-required="true"
-                      value={form.address1}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                    />
-                    <label className="rc-input__label" htmlFor="address1" />
-                  </span>
-                  {errMsgObj.address1 && (
-                    <div className="text-danger-2">{errMsgObj.address1}</div>
-                  )}
-                </div>
-                <div className="form-group col-lg-6 pull-left">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="address1"
-                  >
-                    <FormattedMessage id="payment.address2" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control"
-                      id="address2"
-                      data-name="profile_personalInfo"
-                      alt="address2"
-                      name="address2"
-                      required=""
-                      aria-required="true"
-                      value={form.address2}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                    />
-                    <label className="rc-input__label" htmlFor="address2" />
-                  </span>
-                  {errMsgObj.address2 && (
-                    <div className="text-danger-2">{errMsgObj.address2}</div>
-                  )}
-                </div>
-                <div className="form-group col-lg-6 required">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="postCode"
-                  >
-                    <FormattedMessage id="payment.postCode" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control"
-                      id="postCode"
-                      data-name="profile_personalInfo"
-                      alt="postCode"
-                      name="postCode"
-                      required=""
-                      aria-required="true"
-                      value={form.postCode}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      data-js-pattern="(*.*)"
-                    />
-                    <label className="rc-input__label" htmlFor="postCode" />
-                  </span>
-                  {errMsgObj.postCode && (
-                    <div className="text-danger-2">{errMsgObj.postCode}</div>
-                  )}
-                  <div className="ui-lighter">
-                    <FormattedMessage id="example" />:{' '}
-                    <FormattedMessage id="examplePostCode" />
-                  </div>
-                </div>
-                <div className="form-group col-lg-6 required">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="basicInfoCity"
-                  >
-                    <FormattedMessage id="payment.city" />
-                  </label>
-                  <span className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0">
-                    <CitySearchSelection
-                      defaultValue={form.cityName}
-                      key={form.cityName}
-                      onChange={this.handleCityInputChange}
-                    />
-                  </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
-                </div>
-
-                <div className="form-group col-lg-6 required">
-                  <label className="form-control-label" htmlFor="country">
-                    <FormattedMessage id="payment.country" />
-                  </label>
-                  <span
-                    className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
-                    data-loc="countrySelect"
-                  >
-                    <Selection
-                      key={form.country}
-                      selectedItemChange={(data) =>
-                        this.handleSelectedItemChange('country', data)
-                      }
-                      optionList={this.computedList('country')}
-                      selectedItemData={{
-                        value: form.country
-                      }}
-                    />
-                  </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
-                </div>
-                <div
-                  className={[
-                    'form-group',
-                    'col-lg-6',
-                    process.env.REACT_APP_LANG == 'de' ? '' : 'required'
-                  ].join(' ')}
-                >
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="phone"
-                  >
-                    <FormattedMessage id="payment.phoneNumber" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      className="rc-input__control input__phoneField"
-                      id="phone"
-                      name="phoneNumber"
-                      type="text"
-                      value={form.phoneNumber}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="20"
-                      minLength="18"
-                    />
-                    <label className="rc-input__label" htmlFor="phone" />
-                  </span>
-                  <br />
-                  <span className="ui-lighter">
-                    <FormattedMessage id="example" />:{' '}
-                    <FormattedMessage id="examplePhone" />
-                  </span>
-                  {errMsgObj.phoneNumber && (
-                    <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
-                  )}
-                </div>
-
-                {/* <div className="form-group col-lg-6">
-                  <label className="form-control-label rc-input--full-width w-100">
-                    <FormattedMessage id="account.preferredMethodOfCommunication" />
-                  </label>
-                  {[
-                    { type: 'communicationPhone', langKey: 'phone' },
-                    { type: 'communicationEmail', langKey: 'email' }
-                  ].map((ele, idx) => (
-                    <div className="rc-input rc-input--inline" key={idx}>
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        id={`basicinfo-communication-checkbox-${ele.type}`}
-                        onChange={this.handleCommunicationCheckBoxChange.bind(
-                          this,
-                          ele
-                        )}
-                        checked={+form[ele.type]}
-                      />
-                      <label
-                        className="rc-input__label--inline text-break"
-                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                      >
-                        <FormattedMessage id={ele.langKey} />
-                      </label>
-                    </div>
-                  ))}
-                </div>
-                 */}
-                {/* <div className="form-group col-lg-6 pull-left">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="reference"
-                  >
-                    <FormattedMessage id="payment.rfc" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control input__phoneField"
-                      id="reference"
-                      name="rfc"
-                      value={form.rfc}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                    />
-                    <label className="rc-input__label" htmlFor="reference" />
-                  </span>
-                </div> */}
-              </div>
               <span
                 className={`rc-meta mandatoryField ${isValid ? 'hidden' : ''}`}
               >
-                * <FormattedMessage id="account.requiredFields" />
+                * <FormattedMessage id="account.requiredFields2" />
               </span>
               <div className="text-right">
                 <span
@@ -743,7 +552,7 @@ class PersonalDataEditForm extends React.Component {
                   })}
                   name="personalInformation"
                   type="submit"
-                  disabled={!isValid}
+                  disabled={isValid && formAddressValid ? false : true}
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
@@ -752,9 +561,29 @@ class PersonalDataEditForm extends React.Component {
             </div>
           </div>
         </div>
+
+        {validationLoading && <Loading positionFixed="true" />}
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={form}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            validationModalVisible={validationModalVisible}
+            close={() => {
+              this.setState({
+                validationModalVisible: false,
+                validationLoading: false
+              });
+            }}
+          />
+        )}
       </div>
     );
   }
 }
 
-export default  withOktaAuth(PersonalDataEditForm);
+export default withOktaAuth(PersonalDataEditForm);

@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -15,26 +15,21 @@ import {
   returnAdd
 } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { setSeoConfig, formatMoney } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
 
 import './index.css';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-const pageLink = window.location.href
-
+@seoHoc()
 class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       afterSaleType: '', //操作类型 - exchange/return
       orderNumber: '',
       details: null,
@@ -55,14 +50,6 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     const afterSaleType = sessionItemRoyal.get('rc-after-sale-type');
     if (afterSaleType) {
       this.setState(
@@ -91,9 +78,7 @@ class OrdersAfterSale extends React.Component {
     const { history } = this.props;
     history.goBack();
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   queryDetails() {
     getOrderReturnDetails(this.state.orderNumber)
       .then((res) => {
@@ -243,28 +228,20 @@ class OrdersAfterSale extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     const { afterSaleType, details, form } = this.state;
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-        <BannerTip />
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -397,12 +374,12 @@ class OrdersAfterSale extends React.Component {
                                         </div>
                                         <div className="col-12 col-md-10 d-flex">
                                           <LazyLoad>
-                                          <img
-                                            className="img-fluid border"
-                                            src={item.pic || IMG_DEFAULT}
-                                            alt={item.spuName}
-                                            title={item.spuName}
-                                          />
+                                            <img
+                                              className="img-fluid border"
+                                              src={item.pic || IMG_DEFAULT}
+                                              alt={item.spuName}
+                                              title={item.spuName}
+                                            />
                                           </LazyLoad>
                                           <div className="m-1 color-999">
                                             <span>{item.spuName}</span>
@@ -501,7 +478,10 @@ class OrdersAfterSale extends React.Component {
                               </div>
                             </div>
                             <div className="row form-reason align-items-center mb-3">
-                              <label className="col-3 required">
+                              <label
+                                className="col-3 required"
+                                htmlFor="reason"
+                              >
                                 reasons for return:
                               </label>
                               <div className="col-4">
@@ -532,7 +512,10 @@ class OrdersAfterSale extends React.Component {
                               </div>
                             </div>
                             <div className="row form-reason align-items-center mb-3">
-                              <label className="col-3 required">
+                              <label
+                                className="col-3 required"
+                                htmlFor="method"
+                              >
                                 Return Method:
                               </label>
                               <div className="col-4">
@@ -563,7 +546,10 @@ class OrdersAfterSale extends React.Component {
                               </div>
                             </div>
                             <div className="row form-reason align-items-center mb-3">
-                              <label className="col-3 required">
+                              <label
+                                className="col-3 required"
+                                htmlFor="instructions"
+                              >
                                 Return instructions:
                               </label>
                               <div className="col-4">
@@ -644,8 +630,8 @@ class OrdersAfterSale extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

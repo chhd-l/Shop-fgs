@@ -1,0 +1,48 @@
+{"data":[
+    {
+        "faqType":"FAQ",
+        "sequence":276,
+        "storeFaqVo":[
+            {
+                "id":276,
+                "storeId":123457909,
+                "faqType":"Commandes",
+                "sequence":1,
+                "language":"fr",
+                "question":"Engagement details",
+                "answer":"<p>This offer works with a 12 refills commitment. If you unsubscribe before the end of your engagement, you can do so, however you will have to pay the remaining price of the dispenser. The retail price of the dispenser is 120 Euros, with every refill you contribute 10 Euros towards it, therefore depending on when you unsubscribe, the balance you will have to pay will be as follows:</p>",
+                "showRemainings":true,
+                "imgUrl":null,
+                "createTime":"2020-09-15 13:32:47.000",
+                "updateTime":"2020-09-15 13:32:49.000",
+                "delFlag":0
+            },
+            {
+                "id":262,
+                "storeId":123457909,
+                "faqType":"Commandes",
+                "sequence":2,
+                "language":"fr",
+                "question":"In case of problems",
+                "answer":"<p>Non. Vous n'avez pas besoin de vous inscrire pour acheter chez Royal Canin. Vous avez la possibilité d'effectuer votre achat en utilisant notre formule d'achat unique. Cependant, la création d'un compte vous permettra de commander sans avoir à remplir vos coordonnées à chaque fois que vous acheterez, et vous donnera des avantages tels que des lettres d'information régulières, des réductions exclusives et des offres spéciales.</p>",
+                "imgUrl":null,
+                "createTime":"2020-09-15 13:32:47.000",
+                "updateTime":"2020-09-15 13:32:49.000",
+                "delFlag":0
+            },
+            {
+                "id":86,
+                "storeId":123457909,
+                "faqType":"Commandes",
+                "sequence":3,
+                "language":"fr",
+                "question":"About the PetKit Fresh Element Mini",
+                "answer":"<p>Reliable Design: The PETKIT Dispenser is a reliable product that allows you to feed your pet anytime, anywhere by mobile phone. You can also set the time to automatically feed your pet or choose to feed manually from the device.</p><p>The power supply doesn’t get blocked: Based on the principle of bionics, PETKIT has created an adaptive system with swivel rods, springs and silicone wheels. It helps to prevent the feed from getting stuck. It is suitable for all dry pet food (non-wet and freeze-dried) with a diameter of 1-12mm. European standard adapter and 4D backup battery port (battery not included in package).</p><p>More Peace of Mind: The PETKIT dispenser allows you to control your dog or cat’s food time and amount through the app (wherever you are), you can set 10 meals per day, and the food dispensed per meal can be selected from 1/20 cups to 1/2 cup. The plan can be repeated Monday through Sunday. Once the plan is set, even if the device’s Wi-Fi is suddenly interrupted, it will not be affected.</p> <p>Keep Food Cool: 360 ° food grade silicone is wrapped around the food outlet cover and top of the feeder. A desiccant box is placed inside the drum to allow you to place the desiccant. They work well to keep food fresh. Remember to change the desiccant every 30 days to ensure maximum freshness.</p><p>Easy to clean and use: All parts of the pet feeder can be wiped clean with a damp cloth. The food tray can be removed. The unit has 4 non-slip mats on the bottom. It is an automatic pet feeder with a modern style and perfect functionality, designed for cats and puppies.</p>",
+                "imgUrl":null,
+                "createTime":"2020-09-15 13:32:47.000",
+                "updateTime":"2020-09-15 13:32:49.000",
+                "delFlag":0
+            }
+        ]
+    }
+]}

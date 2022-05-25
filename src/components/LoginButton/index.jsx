@@ -13,11 +13,16 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import stores from '@/store';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
-import { mergeUnloginCartData } from '@/utils/utils';
+import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
 import { userBindConsent } from '@/api/consent';
+// import Modal from '@/components/Modal';
+import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
+import loginRedirection from '@/lib/login-redirection';
+import { useHistory } from 'react-router-dom';
+import cn from 'classnames';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -25,7 +30,9 @@ const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
-  const { history } = props;
+  if (sessionItemRoyal.get('rc-guestId')) return <></>;
+  const { intl } = props;
+  const history = useHistory();
   const init = props.init;
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
@@ -40,11 +47,12 @@ const LoginButton = (props) => {
 
   useEffect(() => {
     setIsGetUserInfoDown(false);
+    // console.log('OKTA authState:', authState);
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
-      const parametersString = history&&history.location.search;
-      if(!parametersString) {
+      const parametersString = history && history.location.search;
+      if (!parametersString) {
         return;
       }
     } else {
@@ -52,60 +60,95 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
+          // Cross-store login: 跨店铺登录后需要logout再登录
+          if (
+            loginStore?.userInfo?.email &&
+            info?.email !== loginStore?.userInfo.email &&
+            localItemRoyal.get('okta-session-token')
+          ) {
+            localItemRoyal.set('login-again', true);
+            const idToken = authState.idToken;
+            const redirectUri =
+              window.location.origin + window.__.env.REACT_APP_HOMEPAGE;
+            window.location.href = `${
+              window.__.env.REACT_APP_ISSUER
+            }/v1/logout?id_token_hint=${
+              idToken ? idToken.value : ''
+            }&post_logout_redirect_uri=${redirectUri}`;
+          }
           setUserInfo(info);
-          const oktaTokenString = authState.accessToken ? authState.accessToken.value : '';
+          localItemRoyal.set('customer-okta-id', info.sub);
+          const oktaTokenString = authState.accessToken
+            ? authState.accessToken.value
+            : '';
           let oktaToken = 'Bearer ' + oktaTokenString;
+          localItemRoyal.set('oktaToken', oktaToken);
           const consentString = localItemRoyal.get('rc-consent-list');
-          if(consentString && loginStore.isLogin) {
+          if (consentString && loginStore.isLogin) {
+            // 自动登录后，注册consent
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
+            // 不知道能不能拿到customerId
+            let customerId =
+              loginStore.userInfo && loginStore.userInfo.customerId;
             userBindConsent({
               ...submitParam,
-              ...{ oktaToken }
-            }).then(res=>{
-              if(res.code === 'K-000000') {
-                history.push('/')
-              }
-            }).catch((e) => {
-              console.log(e);
-            });
+              ...{ oktaToken },
+              customerId
+            })
+              .then((res) => {
+                setIsGetUserInfoDown(true);
+                loginStore.changeLoginModal(false);
+              })
+              .catch((e) => {
+                console.log(e);
+                loginStore.changeLoginModal(false);
+              });
           } else {
             if (!loginStore.isLogin) {
               getToken({ oktaToken: oktaToken })
                 .then(async (res) => {
                   // GA 登录成功埋点 start
-                  window.dataLayer&&window.dataLayer.push(
-                    {
-                      event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
-                      interaction:{
-                      category:'registration',
-                      action:'login',
-                      label:'',
-                      value:1
-                    },
-                    })        
+                  window.dataLayer &&
+                    window.dataLayer.push({
+                      event: `${window.__.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                      interaction: {
+                        category: 'registration',
+                        action: 'login',
+                        label: '',
+                        value: 1
+                      }
+                    });
                   // GA 登陆成功埋点 end
                   let userinfo = res.context.customerDetail;
                   loginStore.changeLoginModal(false);
                   loginStore.changeIsLogin(true);
-  
+
                   localItemRoyal.set('rc-token', res.context.token);
-                  let customerInfoRes = await getCustomerInfo();
+                  //debugger;
+                  let customerInfoRes = await getCustomerInfo({
+                    customerId: res.context.customerId
+                  });
                   userinfo.defaultClinics =
                     customerInfoRes.context.defaultClinics;
+
                   loginStore.setUserInfo(customerInfoRes.context);
-  
-                  const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-                  if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+                  // 去除cart页面不合并购物车逻辑，因为现在登录后不会回到tmpUrl所指页面
+                  if (
+                    // tmpUrl !== '/cart' &&
+                    checkoutStore.cartData.length
+                  ) {
                     await mergeUnloginCartData();
-                    console.log(loginStore, 'loginStore');
-                    await checkoutStore.updateLoginCart();
+                    await checkoutStore.updateLoginCart({
+                      delFlag: 1,
+                      intl
+                    }); // indv登录的时候需要查询到相应的数据
                   }
-  
+
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
-                  console.log(e);
+                  console.log('Get JWT Token Failed:', e);
                   loginStore.changeLoginModal(false);
                 });
             } else {
@@ -114,51 +157,46 @@ const LoginButton = (props) => {
             }
           }
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log('Get OKTA User Failed:', e);
           loginStore.changeLoginModal(false);
         });
     }
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
+    const { beforeLoginCallback, callbackUrl } = props;
     try {
-      //debugger
       sessionItemRoyal.remove('rc-token-lose');
-      sessionItemRoyal.set('okta-redirectUrl', props.history&&props.history.location.pathname);
-      props.beforeLoginCallback && (await props.beforeLoginCallback());
-      oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      localItemRoyal.set(
+        'okta-redirectUrl',
+        history?.location.pathname + history?.location.search
+      );
+
+      beforeLoginCallback && (await beforeLoginCallback());
+      oktaAuth.signInWithRedirect(
+        callbackUrl || window.__.env.REACT_APP_HOMEPAGE
+      );
     } catch (err) {
-      //debugger
-      console.log(err)
+      console.log(err);
     }
   };
 
-  const bindSubmitParam = (list) => {
-    let obj = { optionalList: [], requiredList: [] };
-    list
-      .filter((item) => !item.isRequired)
-      .forEach((item) => {
-        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
-      });
-    list
-      .filter((item) => item.isRequired)
-      .forEach((item) => {
-        obj.requiredList.push({ id: item.id, selectedFlag: true });
-      });
-
-    return obj;
-  };
-
   return (
-    <button
-      className={props.btnClass || 'rc-btn rc-btn--one'}
-      style={props.btnStyle || {}}
-      onClick={login}
-      ref={props.buttonRef}
-      id="J-btn-login"
-    >
-      {props.children || <FormattedMessage id="loginText" />}
-    </button>
+    <>
+      <LimitLoginModal />
+      <button
+        className={cn(
+          props.btnClass || props.className || 'rc-btn rc-btn--one bg-rc-red'
+        )}
+        style={props.btnStyle || {}}
+        onClick={login}
+        ref={props.buttonRef}
+        id="J-btn-login"
+      >
+        {props.children || <FormattedMessage id="login" />}
+      </button>
+    </>
   );
 };
 export default LoginButton;

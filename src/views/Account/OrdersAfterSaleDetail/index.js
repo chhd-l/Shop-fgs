@@ -1,30 +1,22 @@
 import React from 'react';
-//import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-//import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
-import { formatMoney,setSeoConfig } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import { IMG_DEFAULT } from '@/utils/constant';
-import './index.css';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href
-
+@seoHoc()
 export default class OrdersAfterSaleDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       returnNumber: '',
       details: null,
       loading: true
@@ -37,9 +29,6 @@ export default class OrdersAfterSaleDetail extends React.Component {
       },
       () => this.queryReturnDetails()
     );
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
   }
   queryReturnDetails() {
     getReturnDetails(this.state.returnNumber).then((res) => {
@@ -58,25 +47,17 @@ export default class OrdersAfterSaleDetail extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
@@ -161,11 +142,19 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                 {details.images.length
                                   ? details.images.map((item, i) => (
                                       <div
-                                        className="mr-1 mb-1 img-item"
+                                        className="mr-1 mb-1"
                                         key={i}
+                                        style={{
+                                          width: '60px',
+                                          height: '60px'
+                                        }}
                                       >
                                         <LazyLoad>
-                                        <img src={JSON.parse(item).url} alt=""/>
+                                          <img
+                                            className="w-full h-full"
+                                            src={JSON.parse(item).url}
+                                            alt="detail image"
+                                          />
                                         </LazyLoad>
                                       </div>
                                     ))
@@ -223,12 +212,12 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                   >
                                     <div className="col-12 col-md-6 d-flex pl-0 pr-0">
                                       <LazyLoad>
-                                      <img
-                                        className="img-fluid border"
-                                        src={item.pic || IMG_DEFAULT}
-                                        alt={item.skuName}
-                                        title={item.skuName}
-                                      />
+                                        <img
+                                          className="img-fluid border"
+                                          src={item.pic || IMG_DEFAULT}
+                                          alt={item.skuName}
+                                          title={item.skuName}
+                                        />
                                       </LazyLoad>
                                       <div className="m-1 color-999">
                                         <span>{item.skuName}</span>
@@ -272,8 +261,8 @@ export default class OrdersAfterSaleDetail extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

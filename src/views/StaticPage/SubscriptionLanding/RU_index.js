@@ -3,7 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
@@ -12,38 +12,16 @@ import icon1 from './images/icon1.png';
 import icon2 from './images/icon2.png';
 import icon3 from './images/icon3.png';
 import icon4 from './images/icon4.png';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
 
+@seoHoc('Subscription Page')
 class Help extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then(res => {
-      this.setState({seoConfig: res})
-    });
-  }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
   render(h) {
     const event = {
       page: {
@@ -54,20 +32,12 @@ class Help extends React.Component {
 
     return (
       <div className="recommendation">
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <section
@@ -83,7 +53,7 @@ class Help extends React.Component {
 
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '1.25rem' }}
           >
             <div
               className="rc-column"
@@ -95,26 +65,26 @@ class Help extends React.Component {
             >
               <div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description1" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description2" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description3" />
                 </div>
                 {/* <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description4"/>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em><FormattedMessage id="subscriptionLanding.description4"/>
                 </div> */}
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '1.25rem' }}>
                   <Link className="rc-btn rc-btn--one" to="/cats">
                     <FormattedMessage id="subscriptionLanding.catButton" />
                   </Link>
                 </div>
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '1.25rem' }}>
                   <Link className="rc-btn rc-btn--one" to="/dogs">
                     <FormattedMessage id="subscriptionLanding.dogButton" />
                   </Link>
@@ -123,7 +93,11 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={autoship} style={{ width: '100%' }} alt="" />
+                <img
+                  src={autoship}
+                  style={{ width: '100%' }}
+                  alt="autoship icon"
+                />
               </LazyLoad>
             </div>
           </div>
@@ -136,17 +110,17 @@ class Help extends React.Component {
           </section>
           <div
             className="rc-layout-container rc-four-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '1.25rem' }}
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap image"
                   src={icon1}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -159,12 +133,12 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap image"
                   src={icon2}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -174,12 +148,12 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap image"
                   src={icon3}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -192,12 +166,12 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap image"
                   src={icon4}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -228,8 +202,8 @@ class Help extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile"></div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center md:text-left rc-margin-top--lg--mobile"></div>
+                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                             <div className="rc-column rc-double-width rc-padding--none">
                               <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                                 <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -242,7 +216,7 @@ class Help extends React.Component {
                                         <p>
                                           {
                                             this.props.configStore
-                                              .contactTimePeriod
+                                              ?.contactTimePeriod
                                           }
                                         </p>
                                         <div className="rc-margin-top--xs">
@@ -252,7 +226,7 @@ class Help extends React.Component {
                                           >
                                             {
                                               this.props.configStore
-                                                .storeContactPhoneNumber
+                                                ?.storeContactPhoneNumber
                                             }
                                           </p>
                                         </div>
@@ -263,7 +237,7 @@ class Help extends React.Component {
                                           >
                                             {
                                               this.props.configStore
-                                                .storeContactPhoneNumber
+                                                ?.storeContactPhoneNumber
                                             }
                                           </p>
                                         </div>
@@ -328,7 +302,7 @@ class Help extends React.Component {
                                           >
                                             {
                                               this.props.configStore
-                                                .storeContactEmail
+                                                ?.storeContactEmail
                                             }
                                           </p>
                                         </div>
@@ -357,7 +331,11 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                    <img src={helpImg} alt=" " title=" " />
+                                    <img
+                                      src={helpImg}
+                                      alt="help icon"
+                                      title=" "
+                                    />
                                   </LazyLoad>
                                 </picture>
                               </div>
@@ -371,9 +349,8 @@ class Help extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }

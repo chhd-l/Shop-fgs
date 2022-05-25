@@ -1,0 +1,96 @@
+.rc-filters__form .rc-list__header {
+  padding: 1.5rem 3.7rem 1.5rem 0.5rem;
+}
+
+.filter-pc-wrap {
+  .filter-parent-item-count {
+    position: absolute;
+    top: 25px;
+    right: 11%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    background: #333;
+}
+}
+
+@media (max-width: 540px) {
+  .rc-filters__form.fr-mobile .rc-list__header {
+    padding: 0.5rem 3rem 0.5rem 0.5rem;
+  }
+
+  .active {
+    .active-border {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+}
+
+.fr-pc.rc-icon {
+  &:after {
+    position: relative;
+    top: 4px;
+  }
+}
+
+.rc-filters__form .rc-list__header::after {
+  content: '';
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: 0 42.86%;
+  width: 1.5rem;
+  background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--iconography--xs.svg?v=8-7-8);
+  height: 32px;
+  overflow: hidden;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  margin-top: -1rem;
+}
+
+.rc-list__content {
+  &.expand {
+    max-height: 1000px;
+
+    &.list-price {
+      overflow: visible;
+    }
+  }
+}
+
+@media (max-width: 769px) {
+  .rc-filters {
+    display: none;
+  }
+
+  // .rc-filters.active {
+  //   display: block;
+  //   position: fixed;
+  //   top: 4.167rem;
+  //   height: calc(100% - 4.167rem);
+  //   width: 100%;
+  //   left: 0;
+  //   background: #fff;
+  //   z-index: 58;
+  //   max-height: none !important;
+  // }
+}
+
+.rc-filters__header {
+  .rc-filters__heading {
+    font-size: 1.5rem;
+    font-weight: 100;
+
+    .rc-iconography {
+      &::after {
+        -webkit-transform: scale(.938) !important;
+        transform: scale(.938) !important;
+        margin-right: .3em !important;
+      }
+    }
+  }
+}

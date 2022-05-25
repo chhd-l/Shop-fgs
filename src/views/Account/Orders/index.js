@@ -10,32 +10,37 @@ import SideMenu from '@/components/SideMenu';
 import TimeCount from '@/components/TimeCount';
 import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig,
-  getFormatDate
+  judgeIsIndividual,
+  formatDate,
+  optimizeImage,
+  filterOrderId
 } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, getOrderDetails, exportInvoicePDF } from '@/api/order';
+import { getOrderList } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
-
+import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
+import { handleOrderItem } from './modules/handleOrderItem';
+import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-const pageLink = window.location.href;
-
 @inject('checkoutStore')
 @injectIntl
+@seoHoc('Account orders')
 @observer
 class AccountOrders extends React.Component {
   constructor(props) {
@@ -49,11 +54,6 @@ class AccountOrders extends React.Component {
       },
       loading: true,
       initLoading: true,
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -79,68 +79,35 @@ class AccountOrders extends React.Component {
     this.handleDownInvoice = this.handleDownInvoice.bind(this);
     this.handleClickPayNow = this.handleClickPayNow.bind(this);
     this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
+    this.rePurchase = this.rePurchase.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-    setSeoConfig({
-      pageName: 'Account orders'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    this.FormateOderTimeFilter();
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+  async componentDidMount() {
+    myAccountPushEvent('Orders');
+
+    const orderId = funcUrl({ name: 'orderId' });
+    if (orderId) {
+      let res = await getOrderList({ id: orderId });
+      let hasDetails = res.context?.content?.length;
+      if (hasDetails) {
+        let url = `/account/orders/detail/${orderId}`;
+        this.props.history.push(url);
+        return;
+      }
+    }
+
+    await this.FormatOderTimeFilter();
     this.queryOrderList();
   }
-  async FormateOderTimeFilter() {
-    let res = await getDictionary({ type: 'orderTimeFilter' });
-    let duringTimeOptions =
-      res &&
-      res.map((item) => {
-        let value, values;
-        if (Number(item.valueEn) === 7) {
-          value = item.valueEn;
-          values = 7;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else if (Number(item.valueEn) === 30) {
-          value = item.valueEn;
-          values = 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else {
-          value = item.valueEn;
-          values = item.valueEn / 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage
-                id="order.lastXMonths"
-                values={{ val: values }}
-              />
-            )
-          };
-        }
-      });
+  async FormatOderTimeFilter() {
+    const res = await getDictionary({ type: 'orderTimeFilter' });
     this.setState({
-      duringTimeOptions
+      duringTimeOptions: (res || []).map((item) => ({
+        value: item.valueEn,
+        name: item.name
+      }))
     });
   }
   handleDuringTimeChange = (data) => {
-    // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
     this.setState(
@@ -185,40 +152,17 @@ class AccountOrders extends React.Component {
     getOrderList(param)
       .then((res) => {
         let tmpList = Array.from(res.context.content, (ele) => {
-          const tradeState = ele.tradeState;
-          return Object.assign(ele, {
-            canPayNow:
-              ((!ele.isAuditOpen && tradeState.flowState === 'AUDIT') ||
-                (ele.isAuditOpen &&
-                  tradeState.flowState === 'INIT' &&
-                  tradeState.auditState === 'NON_CHECKED')) &&
-              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
-              tradeState.payState === 'NOT_PAID' &&
-              new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
-              (!ele.payWay || ele.payWay.toUpperCase() !== 'OXXO'),
-            showOXXOExpireTime:
-              tradeState.flowState === 'AUDIT' &&
-              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
-              tradeState.payState === 'NOT_PAID' &&
-              new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
-              ele.payWay &&
-              ele.payWay.toUpperCase() === 'OXXO',
-            payNowLoading: false,
-            canRePurchase:
-              tradeState.flowState === 'COMPLETED' ||
-              tradeState.flowState === 'VOID',
-            canReview:
-              tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO,
-            canViewTrackInfo:
-              tradeState.payState === 'PAID' &&
-              tradeState.auditState === 'CHECKED' &&
-              tradeState.deliverStatus === 'SHIPPED' &&
-              tradeState.flowState === 'DELIVERED' &&
-              ele.tradeDelivers &&
-              ele.tradeDelivers.length
+          ele.tradeItems.forEach((el) => {
+            el.spuName = judgeIsIndividual(el) ? (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: el.petsName }}
+              />
+            ) : (
+              el.spuName
+            );
           });
+          return handleOrderItem(ele, res);
         });
         if (this.state.initing) {
           this.setState({ everHaveNoOrders: !tmpList.length });
@@ -227,23 +171,24 @@ class AccountOrders extends React.Component {
           orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
-          defaultLocalDateTime: res.defaultLocalDateTime,
-          loading: false,
-          initing: false,
-          initLoading: false
+          defaultLocalDateTime: res.defaultLocalDateTime
         });
       })
       .catch((err) => {
         this.setState({
-          loading: false,
           errMsg: err.message.toString(),
-          tabErrMsg: err.message.toString(),
+          tabErrMsg: err.message.toString()
+        });
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
           initing: false,
           initLoading: false
         });
       });
   }
-  hanldePageNumChange = (params) => {
+  handlePageNumChange = (params) => {
     this.setState(
       {
         currentPage: params.currentPage
@@ -283,45 +228,6 @@ class AccountOrders extends React.Component {
       };
     });
     try {
-      const detailRes = await getOrderDetails(order.id);
-      const detailResCt = detailRes.context;
-      const tmpDeliveryAddress = {
-        firstName: detailResCt.consignee.firstName,
-        lastName: detailResCt.consignee.lastName,
-        address1: detailResCt.consignee.detailAddress1,
-        address2: detailResCt.consignee.detailAddress2,
-        rfc: detailResCt.consignee.rfc,
-        country: detailResCt.consignee.countryId
-          ? detailResCt.consignee.countryId.toString()
-          : '',
-        city: detailResCt.consignee.cityId
-          ? detailResCt.consignee.cityId.toString()
-          : '',
-        postCode: detailResCt.consignee.postCode,
-        phoneNumber: detailResCt.consignee.phone,
-        addressId: detailResCt.consignee.id
-      };
-      const tmpBillingAddress = {
-        firstName: detailResCt.invoice.firstName,
-        lastName: detailResCt.invoice.lastName,
-        address1: detailResCt.invoice.address1,
-        address2: detailResCt.invoice.address2,
-        rfc: detailResCt.invoice.rfc,
-        country: detailResCt.invoice.countryId
-          ? detailResCt.invoice.countryId.toString()
-          : '',
-        city: detailResCt.invoice.cityId
-          ? detailResCt.invoice.cityId.toString()
-          : '',
-        postCode: detailResCt.invoice.postCode,
-        phoneNumber: detailResCt.invoice.phone,
-        addressId: detailResCt.invoice.addressId
-      };
-      localItemRoyal.set('loginDeliveryInfo', {
-        deliveryAddress: tmpDeliveryAddress,
-        billingAddress: tmpBillingAddress,
-        commentOnDelivery: detailResCt.buyerRemark
-      });
       this.props.checkoutStore.setLoginCartData(tradeItems);
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
@@ -335,8 +241,8 @@ class AccountOrders extends React.Component {
         promotionDiscount: order.tradePrice.deliveryPrice,
         subscriptionPrice: order.tradePrice.subscriptionPrice
       });
-
       this.props.history.push('/checkout');
+      order.payNowLoading = false;
     } catch (err) {
       console.log(err);
     } finally {
@@ -344,35 +250,27 @@ class AccountOrders extends React.Component {
       this.setState({ orderList });
     }
   }
-  rePurchase(order) {
-    this.hanldeLoginAddToCart(order);
-  }
-  async hanldeLoginAddToCart(order) {
-    const cartProduct = this.props.checkoutStore.loginCartData;
-    const productList = order.tradeItems ? order.tradeItems : [];
-    const tradeItems = productList.map((ele) => {
-      return {
-        goodsInfoImg: ele.pic,
-        goodsName: ele.spuName,
-        specText: ele.specDetails,
-        buyCount: 1, //ele.num
-        salePrice: ele.price,
-        goodsInfoId: ele.skuId
-      };
-    });
-    const list = [...tradeItems, ...cartProduct];
-    const paramList = [];
-    productList.forEach((item) => {
-      let obj = {
-        verifyStock: false,
-        buyCount: 1,
-        goodsInfoId: item.skuId
-      };
-      paramList.push(obj);
-    });
-    await batchAdd({ goodsInfos: paramList });
-    await this.props.checkoutStore.updateLoginCart();
-    this.props.history.push('/cart');
+  async rePurchase(order) {
+    try {
+      const { orderList } = this.state;
+      order.addToCartLoading = true;
+      this.setState({ orderList: orderList });
+      const paramList = (order.tradeItems || []).map((item) => {
+        return {
+          goodsInfoFlag: item.goodsInfoFlag,
+          verifyStock: false,
+          buyCount: 1,
+          goodsInfoId: item.skuId,
+          periodTypeId: item.periodTypeId
+        };
+      });
+      await batchAdd({ goodsInfos: paramList });
+      await this.props.checkoutStore.updateLoginCart({ intl: this.props.intl });
+      this.props.history.push('/cart');
+    } catch (err) {
+    } finally {
+      order.addToCartLoading = false;
+    }
   }
   changeTab(i) {
     this.setState(
@@ -387,36 +285,30 @@ class AccountOrders extends React.Component {
     );
   }
   handleClickCardItem(item) {
+    console.log(this.deviceType);
     if (this.deviceType === 'PC') return false;
     this.props.history.push(`/account/orders/detail/${item.id}`);
     return false;
-    // 测试要求改到跳转页面  1214
-    this.setState({ curOneOrderDetails: item });
-    setTimeout(() => {
-      this.setState({ showOneOrderDetail: true });
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
   }
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
   };
-  handleDownInvoice(order) {
-    let orderInvoiceIds = [];
-    orderInvoiceIds.push(order.id);
+  handleDownInvoice(order, e) {
+    const ev = e || window.event;
+    console.log('ev', ev);
+    ev.stopPropagation();
+    ev.preventDefault();
     let params = {
-      orderInvoiceIds
+      orderNo: order.id
     };
     const token =
       sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
     let result = JSON.stringify({ ...params, token: 'Bearer ' + token });
     const exportHref = `${
-      process.env.REACT_APP_BASEURL
+      window.__.env.REACT_APP_BASEURL
     }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
-
     window.open(exportHref);
+    myAccountActionPushEvent('Download Invoice');
   }
   renderOperationBtns = (order) => {
     return (
@@ -424,6 +316,7 @@ class AccountOrders extends React.Component {
         {order.canPayNow ? (
           <>
             <TimeCount
+              className="rc-hidden"
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
               onTimeEnd={this.handlePayNowTimeEnd.bind(this, order)}
@@ -439,6 +332,7 @@ class AccountOrders extends React.Component {
             </button>
           </>
         ) : null}
+        {/*普通产品评论*/}
         {order.canReview ? (
           <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
             <FormattedMessage id="writeReview">
@@ -455,10 +349,31 @@ class AccountOrders extends React.Component {
             </FormattedMessage>
           </button>
         ) : null}
+        {/*服务类产品评论*/}
+        {order.canReviewService ? (
+          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order">
+            <FormattedMessage id="writeReview">
+              {(txt) => (
+                <Link
+                  className="color-fff"
+                  to={`/account/productReviewService/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
         {order.canRePurchase ? (
           <button
-            className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn"
-            onClick={() => this.rePurchase(order)}
+            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
+              order.addToCartLoading
+                ? 'ui-btn-loading ui-btn-loading-border-red'
+                : ''
+            }`}
+            onClick={this.rePurchase.bind(this, order)}
           >
             <FormattedMessage id="rePurchase" />
           </button>
@@ -479,6 +394,13 @@ class AccountOrders extends React.Component {
                       alt={txt}
                     >
                       {txt}
+                      {Boolean(
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                      ) && (
+                        <span className="warning_blank">
+                          <FormattedMessage id="opensANewWindow" />
+                        </span>
+                      )}
                     </a>
                   ) : (
                     <Link
@@ -488,6 +410,13 @@ class AccountOrders extends React.Component {
                       alt={txt}
                     >
                       {txt}
+                      {Boolean(
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                      ) && (
+                        <span className="warning_blank">
+                          <FormattedMessage id="opensANewWindow" />
+                        </span>
+                      )}
                     </Link>
                   )}
                 </>
@@ -521,31 +450,20 @@ class AccountOrders extends React.Component {
     } = this.state;
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div className="p-md-2rem rc-max-width--xl ord-list">
+          <div className="md:p-8 rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 pr-md-3 pl-md-3 ${
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-3 ${
                   showOneOrderDetail ? 'hidden' : ''
                 }`}
               >
@@ -570,7 +488,11 @@ class AccountOrders extends React.Component {
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
                           <LazyLoad>
-                            <img src={orderImg} className="w-100" alt="" />
+                            <img
+                              src={orderImg}
+                              className="w-100"
+                              alt="order image"
+                            />
                           </LazyLoad>
                         </div>
                         <div className="rc-column d-flex align-items-center justify-content-center">
@@ -578,9 +500,13 @@ class AccountOrders extends React.Component {
                             <p>
                               <FormattedMessage id="account.orders.tips" />
                             </p>
-                            <Link className="rc-btn rc-btn--one" to="/home">
+                            <DistributeHubLinkOrATag
+                              href=""
+                              to="/home"
+                              className="rc-btn rc-btn--one"
+                            >
                               <FormattedMessage id="account.orders.btns" />
-                            </Link>
+                            </DistributeHubLinkOrATag>
                           </div>
                         </div>
                       </div>
@@ -588,16 +514,17 @@ class AccountOrders extends React.Component {
                   </>
                 ) : (
                   <>
-                    <div className="row mb-3 ml-2 m-md-0">
+                    <div className="row m-0 mb-3 md:m-0">
                       <div className="col-12 rc-md-down">
                         <Link to="/account">
                           <span className="red">&lt;</span>
                           <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                            <FormattedMessage id="home" />
+                            <FormattedMessage id="account.home" />
                           </span>
                         </Link>
                       </div>
-                      <div className="col-12 order-1 order-md-0 col-md-8 rc-fade--x">
+
+                      <div className="col-12 order-1 md:order-0 col-md-8 rc-fade--x">
                         <ul
                           className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-border-bottom rc-border-colour--interface"
                           role="tablist"
@@ -619,8 +546,9 @@ class AccountOrders extends React.Component {
                           ))}
                         </ul>
                       </div>
-                      <div className="col-10 order-0 order-md-1 col-md-4">
-                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
+
+                      <div className="col-12 order-0 md:order-1 col-md-4">
+                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 md:mb-0">
                           <Selection
                             optionList={duringTimeOptions}
                             selectedItemChange={this.handleDuringTimeChange}
@@ -656,64 +584,86 @@ class AccountOrders extends React.Component {
                           </div>
                         ) : orderList.length ? (
                           <>
-                            {orderList.map((order) => (
-                              <div
-                                className="card-container"
-                                style={{
-                                  paddingBottom:
-                                    this.deviceType === 'H5' ? '20px' : '0'
-                                }}
-                                key={order.id}
-                                onClick={this.handleClickCardItem.bind(
-                                  this,
-                                  order
-                                )}
-                              >
-                                <div className="card rc-margin-y--none ml-0">
-                                  <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up">
-                                    <div className="col-12 col-md-3">
-                                      <p>
-                                        <FormattedMessage id="order.orderPlacedOn" />
-                                        <br className="d-none d-md-block" />
-                                        <span className="medium orderHeaderTextColor">
-                                          {getFormatDate(
-                                            order.tradeState.createTime.substr(
-                                              0,
-                                              10
-                                            )
-                                          )}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-12 col-md-3 mb-2 mb-md-0">
-                                      <p className="text-nowrap">
-                                        <FormattedMessage id="order.orderNumber" />
-                                        <br className="d-none d-md-block" />
-                                        <span className="medium orderHeaderTextColor">
-                                          {order.id}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-12 col-md-2">
-                                      <p>
-                                        <FormattedMessage id="total" />
-                                        <br className="d-none d-md-block" />
-                                        <span className="medium orderHeaderTextColor">
-                                          {formatMoney(
-                                            order.tradePrice.totalPrice
-                                          )}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-12 col-md-2">
-                                      {order.tradeState.deliverStatus ===
-                                        'SHIPPED' && (
+                            {orderList.map((order) => {
+                              let isGift = order.tradeItems.find(
+                                (item) =>
+                                  (item.subscriptionPlanId || []).length > 0
+                              );
+                              return (
+                                <div
+                                  className="card-container border-b border-d7d7d7"
+                                  key={order.id}
+                                  onClick={this.handleClickCardItem.bind(
+                                    this,
+                                    order
+                                  )}
+                                >
+                                  <div className="card rc-margin-y--none ml-0 border-0">
+                                    <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up bg-rc-f6">
+                                      <div className="col-12 col-md-2">
+                                        <p className="text-nowrap ui-text-overflow-line1">
+                                          <FormattedMessage id="order.orderPlacedOn" />
+                                          <br className="d-none d-md-block" />
+                                          <span className="medium orderHeaderTextColor">
+                                            {formatDate({
+                                              date: order.tradeState.createTime
+                                            })}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="col-12 col-md-2 mb-2 md:mb-0">
+                                        <p className="text-nowrap">
+                                          <FormattedMessage id="order.orderNumber" />
+                                          <br className="d-none d-md-block" />
+                                          <span className="medium orderHeaderTextColor">
+                                            {filterOrderId({
+                                              orderNo: order.id,
+                                              orderNoForOMS:
+                                                order.tradeOms?.orderNo
+                                            })}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p className="text-nowrap ui-text-overflow-line1">
+                                          <FormattedMessage id="order.orderStatus" />
+                                          <br className="d-none d-md-block" />
+                                          <span
+                                            className="medium orderHeaderTextColor"
+                                            title={order.tradeState.orderStatus}
+                                          >
+                                            {order.tradeState.orderStatus}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div
+                                        className={`col-12 ${
+                                          !order.canDownInvoice
+                                            ? 'col-md-2'
+                                            : 'col-md-1'
+                                        }`}
+                                      >
+                                        <p>
+                                          <FormattedMessage id="order.total" />
+                                          <br className="d-none d-md-block" />
+                                          <span className="medium orderHeaderTextColor">
+                                            {/* 存在分期时，总价显示另一个字段 */}
+                                            {formatMoney(
+                                              order.tradePrice.installmentPrice
+                                                ? order.tradePrice
+                                                    .totalAddInstallmentPrice
+                                                : order.tradePrice.totalPrice
+                                            )}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      {order.canDownInvoice ? (
                                         <div
                                           onClick={this.handleDownInvoice.bind(
                                             this,
                                             order
                                           )}
-                                          className="text-nowrap"
+                                          className="text-nowrap col-12 col-md-1"
                                         >
                                           <span className="rc-icon rc-pdf--xs rc-iconography" />
                                           <FormattedMessage id="invoice">
@@ -727,158 +677,181 @@ class AccountOrders extends React.Component {
                                             )}
                                           </FormattedMessage>
                                         </div>
-                                      )}
-                                    </div>
-                                    <div className="col-12 col-md-2 text-nowrap">
-                                      <FormattedMessage id="order.orderDetails">
-                                        {(txt) => (
-                                          <Link
-                                            className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap"
-                                            to={`/account/orders/detail/${order.id}`}
-                                          >
-                                            <span
-                                              className="medium pull-right--desktop rc-styled-link"
-                                              title={txt}
+                                      ) : null}
+                                      <div className="col-12 col-md-2">
+                                        {order.goodWillFlag === 1 ? (
+                                          <div>
+                                            <FormattedMessage id="order.goodwillOrder" />
+                                          </div>
+                                        ) : null}
+                                      </div>
+                                      <div className="col-12 col-md-2 text-nowrap padding0">
+                                        <FormattedMessage id="order.orderDetails">
+                                          {(txt) => (
+                                            <Link
+                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn text-wrap align-items-center"
+                                              to={`/account/orders/detail/${order.id}`}
                                             >
-                                              {txt}
-                                            </span>
-                                          </Link>
-                                        )}
-                                      </FormattedMessage>
+                                              <em className="rc-iconography rc-icon rc-news--xs" />
+                                              <span
+                                                className="medium pull-right--desktop rc-styled-link text-current"
+                                                title={txt}
+                                              >
+                                                {txt}
+                                              </span>
+                                            </Link>
+                                          )}
+                                        </FormattedMessage>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                                <div
-                                  className="row mb-3 mt-3 align-items-center m-0"
-                                  style={{ position: 'relative' }}
-                                >
-                                  <div
-                                    className="rc-md-down"
-                                    style={{
-                                      position: 'absolute',
-                                      right: '15px',
-                                      bottom: '-20px'
-                                    }}
-                                  >
-                                    {order.tradeState.deliverStatus ===
-                                      'SHIPPED' && (
-                                      <span
-                                        className="rc-styled-link"
-                                        onClick={this.handleDownInvoice.bind(
-                                          this,
-                                          order
-                                        )}
-                                      >
-                                        <FormattedMessage id="invoice" />
-                                      </span>
+                                  <div className="row mb-3 mt-3 align-items-center m-0 relative">
+                                    {/* 订单发货tip */}
+                                    {order.showOrderDeliverTip && (
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
+                                        <p className="medium mb-0 color-444">
+                                          <FormattedMessage id="deliveredTip" />
+                                        </p>
+                                        <p className="green">
+                                          <FormattedMessage id="inTransit" />
+                                        </p>
+                                      </div>
                                     )}
-                                  </div>
-                                  {/* 订单发货tip */}
-                                  {((order.tradeState.payState === 'PAID' &&
-                                    order.tradeState.auditState === 'CHECKED' &&
-                                    order.tradeState.deliverStatus ===
-                                      'SHIPPED' &&
-                                    order.tradeState.flowState ===
-                                      'DELIVERED') ||
-                                    (order.tradeState.deliverStatus ===
-                                      'PART_SHIPPED' &&
-                                      order.tradeState.flowState ===
-                                        'DELIVERED_PART')) && (
-                                    <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
-                                      <p className="medium mb-0 color-444">
-                                        <FormattedMessage id="deliveredTip" />
-                                      </p>
-                                      <p className="green">
-                                        <FormattedMessage id="inTransit" />
-                                      </p>
-                                    </div>
-                                  )}
-                                  {/* 订单完成tip */}
-                                  {order.tradeState.flowState === 'COMPLETED' &&
-                                  !order.storeEvaluateVO &&
-                                  order.tradeEventLogs[0] &&
-                                  order.tradeEventLogs[0].eventType ===
-                                    'COMPLETED' ? (
-                                    <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
-                                      <p className="medium mb-0 color-444">
-                                        <FormattedMessage id="orderStatus.COMPLETED" />
-                                        :{' '}
-                                        {order.tradeEventLogs[0].eventTime.substr(
-                                          0,
-                                          10
-                                        )}
-                                      </p>
-                                      <p>
-                                        <FormattedMessage id="order.completeTip" />
-                                      </p>
-                                    </div>
-                                  ) : null}
-                                  <div className="col-10 col-md-9">
-                                    {order.tradeItems.map((item, idx) => (
-                                      <div
-                                        className={`row rc-margin-x--none align-items-center ${
-                                          idx ? 'mt-2' : ''
-                                        }`}
-                                        key={item.oid}
-                                      >
-                                        <div className="col-4 col-md-2 d-flex justify-content-md-center">
-                                          <LazyLoad>
-                                            <img
-                                              className="ord-list-img-fluid"
-                                              src={item.pic || IMG_DEFAULT}
-                                              alt={item.spuName}
-                                              title={item.spuName}
-                                            />
-                                          </LazyLoad>
+                                    {/* 订单完成tip */}
+                                    {order.showOrderCompleteTip ? (
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
+                                        <p className="medium mb-0 color-444">
+                                          <FormattedMessage id="orderStatus.COMPLETED" />
+                                          :{' '}
+                                          {order.tradeEventLogs[0].eventTime.substr(
+                                            0,
+                                            10
+                                          )}
+                                        </p>
+                                        <p>
+                                          <FormattedMessage id="order.completeTip" />
+                                        </p>
+                                      </div>
+                                    ) : null}
+                                    <div className="col-10 col-md-9">
+                                      {order.tradeItems.map((item, idx) => (
+                                        <div
+                                          className={`row rc-margin-x--none align-items-center ${
+                                            idx ? 'mt-2' : ''
+                                          }`}
+                                          key={item.oid}
+                                        >
+                                          <div className="col-4 col-md-2 d-flex justify-content-md-center">
+                                            <LazyLoad>
+                                              <img
+                                                className="ord-list-img-fluid"
+                                                src={
+                                                  optimizeImage({
+                                                    originImageUrl: item.pic
+                                                  }) || IMG_DEFAULT
+                                                }
+                                                alt={item.spuName}
+                                                title={item.spuName}
+                                              />
+                                            </LazyLoad>
+                                          </div>
+                                          <div className="col-8 col-md-6">
+                                            <span className="medium color-444 ui-text-overflow-line2">
+                                              {item.spuName}
+                                            </span>
+                                            {judgeIsIndividual(item) ? (
+                                              <span>{item.specDetails}</span>
+                                            ) : order.appointmentNo ? (
+                                              <span>
+                                                {order.specialistType} –{' '}
+                                                {order.appointmentTime}
+                                                <FormattedMessage id="min" /> –
+                                                {order.appointmentType}
+                                              </span>
+                                            ) : (
+                                              <FormattedMessage
+                                                id="order.quantityText"
+                                                values={{
+                                                  specText: item.specDetails,
+                                                  buyCount: item.num
+                                                }}
+                                              />
+                                            )}
+                                          </div>
+                                          {item.subscriptionPlanId ? (
+                                            <div className="align-items-center d-flex">
+                                              <em className="gift-icon" />
+                                              <div>
+                                                <span className="medium color-444 ui-text-overflow-line2">
+                                                  Cadeaux
+                                                </span>
+                                                <span>
+                                                  Abonnement Smart Feeder
+                                                </span>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <div className="col-2 col-md-2 rc-md-up">
+                                              {formatMoney(item.splitPrice)}
+                                            </div>
+                                          )}
                                         </div>
-                                        <div className="col-8 col-md-4">
-                                          <span className="medium color-444 ui-text-overflow-line2">
-                                            {item.spuName}
-                                          </span>
-                                          {[
-                                            item.specDetails,
-                                            this.props.intl.formatMessage(
-                                              { id: 'xProduct' },
-                                              {
-                                                val: item.num
-                                              }
-                                            )
-                                          ]
-                                            .filter((e) => e)
-                                            .join(' - ')}
-                                        </div>
-                                        <div className="col-2 col-md-2 rc-md-up">
+                                      ))}
+                                    </div>
+                                    {isGift && !(getDeviceType() === 'H5') ? (
+                                      order.tradeItems.map((item, idx) => (
+                                        <div
+                                          className="col-2 col-md-3 text-right md:pl-0"
+                                          key={idx}
+                                        >
                                           {formatMoney(item.price)}
                                         </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
-                                    <div className="rc-md-up">
-                                      {this.renderOperationBtns(order)}
-                                    </div>
-                                    <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
-                                  </div>
-                                  {order.subscribeId ? (
-                                    <div className="col-12 text-right rc-md-up">
-                                      <Link
-                                        to={`/account/subscription/order/detail/${order.subscribeId}`}
-                                      >
+                                      ))
+                                    ) : (
+                                      <div className="col-2 col-md-3 text-center md:pl-0 md:pr-0">
+                                        <div className="rc-md-up">
+                                          {this.renderOperationBtns(order)}
+                                        </div>
                                         <span
-                                          className="iconfont font-weight-bold red mr-1"
-                                          style={{ fontSize: '.8em' }}
+                                          className="iconfont iconjiantouyou1 bold rc-md-down"
+                                          style={{ fontSize: '20px' }}
+                                        />
+                                      </div>
+                                    )}
+                                    <div className="col-12 text-right md:hidden">
+                                      {order.canDownInvoice ? (
+                                        <span
+                                          className="rc-styled-link"
+                                          onClick={this.handleDownInvoice.bind(
+                                            this,
+                                            order
+                                          )}
                                         >
-                                          &#xe675;
+                                          <FormattedMessage id="invoice" />
                                         </span>
-                                        <span className="rc-styled-link">
-                                          <FormattedMessage id="autoShipOrderDetails" />
-                                        </span>
-                                      </Link>
+                                      ) : null}
                                     </div>
-                                  ) : null}
+                                    {/* {order.subscribeId && !isGift ? (
+                                      <div className="col-12 text-right rc-md-up">
+                                        <Link
+                                          to={`/account/subscription/order/detail/${order.subscribeId}`}
+                                        >
+                                          <span
+                                            className="iconfont font-weight-bold red mr-1"
+                                            style={{ fontSize: '.8em' }}
+                                          >
+                                            &#xe675;
+                                          </span>
+                                          <span className="rc-styled-link">
+                                            <FormattedMessage id="autoShipOrderDetails" />
+                                          </span>
+                                        </Link>
+                                      </div>
+                                    ) : null} */}
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </>
                         ) : (
                           <div
@@ -891,13 +864,13 @@ class AccountOrders extends React.Component {
                           </div>
                         )}
                         {tabErrMsg || !orderList.length ? null : (
-                          <div className="grid-footer rc-full-width mt-4 mt-md-2">
+                          <div className="grid-footer rc-full-width mt-4 md:mt-2">
                             <Pagination
                               loading={this.state.loading}
                               totalPage={this.state.totalPage}
                               defaultCurrentPage={this.state.currentPage}
                               key={this.state.currentPage}
-                              onPageNumChange={this.hanldePageNumChange}
+                              onPageNumChange={this.handlePageNumChange}
                             />
                           </div>
                         )}
@@ -925,7 +898,10 @@ class AccountOrders extends React.Component {
                           <LazyLoad>
                             <img
                               className="ord-list-img-fluid"
-                              src={item.pic || IMG_DEFAULT}
+                              src={
+                                optimizeImage({ originImageUrl: item.pic }) ||
+                                IMG_DEFAULT
+                              }
                               alt={item.spuName}
                               title={item.spuName}
                             />
@@ -980,8 +956,8 @@ class AccountOrders extends React.Component {
               )}
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

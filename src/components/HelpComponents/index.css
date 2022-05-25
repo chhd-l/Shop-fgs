@@ -1,0 +1,9 @@
+@media(max-width: 639.98px) {
+  .ui-pop .img-container {
+    width: 80%;
+  }
+  .mobilehelp{
+    display: flex;
+    flex-direction: column;
+  }
+}

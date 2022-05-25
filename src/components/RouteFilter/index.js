@@ -1,125 +1,32 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { loadJS } from '@/utils/utils';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { findUserConsentList } from '@/api/consent';
-//import { getProductPetConfig } from '@/api/payment';
-import { toJS } from 'mobx';
+import { PDP_Regex } from '@/utils/constant';
+import { withOktaAuth } from '@okta/okta-react';
+import { authToken } from '@/api/login';
+import { funcUrl } from '@/lib/url-utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore', 'loginStore', 'checkoutStore', 'clinicStore')
+@inject(
+  'configStore',
+  'checkoutStore',
+  'loginStore',
+  'checkoutStore',
+  'clinicStore'
+)
+@withRouter
 class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  // UNSAFE_componentWillMount() {
-  //   const { history, location, configStore } = this.props;
-  //   const { pathname } = location;
-  //   // 默认了clinic后，再次编辑clinic
-  //   if (
-  //     pathname === '/prescription' &&
-  //     sessionItemRoyal.get('clinic-reselect') === 'true'
-  //   ) {
-  //     return false;
-  //   }
-  //   // 不开启地图，不进入此页面
-  //   if (pathname === '/prescription' && !configStore.prescriberMap) {
-  //     this.props.history.replace('/checkout');
-  //     return false;
-  //   }
-
-  //   if (pathname === '/prescription') {
-  //     if (this.isLogin) {
-  //       let needPrescriber;
-  //       if (this.props.checkoutStore.autoAuditFlag) {
-  //         needPrescriber =
-  //           this.props.checkoutStore.loginCartData.filter(
-  //             (el) => el.prescriberFlag
-  //           ).length > 0;
-  //       } else {
-  //         needPrescriber = this.props.checkoutStore.AuditData.length > 0;
-  //       }
-  //       if (
-  //         !needPrescriber ||
-  //         localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
-  //       ) {
-  //         history.replace('/checkout');
-  //       }
-  //     } else {
-  //       let needPrescriber;
-  //       if (this.props.checkoutStore.autoAuditFlag) {
-  //         needPrescriber =
-  //           this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-  //             .length > 0;
-  //       } else {
-  //         needPrescriber = this.props.checkoutStore.AuditData.length > 0;
-  //       }
-  //       if (
-  //         !needPrescriber ||
-  //         localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
-  //       ) {
-  //         history.replace('/checkout');
-  //       }
-  //     }
-  //   }
-  //   if (
-  //     pathname === '/prescription' &&
-  //     (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
-  //       localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
-  //     ((localItemRoyal.get(`rc-clinic-id-link`) &&
-  //       localItemRoyal.get(`rc-clinic-name-link`)) ||
-  //       (localItemRoyal.get(`rc-clinic-id-select`) &&
-  //         localItemRoyal.get(`rc-clinic-name-select`)) ||
-  //       (localItemRoyal.get(`rc-clinic-id-default`) &&
-  //         localItemRoyal.get(`rc-clinic-name-default`)))
-  //   ) {
-  //     if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-  //       if (this.props.clinicStore.linkClinicId) {
-  //         this.props.clinicStore.setSelectClinicId(
-  //           this.props.clinicStore.linkClinicId
-  //         );
-  //         this.props.clinicStore.setSelectClinicName(
-  //           this.props.clinicStore.linkClinicName
-  //         );
-  //       }
-  //     } else if (
-  //       !this.props.clinicStore.linkClinicId &&
-  //       !this.props.clinicStore.selectClinicId &&
-  //       this.props.clinicStore.defaultClinicId
-  //     ) {
-  //       this.props.clinicStore.setSelectClinicId(
-  //         this.props.clinicStore.defaultClinicId
-  //       );
-  //       this.props.clinicStore.setSelectClinicName(
-  //         this.props.clinicStore.defaultClinicName
-  //       );
-  //     }
-  //     history.replace('/checkout');
-  //     return false;
-  //   }
-
-  //   if (
-  //     pathname.indexOf('/account') !== -1 &&
-  //     !localItemRoyal.get('rc-token')
-  //   ) {
-  //     history.push('/home');
-  //     return false;
-  //   }
-
-  //   if (
-  //     pathname === '/confirmation' &&
-  //     !sessionItemRoyal.get('subOrderNumberList')
-  //   ) {
-  //     history.push('/home');
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   // router refresh=true后，此生命周期无效
-  async shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps) {
     // 默认了clinic后，再次编辑clinic
     if (
       nextProps.location.pathname === '/prescription' &&
@@ -127,72 +34,110 @@ class RouteFilter extends Component {
     ) {
       return false;
     }
-    // 不开启地图，不进入此页面
-    if (
-      nextProps.location.pathname === '/prescription' &&
-      !this.props.configStore.prescriberMap
-    ) {
-      this.props.history.replace('/checkout');
-      return false;
-    }
 
-    if (nextProps.location.pathname === '/prescription') {
-      console.log(toJS(this.props.checkoutStore.autoAuditFlag), 'AuditData');
-      if (this.props.checkoutStore.autoAuditFlag) {
-        this.props.history.replace('/checkout');
-      }
-
-      // if(this.isLogin) {
-      //   let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
-      //   let AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
-      //   this.props.checkoutStore.setAuditData(AuditData)
-      // }else {
-      //   let paramData = this.props.checkoutStore.cartData.map(el => {
-      //     el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
-      //     return el
-      //   })
-      //   let res = await getProductPetConfig({goodsInfos: paramData})
-      //   console.log(res, 'res')
-      //   debugger
-      //   return false
-      //   // this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
-      // }
-      // this.props.history.replace('/checkout');
-      // return false;
-    }
-
-    if (
-      nextProps.location.pathname === '/prescription' &&
-      ((localItemRoyal.get(`rc-clinic-id-link`) &&
-        localItemRoyal.get(`rc-clinic-name-link`)) ||
-        (localItemRoyal.get(`rc-clinic-id-select`) &&
-          localItemRoyal.get(`rc-clinic-name-select`)) ||
-        (localItemRoyal.get(`rc-clinic-id-default`) &&
-          localItemRoyal.get(`rc-clinic-name-default`)))
-    ) {
-      this.props.history.replace('/checkout');
-      return false;
-    }
-
-    if (
-      nextProps.location.pathname.indexOf('/account') !== -1 &&
-      !localItemRoyal.get('rc-token')
-    ) {
-      this.props.history.push('/home');
-      return false;
-    }
-
-    if (
-      nextProps.location.pathname === '/confirmation' &&
-      !sessionItemRoyal.get('subOrderNumberList')
-    ) {
-      this.props.history.push('/home');
-      return false;
-    }
     return true;
   }
-  async componentDidMount() {
-    const { history, location, checkoutStore } = this.props;
+
+  //会员调用consense接口
+  getConsentList() {
+    if (this.isLogin) {
+      const pathname = this.props.location.pathname; //正进入的那个页面
+      const customerId = this.userInfo?.customerId;
+      if (!customerId) {
+        return;
+      }
+      findUserConsentList({
+        customerId: customerId,
+        oktaToken: localItemRoyal.get('oktaToken')
+      }).then((result) => {
+        if (result.context.requiredList.length !== 0) {
+          this.props.history.push({
+            pathname: '/required',
+            state: { path: pathname }
+          });
+        }
+      });
+    }
+  }
+  //判断是否执行consent跳转
+  isGotoRequireConsentLandingPage() {
+    const oktaTokenString = this.props?.authState?.accessToken?.value;
+    if (oktaTokenString) {
+      let oktaToken = 'Bearer ' + oktaTokenString;
+      localItemRoyal.set('oktaToken', oktaToken);
+      let pathname = this.props.location.pathname;
+      // 非/implicit/callback+非required页 调用consense接口
+      if (
+        localItemRoyal.get('rc-token') &&
+        !localItemRoyal.get('rc-register') &&
+        //pathname === '/' &&
+        pathname !== '/implicit/callback' &&
+        pathname !== '/required'
+        //pathname !== '/account/information'
+      ) {
+        this.getConsentList();
+      }
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.interceptToLogin();
+    }
+    const { history, location } = this.props;
+    const { pathname, search, key } = location;
+    sessionItemRoyal.set('prevPath', `${pathname}_${key}`);
+    const parameters = search;
+    parameters.replace('?', '');
+    let searchList = parameters.split('&');
+    let customerId = '';
+    let consentId = '';
+    let uuid = '';
+    if (searchList.length === 3) {
+      customerId = searchList[0].split('=')[1];
+      consentId = searchList[1].split('=')[1];
+      uuid = searchList[2].split('=')[1];
+    }
+    if (customerId && consentId && uuid) {
+      return;
+    } // Dont not go to Required page when from MKT Eamil
+
+    this.isGotoRequireConsentLandingPage();
+
+    if (
+      !PDP_Regex.test(pathname) &&
+      pathname !== '/product-finder' &&
+      pathname !== '/product-finder-recommendation'
+    ) {
+      sessionItemRoyal.remove('pr-question-params');
+      sessionItemRoyal.remove('pf-result');
+      sessionItemRoyal.remove('pf-result-before');
+      localItemRoyal.remove('pr-petsInfo');
+      localStorage.removeItem('pfls');
+      localStorage.removeItem('pfls-before');
+    }
+
+    if (
+      localItemRoyal.get('rc-token') &&
+      !sessionItemRoyal.get('rc-token-lose') &&
+      this.isLogin
+    ) {
+      authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
+    }
+
+    const { checkoutStore } = this.props;
+    const isStorepotal = funcUrl({ name: 'stoken' });
+    if (isStorepotal) {
+      checkoutStore.removePromotionCode();
+    }
+    // goodwill单标识 goodWillFlag: 'GOOD_WILL'
+    const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
+    if (sPromotionCodeFromSearch) {
+      checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
+      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
+    }
+  }
+  componentDidMount() {
+    const { location, checkoutStore } = this.props;
     const { pathname, key } = location;
     const curPath = `${pathname}_${key}`;
     const prevPath = sessionItemRoyal.get('prevPath');
@@ -203,7 +148,15 @@ class RouteFilter extends Component {
       if (prevPath.includes('/checkout')) {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
+        sessionItemRoyal.remove('rc-swishQrcode');
+        sessionItemRoyal.remove('rc-redirectResult');
+        sessionItemRoyal.remove('rc-businessId');
+        sessionItemRoyal.remove('rc-createSwishQrcodeTime');
         sessionItemRoyal.remove('recommend_product');
+        sessionItemRoyal.remove('orderSource');
+        sessionItemRoyal.remove('appointment-no');
+        sessionItemRoyal.remove('isChangeAppoint');
+        sessionItemRoyal.remove('oldAppointNo');
       }
       if (prevPath.includes('/confirmation')) {
         if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
@@ -217,90 +170,53 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('subOrderNumberList');
         sessionItemRoyal.remove('subNumber');
         sessionItemRoyal.remove('oxxoPayUrl');
+        sessionItemRoyal.remove('adyenOxxoAction');
+        sessionItemRoyal.remove('gaPet');
+        sessionItemRoyal.remove('refresh-confirm-page');
       }
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');
       }
-      if (prevPath.includes('/product-finder/question/')) {
-        sessionItemRoyal.remove('product-finder-edit-order');
-      }
+      // if (prevPath.includes('/product-finder-recommendation')) {
+      //   sessionItemRoyal.set('is-from-product-finder', '1');
+      // }
     }
 
     sessionItemRoyal.set('prevPath', curPath);
 
-    // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
-    if (
-      localItemRoyal.get('rc-token') &&
-      !localItemRoyal.get('rc-register') &&
-      pathname === '/' &&
-      pathname !== '/implicit/callback' &&
-      pathname !== '/required' &&
-      pathname !== '/account/information'
-    ) {
-      this.getConsentList();
-    }
-
-    if (
-      !localItemRoyal.get('rc-token') &&
-      pathname.indexOf('/account') !== -1
-    ) {
-      history.push('/home');
-    }
-    if (
-      //游客+从url输入required ===>直接跳回首页
-      !localItemRoyal.get('rc-token') &&
-      pathname.indexOf('/required') !== -1 &&
-      sessionItemRoyal.get('fromLoginPage') !== 'true'
-    ) {
-      history.push('/home');
-    }
+    this.interceptToLogin();
 
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');
-      return null
+      return null;
     }
-    if (pathname !== '/login') {
-      loadJS({
-        url: process.env.REACT_APP_ONTRUST_SRC,
-        dataSets: {
-          domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-          documentLanguage: 'true'
-        }
-      });
-    }
-    if (process.env.REACT_APP_CONSENT_SCRIPT) {
-      loadJS({
-        url: process.env.REACT_APP_CONSENT_SCRIPT,
-        id: 'global-script'
-      });
-    }
+
+    const el = document.querySelector('html');
+    el.lang = window.__.env.REACT_APP_HTML_LANG;
+
+    let base = document.getElementsByTagName('base');
+    base[0].href = window.__.env.REACT_APP_HOMEPAGE;
   }
-  //判断consent接口是否存在必填项
-  isExistRequiredListFun(result) {
-    let pathname = this.props.location.pathname; //正进入的那个页面
-    if (result.context.requiredList.length !== 0) {
-      this.props.history.push({
-        pathname: '/required',
-        state: { path: pathname }
-      });
+
+  /**
+   * 拦截未登录时，直接访问/account相关页面
+   * 1. a标签跳转，非react-router-dom路由，如header/footer -- componentDidUpdate处理
+   * 2. react-router-dom路由 -- componentDidUpdate处理
+   */
+  interceptToLogin() {
+    const { history, location, oktaAuth } = this.props;
+    if (location.pathname.indexOf('/account') !== -1 && !this.isLogin) {
+      localItemRoyal.set(
+        'okta-redirectUrl',
+        history?.location.pathname + history?.location.search
+      );
+      oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
     }
   }
 
-  //总的调用consense接口
-  getConsentList() {
-    if (this.isLogin) {
-      this.doFindUserConsentList();
-    }
-  }
-  //1.会员调用consense接口
-  doFindUserConsentList() {
-    findUserConsentList({}).then((result) => {
-      this.isExistRequiredListFun(result);
-    });
-  }
   render() {
     return <React.Fragment />;
   }
 }
 
-export default withRouter(RouteFilter);
+export default withOktaAuth(RouteFilter);

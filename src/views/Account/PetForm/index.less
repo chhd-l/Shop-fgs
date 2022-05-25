@@ -2,12 +2,15 @@
   /* PC */
   .p-petform {
     .special-need-style {
-      margin: 15px 0 0 0;
+      margin: .9375rem 0 0 0;
       width: 22%;
     }
   }
 }
 .p-petform {
+  .rc-input__label.border-for-weight::before,.rc-input__label.border-for-weight::after{
+    height: 0.5px!important;
+  }
   .section-form-group {
     background-color: #f0f0f0;
     margin-top: 1rem;
@@ -56,7 +59,7 @@
   }
   .section {
     margin: 0 auto;
-    padding: 20px;
+    padding: 1.25rem;
   }
 
   .pet-select-control {
@@ -156,7 +159,7 @@
     height: 1.5rem;
     position: absolute;
     top: 0;
-    left: calc(50% - 12px);
+    left: calc(50% - .75rem);
     border-radius: 999px;
   }
   .group-size .input__radio:checked + .label__input:after {
@@ -172,12 +175,13 @@
   }
   .add-pet-success {
     text-align: center;
-    padding: 30px 20px;
+    padding: 30px 1.25rem;
   }
   .text-done {
     font-size: 1.5rem;
   }
   .select-breed {
+    padding-left: 0;
     /* width: 310px; */
     max-height: 150px;
     margin: 0 auto;
@@ -190,13 +194,19 @@
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid #d7d7d7;
+    &.no-border{
+      border: none
+    }
+  }
+  .optionStyle{
+    font-weight: 300;
   }
   .petPropChecked:after {
     background-position: 18.18% 100%;
     background-image: url(./../../../assets/images/royal-canin.sprite--brand1--xs.svg);
     top: -4px;
     left: 0;
-    width: 24px;
+    width: 1.5rem;
     content: '';
     display: inline-block;
     background-repeat: no-repeat;
@@ -249,24 +259,33 @@
   .react-datepicker-wrapper {
     width: 100%;
     border-bottom: 1px solid #d7d7d7;
-    padding-left: 10px;
+    padding-left: .625rem;
     cursor: pointer;
   }
   .react-datepicker__input-container {
     width: 100%;
   }
   .receiveDate {
+    cursor: pointer;
     width: 100%;
     height: 40px;
     padding: 0.5rem 0;
     border: none;
     border-bottom: 1px solid #d7d7d7;
+    color: #666;
+    font-weight: 300;
+    font-family: inherit;
   }
   .react-datepicker-wrapper {
     height: 40px;
   }
   .required .rc-input label:after {
     content: '';
+  }
+  .weight-unit-select {
+    .choices__inner {
+      padding-top: 0.9rem;
+    }
   }
 }
 
@@ -291,7 +310,7 @@
 .petForm .petFormBox {
   display: flex;
   #petType {
-    margin-bottom: 10px;
+    margin-bottom: .625rem;
   }
 }
 .petFormBox .photoBox {
@@ -323,7 +342,7 @@
       }
     }
     .form-group {
-      font-size: 20px;
+      font-size: 1.25rem;
     }
     .form-group > .form-control-label:nth-child(1) {
       color: #333;
@@ -335,16 +354,25 @@
     .form-group > p {
       text-align: center;
       .rc-btn.rc-btn--one {
-        font-size: 20px;
+        font-size: 1.25rem;
         display: inline;
         margin-left: 0;
       }
       .rc-styled-link {
-        font-size: 20px;
+        font-size: 1.25rem;
       }
     }
     .chooseTypeBox img {
       width: 100px;
     }
   }
+}
+
+
+.input__radio:focus+.rc-input__label--inline::before, .rc-input__radio:focus+.rc-input__label--inline::before {
+  outline: none !important;
+}
+
+.react-datepicker-popper {
+  bottom: 0;
 }

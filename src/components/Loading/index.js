@@ -1,11 +1,14 @@
 import React from 'react';
+import cn from 'classnames';
 
 class Loading extends React.Component {
   static defaultProps = {
     positionAbsolute: false,
     bgColor: 'rgba(0,0,0,.25)',
     customCls: '',
-    customStyle: {}
+    customStyle: {},
+    opacity: 0.5,
+    preloadClassName: ''
   };
   render() {
     const {
@@ -13,7 +16,9 @@ class Loading extends React.Component {
       positionAbsolute,
       bgColor,
       customStyle,
-      customCls
+      customCls,
+      opacity,
+      preloadClassName
     } = this.props;
     return (
       <div
@@ -25,7 +30,7 @@ class Loading extends React.Component {
       >
         <div
           className={`underlay ${positionAbsolute ? 'absolute' : ''}`}
-          style={{ backgroundColor: bgColor }}
+          style={{ backgroundColor: bgColor, opacity }}
         />
 
         <div
@@ -51,6 +56,10 @@ class Loading extends React.Component {
           <div className="rc-loader__spinner" />
           <div className="rc-loader__background" />
         </div>
+        <div
+          className={cn('rc-card rc-list rc-icon rc-img', preloadClassName)}
+          style={{ display: 'none' }}
+        />
       </div>
     );
   }

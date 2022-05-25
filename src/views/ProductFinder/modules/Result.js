@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
@@ -9,30 +9,32 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import LoginButton from '@/components/LoginButton';
 import Help from './Help';
-import { setSeoConfig, formatMoney } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
+import { formatMoney, getRation } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import { seoHoc } from '@/framework/common';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import LazyLoad from 'react-lazyload';
+import { clubSubscriptionSavePets } from '@/api/pet';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 function QListAndPetJSX(props) {
-  const { questionlist, petBaseInfo } = props;
-  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
-  let sterilizedText = sterilized
-  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
+  const { questionlist, petBaseInfo, intl } = props;
+  let sterilized = (petBaseInfo && petBaseInfo.sterilized) || '...';
+  let sterilizedText = sterilized;
+  if (sterilized.toLocaleLowerCase().includes('stérilisé')) {
     // 如果是法语
-    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+    sterilizedText = sterilized.includes('Non') ? 'Non' : 'Oui';
   }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row">
-        <div className="col-12 col-md-6 mb-4 mb-md-0">
+        <div className="col-12 col-md-6 mb-4 md:mb-0">
           <div className="border rounded">
             <p
               className="text-center mt-2 mb-0"
@@ -46,7 +48,7 @@ function QListAndPetJSX(props) {
               <img
                 src={{ cat: catImg, dog: dogImg }[props.type]}
                 style={{ width: '50%', margin: '0 auto' }}
-                alt=""
+                alt="pet image"
               />
             </LazyLoad>
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
@@ -67,6 +69,7 @@ function QListAndPetJSX(props) {
                   <p
                     className="rc-styled-link mb-1 ml-2"
                     onClick={props.handleClickEditBtn.bind(this, ele)}
+                    style={{ cursor: 'pointer' }}
                   >
                     <FormattedMessage id="edit" />
                   </p>
@@ -77,8 +80,8 @@ function QListAndPetJSX(props) {
         </div>
         <div className="col-12 col-md-6">
           <div className="border rounded pr-2 pl-2">
-            <div className="row align-items-center mt-4 mb-2 mb-md-4">
-              <div className="col-12 col-md-6 mb-4 mb-md-0">
+            <div className="row align-items-center mt-4 mb-2 md:mb-4">
+              <div className="col-12 col-md-5 mb-4 md:mb-0">
                 <LazyLoad style={{ height: '100%', width: '100%' }}>
                   <img
                     src={{ cat: catImg, dog: dogImg }[props.type]}
@@ -88,39 +91,37 @@ function QListAndPetJSX(props) {
                       width: '50%',
                       margin: '0 auto'
                     }}
-                    alt=""
+                    alt="pet image"
                   />
                 </LazyLoad>
               </div>
-              <div className="col-12 col-md-6 text-center text-md-left text-break">
+              <div className="col-12 col-md-7 text-center md:text-left text-break">
                 <div className="row">
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="age" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.age) || '...'}
                     </span>
                   </div>
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="breed" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.breed) || '...'}
                     </span>
                   </div>
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="gender" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.gender) || '...'}
                     </span>
                   </div>
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="sterilized" />
                     <br />
-                    <span className="font-weight-normal">
-                      {sterilizedText}
-                    </span>
+                    <span className="font-weight-normal">{sterilizedText}</span>
                   </div>
                 </div>
               </div>
@@ -137,10 +138,10 @@ function QListAndPetJSX(props) {
               ) : (
                 <LoginButton
                   beforeLoginCallback={async () => {
-                    sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
+                    localItemRoyal.set('okta-redirectUrl', '/account/pets');
                   }}
                   btnClass="rc-btn rc-btn--one mb-3"
-                  history={props.history}
+                  intl={intl}
                 >
                   <FormattedMessage id="productFinder.createMyPetProfile" />
                 </LoginButton>
@@ -162,6 +163,8 @@ function QListAndPetJSX(props) {
 }
 
 @inject('loginStore')
+@injectIntl
+@seoHoc('finder-recommendation')
 @observer
 class ProductFinderResult extends React.Component {
   constructor(props) {
@@ -172,23 +175,36 @@ class ProductFinderResult extends React.Component {
       productDetail: null,
       isLoading: true,
       questionlist: [],
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
-      petBaseInfo: null
+      petBaseInfo: null,
+      petsId: ''
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
+    try {
+      if (!localItemRoyal.get('pr-petsInfo') && this.props.loginStore.isLogin) {
+        // await clubSubscriptionSavePets({
+        //   questionParams: JSON.parse(res).queryParams
+        // })
+        //   .then((res) => {
+        //     if (res.code === 'K-000000') {
+        //       let petsInfo = res.context;
+        //       localItemRoyal.set('pr-petsInfo', petsInfo);
+        //       this.setState({ petsId: petsInfo });
+        //     }
+        //   })
+        //   .catch((err) => {});
+      }
+    } catch (e) {
+      console.log(e, 'eeee');
+    }
     if (res) {
-      setSeoConfig({
-        pageName: 'finder-recommendation'
-      }).then(res => {
-        this.setState({seoConfig: res})
-      });
+      let productDetail = JSON.parse(res);
+      if (!productDetail.mainProduct || !productDetail.otherProducts) {
+        this.props.history.push('/product-finder-noresult');
+        return;
+      }
       const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
       const ageItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'age'
@@ -202,8 +218,33 @@ class ProductFinderResult extends React.Component {
       const neuteredItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'neutered'
       );
+      let { mainProduct, otherProducts } = productDetail;
+      let productArr = [mainProduct, ...otherProducts];
+      let spuNoList = productArr?.map((el) => el.spuCode);
+      let rationsParams = { ...productDetail.queryParams, spuNoList };
+      try {
+        let rationRes = await getRation(rationsParams);
+        let rations = rationRes?.context?.rationResponseItems;
+        rations?.forEach((ration) => {
+          if (mainProduct.spuCode == ration.mainItem) {
+            mainProduct.petsRation = `${Math.round(ration.weight)}${
+              ration.weightUnit
+            }/${this.props.intl.messages['day-unit']}`;
+          }
+          otherProducts?.map((el) => {
+            if (el.spuCode == ration.mainItem) {
+              el.petsRation = `${Math.round(ration.weight)}${
+                ration.weightUnit
+              }/${this.props.intl.messages['day-unit']}`;
+            }
+          });
+        });
+      } catch (err) {
+        console.info(err.message);
+      }
+
       this.setState({
-        productDetail: JSON.parse(res),
+        productDetail: productDetail,
         questionlist: parsedQuestionlist,
         petBaseInfo: {
           age: ageItem.length
@@ -221,10 +262,11 @@ class ProductFinderResult extends React.Component {
         },
         isLoading: false
       });
-      let allGoods = JSON.parse(res)
+      let allGoods = JSON.parse(res);
       // let goodsList = [allGoods.mainProduct,...allGoods.otherProducts]
-      let goodsList = [allGoods.mainProduct]
-      this.GAProductImpression(goodsList)
+      let goodsList = [allGoods.mainProduct];
+      //(!isHubGA)&&this.GAProductImpression(goodsList)
+      this.GAProductImpression(goodsList);
     } else {
       this.props.history.push('/product-finder');
     }
@@ -232,8 +274,8 @@ class ProductFinderResult extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-   // 商品列表 埋点
-   GAProductImpression = (productList, totalElements={}, keywords='') => {
+  // 商品列表 埋点
+  GAProductImpression = (productList, totalElements = {}, keywords = '') => {
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName,
@@ -245,7 +287,7 @@ class ProductFinderResult extends React.Component {
         category: item.goodsCate.cateName,
         list: 'Related Items',
         position: index,
-        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
+        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
       };
     });
 
@@ -255,18 +297,18 @@ class ProductFinderResult extends React.Component {
     //   dataLayer[0].search.type = 'with results';
     // }
 
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+    window?.dataLayer?.push({
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
       ecommerce: {
         impressions: impressions
       }
     });
-  }
-   //点击商品 埋点
-   GAProductClick = (item, index) => {
-    console.info('test',item)
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+  };
+  //点击商品 埋点
+  GAProductClick = (item, index) => {
+    console.info('test', item);
+    window?.dataLayer?.push({
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
           actionField: { list: 'Related Items' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
@@ -286,7 +328,7 @@ class ProductFinderResult extends React.Component {
         }
       }
     });
-  }
+  };
   toggleShowQList = () => {
     this.setState((curState) => ({ qListVisible: !curState.qListVisible }));
   };
@@ -301,6 +343,26 @@ class ProductFinderResult extends React.Component {
     sessionItemRoyal.remove('pf-edit-order');
     this.props.history.push(`/product-finder`);
   };
+  productDailyRation = (rations) =>
+    rations && (
+      <div
+        style={{
+          textAlign: 'center',
+          background: '#f9f9f9',
+          color: '#000',
+          maxWidth: '400px',
+          margin: '0 auto'
+        }}
+        className="text-center rc-padding--xs"
+      >
+        <div style={{ fontSize: '12px' }}>
+          <FormattedMessage id="subscription.dailyRation" />
+        </div>
+        <div style={{ fontSize: '1rem' }} className="rc-padding-bottom--xs">
+          {rations}
+        </div>
+      </div>
+    );
   render() {
     const { location, history, match } = this.props;
     const event = {
@@ -321,22 +383,15 @@ class ProductFinderResult extends React.Component {
       questionlist,
       petBaseInfo
     } = this.state;
+    console.log(productDetail, 'productDetails');
     return (
       <div>
-         <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={location}
-          history={history}
-          match={match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -365,6 +420,7 @@ class ProductFinderResult extends React.Component {
                 {qListVisible && (
                   <div>
                     <QListAndPetJSX
+                      {...this.props}
                       summaryIcon={
                         <span className="rc-icon rc-down--xs rc-iconography" />
                       }
@@ -405,7 +461,7 @@ class ProductFinderResult extends React.Component {
                             )[0].goodsInfoImg
                           }
                           className="p-img"
-                          alt=""
+                          alt="goods information image"
                         />
                       </LazyLoad>
                     </div>
@@ -424,35 +480,51 @@ class ProductFinderResult extends React.Component {
                       >
                         {productDetail.mainProduct.subTitle}
                       </div>
-                      <div className="text-center mt-2">
-                        {productDetail.mainProduct.toPrice ? (
-                          <span className="mr-1" style={{ fontSize: '.8em' }}>
-                            <FormattedMessage id="startFrom" />
+                      {this.productDailyRation(
+                        productDetail.mainProduct?.petsRation
+                      )}
+
+                      <div className="text-center mt-2 card--product-contaner-price">
+                        {productDetail.mainProduct?.toPrice ? (
+                          <FormattedMessage
+                            id="pirceRange"
+                            values={{
+                              fromPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct.fromPrice
+                                  )}
+                                </span>
+                              ),
+                              toPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct.toPrice
+                                  )}
+                                </span>
+                              )
+                            }}
+                          />
+                        ) : (
+                          <span className="contaner-price__value">
+                            {formatMoney(productDetail.mainProduct.fromPrice)}
                           </span>
-                        ) : null}
-                        {formatMoney(productDetail.mainProduct.fromPrice)}
-                        {productDetail.mainProduct.toPrice ? (
-                          <>
-                            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-                              <FormattedMessage id="startEnd" />
-                            </span>
-                            {formatMoney(productDetail.mainProduct.toPrice)}
-                          </>
-                        ) : null}
-                        {/* {formatMoney(
-                          Math.min.apply(
-                            null,
-                            productDetail.mainProduct.goodsInfos.map(
-                              (g) => g.marketPrice || 0
-                            )
-                          )
-                        )} */}
+                        )}
                       </div>
-                      <div className="d-flex justify-content-center mt-3 testtest" onClick={()=>{
-                        this.GAProductClick(productDetail.mainProduct, 0)
-                      }}>
+                      <div
+                        className="d-flex justify-content-center mt-3 testtest"
+                        onClick={() => {
+                          this.GAProductClick(productDetail.mainProduct, 0);
+                        }}
+                      >
                         <Link
-                          to={`/details/${productDetail.mainProduct.goodsInfos[0].goodsInfoId}`}
+                          to={`/${productDetail.mainProduct.lowGoodsName
+                            .toLowerCase()
+                            .split(' ')
+                            .join('-')
+                            .replace('/', '')}-${
+                            productDetail.mainProduct.spuCode
+                          }`}
                           className="rc-btn rc-btn--one rc-btn--sm"
                         >
                           <FormattedMessage id="seeTheProduct" />
@@ -474,13 +546,13 @@ class ProductFinderResult extends React.Component {
                   <div className="d-flex">
                     {productDetail.otherProducts.map((ele, i) => (
                       <div
-                        className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
+                        className={`border rounded pt-3 pb-3 pl-2 pr-2 md:pl-0 md:pr-0 ${
                           i ? 'ml-2' : ''
                         }`}
                         key={ele.id}
                         style={{ flex: 1 }}
                       >
-                        <div className="mb-3 p-f-product-img">
+                        <div className="mb-3" style={{ minHeight: '12rem' }}>
                           <LazyLoad style={{ height: '100%', width: '100%' }}>
                             <img
                               src={
@@ -490,7 +562,7 @@ class ProductFinderResult extends React.Component {
                                 )[0].goodsInfoImg
                               }
                               className="p-img"
-                              alt=""
+                              alt="goods information image"
                             />
                           </LazyLoad>
                         </div>
@@ -509,35 +581,42 @@ class ProductFinderResult extends React.Component {
                           >
                             {ele.subTitle}
                           </div>
-                          <div className="text-center mt-2">
-                            {productDetail.mainProduct.toPrice ? (
-                              <span className="mr-1" style={{ fontSize: '.8em' }}>
-                                <FormattedMessage id="startFrom" />
+                          {this.productDailyRation(ele?.petsRation)}
+                          <div className="text-center mt-2 card--product-contaner-price">
+                            {ele.toPrice ? (
+                              <FormattedMessage
+                                id="pirceRange"
+                                values={{
+                                  fromPrice: (
+                                    <span className="contaner-price__value">
+                                      {formatMoney(ele.fromPrice)}
+                                    </span>
+                                  ),
+                                  toPrice: (
+                                    <span className="contaner-price__value">
+                                      {formatMoney(ele.toPrice)}
+                                    </span>
+                                  )
+                                }}
+                              />
+                            ) : (
+                              <span className="contaner-price__value">
+                                {formatMoney(ele.fromPrice)}
                               </span>
-                            ) : null}
-                            {formatMoney(productDetail.mainProduct.fromPrice)}
-                            {productDetail.mainProduct.toPrice ? (
-                              <>
-                                <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-                                  <FormattedMessage id="startEnd" />
-                                </span>
-                                {formatMoney(productDetail.mainProduct.toPrice)}
-                              </>
-                            ) : null}
-                            {/* {formatMoney(
-                              Math.min.apply(
-                                null,
-                                ele.goodsInfos.map((g) => g.marketPrice || 0)
-                              )
-                            )} */}
+                            )}
                           </div>
-                          <div className="d-flex justify-content-center mt-3"  
-                          // onClick={()=>{
-                          //   this.GAProductClick(ele, i+1)
-                          // }}
+                          <div
+                            className="d-flex justify-content-center mt-3"
+                            // onClick={()=>{
+                            //   this.GAProductClick(ele, i+1)
+                            // }}
                           >
                             <Link
-                              to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
+                              to={`/${ele.lowGoodsName
+                                .toLowerCase()
+                                .split(' ')
+                                .join('-')
+                                .replace('/', '')}-${ele.spuCode}`}
                               className="rc-btn rc-btn--one rc-btn--sm"
                             >
                               <FormattedMessage id="seeTheProduct" />
@@ -567,21 +646,18 @@ class ProductFinderResult extends React.Component {
           <hr />
           <div className="rc-layout-container rc-one-column rc-max-width--md rc-padding-x--none--mobile rc-padding-top--md rc-padding-bottom--lg">
             <div className="rc-full-width rc-text--center rc-padding-x--sm rc-padding-x--lg--mobile">
-            <p
-                className="text-center pt-3"
-                style={{ fontSize: '1.3rem' }}
-              >
+              <p className="text-center pt-3" style={{ fontSize: '1.3rem' }}>
                 <FormattedMessage id="productFinder.helpTip1" />
               </p>
               <p className="rc-meta rc-margin-y--lg--mobile">
                 <FormattedMessage id="productFinder.helpTip2" />
               </p>
             </div>
-            
+
             <Help />
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

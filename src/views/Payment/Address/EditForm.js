@@ -1,24 +1,24 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
-
-const localItemRoyal = window.__.localItemRoyal;
+import { getProvincesList } from '@/api/address';
 
 /**
  * add/edit address form - member/visitor
  */
 @inject('paymentStore')
+@injectIntl
 @observer
 class EditForm extends React.Component {
   static defaultProps = {
     type: 'billing',
     initData: null,
     isLogin: false,
-    updateData: () => { }
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -28,39 +28,71 @@ class EditForm extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        rfc: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
         city: '',
         cityName: '',
+        provinceNo: '',
+        provinceId: '',
+        province: '',
         postCode: '',
-        phoneNumber: '',
-        // email: ''
+        phoneNumber: ''
       },
-      countryList: [],
+      countryList: [], // 国家列表
+      provinceList: [], // 省份列表
       errMsgObj: {}
     };
   }
   componentDidMount() {
     const { initData = {} } = this.props;
     const { address } = this.state;
+    // delete initData['email'];
+    // delete address['email'];
+
+    console.log('------------- EditForm initData: ', initData);
+    console.log('------------- EditForm address: ', address);
+
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });
 
     getDictionary({ type: 'country' }).then((res) => {
+      const { address } = this.state;
       this.setState({
         countryList: res
       });
+      address.countryName = res[0].name;
     });
+
+    // 查询省份列表（美国：州）
+    getProvincesList({ storeId: window.__.env.REACT_APP_STOREID }).then(
+      (res) => {
+        this.setState({
+          provinceList: res.context.systemStates
+        });
+      }
+    );
   }
   computedList(key) {
-    let tmp = this.state[`${key}List`].map((c) => {
-      return {
-        value: c.id.toString(),
-        name: c.name
-      };
-    });
-    tmp.unshift({ value: '', name: '' });
+    let tmp = '';
+    if (key == 'province') {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.stateName,
+          stateNo: c.stateNo
+        };
+      });
+      tmp.unshift({ value: '', name: 'State' });
+    } else {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.name
+        };
+      });
+      tmp.unshift({ value: '', name: '' });
+    }
     return tmp;
   }
   deliveryInputChange = (e) => {
@@ -71,7 +103,7 @@ class EditForm extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+    if (name === 'phoneNumber' && window.__.env.REACT_APP_COUNTRY === 'fr') {
       value = value.replace(/^[0]/, '+(33)');
     }
     address[name] = value;
@@ -81,12 +113,17 @@ class EditForm extends React.Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { errMsgObj } = this.state;
     const target = e.target;
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [target.name]: ''
@@ -102,7 +139,16 @@ class EditForm extends React.Component {
   };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
-    address[key] = data.value;
+    console.log('--------------------------★★★ EditForm data: ', data);
+    if (key == 'province') {
+      address.provinceId = data.value;
+      address.province = data.name;
+      address.provinceNo = data.stateNo; // 省份简写
+    } else if (key == 'country') {
+      address.countryName = data.name;
+    } else {
+      address[key] = data.value;
+    }
     this.setState({ address }, () => {
       this.props.updateData(this.state.address);
     });
@@ -130,6 +176,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingFirstName"
             id="shippingFirstName"
             type="text"
+            autocomplete="off"
             value={address.firstName}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -142,8 +189,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.firstName}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   lastNameJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -159,6 +206,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingLastName"
             id="shippingLastName"
             type="text"
+            autocomplete="off"
             value={address.lastName}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -171,8 +219,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.lastName}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   addressRequiredJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -188,6 +236,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingAddress1"
             id="shippingAddress1"
             type="text"
+            autocomplete="off"
             value={address.address1}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -200,8 +249,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.address1}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   addressOptionJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -217,6 +266,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingAddress2"
             id="shippingAddress2"
             type="text"
+            autocomplete="off"
             value={address.address2}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -229,8 +279,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.address2}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   landJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -238,7 +288,10 @@ class EditForm extends React.Component {
         <label className="form-control-label" htmlFor="shippingCountry">
           <FormattedMessage id="payment.country" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+          style={{ marginTop: 0 }}
+        >
           <Selection
             selectedItemChange={(data) =>
               this.handleSelectedItemChange('country', data)
@@ -251,8 +304,8 @@ class EditForm extends React.Component {
           />
         </span>
       </div>
-    )
-  }
+    );
+  };
   cityJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -260,22 +313,51 @@ class EditForm extends React.Component {
         className="form-group required dwfrm_shipping_shippingAddress_addressFields_city"
         id="addressFieldsCity"
       >
-        <label
-          className="form-control-label"
-          htmlFor="shippingAddressCity"
-        >
+        <label className="form-control-label" htmlFor="shippingAddressCity">
           <FormattedMessage id="payment.city" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+          style={{ marginTop: 0 }}
+        >
           <CitySearchSelection
+            placeholder={true}
             defaultValue={address.cityName}
             key={address.cityName}
+            freeText={true}
             onChange={this.handleCityInputChange}
           />
         </span>
       </div>
-    )
-  }
+    );
+  };
+  provinceJSX = () => {
+    const { address } = this.state;
+    return (
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
+        <label className="form-control-label" htmlFor="shippingProvince">
+          <FormattedMessage id="payment.state" />
+        </label>
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+          style={{ marginTop: 0 }}
+        >
+          <Selection
+            selectedItemChange={(data) => {
+              if (data.value != '') {
+                this.handleSelectedItemChange('province', data);
+              }
+            }}
+            choicesInput={true}
+            emptyFirstItem="State"
+            optionList={this.computedList('province')}
+            selectedItemData={{ value: address.provinceId }}
+            key={address.provinceId}
+          />
+        </span>
+      </div>
+    );
+  };
   emailPanelJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -341,7 +423,7 @@ class EditForm extends React.Component {
           <FormattedMessage id="example" />:{' '}
           <FormattedMessage id="examplePostCode" />
         </div>
-        {/* {process.env.REACT_APP_LANG === 'de' ? (
+        {/* {window.__.env.REACT_APP_COUNTRY === 'de' ? (
           <span style={{ padding: '2px', color: '#CA5264' }}>
             * Pflichtfelder
           </span>
@@ -356,7 +438,7 @@ class EditForm extends React.Component {
         className={[
           'form-group',
           'dwfrm_shipping_shippingAddress_addressFields_phone',
-          process.env.REACT_APP_LANG == 'de' ? '' : 'required'
+          window.__.env.REACT_APP_COUNTRY == 'de' ? '' : 'required'
         ].join(' ')}
       >
         {' '}
@@ -367,11 +449,12 @@ class EditForm extends React.Component {
         <span
           className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
           input-setup="true"
-        // data-js-validate=""
-        // data-js-warning-message="*Phone Number isn’t valid"
+          // data-js-validate=""
+          // data-js-warning-message="*Phone Number isn’t valid"
         >
           <input
             type="text"
+            autocomplete="off"
             className="rc-input__control input__phoneField shippingPhoneNumber"
             id="shippingPhoneNumber"
             value={address.phoneNumber}
@@ -401,77 +484,56 @@ class EditForm extends React.Component {
     const defaultJSX = (
       <>
         <div className="row">
-          <div className="col-12 col-md-6">
-            {this.firstNameJSX()}
-          </div>
-          <div className="col-12 col-md-6">
-            {this.lastNameJSX()}
-          </div>
+          <div className="col-12 col-md-6">{this.firstNameJSX()}</div>
+          <div className="col-12 col-md-6">{this.lastNameJSX()}</div>
 
-          <div className="col-12">
-            {this.addressRequiredJSX()}
-          </div>
-          <div className="col-12">
-            {this.addressOptionJSX()}
-          </div>
+          <div className="col-12">{this.addressRequiredJSX()}</div>
+          <div className="col-12">{this.addressOptionJSX()}</div>
 
-          <div className="col-12 col-md-6">
-            {this.landJSX()}
-          </div>
-          <div className="col-12 col-md-6">
-            {this.cityJSX()}
-          </div>
-          <div className="col-12 col-md-6">
-            {this.postCodeJSX()}
-          </div>
-          <div className="col-12 col-md-6">
-            {this.phonePanelJSX()}
-          </div>
+          {window.__.env.REACT_APP_COUNTRY != 'us' ? (
+            <div className="col-12 col-md-6">{this.landJSX()}</div>
+          ) : null}
+
+          <div className="col-12 col-md-6">{this.cityJSX()}</div>
+
+          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+            <div className="col-12 col-md-6">{this.provinceJSX()}</div>
+          ) : null}
+
+          <div className="col-12 col-md-6">{this.postCodeJSX()}</div>
+          <div className="col-12 col-md-6">{this.phonePanelJSX()}</div>
         </div>
       </>
-    )
+    );
     return (
       {
         de: (
           <>
             <div className="row">
-              <div className="col-12 col-md-6">
-                {this.firstNameJSX()}
-              </div>
-              <div className="col-12 col-md-6">
-                {this.lastNameJSX()}
-              </div>
+              <div className="col-12 col-md-6">{this.firstNameJSX()}</div>
+              <div className="col-12 col-md-6">{this.lastNameJSX()}</div>
 
-              <div className="col-12 col-md-6">
-                {this.addressRequiredJSX()}
-              </div>
-              <div className="col-12 col-md-6" style={{visibility:'hidden'}}>
+              <div className="col-12 col-md-6">{this.addressRequiredJSX()}</div>
+              <div className="col-12 col-md-6" style={{ visibility: 'hidden' }}>
                 {this.addressOptionJSX()}
               </div>
-              <div className="col-12 col-md-6">
-                {this.postCodeJSX()}
-              </div>
-              <div className="col-12 col-md-6">
-                {this.cityJSX()}
-              </div>
+              <div className="col-12 col-md-6">{this.postCodeJSX()}</div>
+              <div className="col-12 col-md-6">{this.cityJSX()}</div>
               <div className="col-12 col-md-6">
                 {this.landJSX()}
-                <span style={{ padding: '2px', color: '#CA5264' }}>* Pflichtfelder</span>
+                <span style={{ padding: '2px', color: '#CA5264' }}>
+                  * Pflichtfelder
+                </span>
               </div>
-              <div className="col-12 col-md-6">
-                {this.phonePanelJSX()}
-              </div>
+              <div className="col-12 col-md-6">{this.phonePanelJSX()}</div>
             </div>
           </>
         )
-      }
-    )[process.env.REACT_APP_LANG] || defaultJSX
-  }
+      }[window.__.env.REACT_APP_COUNTRY] || defaultJSX
+    );
+  };
   render() {
-    return (
-      this.showShipping()
-    )
-
+    return this.showShipping();
   }
 }
 

@@ -3,55 +3,35 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { getFaq } from '../../api/faq';
-import { FormattedMessage } from 'react-intl';
+import { getFaq } from '@/api/staticPageApi';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
-import BreadCrumbs from '../../components/BreadCrumbs';
+import BreadCrumbs from '@/components/BreadCrumbs';
 import { Link } from 'react-router-dom';
-import { setSeoConfig } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
-
+import { seoHoc } from '@/framework/common';
+import { funcUrl } from '@/lib/url-utils';
 import './index.less';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
+@seoHoc('FAQ page')
 class FAQ extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dataFAQ: [],
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       // 当前展开的FAQ
       showCur: -1,
       loading: true
     };
     this.handleSelect = this.handleSelect.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig({
-      pageName: 'FAQ page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     window.scrollTo({ top: 0 });
-    getFaq({
-      language: process.env.REACT_APP_LANG,
-      storeId: process.env.REACT_APP_STOREID
-    })
+    getFaq()
       .then((res) => {
         this.setState(
           {
@@ -59,11 +39,11 @@ class FAQ extends React.Component {
             loading: false
           },
           () => {
+            const catogeryType = funcUrl({ name: 'type' });
             const { state } = this.props.history.location;
             const widget =
-              state &&
-              state.catogery &&
-              document.querySelector(`#${state.catogery}`);
+              document.querySelector(`#${state?.catogery}`) ||
+              document.querySelector(`#${catogeryType}`);
             if (widget) {
               setTimeout(() => {
                 window.scrollTo({ top: widget.offsetTop - 90 });
@@ -102,7 +82,7 @@ class FAQ extends React.Component {
       page: {
         type: 'other',
         theme: 'Brand',
-        path: location.pathname,
+        path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: ''
@@ -110,23 +90,12 @@ class FAQ extends React.Component {
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -137,18 +106,18 @@ class FAQ extends React.Component {
             <div className="rc-bg-colour--brand3">
               <div>
                 <div className="rc-padding-y--md rc-md-down" />
-                <div className="rc-one-column">
+                <div className="rc-one-column rc-padding-x--md--mobile">
                   <div>
                     <div className="rc-max-width--md text-center rc-margin-y--md">
                       <h1
-                        className="text-center"
+                        // className="text-center"
                         className="rc-alpha inherit-fontsize"
                       >
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
                       <p
                         className="text-center"
-                        style={{ marginBottom: '4rem' }}
+                        style={{ marginBottom: '4rem', fontSize: 'large' }}
                       >
                         <FormattedMessage
                           id="faq.title"
@@ -156,12 +125,22 @@ class FAQ extends React.Component {
                             val1: (
                               <Link
                                 rel="nofollow"
-                                className="rc-styled-link ui-cursor-pointer"
+                                className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
                                 target="_blank"
                                 to="/help"
-                                rel="nofollow"
+                                // rel="nofollow"
                               >
-                                <FormattedMessage id="here" />
+                                <ins>
+                                  <FormattedMessage id="here2" />
+                                </ins>
+                                {Boolean(
+                                  window.__.env
+                                    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                ) && (
+                                  <span className="warning_blank">
+                                    <FormattedMessage id="opensANewWindow" />
+                                  </span>
+                                )}
                               </Link>
                             )
                           }}
@@ -195,7 +174,7 @@ class FAQ extends React.Component {
                   <dl
                     data-toggle-group=""
                     data-toggle-effect="rc-expand--vertical"
-                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
                     // className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
                   >
                     <div className="experience-region experience-questions">
@@ -222,24 +201,41 @@ class FAQ extends React.Component {
                               dangerouslySetInnerHTML={{
                                 __html: item.question
                               }}
-                            ></div>
+                            />
 
-                            <span
-                              className={`rc-vertical-align icon-change ${
-                                this.state.showCur === item.id
-                                  ? 'rc-icon rc-up rc-brand1'
-                                  : 'rc-icon rc-down rc-iconography'
-                              }`}
-                              style={{ right: '1rem', height: '28px' }}
-                            ></span>
+                            {/*<span*/}
+                            {/*  className={`rc-vertical-align icon-change ${*/}
+                            {/*    this.state.showCur === item.id*/}
+                            {/*      ? 'rc-icon rc-up rc-brand1'*/}
+                            {/*      : 'rc-icon rc-down rc-iconography'*/}
+                            {/*  }`}*/}
+                            {/*  style={{ right: '1rem', height: '28px' }}*/}
+                            {/*></span>*/}
+                            {this.state.showCur === item.id ? (
+                              <span
+                                className={`rc-vertical-align h4 icon iconfont`}
+                                style={{ right: '1rem', height: '28px' }}
+                              >
+                                &#xe604;
+                              </span>
+                            ) : (
+                              <span
+                                className={` rc-vertical-align h4 icon iconfont`}
+                                style={{ right: '1rem', height: '28px' }}
+                              >
+                                &#xe60f;
+                              </span>
+                            )}
                           </div>
                           <div className={`rc-list__content `}>
                             <p
                               dangerouslySetInnerHTML={{ __html: item.answer }}
-                            ></p>
-                            <LazyLoad>
-                              <img src={item.imgUl} alt="" />
-                            </LazyLoad>
+                            />
+                            {item.imgUl ? (
+                              <LazyLoad>
+                                <img src={item.imgUl} alt="storeFaq image" />
+                              </LazyLoad>
+                            ) : null}
                           </div>
                         </div>
                       ))}
@@ -279,7 +275,7 @@ class FAQ extends React.Component {
                           {
                             pitem.storeFaqVo.map((item, idx) => {
                               return (
-                                <dl data-toggle-group data-toggle-effect="rc-expand--vertical" style={{marginBottom:'10px'}}>
+                                <dl data-toggle-group data-toggle-effect="rc-expand--vertical" style={{marginBottom:'.625rem'}}>
                                   <div className="rc-list__accordion-item" style={{borderBottom:0}}>
                                     <dt>
                                       <button className="rc-list__header FAQ_header" id={`heading-${item.id}`} data-toggle={`content-${item.id}`} data-js-open="false" data-depth="1" aria-haspopup="true" aria-selected="false" dangerouslySetInnerHTML={{ __html: item.question }}></button>
@@ -299,8 +295,8 @@ class FAQ extends React.Component {
                 </div>
               )
           } */}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

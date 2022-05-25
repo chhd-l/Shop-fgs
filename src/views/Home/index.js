@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -8,23 +8,33 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroCarousel from '@/components/HeroCarousel';
 import FooterImage from './modules/FooterImage';
-import { Ads } from './ad';
-import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
+import SalesCategory from './modules/SalesCategory';
+import HubSalesCategory from '@/components/HubSalesCategory';
+import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
+import { TopAds, Ads } from './ad';
+import { Advantage, JpAdvantage } from './advantage';
+import {
+  getDeviceType,
+  getOktaCallBackUrl,
+  optimizeImage
+} from '@/utils/utils';
 import './index.css';
-import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
+import { funcUrl } from '@/lib/url-utils';
+import { redirectHoc, seoHoc } from '@/framework/common';
+import { inject, observer } from 'mobx-react';
 
-import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
-import premiumHome from '@/assets/images/home/premium@2x.png';
-import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
-import shippmentHome from '@/assets/images/home/shippment@2x.png';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
+import renderLinkLang from './hreflang';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
-const deviceType = getDeviceType();
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
 function Divider() {
   return (
@@ -37,19 +47,73 @@ function Divider() {
   );
 }
 
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--next iconfont font-weight-bold icon-direction ui-cursor-pointer`}
+      style={{
+        ...style,
+        right: '3%',
+        zIndex: 1,
+        top: '50%',
+        position: 'absolute',
+        transform: 'translateY(-50%)'
+      }}
+      onClick={onClick}
+    >
+      &#xe6f9;
+    </div>
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev iconfont font-weight-bold icon-direction ui-cursor-pointer`}
+      style={{
+        ...style,
+        left: '3%',
+        zIndex: 1,
+        top: '50%',
+        position: 'absolute',
+        transform: 'translateY(-50%)'
+      }}
+      onClick={onClick}
+    >
+      &#xe6fa;
+    </div>
+  );
+}
+
 function HealthNutrition() {
+  const settings = {
+    className: 'slider variable-width',
+    dots: true,
+    infinite: true,
+    // centerMode: true,
+    slidesToShow: 1,
+    // slidesToScroll: 1,
+    // infinite: false,
+    // variableWidth: true,
+    speed: 500,
+    autoplay: true,
+    onLazyLoad: true,
+    accessibility: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+  };
+
   return (
     {
-      en: (
+      us: (
         <div className="experience-component experience-layouts-1to2columnRatio">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="row d-flex align-items-center">
               <div className="col-12 col-lg-4">
                 <div className="experience-component experience-layouts-minicarousel">
-                  <div
-                    data-js-carousel=""
-                    className="rc-carousel js-mini-carousel"
-                  >
+                  <Slider {...settings}>
                     <div className="rc-hero rc-hero__layout--3">
                       <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
                         <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
@@ -72,32 +136,47 @@ function HealthNutrition() {
                         </div>
                         <Link to="/dogs" title="SHOP DOG">
                           <div className="rc-hero__section rc-hero__section--img">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
-                              <source
-                                media="(max-width: 640px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
-                                srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 640px) and (max-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
-                                srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
-                              />
-                              <LazyLoad height={200}>
+                            <LazyLoad height={200}>
+                              <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                <source
+                                  media="(max-width: 640px)"
+                                  // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
+                                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
+                                />
+                                <source
+                                  media="(min-width: 640px) and (max-width: 1439px)"
+                                  // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
+                                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
+                                />
+                                <source
+                                  media="(min-width: 1439px)"
+                                  // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
+                                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
+                                />
                                 <img
                                   className="w-100 ls-is-cached lazyloaded"
-                                  data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
+                                  // data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
                                   alt="Royal Canin specific dog food for every breed"
                                   title="Royal Canin specific dog food for every breed"
-                                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
+                                  src={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
                                 />
-                              </LazyLoad>
-                            </picture>
+                              </picture>
+                            </LazyLoad>
                           </div>
                         </Link>
                       </div>
@@ -124,37 +203,52 @@ function HealthNutrition() {
                         </div>
                         <Link to="/cats" title="SHOP CAT">
                           <div className="rc-hero__section rc-hero__section--img">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
-                              <source
-                                media="(max-width: 640px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 640px) and (max-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
-                              />
-                              <LazyLoad height={200}>
+                            <LazyLoad height={200}>
+                              <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                <source
+                                  media="(max-width: 640px)"
+                                  // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
+                                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
+                                />
+                                <source
+                                  media="(min-width: 640px) and (max-width: 1439px)"
+                                  // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
+                                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
+                                />
+                                <source
+                                  media="(min-width: 1439px)"
+                                  // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
+                                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
+                                />
                                 <img
                                   className="w-100 ls-is-cached lazyloaded"
-                                  data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
+                                  // data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
                                   alt="Royal Canin specific cat food for every breed"
                                   title="Royal Canin specific cat food for every breed"
-                                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
+                                  src={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
                                 />
-                              </LazyLoad>
-                            </picture>
+                              </picture>
+                            </LazyLoad>
                           </div>
                         </Link>
                       </div>
                     </div>
-                  </div>
+                  </Slider>
                 </div>
               </div>
               <div className="col-12 col-lg-8">
@@ -170,32 +264,43 @@ function HealthNutrition() {
                     </a>
                     <div className="row w-100 align-items-center hp-right-content-block rc-margin-top--none">
                       <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                        <picture data-rc-feature-objectfillpolyfill-setup="true">
-                          <source
-                            media="(max-width: 640px)"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=350&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=700&amp;sfrm=png 2x"
-                            srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=350&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=700&amp;sfrm=png 2x"
-                          />
-                          <source
-                            media="(min-width: 640px) and (max-width: 769px)"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=706&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1412&amp;sfrm=png 2x"
-                            srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=706&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1412&amp;sfrm=png 2x"
-                          />
-                          <source
-                            media="(min-width: 769px)"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1244&amp;sfrm=png 2x"
-                            srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1244&amp;sfrm=png 2x"
-                          />
-                          <LazyLoad height={200}>
+                        <LazyLoad height={200}>
+                          <picture data-rc-feature-objectfillpolyfill-setup="true">
+                            <source
+                              media="(max-width: 640px)"
+                              // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw5.jpg 2x`}
+                              srcSet={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
+                            />
+                            <source
+                              media="(min-width: 640px) and (max-width: 769px)"
+                              // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw3.jpg 2x`}
+                              srcSet={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
+                            />
+                            <source
+                              media="(min-width: 769px)"
+                              // srcSet={`${RCDrawPng}, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg 2x`}
+                              srcSet={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
+                            />
                             <img
                               className="w-100 ls-is-cached lazyloaded"
-                              data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png"
                               alt="Royal Canin Health Through Nutrition"
                               title="Royal Canin Health Through Nutrition"
-                              src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png"
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
                             />
-                          </LazyLoad>
-                        </picture>
+                          </picture>
+                        </LazyLoad>
                       </div>
                       <div className=" col-12 col-lg-6">
                         <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
@@ -213,7 +318,7 @@ function HealthNutrition() {
                             to="/Tailorednutrition"
                             title="Learn more"
                           >
-                            Learn more
+                            Explore Tailored Nutrition
                           </Link>
                         </div>
                       </div>
@@ -225,260 +330,258 @@ function HealthNutrition() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
 function Share() {
+  const settingsShare = {
+    className: 'slider variable-width',
+    dots: true,
+    infinite: true,
+    slidesToShow: isMobile ? 1 : 4,
+    speed: 500,
+    autoplay: true,
+    onLazyLoad: true,
+    accessibility: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+  };
   return (
     {
-      en: (
+      us: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
-              <div className="experience-component experience-layouts-cardcarousel">
+              <div className={'carousel-home-share pb-5'}>
                 <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                   <h3 className="rc-beta">Share With Us #RoyalCanin</h3>
                 </div>
-                <div
-                  data-js-carousel=""
-                  data-rc-cards="true"
-                  data-rows="4"
-                  data-rc-prev="prev"
-                  data-rc-next="next"
-                  className="rc-carousel rc-carousel--cards rc-match-heights js-card-carousel"
-                >
-                  <div className="rc-carousel__card-gal">
-                    <div className="rc-padding-x--xs">
-                      <a
-                        className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 lazyloaded"
-                                alt="Royal Canin Dog Products on Social Media"
-                                title="Royal Canin Dog Products on Social Media"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwcb8977c3/Homepage/SOCIAL1.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwcb8977c3/Homepage/SOCIAL1.jpg?sw=586&amp;sfrm=png 2x"
-                                src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwcb8977c3/Homepage/SOCIAL1.jpg?sw=293&amp;sfrm=png"
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </a>
-                    </div>
-                    <div className="rc-padding-x--xs">
-                      <a
-                        className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 lazyloaded"
-                                alt="Royal Canin Cat Products on Social Media"
-                                title="Royal Canin Cat Products on Social Media"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=586&amp;sfrm=png 2x"
-                                src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png"
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </a>
-                    </div>
-                    <div className="rc-padding-x--xs">
-                      <a
-                        className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 lazyloaded"
-                                alt="Royal Canin Dog Products on Social Media"
-                                title="Royal Canin Dog Products on Social Media"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=586&amp;sfrm=png 2x"
-                                src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png"
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </a>
-                    </div>
-                    <div className="rc-padding-x--xs">
-                      <a
-                        className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 ls-is-cached lazyloaded"
-                                alt="Royal Canin Cat Products on Social Media"
-                                title="Royal Canin Cat Products on Social Media"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=586&amp;sfrm=png 2x"
-                                src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png"
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </a>
+                <Slider {...settingsShare}>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{ width: '100%' }}>
+                            <img
+                              className="w-100 lazyloaded"
+                              alt="Royal Canin Dog Products on Social Media"
+                              title="Royal Canin Dog Products on Social Media"
+                              // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg,  ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg 2x`}
+                              // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg`}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg`,
+                                width: 300
+                              })}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
                     </div>
                   </div>
-                </div>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{ width: '100%' }}>
+                            <img
+                              className="w-100 lazyloaded"
+                              alt="Royal Canin Cat Products on Social Media"
+                              title="Royal Canin Cat Products on Social Media"
+                              // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
+                              // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg`}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg`,
+                                width: 300
+                              })}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
+                    </div>
+                  </div>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{ width: '100%' }}>
+                            <img
+                              className="w-100 lazyloaded"
+                              alt="Royal Canin Dog Products on Social Media"
+                              title="Royal Canin Dog Products on Social Media"
+                              // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg 2x`}
+                              // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg`}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg`,
+                                width: 300
+                              })}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
+                    </div>
+                  </div>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{ width: '100%' }}>
+                            <img
+                              className="w-100 ls-is-cached lazyloaded"
+                              alt="Royal Canin Cat Products on Social Media"
+                              title="Royal Canin Cat Products on Social Media"
+                              // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg 2x`}
+                              // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg`}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg`,
+                                width: 300
+                              })}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
+                    </div>
+                  </div>
+                </Slider>
               </div>
             </div>
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
-function AdvantageTips({ secondIconvisible = true }) {
+function AdvantageTips() {
+  const defaultIconList = [
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
+      langKey: 'home.point1'
+    },
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/reimbursed@2x.png`,
+      langKey: 'home.point2'
+    },
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
+      langKey: 'home.point3'
+    },
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`,
+      langKey: 'home.point4'
+    }
+  ];
+  const iconList =
+    {
+      us: [
+        {
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
+          langKey: 'home.point1'
+        },
+        {
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
+          langKey: 'home.point2'
+        },
+        {
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
+          langKey: 'home.point3'
+        },
+        {
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
+          langKey: 'home.point4'
+        }
+      ]
+    }[window.__.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
           <div className="rc-sm-down">
-            <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center">
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={PaymentSecureHome}
-                    srcSet={PaymentSecureHome}
-                    className="mx-auto"
-                    alt="Secure payments"
-                    title="Secure payments"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point1" />
-                </p>
-              </div>
-              {secondIconvisible && (
-                <div className="col-6 centered-icon-list__icon">
-                  <LazyLoad height={200}>
-                    <img
-                      src={reimbursedHome}
-                      srcSet={reimbursedHome}
-                      className="mx-auto"
-                      alt="Quality assurance"
-                      title="Quality assurance"
-                    />
-                  </LazyLoad>
-                  <p className="rc-meta text-center markup-text">
-                    <FormattedMessage id="home.point2" />
-                  </p>
+            <div
+              style={{
+                maxWidth: isMobile ? '100%' : '',
+                padding: isMobile ? '0' : ''
+              }}
+              className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center"
+            >
+              {iconList.map((ele, i) => (
+                <div className="col-6 centered-icon-list__icon" key={i}>
+                  <FormattedMessage id={ele.langKey}>
+                    {(txt) => (
+                      <>
+                        <LazyLoad height={200}>
+                          <img
+                            src={optimizeImage({
+                              originImageUrl: ele.img,
+                              width: 40
+                            })}
+                            srcSet={ele.img}
+                            className="mx-auto"
+                            alt={txt}
+                            title={txt}
+                          />
+                        </LazyLoad>
+                        <p className="rc-meta text-center markup-text">{txt}</p>
+                      </>
+                    )}
+                  </FormattedMessage>
                 </div>
-              )}
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={premiumHome}
-                    srcSet={premiumHome}
-                    className="mx-auto"
-                    alt="Premium service"
-                    title="Premium service"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point3" />
-                </p>
-              </div>
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={shippmentHome}
-                    srcSet={shippmentHome}
-                    className="mx-auto"
-                    alt="Fast shipping"
-                    title="Fast shipping"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point4" />
-                </p>
-              </div>
+              ))}
             </div>
           </div>
           <div className="rc-sm-up">
             <div className="d-flex justify-content-center bottom-content__icon-list text-center">
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={PaymentSecureHome}
-                    srcSet={PaymentSecureHome}
-                    className="mx-auto"
-                    alt="Secure payments"
-                    title="Secure payments"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point1" />
-                </p>
-              </div>
-              {secondIconvisible && (
-                <div className="centered-icon-list__icon">
-                  <LazyLoad height={200}>
-                    <img
-                      src={reimbursedHome}
-                      srcSet={reimbursedHome}
-                      className="mx-auto"
-                      alt="Quality assurance"
-                      title="Quality assurance"
-                    />
-                  </LazyLoad>
-                  <p className="rc-meta text-center markup-text">
-                    <FormattedMessage id="home.point2" />
-                  </p>
+              {iconList.map((ele, i) => (
+                <div
+                  style={{ width: '6rem' }}
+                  className="centered-icon-list__icon"
+                  key={i}
+                >
+                  <FormattedMessage id={ele.langKey}>
+                    {(txt) => (
+                      <>
+                        <LazyLoad height={200}>
+                          <img
+                            src={optimizeImage({
+                              originImageUrl: ele.img,
+                              width: 40
+                            })}
+                            srcSet={ele.ele}
+                            className="mx-auto"
+                            alt={txt}
+                            title={txt}
+                          />
+                        </LazyLoad>
+                        <p className="rc-meta text-center markup-text">{txt}</p>
+                      </>
+                    )}
+                  </FormattedMessage>
                 </div>
-              )}
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={premiumHome}
-                    srcSet={premiumHome}
-                    className="mx-auto"
-                    alt="Premium service"
-                    title="Premium service"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point3" />
-                </p>
-              </div>
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={shippmentHome}
-                    srcSet={shippmentHome}
-                    className="mx-auto"
-                    alt="Fast shipping"
-                    title="Fast shipping"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point4" />
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -487,38 +590,43 @@ function AdvantageTips({ secondIconvisible = true }) {
   );
 }
 
+@seoHoc('Home Page')
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       searchEvent: {}
     };
   }
-  async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
 
-    queryStoreCateList().then((res) => {
-      let tmpRes = (res || []).sort((a, b) => a.sort - b.sort);
-      this.setState({ categoryList: tmpRes, categoryLoading: false });
-    });
+  componentDidMount() {
+    const { loginStore } = this.props;
+    sessionItemRoyal.remove('refresh-confirm-page');
+    if (funcUrl({ name: 'couponCode' })) {
+      localItemRoyal.set('rc-couponCode', funcUrl({ name: 'couponCode' }));
+    }
+    // Cross-store login
+    if (localItemRoyal.get('login-again')) {
+      loginStore.changeLoginModal(true);
+      const callOktaCallBack = getOktaCallBackUrl(
+        localItemRoyal.get('okta-session-token')
+      );
+      localItemRoyal.remove('login-again');
+      //debugger;
+      window.location.href = callOktaCallBack;
+    }
+
+    if (localItemRoyal.get('logout-redirect-url')) {
+      const url = localItemRoyal.get('logout-redirect-url');
+      localItemRoyal.remove('logout-redirect-url');
+      if (location.href !== url) {
+        location.href = url;
+      }
+    }
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   sendGAHeaderSearch = (event) => {
     this.setState({
       searchEvent: event
@@ -526,8 +634,6 @@ class Home extends React.Component {
   };
   render() {
     const { history, match, location } = this.props;
-    const { categoryList } = this.state;
-    const curListNum = categoryList.length;
 
     const event = {
       page: {
@@ -540,85 +646,41 @@ class Home extends React.Component {
       }
     };
 
-    const _catogeryJXS2 = categoryList.map((ele, i) => (
-      <div
-        className={`col-6 ${
-          curListNum >= 6
-            ? curListNum >= 15
-              ? 'col-md-3'
-              : 'col-md-4'
-            : 'col-md-3'
-        }`}
-        key={i}
-      >
-        <Link
-          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-          to={{
-            pathname: `${
-              ele.cateRouter && ele.cateRouter.startsWith('/')
-                ? ele.cateRouter
-                : `/${ele.cateRouter}`
-            }`,
-            state: {
-              GAListParam: 'Catalogue'
-            }
-          }}
-          title={ele.cateName}
-        >
-          <picture className="category-cards__card__img">
-            <source srcSet={ele.cateImgForHome} />
-            <LazyLoad height={300}>
-              <img
-                src={ele.cateImgForHome}
-                alt={ele.cateName}
-                title={ele.altName}
-                style={{ width: '144px' }}
-              />
-            </LazyLoad>
-          </picture>
-          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-            <h3 className="rc-margin--none">{ele.cateName}</h3>
-          </div>
-        </Link>
-      </div>
-    ));
+    //添加seo 收录标签链接
+    const renderLang = (position) => {
+      return renderLinkLang[position].map((item) => {
+        if (item.country !== window.__.env.REACT_APP_COUNTRY) {
+          return (
+            <link
+              key={item.country}
+              rel="alternate"
+              hreflang={item.lang}
+              href={item.href}
+            />
+          );
+        }
+      });
+    };
 
-    const parametersString = history.location.search;
-    if (parametersString.indexOf('redirect=order') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/orders');
-    }
-    if (parametersString.indexOf('redirect=subscription') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/subscription');
-    }
-    if (parametersString.indexOf('redirect=baseinfo') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/information');
-    }
-    if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
-      return <Loading bgColor={'#fff'} />;
+    if (localItemRoyal.get('login-again')) {
+      return null;
     }
 
     return (
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          {renderLang('home')}
         </Helmet>
         <GoogleTagManager
+          key={this.props.location.key}
           additionalEvents={event}
           searchEvent={this.state.searchEvent}
         />
         <Header
+          {...this.props}
           showMiniIcons={true}
           showUserIcon={true}
-          match={match}
-          location={location}
-          history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
@@ -628,81 +690,66 @@ class Home extends React.Component {
               <HeroCarousel history={history} />
             </div>
           </div>
-          <section>
-            <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
-              <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
+          {window.__.env.REACT_APP_HUB ? (
+            <HubSalesCategory rule={salesCategoryFilterRule} />
+          ) : (
+            <SalesCategory />
+          )}
+          <TopAds />
+          <Divider />
+          {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+            <JpAdvantage />
+          ) : (
+            <React.Fragment>
+              <section>
                 <div
-                  className={`${
-                    curListNum >= 6 ? '' : 'row'
-                  } rc-match-heights text-center text-md-left`}
+                  className="rc-bg-colour--brand3"
+                  style={{ padding: '1px 0' }}
                 >
-                  <div
-                    className={`${
-                      curListNum >= 6 ? 'DeCenter' : ''
-                    } col-lg-3 align-self-center`}
-                  >
-                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
-                      <FormattedMessage id="home.productsCategory" />
-                    </h2>
+                  <div className="rc-full-width">
+                    <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                      <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                        <FormattedMessage id="home.convenientTitle" />
+                      </h4>
+                      <div className="value-proposition__container">
+                        <div className="row mx-0">
+                          <Advantage />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    className={`${curListNum >= 6 ? 'DeCenter' : ''} col-lg-9`}
-                  >
-                    <div className="row custom-gutter">
-                      <span className="hidden rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link" />
-                      {_catogeryJXS2}
+                </div>
+              </section>
+
+              <Ads />
+
+              <HealthNutrition />
+              <Share />
+              <Divider />
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <AdvantageTips />
+                </div>
+              </div>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-threeColumnContentBlock">
+                      <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
+                        <FooterImage />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-          <Divider />
-          <section>
-            <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
-              <div className="rc-full-width">
-                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="home.convenientTitle" />
-                  </h4>
-                  <div className="value-proposition__container">
-                    <div className="row mx-0">
-                      <Advantage />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {<Ads />}
-          <Divider />
-
-          <HealthNutrition />
-          <Share />
-
-          <Divider />
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <AdvantageTips/>
-            </div>
-          </div>
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-threeColumnContentBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
-                    <FooterImage />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </React.Fragment>
+          )}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }
 }
 
-export default withOktaAuth(Home);
+// export default withOktaAuth(redirectHoc(Home));
+export default inject('loginStore')(observer(withOktaAuth(redirectHoc(Home))));

@@ -1,0 +1,112 @@
+.shelter-prescription {
+  .for-last-hidden:last-child{
+    visibility: hidden;
+  } 
+  @media (min-width: 769px) {
+    .rc-card--product header {
+      min-height: 70px;
+    }
+  }
+  .rc-icon.rc-right:after,
+  .rc-icon.right:after {
+    background-position: 0 90%!important;
+  }
+  .rc-interactive.rc-iconography.rc-icon.left:after,
+  .rc-interactive.rc-iconography.rc-icon.rc-left:after {
+    background-position: 0 70%!important;
+  }
+  .colom-direction {
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  .rc-outline-light:hover {
+    border-color: #e2001a;
+  }
+  .product-list {
+    .rc-card__link {
+      cursor: pointer;
+      &:hover {
+        .rc-card--b {
+          border-color: #f70000;
+        }
+      }
+    }
+  }
+  .banner-benefits-box {
+    .banner-benefits-li {
+      line-height: 1.5rem;
+      &:before {
+        content: '\2022';
+        color: #ec001a;
+        margin-right: 0.75rem;
+      }
+    }
+  }
+  .price-item {
+    color: #444444;
+    font-size: 1.3125rem;
+  }
+  .rc-interactive.rc-iconography:hover:after {
+    background-image: url('https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--brand1.svg?v=8-9-1');
+  }
+  .select-position {
+    position: relative;
+  }
+  @media (min-width: 769px) {
+    .select-position {
+      top: -80px;
+    }
+    .slik-list-article {
+      padding: 0 .9375rem;
+    }
+    .max-width475 {
+      max-width: 475px;
+    }
+    .section-why {
+      p {
+        font-size: 1.125rem;
+        padding-bottom: 70px;
+      }
+      .show-video {
+        width: 439px;
+        margin: 0 auto;
+      }
+    }
+  }
+  @media (max-width: 769px) {
+    .select-position {
+      top: -66.66px;
+    }
+    .section-why {
+      margin: 0 1.125rem;
+      h4 {
+        padding-top: 40px;
+      }
+      p {
+        // font-size: 1.125rem;
+        // padding-bottom: 47px;
+      }
+      img {
+        padding: 0 .75rem;
+      }
+    }
+    h6,
+    h4 {
+      font-size: 1.125rem;
+    }
+    .banner-benefits-box {
+      // position: relative;
+      // .banner-benefits-li {
+      //   padding-left: 1.5rem;
+      //   &:before {
+      //     content: '';
+      //     position: absolute;
+      //     width: 2rem;
+      //     height: 2rem;
+      //     background-image: url('./images/foot-icon.png');
+      //     left: -0.5rem;
+      //   }
+      // }
+    }
+  }
+}

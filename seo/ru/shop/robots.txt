@@ -1,0 +1,10 @@
+The Robots.txt file controls accessibility to resources by search engine crawlers and is vital for efficient crawling by search engines.
+
+https://shop.royalcanin.ru/robots.txt
+User-agent: *
+Disallow: *prefn2=*
+Disallow: *prefn3=*
+Disallow: *prefn4=*
+Disallow: *Search-Show*
+Disallow: /checkout*
+Sitemap: https://www.shop.royal-canin.ru/sitemap_index.xml

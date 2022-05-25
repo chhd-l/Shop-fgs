@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import Help from '../modules/Help';
 import NavItem from '../modules/NavItem';
@@ -27,7 +27,7 @@ function SecondItemContainer(props) {
           data-tab-init="true"
           onClick={props.handleClickToggleChilds}
         >
-          Retour
+          <FormattedMessage id="menu.return" />
         </button>
       </li>
       {props.childsListContent || null}
@@ -36,7 +36,7 @@ function SecondItemContainer(props) {
   );
 }
 
-class MegaMenu extends React.Component {
+class MegaMenuMobile extends React.Component {
   static defaultProps = {
     menuData: [],
     handleClickNavItem: () => {}
@@ -82,36 +82,35 @@ class MegaMenu extends React.Component {
             <ul className="rc-list rc-list--blank subcategories">
               {item.children.map((cItem, cIdx) => (
                 <li className="rc-list__item w-100" key={cIdx}>
-                  <dl
-                    data-toggle-effect="rc-expand--vertical"
-                    className="custom-accordion rc-margin--none"
-                    role="presentation"
-                  >
-                    <div className="custom-accordion__item">
-                      <dt>
-                        <button
-                          className="custom-accordion__button rc-list__header"
-                          role="menuitem"
-                          aria-selected="false"
-                          data-tab-init="true"
-                          onClick={this.handleClickToggleChilds.bind(
-                            this,
-                            cItem
-                          )}
-                        >
-                          {cItem.navigationName}
-                          <span
-                            className={`rc-icon rc-iconography ${
-                              cItem.expand ? 'rc-down--xs' : 'rc-right--xs'
-                            }`}
-                          />
-                        </button>
-                      </dt>
-                      {cItem.children &&
-                        cItem.children.length > 0 &&
-                        cItem.children.map((eItem, eIdx) => (
+                  {cItem.children && cItem.children.length > 0 ? (
+                    <dl
+                      data-toggle-effect="rc-expand--vertical"
+                      className="custom-accordion rc-margin--none"
+                      role="presentation"
+                    >
+                      <div className="custom-accordion__item">
+                        <dt>
+                          <button
+                            className="custom-accordion__button rc-list__header"
+                            role="menuitem"
+                            aria-selected="false"
+                            data-tab-init="true"
+                            onClick={this.handleClickToggleChilds.bind(
+                              this,
+                              cItem
+                            )}
+                          >
+                            {cItem.navigationName}
+                            <span
+                              className={`rc-icon rc-iconography ${
+                                cItem.expand ? 'rc-down--xs' : 'rc-right--xs'
+                              }`}
+                            />
+                          </button>
+                        </dt>
+                        {cItem.children.map((eItem, eIdx) => (
                           <dd
-                            className={`rc-list__content rc-bg-colour--brand4 rc-padding--none ${
+                            className={`rc-list__content rc-bg-colour--brand4 rc-padding--none bg-white ${
                               !!cItem.expand ? '' : 'hidden'
                             }`}
                             key={eIdx}
@@ -120,7 +119,7 @@ class MegaMenu extends React.Component {
                               <li className="rc-list__item w-100">
                                 <NavItem
                                   item={eItem}
-                                  className="rc-list__link submenu-padding-mobile"
+                                  className="rc-list__link submenu-padding-mobile bg-white"
                                   onClick={this.handleClickNavItem.bind(
                                     this,
                                     eItem
@@ -132,20 +131,31 @@ class MegaMenu extends React.Component {
                             </ul>
                           </dd>
                         ))}
-                    </div>
-                  </dl>
+                      </div>
+                    </dl>
+                  ) : (
+                    <NavItem
+                      item={cItem}
+                      className="rc-list__link submenu-padding-mobile bg-white"
+                      onClick={this.handleClickNavItem.bind(this, cItem)}
+                    >
+                      {cItem.navigationName}
+                    </NavItem>
+                  )}
                 </li>
               ))}
             </ul>
-            <li className="rc-list__item w-100">
-              <NavItem
-                className="rc-list__header rc-list__link submenu-padding-mobile"
-                item={item}
-                onClick={this.handleClickNavItem.bind(this, item)}
-              >
-                <FormattedMessage id="viewAll" />
-              </NavItem>
-            </li>
+            {window.__.env.REACT_APP_COUNTRY !== 'jp' ? (
+              <li className="rc-list__item w-100">
+                <NavItem
+                  className="rc-list__header rc-list__link submenu-padding-mobile bg-white"
+                  item={item}
+                  onClick={this.handleClickNavItem.bind(this, item)}
+                >
+                  <FormattedMessage id="viewAll" />
+                </NavItem>
+              </li>
+            ) : null}
           </>
         }
         assetContent={
@@ -227,7 +237,7 @@ class MegaMenu extends React.Component {
               data-toggle-group="mobile"
               data-toggle-effect="rc-expand--horizontal"
             >
-              <div className="rc-layout-container rc-three-column">
+              <div className="rc-layout-container rc-three-column h-full">
                 <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-right--none">
                   <ul
                     className="rc-list rc-list--blank rc-list--align"
@@ -252,4 +262,4 @@ class MegaMenu extends React.Component {
   }
 }
 
-export default MegaMenu;
+export default MegaMenuMobile;

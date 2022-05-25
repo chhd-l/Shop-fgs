@@ -1,0 +1,180 @@
+.Felin .receiveDate {
+  outline: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-weight: 500;
+}
+.Felin .react-datepicker__day--selected {
+  background: #ec001a;
+  border-radius: 50%;
+}
+.Felin .iconfont-date {
+  color: #ec001a;
+}
+.Felin {
+  .rc-espilon,.lazyload-wrapper{
+    width: 100%!important;
+  }
+  .consent a{
+    color: blue;
+    text-decoration: underline;
+  }
+  .consent a:hover {
+    color: blue;
+    text-decoration: underline;
+  }
+  .firstTitle {
+    font-size: 2.125rem !important;
+  }
+  #Selection {
+    width: 320px;
+    display: inline-block;
+    margin: 1.25rem 0 40px;
+    border-bottom: 1px solid #aaa;
+  }
+  .ui-cursor-pointer.active {
+    border-bottom: 2px solid #ec001a;
+    color: #ec001a;
+  }
+  .rc-content--fixed-header p {
+    margin-bottom: 0;
+    color: #666;
+  }
+  .mb-20 {
+    margin-bottom: 1.25rem !important;
+  }
+  .pt-35 {
+    padding-top: 35px;
+  }
+  section {
+    padding: 0 150px;
+    display: flex;
+  }
+  .col-6 {
+    margin: 50px 0;
+  }
+  .contactUs {
+    text-align: center;
+  }
+  .rc-input--stacked {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  .react-calendar {
+    background: #fff;
+    border-color: #ccc;
+  }
+  .react-calendar__tile {
+    color: #666;
+    border-radius: 50%;
+    font-family: "RC TYPE",Roboto,Avenir,Helvetica,Arial,sans-serif;
+    font-weight: 300;
+    font-size: .875rem;
+    padding: .25rem .5rem;
+    abbr {
+      border-radius: 50%;
+      width: 1.5rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      display: inline-block;
+    }
+  }
+  .react-calendar__tile:disabled {
+    background: #fff;
+    opacity: .2;
+  }
+  
+  .react-calendar__tile:enabled:hover {
+    background: none;
+    abbr {
+      background: #e6e6e6;
+    }
+  }
+  .react-calendar__tile--now {
+    background: none;
+  }
+  .react-calendar__tile.react-calendar__tile--active {
+    color: #fff;
+    background: none;
+    abbr {
+      background: #ec001a;
+    }
+    &:hover abbr {
+      background: #ec001a;
+    }
+  }
+  .react-calendar__tile:enabled:focus {
+    background: none;
+  }
+  abbr[data-original-title], abbr[title] {
+    text-decoration: auto;
+    font-family: "RC TYPE",Roboto,Avenir,Helvetica,Arial,sans-serif;
+    font-weight: 500;
+  }
+  .react-calendar__navigation {
+    margin-bottom: 0;
+  }
+  .react-calendar__navigation__prev2-button, .react-calendar__navigation__next2-button {
+    display: none;
+  }
+  .react-calendar__navigation button:enabled:hover, .react-calendar__navigation button:enabled:focus {
+    background: #fff;
+  }
+  .react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
+    text-transform: capitalize;
+    color: rgb(102, 102, 102);
+  }
+  .react-calendar__navigation button[disabled] {
+    background: none;
+  }
+  .react-calendar__month-view__days__day--neighboringMonth {
+    visibility: hidden;
+  }
+  .react-calendar__navigation__arrow span{
+    color: #aaa;
+    font-weight: 900;
+  }
+  .react-calendar__navigation__arrow span:hover {
+    color: #ec001a;
+  }
+  .react-calendar__navigation__arrow[disabled] span:hover {
+    color: #aaa;
+  }
+  .react-calendar__month-view__weekdays__weekday {
+    text-transform: capitalize;
+  }
+}
+@media (min-width: 769px) {
+  .Felin {
+    .rc-layout-container.rc-two-column {
+      max-width: 1140px;
+      margin: 40px auto;
+    }
+    .rc-espilon {
+      width: 100%;
+      padding: 0 50px;
+    }
+    #felinFooter h3 {
+      width: 500px;
+    }
+    .contactUs {
+      width: 450px;
+      margin: 0 auto;
+    }
+    main .ui-cursor-pointer {
+      padding: 5px 1.25rem;
+    }
+  }
+}
+@media (max-width: 769px) {
+  .Felin {
+    .rc-espilon {
+      width: 100%;
+    }
+    .ui-cursor-pointer {
+      padding: 5px .625rem;
+      flex: 1;
+    }
+  }
+}

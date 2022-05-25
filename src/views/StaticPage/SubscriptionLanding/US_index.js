@@ -3,568 +3,581 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import Help from './Fr/help';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import autoship from './images/us_autoship.png';
 import icon1 from './images/us_icon1.png';
 import icon2 from './images/us_icon2.png';
 import icon3 from './images/us_icon3.png';
 import icon4 from './images/us_icon4.png';
-import cat from './images/cat.png';
-import dog from './images/dog.png';
+import emailImg from './images/Emailus_icon.png';
+import callImg from './images/customer-service.png';
+import helpImg from './images/FAQ_icon.png';
+import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
-
 import './index.css';
+import LazyLoad from 'react-lazyload';
+import { seoHoc } from '@/framework/common';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { LOGO_CLUB, LOGO } from '@/utils/constant';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href
-
-@inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
-@observer
+@seoHoc('Subscription Page')
 @injectIntl
-class Help extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then(res => {
-      this.setState({seoConfig: res})
-    });
-  }
+@observer
+class SubscriptionLanding extends React.Component {
   render(h) {
+    const { intl } = this.props;
     const event = {
       page: {
         type: 'Content',
-        theme: ''
+        theme: '',
+        path: this.props.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
       }
     };
-
     return (
-      <div className="recommendation">
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+      <div className="subscriptionLanding">
+        <Canonical />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <h1 className="hidden">Royal canin</h1>
           <BannerTip />
-          <section
-            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
-          >
-            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              IT’S MORE THAN FREE DELIVERY
-            </h2>
-            <div className="rc-intro inherit-fontsize children-nomargin">
-              <p>
-                At Royal Canin®, we know that caring for a new puppy can bring a
-                lot of questions. That’s why we offer exclusive benefits like
-                24/7 access to pet experts, welcome home puppy kits and more
-                through the Royal Canin Club. Joining is easy — sign up for
-                automatic shipping on your pet’s tailored formulas to become a
-                member today.
-                <br />
-              </p>
-              <p>
-                Your <strong>free</strong> membership includes:
-              </p>
-              <p>&nbsp;</p>
-            </div>
-          </section>
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-pawListBlock">
+                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--lg--mobile">
+                    <div className="rc-max-width--lg rc-padding-y--sm">
+                      <div className="rc-max-width--md text-center rc-margin-y--md rc-padding-x--sm">
+                        <h2 className="rc-beta text-center">
+                          {/*IT’S MORE THAN FREE DELIVERY*/}
+                          <FormattedMessage id="SubscriptionLanding.MainTitle" />
+                        </h2>
+                        <div className="rc-intro inherit-fontsize children-nomargin">
+                          <p>
+                            {/*At Royal Canin®, we know that caring for a new pet*/}
+                            {/*can bring a lot of questions. That’s why we offer*/}
+                            {/*exclusive benefits like access to a Royal Canin*/}
+                            {/*Advisor and more through the Royal Canin Club.*/}
+                            {/*Joining is easy — sign up for automatic shipping on*/}
+                            {/*your pet’s tailored formulas to become a member*/}
+                            {/*today.*/}
+                            <FormattedMessage id="SubscriptionLanding.MainText1" />
+                            <br />
+                            <br />
+                          </p>
+                          {/*<p>*/}
+                          {/*  <FormattedMessage*/}
+                          {/*    id="SubscriptionLanding.MainText2"*/}
+                          {/*    values={{*/}
+                          {/*      val1: (*/}
+                          {/*        <strong>*/}
+                          {/*          <FormattedMessage id="free" />*/}
+                          {/*        </strong>*/}
+                          {/*      )*/}
+                          {/*    }}*/}
+                          {/*  />*/}
+                          {/*  /!*Your <strong>free</strong> membership includes:*!/*/}
+                          {/*</p>*/}
+                          <p>&nbsp;</p>
+                          <p>&nbsp;</p>
+                        </div>
+                        <div className="rc-btn-group d-block d-md-none rc-text--center">
+                          <Link to="/cats">
+                            <button className="rc-btn rc-btn--one rc-margin-right--xs mb-2 md:mb-0">
+                              {/*Shop Cat Formulas*/}
+                              <FormattedMessage id="SubscriptionLanding.catFormulas" />
+                            </button>
+                          </Link>
+                          <Link to="/dogs">
+                            <button className="rc-btn rc-btn--one mb-2 md:mb-0">
+                              {/*Shop Dog Formulas*/}
+                              <FormattedMessage id="SubscriptionLanding.dogFormulas" />
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
 
-          <div
-            className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 80px' }}
-          >
-            <div
-              className="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div style={{ width: '550px' }}>
-                <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <strong>The Royal Canin Pet Advisor Live App</strong> - chat
-                  with experts around the clock about your pet’s health,
-                  nutrition and behavior; track your pet’s growth; view
-                  checklists to ensure your home is puppy-proof; and more.
-                </div>
-                <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <strong>Specialty Welcome Box + FREE Shipping</strong> -
-                  receive an assortment of gifts with your first autoshipment,
-                  plus save 30% on your first order and another 5% on every
-                  autoship order.
-                </div>
-                <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <strong>Personalized Recommendations</strong> - get breeder
-                  recommendations for pet food and products as your pet grows.
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  <Link className="rc-btn rc-btn--one" to="/cats">
-                    <FormattedMessage id="subscriptionLanding.catButton" />
-                  </Link>
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  <Link className="rc-btn rc-btn--one" to="/dogs">
-                    <FormattedMessage id="subscriptionLanding.dogButton" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="rc-column">
-              <LazyLoad>
-                <img src={autoship} style={{ width: '100%' }} alt="" />
-              </LazyLoad>
-            </div>
-          </div>
-          <section
-            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
-          >
-            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              How to Join Royal Canin Club
-            </h2>
-          </section>
-          <div
-            className="rc-layout-container rc-four-column"
-            style={{ padding: '20px 80px' }}
-          >
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon1}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                Find your <strong>handpicked nutrition products</strong> in your
-                cart.
-              </p>
-            </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon2}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                Select <strong>automatic shipping</strong> and input your
-                payment method.
-              </p>
-            </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon3}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                <strong>Receive your product automatically</strong> based on
-                your schedule. Change or cancel <strong>at any time</strong>.
-              </p>
-            </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon4}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                Get your exclusive<strong> Royal Canin Club perks</strong>,
-                including the Royal Canin Pet Advisor Live app.
-              </p>
-            </div>
-          </div>
-          <div
-            className="rc-layout-container rc-three-column"
-            style={{ padding: '20px', background: '#eee' }}
-          >
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={cat}
-                  style={{
-                    width: '100%',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-            </div>
-            <div
-              className="rc-column"
-              style={{ textAlign: 'center', paddingTop: '80px' }}
-            >
-              <h2 style={{ color: '#E2001A' }}>Get Started</h2>
-              <p>
-                Find your pet’s precise formula, and be sure to choose automatic
-                shipping at checkout.
-              </p>
-              <div>
-                <Link className="rc-btn rc-btn--sm rc-btn--two" to="/cats">
-                  Cat
-                </Link>{' '}
-                <Link className="rc-btn rc-btn--sm rc-btn--two" to="/dogs">
-                  Dog
-                </Link>
-              </div>
-            </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={dog}
-                  style={{
-                    width: '100%',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-            </div>
-          </div>
-          <div className="help-page" style={{ marginBottom: '1rem' }}>
-            <section style={{ textAlign: 'center' }}>
-              <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Need help?
-              </h2>
-              <p>
-                As true pet lovers and experts in tailored nutrition, we're here
-                to help you give your pet the healthiest life possible.
-              </p>
-            </section>
-            <div className="rc-layout-container rc-three-column rc-match-heights rc-padding-bottom--lg rc-max-width--lg">
-              <div className="rc-column rc-padding--none">
-                <article className="rc-full-width rc-column rc-padding-left--none--desktop">
-                  <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
-                    <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                      <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
-                        <div style={{ width: '100%' }}>
-                          <b style={{ color: '#00A4A6' }}>
-                            <FormattedMessage id="help.byTelephone" />
-                          </b>
-                          <p>
-                            <span style={{ color: 'rgb(102, 102, 102)' }}>
-                              {this.props.configStore.contactTimePeriod}
-                            </span>
-                          </p>
-                          <div className="rc-margin-top--xs">
-                            <a
-                              href="tel: 1-844-673-3772"
-                              style={{ color: '#00A4A6' }}
-                              className="rc-numeric"
-                            >
-                              {this.props.configStore.storeContactPhoneNumber}
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
-                        <LazyLoad>
-                          <img
-                            className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            alt="call us"
-                            title="call us"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                          />
-                        </LazyLoad>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </div>
-              <div className="rc-column rc-padding--none">
-                <article className="rc-full-width rc-column rc-padding-left--none--desktop">
-                  <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
-                    <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                      <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
-                        <div style={{ width: '100%' }}>
-                          <b style={{ color: '#0087BD' }}>
-                            <FormattedMessage id="help.byEmail" />
-                          </b>
-                          <p>
-                            <span style={{ color: 'rgb(102, 102, 102)' }}>
-                              <FormattedMessage id="help.tip3" />
-                            </span>
-                          </p>
-                          <div className="rc-margin-top--xs">
-                            <div
-                              href="https://shop.royalcanin.com/help/contact"
-                              style={{ color: '#0087BD' }}
-                              className="rc-numeric"
-                            >
-                              {this.props.configStore.storeContactEmail}
+                      <div className="rc-layout-container rc-two-column rc-content-h-middle">
+                        <div className="rc-column">
+                          <div className="rc-padding-y--lg--mobile rc-full-width">
+                            <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                              {[
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew1'
+                                ],
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew2'
+                                ],
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew3'
+                                ],
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew4'
+                                ]
+                              ]
+                                .filter((e) => e)
+                                .map((item, i) => (
+                                  <li className="rc-list__item flex" key={i}>
+                                    <span className="iconfont iconicon_jiaozhang text-rc-red mr-2 block" />
+                                    <span
+                                      dangerouslySetInnerHTML={{ __html: item }}
+                                    />
+                                  </li>
+                                ))}
+                            </ul>
+                            <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
+                              <Link to="/cats/retail-products">
+                                <button className="rc-btn rc-btn--one rc-margin-right--xs">
+                                  {/*Shop Cat Formulas*/}
+                                  <FormattedMessage id="SubscriptionLanding.catFormulas" />
+                                </button>
+                              </Link>
+                              <Link to="/dogs/retail-products">
+                                <button className="rc-btn rc-btn--one">
+                                  {/*Shop Dog Formulas*/}
+                                  <FormattedMessage id="SubscriptionLanding.dogFormulas" />
+                                </button>
+                              </Link>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
-                        <LazyLoad>
+                        <div className="rc-column relative">
                           <img
-                            className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            alt="email us"
-                            title="email us"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                            className="absolute left-8 md:left-14 w-36 md:w-56 top-8 md:top-24"
+                            src={
+                              window.__.env.REACT_APP_COUNTRY === 'us'
+                                ? LOGO_CLUB
+                                : LOGO
+                            }
+                            alt=""
                           />
-                        </LazyLoad>
+                          <LazyLoad>
+                            <img
+                              alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
+                              className="w-100 lazyloaded"
+                              // src={usImage}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/DogWithLogo.jpg`}
+                            />
+                          </LazyLoad>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </article>
+                </div>
               </div>
-              <div className="rc-column rc-padding--none">
-                <article className="rc-full-width rc-column rc-padding-left--none--desktop">
-                  <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
-                    <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                      <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
-                        <div>
-                          <b>Have a question?</b>
-                          <p>
-                            <span style={{ color: 'rgb(102, 102, 102)' }}>
-                              Check out our&nbsp;
-                            </span>
+            </div>
+          </div>
+
+          <div className="experience-component experience-assets-divider">
+            <div
+              className="rc-border-bottom rc-border-colour--brand4"
+              style={{ borderBottomWidth: '4px' }}
+            ></div>
+          </div>
+
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-importContentAsset">
+                  <div className="content-asset">
+                    <div className="rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile">
+                      <div className="rc-max-width--md text-center rc-margin-y--md rc-padding-x--sm">
+                        <h2 className="rc-beta text-center">
+                          {/*How to Join Royal Canin Club*/}
+                          <FormattedMessage id="SubscriptionLanding.howToJoinTitle" />
+                        </h2>
+                      </div>
+                      <div className="row text-center">
+                        <div className="col-6 col-md-3">
+                          <img
+                            className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
+                            src={icon1}
+                            alt="Bitmap image"
+                          />
+                          <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
+                            <p>
+                              {/*Add expert-recommended pet food and products to*/}
+                              {/*your cart*/}
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText1" />
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-6 col-md-3">
+                          <img
+                            className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
+                            src={icon2}
+                            alt="Bitmap image"
+                          />
+                          <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
+                            <p>
+                              {/*Select automatic shipping and input your payment*/}
+                              {/*method.*/}
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText2" />
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-6 col-md-3">
+                          <img
+                            className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
+                            src={icon3}
+                            alt="Bitmap image"
+                          />
+                          <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
+                            <p>
+                              {/*Receive your autoship purchase based on your*/}
+                              {/*schedule––change or cancel at any time*/}
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText3" />
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-6 col-md-3">
+                          <img
+                            className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
+                            src={icon4}
+                            alt="Bitmap image"
+                          />
+                          <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
+                            <p>
+                              {/*Get your exclusive Royal Canin Club perks,*/}
+                              {/*including access to a Royal Canin Advisor*/}
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText4" />
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-importContentAsset">
+                  <div className="content-asset">
+                    <div className="rc-bg-colour--brand4">
+                      <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
+                        <div className="col-12 col-md-4 order-1 md:order-0">
+                          <div className="rc-column rc-padding--none">
+                            <img
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.jpg`}
+                              alt="Cat image"
+                            />
+                          </div>
+                          <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <Link
-                              to="/faq"
-                              rel="noopener noreferrer"
-                              data-link-type="external"
-                              style={{
-                                color: 'rgb(236, 0, 26)',
-                                backgroundColor: 'rgb(255, 255, 255)'
-                              }}
+                              className="rc-btn rc-btn--sm rc-btn--two w-50"
+                              to="/cats/"
                             >
-                              FAQs
+                              {/*Cat*/}
+                              <FormattedMessage id="SubscriptionLanding.cat" />
                             </Link>
-                            <span style={{ color: 'rgb(102, 102, 102)' }}>
-                              &nbsp;to find the answers you're looking for.
-                            </span>
-                          </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
-                        <LazyLoad>
-                          <img
-                            className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            alt="faq"
-                            title="faq"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                          />
-                        </LazyLoad>
+                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 md:order-1">
+                          <div className="rc-gamma rc-text--center">
+                            {/*Get Started*/}
+                            <FormattedMessage id="SubscriptionLanding.getStarted" />
+                          </div>
+                          <div className="rc-intro inherit-fontsize rc-text--center">
+                            <p>
+                              {/*Find your pet’s precise formula, and be sure to*/}
+                              {/*choose automatic shipping at checkout.*/}
+                              <FormattedMessage id="SubscriptionLanding.getStartedText" />
+                            </p>
+                          </div>
+                          <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
+                            <DistributeHubLinkOrATag
+                              href="/product-finder"
+                              to="/product-finder"
+                            >
+                              <button className="rc-btn rc-btn--one mb-2 md:mb-0">
+                                {/*Shop Dog Formulas*/}
+                                <FormattedMessage id="SubscriptionLanding.BothFormulas" />
+                              </button>
+                            </DistributeHubLinkOrATag>
+                            {/*<Link*/}
+                            {/*  className="rc-btn rc-btn--sm rc-btn--two"*/}
+                            {/*  to="/cats/"*/}
+                            {/*>*/}
+                            {/*  /!*Cat*!/*/}
+                            {/*  <FormattedMessage id="SubscriptionLanding.catFormulas" />*/}
+                            {/*</Link>*/}
+                            {/*<Link*/}
+                            {/*  className="rc-btn rc-btn--sm rc-btn--two"*/}
+                            {/*  to="/dogs/"*/}
+                            {/*>*/}
+                            {/*  /!*Dog*!/*/}
+                            {/*  <FormattedMessage id="SubscriptionLanding.dogFormulas" />*/}
+                            {/*</Link>*/}
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-4 order-2 md:order-2">
+                          <div className="rc-column rc-padding--none">
+                            <img
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.jpg`}
+                              alt="Dog image"
+                            />
+                          </div>
+                          <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
+                            <Link
+                              className="rc-btn rc-btn--sm rc-btn--two w-50"
+                              to="/dogs/"
+                            >
+                              {/*Dog*/}
+                              <FormattedMessage id="SubscriptionLanding.dog" />
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </article>
+                </div>
               </div>
             </div>
-            {/* <div className="experience-region experience-main">
-              <div className="experience-region experience-main">
-                <div className="experience-component experience-layouts-1column">
-                  <div className="row rc-margin-x--none">
-                    <div className="rc-full-width">
-                      <div className="experience-component experience-assets-contactUsBlock">
-                        <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                          </div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
-                            <div className="rc-column rc-double-width rc-padding--none">
-                              <article className="rc-full-width rc-column rc-margin-top--md--mobile">
-                                <div className="rc-border-all rc-border-colour--interface fullHeight">
-                                  <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                    <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                                      <div className="w-100">
-                                        <b style={{ color: '#00BCA3' }}>
-                                          <FormattedMessage id="help.byTelephone" />
-                                        </b>
-                                        <p>
-                                          {
-                                            this.props.configStore
-                                              .contactTimePeriod
-                                          }
-                                        </p>
-                                        <div className="rc-margin-top--xs">
-                                          <p
-                                            style={{ color: '#00BCA3' }}
-                                            className="rc-numeric rc-md-up"
-                                          >
-                                            {
-                                              this.props.configStore
-                                                .storeContactPhoneNumber
-                                            }
-                                          </p>
-                                        </div>
-                                        <div className="rc-margin-top--xs">
-                                          <p
-                                            style={{ color: '#00BCA3' }}
-                                            className="rc-alpha rc-border--none rc-md-down"
-                                          >
-                                            {
-                                              this.props.configStore
-                                                .storeContactPhoneNumber
-                                            }
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="rc-column rc-content-v-middle">
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={callImg}
-                                        alt="By telephone"
-                                        title="By telephone"
-                                      />
-                                    </div>
+          </div>
+
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none ">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-contactOptionsBlock">
+                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile contact_options">
+                    <h2 className="rc-beta text-center">
+                      {/*Need help?*/}
+                      <FormattedMessage id="SubscriptionLanding.helpTitle" />
+                    </h2>
+                    <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
+                      <p>
+                        <span style={{ color: 'rgb(102, 102, 102)' }}>
+                          {/*As true pet lovers and experts in tailored nutrition,*/}
+                          {/*we're here to help you give your pet the healthiest*/}
+                          {/*life possible.*/}
+                          <FormattedMessage id="SubscriptionLanding.helpText" />
+                        </span>
+                      </p>
+                    </div>
+                    <div className="rc-layout-container rc-three-column rc-match-heights rc-padding-bottom--lg rc-max-width--lg">
+                      <div className="rc-column rc-padding--none">
+                        <article className="rc-full-width rc-column rc-padding-left--none--desktop">
+                          <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                            <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
+                                <div className="w-100">
+                                  <b style={{ color: '#00A4A6' }}>
+                                    {/*Call us*/}
+                                    <FormattedMessage id="SubscriptionLanding.helpListTitle1" />
+                                  </b>
+                                  <p>
+                                    <span
+                                      style={{ color: 'rgb(102, 102, 102)' }}
+                                    >
+                                      {/*Monday through Friday from 8:00 a.m. to*/}
+                                      {/*4:30 p.m. CT.*/}
+                                      <FormattedMessage id="SubscriptionLanding.helpListText1" />
+                                    </span>
+                                  </p>
+                                  <div className="rc-margin-top--xs">
+                                    <a
+                                      href={`tel: ${intl.messages['SubscriptionLanding.helpListText12']}`}
+                                      style={{ color: '#00A4A6' }}
+                                      className="rc-numeric nowrap"
+                                    >
+                                      {/*1-844-673-3772*/}
+                                      <FormattedMessage id="SubscriptionLanding.helpListText12" />
+                                    </a>
                                   </div>
                                 </div>
-                              </article>
-                              <article className="rc-full-width rc-column">
-                                <div className="rc-border-all rc-border-colour--interface fullHeight">
-                                  <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                    <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                                      <div className="w-100">
-                                        <b style={{ color: '#0087BD' }}>
-                                          <font
-                                            style={{ verticalAlign: 'inherit' }}
-                                          >
-                                            <font
-                                              style={{
-                                                verticalAlign: 'inherit'
-                                              }}
-                                            >
-                                              <FormattedMessage id="help.byEmail" />
-                                            </font>
-                                          </font>
-                                        </b>
-                                        <p>
-                                          <span
-                                            style={{ color: 'rgb(0, 0, 0)' }}
-                                          >
-                                            <font
-                                              style={{
-                                                verticalAlign: 'inherit'
-                                              }}
-                                            >
-                                              <font
-                                                style={{
-                                                  verticalAlign: 'inherit'
-                                                }}
-                                              >
-                                                <FormattedMessage id="help.tip3" />
-                                              </font>
-                                            </font>
-                                          </span>
-                                        </p>
-                                        <div className="rc-margin-top--xs">
-                                          <p
-                                            className="rc-numeric rc-md-up"
-                                            style={{
-                                              color: 'rgb(0, 135, 189)'
-                                            }}
-                                          >
-                                            {
-                                              this.props.configStore
-                                                .storeContactEmail
-                                            }
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="rc-column rc-content-v-middle">
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={emailImg}
-                                        alt="By email"
-                                        title="By email"
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </article>
-                            </div>
-                            <div className="rc-column rc-triple-width">
-                              <div
-                                className="background-cover"
-                                style={{
-                                  backgroundImage: `url(${require('@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png')})`
-                                }}
-                              >
-                                <picture className="rc-card__image">
-                                  <img src={helpImg} alt=" " title=" " />
-                                </picture>
+                              </div>
+                              <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                                <img
+                                  className="align-self-center widthAuto lazyloaded"
+                                  alt="call us"
+                                  title="call us"
+                                  src={callImg}
+                                />
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </article>
+                      </div>
+
+                      <div className="rc-column rc-padding--none">
+                        <article className="rc-full-width rc-column rc-padding-left--none--desktop">
+                          <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                            <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
+                                <div className="w-100">
+                                  <b style={{ color: '#0087BD' }}>
+                                    {/*Email Us*/}
+                                    <FormattedMessage id="SubscriptionLanding.helpListTitle2" />
+                                  </b>
+                                  <p>
+                                    <span
+                                      style={{ color: 'rgb(102, 102, 102)' }}
+                                    >
+                                      {/*We will respond as soon as possible.*/}
+                                      <FormattedMessage id="SubscriptionLanding.helpListText2" />
+                                    </span>
+                                  </p>
+                                  <div className="rc-margin-top--xs">
+                                    {/* todo */}
+                                    <DistributeHubLinkOrATag
+                                      href="/contact-us"
+                                      to="/help/contact"
+                                      style={{
+                                        color: '#0087BD',
+                                        fontSize: '18px'
+                                      }}
+                                      className="nowrap"
+                                    >
+                                      {/*Send us an Email*/}
+                                      <FormattedMessage id="SubscriptionLanding.helpListText22" />
+                                    </DistributeHubLinkOrATag>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                                <img
+                                  className="align-self-center widthAuto lazyloaded"
+                                  alt="email us"
+                                  title="email us"
+                                  src={emailImg}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                      </div>
+
+                      <div className="rc-column rc-padding--none">
+                        <article className="rc-full-width rc-column rc-padding-left--none--desktop">
+                          <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                            <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
+                                <div className="w-100">
+                                  <strong>
+                                    {/*Have a question?*/}
+                                    <FormattedMessage id="SubscriptionLanding.helpListTitle3" />
+                                  </strong>
+                                  {/*<p>*/}
+                                  {/*  <span*/}
+                                  {/*    style={{ color: 'rgb(102, 102, 102)' }}*/}
+                                  {/*  >*/}
+                                  {/*    /!*Check out our&nbsp;*!/*/}
+                                  {/*    <FormattedMessage*/}
+                                  {/*      id="SubscriptionLanding.helpListText3"*/}
+                                  {/*      values={{*/}
+                                  {/*        val1: <span>&nbsp;</span>*/}
+                                  {/*      }}*/}
+                                  {/*    />*/}
+                                  {/*  </span>*/}
+                                  {/*  <Link*/}
+                                  {/*    to="/faq"*/}
+                                  {/*    target="_blank"*/}
+                                  {/*    rel="noopener noreferrer"*/}
+                                  {/*    data-link-type="external"*/}
+                                  {/*    style={{*/}
+                                  {/*      color: 'rgb(236, 0, 26)',*/}
+                                  {/*      backgroundColor: 'rgb(255, 255, 255)'*/}
+                                  {/*    }}*/}
+                                  {/*  >*/}
+                                  {/*    /!*FAQs*!/*/}
+                                  {/*    <FormattedMessage id="SubscriptionLanding.FAQs" />*/}
+                                  {/*    {Boolean(*/}
+                                  {/*      window.__.env*/}
+                                  {/*        .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW*/}
+                                  {/*    ) && (*/}
+                                  {/*      <span className="warning_blank">*/}
+                                  {/*        /!*<FormattedMessage id="opensANewWindow" />*!/*/}
+                                  {/*        <FormattedMessage id="SubscriptionLanding.helpListText32" />*/}
+                                  {/*      </span>*/}
+                                  {/*    )}*/}
+                                  {/*  </Link>*/}
+                                  {/*  <span*/}
+                                  {/*    style={{ color: 'rgb(102, 102, 102)' }}*/}
+                                  {/*  >*/}
+                                  {/*    /!*&nbsp;to find the answers you're looking*!/*/}
+                                  {/*    /!*for.*!/*/}
+                                  {/*    <FormattedMessage*/}
+                                  {/*      id="SubscriptionLanding.helpListText33"*/}
+                                  {/*      values={{*/}
+                                  {/*        val1: <span>&nbsp;</span>*/}
+                                  {/*      }}*/}
+                                  {/*    />*/}
+                                  {/*  </span>*/}
+                                  {/*</p>*/}
+                                  <p>
+                                    <span
+                                      style={{ color: 'rgb(102, 102, 102)' }}
+                                    >
+                                      {/*Check out our&nbsp;*/}
+                                      <FormattedMessage
+                                        id="SubscriptionLanding.helpListText3"
+                                        values={{
+                                          val1: <span>&nbsp;</span>
+                                        }}
+                                      />
+                                    </span>
+                                    <DistributeHubLinkOrATag
+                                      href="/about-us/faqs#FAQs"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      data-link-type="external"
+                                      style={{
+                                        color: 'rgb(236, 0, 26)',
+                                        backgroundColor: 'rgb(255, 255, 255)'
+                                      }}
+                                    >
+                                      {/*FAQs*/}
+                                      <FormattedMessage id="SubscriptionLanding.FAQs" />
+                                      {/*{Boolean(*/}
+                                      {/*  window.__.env*/}
+                                      {/*    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW*/}
+                                      {/*) && (*/}
+                                      {/*  <span className="warning_blank">*/}
+                                      {/*    /!*<FormattedMessage id="opensANewWindow" />*!/*/}
+                                      {/*    <FormattedMessage id="SubscriptionLanding.helpListText32" />*/}
+                                      {/*  </span>*/}
+                                      {/*)}*/}
+                                    </DistributeHubLinkOrATag>
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                                <img
+                                  className="align-self-center widthAuto lazyloaded"
+                                  alt="faq images"
+                                  title="faq"
+                                  src={helpImg}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </article>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }
 }
 
-export default Help;
+export default SubscriptionLanding;

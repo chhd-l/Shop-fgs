@@ -1,8 +1,45 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
+import { PanelContainer } from '../Common';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
+function JpConfirmationText() {
+  return (
+    <>
+      <p>
+        <span className="border-b border-gray-600">
+          ご注文のキャンセルについて
+        </span>
+      </p>
+      <p>
+        ご注文後30分間、マイページで注文をキャンセルいただくことが可能です。
+      </p>
+      <p>
+        出荷準備に入ったご注文をキャンセルすることはできませんので、今一度ご注文内容をご確認お願いいたします。
+      </p>
+      <p>
+        定期購入の今後の出荷予定の変更やキャンセルは、マイページの定期購入履歴から行ってください。
+      </p>
+      <p className="mt-2">
+        <span className="border-b border-gray-600">返品・交換について</span>
+      </p>
+      <p>
+        返品・交換については、こちら[リンク: FAQ
+        返品・交換について]をご確認ください。
+      </p>
+      <p className="mt-2">
+        <span className="border-b border-gray-600">定期購入について</span>
+      </p>
+      <p className="mb-4">
+        定期購入の製品は、お客様からのキャンセルがない限り、設定いただいた周期でご注文が自動的に生成されます。発送はご注文生成後、1営業日以内となります。
+      </p>
+    </>
+  );
+}
 
 @inject('paymentStore')
 @injectIntl
@@ -34,7 +71,7 @@ class Confirmation extends React.Component {
     }
   }
   checkRequiredItem = async (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
+    let requiredList = list?.filter((item) => item.isRequired);
     this.setState({
       requiredList
     });
@@ -59,6 +96,7 @@ class Confirmation extends React.Component {
       });
     }
   };
+
   clickPay = () => {
     if (!this.state.isValid) {
       return false;
@@ -67,48 +105,47 @@ class Confirmation extends React.Component {
   };
   render() {
     const { panelStatus } = this;
-    const { checkoutStore } = this.props;
-    const { totalPrice, tradePrice } = checkoutStore;
+    const {
+      tradePrice,
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     const { isValid } = this.state;
-    const titleJSXForPrepare = (
-      <h5 className={`mb-0`}>
-        <em
-          className="iconfont font-weight-bold ml-1"
-          style={{ marginRight: '.7rem' }}
-        >
-          &#xe68c;
-        </em>{' '}
-        <FormattedMessage id="confirmation" />
-      </h5>
-    );
-    const titleJSXForEdit = (
-      <h5 className={`mb-0 red`}>
-        <em
-          className="iconfont font-weight-bold ml-1"
-          style={{ marginRight: '.7rem' }}
-        >
-          &#xe68c;
-        </em>{' '}
-        <FormattedMessage id="confirmation" />
-      </h5>
-    );
-    const _title = panelStatus.isPrepare
-      ? titleJSXForPrepare
-      : panelStatus.isEdit
-      ? titleJSXForEdit
-      : null;
+
     return (
       <>
-        <div
-          id="J_checkout_panel_confirmation"
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded border ${
-            panelStatus.isEdit ? 'border-333' : 'border-transparent'
-          }`}
+        <PanelContainer
+          panelStatus={panelStatus}
+          containerConf={{
+            id: 'J_checkout_panel_confirmation'
+          }}
+          titleConf={{
+            icon: {
+              defaultIcon: (
+                <em
+                  className="iconfont font-weight-bold ml-1"
+                  style={{ marginRight: '.7rem' }}
+                >
+                  &#xe68c;
+                </em>
+              ),
+              highlighIcon: (
+                <em
+                  className="iconfont font-weight-bold ml-1"
+                  style={{ marginRight: '.7rem' }}
+                >
+                  &#xe68c;
+                </em>
+              )
+            },
+            text: {
+              title: <FormattedMessage id="confirmation" />
+            }
+          }}
         >
-          <div className="bg-transparent d-flex justify-content-between align-items-center">
-            {_title}
-          </div>
           <div className={`pt-3 ${!panelStatus.isPrepare ? '' : 'hidden'}`}>
+            {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+              <JpConfirmationText />
+            ) : null}
             {/* 条款 */}
             <TermsCommon
               id={'confirmation'}
@@ -117,6 +154,14 @@ class Confirmation extends React.Component {
                 this.setState({ isValid: val });
               }}
             />
+            {/* <ConsentAdditionalText textPosition="bottom" /> */}
+
+            {/*feline change appointment 下单提示*/}
+            {sessionItemRoyal.get('isChangeAppoint') && (
+              <div className="text-rc-red ml-6">
+                <FormattedMessage id="appointment.changeApptCheckout.tip" />
+              </div>
+            )}
 
             <div className="text-right">
               <button
@@ -127,12 +172,30 @@ class Confirmation extends React.Component {
                 disabled={!isValid}
                 onClick={this.clickPay}
               >
-                <FormattedMessage id="payment.further" />{' '}
+                <FormattedMessage
+                  id={
+                    curPayWayInfo?.code === 'cod'
+                      ? 'payment.further2'
+                      : 'payment.further'
+                  }
+                />{' '}
                 {formatMoney(tradePrice)}
               </button>
             </div>
+
+            {this.props.intl.messages.securePaymentProcessing && (
+              <div className="rc-text--right">
+                {}
+                <p className="rc-meta d-flex d-md-block align-items-center rc-margin-bottom--none ">
+                  <span className="rc-icon rc-lock--xs rc-iconography--xs" />
+                  <span className="rc-margin-left--xs">
+                    <FormattedMessage id="securePaymentProcessing" />
+                  </span>
+                </p>
+              </div>
+            )}
           </div>
-        </div>
+        </PanelContainer>
       </>
     );
   }

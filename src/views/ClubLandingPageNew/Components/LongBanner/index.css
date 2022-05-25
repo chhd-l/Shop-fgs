@@ -1,0 +1,77 @@
+@media (max-width: 639.98px) {
+  .longBannerTitleText {
+    text-align: center;
+  }
+  .clubdesktop {
+    height: auto;
+    /* background-image: url('./image/CLUBmobbackground@4x.jpg'); */
+    overflow: hidden;
+    background-size: cover;
+  }
+  .clubdesktopru {
+    height: auto;
+    /* background-image: url('./image/CLUBmobbackgroundru@4x.jpg'); */
+    overflow: hidden;
+    background-size: cover;
+  }
+  .flexwrap {
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .margintopmobile {
+    margin-top: 210px;
+  }
+  .fontheight {
+    height: 25vh;
+  }
+  .transformmobile10px {
+    transform: translateX(0.4vw);
+    text-align: center;
+  }
+  .runewmargin {
+    margin-top: 300px;
+  }
+  .mobileCenter {
+    justify-content: center;
+    display: flex;
+  }
+  .mobileBoxshadow {
+    box-shadow: 0vh 0vh 0.3vh 0.1vh #dcdcde;
+  }
+}
+
+@media (min-width: 639.98px) {
+  .clubmobile {
+    /*height: 975px;*/
+    /* background-image: url('./image/Bitmap.jpg'); */
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .clubmobileru {
+    /*height: 975px;*/
+    /* background-image: url('./image/Bitmapru.webp'); */
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .desknone {
+    display: none;
+  }
+  .longbannerwidth266 {
+  }
+  .transformmobile10px {
+    margin-top: 30px;
+    margin-left: 13vw;
+  }
+  .trmarginleft10vw {
+    width: 266.07px;
+    text-align: center;
+  }
+  .frmarginleft10vw {
+    width: 306px;
+    text-align: center;
+  }
+}

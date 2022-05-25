@@ -1,26 +1,46 @@
 import React, { Component } from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { adyenPaymentsDetails } from '@/api/payment';
-import url from 'url'
+import url from 'url';
+import { inject, observer } from 'mobx-react';
+import { sleep } from '@/utils/utils';
+import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+@inject('loginStore')
+@observer
 class AdyenPayResult extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      circleLoading: false
+    };
   }
   render() {
-    return <div className="checkout--padding"></div>;
+    return (
+      <div className="checkout--padding">
+        {this.state.circleLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
+      </div>
+    );
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
   async UNSAFE_componentWillMount() {
-    let commonResult = this.props.location.search.split('=')[1];//adyen_credit_card、paylater，paynow
-    let payloadResult = url.parse(this.props.location.search, true).query.payload //sofort取的方式有点不一样
-    let redirectResult
+    this.setState({
+      circleLoading: true
+    });
+    let commonResult = this.props.location.search.split('=')[1]; //adyen_credit_card、paylater，paynow
+    let payloadResult = url.parse(this.props.location.search, true).query
+      .payload; //sofort取的方式有点不一样
+    let redirectResult;
     if (payloadResult) {
-      redirectResult = payloadResult
-    }else{
-      redirectResult = commonResult
+      redirectResult = payloadResult;
+    } else {
+      redirectResult = commonResult;
     }
     try {
       const res = await adyenPaymentsDetails({
@@ -32,6 +52,19 @@ class AdyenPayResult extends Component {
       }
     } catch (err) {
       console.log(err);
+      const { history } = this.props;
+      if (this.isLogin) {
+        sessionItemRoyal.set('rc-tid', err.context.businessId);
+        sessionItemRoyal.set('rc-tidList', JSON.stringify(err.context.tidList));
+        history.push('/checkout');
+      } else {
+        history.push('/cart');
+      }
+    } finally {
+      await sleep(2000); //防止还没跳转
+      this.setState({
+        circleLoading: false
+      });
     }
   }
 }
