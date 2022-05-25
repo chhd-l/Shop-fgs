@@ -188,6 +188,7 @@ class PaymentStore {
 
   @action.bound
   setStsToCompleted({ key, isFirstLoad }) {
+    console.log('key', key);
     // this.isLogin在某些情况下为false,因此判断不对，例如在cart页面登录再进checkout页面。
     const isLoginIng = localItemRoyal.get('rc-token');
     console.log(this.isLogin, 'ISLOGIN==', isLoginIng, 'FJKLDS');
@@ -259,6 +260,29 @@ class PaymentStore {
           } else {
             checkoutDataLayerPushEvent({
               name: 'Confirmation',
+              options: 'Guest checkout'
+            });
+          }
+          break;
+        //bindPet 绑定宠物
+        case 'bindPet':
+          if (isLoginIng) {
+            isNewAccount().then((res) => {
+              if (res.context == 0) {
+                checkoutDataLayerPushEvent({
+                  name: 'Pet Profile',
+                  options: 'New account'
+                });
+              } else {
+                checkoutDataLayerPushEvent({
+                  name: 'Pet Profile',
+                  options: 'Existing account'
+                });
+              }
+            });
+          } else {
+            checkoutDataLayerPushEvent({
+              name: 'Pet Profile',
               options: 'Guest checkout'
             });
           }
