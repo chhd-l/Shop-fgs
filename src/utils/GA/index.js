@@ -581,6 +581,7 @@ export const checkoutDataLayerPushEvent = ({ name, options }) => {
 
 //Order confirmation
 export const orderConfirmationPushEvent = (details) => {
+  console.log('details', details);
   const clinic = details.tradeItems.some((item) => item.recommendationId);
   if (!isHubGA) return;
   const GA_product = localItemRoyal.get('rc-ga-product');
@@ -593,6 +594,7 @@ export const orderConfirmationPushEvent = (details) => {
       taxes: details.tradePrice.taxFeePrice, //Taxes amount, US number format, local currency
       shipping: details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
       paymentMethod: 'Credit Card',
+      loyaltyPoints: details.tradePrice.loyaltyPoints,
       shippingMode:
         details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery',
       ...GA_product
