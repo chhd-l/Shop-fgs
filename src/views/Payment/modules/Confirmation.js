@@ -147,14 +147,15 @@ class Confirmation extends React.Component {
               <JpConfirmationText />
             ) : null}
             {/* 条款 */}
-            <TermsCommon
-              id={'confirmation'}
-              listData={this.props.listData}
-              updateValidStatus={(val) => {
-                this.setState({ isValid: val });
-              }}
-            />
-            {/* <ConsentAdditionalText textPosition="bottom" /> */}
+            {window.__.env.REACT_APP_COUNTRY !== 'jp' ? (
+              <TermsCommon
+                id={'confirmation'}
+                listData={this.props.listData}
+                updateValidStatus={(val) => {
+                  this.setState({ isValid: val });
+                }}
+              />
+            ) : null}
 
             {/*feline change appointment 下单提示*/}
             {sessionItemRoyal.get('isChangeAppoint') && (
