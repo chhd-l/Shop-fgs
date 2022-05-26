@@ -118,6 +118,10 @@ function CardItem(props) {
                 nameCls="font-weight-bold word-break mb-1"
                 data={{
                   name: [data.firstName, data.lastName].join(' '),
+                  lastName: data.lastName,
+                  firstName: data.firstName,
+                  firstNameKatakana: data?.firstNameKatakana,
+                  lastNameKatakana: data?.lastNameKatakana,
                   phone: data.consigneeNumber,
                   countryName: props.countryName,
                   address1: data.address1,
@@ -715,8 +719,11 @@ class AddressList extends React.Component {
   };
   // 确认选择地址
   confirmValidationAddress() {
-    const { deliveryAddress, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {

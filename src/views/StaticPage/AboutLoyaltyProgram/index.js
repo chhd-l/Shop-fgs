@@ -37,7 +37,7 @@ function AboutLoyaltyProgram(props) {
           </div>
           {/* 手机端 */}
           <div className="m-auto mx-18 block md:hidden mt-6 PingFangSC text-center font-normal">
-            <h1 className="w-cs-285 m-auto h-cs-34  text-cs-primary text-30  leading-34 font-semibold">
+            <h1 className="w-cs-285 m-auto text-cs-primary text-22  leading-34 font-semibold">
               ポイントプログラム
             </h1>
             <p className="w-cs-285 m-auto h-cs-64  text-cs-gray  text-18  leading-32 mt-4">
@@ -96,7 +96,7 @@ function AboutLoyaltyProgram(props) {
           <ThroughLine />
 
           <div className="md:w-cs-999   m-auto font-normal mt-10 md:mt-20 ">
-            <h1 className="PingFangSC w-cs-284 m-auto md:w-auto text-22 leading-28 text-cs-star text-center font-semibold md:text-30 md:leading-10">
+            <h1 className="PingFangSC w-cs-284 m-auto md:w-auto text-22 leading-28 text-cs-primary text-center font-semibold md:text-30 md:leading-10">
               会員ステージと保有ポイントの確認方法
             </h1>
             <p className="PingFangSC text-16 w-cs-284 m-auto leading-24 grayColor mt-4 text-left md:text-18 md:left-26 md:w-auto md:text-center">
@@ -111,16 +111,16 @@ function AboutLoyaltyProgram(props) {
           <ThroughLine />
 
           <div className="md:w-cs-999  m-auto mt-10 mb-10  md:mb-20">
-            <h1 className="PingFangSC text-22 leading-28 text-cs-star text-center font-semibold md:text-30 md:leading-10">
+            <h1 className="PingFangSC text-22 leading-28 text-cs-primary text-center font-semibold md:text-30 md:leading-10">
               ポイントの使用方法
             </h1>
             <p className="PingFangSC text-16 w-cs-284 m-auto leading-24 grayColor mt-4 text-left md:text-18 md:leading-26 md:w-auto md:text-center">
               ポイントの使用最小単位は100ポイントです。ポイントを使用される場合は、お支払い方法の画面で使用するポイントをご入力ください。入力したポイントが、支払合計金額から差し引かれます。なお、クーポンとの併用はできませんのでご了承ください。
               <br />
               ポイントの有効期限はマイ ロイヤルカナンでの最終注文から6ヵ月です
-              <span className="text-cs-star">＊</span>。<br />
+              <span className="text-cs-primary">＊</span>。<br />
               <br />
-              <span className="text-cs-star">＊</span>
+              <span className="text-cs-primary">＊</span>
               月の同日、同日がなければ翌日となります。
             </p>
             <img

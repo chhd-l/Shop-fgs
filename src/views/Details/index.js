@@ -1189,6 +1189,7 @@ class Details extends React.Component {
     return (
       <div className="specAndQuantity rc-margin-bottom--xs ">
         <HandledSpec
+          canSelectedWhenAllSpecDisabled={true}
           details={details}
           setState={this.setState.bind(this)}
           updatedSku={this.matchGoods.bind(this)}

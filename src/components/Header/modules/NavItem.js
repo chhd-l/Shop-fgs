@@ -2,45 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function NavItem({ item = {}, className, style = {}, children, onClick }) {
-  const isLocalHost = window.location.hostname == 'localhost';
-  const jpGotoHome = (navItem) => {
-    if (navItem.link.pathname == '/home' && navItem.storeId == 123457919) {
-      if (isLocalHost) {
-        return (
-          <a
-            href={`${navItem.link.pathname}`}
-            className={className}
-            style={{ ...style }}
-            onClick={onClick}
-          >
-            {children}
-          </a>
-        );
-      } else {
-        return (
-          <a
-            href={`/jp${navItem.link.pathname}`}
-            className={className}
-            style={{ ...style }}
-            onClick={onClick}
-          >
-            {children}
-          </a>
-        );
-      }
-    } else {
-      return (
-        <Link
-          onClick={onClick}
-          to={item.link}
-          className={className}
-          style={{ ...style }}
-        >
-          {children}
-        </Link>
-      );
-    }
-  };
   return (
     <>
       {item.href ? (
@@ -54,7 +15,14 @@ function NavItem({ item = {}, className, style = {}, children, onClick }) {
           {children}
         </a>
       ) : item.link ? (
-        jpGotoHome(item)
+        <Link
+          onClick={onClick}
+          to={item.link}
+          className={className}
+          style={{ ...style }}
+        >
+          {children}
+        </Link>
       ) : (
         <span onClick={onClick} className={className} style={{ ...style }}>
           {children}
