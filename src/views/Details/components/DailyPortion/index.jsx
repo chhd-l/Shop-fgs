@@ -886,12 +886,12 @@ export default function DailyPortion({
   return (
     <div className="DailyPortion-wrap container ">
       <div className="lg:flex">
-        <div className="w-full lg:w-1/4 p-4 text-center">
+        <div className="w-full lg:w-1/4 p-2 md:p-0 text-center">
           <LazyLoad>
             <img
               src={optimizeImage({
                 originImageUrl: isRu
-                  ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/dailyPortion/dailyPortion_logo_ru.png`
+                  ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/dailyPortion/ru_daily_portion.png`
                   : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/dailyPortion/dailyPortion_logo.png`,
                 width: 300
               })}
