@@ -55,11 +55,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1674,9 +1673,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -2102,12 +2100,8 @@ class List extends React.Component {
                       {!productList.length ? (
                         <div className="row">
                           <div className="col-12">
-                            <div className="ui-font-nothing rc-md-up">
+                            <div className="ui-font-nothing ui-font-nothing mb-4 text-base md:text-lg">
                               <em className="rc-icon rc-incompatible--sm rc-iconography" />
-                              <FormattedMessage id="list.errMsg" />
-                            </div>
-                            <div className="ui-font-nothing rc-md-down d-flex pb-4">
-                              <em className="rc-icon rc-incompatible--xs rc-iconography" />
                               <FormattedMessage id="list.errMsg" />
                             </div>
                           </div>
