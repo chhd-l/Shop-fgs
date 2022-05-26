@@ -15,6 +15,7 @@ interface Props {
   defaultSkuId: string;
   disabledGoodsInfoIds?: string[];
   onIsSpecAvailable?: Function;
+  canSelectedWhenAllSpecDisabled?: boolean; //是否规格禁用了，仍然可以被选中，eg:规格被禁用了，一般情况不默认选中了；然而，PDP，即使规格被禁用了，仍需被选中，原因是需要返回对应的price信息，以便页面展示用
 }
 
 const HandledSpec = ({
@@ -24,7 +25,8 @@ const HandledSpec = ({
   updatedPriceOrCode = () => {},
   defaultSkuId,
   disabledGoodsInfoIds = [],
-  onIsSpecAvailable = () => {}
+  onIsSpecAvailable = () => {},
+  canSelectedWhenAllSpecDisabled = false
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
     details;
@@ -67,6 +69,7 @@ const HandledSpec = ({
 
     let selectedArr: any[] = [];
     let idArr: any[] = [];
+    // 当所有规格不可用时，没有返回相关信息：currentUnitPrice/currentLinePrice/currentSubscriptionPrice/currentSubscriptionStatus/stock/skuPromotions
     goodsSpecs.map((el: any) => {
       if (el.chidren.filter((item: any) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item: any) => item.selected)[0]);
@@ -132,7 +135,7 @@ const HandledSpec = ({
     handledValues.skuPromotions = sizeList[0].promotions;
     handledValues.stock = sizeList[0].stock;
     sizeList[0].selected = true;
-    
+
     updatedSku(handledValues, sizeList);
   };
 
@@ -215,13 +218,14 @@ const HandledSpec = ({
           }
         }
         const isSelectedDefaultSkuItem = sItem.chidren.findIndex(
-          (_item) => _item.isSelected && !_item.isDisabled
+          (_item) =>
+            _item.isSelected && (canSelectedWhenAllSpecDisabled || !_item.isDisabled)
         );
         // 所有规格都不可用，一旦有可用的，则置为false
         if (sItem.chidren.some((_item) => !_item.isDisabled)) {
           isAllSpecDisabled = false;
         }
-        
+
         if (defaultSelcetdSku > -1) {
           // 默认选择该sku
           if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
@@ -248,17 +252,22 @@ const HandledSpec = ({
                 break;
               }
             }
-            // 如果所有sku都没有库存 取第一个可用的规格
+            // 如果所有sku都没有库存时
             if (
               sItem.chidren.filter((el: any) => el.selected).length === 0 &&
-              sItem.chidren.filter((el: any) => !el.isDisabled).length &&
               sItem.chidren.length
             ) {
-              const targetItem = sItem.chidren.filter(
-                (el) => !el.isDisabled
-              )[0];
-              if (targetItem) {
-                targetItem.selected = true;
+              // 取第一个规格
+              if (canSelectedWhenAllSpecDisabled) {
+                sItem.chidren[0].selected = true;
+              } else {
+                // 取第一个可用规格
+                const targetItem = sItem.chidren.filter(
+                  (el) => !el.isDisabled
+                )[0];
+                if (targetItem) {
+                  targetItem.selected = true;
+                }
               }
             }
           }
