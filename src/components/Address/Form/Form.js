@@ -352,6 +352,9 @@ class Form extends React.Component {
             tsFlag = true;
           }
         });
+
+        consolel.log(obj);
+        debugger;
         // if(COUNTRY == 'jp') {
         //   tslist.unshift({
         //     id: '',
