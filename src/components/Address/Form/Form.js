@@ -334,9 +334,6 @@ class Form extends React.Component {
 
       let obj = Object.assign({}, caninForm);
 
-      // console.log(obj)
-      // debugger
-
       if (res?.context?.timeSlots?.length) {
         flag = true; // 标记
         let robj = res.context.timeSlots;
@@ -353,6 +350,9 @@ class Form extends React.Component {
 
           if (obj.deliveryDate == v.date) {
             obj.deliveryDateId = dateStr;
+          } else if (obj.deliveryDate == '') {
+            obj.deliveryDate = 'Unspecified';
+            obj.deliveryDateId = 'Unspecified';
           }
         });
 
@@ -365,6 +365,7 @@ class Form extends React.Component {
 
         // 设置 time slot
         //let tsFlag = false;
+
         alldata[obj.deliveryDate]?.forEach((v, i) => {
           let setime = v.startTime + '-' + v.endTime;
           tslist.push({
@@ -408,13 +409,17 @@ class Form extends React.Component {
         //     obj.timeSlot = tslist[0].name;
         //   }
         // }
-        // time slot不为Unspecified，就设置第一条数据为默认值
+
+        //time slot不为Unspecified，就设置第一条数据为默认值
         if (obj.timeSlot == 'Unspecified') {
           obj.timeSlotId = 'Unspecified';
           obj.timeSlot = 'Unspecified';
+        } else if (obj.timeSlot === '' && obj.timeSlotId == 0) {
+          obj.timeSlotId = 'Unspecified';
+          obj.timeSlot = 'Unspecified';
         } else {
-          obj.timeSlotId = tslist[0].id;
-          obj.timeSlot = tslist[0].name;
+          obj.timeSlotId = tslist[0]?.id || 'Unspecified';
+          obj.timeSlot = tslist[0]?.name || 'Unspecified';
         }
       } else {
         obj.deliveryDate = '';
