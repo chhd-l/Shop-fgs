@@ -1011,7 +1011,16 @@ class Payment extends React.Component {
       // fgs 下的单 isOfflinePayment 为false，felin 下的单为true
       const isFelin =
         sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
-      const payWay = await getWays({ isOfflinePayment: isFelin });
+      let payWay;
+      if (isFelin) {
+        payWay = await getWays({ isOfflinePayment: isFelin });
+      } else {
+        // fgs下单businessType传'0'获取moto支付
+        // 0 fgs
+        // 1 代客下单线上
+        // 2 代客下单线下
+        payWay = await getWays({ businessType: '0' });
+      }
       let payWayNameArr = [];
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格

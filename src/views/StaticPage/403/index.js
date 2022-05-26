@@ -65,7 +65,7 @@ class Page403 extends React.Component {
                 </div>
               </div>
               {/* <Link
-                to="/home"
+                to="/"
                 className="rc-btn rc-btn--two"
                 role="button"
                 aria-pressed="true"

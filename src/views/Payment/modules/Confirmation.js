@@ -179,7 +179,9 @@ class Confirmation extends React.Component {
                       : 'payment.further'
                   }
                 />{' '}
-                {formatMoney(tradePrice)}
+                {/* 德国去除价格显示 */}
+                {window.__.env.REACT_APP_COUNTRY !== 'de' &&
+                  formatMoney(tradePrice)}
               </button>
             </div>
 
