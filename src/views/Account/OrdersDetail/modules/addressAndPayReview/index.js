@@ -59,6 +59,10 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
                       nameCls="medium mb-2"
                       data={{
                         name: details.consignee.name,
+                        lastName: details.consignee.lastName,
+                        firstName: details.consignee.firstName,
+                        firstNameKatakana: details.consignee?.firstNameKatakana,
+                        lastNameKatakana: details.consignee?.lastNameKatakana,
                         phone: details.consignee.phone,
                         countryName: matchNamefromDict(
                           countryList,
