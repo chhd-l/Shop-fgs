@@ -592,9 +592,9 @@ export const orderConfirmationPushEvent = (details) => {
       amount: details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
       taxes: details.tradePrice.taxFeePrice, //Taxes amount, US number format, local currency
       shipping: details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
-      paymentMethod: 'Credit Card',
+      paymentMethod: 'Credit Card', //String : Payment method used for the transaction : "Credit Card", "Paypal", "Swish" (SE), "Cash on delivery" (JP), "Convenience Store" (JP)
       shippingMode:
-        details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery',
+        details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery', //String : "Clinic" if delivered in a vet Clinic (RU only), "Cash on delivery" (JP), "Convenience Store" (JP) , or "Standard Delivery" by default
       ...GA_product
     })
   };
