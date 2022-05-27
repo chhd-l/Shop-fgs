@@ -1146,7 +1146,7 @@ class Form extends React.Component {
     //   });
     // }
 
-    if (COUNTRY == 'jp' && key == 'timeSlot') {
+    if (key == 'timeSlot') {
       //日本timeSlot才有Unspecified
       tmp.unshift({
         value: 'Unspecified',
