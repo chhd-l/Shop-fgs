@@ -27,3 +27,8 @@
 .cvv {
   margin: 0 auto;
 }
+
+.adyen-checkout__label__text::after {
+  content: ' *';
+  color: red;
+}
