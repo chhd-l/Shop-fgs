@@ -70,35 +70,53 @@ function CardItem(props) {
             </>
           ) : (
             <>
-              <div
-                className={`col-4 d-flex flex-column justify-content-center`}
-              >
-                <LazyLoad height={200}>
-                  <img
-                    className="PayCardImgFitScreen w-100"
-                    src={getCardImg({
-                      supportPaymentMethods,
-                      currentVendor: data.paymentVendor || data.paymentItem
-                    })}
-                    alt="pay card img fit screen"
-                  />
-                </LazyLoad>
-              </div>
-              {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
-                <div className="col-8 px-0 my-6 truncate">
-                  {handleEmailShow(data?.email)}
+              {data?.paymentItem?.toLowerCase() === 'adyen_moto' ? (
+                <div
+                  className={`col-4 d-flex flex-column justify-content-center`}
+                >
+                  <LazyLoad height={200}>
+                    <img
+                      className="PayCardImgFitScreen w-100"
+                      src={
+                        'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008060240358083.png'
+                      }
+                      alt="pay card img fit screen"
+                    />
+                  </LazyLoad>
                 </div>
               ) : (
-                <div className="col-6 pl-0 pr-0">
-                  <p className="mb-0">{data.holderName}</p>
-                  {data.lastFourDigits ? (
-                    <p className="mb-0">
-                      ************
-                      {data.lastFourDigits}
-                    </p>
-                  ) : null}
-                  <p className="mb-0">{data.paymentVendor}</p>
-                </div>
+                <>
+                  <div
+                    className={`col-4 d-flex flex-column justify-content-center`}
+                  >
+                    <LazyLoad height={200}>
+                      <img
+                        className="PayCardImgFitScreen w-100"
+                        src={getCardImg({
+                          supportPaymentMethods,
+                          currentVendor: data.paymentVendor || data.paymentItem
+                        })}
+                        alt="pay card img fit screen"
+                      />
+                    </LazyLoad>
+                  </div>
+                  {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
+                    <div className="col-8 px-0 my-6 truncate">
+                      {handleEmailShow(data?.email)}
+                    </div>
+                  ) : (
+                    <div className="col-6 pl-0 pr-0">
+                      <p className="mb-0">{data.holderName}</p>
+                      {data.lastFourDigits ? (
+                        <p className="mb-0">
+                          ************
+                          {data.lastFourDigits}
+                        </p>
+                      ) : null}
+                      <p className="mb-0">{data.paymentVendor}</p>
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}
@@ -239,6 +257,20 @@ class PaymentComp extends React.Component {
           pspName: 'JAPAN_COD',
           canOperated: false
         });
+      }
+      // 处理moto支付不显示支付卡片信息
+      if (
+        ret.some((item) => item?.paymentItem?.toLowerCase() === 'adyen_moto')
+      ) {
+        const tempObj = ret.find(
+          (item) => item?.paymentItem?.toLowerCase() === 'adyen_moto'
+        );
+        console.log('tempObj', tempObj);
+        const temparr = ret.filter(
+          (item) => item?.paymentItem?.toLowerCase() !== 'adyen_moto'
+        );
+        temparr.unshift(tempObj);
+        ret = temparr;
       }
 
       this.setState({

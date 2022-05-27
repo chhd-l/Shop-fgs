@@ -31,11 +31,11 @@ function CardItem(props) {
         data?.paddingFlag
           ? 'creditCompleteInfoBox disabled'
           : 'rc-bg-colour--brand4'
-      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between`}
+      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between w-4/5`}
     >
       <div
         className="position-absolute d-flex align-items-center"
-        style={{ right: '2%', top: '2%' }}
+        style={{ right: '25%', top: '15%' }}
       >
         {props.operateBtnJSX}
       </div>
@@ -48,31 +48,49 @@ function CardItem(props) {
         ].join(' ')}
       >
         <div className="row">
-          <div className={`col-4 d-flex flex-column justify-content-center`}>
-            <LazyLoad height={100}>
-              <img
-                className="PayCardImgFitScreen w-100"
-                src={getCardImg({
-                  supportPaymentMethods,
-                  currentVendor: data.paymentVendor || data.paymentItem
-                })}
-                alt="pay card img fit screen"
-              />
-            </LazyLoad>
-          </div>
-          {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
-            <div className="col-8 px-0 my-6 truncate">
-              {handleEmailShow(data.email)}
+          {data?.paymentItem.toLowerCase() === 'adyen_moto' ? (
+            <div className={`col-4 d-flex flex-column justify-content-center`}>
+              <LazyLoad height={100}>
+                <img
+                  className="PayCardImgFitScreen w-100"
+                  src={
+                    'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008060240358083.png'
+                  }
+                  alt="pay card img fit screen"
+                />
+              </LazyLoad>
             </div>
           ) : (
-            <div className="col-6 px-0">
-              <p className="mb-0">{data.holderName}</p>
-              <p className="mb-0">
-                ************
-                {data.lastFourDigits}
-              </p>
-              <p className="mb-0">{data.paymentVendor}</p>
-            </div>
+            <>
+              <div
+                className={`col-4 d-flex flex-column justify-content-center`}
+              >
+                <LazyLoad height={100}>
+                  <img
+                    className="PayCardImgFitScreen w-100"
+                    src={getCardImg({
+                      supportPaymentMethods,
+                      currentVendor: data.paymentVendor || data.paymentItem
+                    })}
+                    alt="pay card img fit screen"
+                  />
+                </LazyLoad>
+              </div>
+              {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
+                <div className="col-8 px-0 my-6 truncate">
+                  {handleEmailShow(data.email)}
+                </div>
+              ) : (
+                <div className="col-6 px-0">
+                  <p className="mb-0">{data.holderName}</p>
+                  <p className="mb-0">
+                    ************
+                    {data.lastFourDigits}
+                  </p>
+                  <p className="mb-0">{data.paymentVendor}</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -146,7 +164,7 @@ class PaymentList extends React.Component {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod({}, true);
-      const cardList = res?.context || [];
+      let cardList = res?.context || [];
       const paypalCardIndex = cardList?.findIndex(
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
       );
@@ -156,6 +174,23 @@ class PaymentList extends React.Component {
         cardList.splice(paypalCardIndex, 1);
         cardList.unshift(paypalCard);
       }
+      if (
+        cardList.some(
+          (item) => item?.paymentItem?.toLowerCase() === 'adyen_moto'
+        )
+      ) {
+        const tempObj = cardList.find(
+          (item) => item?.paymentItem?.toLowerCase() === 'adyen_moto'
+        );
+        console.log('tempObj', tempObj);
+        const temparr = cardList.filter(
+          (item) => item?.paymentItem?.toLowerCase() !== 'adyen_moto'
+        );
+        temparr.push(tempObj);
+        cardList = temparr;
+        console.log('cardList', cardList);
+      }
+
       this.setState({
         creditCardList: cardList
       });
@@ -490,7 +525,11 @@ class PaymentList extends React.Component {
                                 </div>
                               ) : null}
                               <span
-                                className={`position-relative p-2 ui-cursor-pointer-pure pdl-1`}
+                                className={`position-absolute p-2 ui-cursor-pointer-pure pdl-1`}
+                                style={{
+                                  top: '181%',
+                                  right: '-85%'
+                                }}
                               >
                                 <span
                                   className={`${
@@ -504,6 +543,7 @@ class PaymentList extends React.Component {
                                   )}
                                 >
                                   <FormattedMessage id="delete" />
+                                  {/* <span className='iconfont'>&#xe658;</span> */}
                                 </span>
                                 <ConfirmTooltip
                                   containerStyle={{
@@ -532,7 +572,7 @@ class PaymentList extends React.Component {
                         />
                       </div>
                     ))}
-                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                    <div className="col-12 col-md-6 p-2 rounded text-center  ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'list' })}
                     </div>
                   </div>

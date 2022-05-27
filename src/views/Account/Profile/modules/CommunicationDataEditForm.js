@@ -54,9 +54,8 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -241,7 +240,11 @@ class CommunicationDataEditForm extends React.Component {
           : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
       let submitParam = this.bindOptionSubmitParam(this.state.list);
-
+      // form.communicationEmail = 0 也没有用
+      // console.log('submitParam',submitParam)
+      // if(!submitParam.optionalList[0].selectedFlag){
+      //   form.communicationEmail = 0
+      // }
       await userBindConsent({
         ...submitParam,
         ...{ oktaToken },
