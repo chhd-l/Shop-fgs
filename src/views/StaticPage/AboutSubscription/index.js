@@ -37,11 +37,11 @@ function AboutSubscription(props) {
             </div>
             {/* 移动 */}
             <div className="block md:hidden">
-              <h1 className="PingFangSC redColor text-22 md:text-30 leading-9 font-semibold  text-center">
+              <h1 className="font-PingFangSC text-rc-red text-22 md:text-30 leading-9 font-semibold  text-center">
                 便利な定期購入
               </h1>
               <p
-                className="PingFangSC mt-2 text-18 leading-8 text-center"
+                className="font-PingFangSC mt-2 text-18 leading-8 text-center"
                 style={{ color: '#666666' }}
               >
                 必要なタイミングに自動的にお届け
@@ -60,33 +60,33 @@ function AboutSubscription(props) {
             </p>
             <div className="md:flex justify-evenly">
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="DINPro redColor text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="DINPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
                   Point 1
                 </h1>
                 <p
-                  className="text-16 leading-6 PingFangSC md:leading-7 md:text-20 text-center"
+                  className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
                 >
                   配送頻度は、３週間から８週間まで１週間単位で設定いただけます
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="DINPro redColor text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="DINPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
                   Point 2
                 </h1>
                 <p
-                  className="text-16 leading-6 PingFangSC md:leading-7 md:text-20 text-center"
+                  className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
                 >
                   お届け回数は、３回から設定いただけます
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="DINPro redColor text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="DINPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
                   Point 3
                 </h1>
                 <p
-                  className="text-16 leading-6 PingFangSC md:leading-7 md:text-20 text-center"
+                  className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
                 >
                   配送頻度、お届け回数、お届け時間帯は、マイページの「購入履歴・定期購入履歴」の「履歴を確認する」ボタンからいつでも変更できます
@@ -94,7 +94,7 @@ function AboutSubscription(props) {
               </div>
             </div>
             <p
-              className="PingFangSC text-16 leading-6 md:mt-10 md:leading-7 md:text-20 text-center"
+              className="font-PingFangSC text-16 leading-6 md:mt-10 md:leading-7 md:text-20 text-center"
               style={{ color: '#666' }}
             >
               必要なくなった場合は、マイページの「購入履歴・定期購入履歴」の「履歴を確認する」ボタンからいつでもキャンセル可能です。
@@ -104,11 +104,11 @@ function AboutSubscription(props) {
           <div className="throughLine"></div>
           {/* 2 */}
           <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
-            <h1 className="PingFangSC redColor text-22 leading-8 md:text-30 md:leading-9 font-semibold text-center ">
+            <h1 className="font-PingFangSC text-rc-red text-22 leading-8 md:text-30 md:leading-9 font-semibold text-center ">
               定期購入ご注文方法
             </h1>
             <p
-              className="PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-4 mb-6 md:mt-10 md:mb-4"
+              className="font-PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-4 mb-6 md:mt-10 md:mb-4"
               style={{ color: '#666' }}
             >
               １）購入したい製品の詳細ページで「定期購入をする」ボタンをクリックしてください。
@@ -116,7 +116,7 @@ function AboutSubscription(props) {
             <img src={Bitmap1} alt="" className="md:w-cs-920 md:h-cs-450" />
             {/* pc */}
             <p
-              className="hidden md:block PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
+              className="hidden md:block font-PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
               style={{ color: '#666' }}
             >
               ２）定期購入のショッピングカート画面で、「配送頻度」と「お届け回数」を選んでください。
@@ -125,7 +125,7 @@ function AboutSubscription(props) {
             </p>
             {/* 手机 */}
             <p
-              className="block md:hidden PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
+              className="block md:hidden font-PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
               style={{ color: '#666' }}
             >
               ２）定期購入のショッピングカート画面で、「配送頻度」と「お届け回数」を選んでください。
@@ -133,7 +133,7 @@ function AboutSubscription(props) {
             </p>
             <img src={Bitmap2} alt="" className="md:w-cs-920 md:h-cs-450" />
             <p
-              className="PingFangSC text-16 leading-7 md:text-18 md:leading-9  mt-6 md:mt-10 md:mb-4"
+              className="font-PingFangSC text-16 leading-7 md:text-18 md:leading-9  mt-6 md:mt-10 md:mb-4"
               style={{ color: '#666' }}
             >
               ３）「レジへ進む」ボタンをクリックし、画面にしたがって購入完了まで進んでいただければ定期購入のご注文が完了します。
@@ -141,11 +141,11 @@ function AboutSubscription(props) {
           </div>
           <div className="throughLine"></div>
           <div className="md:hidden md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
-            <h1 className="PingFangSC redColor text-22 leading-7 md:text-30 md:leading-10 font-semibold text-center mb-4 md:mb-6">
+            <h1 className="font-PingFangSC text-rc-red text-22 leading-7 md:text-30 md:leading-10 font-semibold text-center mb-4 md:mb-6">
               会員ステージと保有ポイントの確認方法
             </h1>
             <p
-              className="PingFangSC text-16 leading-6 md:text-20 md:leading-7 text-center"
+              className="font-PingFangSC text-16 leading-6 md:text-20 md:leading-7 text-center"
               style={{ color: '#666' }}
             >
               現在の会員ステージと保有ポイントは、ログイン後のマイページでご確認いただけます。会員ステージは、毎月15日午前3時に集計して決定します。
@@ -154,11 +154,11 @@ function AboutSubscription(props) {
           </div>
           <div className="throughLine md:hidden"></div>
           <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
-            <h1 className="PingFangSC redColor text-22 leading-7 md:text-30 md:leading-10 font-semibold text-center mb-4 md:mb-6">
+            <h1 className="font-PingFangSC text-rc-red text-22 leading-7 md:text-30 md:leading-10 font-semibold text-center mb-4 md:mb-6">
               定期購入についてのご利用ガイド
             </h1>
             <p
-              className="PingFangSC text-16 leading-6 md:text-20 md:leading-7 text-center"
+              className="font-PingFangSC text-16 leading-6 md:text-20 md:leading-7 text-center"
               style={{ color: '#666' }}
             >
               定期購入についてのよくあるお問合せはこちら
