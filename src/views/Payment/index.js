@@ -1012,15 +1012,21 @@ class Payment extends React.Component {
       // fgs 下的单 isOfflinePayment 为false，felin 下的单为true
       const isFelin =
         sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
+      const isFgs =
+        sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
       let payWay;
       if (isFelin) {
         payWay = await getWays({ isOfflinePayment: isFelin });
       } else {
-        // businessType
-        // 0 fgs
-        // 1 代客下单线上
-        // 2 代客下单线下
-        payWay = await getWays({ businessType: '1' });
+        if (isFgs) {
+          // businessType
+          // 0 fgs
+          // 1 代客下单线上
+          // 2 代客下单线下
+          payWay = await getWays({ businessType: '1' });
+        } else {
+          payWay = await getWays();
+        }
       }
       let payWayNameArr = [];
       if (payWay.context) {
