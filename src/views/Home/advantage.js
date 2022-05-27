@@ -83,7 +83,7 @@ export function Advantage() {
   ));
 }
 
-export function JpAdvantage() {
+export function JpAdvantage({ intl }) {
   return (
     <section className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -201,12 +201,11 @@ export function JpAdvantage() {
                     alt="advantage icon"
                   />
                 </dt>
-                <dd>
-                  <FormattedMessage
-                    id="home.Advantage.advantage5"
-                    values={{ val: <br /> }}
-                  />
-                </dd>
+                <dd
+                  dangerouslySetInnerHTML={{
+                    __html: intl.messages['home.Advantage.advantage5']
+                  }}
+                ></dd>
               </dl>
             </div>
           </div>

@@ -36,7 +36,7 @@ function AboutLoyaltyProgram(props) {
             <img src={hootbg} alt="" />
           </div>
           {/* 手机端 */}
-          <div className="m-auto mx-18 block md:hidden mt-6 PingFangSC text-center font-normal">
+          <div className="m-auto mx-18 block md:hidden mt-6 font-PingFangSC text-center font-normal">
             <h1 className="w-cs-285 m-auto text-cs-primary text-22  leading-34 font-semibold">
               ポイントプログラム
             </h1>
@@ -47,7 +47,7 @@ function AboutLoyaltyProgram(props) {
           </div>
 
           <div className="md:w-cs-999  text-center  mt-cs-24 pl-4 pr-4  m-auto md:mb-10 ">
-            <p className="PingFangSC w-cs-284 m-auto mb-2 text-16 grayColor leading-24  md:w-cs-999 md:text-18 md:leading-26">
+            <p className="font-PingFangSC w-cs-284 m-auto mb-2 text-16 grayColor leading-24  md:w-cs-999 md:text-18 md:leading-26">
               マイ
               ロイヤルカナンのポイントプログラムは、1ポイント＝1円としてマイ
               ロイヤルカナンで使用できるポイントがご購入の度に貯まる、お得なプログラムです。ポイントの付与率は、マイ
@@ -72,7 +72,7 @@ function AboutLoyaltyProgram(props) {
             </p>
             <a
               href="subscription"
-              className="PingFangSC w-cs-240 text-12 md:text-16 font-medium text-cs-black leading-6 underline ml-22 mr-22"
+              className="font-PingFangSC w-cs-240 text-12 md:text-16 font-medium text-cs-black leading-6 underline ml-22 mr-22"
             >
               定期購入について詳しくはこちら
             </a>
@@ -96,10 +96,10 @@ function AboutLoyaltyProgram(props) {
           <ThroughLine />
 
           <div className="md:w-cs-999   m-auto font-normal mt-10 md:mt-20 ">
-            <h1 className="PingFangSC w-cs-284 m-auto md:w-auto text-22 leading-28 text-cs-primary text-center font-semibold md:text-30 md:leading-10">
+            <h1 className="font-PingFangSC w-cs-284 m-auto md:w-auto text-22 leading-28 text-cs-primary text-center font-semibold md:text-30 md:leading-10">
               会員ステージと保有ポイントの確認方法
             </h1>
-            <p className="PingFangSC text-16 w-cs-284 m-auto leading-24 grayColor mt-4 text-left md:text-18 md:left-26 md:w-auto md:text-center">
+            <p className="font-PingFangSC text-16 w-cs-284 m-auto leading-24 grayColor mt-4 text-left md:text-18 md:left-26 md:w-auto md:text-center">
               現在の会員ステージと保有ポイントは、ログイン後のマイページでご確認いただけます。会員ステージは、毎月15日午前3時に集計して決定します。
             </p>
             <img
@@ -111,10 +111,10 @@ function AboutLoyaltyProgram(props) {
           <ThroughLine />
 
           <div className="md:w-cs-999  m-auto mt-10 mb-10  md:mb-20">
-            <h1 className="PingFangSC text-22 leading-28 text-cs-primary text-center font-semibold md:text-30 md:leading-10">
+            <h1 className="font-PingFangSC text-22 leading-28 text-cs-primary text-center font-semibold md:text-30 md:leading-10">
               ポイントの使用方法
             </h1>
-            <p className="PingFangSC text-16 w-cs-284 m-auto leading-24 grayColor mt-4 text-left md:text-18 md:leading-26 md:w-auto md:text-center">
+            <p className="font-PingFangSC text-16 w-cs-284 m-auto leading-24 grayColor mt-4 text-left md:text-18 md:leading-26 md:w-auto md:text-center">
               ポイントの使用最小単位は100ポイントです。ポイントを使用される場合は、お支払い方法の画面で使用するポイントをご入力ください。入力したポイントが、支払合計金額から差し引かれます。なお、クーポンとの併用はできませんのでご了承ください。
               <br />
               ポイントの有効期限はマイ ロイヤルカナンでの最終注文から6ヵ月です
