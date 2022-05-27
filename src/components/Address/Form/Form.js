@@ -1147,7 +1147,7 @@ class Form extends React.Component {
     // }
 
     if (key == 'timeSlot') {
-      //日本timeSlot才有Unspecified
+      //日本.俄罗斯timeSlot才有Unspecified
       tmp.unshift({
         value: 'Unspecified',
         name: <FormattedMessage id="Unspecified" />
