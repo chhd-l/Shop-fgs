@@ -20,14 +20,14 @@ const RecommendationList = ({ productDetail }) => {
       <ErrorMessage msg={errMsg} />
       {!!productDetail.mainProduct && (
         <>
-          <div className="p-f-result-box">
+          <div className="p-f-result-box w-3/6">
             <img
               className="m-auto"
-              style={{ maxWidth: '200px' }}
+              style={{ maxWidth: '168px' }}
               src={getClubLogo({})}
               alt="club icon"
             />
-            <h4 className="red text-center mb-3 mt-3">
+            <h4 className="red text-center mb-3 mt-6">
               <FormattedMessage id="subscription.productRecommendation" />
             </h4>
             <p className=" text-center">
