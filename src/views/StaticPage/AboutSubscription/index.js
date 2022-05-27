@@ -161,7 +161,7 @@ function AboutSubscription(props) {
               className="PingFangSC text-16 leading-6 md:text-20 md:leading-7 text-center"
               style={{ color: '#666' }}
             >
-              定期購入についてのよくあるお問合せはコチラ
+              定期購入についてのよくあるお問合せはこちら
             </p>
           </div>
         </div>

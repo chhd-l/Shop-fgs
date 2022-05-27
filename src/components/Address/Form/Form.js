@@ -293,6 +293,32 @@ class Form extends React.Component {
       console.warn(err);
     }
   };
+  //格式化日期
+  formatDateFun = (v) => {
+    let dateStr = 'Unspecified';
+    if (v.date) {
+      dateStr = formatDate({
+        date: v.date,
+        formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
+      });
+    }
+    return dateStr;
+  };
+  //
+  getAllData = (v, alldata) => {
+    if (v.date == null) {
+      alldata['Unspecified'] = v.dateTimeInfos;
+    } else {
+      alldata[v.date] = v.dateTimeInfos;
+    }
+  };
+  getDdList = (datestr, v, ddlist) => {
+    ddlist.push({
+      id: datestr,
+      name: datestr,
+      no: v.date || 'Unspecified'
+    });
+  };
   // 0、获取 DeliveryDate 和 TimeSlot
   getDeliveryDateAndTimeSlotData = async (str) => {
     const { caninForm } = this.state;
@@ -307,36 +333,39 @@ class Form extends React.Component {
       let tslist = []; // time slot
 
       let obj = Object.assign({}, caninForm);
-      if (res.context && res.context?.timeSlots?.length) {
+
+      if (res?.context?.timeSlots?.length) {
         flag = true; // 标记
         let robj = res.context.timeSlots;
 
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
-          let datestr = formatDate({
-            date: v.date,
-            formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
-          });
+          let dateStr = this.formatDateFun(v);
 
-          // 所有数据
-          alldata[v.date] = v.dateTimeInfos;
-          ddlist.push({
-            id: datestr,
-            name: datestr,
-            no: v.date
-          });
+          //获取全部数据
+          this.getAllData(v, alldata);
+
+          // 获取delivery date
+          this.getDdList(dateStr, v, ddlist);
+
           if (obj.deliveryDate == v.date) {
-            obj.deliveryDateId = datestr;
+            obj.deliveryDateId = dateStr;
+          } else if (obj.deliveryDate == '') {
+            obj.deliveryDate = 'Unspecified';
+            obj.deliveryDateId = 'Unspecified';
           }
         });
+
         // delivery date为空或者过期设置第一条数据为默认值
-        if (!obj.deliveryDate || !alldata[obj.deliveryDate]) {
-          obj.deliveryDateId = ddlist[0].id;
-          obj.deliveryDate = ddlist[0].no;
-        }
+
+        // if (!obj.deliveryDate || !alldata[obj.deliveryDate]) {
+        //   obj.deliveryDateId = ddlist[0].id;
+        //   obj.deliveryDate = ddlist[0].no;
+        // }
 
         // 设置 time slot
-        let tsFlag = false;
+        //let tsFlag = false;
+
         alldata[obj.deliveryDate]?.forEach((v, i) => {
           let setime = v.startTime + '-' + v.endTime;
           tslist.push({
@@ -346,15 +375,13 @@ class Form extends React.Component {
             endTime: v.endTime,
             sort: v.sort
           });
-          if (setime == obj.timeSlot) {
-            obj.timeSlotId = setime;
-            obj.timeSlot = setime;
-            tsFlag = true;
-          }
+          // if (setime == obj.timeSlot) {
+          //   obj.timeSlotId = setime;
+          //   obj.timeSlot = setime;
+          //   tsFlag = true;
+          // }
         });
 
-        consolel.log(obj);
-        debugger;
         // if(COUNTRY == 'jp') {
         //   tslist.unshift({
         //     id: '',
@@ -366,21 +393,33 @@ class Form extends React.Component {
 
         // console.log(tslist)
         // debugger
-        // time slot为空或者过期设置第一条数据为默认值
+
+        // if (obj.timeSlot == 'Unspecified') {
+        //   obj.timeSlotId = 'Unspecified';
+        //   obj.timeSlot = 'Unspecified';
+        // } else if (obj.deliveryDate == 'Unspecified') {
+        //   obj.deliveryDate = 'Unspecified';
+        //   obj.deliveryDateId = 'Unspecified';
+        // } else if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
+        //   if (COUNTRY == 'jp') {
+        //     obj.timeSlotId = 'Unspecified';
+        //     obj.timeSlot = 'Unspecified';
+        //   } else {
+        //     obj.timeSlotId = tslist[0].id;
+        //     obj.timeSlot = tslist[0].name;
+        //   }
+        // }
+
+        //time slot不为Unspecified，就设置第一条数据为默认值
         if (obj.timeSlot == 'Unspecified') {
           obj.timeSlotId = 'Unspecified';
           obj.timeSlot = 'Unspecified';
-        } else if (obj.deliveryDate == 'Unspecified') {
-          obj.deliveryDate = 'Unspecified';
-          obj.deliveryDateId = 'Unspecified';
-        } else if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
-          if (COUNTRY == 'jp') {
-            obj.timeSlotId = 'Unspecified';
-            obj.timeSlot = 'Unspecified';
-          } else {
-            obj.timeSlotId = tslist[0].id;
-            obj.timeSlot = tslist[0].name;
-          }
+        } else if (obj.timeSlot === '' && obj.timeSlotId == 0) {
+          obj.timeSlotId = 'Unspecified';
+          obj.timeSlot = 'Unspecified';
+        } else {
+          obj.timeSlotId = tslist[0]?.id || 'Unspecified';
+          obj.timeSlot = tslist[0]?.name || 'Unspecified';
         }
       } else {
         obj.deliveryDate = '';
@@ -388,6 +427,9 @@ class Form extends React.Component {
         obj.timeSlot = '';
         obj.timeSlotId = 0;
       }
+
+      // console.log(obj)
+      // debugger
 
       this.setState(
         {
@@ -402,7 +444,7 @@ class Form extends React.Component {
         }
       );
     } catch (err) {
-      // console.warn(err);
+      console.warn('678', err);
       this.setState({
         isDeliveryDateAndTimeSlot: false
       });
@@ -1096,13 +1138,13 @@ class Form extends React.Component {
       tmp.unshift({ value: '', name: '' });
     }
 
-    if (COUNTRY == 'jp' && key == 'deliveryDate') {
-      //日本deliveryDate才有Unspecified
-      tmp.unshift({
-        value: 'Unspecified',
-        name: <FormattedMessage id="Unspecified" />
-      });
-    }
+    // if (COUNTRY == 'jp' && key == 'deliveryDate') {
+    //   //日本deliveryDate才有Unspecified
+    //   tmp.unshift({
+    //     value: 'Unspecified',
+    //     name: <FormattedMessage id="Unspecified" />
+    //   });
+    // }
 
     if (COUNTRY == 'jp' && key == 'timeSlot') {
       //日本timeSlot才有Unspecified

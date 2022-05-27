@@ -2102,12 +2102,8 @@ class List extends React.Component {
                       {!productList.length ? (
                         <div className="row">
                           <div className="col-12">
-                            <div className="ui-font-nothing rc-md-up">
+                            <div className="ui-font-nothing ui-font-nothing mb-4 text-base md:text-lg">
                               <em className="rc-icon rc-incompatible--sm rc-iconography" />
-                              <FormattedMessage id="list.errMsg" />
-                            </div>
-                            <div className="ui-font-nothing rc-md-down d-flex pb-4">
-                              <em className="rc-icon rc-incompatible--xs rc-iconography" />
                               <FormattedMessage id="list.errMsg" />
                             </div>
                           </div>
