@@ -18,6 +18,16 @@ export default {
       href: 'https://www.royalcanin.com/fr/shop',
       country: 'fr'
     },
-    { lang: 'tr-TR', href: 'https://www.royalcanin.com/tr/shop', country: 'tr' }
+    {
+      lang: 'tr-TR',
+      href: 'https://www.royalcanin.com/tr/shop',
+      country: 'tr'
+    },
+    {
+      lang: 'sv-SE',
+      href: 'https://www.royalcanin.com/se/shop',
+      country: 'se'
+    },
+    { lang: 'en-GB', href: 'https://www.royalcanin.com/uk/shop', country: 'uk' }
   ]
 };
