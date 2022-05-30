@@ -192,6 +192,7 @@ class PaymentStore {
     // this.isLogin在某些情况下为false,因此判断不对，例如在cart页面登录再进checkout页面。
     const isLoginIng = localItemRoyal.get('rc-token');
     console.log(this.isLogin, 'ISLOGIN==', isLoginIng, 'FJKLDS');
+    const COUNTRY = window.__.env.REACT_APP_COUNTRY;
     //isFirstLoad表示进入checkout页面直接执行,此时不需要push-event
     if (isHubGA) {
       switch (key) {
@@ -221,22 +222,77 @@ class PaymentStore {
         //填完地址
         case 'deliveryAddr':
           if (isLoginIng) {
-            isNewAccount().then((res) => {
-              if (res.context == 0) {
-                checkoutDataLayerPushEvent({
-                  name: 'Payment',
-                  options: 'New account'
-                });
-              } else {
-                checkoutDataLayerPushEvent({
-                  name: 'Payment',
-                  options: 'Existing account'
-                });
-              }
-            });
+            if (COUNTRY === 'jp') {
+              isNewAccount().then((res) => {
+                if (res.context == 0) {
+                  checkoutDataLayerPushEvent({
+                    name: 'Pet Profile',
+                    options: 'New account'
+                  });
+                } else {
+                  checkoutDataLayerPushEvent({
+                    name: 'Pet Profile',
+                    options: 'Existing account'
+                  });
+                }
+              });
+            } else {
+              isNewAccount().then((res) => {
+                if (res.context == 0) {
+                  checkoutDataLayerPushEvent({
+                    name: 'Payment',
+                    options: 'New account'
+                  });
+                } else {
+                  checkoutDataLayerPushEvent({
+                    name: 'Payment',
+                    options: 'Existing account'
+                  });
+                }
+              });
+            }
           } else {
             checkoutDataLayerPushEvent({
               name: 'Payment',
+              options: 'Guest checkout'
+            });
+          }
+          break;
+        //bindPet 绑定宠物
+        case 'bindPet':
+          if (isLoginIng) {
+            if (COUNTRY === 'jp') {
+              isNewAccount().then((res) => {
+                if (res.context == 0) {
+                  checkoutDataLayerPushEvent({
+                    name: 'Payment',
+                    options: 'New account'
+                  });
+                } else {
+                  checkoutDataLayerPushEvent({
+                    name: 'Payment',
+                    options: 'Existing account'
+                  });
+                }
+              });
+            } else {
+              isNewAccount().then((res) => {
+                if (res.context == 0) {
+                  checkoutDataLayerPushEvent({
+                    name: 'Pet Profile',
+                    options: 'New account'
+                  });
+                } else {
+                  checkoutDataLayerPushEvent({
+                    name: 'Pet Profile',
+                    options: 'Existing account'
+                  });
+                }
+              });
+            }
+          } else {
+            checkoutDataLayerPushEvent({
+              name: 'Pet Profile',
               options: 'Guest checkout'
             });
           }
@@ -260,29 +316,6 @@ class PaymentStore {
           } else {
             checkoutDataLayerPushEvent({
               name: 'Confirmation',
-              options: 'Guest checkout'
-            });
-          }
-          break;
-        //bindPet 绑定宠物
-        case 'bindPet':
-          if (isLoginIng) {
-            isNewAccount().then((res) => {
-              if (res.context == 0) {
-                checkoutDataLayerPushEvent({
-                  name: 'Pet Profile',
-                  options: 'New account'
-                });
-              } else {
-                checkoutDataLayerPushEvent({
-                  name: 'Pet Profile',
-                  options: 'Existing account'
-                });
-              }
-            });
-          } else {
-            checkoutDataLayerPushEvent({
-              name: 'Pet Profile',
               options: 'Guest checkout'
             });
           }
