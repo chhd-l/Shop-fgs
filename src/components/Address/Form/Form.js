@@ -353,8 +353,7 @@ class Form extends React.Component {
           }
         });
 
-        consolel.log(obj);
-        debugger;
+        console.log(obj);
         // if(COUNTRY == 'jp') {
         //   tslist.unshift({
         //     id: '',
@@ -402,7 +401,7 @@ class Form extends React.Component {
         }
       );
     } catch (err) {
-      // console.warn(err);
+      console.warn(err);
       this.setState({
         isDeliveryDateAndTimeSlot: false
       });
