@@ -106,7 +106,7 @@ class Header extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
-    if (this.userInfo.email) {
+    if (this?.userInfo?.email) {
       LogRocket.identify('THE_USER_ID_IN_YOUR_APP', {
         name: this.userInfo.firstName,
         email: this.userInfo.email
