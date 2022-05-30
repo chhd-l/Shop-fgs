@@ -1409,7 +1409,6 @@ class UnLoginCart extends React.Component {
     const { intl } = this.props;
     const { mixFeedings } = this.state;
 
-    console.log('plist', plist);
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;

@@ -444,7 +444,7 @@ const App = () => {
                   path={'/okta-logout-page'}
                   component={OktaLogoutPage}
                 />
-                <Route exact path={'/home/'} component={Home} />
+                <Route exact path={'/home'} component={Home} />
                 <Route exact path={'/pickupmap'} component={PickupMap} />
                 <Route exact path={'/test/'} component={Test} />
                 <Route
@@ -671,16 +671,16 @@ const App = () => {
                     let recommendationPage = <Recommendation_US {...props} />;
                     if (
                       window.__.env.REACT_APP_COUNTRY == 'fr' &&
-                      props.location.search.includes('utm_campaign')
+                      props.location.search.includes('breeder')
                     ) {
-                      recommendationPage = <CartDEBreeder {...props} />;
-                      // recommendationPage = (
-                      //   <Recommendation_FrBreeder {...props} />
-                      // );
+                      recommendationPage = (
+                        <Recommendation_FrBreeder {...props} />
+                      );
                     } else if (
                       window.__.env.REACT_APP_COUNTRY === 'de' &&
                       props.location.search.includes('utm_campaign')
                     ) {
+                      // 德国推荐路由进入购物车界面
                       recommendationPage = <CartDEBreeder {...props} />;
                     }
                     return recommendationPage;
