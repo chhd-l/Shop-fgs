@@ -30,7 +30,7 @@ const BreadCrumbs = withRouter((props) => {
           >
             <DistributeHubLinkOrATag
               href={''}
-              to="/home"
+              to="/"
               className="rc-styled-link rc-progress__breadcrumb mr-0"
               ariaLabel="Links to home page"
               itemType="https://schema.org/Thing"

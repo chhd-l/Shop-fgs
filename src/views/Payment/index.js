@@ -114,6 +114,7 @@ import {
 } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 import Pos from './PaymentMethod/Pos';
 import Cash from './PaymentMethod/Cash';
+import Moto from './PaymentMethod/Moto';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1011,15 +1012,21 @@ class Payment extends React.Component {
       // fgs 下的单 isOfflinePayment 为false，felin 下的单为true
       const isFelin =
         sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
+      const isFgs =
+        sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
       let payWay;
       if (isFelin) {
         payWay = await getWays({ isOfflinePayment: isFelin });
       } else {
-        // fgs下单businessType传'0'获取moto支付
-        // 0 fgs
-        // 1 代客下单线上
-        // 2 代客下单线下
-        payWay = await getWays({ businessType: '0' });
+        if (isFgs) {
+          // businessType
+          // 0 fgs
+          // 1 代客下单线上
+          // 2 代客下单线下
+          payWay = await getWays({ businessType: '1' });
+        } else {
+          payWay = await getWays();
+        }
       }
       let payWayNameArr = [];
       if (payWay.context) {
@@ -1466,6 +1473,12 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'CASH',
             wasFelinStore: true
+          });
+        },
+        adyen_moto: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: '',
+            payPspItemEnum: 'ADYEN_MOTO'
           });
         },
         adyen_swish: () => {
@@ -2026,6 +2039,17 @@ class Payment extends React.Component {
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
           gotoConfirmationPage = true;
+          break;
+        case 'adyen_moto':
+          if (res.code === 'K-000000') {
+            console.log('adyen_moto', res);
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+            gotoConfirmationPage = true;
+          }
+
           break;
         case 'pc_web':
           subOrderNumberList =
@@ -3631,6 +3655,17 @@ class Payment extends React.Component {
                       />
                     </>
                   )}
+                  {/* adyen_moto */}
+                  {item.code === 'adyen_moto' &&
+                    curPayWayInfo?.code === 'adyen_moto' && (
+                      <>
+                        <Moto
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyen_moto'
+                          })}
+                        />
+                      </>
+                    )}
                   {item.code === 'cod_japan' &&
                     curPayWayInfo?.code === 'cod_japan' &&
                     isSupportPoint(this.isLogin) && <Point />}
@@ -3680,6 +3715,10 @@ class Payment extends React.Component {
               disabled: validForBilling
             })}
           {curPayWayInfo?.code === 'cash' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {curPayWayInfo?.code === 'adyen_moto' &&
             payConfirmBtn({
               disabled: validForBilling
             })}

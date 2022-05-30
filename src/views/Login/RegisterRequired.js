@@ -288,7 +288,7 @@ class RegisterRequired extends Component {
                 <div className="rc-margin-bottom--sm">
                   {/* <DistributeHubLinkOrATag
                     href=""
-                    to="/home"
+                    to="/"
                     className="logo-home d-inline-block"
                     title="Commerce Cloud
                     Storefront Reference Architecture Accueil"

@@ -152,14 +152,12 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
-      this
-    );
+    this.handleCancelAddOrEditPickup =
+      this.handleCancelAddOrEditPickup.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -295,11 +293,17 @@ class AddressList extends React.Component {
             console.log('vdres', vdres);
             if (vdres.context && vdres.context?.timeSlots?.length) {
               let tobj = vdres.context.timeSlots[0];
-              v.deliveryDate = tobj.date;
-              v.timeSlot =
-                tobj.dateTimeInfos[0].startTime +
-                '-' +
-                tobj.dateTimeInfos[0].endTime;
+
+              if (tobj.date == null) {
+                v.timeSlot = 'Unspecified';
+                v.deliveryDate = 'Unspecified';
+              } else {
+                v.deliveryDate = tobj.date;
+                v.timeSlot =
+                  tobj?.dateTimeInfos[0]?.startTime +
+                  '-' +
+                  tobj?.dateTimeInfos[0]?.endTime;
+              }
             } else {
               v.deliveryDate = '';
               v.timeSlot = '';
@@ -1194,11 +1198,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });

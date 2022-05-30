@@ -9,10 +9,10 @@
   --pink: #e83e8c;
   --red: #ec001a;
   --rc-red: #e2001a;
-  --rc-detail-red:#d81e06;
-  --rc-f6:#f6f6f6;
-  --rc-f9:#f9f9f9;
-  --rc-ddd:#ddd;
+  --rc-detail-red: #d81e06;
+  --rc-f6: #f6f6f6;
+  --rc-f9: #f9f9f9;
+  --rc-ddd: #ddd;
   --orange: #ee8b00;
   --yellow: #ffc107;
   --green: #47b800;
@@ -41,6 +41,7 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
+  --font-family-PingFangSC: 'Ping Fang SC', sans-serif;
 }
 
 *,
@@ -72,7 +73,7 @@ section {
 
 body {
   margin: 0;
-  font-family: "RC TYPE", Roboto, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'RC TYPE', Roboto, Avenir, Helvetica, Arial, sans-serif;
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.5;
@@ -2454,7 +2455,7 @@ pre code {
 }
 .core .form-control:focus {
   box-shadow: 0 0 5px 0px #0066ff;
-  border: 1px solid #0066ff!important;
+  border: 1px solid #0066ff !important;
 }
 
 .form-control::-webkit-input-placeholder {
@@ -17356,12 +17357,12 @@ ul li:not(.rc-list__item) {
 
 .dropdown-nav.show {
   // max-height: 258px;
-  height:auto;
+  height: auto;
 }
 
 /* 给首页dropdown menu组件用 */
 .drop.dropdown-nav.show {
-  height:100%;
+  height: 100%;
   max-height: 558px;
 }
 
@@ -23652,7 +23653,7 @@ tr.rc-table__row.inactive td:after {
 }
 .ui-after-hidden {
   &::after {
-    display: none!important;
+    display: none !important;
   }
 }
 
@@ -23888,12 +23889,12 @@ html:not(.rc-loaded--final) .rc-header__nav .rc-list__content.hidden {
   background-position: 63% 57% !important;
 }
 
-.noscroll{
+.noscroll {
   height: 100%;
   overflow: hidden;
 }
 #mars-footer-panel {
-  background-color: #333333!important;
+  background-color: #333333 !important;
 }
 
 .body-hidden-scroll {
@@ -23904,7 +23905,7 @@ html:not(.rc-loaded--final) .rc-header__nav .rc-list__content.hidden {
   }
 }
 
-.rc-tab[aria-selected=true] {
+.rc-tab[aria-selected='true'] {
   color: var(--rc-red);
   border-bottom-color: var(--rc-red);
 }

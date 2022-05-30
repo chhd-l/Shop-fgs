@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -591,6 +591,7 @@ function AdvantageTips() {
 }
 
 @seoHoc('Home Page')
+@injectIntl
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -698,7 +699,7 @@ class Home extends React.Component {
           <TopAds />
           <Divider />
           {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
-            <JpAdvantage />
+            <JpAdvantage {...this.props} />
           ) : (
             <React.Fragment>
               <section>

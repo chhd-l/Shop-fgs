@@ -430,7 +430,7 @@ class Recommendation extends React.Component {
       .catch((err) => {
         console.log(err, 'err');
         this.setState({ noData: true, pageLoading: false, loading: false });
-        // this.props.history.push('/home');
+        // this.props.history.push('/');
       });
   }
 
@@ -1131,7 +1131,7 @@ class Recommendation extends React.Component {
                         </p>
                       </div>
                     </div>
-                    <div className="md-down add-cart-for-mobile">
+                    <div className="md:hidden add-cart-for-mobile">
                       <button
                         onClick={this.addCart}
                         className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile

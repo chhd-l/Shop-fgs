@@ -186,29 +186,13 @@ class Subscription extends React.Component {
     }
     myAccountPushEvent('Subscriptions');
     const res = await getDictionary({ type: 'SubscriptionType' });
-    console.log('SubscriptionTypeList:');
-    console.log(res);
-    let arr = [];
-    const jpres = res
-      .map((el) => {
-        return {
-          id: el.id,
-          name: el.name,
-          value: el.valueEn
-        };
-      })
-      .filter((item) => item.name !== 'club');
-    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-      arr = jpres;
-    } else {
-      arr = res.map((el) => {
-        return {
-          id: el.id,
-          name: el.name,
-          value: el.valueEn
-        };
-      });
-    }
+    const arr = res.map((el) => {
+      return {
+        id: el.id,
+        name: el.name,
+        value: el.valueEn
+      };
+    });
     this.setState({
       subscriptionTypeList: arr
     });

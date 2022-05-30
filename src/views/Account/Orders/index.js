@@ -502,7 +502,7 @@ class AccountOrders extends React.Component {
                             </p>
                             <DistributeHubLinkOrATag
                               href=""
-                              to="/home"
+                              to="/"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="account.orders.btns" />

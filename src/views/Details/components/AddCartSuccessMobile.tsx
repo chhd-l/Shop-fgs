@@ -168,7 +168,7 @@ const AddCartSuccessMobile = ({
 
               <DistributeHubLinkOrATag
                 href=""
-                to="/home"
+                to="/"
                 style={{ color: '#666', fontWeight: 400 }}
               >
                 <FormattedMessage id="continueMyPurchases" />

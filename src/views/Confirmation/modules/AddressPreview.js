@@ -40,7 +40,6 @@ class InfosPreview extends React.Component {
   };
   render() {
     const { payRecord, details } = this.props;
-
     return (
       <div className="row1 rc-bg-colour--brand3 p-3 text-break grid grid-cols-12">
         {/*Felin Appointment summary*/}
@@ -72,10 +71,13 @@ class InfosPreview extends React.Component {
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="deliveryAddress" />
             </div>
-
             <AddressPreview
               data={{
                 name: details.consignee.name,
+                lastName: details.consignee.lastName,
+                firstName: details.consignee.firstName,
+                firstNameKatakana: details.consignee?.firstNameKatakana,
+                lastNameKatakana: details.consignee?.lastNameKatakana,
                 address1: details.consignee.detailAddress1,
                 address2: details.consignee.detailAddress2,
                 city: details.consignee.city,
