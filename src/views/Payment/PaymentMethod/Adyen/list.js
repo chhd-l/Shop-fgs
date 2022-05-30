@@ -14,6 +14,8 @@ import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
 import { Point } from '@/views/Payment/Point';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 function CardItemCover({
   selectedSts,
   hanldeClickCardItem = () => {},
@@ -99,7 +101,12 @@ class AdyenCreditCardList extends React.Component {
   } = {}) => {
     showListLoading && this.setState({ listLoading: true });
     try {
-      let res = await getPaymentMethod();
+      let res;
+      if (sessionItemRoyal.get('rc-userGroup')) {
+        res = await getPaymentMethod({}, true);
+      } else {
+        res = await getPaymentMethod({ isPC: true }, true);
+      }
       let cardList = res.context;
 
       // 初始化时，重置保存卡列表的isLoadCvv状态
