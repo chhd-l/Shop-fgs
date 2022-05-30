@@ -228,7 +228,7 @@ class Pet extends React.Component {
                               />
                               <div className="operation">
                                 <Link
-                                  className="edit rc-styled-link"
+                                  className="edit rc-styled-link whitespace-nowrap"
                                   to={'/account/pets/petForm/' + el.petsId}
                                 >
                                   <FormattedMessage id="edit" />

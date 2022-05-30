@@ -22,7 +22,6 @@ const SPECAIL_CONSENT_ENUM =
     ],
     fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
-    //tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE'],
     uk: ['RC_DF_UK_CLIXRAY_OPT_EMAIL'],
     se: ['RC_SE_B2C_OPT'],
     mx: ['RC_MX_B2C_OPT'],
@@ -242,6 +241,14 @@ class CommunicationDataEditForm extends React.Component {
       let submitParam = this.bindOptionSubmitParam(this.state.list);
       // form.communicationEmail = 0 也没有用
       // console.log('submitParam',submitParam)
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        if (!submitParam.optionalList[0].selectedFlag) {
+          form.communicationEmail = 0;
+        } else {
+          form.communicationEmail = 1;
+        }
+      }
+
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {
         if (!submitParam.optionalList[0].selectedFlag) {
           form.communicationEmail = 0;
