@@ -192,6 +192,9 @@ module.exports = {
         'cs-justify-items': 'center',
         'cs-align-items': 'center',
         'cs-align-content': 'center'
+      },
+      fontFamily: {
+        PingFangSC: 'var(--font-family-PingFangSC)'
       }
     }
   },

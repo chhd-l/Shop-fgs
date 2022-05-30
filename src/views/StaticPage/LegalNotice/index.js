@@ -12,9 +12,9 @@ const legalNotice = '';
 function LegalNotice(props) {
   const [isLoading, setIsLoading] = useState(false);
   const contentTitleStyle =
-    'PingFangSC redColor font-medium text-16 leading-6 mb-3 md:mb-4 md:text-18 md:leading-7';
+    'font-PingFangSC text-rc-red font-medium text-16 leading-6 mb-3 md:mb-4 md:text-18 md:leading-7';
   const contentsubStyle =
-    'PingFangSC grayColor text-16 leading-6 md:text-18 md:leading-7';
+    'font-PingFangSC grayColor text-16 leading-6 md:text-18 md:leading-7';
   const mar = 'mb-6 md:mb-10';
   return (
     <div>
@@ -30,11 +30,11 @@ function LegalNotice(props) {
         >
           <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
             {/* pc */}
-            <h1 className="hidden md:block PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
+            <h1 className="hidden md:block font-PingFangSC text-rc-red font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
               特定商取引に関する法律に基づく表記
             </h1>
             {/* 手机 */}
-            <h1 className="block md:hidden PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
+            <h1 className="block md:hidden font-PingFangSC text-rc-red font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
               マイ ロイヤルカナン 特定商取引法に基づく表示
             </h1>
             {/* 内容 */}
@@ -90,7 +90,7 @@ function LegalNotice(props) {
                 <h2 className={`${contentTitleStyle}`}>
                   5 配送料と手数料について
                 </h2>
-                <h3 className="PingFangSC redColor text-16 leading-6 mb-1 md:text-18 md:leading-7">
+                <h3 className="font-PingFangSC text-rc-red text-16 leading-6 mb-1 md:text-18 md:leading-7">
                   配送料
                 </h3>
                 <p className={`${contentsubStyle}`} style={{ color: '#666' }}>
@@ -98,17 +98,17 @@ function LegalNotice(props) {
                   <br />
                   その他の場合、全国一律配送1回につき500円（税込）の配送料をお客様にご負担いただきます。
                 </p>
-                <h3 className="PingFangSC redColor text-16 leading-6 mb-1 mt-4 md:mt-6 md:text-18 md:leading-7">
+                <h3 className="font-PingFangSC text-rc-red text-16 leading-6 mb-1 mt-4 md:mt-6 md:text-18 md:leading-7">
                   手数料
                 </h3>
                 <p
-                  className="PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
+                  className="font-PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
                   代金引換を支払方法として選択された場合、代引手数料としてご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。
                 </p>
                 <ul
-                  className="PingFangSC text-16 leading-6 ml-3 mb-4 md:text-18 md:ml-5 md:leading-7 md:mb-8"
+                  className="font-PingFangSC text-16 leading-6 ml-3 mb-4 md:text-18 md:ml-5 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
                   <li className="list-disc">収納代金が10,000円未満 330円</li>
@@ -123,13 +123,13 @@ function LegalNotice(props) {
                   </li>
                 </ul>
                 <p
-                  className="PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
+                  className="font-PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
                   コンビニ決済を支払方法として選択された場合、ご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。
                 </p>
                 <ul
-                  className="PingFangSC text-16 leading-6 ml-3 md:ml-5 md:text-18 md:leading-7"
+                  className="font-PingFangSC text-16 leading-6 ml-3 md:ml-5 md:text-18 md:leading-7"
                   style={{ color: '#666' }}
                 >
                   <li className="list-disc">収納代金が2,000円未満 121円</li>

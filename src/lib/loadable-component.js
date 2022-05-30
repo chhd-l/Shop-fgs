@@ -16,7 +16,7 @@ export default (loader, preloadClassName) => {
       return (
         <div
           className={cn('rc-card rc-list rc-icon rc-img', preloadClassName)}
-          style={{ display: 'none' }}
+          style={{ opacity: 0, height: '100vh' }}
         />
       );
       // return <Loading preloadClassName={preloadClassName} />;
