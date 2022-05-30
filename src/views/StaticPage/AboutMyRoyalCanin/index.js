@@ -241,9 +241,9 @@ function AboutMyRoyalCanin(props) {
               <img src={Bitmap5} alt="" className="md:w-440 md:h-190" />
             </div>
           </div>
-          <div className="throughLine hidden md:block"></div>
+          <div className="throughLine" />
           {/* 6 */}
-          <div className="hidden md:block md:w-cs-520 md:h-cs-174 m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-20 box-content">
+          <div className="md:w-cs-520 md:h-cs-174 m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-20 box-content">
             <h1 className="font-PingFangSC text-rc-red font-semibold text-22 text-center leading-7 mb-4 mt-4 md:mt-0 md:text-30 md:leading-10">
               愛犬・愛猫の健康管理に役立つ情報をご提供
             </h1>
@@ -254,8 +254,6 @@ function AboutMyRoyalCanin(props) {
               キャンペーンなどのお得な情報や、愛犬・愛猫の健康管理に役
               <br />
               立つ情報をニュースレターで配信しています。
-              <br />
-              ください。
             </p>
           </div>
         </div>
