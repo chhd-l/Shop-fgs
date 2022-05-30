@@ -471,7 +471,7 @@ class PaymentList extends React.Component {
                     </div>
                   ))}
                   {creditCardList.slice(0, 2).length < 2 && (
-                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
+                    <div className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'cover' })}
                     </div>
                   )}
