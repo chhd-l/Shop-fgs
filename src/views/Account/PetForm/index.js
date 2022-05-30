@@ -406,7 +406,7 @@ class PetForm extends React.Component {
                 )}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div
-                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 md:mt-0"
+                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 md:mt-0 w-100"
                 style={{ display: !isChoosePetType ? 'block' : 'none' }}
               >
                 <h5 style={{ color: '#333333', fontWeight: 400 }}>
