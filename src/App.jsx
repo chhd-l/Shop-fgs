@@ -671,11 +671,12 @@ const App = () => {
                     let recommendationPage = <Recommendation_US {...props} />;
                     if (
                       window.__.env.REACT_APP_COUNTRY == 'fr' &&
-                      props.location.search.includes('breeder')
+                      props.location.search.includes('utm_campaign')
                     ) {
-                      recommendationPage = (
-                        <Recommendation_FrBreeder {...props} />
-                      );
+                      recommendationPage = <CartDEBreeder {...props} />;
+                      // recommendationPage = (
+                      //   <Recommendation_FrBreeder {...props} />
+                      // );
                     } else if (
                       window.__.env.REACT_APP_COUNTRY === 'de' &&
                       props.location.search.includes('utm_campaign')
