@@ -4151,13 +4151,15 @@ class Payment extends React.Component {
                     </div>
                   </>
                 )}
-                <SelectPet
-                  recommendData={this.state.recommend_data}
-                  updateRecommendData={(data) => {
-                    this.setState({ recommend_data: data });
-                  }}
-                  isRepay={tid}
-                />
+                {COUNTRY === 'jp' && (
+                  <SelectPet
+                    recommendData={this.state.recommend_data}
+                    updateRecommendData={(data) => {
+                      this.setState({ recommend_data: data });
+                    }}
+                    isRepay={tid}
+                  />
+                )}
 
                 <PanelContainer
                   panelStatus={paymentMethodPanelStatus}
