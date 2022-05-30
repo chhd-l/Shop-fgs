@@ -56,6 +56,7 @@ import CancelEmail from '@/views/StaticPage/CancelEmail';
 import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 
 import PreciseCatNutrition from './views/PreciseCatNutrition';
+import CartDEBreeder from './views/CartDEBreeder';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
@@ -468,7 +469,13 @@ const App = () => {
                   }
                 />
                 <Route path="/requestinvoice" component={RequestInvoices} />
-                <Route exact path="/cart" component={Cart} />
+                <Route
+                  exact
+                  path="/cart"
+                  render={(props) => {
+                    return <Cart {...props} />;
+                  }}
+                />
                 <Route
                   exact
                   path="/checkout"
@@ -669,6 +676,11 @@ const App = () => {
                       recommendationPage = (
                         <Recommendation_FrBreeder {...props} />
                       );
+                    } else if (
+                      window.__.env.REACT_APP_COUNTRY === 'de' &&
+                      props.location.search.includes('utm_campaign')
+                    ) {
+                      recommendationPage = <CartDEBreeder {...props} />;
                     }
                     return recommendationPage;
                   }}
