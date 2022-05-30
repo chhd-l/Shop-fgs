@@ -244,6 +244,8 @@ class CommunicationDataEditForm extends React.Component {
       // console.log('submitParam',submitParam)
       if (!submitParam.optionalList[0].selectedFlag) {
         form.communicationEmail = 0;
+      } else {
+        form.communicationEmail = 1;
       }
       await userBindConsent({
         ...submitParam,
