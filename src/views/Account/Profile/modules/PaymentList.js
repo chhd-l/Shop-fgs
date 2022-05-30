@@ -31,7 +31,9 @@ function CardItem(props) {
         data?.paddingFlag
           ? 'creditCompleteInfoBox disabled'
           : 'rc-bg-colour--brand4'
-      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between w-4/5`}
+      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between ui-cursor-pointer-pure ${
+        ['account_profile'].includes(props?.pageType) ? '' : 'w-4/5'
+      }`}
     >
       <div
         className={[
@@ -484,10 +486,9 @@ class PaymentList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
                       <div
+                        // ui-cursor-pointer-pure
                         className={`col-12 col-md-6 p-2 ${
-                          el?.paddingFlag
-                            ? 'ui-cursor-not-allowed'
-                            : 'ui-cursor-pointer-pure'
+                          el?.paddingFlag ? 'ui-cursor-not-allowed' : ''
                         }`}
                         key={el.id}
                       >
@@ -544,14 +545,14 @@ class PaymentList extends React.Component {
                                   </div>
                                 )
                               ) : null}
-                              <span
+                              <div
                                 className={`position-absolute p-2 ui-cursor-pointer-pure pdl-1`}
                                 style={{
                                   top: '35%',
                                   right: '12%'
                                 }}
                               >
-                                <span
+                                <div
                                   className={`${
                                     el.paddingFlag
                                       ? 'ui-cursor-not-allowed'
@@ -563,8 +564,14 @@ class PaymentList extends React.Component {
                                   )}
                                 >
                                   {/* <FormattedMessage id="delete" /> */}
-                                  <span className="iconfont">&#xe624;</span>
-                                </span>
+                                  <div
+                                    className="iconfont iconshanchu"
+                                    style={{
+                                      fontSize: '2rem',
+                                      lineHeight: '2rem'
+                                    }}
+                                  ></div>
+                                </div>
                                 <ConfirmTooltip
                                   containerStyle={{
                                     transform: 'translate(-89%, 105%)'
@@ -586,7 +593,7 @@ class PaymentList extends React.Component {
                                     this.updateConfirmTooltipVisible(el, status)
                                   }
                                 />
-                              </span>
+                              </div>
                             </>
                           }
                         />
