@@ -542,10 +542,10 @@ class AddressList extends React.Component {
                       <ConfirmTooltip
                         containerStyle={{
                           transform: isMobile
-                            ? 'translate(-38%, 105%)'
+                            ? 'translate(-60%, 105%)'
                             : 'translate(-89%, 108%)'
                         }}
-                        arrowStyle={{ left: isMobile ? '30%' : '89%' }}
+                        arrowStyle={{ left: isMobile ? '54%' : '89%' }}
                         display={item.confirmTooltipVisible}
                         confirm={this.deleteCard.bind(this, item)}
                         updateChildDisplay={(status) =>
