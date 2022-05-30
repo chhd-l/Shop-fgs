@@ -241,6 +241,14 @@ class CommunicationDataEditForm extends React.Component {
       let oktaToken = 'Bearer ' + oktaTokenString;
       let submitParam = this.bindOptionSubmitParam(this.state.list);
 
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        if (!submitParam.optionalList[0].selectedFlag) {
+          form.communicationEmail = 0;
+        } else {
+          form.communicationEmail = 1;
+        }
+      }
+
       await userBindConsent({
         ...submitParam,
         ...{ oktaToken },
