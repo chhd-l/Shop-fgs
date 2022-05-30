@@ -233,13 +233,15 @@ class SubscriptionDetail extends React.Component {
     };
     if (this.state.addressType === 'delivery') {
       param.deliveryAddressId = el.deliveryAddressId;
-      // let checkSubAddressPickPointParams=Object.assign({},param,{paymentId: subDetail?.paymentId})
-      // checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
-      //   .then()
-      //   .catch((err) => {
-      //     this.setState({ showTempolineError: err.message });
-      //     return;
-      //   });
+      let checkSubAddressPickPointParams = Object.assign({}, param, {
+        paymentId: subDetail?.paymentId
+      });
+      checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
+        .then()
+        .catch((err) => {
+          this.setState({ showTempolineError: err.message });
+          return;
+        });
       if (isBillSame) {
         param.billingAddressId = el.deliveryAddressId;
       }
@@ -752,11 +754,11 @@ class SubscriptionDetail extends React.Component {
         goodsItems: goodsItems,
         changeField: changeField.length > 0 ? changeField.join(',') : ''
       });
-      // let checkSubAddressPickPointParams = Object.assign({}, param, {
-      //   paymentId: subDetail?.paymentId,
-      //   deliveryAddressId: subDetail?.deliveryAddressId
-      // });
-      // await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
+      let checkSubAddressPickPointParams = Object.assign({}, param, {
+        paymentId: subDetail?.paymentId,
+        deliveryAddressId: subDetail?.deliveryAddressId
+      });
+      await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
       await this.doUpdateDetail(param);
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
