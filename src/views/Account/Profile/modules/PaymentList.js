@@ -33,10 +33,7 @@ function CardItem(props) {
           : 'rc-bg-colour--brand4'
       } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between w-4/5`}
     >
-      <div
-        className="position-absolute d-flex align-items-center"
-        style={{ right: '25%', top: '15%' }}
-      >
+      <div className="position-absolute " style={{ right: '25%', top: '15%' }}>
         {props.operateBtnJSX}
       </div>
       <div
@@ -509,25 +506,43 @@ class PaymentList extends React.Component {
                                 </div>
                               ) : el.paymentItem?.toLowerCase() !==
                                 'adyen_paypal' ? (
-                                <div
-                                  className={`ui-cursor-pointer`}
-                                  onClick={this.toggleSetDefault.bind(this, el)}
-                                >
-                                  <span
-                                    className={`${
-                                      el?.paddingFlag
-                                        ? 'ui-cursor-not-allowed'
-                                        : 'rc-styled-link'
-                                    }`}
+                                el.paymentItem?.toLowerCase() ===
+                                'adyen_moto' ? (
+                                  <div className={`invisible`}>
+                                    <span
+                                      className={`${
+                                        el?.paddingFlag
+                                          ? 'ui-cursor-not-allowed'
+                                          : 'rc-styled-link'
+                                      }`}
+                                    >
+                                      <FormattedMessage id="setAsDefault" />
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`ui-cursor-pointer`}
+                                    onClick={this.toggleSetDefault.bind(
+                                      this,
+                                      el
+                                    )}
                                   >
-                                    <FormattedMessage id="setAsDefault" />
-                                  </span>
-                                </div>
+                                    <span
+                                      className={`${
+                                        el?.paddingFlag
+                                          ? 'ui-cursor-not-allowed'
+                                          : 'rc-styled-link'
+                                      }`}
+                                    >
+                                      <FormattedMessage id="setAsDefault" />
+                                    </span>
+                                  </div>
+                                )
                               ) : null}
                               <span
                                 className={`position-absolute p-2 ui-cursor-pointer-pure pdl-1`}
                                 style={{
-                                  top: '181%',
+                                  top: '90%',
                                   right: '-85%'
                                 }}
                               >

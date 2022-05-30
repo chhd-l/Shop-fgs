@@ -242,9 +242,9 @@ class CommunicationDataEditForm extends React.Component {
       let submitParam = this.bindOptionSubmitParam(this.state.list);
       // form.communicationEmail = 0 也没有用
       // console.log('submitParam',submitParam)
-      // if(!submitParam.optionalList[0].selectedFlag){
-      //   form.communicationEmail = 0
-      // }
+      if (!submitParam.optionalList[0].selectedFlag) {
+        form.communicationEmail = 0;
+      }
       await userBindConsent({
         ...submitParam,
         ...{ oktaToken },
