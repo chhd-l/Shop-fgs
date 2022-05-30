@@ -740,11 +740,21 @@ class AddressList extends React.Component {
         (item) => item.key === 'confirmation'
       )[0];
     } else {
-      // 下一个最近的未complete的panel
-      nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: this.curPanelKey
-      });
+      //好像是ga bindPet推送影响了，其他国家没有bindPet推送
+      if (COUNTRY !== 'jp') {
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(
+            paymentStore?.panelStatus?.filter((item) => item.key !== 'bindPet')
+          ),
+          curKey: this.curPanelKey
+        });
+      } else {
+        // 下一个最近的未complete的panel
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: this.curPanelKey
+        });
+      }
     }
 
     if (data) {

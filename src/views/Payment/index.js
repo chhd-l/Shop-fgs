@@ -958,8 +958,18 @@ class Payment extends React.Component {
   }
 
   queryList = async () => {
+    // const isFelin =
+    //     sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
+    // const isFgs =
+    // sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
     try {
-      let res = await getPaymentMethod({}, true);
+      let res;
+      if (sessionItemRoyal.get('rc-userGroup')) {
+        res = await getPaymentMethod({}, true);
+      } else {
+        res = await getPaymentMethod({ isPC: true }, true);
+      }
+
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
@@ -2102,6 +2112,7 @@ class Payment extends React.Component {
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
         sessionItemRoyal.remove('guestInfo');
+        localItemRoyal.remove('rc-promotionCode');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
