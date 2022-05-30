@@ -293,6 +293,7 @@ class AccountProfile extends React.Component {
                       // 此入口总是要email phone
                       needEmail={true}
                       needPhone={true}
+                      pageType={'account_profile'}
                     />
                   </PanleContainer>
 

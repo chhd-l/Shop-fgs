@@ -33,9 +33,6 @@ function CardItem(props) {
           : 'rc-bg-colour--brand4'
       } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between w-4/5`}
     >
-      <div className="position-absolute " style={{ right: '25%', top: '15%' }}>
-        {props.operateBtnJSX}
-      </div>
       <div
         className={[
           'pt-4',
@@ -46,7 +43,7 @@ function CardItem(props) {
       >
         <div className="row">
           {data?.paymentItem.toLowerCase() === 'adyen_moto' ? (
-            <div className={`col-4 d-flex flex-column justify-content-center`}>
+            <div className={`col-5 d-flex flex-column justify-content-center`}>
               <LazyLoad height={100}>
                 <img
                   className="PayCardImgFitScreen w-100"
@@ -60,7 +57,11 @@ function CardItem(props) {
           ) : (
             <>
               <div
-                className={`col-4 d-flex flex-column justify-content-center`}
+                className={`${
+                  ['account_profile'].includes(props?.pageType)
+                    ? 'col-6'
+                    : 'col-5'
+                } d-flex flex-column justify-content-center`}
               >
                 <LazyLoad height={100}>
                   <img
@@ -90,6 +91,9 @@ function CardItem(props) {
             </>
           )}
         </div>
+      </div>
+      <div className="w-1/2" style={{ right: '25%', top: '15%' }}>
+        {props.operateBtnJSX}
       </div>
     </div>
   );
@@ -460,6 +464,7 @@ class PaymentList extends React.Component {
                       <CardItem
                         data={el}
                         supportPaymentMethods={supportPaymentMethods}
+                        pageType={this.props?.pageType}
                       />
                     </div>
                   ))}
@@ -494,7 +499,7 @@ class PaymentList extends React.Component {
                             <>
                               {el.isDefault === 1 ? (
                                 <div
-                                  className="red"
+                                  className="red flex -mt-10 mr-4 w-100 justify-end"
                                   onClick={this.toggleSetDefault.bind(this, el)}
                                 >
                                   <span className="iconfont mr-1">
@@ -514,14 +519,14 @@ class PaymentList extends React.Component {
                                         el?.paddingFlag
                                           ? 'ui-cursor-not-allowed'
                                           : 'rc-styled-link'
-                                      }`}
+                                      } flex -mt-10 mr-4 w-100 justify-end`}
                                     >
                                       <FormattedMessage id="setAsDefault" />
                                     </span>
                                   </div>
                                 ) : (
                                   <div
-                                    className={`ui-cursor-pointer`}
+                                    className={`ui-cursor-pointer flex -mt-10 mr-4 w-100 justify-end`}
                                     onClick={this.toggleSetDefault.bind(
                                       this,
                                       el
@@ -542,8 +547,8 @@ class PaymentList extends React.Component {
                               <span
                                 className={`position-absolute p-2 ui-cursor-pointer-pure pdl-1`}
                                 style={{
-                                  top: '90%',
-                                  right: '-85%'
+                                  top: '35%',
+                                  right: '12%'
                                 }}
                               >
                                 <span
@@ -557,8 +562,8 @@ class PaymentList extends React.Component {
                                     el
                                   )}
                                 >
-                                  <FormattedMessage id="delete" />
-                                  {/* <span className='iconfont'>&#xe658;</span> */}
+                                  {/* <FormattedMessage id="delete" /> */}
+                                  <span className="iconfont">&#xe624;</span>
                                 </span>
                                 <ConfirmTooltip
                                   containerStyle={{
