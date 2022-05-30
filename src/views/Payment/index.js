@@ -147,7 +147,9 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
             />
           ) : (
             <img
-              className="logo-payment-card mr-1 w-7 max-h-8 md:w-10"
+              className={`logo-payment-card mr-1  max-h-8 ${
+                el.cardType.toLowerCase() === 'moto' ? 'w-14' : 'w-7 md:w-10'
+              }`}
               src={el.imgUrl}
               alt={el.cardType}
             />

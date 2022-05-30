@@ -202,6 +202,20 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
                   </p>
                 ) : null}
               </PaymentMethodContainer>
+            ) : payRecord?.paymentItem?.toLowerCase() === 'adyen_moto' ? (
+              <PaymentMethodContainer>
+                <div className="medium mb-2">
+                  <LazyLoad className="inline">
+                    <img
+                      alt="card background"
+                      className="d-inline-block mr-1 w-4/5"
+                      src={
+                        'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008060240358083.png'
+                      }
+                    />
+                  </LazyLoad>
+                </div>
+              </PaymentMethodContainer>
             ) : null}
             {details.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
               <PaymentMethodContainer>
