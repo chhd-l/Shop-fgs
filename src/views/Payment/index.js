@@ -135,7 +135,7 @@ const sleep = (time) => {
 };
 
 const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
-  <p>
+  <div>
     <span className="logo-payment-card-list logo-credit-card">
       {supportPaymentMethods.map((el, idx) => (
         <LazyLoad key={idx}>
@@ -157,7 +157,7 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
         </LazyLoad>
       ))}
     </span>
-  </p>
+  </div>
 );
 
 const chooseRadioType = () => {
@@ -2105,7 +2105,6 @@ class Payment extends React.Component {
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
-
         // 跳转 confirmation
         this.props.history.push('/confirmation');
       }
