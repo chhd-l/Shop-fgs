@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { inject, observer } from 'mobx-react';
 import Loading from '@/components/Loading';
@@ -27,7 +27,7 @@ const index = ({ loginStore, ...resTprops }) => {
     const isLogin = loginStore?.isLogin;
     if (isLogin) {
       // 登录了就去宠物创建页面
-      resTprops.history.push('/account/pets/petForm');
+      resTprops.history.push('/account/pets/petForm?isPrescriptiongGate=true');
     } else {
       // 没有登录就去注册页面
       resTprops.history.push('/register');
