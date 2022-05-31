@@ -149,7 +149,8 @@ class AddressList extends React.Component {
       wrongAddressMsg: null,
       validationAddress: null, // 建议地址
       jpCutOffTime: '',
-      bugData: {}
+      bugData: {},
+      addressConfirmState: true
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
@@ -1693,14 +1694,18 @@ class AddressList extends React.Component {
   //判断pickup地点是否过期
   doCheckPickUpActive = async (deliveryAddressId) => {
     try {
+      this.setState({ loading: true });
       const res = await checkPickUpActive({ deliveryAddressId });
       if (!res.context.pickupPointState) {
         this.showErrMsg(
           'Выбранный Вами пункт выдачи заказов закрыт. Пожалуйста, выберите другой пункт выдачи или доставку курьером'
         );
+        this.updateConfirmBtnDisabled(true);
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({ loading: false });
     }
   };
   // 单选按钮选择
@@ -1727,6 +1732,8 @@ class AddressList extends React.Component {
 
     if (val == 'pickup') {
       this.doCheckPickUpActive(pickupAddress[0].deliveryAddressId);
+    } else {
+      this.updateConfirmBtnDisabled(false);
     }
 
     // 设置按钮状态
