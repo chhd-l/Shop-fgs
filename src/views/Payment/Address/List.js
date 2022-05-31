@@ -771,7 +771,6 @@ class AddressList extends React.Component {
         list: toJS(paymentStore.panelStatus),
         curKey: this.curPanelKey
       });
-
       isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     } else {
       // 没有地址的情况
@@ -950,7 +949,7 @@ class AddressList extends React.Component {
           key: this.curPanelKey,
           hideOthers: this.isDeliverAddress ? true : false
         });
-
+        debugger;
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );

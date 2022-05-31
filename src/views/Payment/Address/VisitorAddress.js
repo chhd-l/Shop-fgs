@@ -19,6 +19,7 @@ import './VisitorAddress.css';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 /**
  * delivery/billing adress module - visitor
@@ -344,11 +345,29 @@ class VisitorAddress extends React.Component {
           paymentStore.setDefaultCardDataFromAddr(form);
         }
 
-        // 下一个最近的未complete的panel
-        const nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStore.panelStatus),
-          curKey: this.curPanelKey
-        });
+        //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
+        let nextConfirmPanel;
+        if (COUNTRY !== 'jp') {
+          nextConfirmPanel = searchNextConfirmPanel({
+            list: toJS(
+              paymentStore?.panelStatus?.filter(
+                (item) => item.key !== 'bindPet'
+              )
+            ),
+            curKey: this.curPanelKey
+          });
+        } else {
+          // 下一个最近的未complete的panel
+          nextConfirmPanel = searchNextConfirmPanel({
+            list: toJS(paymentStore.panelStatus),
+            curKey: this.curPanelKey
+          });
+        }
+        // // 下一个最近的未complete的panel
+        // const nextConfirmPanel = searchNextConfirmPanel({
+        //   list: toJS(paymentStore.panelStatus),
+        //   curKey: this.curPanelKey
+        // });
         paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
         if (isDeliveryAddr) {
           this.calculateFreight(this.state.form);
@@ -495,12 +514,30 @@ class VisitorAddress extends React.Component {
               paymentStore.setStsToCompleted({ key: 'billingAddr' });
             paymentStore.setDefaultCardDataFromAddr(form);
           }
+          //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
+          let nextConfirmPanel;
+          if (COUNTRY !== 'jp') {
+            nextConfirmPanel = searchNextConfirmPanel({
+              list: toJS(
+                paymentStore?.panelStatus?.filter(
+                  (item) => item.key !== 'bindPet'
+                )
+              ),
+              curKey: this.curPanelKey
+            });
+          } else {
+            // 下一个最近的未complete的panel
+            nextConfirmPanel = searchNextConfirmPanel({
+              list: toJS(paymentStore.panelStatus),
+              curKey: this.curPanelKey
+            });
+          }
 
           // 下一个最近的未complete的panel
-          const nextConfirmPanel = searchNextConfirmPanel({
-            list: toJS(paymentStore.panelStatus),
-            curKey: this.curPanelKey
-          });
+          // const nextConfirmPanel = searchNextConfirmPanel({
+          //   list: toJS(paymentStore.panelStatus),
+          //   curKey: this.curPanelKey
+          // });
           paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
           if (isDeliveryAddr) {
             setTimeout(() => {
