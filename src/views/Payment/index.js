@@ -2487,6 +2487,9 @@ class Payment extends React.Component {
         });
       }
       param.clinicsId = clinicStore.linkClinicRecommendationInfos.recommenderId;
+      param.referenceObject = 'vet';
+      param.recommendationId =
+        clinicStore.linkClinicRecommendationInfos.recommenderId;
     } else if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
