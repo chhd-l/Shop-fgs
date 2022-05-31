@@ -118,7 +118,6 @@ class PaymentEditForm extends React.Component {
   }
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
-    debugger;
     let element = document.getElementById('paymentPhoneNumber');
     let maskOptions = {};
     let phoneReg = '';

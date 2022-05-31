@@ -1691,6 +1691,7 @@ class AddressList extends React.Component {
     });
     // console.log('666 >>> 单选按钮选择 val: ', val);
     this.updateShippingMethodType(val);
+
     // 设置按钮状态
     let btnStatus = false;
     let theAddressId = '';
