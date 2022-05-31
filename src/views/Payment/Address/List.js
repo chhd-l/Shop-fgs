@@ -740,7 +740,7 @@ class AddressList extends React.Component {
         (item) => item.key === 'confirmation'
       )[0];
     } else {
-      //好像是ga bindPet推送影响了，其他国家没有bindPet推送
+      //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
       if (COUNTRY !== 'jp') {
         nextConfirmPanel = searchNextConfirmPanel({
           list: toJS(
@@ -748,6 +748,11 @@ class AddressList extends React.Component {
           ),
           curKey: this.curPanelKey
         });
+        // // 下一个最近的未complete的panel
+        // nextConfirmPanel = searchNextConfirmPanel({
+        //   list: toJS(paymentStore.panelStatus),
+        //   curKey: this.curPanelKey
+        // });
       } else {
         // 下一个最近的未complete的panel
         nextConfirmPanel = searchNextConfirmPanel({
@@ -756,7 +761,6 @@ class AddressList extends React.Component {
         });
       }
     }
-
     if (data) {
       paymentStore.setStsToCompleted({
         key: this.curPanelKey,
@@ -1117,7 +1121,6 @@ class AddressList extends React.Component {
         addOrEdit: false,
         saveLoading: false
       });
-
       this.clickConfirmAddressPanel();
     } catch (err) {
       console.log(err);
@@ -2023,11 +2026,24 @@ class AddressList extends React.Component {
             if (this.curPanelKey === 'deliveryAddr') {
               paymentStore.setStsToCompleted({ key: 'billingAddr' });
             }
-            // 下一个最近的未complete的panel
-            const nextConfirmPanel = searchNextConfirmPanel({
-              list: toJS(paymentStore.panelStatus),
-              curKey: this.curPanelKey
-            });
+            //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
+            let nextConfirmPanel;
+            if (COUNTRY !== 'jp') {
+              nextConfirmPanel = searchNextConfirmPanel({
+                list: toJS(
+                  paymentStore?.panelStatus?.filter(
+                    (item) => item.key !== 'bindPet'
+                  )
+                ),
+                curKey: this.curPanelKey
+              });
+            } else {
+              // 下一个最近的未complete的panel
+              nextConfirmPanel = searchNextConfirmPanel({
+                list: toJS(paymentStore.panelStatus),
+                curKey: this.curPanelKey
+              });
+            }
             paymentStore.setStsToCompleted({
               key: this.curPanelKey,
               isFirstLoad: false
