@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { getRecommendation } from '@/api/recommendation';
 import { sitePurchase, valetGuestMiniCars } from '@/api/cart';
 import { injectIntl } from 'react-intl-phraseapp';
-
+const localItemRoyal = window.__.localItemRoyal;
 const CartDEBreeder = ({
   loginStore,
   clinicStore,
@@ -16,23 +16,29 @@ const CartDEBreeder = ({
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
   useEffect(() => {
     const req = async () => {
+      localItemRoyal.set('isDERecommendation', 'true');
       const products = funcUrl({ name: 'products' });
       const customerId = funcUrl({ name: 'customerId' });
       const res = await getRecommendation(products, customerId);
       const recommendationGoodsInfoRels =
         res.context.recommendationGoodsInfoRels;
+      let recommendationInfos = {
+        recommenderId: customerId
+      };
+      clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
+      clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
+      clinicStore.setLinkClinicId(customerId);
       if (loginStore.isLogin) {
         for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {
           await sitePurchase({
             goodsInfoId: recommendationGoodsInfoRels[i].goodsInfo.goodsInfoId,
             goodsNum: recommendationGoodsInfoRels[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
-            // periodTypeId: recommendationGoodsInfoRels[i].goodsInfo.periodTypeId
-            // recommendationId: 222,
-            // recommendationInfos: 22,
-            // recommendationName: 33
+            goodsInfoFlag: 0,
+            recommenderId: customerId,
+            clinicId: customerId
           });
+
           await checkoutStore.updateLoginCart({
             intl
           });
@@ -177,8 +183,7 @@ const CartDEBreeder = ({
     req();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(loadingRecommendation, 'loadingRecommendation');
-  if (loadingRecommendation) return <div>2</div>;
+  if (loadingRecommendation) return <div />;
   return <Cart {...restProps} />;
 };
 export default injectIntl(

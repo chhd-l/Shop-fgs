@@ -350,7 +350,7 @@ class Form extends React.Component {
 
           if (obj.deliveryDate == v.date) {
             obj.deliveryDateId = dateStr;
-          } else if (obj.deliveryDate == '') {
+          } else {
             obj.deliveryDate = 'Unspecified';
             obj.deliveryDateId = 'Unspecified';
           }
@@ -428,7 +428,7 @@ class Form extends React.Component {
         obj.timeSlotId = 0;
       }
 
-      // console.log(obj)
+      console.log('obj', obj);
       // debugger
 
       this.setState(

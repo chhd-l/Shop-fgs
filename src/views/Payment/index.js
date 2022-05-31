@@ -2464,6 +2464,9 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
+          recommenderId:
+            COUNTRY === 'de' &&
+            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           goodsInfoFlag:
             this.isCurrentBuyWaySubscription &&
             !sessionItemRoyal.get('appointment-no')
@@ -2480,6 +2483,9 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
+          recommenderId:
+            COUNTRY === 'de' &&
+            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });
@@ -2490,6 +2496,9 @@ class Payment extends React.Component {
           ...this.props
         });
         return Object.assign(recoProductParam, {
+          recommenderId:
+            COUNTRY === 'de' &&
+            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag
