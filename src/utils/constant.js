@@ -31,6 +31,7 @@ export const LOGO_CASH = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/
 export const LOGO_POS = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/payment/pos-machine-logo.svg`;
 
 export const LOGO_ADYEN_MOTO = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/payment/adyen-logo.svg`;
+export const LOGO_ADYEN_IDEAL = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/payment/ideal-logo.svg`;
 
 export const CREDIT_CARD_IMG_ENUM = {
   VISA: visaImg,
