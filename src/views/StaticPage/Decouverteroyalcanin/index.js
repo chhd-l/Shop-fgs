@@ -86,8 +86,8 @@ const Decouverteroyalcanin = (props) => {
                 À travers l’exposition Instinct, nous souhaitons partager notre
                 passion pour les chiens et les chats. Célébrer leurs
                 magnificence et déclarer au monde entier l’amour que nous avons
-                pour ces animaux Cette exposition a été imaginé autour de ce qui
-                nous rapproche de nos animaux : l’instinct.
+                pour ces animaux. Cette exposition a été imaginé autour de ce
+                qui nous rapproche de nos animaux : l’instinct.
               </p>
               <p className="pb-4">
                 “Tendance innée et puissante, commune à tous les êtres vivants
