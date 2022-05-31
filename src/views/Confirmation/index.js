@@ -118,6 +118,8 @@ class Confirmation extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    // 删除德国推荐标识
+    sessionItemRoyal.remove('isDERecommendation');
     sessionItemRoyal.set('refresh-confirm-page', true);
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
