@@ -2467,6 +2467,9 @@ class Payment extends React.Component {
             skuId: ele.goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
             recommenderId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId,
+            referenceObject: 'vet',
+            recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId
           });
         });
@@ -2481,14 +2484,14 @@ class Payment extends React.Component {
             skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
             recommenderId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId,
+            referenceObject: 'vet',
+            recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId
           });
         });
       }
       param.clinicsId = clinicStore.linkClinicRecommendationInfos.recommenderId;
-      param.referenceObject = 'vet';
-      param.recommendationId =
-        clinicStore.linkClinicRecommendationInfos.recommenderId;
     } else if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
