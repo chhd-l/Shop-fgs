@@ -16,6 +16,7 @@ const api = {
   rePayPos: '/all/pos/repay',
   getMarketingDiscount: '/marketing/discount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
+  getBanks: `/adyenPay/paymentMethods`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
   payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/authorization`,
   getProductPetConfig: '/order/config/findPet',
@@ -177,6 +178,14 @@ export function getPaymentMethodCard(parameter) {
     url: api.getPaymentMethod,
     method: 'get',
     params: parameter
+  });
+}
+
+export function getBanks(parameter) {
+  return axios({
+    url: api.getBanks,
+    method: 'post',
+    data: parameter
   });
 }
 

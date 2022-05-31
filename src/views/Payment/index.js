@@ -115,6 +115,7 @@ import {
 import Pos from './PaymentMethod/Pos';
 import Cash from './PaymentMethod/Cash';
 import Moto from './PaymentMethod/Moto';
+import Ideal from './PaymentMethod/Ideal/indes';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -275,6 +276,7 @@ class Payment extends React.Component {
       payWayNameArr: [],
       email: '',
       swishPhone: '',
+      bank: '',
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       tidList: sessionItemRoyal.get('rc-tidList')
@@ -1342,7 +1344,7 @@ class Payment extends React.Component {
       const {
         paymentStore: { curPayWayInfo }
       } = this.props;
-      const { email, swishPhone } = this.state;
+      const { email, swishPhone, bank } = this.state;
       const { isLogin } = this;
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
@@ -1491,6 +1493,13 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: '',
             payPspItemEnum: 'ADYEN_MOTO'
+          });
+        },
+        adyen_ideal: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'ideal',
+            payPspItemEnum: 'ADYEN_IDEAL',
+            adyenIDealIssuer: bank
           });
         },
         adyen_swish: () => {
@@ -2061,7 +2070,16 @@ class Payment extends React.Component {
             subNumber = (res.context && res.context.subscribeId) || '';
             gotoConfirmationPage = true;
           }
-
+          break;
+        case 'adyen_ideal':
+          if (res.code === 'K-000000') {
+            console.log('adyen_ideal', res);
+            // subOrderNumberList = tidList.length
+            //   ? tidList
+            //   : res.context && res.context.tidList;
+            // subNumber = (res.context && res.context.subscribeId) || '';
+            // gotoConfirmationPage = true;
+          }
           break;
         case 'pc_web':
           subOrderNumberList =
@@ -2436,8 +2454,28 @@ class Payment extends React.Component {
         expirationDate: payosdata.expiration_date
       });
     }
-
-    if (sessionItemRoyal.get('recommend_product')) {
+    // 德国推荐商品
+    if (localItemRoyal.get('isDERecommendation') === 'true') {
+      param.tradeItems = this.state.recommend_data.map((ele) => {
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          ...this.props
+        });
+        return Object.assign(recoProductParam, {
+          num: ele.buyCount,
+          skuId: ele.goodsInfoId,
+          recommenderId:
+            clinicStore.linkClinicRecommendationInfos.recommenderId,
+          goodsInfoFlag:
+            this.isCurrentBuyWaySubscription &&
+            !sessionItemRoyal.get('appointment-no')
+              ? ele.goodsInfoFlag
+              : 0
+        });
+      });
+      params.clinicsId =
+        clinicStore.linkClinicRecommendationInfos.recommenderId;
+    } else if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -3678,6 +3716,18 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
+                  {/* adyen_ideal */}
+                  {item.code === 'adyen_ideal' &&
+                    curPayWayInfo?.code === 'adyen_ideal' && (
+                      <>
+                        <Ideal
+                          updateBank={this.updateBank}
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyen_ideal'
+                          })}
+                        />
+                      </>
+                    )}
                   {item.code === 'cod_japan' &&
                     curPayWayInfo?.code === 'cod_japan' &&
                     isSupportPoint(this.isLogin) && <Point />}
@@ -3731,6 +3781,10 @@ class Payment extends React.Component {
               disabled: validForBilling
             })}
           {curPayWayInfo?.code === 'adyen_moto' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {curPayWayInfo?.code === 'adyen_ideal' &&
             payConfirmBtn({
               disabled: validForBilling
             })}
@@ -4012,6 +4066,9 @@ class Payment extends React.Component {
   };
   updateSwishPhone = (swishPhone) => {
     this.setState({ swishPhone });
+  };
+  updateBank = (bank) => {
+    this.setState({ bank });
   };
   // 1、点击支付
   clickPay = () => {
