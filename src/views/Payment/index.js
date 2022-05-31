@@ -2456,6 +2456,7 @@ class Payment extends React.Component {
     }
     // 德国推荐商品
     if (localItemRoyal.get('isDERecommendation') === 'true') {
+      localItemRoyal.remove('isDERecommendation');
       if (this.isLogin) {
         param.tradeItems = loginCartData.map((ele) => {
           const recoProductParam = handleRecoProductParamByItem({
@@ -2486,6 +2487,9 @@ class Payment extends React.Component {
         });
       }
       param.clinicsId = clinicStore.linkClinicRecommendationInfos.recommenderId;
+      param.referenceObject = 'vet';
+      param.recommendationId =
+        clinicStore.linkClinicRecommendationInfos.recommenderId;
     } else if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
