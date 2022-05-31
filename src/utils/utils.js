@@ -560,8 +560,6 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     productData.filter((el) => el.prescriberFlag).length > 0;
   // 德国不显示prescriber信息
   if (localItemRoyal.get('isDERecommendation') === 'true') {
-    localItemRoyal.remove('isDERecommendation');
-    // clinicStore.removeSelectClinicInfo();
     localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
     return '/checkout';
   }

@@ -26,7 +26,6 @@ const CartDEBreeder = ({
         recommenderId: customerId
       };
       clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
-      clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
       clinicStore.setLinkClinicId(customerId);
       if (loginStore.isLogin) {
         for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {

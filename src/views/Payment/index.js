@@ -2436,8 +2436,8 @@ class Payment extends React.Component {
         expirationDate: payosdata.expiration_date
       });
     }
-
-    if (sessionItemRoyal.get('recommend_product')) {
+    // 德国推荐商品
+    if (localItemRoyal.get('isDERecommendation') === 'true') {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2447,8 +2447,25 @@ class Payment extends React.Component {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           recommenderId:
-            COUNTRY === 'de' &&
-            clinicStore.linkClinicRecommendationInfos?.recommenderId,
+            clinicStore.linkClinicRecommendationInfos.recommenderId,
+          goodsInfoFlag:
+            this.isCurrentBuyWaySubscription &&
+            !sessionItemRoyal.get('appointment-no')
+              ? ele.goodsInfoFlag
+              : 0
+        });
+      });
+      params.clinicsId =
+        clinicStore.linkClinicRecommendationInfos.recommenderId;
+    } else if (sessionItemRoyal.get('recommend_product')) {
+      param.tradeItems = this.state.recommend_data.map((ele) => {
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          ...this.props
+        });
+        return Object.assign(recoProductParam, {
+          num: ele.buyCount,
+          skuId: ele.goodsInfoId,
           goodsInfoFlag:
             this.isCurrentBuyWaySubscription &&
             !sessionItemRoyal.get('appointment-no')
@@ -2465,9 +2482,6 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          recommenderId:
-            COUNTRY === 'de' &&
-            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });
@@ -2478,9 +2492,6 @@ class Payment extends React.Component {
           ...this.props
         });
         return Object.assign(recoProductParam, {
-          recommenderId:
-            COUNTRY === 'de' &&
-            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag
