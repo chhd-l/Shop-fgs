@@ -333,10 +333,18 @@ class Form extends React.Component {
       let tslist = []; // time slot
 
       let obj = Object.assign({}, caninForm);
+      console.log('123', obj);
 
       if (res?.context?.timeSlots?.length) {
         flag = true; // 标记
         let robj = res.context.timeSlots;
+
+        const isBelongDelievryDate = () => {
+          let result = find(robj, (item) => item.date == obj.deliveryDate)
+            ? true
+            : false;
+          return result;
+        };
 
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
@@ -350,11 +358,35 @@ class Form extends React.Component {
 
           if (obj.deliveryDate == v.date) {
             obj.deliveryDateId = dateStr;
-          } else {
+          } else if (obj.deliveryDate == '') {
             obj.deliveryDate = 'Unspecified';
             obj.deliveryDateId = 'Unspecified';
+          } else if (isBelongDelievryDate() == false) {
+            obj.deliveryDate = 'Unspecified';
+            obj.deliveryDateId = 'Unspecified';
+            obj.timeSlotId = 'Unspecified';
+            obj.timeSlot = 'Unspecified';
           }
         });
+
+        // for (let i = 0; i<robj.length;i++) {
+        //   let dateStr = this.formatDateFun(robj[i]);
+
+        //   //获取全部数据
+        //   this.getAllData(robj[i], alldata);
+
+        //   // 获取delivery date
+        //   this.getDdList(dateStr, robj[i], ddlist);
+
+        //   if (obj.deliveryDate == robj[i].date) {
+        //     obj.deliveryDateId = dateStr;
+        //     break;
+        //   } else if(obj.deliveryDate == ''){
+        //     obj.deliveryDate = 'Unspecified';
+        //     obj.deliveryDateId = 'Unspecified';
+        //     break;
+        //   }
+        // }
 
         // delivery date为空或者过期设置第一条数据为默认值
 

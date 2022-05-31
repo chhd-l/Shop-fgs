@@ -2454,8 +2454,40 @@ class Payment extends React.Component {
         expirationDate: payosdata.expiration_date
       });
     }
-
-    if (sessionItemRoyal.get('recommend_product')) {
+    // 德国推荐商品
+    if (localItemRoyal.get('isDERecommendation') === 'true') {
+      localItemRoyal.remove('isDERecommendation');
+      if (this.isLogin) {
+        param.tradeItems = loginCartData.map((ele) => {
+          const recoProductParam = handleRecoProductParamByItem({
+            ele,
+            ...this.props
+          });
+          return Object.assign(recoProductParam, {
+            num: ele.buyCount,
+            skuId: ele.goodsInfoId,
+            goodsInfoFlag: ele.goodsInfoFlag,
+            recommenderId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId
+          });
+        });
+      } else {
+        param.tradeItems = cartData.map((ele) => {
+          const recoProductParam = handleRecoProductParamByItem({
+            ele,
+            ...this.props
+          });
+          return Object.assign(recoProductParam, {
+            num: ele.quantity,
+            skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+            goodsInfoFlag: ele.goodsInfoFlag,
+            recommenderId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId
+          });
+        });
+      }
+      param.clinicsId = clinicStore.linkClinicRecommendationInfos.recommenderId;
+    } else if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2464,9 +2496,6 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          recommenderId:
-            COUNTRY === 'de' &&
-            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           goodsInfoFlag:
             this.isCurrentBuyWaySubscription &&
             !sessionItemRoyal.get('appointment-no')
@@ -2483,9 +2512,6 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          recommenderId:
-            COUNTRY === 'de' &&
-            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });
@@ -2496,9 +2522,6 @@ class Payment extends React.Component {
           ...this.props
         });
         return Object.assign(recoProductParam, {
-          recommenderId:
-            COUNTRY === 'de' &&
-            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag

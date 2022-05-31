@@ -18,7 +18,8 @@ const api = {
   DQEAddressList: '/address-input-auto/DQElist', // DQE 地址查询
   queryOpenedApi: '/addressApiSetting/query-opened-api', // DQE 地址查询
   returnDQE: '/address-input-auto/returnDQE',
-  addressDisplaySetting: '/addressDisplaySetting/queryFields' // 查询地址字段配置
+  addressDisplaySetting: '/addressDisplaySetting/queryFields', // 查询地址字段配置
+  checkPickUpActive: '/delivery/checkPickUpActive' //判断pickup日期是否过期
 };
 
 export default api;
@@ -158,5 +159,13 @@ export function fetchAddressDisplaySetting() {
   return axios({
     url: `${api.addressDisplaySetting}`,
     method: 'get'
+  });
+}
+
+export function checkPickUpActive(params) {
+  return axios({
+    url: `${api.checkPickUpActive}`,
+    method: 'post',
+    data: params
   });
 }
