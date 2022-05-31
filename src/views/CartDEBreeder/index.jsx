@@ -16,22 +16,23 @@ const CartDEBreeder = ({
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
   useEffect(() => {
     const req = async () => {
+      localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
       const products = funcUrl({ name: 'products' });
       const customerId = funcUrl({ name: 'customerId' });
       const res = await getRecommendation(products, customerId);
       const recommendationGoodsInfoRels =
         res.context.recommendationGoodsInfoRels;
+      clinicStore.setSelectClinicId(customerId);
+      clinicStore.setLinkClinicId(customerId);
       if (loginStore.isLogin) {
         for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {
           await sitePurchase({
             goodsInfoId: recommendationGoodsInfoRels[i].goodsInfo.goodsInfoId,
             goodsNum: recommendationGoodsInfoRels[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
-            // periodTypeId: recommendationGoodsInfoRels[i].goodsInfo.periodTypeId
-            // recommendationId: 222,
-            // recommendationInfos: 22,
-            // recommendationName: 33
+            goodsInfoFlag: 0,
+            recommendationId: customerId,
+            clinicId: customerId
           });
           await checkoutStore.updateLoginCart({
             intl
@@ -177,8 +178,7 @@ const CartDEBreeder = ({
     req();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(loadingRecommendation, 'loadingRecommendation');
-  if (loadingRecommendation) return <div>2</div>;
+  if (loadingRecommendation) return <div />;
   return <Cart {...restProps} />;
 };
 export default injectIntl(
