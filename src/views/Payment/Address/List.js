@@ -9,7 +9,8 @@ import {
   saveAddress,
   getAddressBykeyWord,
   getDeliveryDateAndTimeSlot,
-  editAddress
+  editAddress,
+  checkPickUpActive
 } from '@/api/address';
 import {
   pickupQueryCity,
@@ -1689,6 +1690,19 @@ class AddressList extends React.Component {
       }
     );
   };
+  //判断pickup地点是否过期
+  doCheckPickUpActive = async (deliveryAddressId) => {
+    try {
+      const res = await checkPickUpActive({ deliveryAddressId });
+      if (!res.context.pickupPointState) {
+        this.showErrMsg(
+          'Выбранный Вами пункт выдачи заказов закрыт. Пожалуйста, выберите другой пункт выдачи или доставку курьером'
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // 单选按钮选择
   handleRadioChange = async (e) => {
     const {
@@ -1710,6 +1724,10 @@ class AddressList extends React.Component {
     });
     // console.log('666 >>> 单选按钮选择 val: ', val);
     this.updateShippingMethodType(val);
+
+    if (val == 'pickup') {
+      this.doCheckPickUpActive(pickupAddress[0].deliveryAddressId);
+    }
 
     // 设置按钮状态
     let btnStatus = false;

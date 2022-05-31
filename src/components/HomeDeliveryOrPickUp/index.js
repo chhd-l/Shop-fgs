@@ -583,6 +583,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     let val = e.currentTarget?.value;
     let sitem = Object.assign({}, selectedItem);
 
+    console.log(sitem);
+
     sitem?.homeAndPickup.forEach((v, i) => {
       if (v.type == val) {
         v['selected'] = true;
