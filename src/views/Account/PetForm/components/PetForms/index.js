@@ -96,7 +96,8 @@ const PetForms = ({
   intl,
   location,
   showErrorMsg,
-  loginStore
+  loginStore,
+  isPrescriptiongGate
 }) => {
   console.log('history', history);
   console.log('loginStore', loginStore);
@@ -970,7 +971,8 @@ const PetForms = ({
                   </span>
                 )}
                 {window.__.env.REACT_APP_COUNTRY === 'jp' &&
-                  petList.length > 0 && (
+                  petList.length > 0 &&
+                  isPrescriptiongGate && (
                     <>
                       <a
                         href="javascript;"

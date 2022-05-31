@@ -734,12 +734,28 @@ class AddressList extends React.Component {
     if (this.curPanelKey === 'deliveryAddr') {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
-
-    // 下一个最近的未complete的panel
-    const nextConfirmPanel = searchNextConfirmPanel({
-      list: toJS(paymentStore.panelStatus),
-      curKey: this.curPanelKey
-    });
+    let nextConfirmPanel;
+    if (localItemRoyal.get('rc-promotionCode')) {
+      nextConfirmPanel = paymentStore?.panelStatus?.filter(
+        (item) => item.key === 'confirmation'
+      )[0];
+    } else {
+      //好像是ga bindPet推送影响了，其他国家没有bindPet推送
+      if (COUNTRY !== 'jp') {
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(
+            paymentStore?.panelStatus?.filter((item) => item.key !== 'bindPet')
+          ),
+          curKey: this.curPanelKey
+        });
+      } else {
+        // 下一个最近的未complete的panel
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: this.curPanelKey
+        });
+      }
+    }
 
     if (data) {
       paymentStore.setStsToCompleted({
@@ -1691,6 +1707,7 @@ class AddressList extends React.Component {
     });
     // console.log('666 >>> 单选按钮选择 val: ', val);
     this.updateShippingMethodType(val);
+
     // 设置按钮状态
     let btnStatus = false;
     let theAddressId = '';

@@ -57,6 +57,7 @@ import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 
 import PreciseCatNutrition from './views/PreciseCatNutrition';
 import CartDEBreeder from './views/CartDEBreeder';
+import { funcUrl } from './lib/url-utils';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
@@ -292,6 +293,14 @@ const tokenFromUrl = qs.parse(window.location.search, {
 if (tokenFromUrl) {
   sessionItemRoyal.set('rc-iframe-from-storepotal', 1);
   localItemRoyal.set('rc-token', tokenFromUrl);
+}
+
+// goodwill单标识 goodWillFlag: 'GOOD_WILL'
+const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
+if (sPromotionCodeFromSearch) {
+  // stores?.CheckoutStore?.setPromotionCode(sPromotionCodeFromSearch);
+  localItemRoyal.set('rc-promotionCode', sPromotionCodeFromSearch);
+  sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
 }
 
 // 处理Felin代客下单
