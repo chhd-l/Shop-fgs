@@ -2438,6 +2438,7 @@ class Payment extends React.Component {
     }
 
     if (sessionItemRoyal.get('recommend_product')) {
+      console.log('111');
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2454,6 +2455,7 @@ class Payment extends React.Component {
         });
       });
     } else if (this.isLogin) {
+      console.log('222');
       param.tradeItems = loginCartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2466,6 +2468,7 @@ class Payment extends React.Component {
         });
       });
     } else {
+      console.log('333');
       param.tradeItems = cartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,

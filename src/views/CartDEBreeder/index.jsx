@@ -26,6 +26,8 @@ const CartDEBreeder = ({
         recommenderId: customerId
       };
       clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
+      clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
+      clinicStore.setLinkClinicId(customerId);
       if (loginStore.isLogin) {
         for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {
           await sitePurchase({
@@ -36,6 +38,7 @@ const CartDEBreeder = ({
             recommenderId: customerId,
             clinicId: customerId
           });
+
           await checkoutStore.updateLoginCart({
             intl
           });
