@@ -2473,8 +2473,7 @@ class Payment extends React.Component {
               : 0
         });
       });
-      params.clinicsId =
-        clinicStore.linkClinicRecommendationInfos.recommenderId;
+      param.clinicsId = clinicStore.linkClinicRecommendationInfos.recommenderId;
     } else if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
