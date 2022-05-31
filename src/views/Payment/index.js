@@ -2447,7 +2447,8 @@ class Payment extends React.Component {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           recommenderId:
-            clinicStore.linkClinicRecommendationInfos.recommenderId,
+            COUNTRY === 'de' &&
+            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           goodsInfoFlag:
             this.isCurrentBuyWaySubscription &&
             !sessionItemRoyal.get('appointment-no')
@@ -2456,7 +2457,6 @@ class Payment extends React.Component {
         });
       });
     } else if (this.isLogin) {
-      console.log('222');
       param.tradeItems = loginCartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2466,12 +2466,12 @@ class Payment extends React.Component {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           recommenderId:
-            clinicStore.linkClinicRecommendationInfos.recommenderId,
+            COUNTRY === 'de' &&
+            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });
     } else {
-      console.log('333');
       param.tradeItems = cartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2479,7 +2479,8 @@ class Payment extends React.Component {
         });
         return Object.assign(recoProductParam, {
           recommenderId:
-            clinicStore.linkClinicRecommendationInfos.recommenderId,
+            COUNTRY === 'de' &&
+            clinicStore.linkClinicRecommendationInfos?.recommenderId,
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag
