@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { getRecommendation } from '@/api/recommendation';
 import { sitePurchase, valetGuestMiniCars } from '@/api/cart';
 import { injectIntl } from 'react-intl-phraseapp';
-
+const localItemRoyal = window.__.localItemRoyal;
 const CartDEBreeder = ({
   loginStore,
   clinicStore,
