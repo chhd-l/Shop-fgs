@@ -16,14 +16,16 @@ const CartDEBreeder = ({
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
   useEffect(() => {
     const req = async () => {
-      localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
+      localItemRoyal.set('isDERecommendation', 'true');
       const products = funcUrl({ name: 'products' });
       const customerId = funcUrl({ name: 'customerId' });
       const res = await getRecommendation(products, customerId);
       const recommendationGoodsInfoRels =
         res.context.recommendationGoodsInfoRels;
-      clinicStore.setSelectClinicId(customerId);
-      clinicStore.setLinkClinicId(customerId);
+      let recommendationInfos = {
+        recommenderId: customerId
+      };
+      clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
       if (loginStore.isLogin) {
         for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {
           await sitePurchase({
@@ -31,7 +33,7 @@ const CartDEBreeder = ({
             goodsNum: recommendationGoodsInfoRels[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
-            recommendationId: customerId,
+            recommenderId: customerId,
             clinicId: customerId
           });
           await checkoutStore.updateLoginCart({
