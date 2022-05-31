@@ -2438,7 +2438,6 @@ class Payment extends React.Component {
     }
 
     if (sessionItemRoyal.get('recommend_product')) {
-      console.log('111');
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2447,6 +2446,8 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
+          recommenderId:
+            clinicStore.linkClinicRecommendationInfos.recommenderId,
           goodsInfoFlag:
             this.isCurrentBuyWaySubscription &&
             !sessionItemRoyal.get('appointment-no')
@@ -2464,6 +2465,8 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
+          recommenderId:
+            clinicStore.linkClinicRecommendationInfos.recommenderId,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });
@@ -2475,6 +2478,8 @@ class Payment extends React.Component {
           ...this.props
         });
         return Object.assign(recoProductParam, {
+          recommenderId:
+            clinicStore.linkClinicRecommendationInfos.recommenderId,
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag
