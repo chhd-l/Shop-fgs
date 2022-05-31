@@ -372,6 +372,9 @@ class PetForm extends React.Component {
     const { currentPet, selectedSizeObj, isMobile, isCat, petList } =
       this.state;
     let isChoosePetType = isCat !== null;
+    const isPrescriptiongGate = this.props.location.search
+      .substring(1)
+      .split('=')[1];
     return (
       <div className="petForm">
         <GoogleTagManager
@@ -456,7 +459,8 @@ class PetForm extends React.Component {
                     {/* 日本需要 */}
                     <div>
                       {window.__.env.REACT_APP_COUNTRY === 'jp' &&
-                        petList.length > 0 && (
+                        petList.length > 0 &&
+                        isPrescriptiongGate && (
                           <>
                             <a
                               href="javascript;:"
@@ -504,6 +508,7 @@ class PetForm extends React.Component {
                 errorMsg={this.state.errorMsg}
                 showErrorMsg={this.showErrorMsg.bind(this)}
                 setState={this.setState.bind(this)}
+                isPrescriptiongGate={isPrescriptiongGate}
               />
             </div>
             {/* 土耳其、俄罗斯club绑定订阅,不是indv的时候才能绑定 */}

@@ -135,7 +135,7 @@ const sleep = (time) => {
 };
 
 const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
-  <p>
+  <div>
     <span className="logo-payment-card-list logo-credit-card">
       {supportPaymentMethods.map((el, idx) => (
         <LazyLoad key={idx}>
@@ -157,7 +157,7 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
         </LazyLoad>
       ))}
     </span>
-  </p>
+  </div>
 );
 
 const chooseRadioType = () => {
@@ -958,8 +958,18 @@ class Payment extends React.Component {
   }
 
   queryList = async () => {
+    // const isFelin =
+    //     sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
+    // const isFgs =
+    // sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
     try {
-      let res = await getPaymentMethod({}, true);
+      let res;
+      if (sessionItemRoyal.get('rc-userGroup')) {
+        res = await getPaymentMethod({}, true);
+      } else {
+        res = await getPaymentMethod({ isPC: true }, true);
+      }
+
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
@@ -2102,10 +2112,10 @@ class Payment extends React.Component {
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
         sessionItemRoyal.remove('guestInfo');
+        localItemRoyal.remove('rc-promotionCode');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
-
         // 跳转 confirmation
         this.props.history.push('/confirmation');
       }
@@ -4151,13 +4161,15 @@ class Payment extends React.Component {
                     </div>
                   </>
                 )}
-                <SelectPet
-                  recommendData={this.state.recommend_data}
-                  updateRecommendData={(data) => {
-                    this.setState({ recommend_data: data });
-                  }}
-                  isRepay={tid}
-                />
+                {COUNTRY === 'jp' && (
+                  <SelectPet
+                    recommendData={this.state.recommend_data}
+                    updateRecommendData={(data) => {
+                      this.setState({ recommend_data: data });
+                    }}
+                    isRepay={tid}
+                  />
+                )}
 
                 <PanelContainer
                   panelStatus={paymentMethodPanelStatus}

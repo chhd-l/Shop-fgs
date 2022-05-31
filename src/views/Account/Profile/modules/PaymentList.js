@@ -45,7 +45,7 @@ function CardItem(props) {
       >
         <div className="row">
           {data?.paymentItem.toLowerCase() === 'adyen_moto' ? (
-            <div className={`col-5 d-flex flex-column justify-content-center`}>
+            <div className={`col-8 d-flex flex-column justify-content-center`}>
               <LazyLoad height={100}>
                 <img
                   className="PayCardImgFitScreen w-100"
@@ -189,7 +189,7 @@ class PaymentList extends React.Component {
         const temparr = cardList.filter(
           (item) => item?.paymentItem?.toLowerCase() !== 'adyen_moto'
         );
-        temparr.push(tempObj);
+        temparr.splice(1, 0, tempObj);
         cardList = temparr;
         console.log('cardList', cardList);
       }
