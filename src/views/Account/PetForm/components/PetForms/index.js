@@ -96,7 +96,8 @@ const PetForms = ({
   intl,
   location,
   showErrorMsg,
-  loginStore
+  loginStore,
+  isPrescriptiongGate
 }) => {
   console.log('history', history);
   console.log('loginStore', loginStore);
@@ -259,8 +260,8 @@ const PetForms = ({
       localItemRoyal.get('okta-redirectUrl') === '/account/pets/petForm'
     ) {
       // 跳转之前先重置okta-redirectUrl
-      localItemRoyal.set('okta-redirectUrl', '/home');
-      history.push('/home');
+      localItemRoyal.set('okta-redirectUrl', '/');
+      history.push('/');
     } else {
       history.push(url);
     }
@@ -970,7 +971,8 @@ const PetForms = ({
                   </span>
                 )}
                 {window.__.env.REACT_APP_COUNTRY === 'jp' &&
-                  petList.length > 0 && (
+                  petList.length > 0 &&
+                  isPrescriptiongGate && (
                     <>
                       <a
                         href="javascript;"
@@ -983,7 +985,7 @@ const PetForms = ({
                           e.stopPropagation();
                           e.preventDefault();
                           if (userInfo) {
-                            history.push('/home');
+                            history.push('/');
                           }
                         }}
                       >

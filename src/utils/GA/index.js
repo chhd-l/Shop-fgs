@@ -585,6 +585,22 @@ export const orderConfirmationPushEvent = (details) => {
   const clinic = details.tradeItems.some((item) => item.recommendationId);
   if (!isHubGA) return;
   const GA_product = localItemRoyal.get('rc-ga-product');
+  let shippingMode = 'Standard Delivery';
+  switch (window.__.env.REACT_APP_COUNTRY) {
+    case 'ru':
+      shippingMode =
+        details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery';
+      break;
+    case 'jp':
+      shippingMode = details?.paymentMethodNickName
+        ? details?.paymentMethodNickName
+        : 'Standard Delivery';
+      break;
+    default:
+      shippingMode = 'Standard Delivery';
+      break;
+  }
+
   let obj = {
     event: 'orderConfirmation',
     orderConfirmation: deleteObjEmptyAttr({
@@ -592,11 +608,15 @@ export const orderConfirmationPushEvent = (details) => {
       currency: window.__.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
       amount: details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
       taxes: details.tradePrice.taxFeePrice, //Taxes amount, US number format, local currency
-      shipping: details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
-      paymentMethod: 'Credit Card',
-      loyaltyPoints: details.tradePrice.loyaltyPoints,
-      shippingMode:
-        details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery',
+      shipping:
+        details.tradePrice?.deliveryPrice -
+        details.tradePrice?.freeShippingDiscountPrice, //Shipping amount, US number format, local currency
+      paymentMethod: details?.paymentMethodNickName
+        ? details?.paymentMethodNickName
+        : 'Credit Card', //String : Payment method used for the transaction : "Credit Card", "Paypal", "Swish" (SE), "Cash on delivery" (JP), "Convenience Store" (JP)
+      loyaltyPoints: details?.tradePrice?.loyaltyPoints, //Integer : part of the total amount in local currency (cf. "amount" key above) paid through loyalty points (JP only)
+      shippingMode, //String : "Clinic" if delivered in a vet Clinic (RU only), "Cash on delivery" (JP), "Convenience Store" (JP) , or "Standard Delivery" by default
+      // details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery'
       ...GA_product
     })
   };

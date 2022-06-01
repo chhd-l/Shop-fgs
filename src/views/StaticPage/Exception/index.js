@@ -184,7 +184,7 @@ class Exception extends React.Component {
               </div>
               <DistributeHubLinkOrATag
                 href=""
-                to="/home"
+                to="/"
                 className="rc-btn rc-btn--two"
                 role="button"
                 aria-pressed="true"

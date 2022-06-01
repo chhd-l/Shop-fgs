@@ -618,7 +618,7 @@ class Register extends Component {
               {/* 头部logo */}
               <DistributeHubLinkOrATag
                 href={''}
-                to="/home"
+                to="/"
                 className="logo-home d-inline-block border-bottom border-transparent"
                 title="Commerce Cloud Storefront Reference Architecture Accueil"
               >
@@ -1127,7 +1127,7 @@ class Register extends Component {
                 <div className="rc-margin-bottom--sm text-center">
                   <DistributeHubLinkOrATag
                     href={''}
-                    to="/home"
+                    to="/"
                     className="logo-home d-inline-block border-bottom border-transparent"
                     title="Commerce Cloud Storefront Reference Architecture Accueil"
                   >

@@ -12,9 +12,9 @@ const legalNotice = '';
 function LegalNotice(props) {
   const [isLoading, setIsLoading] = useState(false);
   const contentTitleStyle =
-    'PingFangSC redColor font-medium text-16 leading-6 mb-3 md:mb-4 md:text-18 md:leading-7';
+    'font-PingFangSC text-rc-red font-medium text-16 leading-6 mb-3 md:mb-4 md:text-18 md:leading-7';
   const contentsubStyle =
-    'PingFangSC grayColor text-16 leading-6 md:text-18 md:leading-7';
+    'font-PingFangSC grayColor text-16 leading-6 md:text-18 md:leading-7';
   const mar = 'mb-6 md:mb-10';
   return (
     <div>
@@ -30,11 +30,11 @@ function LegalNotice(props) {
         >
           <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
             {/* pc */}
-            <h1 className="hidden md:block PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
+            <h1 className="hidden md:block font-PingFangSC text-rc-red font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
               特定商取引に関する法律に基づく表記
             </h1>
             {/* 手机 */}
-            <h1 className="block md:hidden PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
+            <h1 className="block md:hidden font-PingFangSC text-rc-red font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
               マイ ロイヤルカナン 特定商取引法に基づく表示
             </h1>
             {/* 内容 */}
@@ -90,7 +90,7 @@ function LegalNotice(props) {
                 <h2 className={`${contentTitleStyle}`}>
                   5 配送料と手数料について
                 </h2>
-                <h3 className="PingFangSC redColor text-16 leading-6 mb-1 md:text-18 md:leading-7">
+                <h3 className="font-PingFangSC text-rc-red text-16 leading-6 mb-1 md:text-18 md:leading-7">
                   配送料
                 </h3>
                 <p className={`${contentsubStyle}`} style={{ color: '#666' }}>
@@ -98,17 +98,17 @@ function LegalNotice(props) {
                   <br />
                   その他の場合、全国一律配送1回につき500円（税込）の配送料をお客様にご負担いただきます。
                 </p>
-                <h3 className="PingFangSC redColor text-16 leading-6 mb-1 mt-4 md:mt-6 md:text-18 md:leading-7">
+                <h3 className="font-PingFangSC text-rc-red text-16 leading-6 mb-1 mt-4 md:mt-6 md:text-18 md:leading-7">
                   手数料
                 </h3>
                 <p
-                  className="PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
+                  className="font-PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
-                  代金引換を支払方法として選択された場合、代引手数料としてご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。
+                  コンビニ決済を支払方法として選択された場合、コンビニ決済手数料としてご注文1件につき収納代金の3.85％をお客様にご負担いただきます。
                 </p>
                 <ul
-                  className="PingFangSC text-16 leading-6 ml-3 mb-4 md:text-18 md:ml-5 md:leading-7 md:mb-8"
+                  className="font-PingFangSC text-16 leading-6 ml-3 mb-4 md:text-18 md:ml-5 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
                   <li className="list-disc">収納代金が10,000円未満 330円</li>
@@ -123,45 +123,28 @@ function LegalNotice(props) {
                   </li>
                 </ul>
                 <p
-                  className="PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
+                  className="font-PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
                   コンビニ決済を支払方法として選択された場合、ご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。
                 </p>
-                <ul
-                  className="PingFangSC text-16 leading-6 ml-3 md:ml-5 md:text-18 md:leading-7"
-                  style={{ color: '#666' }}
-                >
-                  <li className="list-disc">収納代金が2,000円未満 121円</li>
-                  <li className="list-disc">
-                    収納代金が2,000円以上、3,000円未満 167円
-                  </li>
-                  <li className="list-disc">
-                    収納代金が3,000円以上、10,000円未満 185円
-                  </li>
-                  <li className="list-disc">
-                    収納代金が10,000円以上、50,000円未満 259円
-                  </li>
-                  <li className="list-disc">
-                    収納代金が50,000円以上、100,000円未満 537円
-                  </li>
-                  <li className="list-disc">
-                    収納代金が100,000円以上、150,000円未満 595円
-                  </li>
-                  <li className="list-disc">
-                    収納代金が150,000円以上、300,000円未満 595円
-                  </li>
-                </ul>
               </div>
               {/* 6 */}
               <div className={`${mar}`}>
                 <h2 className={contentTitleStyle}>6 支払方法</h2>
                 <p className={contentsubStyle}>
-                  以下のお支払方法をお選びいただけます。
+                  通常購入の場合：​
                   <br />
-                  クレジットカード決済
+                  クレジットカード決済​
                   <br />
-                  コンビニ決済
+                  コンビニ決済​
+                  <br />
+                  代金引換​
+                  <br />
+                  <br />
+                  ​ 定期購入の場合：​
+                  <br />
+                  クレジットカード決済​
                   <br />
                   代金引換
                 </p>
@@ -172,7 +155,7 @@ function LegalNotice(props) {
                 <p className={contentsubStyle}>
                   クレジットカード決済：製品の発送段階において請求されます。
                   <br />
-                  コンビニ決済：ご注文が完了するとお支払番号が発行されます。お支払番号の発行日を含めて5日以内にご指定のコンビニエンスストアでお支払いください。お支払後に製品が確保され、発送されます。お支払の確認の電子メールが、お支払完了後に送付されます。
+                  コンビニ決済：ご注文が完了するとお支払番号が発行されます。お支払番号の発行日を含めて7日以内にご指定のコンビニエンスストアでお支払いください。お支払後に製品が確保され、発送されます。お支払の確認の電子メールが、お支払完了後に送付されます。
                   <br />
                   代金引換：製品をお渡しする際に配送業者にお支払いください。
                 </p>

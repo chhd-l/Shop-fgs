@@ -106,6 +106,12 @@ class Header extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    // if (this?.userInfo?.email) {
+    //   LogRocket.identify('THE_USER_ID_IN_YOUR_APP', {
+    //     name: this.userInfo.firstName,
+    //     email: this.userInfo.email
+    //   });
+    // }
     //进入这个页面 清除搜索埋点
     this.props.headerSearchStore.clear();
     this.props.headerCartStore.hide();
@@ -483,7 +489,7 @@ class Header extends React.Component {
     clinicStore.removeSelectClinicInfo();
     checkoutStore.removeLoginCartData();
     loginStore.changeIsLogin(false);
-    history.push('/home');
+    history.push('/');
   }
   renderClinic() {
     const { clinicId, clinicName } = this.props.clinicStore;
@@ -681,7 +687,7 @@ class Header extends React.Component {
 
             <DistributeHubLinkOrATag
               href=""
-              to="/home"
+              to="/"
               className="header__nav__brand logo-home"
             >
               <span className="rc-screen-reader-text" />

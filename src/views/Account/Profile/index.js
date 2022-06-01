@@ -211,7 +211,7 @@ class AccountProfile extends React.Component {
                     </span>
                   </Link>
                 )}
-                <h5 className="md:-ml-4 mb-3 text-lg">
+                <h5 className="md:-ml-4 mb-3 text-lg text-rc-red">
                   <FormattedMessage
                     id="account.myprofile.title"
                     defaultMessage={' '}
@@ -293,6 +293,7 @@ class AccountProfile extends React.Component {
                       // 此入口总是要email phone
                       needEmail={true}
                       needPhone={true}
+                      pageType={'account_profile'}
                     />
                   </PanleContainer>
 

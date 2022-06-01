@@ -56,6 +56,11 @@ import CancelEmail from '@/views/StaticPage/CancelEmail';
 import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 
 import PreciseCatNutrition from './views/PreciseCatNutrition';
+import CartDEBreeder from './views/CartDEBreeder';
+import { funcUrl } from './lib/url-utils';
+import LogRocket from 'logrocket';
+
+LogRocket.init('kvnk0e/test');
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
@@ -293,6 +298,14 @@ if (tokenFromUrl) {
   localItemRoyal.set('rc-token', tokenFromUrl);
 }
 
+// goodwill单标识 goodWillFlag: 'GOOD_WILL'
+const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
+if (sPromotionCodeFromSearch) {
+  // stores?.CheckoutStore?.setPromotionCode(sPromotionCodeFromSearch);
+  localItemRoyal.set('rc-promotionCode', sPromotionCodeFromSearch);
+  sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
+}
+
 // 处理Felin代客下单
 const felinParams = qs.parse(window.location.search, {
   ignoreQueryPrefix: true
@@ -468,7 +481,13 @@ const App = () => {
                   }
                 />
                 <Route path="/requestinvoice" component={RequestInvoices} />
-                <Route exact path="/cart" component={Cart} />
+                <Route
+                  exact
+                  path="/cart"
+                  render={(props) => {
+                    return <Cart {...props} />;
+                  }}
+                />
                 <Route
                   exact
                   path="/checkout"
@@ -669,6 +688,12 @@ const App = () => {
                       recommendationPage = (
                         <Recommendation_FrBreeder {...props} />
                       );
+                    } else if (
+                      window.__.env.REACT_APP_COUNTRY === 'de' &&
+                      props.location.search.includes('utm_campaign')
+                    ) {
+                      // 德国推荐路由进入购物车界面
+                      recommendationPage = <CartDEBreeder {...props} />;
                     }
                     return recommendationPage;
                   }}

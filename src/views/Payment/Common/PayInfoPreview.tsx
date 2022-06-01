@@ -10,7 +10,9 @@ import {
   LOGO_ADYEN_PAYPAL,
   LOGO_SWISH,
   LOGO_CASH,
-  LOGO_POS
+  LOGO_POS,
+  LOGO_ADYEN_MOTO,
+  LOGO_ADYEN_IDEAL
 } from '@/utils/constant';
 
 interface Props {
@@ -89,6 +91,19 @@ const PayInfoPreview = ({
       return (
         <div className="col-12 col-md-6">
           <img src={LOGO_CASH} className="w-10 ml-8" />
+        </div>
+      );
+
+    case 'adyen_moto':
+      return (
+        <div className="col-12 col-md-6">
+          <img src={LOGO_ADYEN_MOTO} className="w-24 ml-8" />
+        </div>
+      );
+    case 'adyen_ideal':
+      return (
+        <div className="col-12 col-md-6">
+          <img src={LOGO_ADYEN_IDEAL} className="w-24 ml-8" />
         </div>
       );
 

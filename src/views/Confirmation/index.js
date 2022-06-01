@@ -118,6 +118,8 @@ class Confirmation extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    // 删除德国推荐标识
+    sessionItemRoyal.remove('isDERecommendation');
     sessionItemRoyal.set('refresh-confirm-page', true);
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
@@ -243,7 +245,7 @@ class Confirmation extends React.Component {
         </div>
         <DistributeHubLinkOrATag
           href=""
-          to="/home"
+          to="/"
           className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis pb-0"
         >
           <FormattedMessage id="continueShopping" />
@@ -256,7 +258,7 @@ class Confirmation extends React.Component {
           <>
             <DistributeHubLinkOrATag
               href=""
-              to="/home"
+              to="/"
               className="rc-btn rc-btn--one"
               style={{ transform: 'scale(.85)' }}
             >
@@ -597,7 +599,7 @@ class Confirmation extends React.Component {
                       &nbsp;
                       <DistributeHubLinkOrATag
                         href=""
-                        to="/home"
+                        to="/"
                         className="rc-meta rc-styled-link backtohome mb-0  pb-0"
                       >
                         <FormattedMessage id="continueShopping" />

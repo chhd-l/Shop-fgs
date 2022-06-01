@@ -33,18 +33,18 @@ function AboutMyRoyalCanin(props) {
           {/* 1 */}
           <div className="md:w-cs-920 md:h-cs-431 md:m-auto md:flex md:justify-between md:mt-20 md:pb-20 box-content">
             <div className="md:h-cs-431 md:transform md:scale-100 md:z-50">
-              <h1 className="PingFangSC redColor text-22 leading-7 mb-4 m-auto md:ml-0 md:text-30 w-cs-288 h-cs-56 md:w-cs-392 md:h-cs-80 md:leading-10 font-semibold mt-6 md:mt-auto">
+              <h1 className="font-PingFangSC text-rc-red text-22 leading-7 mb-4 m-auto md:ml-0 md:text-30 w-cs-288 h-cs-56 md:w-cs-392 md:h-cs-80 md:leading-10 font-semibold mt-6 md:mt-auto">
                 マイ ロイヤルカナンについて
               </h1>
               <p
-                className="PingFangSC m-auto mb-4 md:mb-11 w-cs-288 h-cs-234 md:w-cs-440 md:h-cs-238 text-16 md:text-18 leading-7 md:leading-9"
+                className="font-PingFangSC m-auto mb-4 md:mb-11 w-cs-288 h-cs-234 md:w-cs-440 md:h-cs-238 text-16 md:text-18 leading-7 md:leading-9"
                 style={{ color: '#666666' }}
               >
                 「マイ
                 ロイヤルカナン」は、個々の犬と猫で異なる栄養要求にこたえる、ロイヤルカナンのきめ細やかなドッグフード、キャットフードをお届けするロイヤルカナンの公式通販サイトです。ロイヤルカナンの総合栄養食の全製品をご購入いただける他、公式通販サイトだけの限定犬種・猫種専用フードも取り扱っています。
               </p>
               <button
-                className="redBg hidden md:block md:w-cs-244 md:h-cs-48 md:leading-10 md:text-center md:rounded-3xl hover:underline"
+                className="bg-rc-red hidden md:block md:w-cs-244 md:h-cs-48 md:leading-10 md:text-center md:rounded-3xl hover:underline"
                 style={{ color: '#fff' }}
               >
                 公式限定フードはこちら
@@ -65,7 +65,7 @@ function AboutMyRoyalCanin(props) {
           {/* 2 */}
           <div className="md:w-cs-960 md:h-cs-334 m-auto box-content pt-10 pb-10 md:pt-20 md:pb-20 md:flex md:justify-between">
             {/* 手机 */}
-            <h1 className="redColor block md:hidden PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-26 md:leading-8 md:mt-12 mb-4">
+            <h1 className="text-rc-red block md:hidden font-PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-26 md:leading-8 md:mt-12 mb-4">
               最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
             </h1>
             <img
@@ -74,11 +74,11 @@ function AboutMyRoyalCanin(props) {
               className="w-cs-186 h-cs-143 mb-4 m-auto md:w-cs-479 md:h-cs-334"
             />
             <div className="md:w-cs-440 md:h-full">
-              <h1 className="redColor hidden md:block PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-26 md:leading-8 md:mt-12 mb-4">
+              <h1 className="text-rc-red hidden md:block font-PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-30 md:leading-8 md:mt-12 mb-4">
                 最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
               </h1>
               <p
-                className="PingFangSC w-cs-288 m-auto text-16 leading-6 md:w-cs-440 md:leading-7 md:text-18"
+                className="font-PingFangSC w-cs-288 m-auto text-16 leading-6 md:w-cs-440 md:leading-7 md:text-18"
                 style={{ color: '#666666' }}
               >
                 ご注文後、スピーディーにフードをお届けするのもマイ
@@ -97,17 +97,17 @@ function AboutMyRoyalCanin(props) {
                   className="w-cs-53 h-cs-53 md:w-cs-110 md:h-cs-110 m-auto mb-4 md:mb-5"
                 />
               </div>
-              <h1 className="PingFangSC redColor w-cs-288 leading-7 text-22 md:w-cs-440 md:h-cs-40 mb-4 md:text-30 md:leading-10 font-semibold">
+              <h1 className="font-PingFangSC text-rc-red w-cs-288 leading-7 text-22 md:w-cs-440 md:h-cs-40 mb-4 md:text-30 md:leading-10 font-semibold">
                 便利な定期購入サービス
               </h1>
               <p
-                className="PingFangSC  leading-7 text-16 md:w-cs-440 md:text-18"
+                className="font-PingFangSC  leading-7 text-16 md:w-cs-440 md:text-18"
                 style={{ color: '#666666' }}
               >
                 愛犬・愛猫の健康維持のために大切なフードを、必要なタイミングに自動的にお届けします。
               </p>
               <p
-                className="PingFangSC md:w-cs-440 mb-4 text-16 md:text-18 leading-7"
+                className="font-PingFangSC md:w-cs-440 mb-4 text-16 md:text-18 leading-7"
                 style={{ color: '#666666' }}
               >
                 買い忘れの心配なく、安心して続けていただけます。
@@ -129,18 +129,18 @@ function AboutMyRoyalCanin(props) {
                   className="w-cs-63 h-cs-53 md:w-cs-106 md:h-cs-88 m-auto mb-4 md:mb-10"
                 />
               </div>
-              <h1 className="PingFangSC redColor text-22 leading-7 md:w-cs-440 md:h-cs-40  mb-3 md:mb-4 md:text-30 md:leading-10 font-semibold">
+              <h1 className="font-PingFangSC text-rc-red text-22 leading-7 md:w-cs-440 md:h-cs-40  mb-3 md:mb-4 md:text-30 md:leading-10 font-semibold">
                 お得なポイントプログラム
               </h1>
               <p
-                className="PingFangSC text-16 leading-6 md:w-cs-440 md:text-18 md:leading-7"
+                className="font-PingFangSC text-16 leading-6 md:w-cs-440 md:text-18 md:leading-7"
                 style={{ color: '#666666' }}
               >
                 ご購入の度にマイ ロイヤルカナンで使用できるポイントが、1ポイント
-                = 1円人して貯まります。
+                = 1円として貯まります。
               </p>
               <p
-                className="PingFangSC text-16 leading-6 md:w-cs-440 mb-4 md:text-18 md:leading-7"
+                className="font-PingFangSC text-16 leading-6 md:w-cs-440 mb-4 md:text-18 md:leading-7"
                 style={{ color: '#666666' }}
               >
                 定期購入とステージアップで、税抜製品価格の最大10%が還元されます。
@@ -157,12 +157,12 @@ function AboutMyRoyalCanin(props) {
           <div className="throughLine"></div>
           {/* 4 */}
           <div className="md:w-cs-680 md:h-cs-556 m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-20 box-content">
-            <h1 className="PingFangSC redColor text-22 leading-7 font-semibold text-left md:text-30 md:leading-10 md:text-center mb-2 md:mb-4">
+            <h1 className="font-PingFangSC text-rc-red text-22 leading-7 font-semibold text-left md:text-30 md:leading-10 md:text-center mb-2 md:mb-4">
               幅広くお選びいただけるお支払い方法
             </h1>
             {/* pc */}
             <p
-              className="hidden md:block PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              className="hidden md:block font-PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
               style={{ color: '#666666' }}
             >
               お支払い方法は、クレジットカード、代金引換、コンビニ決済（先払い方式）から
@@ -173,7 +173,7 @@ function AboutMyRoyalCanin(props) {
             </p>
             {/* 手机 */}
             <p
-              className="block md:hidden PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              className="block md:hidden font-PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
               style={{ color: '#666666' }}
             >
               お支払い方法は、クレジットカード、代金引換、コンビニ決済（先払い方式）からお選びいただけます。お客様のご都合に合わせてお選びください。
@@ -188,12 +188,12 @@ function AboutMyRoyalCanin(props) {
               />
             </div>
             <div className="d7bottom-border m-auto mt-8 mb-7 md:hidden"></div>
-            <h1 className="PingFangSC redColor text-22 font-semibold text-left leading-7 md:text-30 md:leading-10 md:text-center mb-4">
+            <h1 className="font-PingFangSC text-rc-red text-22 font-semibold text-left leading-7 md:text-30 md:leading-10 md:text-center mb-4">
               実績豊かなヤマト運輸が丁寧にお届け
             </h1>
             {/* pc */}
             <p
-              className="hidden md:block PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              className="hidden md:block font-PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
               style={{ color: '#666666' }}
             >
               「お客様の大切な愛犬・愛猫のフードを確かにお手元に届けたい。」マイ
@@ -203,7 +203,7 @@ function AboutMyRoyalCanin(props) {
             </p>
             {/* 手机 */}
             <p
-              className="block md:hidden PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              className="block md:hidden font-PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
               style={{ color: '#666666' }}
             >
               「お客様の大切な愛犬・愛猫のフードを確かにお手元に届けたい。」マイロイヤルカナンの思いを経験・実績豊富なヤマト運輸を通じてお届けいたします。
@@ -220,11 +220,11 @@ function AboutMyRoyalCanin(props) {
           {/* 5 */}
           <div className="flex flex-wrap md:justify-between md:w-cs-920 md:h-cs-340 m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-20 box-content">
             <div className="left w-full md:w-cs-440 order-2 md:order-1">
-              <h1 className="PingFangSC redColor font-semibold text-22 leading-7 mb-4 mt-4 md:mt-0 md:text-30 md:leading-10">
+              <h1 className="font-PingFangSC text-rc-red font-semibold text-22 leading-7 mb-4 mt-4 md:mt-0 md:text-30 md:leading-10">
                 おいしさ満足保証」返金制度
               </h1>
               <p
-                className="PingFangSC text-16 leading-6 mb-4 md:w-cs-440 md:mb-7 md:text-18 md:leading-7"
+                className="font-PingFangSC text-16 leading-6 mb-4 md:w-cs-440 md:mb-7 md:text-18 md:leading-7"
                 style={{ color: '#666666' }}
               >
                 ロイヤルカナン製品は、犬や猫がしっかりとフードを食べてくれるように、粒（キブル）の表面に独自の製法で配合したフレーバーを使用した高嗜好性のフードですが、犬や猫はその生活環境や、いままで食べてきたフードの影響などから、フードの切り替えに敏感に反応してしまうこともまれに起こります。ロイヤルカナンは、愛犬・愛猫が美味しくフードを食べて満足していただけるよう、初回1袋に限り返金サービスを提供しています（※一部対象外の製品があります）。
@@ -241,21 +241,19 @@ function AboutMyRoyalCanin(props) {
               <img src={Bitmap5} alt="" className="md:w-440 md:h-190" />
             </div>
           </div>
-          <div className="throughLine hidden md:block"></div>
+          <div className="throughLine" />
           {/* 6 */}
-          <div className="hidden md:block md:w-cs-520 md:h-cs-174 m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-20 box-content">
-            <h1 className="PingFangSC redColor font-semibold text-22 text-center leading-7 mb-4 mt-4 md:mt-0 md:text-30 md:leading-10">
+          <div className="md:w-cs-520 md:h-cs-174 m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-20 box-content">
+            <h1 className="font-PingFangSC text-rc-red font-semibold text-22 text-center leading-7 mb-4 mt-4 md:mt-0 md:text-30 md:leading-10">
               愛犬・愛猫の健康管理に役立つ情報をご提供
             </h1>
             <p
-              className="PingFangSC text-16 leading-6 text-center mb-4  md:mb-7 md:text-18 md:leading-7"
+              className="font-PingFangSC text-16 leading-6 text-center mb-4  md:mb-7 md:text-18 md:leading-7"
               style={{ color: '#666666' }}
             >
               キャンペーンなどのお得な情報や、愛犬・愛猫の健康管理に役
               <br />
               立つ情報をニュースレターで配信しています。
-              <br />
-              ください。
             </p>
           </div>
         </div>

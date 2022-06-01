@@ -31,14 +31,10 @@ function CardItem(props) {
         data?.paddingFlag
           ? 'creditCompleteInfoBox disabled'
           : 'rc-bg-colour--brand4'
-      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between`}
+      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between ui-cursor-pointer-pure ${
+        ['account_profile'].includes(props?.pageType) ? '' : 'w-4/5'
+      }`}
     >
-      <div
-        className="position-absolute d-flex align-items-center"
-        style={{ right: '2%', top: '2%' }}
-      >
-        {props.operateBtnJSX}
-      </div>
       <div
         className={[
           'pt-4',
@@ -48,33 +44,58 @@ function CardItem(props) {
         ].join(' ')}
       >
         <div className="row">
-          <div className={`col-4 d-flex flex-column justify-content-center`}>
-            <LazyLoad height={100}>
-              <img
-                className="PayCardImgFitScreen w-100"
-                src={getCardImg({
-                  supportPaymentMethods,
-                  currentVendor: data.paymentVendor || data.paymentItem
-                })}
-                alt="pay card img fit screen"
-              />
-            </LazyLoad>
-          </div>
-          {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
-            <div className="col-8 px-0 my-6 truncate">
-              {handleEmailShow(data.email)}
+          {data?.paymentItem.toLowerCase() === 'adyen_moto' ? (
+            <div className={`col-8 d-flex flex-column justify-content-center`}>
+              <LazyLoad height={100}>
+                <img
+                  className="PayCardImgFitScreen w-100"
+                  src={
+                    'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008060240358083.png'
+                  }
+                  alt="pay card img fit screen"
+                />
+              </LazyLoad>
             </div>
           ) : (
-            <div className="col-6 px-0">
-              <p className="mb-0">{data.holderName}</p>
-              <p className="mb-0">
-                ************
-                {data.lastFourDigits}
-              </p>
-              <p className="mb-0">{data.paymentVendor}</p>
-            </div>
+            <>
+              <div
+                className={`${
+                  ['account_profile'].includes(props?.pageType)
+                    ? 'col-6'
+                    : 'col-5'
+                } d-flex flex-column justify-content-center`}
+              >
+                <LazyLoad height={100}>
+                  <img
+                    className="PayCardImgFitScreen w-100"
+                    src={getCardImg({
+                      supportPaymentMethods,
+                      currentVendor: data.paymentVendor || data.paymentItem
+                    })}
+                    alt="pay card img fit screen"
+                  />
+                </LazyLoad>
+              </div>
+              {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
+                <div className="col-8 px-0 my-6 truncate">
+                  {handleEmailShow(data.email)}
+                </div>
+              ) : (
+                <div className="col-6 px-0">
+                  <p className="mb-0">{data.holderName}</p>
+                  <p className="mb-0">
+                    ************
+                    {data.lastFourDigits}
+                  </p>
+                  <p className="mb-0">{data.paymentVendor}</p>
+                </div>
+              )}
+            </>
           )}
         </div>
+      </div>
+      <div className="w-1/2" style={{ right: '25%', top: '15%' }}>
+        {props.operateBtnJSX}
       </div>
     </div>
   );
@@ -146,7 +167,7 @@ class PaymentList extends React.Component {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod({}, true);
-      const cardList = res?.context || [];
+      let cardList = res?.context || [];
       const paypalCardIndex = cardList?.findIndex(
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
       );
@@ -156,6 +177,23 @@ class PaymentList extends React.Component {
         cardList.splice(paypalCardIndex, 1);
         cardList.unshift(paypalCard);
       }
+      if (
+        cardList.some(
+          (item) => item?.paymentItem?.toLowerCase() === 'adyen_moto'
+        )
+      ) {
+        const tempObj = cardList.find(
+          (item) => item?.paymentItem?.toLowerCase() === 'adyen_moto'
+        );
+        console.log('tempObj', tempObj);
+        const temparr = cardList.filter(
+          (item) => item?.paymentItem?.toLowerCase() !== 'adyen_moto'
+        );
+        temparr.splice(1, 0, tempObj);
+        cardList = temparr;
+        console.log('cardList', cardList);
+      }
+
       this.setState({
         creditCardList: cardList
       });
@@ -428,11 +466,12 @@ class PaymentList extends React.Component {
                       <CardItem
                         data={el}
                         supportPaymentMethods={supportPaymentMethods}
+                        pageType={this.props?.pageType}
                       />
                     </div>
                   ))}
                   {creditCardList.slice(0, 2).length < 2 && (
-                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
+                    <div className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'cover' })}
                     </div>
                   )}
@@ -447,10 +486,9 @@ class PaymentList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
                       <div
+                        // ui-cursor-pointer-pure
                         className={`col-12 col-md-6 p-2 ${
-                          el?.paddingFlag
-                            ? 'ui-cursor-not-allowed'
-                            : 'ui-cursor-pointer-pure'
+                          el?.paddingFlag ? 'ui-cursor-not-allowed' : ''
                         }`}
                         key={el.id}
                       >
@@ -462,7 +500,7 @@ class PaymentList extends React.Component {
                             <>
                               {el.isDefault === 1 ? (
                                 <div
-                                  className="red"
+                                  className="red flex -mt-10 mr-4 w-100 justify-end"
                                   onClick={this.toggleSetDefault.bind(this, el)}
                                 >
                                   <span className="iconfont mr-1">
@@ -474,25 +512,47 @@ class PaymentList extends React.Component {
                                 </div>
                               ) : el.paymentItem?.toLowerCase() !==
                                 'adyen_paypal' ? (
-                                <div
-                                  className={`ui-cursor-pointer`}
-                                  onClick={this.toggleSetDefault.bind(this, el)}
-                                >
-                                  <span
-                                    className={`${
-                                      el?.paddingFlag
-                                        ? 'ui-cursor-not-allowed'
-                                        : 'rc-styled-link'
-                                    }`}
+                                el.paymentItem?.toLowerCase() ===
+                                'adyen_moto' ? (
+                                  <div className={`invisible`}>
+                                    <span
+                                      className={`${
+                                        el?.paddingFlag
+                                          ? 'ui-cursor-not-allowed'
+                                          : 'rc-styled-link'
+                                      } flex -mt-10 mr-4 w-100 justify-end`}
+                                    >
+                                      <FormattedMessage id="setAsDefault" />
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`ui-cursor-pointer flex -mt-10 mr-4 w-100 justify-end`}
+                                    onClick={this.toggleSetDefault.bind(
+                                      this,
+                                      el
+                                    )}
                                   >
-                                    <FormattedMessage id="setAsDefault" />
-                                  </span>
-                                </div>
+                                    <span
+                                      className={`${
+                                        el?.paddingFlag
+                                          ? 'ui-cursor-not-allowed'
+                                          : 'rc-styled-link'
+                                      }`}
+                                    >
+                                      <FormattedMessage id="setAsDefault" />
+                                    </span>
+                                  </div>
+                                )
                               ) : null}
-                              <span
-                                className={`position-relative p-2 ui-cursor-pointer-pure pdl-1`}
+                              <div
+                                className={`position-absolute p-2 ui-cursor-pointer-pure pdl-1`}
+                                style={{
+                                  top: '35%',
+                                  right: '12%'
+                                }}
                               >
-                                <span
+                                <div
                                   className={`${
                                     el.paddingFlag
                                       ? 'ui-cursor-not-allowed'
@@ -503,8 +563,15 @@ class PaymentList extends React.Component {
                                     el
                                   )}
                                 >
-                                  <FormattedMessage id="delete" />
-                                </span>
+                                  {/* <FormattedMessage id="delete" /> */}
+                                  <div
+                                    className="iconfont iconshanchu"
+                                    style={{
+                                      fontSize: '2rem',
+                                      lineHeight: '2rem'
+                                    }}
+                                  ></div>
+                                </div>
                                 <ConfirmTooltip
                                   containerStyle={{
                                     transform: 'translate(-89%, 105%)'
@@ -526,13 +593,13 @@ class PaymentList extends React.Component {
                                     this.updateConfirmTooltipVisible(el, status)
                                   }
                                 />
-                              </span>
+                              </div>
                             </>
                           }
                         />
                       </div>
                     ))}
-                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                    <div className="col-12 col-md-6 p-2 rounded text-center  ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'list' })}
                     </div>
                   </div>

@@ -114,6 +114,8 @@ import {
 } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 import Pos from './PaymentMethod/Pos';
 import Cash from './PaymentMethod/Cash';
+import Moto from './PaymentMethod/Moto';
+import Ideal from './PaymentMethod/Ideal/indes';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -134,7 +136,7 @@ const sleep = (time) => {
 };
 
 const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
-  <p>
+  <div>
     <span className="logo-payment-card-list logo-credit-card">
       {supportPaymentMethods.map((el, idx) => (
         <LazyLoad key={idx}>
@@ -146,7 +148,9 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
             />
           ) : (
             <img
-              className="logo-payment-card mr-1 w-7 max-h-8 md:w-10"
+              className={`logo-payment-card mr-1  max-h-8 ${
+                el.cardType.toLowerCase() === 'moto' ? 'w-14' : 'w-7 md:w-10'
+              }`}
               src={el.imgUrl}
               alt={el.cardType}
             />
@@ -154,7 +158,7 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
         </LazyLoad>
       ))}
     </span>
-  </p>
+  </div>
 );
 
 const chooseRadioType = () => {
@@ -272,6 +276,7 @@ class Payment extends React.Component {
       payWayNameArr: [],
       email: '',
       swishPhone: '',
+      bank: '',
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       tidList: sessionItemRoyal.get('rc-tidList')
@@ -955,8 +960,18 @@ class Payment extends React.Component {
   }
 
   queryList = async () => {
+    // const isFelin =
+    //     sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
+    // const isFgs =
+    // sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
     try {
-      let res = await getPaymentMethod({}, true);
+      let res;
+      if (sessionItemRoyal.get('rc-userGroup')) {
+        res = await getPaymentMethod({}, true);
+      } else {
+        res = await getPaymentMethod({ isPC: true }, true);
+      }
+
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
@@ -1011,7 +1026,22 @@ class Payment extends React.Component {
       // fgs 下的单 isOfflinePayment 为false，felin 下的单为true
       const isFelin =
         sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
-      const payWay = await getWays({ isOfflinePayment: isFelin });
+      const isFgs =
+        sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
+      let payWay;
+      if (isFelin) {
+        payWay = await getWays({ isOfflinePayment: isFelin });
+      } else {
+        if (isFgs) {
+          // businessType
+          // 0 fgs
+          // 1 代客下单线上
+          // 2 代客下单线下
+          payWay = await getWays({ businessType: '1' });
+        } else {
+          payWay = await getWays();
+        }
+      }
       let payWayNameArr = [];
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
@@ -1314,7 +1344,7 @@ class Payment extends React.Component {
       const {
         paymentStore: { curPayWayInfo }
       } = this.props;
-      const { email, swishPhone } = this.state;
+      const { email, swishPhone, bank } = this.state;
       const { isLogin } = this;
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
@@ -1457,6 +1487,19 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'CASH',
             wasFelinStore: true
+          });
+        },
+        adyen_moto: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: '',
+            payPspItemEnum: 'ADYEN_MOTO'
+          });
+        },
+        adyen_ideal: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'ideal',
+            payPspItemEnum: 'ADYEN_IDEAL',
+            adyenIDealIssuer: bank
           });
         },
         adyen_swish: () => {
@@ -2018,6 +2061,26 @@ class Payment extends React.Component {
           subNumber = (res.context && res.context.subscribeId) || '';
           gotoConfirmationPage = true;
           break;
+        case 'adyen_moto':
+          if (res.code === 'K-000000') {
+            console.log('adyen_moto', res);
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+            gotoConfirmationPage = true;
+          }
+          break;
+        case 'adyen_ideal':
+          if (res.code === 'K-000000') {
+            console.log('adyen_ideal', res);
+            // subOrderNumberList = tidList.length
+            //   ? tidList
+            //   : res.context && res.context.tidList;
+            // subNumber = (res.context && res.context.subscribeId) || '';
+            // gotoConfirmationPage = true;
+          }
+          break;
         case 'pc_web':
           subOrderNumberList =
             tidList.length && tidList[0]
@@ -2067,10 +2130,10 @@ class Payment extends React.Component {
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
         sessionItemRoyal.remove('guestInfo');
+        localItemRoyal.remove('rc-promotionCode');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
-
         // 跳转 confirmation
         this.props.history.push('/confirmation');
       }
@@ -2391,8 +2454,45 @@ class Payment extends React.Component {
         expirationDate: payosdata.expiration_date
       });
     }
-
-    if (sessionItemRoyal.get('recommend_product')) {
+    // 德国推荐商品
+    if (localItemRoyal.get('isDERecommendation') === 'true') {
+      if (this.isLogin) {
+        param.tradeItems = loginCartData.map((ele) => {
+          const recoProductParam = handleRecoProductParamByItem({
+            ele,
+            ...this.props
+          });
+          return Object.assign(recoProductParam, {
+            num: ele.buyCount,
+            skuId: ele.goodsInfoId,
+            goodsInfoFlag: ele.goodsInfoFlag,
+            recommenderId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId,
+            referenceObject: 'vet',
+            recommendationId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId
+          });
+        });
+      } else {
+        param.tradeItems = cartData.map((ele) => {
+          const recoProductParam = handleRecoProductParamByItem({
+            ele,
+            ...this.props
+          });
+          return Object.assign(recoProductParam, {
+            num: ele.quantity,
+            skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+            goodsInfoFlag: ele.goodsInfoFlag,
+            recommenderId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId,
+            referenceObject: 'vet',
+            recommendationId:
+              clinicStore.linkClinicRecommendationInfos.recommenderId
+          });
+        });
+      }
+      param.clinicsId = clinicStore.linkClinicRecommendationInfos.recommenderId;
+    } else if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -3622,6 +3722,29 @@ class Payment extends React.Component {
                       />
                     </>
                   )}
+                  {/* adyen_moto */}
+                  {item.code === 'adyen_moto' &&
+                    curPayWayInfo?.code === 'adyen_moto' && (
+                      <>
+                        <Moto
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyen_moto'
+                          })}
+                        />
+                      </>
+                    )}
+                  {/* adyen_ideal */}
+                  {item.code === 'adyen_ideal' &&
+                    curPayWayInfo?.code === 'adyen_ideal' && (
+                      <>
+                        <Ideal
+                          updateBank={this.updateBank}
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyen_ideal'
+                          })}
+                        />
+                      </>
+                    )}
                   {item.code === 'cod_japan' &&
                     curPayWayInfo?.code === 'cod_japan' &&
                     isSupportPoint(this.isLogin) && <Point />}
@@ -3671,6 +3794,14 @@ class Payment extends React.Component {
               disabled: validForBilling
             })}
           {curPayWayInfo?.code === 'cash' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {curPayWayInfo?.code === 'adyen_moto' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {curPayWayInfo?.code === 'adyen_ideal' &&
             payConfirmBtn({
               disabled: validForBilling
             })}
@@ -3953,6 +4084,9 @@ class Payment extends React.Component {
   updateSwishPhone = (swishPhone) => {
     this.setState({ swishPhone });
   };
+  updateBank = (bank) => {
+    this.setState({ bank });
+  };
   // 1、点击支付
   clickPay = () => {
     const { intl } = this.props;
@@ -4101,13 +4235,15 @@ class Payment extends React.Component {
                     </div>
                   </>
                 )}
-                <SelectPet
-                  recommendData={this.state.recommend_data}
-                  updateRecommendData={(data) => {
-                    this.setState({ recommend_data: data });
-                  }}
-                  isRepay={tid}
-                />
+                {COUNTRY === 'jp' && (
+                  <SelectPet
+                    recommendData={this.state.recommend_data}
+                    updateRecommendData={(data) => {
+                      this.setState({ recommend_data: data });
+                    }}
+                    isRepay={tid}
+                  />
+                )}
 
                 <PanelContainer
                   panelStatus={paymentMethodPanelStatus}

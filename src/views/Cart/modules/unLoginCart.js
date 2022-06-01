@@ -1408,6 +1408,7 @@ class UnLoginCart extends React.Component {
   getProducts(plist) {
     const { intl } = this.props;
     const { mixFeedings } = this.state;
+
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -2219,7 +2220,7 @@ class UnLoginCart extends React.Component {
                       {(txt) => (
                         <DistributeHubLinkOrATag
                           href=""
-                          to="/home"
+                          to="/"
                           className="ui-cursor-pointer-pure"
                         >
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
