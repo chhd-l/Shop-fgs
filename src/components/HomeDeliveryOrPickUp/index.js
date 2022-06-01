@@ -324,22 +324,23 @@ class HomeDeliveryOrPickUp extends React.Component {
       let pknum = Number(pickupEditNumber) + 1;
       this.props.updatePickupEditNumber(pknum);
 
-      if (pageType === 'checkout') {
+      if (this.props.pickPointRange == 'transfer') {
+        //pageType === 'checkout' || pageType == 'onlyPickup'
         let goodsInfoDetails = [];
         // 取到购物车里面的 goodsInfoId、购买的sku数量
         if (isLogin) {
-          let cartData = this.props.cartData.filter((el) => el.goodsInfoId);
-          cartData.forEach((e) => {
+          let cartData = this.props.cartData?.filter((el) => el.goodsInfoId);
+          cartData?.forEach((e) => {
             goodsInfoDetails.push({
               goodsInfoId: e.goodsInfoId,
               quantity: e.buyCount
             });
           });
         } else {
-          let cartData = this.props.cartData.filter((el) => {
+          let cartData = this.props.cartData?.filter((el) => {
             return el.sizeList;
           });
-          cartData.forEach((e) => {
+          cartData?.forEach((e) => {
             e.sizeList.map((sl) => {
               if (sl.selected) {
                 goodsInfoDetails.push({
@@ -375,6 +376,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       let obj = [];
       // 根据不同的城市信息查询
       res = await pickupQueryCityFee(data);
+
       if (res.context?.tariffs.length) {
         // 先重置参数
         this.props.updateDeliveryOrPickup(0);
@@ -570,7 +572,8 @@ class HomeDeliveryOrPickUp extends React.Component {
         }
       }
     } catch (err) {
-      console.warn(err);
+      console.log(999, err);
+      debugger;
     } finally {
       this.setState({
         pickLoading: false

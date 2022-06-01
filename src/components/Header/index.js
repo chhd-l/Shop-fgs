@@ -31,7 +31,7 @@ import { getNavigation } from '@/api/hub';
 import queryNavigation from './mock/navigation';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
-import LogRocket from 'logrocket';
+// import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -107,12 +107,12 @@ class Header extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
-    if (this?.userInfo?.email) {
-      LogRocket.identify('THE_USER_ID_IN_YOUR_APP', {
-        name: this.userInfo.firstName,
-        email: this.userInfo.email
-      });
-    }
+    // if (this?.userInfo?.email) {
+    //   LogRocket.identify('THE_USER_ID_IN_YOUR_APP', {
+    //     name: this.userInfo.firstName,
+    //     email: this.userInfo.email
+    //   });
+    // }
     //进入这个页面 清除搜索埋点
     this.props.headerSearchStore.clear();
     this.props.headerCartStore.hide();

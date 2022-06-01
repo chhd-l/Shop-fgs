@@ -1156,7 +1156,7 @@ class AddressList extends React.Component {
               >
                 {item.receiveType === 'PICK_UP' ? (
                   <button
-                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
+                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold "
                     onClick={this.addOrEditPickupAddress.bind()}
                     style={{ fontSize: '12px' }}
                   >
@@ -1454,6 +1454,8 @@ class AddressList extends React.Component {
                           updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                           deliveryOrPickUp={showDeliveryOrPickUp}
                           intlMessages={this.props.intl.messages}
+                          cartData={this.props.checkoutStore.loginCartData} //这里传订阅商品的数据
+                          pickPointRange="transfer"
                         />
 
                         {/* 分割线 */}
