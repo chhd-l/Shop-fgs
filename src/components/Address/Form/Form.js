@@ -242,6 +242,8 @@ class Form extends React.Component {
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
     const { apiType } = this.state;
+
+    debugger;
     let res = null;
     let addls = null;
     try {
