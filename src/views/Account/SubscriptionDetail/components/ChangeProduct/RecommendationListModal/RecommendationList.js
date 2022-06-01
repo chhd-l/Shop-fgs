@@ -9,7 +9,7 @@ import { getClubLogo, formatMoney } from '@/utils/utils';
 import ProductDailyRation from './ProductDailyRation';
 import { ChangeProductContext } from '../index';
 import { SubDetailHeaderContext } from '../../SubDetailHeader';
-const RecommendationList = ({ productDetail }) => {
+const RecommendationList = ({ productDetail, goMoreProducts }) => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
   const { productListLoading } = SubDetailHeaderValue;
@@ -30,7 +30,7 @@ const RecommendationList = ({ productDetail }) => {
             <h4 className="red text-center mb-3 mt-6">
               <FormattedMessage id="subscription.productRecommendation" />
             </h4>
-            <p className=" text-center">
+            <p className="mb-3 text-center">
               <FormattedMessage id="subscription.productRecommendationTip" />
             </p>
           </div>
@@ -97,7 +97,7 @@ const RecommendationList = ({ productDetail }) => {
                     onClick={() => {
                       showProdutctDetail(productDetail.mainProduct?.spuCode);
                     }}
-                    className={`rc-btn rc-btn--one rc-btn--sm ${
+                    className={`rc-btn rc-btn--two rc-btn--sm ${
                       productListLoading ? 'ui-btn-loading' : ''
                     } `}
                   >
@@ -107,14 +107,37 @@ const RecommendationList = ({ productDetail }) => {
               </div>
             </div>
           </div>
+          <div className="mt-5  text-center">
+            <span
+              onClick={goMoreProducts}
+              className="red text-lg font-medium cursor-pointer"
+            >
+              <FormattedMessage id="subscription.viewMoreProducts" />
+              <svg
+                style={{ color: '#767676', display: 'inline' }}
+                xmlns="http://www.w3.org/2000/svg"
+                className="ml-1 h-5 w-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
+                />
+              </svg>
+            </span>
+          </div>
         </>
       )}
       {!!productDetail.otherProducts && (
         <>
-          <p className="text-center rc-margin-top--xs">
+          <p className="text-center mt-12 mb-3 red text-2xl">
             <FormattedMessage id="productFinder.otherProductsToConsider" />
           </p>
-          <div className="rc-scroll--x pb-4 rc-padding-x--xl">
+          <div className="rc-scroll--x pb-4 px-40">
             <div className="d-flex">
               {productDetail?.otherProducts?.map((ele, i) => (
                 <div
@@ -183,7 +206,7 @@ const RecommendationList = ({ productDetail }) => {
                         onClick={() => {
                           showProdutctDetail(ele.spuCode);
                         }}
-                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                        className={`rc-btn rc-btn--two rc-btn--sm ${
                           productListLoading ? 'ui-btn-loading' : ''
                         }`}
                       >
