@@ -196,7 +196,7 @@ const UserPaymentInfo = ({
           <div className="h-100 border border-d7d7d7 p-5">
             <div className="align-items-center">
               <img
-                className="align-middle mr-3 w-8 h-8"
+                className="align-middle mr-3 w-8 h-8 inline-block"
                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/payments.svg`}
                 alt="icons payments"
               />
@@ -216,22 +216,10 @@ const UserPaymentInfo = ({
             </div>
             <div className="ml-1">
               {currentCardInfo?.paymentItem?.toLowerCase() !== 'adyen_moto' ? (
-                <>
-                  {currentCardInfo.lastFourDigits ? (
-                    <>
-                      <p className="mb-0">
-                        <span
-                          className="medium text-lg font-normal align-middle"
-                          style={{
-                            color: '#333',
-                            margin: '25px 0 .625rem'
-                          }}
-                        >
-                          **** **** ****
-                          {currentCardInfo.lastFourDigits}
-                        </span>
-                      </p>
-
+                currentCardInfo?.paymentItem?.toLowerCase() ===
+                'adyen_ideal' ? (
+                  <>
+                    <div className="mt-4 mb-4">
                       <LazyLoad
                         style={{
                           width: '20%',
@@ -241,39 +229,86 @@ const UserPaymentInfo = ({
                         <img
                           alt="card background"
                           className="d-inline-block"
-                          src={getCardImg({
-                            supportPaymentMethods,
-                            currentVendor: currentCardInfo.paymentVendor
-                          })}
+                          src={
+                            'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
+                          }
                         />
                       </LazyLoad>
-                    </>
-                  ) : null}
+                    </div>
+                    <p className="mb-0">
+                      {currentCardInfo?.binNumber} BANK **** ****{' '}
+                      {currentCardInfo.lastFourDigits.substr(2)}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    {currentCardInfo.lastFourDigits ? (
+                      <>
+                        <p className="mb-0">
+                          <span
+                            className="medium text-lg font-normal align-middle"
+                            style={{
+                              color: '#333',
+                              margin: '25px 0 .625rem'
+                            }}
+                          >
+                            **** **** ****
+                            {currentCardInfo.lastFourDigits}
+                          </span>
+                        </p>
 
-                  {currentCardInfo.holderName ? (
-                    <p className="mb-0">{currentCardInfo.holderName}</p>
-                  ) : null}
-                  {currentCardInfo.pspName === 'JAPAN_COD' ? (
-                    <div className="flex items-center mt-4">
-                      <LazyLoad>
-                        <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
-                      </LazyLoad>
-                      <span>
-                        <FormattedMessage id="cashOnDelivery" />
-                      </span>
-                    </div>
-                  ) : null}
-                  {currentCardInfo?.paymentItem?.toLowerCase() ===
-                  'adyen_paypal' ? (
-                    <div className="flex flex-col mt-4">
-                      <LazyLoad>
-                        <img src={LOGO_ADYEN_PAYPAL} className="mb-4" />
-                      </LazyLoad>
-                      <div>{handleEmailShow(currentCardInfo.email)}</div>
-                    </div>
-                  ) : null}
-                  {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
-                </>
+                        <LazyLoad
+                          style={{
+                            width: '20%',
+                            marginRight: '.2rem'
+                          }}
+                        >
+                          <img
+                            alt="card background"
+                            className="d-inline-block"
+                            src={getCardImg({
+                              supportPaymentMethods,
+                              currentVendor: currentCardInfo.paymentVendor
+                            })}
+                          />
+                        </LazyLoad>
+                      </>
+                    ) : null}
+
+                    {currentCardInfo.holderName ? (
+                      <p className="mb-0">{currentCardInfo.holderName}</p>
+                    ) : null}
+                    {currentCardInfo.pspName === 'JAPAN_COD' ? (
+                      <div className="flex items-center mt-4">
+                        <LazyLoad>
+                          <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                        </LazyLoad>
+                        <span>
+                          <FormattedMessage id="cashOnDelivery" />
+                        </span>
+                      </div>
+                    ) : null}
+                    {currentCardInfo?.paymentItem?.toLowerCase() ===
+                    'adyen_paypal' ? (
+                      <div className="flex flex-col mt-4">
+                        <LazyLoad>
+                          <img src={LOGO_ADYEN_PAYPAL} className="mb-4" />
+                        </LazyLoad>
+                        <div>{handleEmailShow(currentCardInfo.email)}</div>
+                      </div>
+                    ) : null}
+                    {currentCardInfo?.paymentItem?.toLowerCase() ===
+                    'adyen_paypal' ? (
+                      <div className="flex flex-col mt-4">
+                        <LazyLoad>
+                          <img src={LOGO_ADYEN_PAYPAL} className="mb-4" />
+                        </LazyLoad>
+                        <div>{handleEmailShow(currentCardInfo.email)}</div>
+                      </div>
+                    ) : null}
+                    {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
+                  </>
+                )
               ) : (
                 <>
                   <LazyLoad

@@ -29,9 +29,12 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
       setCountryList(res || []);
     });
     getWays().then((res) => {
-      setSupportPaymentMethods(
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
-      );
+      // ideal支付只能在下单的时候添加卡
+      const tempArr =
+        res?.context?.payPspItemVOList[0]?.name === 'iDeal'
+          ? res?.context?.payPspItemVOList[1]?.payPspItemCardTypeVOList
+          : res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      setSupportPaymentMethods(tempArr);
     });
   }, []);
 
@@ -215,6 +218,23 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
                     />
                   </LazyLoad>
                 </div>
+              </PaymentMethodContainer>
+            ) : payRecord?.paymentItem?.toLowerCase() === 'adyen_ideal' ? (
+              <PaymentMethodContainer>
+                <div className="medium mb-2">
+                  <LazyLoad className="inline">
+                    <img
+                      alt="card background"
+                      className="d-inline-block mr-1 w-4/5"
+                      src={
+                        'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
+                      }
+                    />
+                  </LazyLoad>
+                </div>
+                {payRecord?.lastFourDigits && (
+                  <p>**** ****{payRecord?.lastFourDigits?.substr(2)}</p>
+                )}
               </PaymentMethodContainer>
             ) : null}
             {details.paymentItem?.toLowerCase() === 'adyen_paypal' ? (

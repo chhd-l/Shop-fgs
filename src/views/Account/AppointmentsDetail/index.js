@@ -63,9 +63,13 @@ class AccountOrders extends React.Component {
       }
     );
     getWays().then((res) => {
-      paymentStore.setSupportPaymentMethods(
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
-      );
+      // ideal支付只能在下单的时候添加卡
+      // name: "iDeal"
+      const tempArr =
+        res?.context?.payPspItemVOList[0]?.name === 'iDeal'
+          ? res?.context?.payPspItemVOList[1]?.payPspItemCardTypeVOList
+          : res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      paymentStore.setSupportPaymentMethods(tempArr);
     });
   }
   async init() {

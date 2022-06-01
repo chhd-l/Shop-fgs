@@ -1034,9 +1034,9 @@ class Payment extends React.Component {
       } else {
         if (isFgs) {
           // businessType
-          // 0 fgs
-          // 1 代客下单线上
-          // 2 代客下单线下
+          // 0 shop正常下单
+          // 1 代客下单 fgs
+          // 2 代客下单线下 felin
           payWay = await getWays({ businessType: '1' });
         } else {
           payWay = await getWays({ businessType: '0' });
@@ -1082,8 +1082,13 @@ class Payment extends React.Component {
         },
         () => {
           setPayWayNameArr(payWayNameArr);
+          // ideal支付只能在下单的时候添加卡
+          const supportPaymentMethods =
+            payWayNameArr[0]?.name === 'iDeal'
+              ? payWayNameArr[1]?.payPspItemCardTypeVOList
+              : payWayNameArr[0]?.payPspItemCardTypeVOList || [];
           this.props.paymentStore.setSupportPaymentMethods(
-            payWayNameArr[0]?.payPspItemCardTypeVOList
+            supportPaymentMethods
           );
           sessionItemRoyal.set(
             'rc-payWayNameArr',
