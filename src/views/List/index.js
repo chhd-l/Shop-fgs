@@ -1091,7 +1091,8 @@ class List extends React.Component {
           .reverse();
         // set SEO
         this.setSEO({ cateIds });
-
+        console.log(search, 'search==');
+        // debugger
         // 解析prefn/prefv, 匹配filter, 设置默认选中值
         const prefnNum = (search.match(/prefn/gi) || []).length;
         for (let index = 0; index < prefnNum; index++) {
@@ -1102,6 +1103,14 @@ class List extends React.Component {
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
+          console.log(
+            res[3],
+            funcUrl({ name: `prefn${index + 1}` }),
+            fnEle,
+            tItem,
+            'tItem==='
+          );
+
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];

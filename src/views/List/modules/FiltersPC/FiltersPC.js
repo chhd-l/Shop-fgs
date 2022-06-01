@@ -206,14 +206,17 @@ class Filter extends React.Component {
           baseSearchStr ? `${baseSearchStr}&` : ''
         }${searchFilterParams.ret.substr(1)}`
       : `?${baseSearchStr}`;
+    const searchFormat = `?${removeArgFromUrl({
+      search: _search.substr(1),
+      name: 'p'
+    })}`;
     const _router = {
       pathname,
-      search: `?${removeArgFromUrl({
-        search: _search.substr(1),
-        name: 'p'
-      })}`
+      search: searchFormat
     };
-    this.props.history.push(_router);
+    this.props.notUpdateRouter
+      ? this.props.selectedFilterPref(searchFormat)
+      : this.props.history.push(_router);
   };
 
   handleParentFilterCounts = (parentItem) => {

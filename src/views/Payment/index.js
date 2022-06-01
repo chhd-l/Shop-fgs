@@ -1030,7 +1030,7 @@ class Payment extends React.Component {
         sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
       let payWay;
       if (isFelin) {
-        payWay = await getWays({ isOfflinePayment: isFelin });
+        payWay = await getWays({ businessType: '2' });
       } else {
         if (isFgs) {
           // businessType
@@ -1039,7 +1039,7 @@ class Payment extends React.Component {
           // 2 代客下单线下
           payWay = await getWays({ businessType: '1' });
         } else {
-          payWay = await getWays();
+          payWay = await getWays({ businessType: '0' });
         }
       }
       let payWayNameArr = [];
@@ -2072,7 +2072,16 @@ class Payment extends React.Component {
           }
           break;
         case 'adyen_ideal':
+          subOrderNumberList = res.context.tidList;
+          this.removeLocalCartData();
+          // 给ideal支付跳转用
+          if (res.context.tid) {
+            sessionItemRoyal.set('orderNumber', res.context.tid);
+          }
           if (res.code === 'K-000000') {
+            if (res.context?.redirectUrl) {
+              window.location.href = res.context?.redirectUrl;
+            }
             console.log('adyen_ideal', res);
             // subOrderNumberList = tidList.length
             //   ? tidList
@@ -2466,8 +2475,6 @@ class Payment extends React.Component {
             num: ele.buyCount,
             skuId: ele.goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
-            recommenderId:
-              clinicStore.linkClinicRecommendationInfos.recommenderId,
             referenceObject: 'vet',
             recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId
@@ -2483,8 +2490,6 @@ class Payment extends React.Component {
             num: ele.quantity,
             skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
-            recommenderId:
-              clinicStore.linkClinicRecommendationInfos.recommenderId,
             referenceObject: 'vet',
             recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId

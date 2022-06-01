@@ -12,6 +12,7 @@ import Modal from '@/components/Modal';
 import { ChangeProductContext } from '../index';
 import { SubDetailHeaderContext } from '../../SubDetailHeader';
 import ProductDailyRation from './ProductDailyRation';
+import RelateProductList from './RelateProductList';
 
 const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
@@ -172,6 +173,11 @@ const RecommendationListModal = ({ intl }) => {
     }
   };
   const currentGoodsItem = currentGoodsItems[0] || {};
+
+  const goMoreProducts = () => {
+    console.log(333);
+  };
+  console.log(productDetail, 'productDetail==');
   return (
     <div
       className={`change-product-modal ${
@@ -186,9 +192,19 @@ const RecommendationListModal = ({ intl }) => {
         close={() => {
           initMainProduct();
         }}
+        modalBodyClass="px-0"
       >
         {productDetail?.mainProduct ? (
-          <RecommendationList productDetail={productDetail} />
+          <>
+            <RecommendationList
+              productDetail={productDetail}
+              goMoreProducts={goMoreProducts}
+            />
+            <div id="recommendation-more-products-box" className="my-8">
+              <p className="bg-gray-100 h-2 w-full" />
+              <RelateProductList />
+            </div>
+          </>
         ) : (
           <div className="text-center  rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
             <img
