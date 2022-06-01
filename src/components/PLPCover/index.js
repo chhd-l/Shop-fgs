@@ -468,6 +468,7 @@ function ListItemForDefault(props) {
                   <LazyLoad
                     style={{ width: '100%', height: '100%' }}
                     classNamePrefix="w-100 h-100 d-flex align-items-center"
+                    overflow="scroll" //在弹窗中lazyload需要加scroll才能出来图片
                   >
                     <img
                       src={

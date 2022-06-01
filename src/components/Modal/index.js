@@ -14,7 +14,8 @@ export default class Modal extends React.Component {
     cancelBtnVisible: true,
     footerVisible: true,
     cancelBtnIsLink: false,
-    cancel: null
+    cancel: null,
+    modalClass: ''
   };
   close() {
     this.props.close();
@@ -23,7 +24,7 @@ export default class Modal extends React.Component {
     this.props.hanldeClickConfirm();
   }
   render() {
-    const { visible, type } = this.props;
+    const { visible, type, modalBodyClass } = this.props;
     if (type === 'fullscreen') {
       return <>{<FullScreenModal />}</>;
     }
@@ -71,7 +72,7 @@ export default class Modal extends React.Component {
               )}
 
               <div
-                className="modal-body delete-confirmation-body"
+                className={`modal-body delete-confirmation-body ${modalBodyClass}`}
                 style={{
                   // maxHeight: '50vh',
                   overflowY: this.props.overflowVisible ? 'visible' : 'auto'

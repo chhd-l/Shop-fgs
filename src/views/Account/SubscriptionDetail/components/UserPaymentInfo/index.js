@@ -106,7 +106,9 @@ const UserPaymentInfo = ({
                 showDeliveryDateAndTimeSlot: false,
                 maxDeliveryTime,
                 minDeliveryTime,
-                pickupPriceVisible: false
+                pickupPriceVisible: false,
+                lastName: '', //jp,subscription order detail no display name,因为上面显示了
+                firstName: ''
               })}
             />
 
