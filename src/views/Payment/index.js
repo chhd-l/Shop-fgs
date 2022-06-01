@@ -2072,7 +2072,16 @@ class Payment extends React.Component {
           }
           break;
         case 'adyen_ideal':
+          subOrderNumberList = res.context.tidList;
+          this.removeLocalCartData();
+          // 给ideal支付跳转用
+          if (res.context.tid) {
+            sessionItemRoyal.set('orderNumber', res.context.tid);
+          }
           if (res.code === 'K-000000') {
+            if (res.context?.redirectUrl) {
+              window.location.href = res.context?.redirectUrl;
+            }
             console.log('adyen_ideal', res);
             // subOrderNumberList = tidList.length
             //   ? tidList
