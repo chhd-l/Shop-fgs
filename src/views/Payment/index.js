@@ -1030,7 +1030,7 @@ class Payment extends React.Component {
         sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
       let payWay;
       if (isFelin) {
-        payWay = await getWays({ isOfflinePayment: isFelin });
+        payWay = await getWays({ businessType: '2' });
       } else {
         if (isFgs) {
           // businessType
@@ -1039,7 +1039,7 @@ class Payment extends React.Component {
           // 2 代客下单线下
           payWay = await getWays({ businessType: '1' });
         } else {
-          payWay = await getWays();
+          payWay = await getWays({ businessType: '0' });
         }
       }
       let payWayNameArr = [];
