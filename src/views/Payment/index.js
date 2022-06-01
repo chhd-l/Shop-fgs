@@ -2480,8 +2480,6 @@ class Payment extends React.Component {
             num: ele.buyCount,
             skuId: ele.goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
-            recommenderId:
-              clinicStore.linkClinicRecommendationInfos.recommenderId,
             referenceObject: 'vet',
             recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId
@@ -2497,8 +2495,6 @@ class Payment extends React.Component {
             num: ele.quantity,
             skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
-            recommenderId:
-              clinicStore.linkClinicRecommendationInfos.recommenderId,
             referenceObject: 'vet',
             recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId

@@ -105,6 +105,8 @@ class PickupMap extends React.Component {
       //   });
     } catch (error) {
       console.log('666 ★ 打开地图city: ', city);
+      console.log(error.message);
+      debugger;
       window.kaktusMap &&
         window.kaktusMap.openWidget({
           city_from: 'Москва',

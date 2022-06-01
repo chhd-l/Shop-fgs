@@ -52,6 +52,7 @@ import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { PriceDetailsList } from '../components';
 import { funcUrl } from '@/lib/url-utils';
+import { GACartButtonClick } from '@/utils/GA/cart';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
@@ -1195,6 +1196,11 @@ class UnLoginCart extends React.Component {
     this.setState({ mobileCartVisibleKey: name });
   }
   async handleCheckout({ needLogin = false } = {}) {
+    if (needLogin) {
+      GACartButtonClick('Buy Now');
+    } else {
+      GACartButtonClick('Guest checkout');
+    }
     if (!this.btnStatus) {
       return false;
     }

@@ -29,9 +29,8 @@ export default class Pagination extends Component {
     };
 
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this);
-    this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(
-      this
-    );
+    this.handleCurrentPageNumChange =
+      this.handleCurrentPageNumChange.bind(this);
   }
   handleCurrentPageNumChange(e) {
     if (this.props.loading) {

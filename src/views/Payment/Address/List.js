@@ -2538,6 +2538,7 @@ class AddressList extends React.Component {
                 onSearchSelectionError={(errorMessage) => {
                   this.props.onSearchSelectionError(errorMessage, 'Add');
                 }}
+                pickPointRange="transfer"
               />
             </>
           ) : null}
