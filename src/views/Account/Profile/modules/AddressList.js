@@ -17,7 +17,8 @@ import {
   editAddress,
   getAddressList,
   deleteAddress,
-  setDefaltAddress
+  setDefaltAddress,
+  checkPickUpActive
 } from '@/api/address';
 // import { queryCityNameById } from '@/api/address';
 import AddressEditForm from '../ShippingAddressForm';
@@ -179,11 +180,26 @@ class AddressList extends React.Component {
         addressList: addList,
         listLoading: false
       });
+
+      const pickupAddress = this.state.allAddressList.filter(
+        (item) => item.type === 'DELIVERY' && item.receiveType == 'PICK_UP'
+      );
+
+      const pickUpActiveRes = await checkPickUpActive({
+        deliveryAddressId: pickupAddress[0].deliveryAddressId
+      });
+      if (!pickUpActiveRes.context.pickupPointState) {
+        this.setState({
+          errorMsg:
+            'Выбранный Вами пункт выдачи заказов закрыт. Пожалуйста, выберите другой пункт выдачи или доставку курьером'
+        });
+      }
     } catch (err) {
       this.showErrorMsg(err.message);
       this.setState({ listLoading: false });
     }
   };
+
   // 显示更多
   toggleFoldBtn = () => {
     this.setState((curState) => ({ foledMore: !curState.foledMore }));

@@ -31,6 +31,7 @@ import { getNavigation } from '@/api/hub';
 import queryNavigation from './mock/navigation';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
+import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

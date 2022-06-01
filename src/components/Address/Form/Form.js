@@ -333,7 +333,6 @@ class Form extends React.Component {
       let tslist = []; // time slot
 
       let obj = Object.assign({}, caninForm);
-      console.log('123', obj);
 
       if (res?.context?.timeSlots?.length) {
         flag = true; // 标记
@@ -368,25 +367,6 @@ class Form extends React.Component {
             obj.timeSlot = 'Unspecified';
           }
         });
-
-        // for (let i = 0; i<robj.length;i++) {
-        //   let dateStr = this.formatDateFun(robj[i]);
-
-        //   //获取全部数据
-        //   this.getAllData(robj[i], alldata);
-
-        //   // 获取delivery date
-        //   this.getDdList(dateStr, robj[i], ddlist);
-
-        //   if (obj.deliveryDate == robj[i].date) {
-        //     obj.deliveryDateId = dateStr;
-        //     break;
-        //   } else if(obj.deliveryDate == ''){
-        //     obj.deliveryDate = 'Unspecified';
-        //     obj.deliveryDateId = 'Unspecified';
-        //     break;
-        //   }
-        // }
 
         // delivery date为空或者过期设置第一条数据为默认值
 
