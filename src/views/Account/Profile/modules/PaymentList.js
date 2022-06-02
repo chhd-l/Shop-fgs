@@ -33,17 +33,20 @@ function CardItem(props) {
           : 'rc-bg-colour--brand4'
       } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between ui-cursor-pointer-pure ${
         ['account_profile'].includes(props?.pageType) ? '' : 'w-4/5'
-      }`}
+      } relative`}
     >
       <div
-        className={[
-          'pt-4',
-          'pb-2',
-          'w-100',
-          listVisible ? 'md:pt-4' : 'md:pt-2'
-        ].join(' ')}
+        className={`pt-4 pb-2 ${listVisible ? 'md:pt-4' : 'md:pt-2'} ${
+          data?.paymentItem.toLowerCase() !== 'adyen_ideal' ? 'w-1/2' : 'w-100'
+        }`}
       >
-        <div className="row">
+        <div
+          className={`row ${
+            data?.paymentItem.toLowerCase() === 'adyen_ideal'
+              ? 'items-center'
+              : ''
+          }`}
+        >
           {data?.paymentItem.toLowerCase() === 'adyen_moto' ? (
             <div className={`col-8 d-flex flex-column justify-content-center`}>
               <LazyLoad height={100}>
@@ -56,6 +59,30 @@ function CardItem(props) {
                 />
               </LazyLoad>
             </div>
+          ) : data?.paymentItem.toLowerCase() === 'adyen_ideal' ? (
+            <>
+              <div
+                className={`${'col-3'} d-flex flex-column justify-content-center`}
+              >
+                <LazyLoad height={100}>
+                  <img
+                    className="PayCardImgFitScreen w-4/5"
+                    src={
+                      'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
+                    }
+                    alt="pay card img fit screen"
+                  />
+                </LazyLoad>
+              </div>
+              <div className="col-9 px-0" style={{ verticalAlign: 'middle' }}>
+                {/* <p className="mb-0">{data.holderName}</p> */}
+                <p className="mb-0">
+                  {data?.binNumber} BANK **** ****{' '}
+                  {data.lastFourDigits.substr(2)}
+                </p>
+                {/* <p className="mb-0">{data.paymentVendor}</p> */}
+              </div>
+            </>
           ) : (
             <>
               <div
@@ -94,9 +121,58 @@ function CardItem(props) {
           )}
         </div>
       </div>
-      <div className="w-1/2" style={{ right: '25%', top: '15%' }}>
+      {/* {data?.paymentItem.toLowerCase() !== 'adyen_ideal' && editFormVisible && */}
+      <div style={{ position: 'absolute', right: '3%', top: '50%' }}>
         {props.operateBtnJSX}
       </div>
+      {listVisible && (
+        <div
+          className={`absolute p-2 ui-cursor-pointer-pure pdl-1`}
+          style={{
+            // top: '94%\ !important',
+            right: '-12%'
+          }}
+        >
+          <div
+            className={`${
+              data.paddingFlag ? 'ui-cursor-not-allowed' : 'rc-styled-link'
+            }`}
+            onClick={(e) => props.handleClickDeleteBtn(data, e)}
+          >
+            {/* <FormattedMessage id="delete" /> */}
+            <div
+              className="iconfont iconshanchu"
+              style={{
+                fontSize: '2rem',
+                lineHeight: '2rem'
+                // fontWeight: '600'
+              }}
+            ></div>
+          </div>
+          <ConfirmTooltip
+            containerStyle={{
+              transform: 'translate(-89%, 105%)'
+            }}
+            arrowStyle={{ left: '89%' }}
+            lastFourDigits={data.lastFourDigits}
+            content={
+              <FormattedMessage
+                id="confirmDelete2"
+                values={{
+                  val1: <br />,
+                  val2: '************' + data.lastFourDigits
+                }}
+              />
+            }
+            display={data.confirmTooltipVisible}
+            confirm={(e) => props.deleteCard(data, e)}
+            updateChildDisplay={(status) =>
+              props.updateConfirmTooltipVisible(data, status)
+            }
+          />
+        </div>
+      )}
+      {/* } */}
     </div>
   );
 }
@@ -138,7 +214,11 @@ class PaymentList extends React.Component {
       });
       const payPspItemVOList = res?.context?.payPspItemVOList || [];
       const supportPaymentMethods =
-        payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+        res?.context?.payPspItemVOList[0]?.name === 'iDeal'
+          ? res?.context?.payPspItemVOList[1]?.payPspItemCardTypeVOList
+          : res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      // const supportPaymentMethods =
+      //   payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
       setPayWayNameArr(payPspItemVOList);
       setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
       serCurPayWayVal(payPspItemVOList[0]?.code);
@@ -495,7 +575,13 @@ class PaymentList extends React.Component {
                         <CardItem
                           data={el}
                           listVisible={listVisible}
+                          editFormVisible={editFormVisible}
                           supportPaymentMethods={supportPaymentMethods}
+                          updateConfirmTooltipVisible={
+                            this.updateConfirmTooltipVisible
+                          }
+                          handleClickDeleteBtn={this.handleClickDeleteBtn}
+                          deleteCard={this.deleteCard}
                           operateBtnJSX={
                             <>
                               {el.isDefault === 1 ? (
@@ -525,7 +611,8 @@ class PaymentList extends React.Component {
                                       <FormattedMessage id="setAsDefault" />
                                     </span>
                                   </div>
-                                ) : (
+                                ) : el.paymentItem?.toLowerCase() ===
+                                  'adyen_ideal' ? null : (
                                   <div
                                     className={`ui-cursor-pointer flex -mt-10 mr-4 w-100 justify-end`}
                                     onClick={this.toggleSetDefault.bind(
@@ -545,55 +632,6 @@ class PaymentList extends React.Component {
                                   </div>
                                 )
                               ) : null}
-                              <div
-                                className={`position-absolute p-2 ui-cursor-pointer-pure pdl-1`}
-                                style={{
-                                  top: '35%',
-                                  right: '12%'
-                                }}
-                              >
-                                <div
-                                  className={`${
-                                    el.paddingFlag
-                                      ? 'ui-cursor-not-allowed'
-                                      : 'rc-styled-link'
-                                  }`}
-                                  onClick={this.handleClickDeleteBtn.bind(
-                                    this,
-                                    el
-                                  )}
-                                >
-                                  {/* <FormattedMessage id="delete" /> */}
-                                  <div
-                                    className="iconfont iconshanchu"
-                                    style={{
-                                      fontSize: '2rem',
-                                      lineHeight: '2rem'
-                                    }}
-                                  ></div>
-                                </div>
-                                <ConfirmTooltip
-                                  containerStyle={{
-                                    transform: 'translate(-89%, 105%)'
-                                  }}
-                                  arrowStyle={{ left: '89%' }}
-                                  lastFourDigits={el.lastFourDigits}
-                                  content={
-                                    <FormattedMessage
-                                      id="confirmDelete2"
-                                      values={{
-                                        val1: <br />,
-                                        val2: '************' + el.lastFourDigits
-                                      }}
-                                    />
-                                  }
-                                  display={el.confirmTooltipVisible}
-                                  confirm={this.deleteCard.bind(this, el)}
-                                  updateChildDisplay={(status) =>
-                                    this.updateConfirmTooltipVisible(el, status)
-                                  }
-                                />
-                              </div>
                             </>
                           }
                         />
