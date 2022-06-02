@@ -1454,8 +1454,8 @@ class AddressList extends React.Component {
                           updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                           deliveryOrPickUp={showDeliveryOrPickUp}
                           intlMessages={this.props.intl.messages}
-                          cartData={this.props.checkoutStore.loginCartData} //这里传订阅商品的数据
-                          pickPointRange="transfer"
+                          cartData={this.props.checkoutStore.loginCartData} //这里传订阅商品的数据，不传购物车里商品的数据
+                          pickPointRange="goodsSize"
                         />
 
                         {/* 分割线 */}

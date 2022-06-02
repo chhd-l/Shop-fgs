@@ -324,7 +324,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       let pknum = Number(pickupEditNumber) + 1;
       this.props.updatePickupEditNumber(pknum);
 
-      if (this.props.pickPointRange == 'transfer') {
+      if (this.props.pickPointRange == 'goodsSize') {
+        //pickPointRange default:固定长宽高，goodsSize：从商品信息里面通过接口获取
         //pageType === 'checkout' || pageType == 'onlyPickup'
         let goodsInfoDetails = [];
         // 取到购物车里面的 goodsInfoId、购买的sku数量
@@ -573,7 +574,6 @@ class HomeDeliveryOrPickUp extends React.Component {
       }
     } catch (err) {
       console.log(999, err);
-      debugger;
     } finally {
       this.setState({
         pickLoading: false

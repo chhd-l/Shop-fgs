@@ -397,6 +397,7 @@ class SubscriptionDetail extends React.Component {
     try {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
+
       let subDetail = res.context || {};
       const subscribeStatusVal =
         SUBSCRIBE_STATUS_ENUM[subDetail.subscribeStatus];
