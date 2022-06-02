@@ -28,8 +28,12 @@ export const GACartRecommendedProductClick = (product) => {
     goodsCateName,
     goodsImg,
     subscription,
+    goodsInfoVOS,
     subscriptionFrequency,
-    goodsInfoIds
+    goodsInfoIds,
+    promoCodeName,
+    brandName,
+    promoCodeAmount = ''
   } = product;
   const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
   // const spezies = filterAttrValue(
@@ -48,7 +52,9 @@ export const GACartRecommendedProductClick = (product) => {
     goodsAttributesValueRelVOAllList,
     'technology'
   ).toString();
+  const size = filterAttrValue(goodsAttributesValueRelVOAllList, 'size')[0];
   const SKU = goodsInfoIds[0];
+  const quantity = goodsInfoVOS[0].buyCount;
   // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';//这个方法有时候数据没有breed，判断不了
   // const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
   const gaProduct = {
@@ -61,11 +67,14 @@ export const GACartRecommendedProductClick = (product) => {
     technology,
     subscription,
     subscriptionFrequency,
-    brand: 'Royal Canin',
+    brand: brandName,
     breed,
-    imageURL: goodsImg
+    size,
+    quantity,
+    promoCodeName,
+    promoCodeAmount
   };
-  // debugger;
+  debugger;
   // const  product = filterObjectValue(gaProduct);
 
   dataLayer.push({
