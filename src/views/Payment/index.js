@@ -3780,6 +3780,53 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
+                  {COUNTRY === 'de' &&
+                    item.code === 'adyen_klarna_pay_later' &&
+                    curPayWayInfo?.code === 'adyen_klarna_pay_later' && (
+                      <>
+                        <AdyenCommonPay
+                          type={'adyenKlarnaPayLater'}
+                          updateEmail={this.updateEmail}
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyenKlarnaPayLater'
+                          })}
+                          // logoUrl={
+                          //   payWayNameArr?.filter(
+                          //     (el) => el.code === 'adyen_klarna_pay_later'
+                          //   )[0].logoUrl
+                          // }
+                          showIcon={true}
+                        />
+                        {/* 校验状态
+                    1 校验邮箱
+                    2 billing校验 */}
+                        {payConfirmBtn({
+                          disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                        })}
+                      </>
+                    )}
+                  {COUNTRY !== 'de' &&
+                    item.code === 'adyen_klarna_pay_now' &&
+                    curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
+                      <>
+                        <AdyenCommonPay
+                          type={'adyenKlarnaPayNow'}
+                          updateEmail={this.updateEmail}
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyenKlarnaPayNow'
+                          })}
+                          // logoUrl={
+                          //   payWayNameArr?.filter(
+                          //     (el) => el.code === 'adyen_klarna_pay_now'
+                          //   )[0].logoUrl
+                          // }
+                          showIcon={true}
+                        />
+                        {payConfirmBtn({
+                          disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                        })}
+                      </>
+                    )}
                 </>
               ))}
             </>
@@ -3953,50 +4000,52 @@ class Payment extends React.Component {
                   </>
                 )}
               {/* KlarnaPayLater */}
-              {curPayWayInfo?.code === 'adyen_klarna_pay_later' && (
-                <>
-                  <AdyenCommonPay
-                    type={'adyenKlarnaPayLater'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenKlarnaPayLater'
-                    })}
-                    // logoUrl={
-                    //   payWayNameArr?.filter(
-                    //     (el) => el.code === 'adyen_klarna_pay_later'
-                    //   )[0].logoUrl
-                    // }
-                    showIcon={true}
-                  />
-                  {/* 校验状态
+              {COUNTRY !== 'de' &&
+                curPayWayInfo?.code === 'adyen_klarna_pay_later' && (
+                  <>
+                    <AdyenCommonPay
+                      type={'adyenKlarnaPayLater'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'adyenKlarnaPayLater'
+                      })}
+                      // logoUrl={
+                      //   payWayNameArr?.filter(
+                      //     (el) => el.code === 'adyen_klarna_pay_later'
+                      //   )[0].logoUrl
+                      // }
+                      showIcon={true}
+                    />
+                    {/* 校验状态
                     1 校验邮箱
                     2 billing校验 */}
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
-              {/* KlarnaPayNow  */}
-              {curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
-                <>
-                  <AdyenCommonPay
-                    type={'adyenKlarnaPayNow'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenKlarnaPayNow'
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
                     })}
-                    // logoUrl={
-                    //   payWayNameArr?.filter(
-                    //     (el) => el.code === 'adyen_klarna_pay_now'
-                    //   )[0].logoUrl
-                    // }
-                    showIcon={true}
-                  />
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
+                  </>
+                )}
+              {/* KlarnaPayNow  */}
+              {COUNTRY !== 'de' &&
+                curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
+                  <>
+                    <AdyenCommonPay
+                      type={'adyenKlarnaPayNow'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'adyenKlarnaPayNow'
+                      })}
+                      // logoUrl={
+                      //   payWayNameArr?.filter(
+                      //     (el) => el.code === 'adyen_klarna_pay_now'
+                      //   )[0].logoUrl
+                      // }
+                      showIcon={true}
+                    />
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                    })}
+                  </>
+                )}
               {/* Sofort */}
               {curPayWayInfo?.code === 'directEbanking' && (
                 <>
