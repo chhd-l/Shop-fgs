@@ -135,7 +135,12 @@ const AutoshipBuyMethod = ({
             <FormattedMessage id="freeShipping" />
           </div>
         </div>
-        <div className="price autoship-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0">
+        <div
+          className={`price ${
+            // jp remove autoship-price classname
+            window.__.env.REACT_APP_COUNTRY !== 'jp' && 'autoship-price'
+          } font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0`}
+        >
           <div>
             {/* <span className="text-line-through-price">
               {formatMoney(currentUnitPrice)}
