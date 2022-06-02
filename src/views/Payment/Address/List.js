@@ -1696,9 +1696,8 @@ class AddressList extends React.Component {
       this.setState({ loading: true });
       const res = await checkPickUpActive({ deliveryAddressId });
       if (!res.context.pickupPointState) {
-        this.showErrMsg(
-          'Выбранный Вами пункт выдачи заказов закрыт. Пожалуйста, выберите другой пункт выдачи или доставку курьером'
-        );
+        this.showErrMsg(this.getIntlMsg('pickUpNoActive'));
+
         this.updateConfirmBtnDisabled(true);
       }
     } catch (err) {
@@ -2538,7 +2537,7 @@ class AddressList extends React.Component {
                 onSearchSelectionError={(errorMessage) => {
                   this.props.onSearchSelectionError(errorMessage, 'Add');
                 }}
-                pickPointRange="transfer"
+                pickPointRange="goodsSize"
               />
             </>
           ) : null}
