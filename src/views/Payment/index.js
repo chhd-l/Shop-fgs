@@ -966,11 +966,11 @@ class Payment extends React.Component {
     // sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
     try {
       let res;
-      if (sessionItemRoyal.get('rc-userGroup')) {
-        res = await getPaymentMethod({}, true);
-      } else {
-        res = await getPaymentMethod({ isPC: true }, true);
-      }
+      // if (sessionItemRoyal.get('rc-userGroup')) {
+      res = await getPaymentMethod({}, true);
+      // } else {
+      //   res = await getPaymentMethod({ isPC: true }, true);
+      // }
 
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(

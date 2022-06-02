@@ -297,7 +297,7 @@ const UserPaymentInfo = ({
                         <div>{handleEmailShow(currentCardInfo.email)}</div>
                       </div>
                     ) : null}
-                    {currentCardInfo?.paymentItem?.toLowerCase() ===
+                    {/* {currentCardInfo?.paymentItem?.toLowerCase() ===
                     'adyen_paypal' ? (
                       <div className="flex flex-col mt-4">
                         <LazyLoad>
@@ -305,7 +305,7 @@ const UserPaymentInfo = ({
                         </LazyLoad>
                         <div>{handleEmailShow(currentCardInfo.email)}</div>
                       </div>
-                    ) : null}
+                    ) : null} */}
                     {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
                   </>
                 )
