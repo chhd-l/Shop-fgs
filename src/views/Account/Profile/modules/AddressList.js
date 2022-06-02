@@ -141,6 +141,9 @@ class AddressList extends React.Component {
 
   // 获取地址列表
   getAddressList = async ({ showLoading = false } = {}) => {
+    const {
+      intl: { messages, formatMessage }
+    } = this.props;
     try {
       const { hideBillingAddr, selectedId } = this.props;
       showLoading && this.setState({ listLoading: true });
@@ -190,8 +193,7 @@ class AddressList extends React.Component {
       });
       if (!pickUpActiveRes.context.pickupPointState) {
         this.setState({
-          errorMsg:
-            'Выбранный Вами пункт выдачи заказов закрыт. Пожалуйста, выберите другой пункт выдачи или доставку курьером'
+          errorMsg: this.props.intl.messages['pickUpNoActive']
         });
       }
     } catch (err) {

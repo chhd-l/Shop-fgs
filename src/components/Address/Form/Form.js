@@ -243,7 +243,6 @@ class Form extends React.Component {
   getAddressListByKeyWord = async (address1) => {
     const { apiType } = this.state;
 
-    debugger;
     let res = null;
     let addls = null;
     try {

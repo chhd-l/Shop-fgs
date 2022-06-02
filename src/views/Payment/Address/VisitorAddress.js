@@ -633,7 +633,7 @@ class VisitorAddress extends React.Component {
                   cartData={this.props.cartData}
                   calculateFreight={this.calculateFreight}
                   pickupEditNumber={pickupEditNumber}
-                  pickPointRange="transfer"
+                  pickPointRange="goodsSize"
                   // onSearchSelectionFocus={this.onSearchSelectionFocus}
                   // onSearchSelectionChange={this.onSearchSelectionChange}
                   // onSearchSelectionError={this.onSearchSelectionError}
