@@ -7,7 +7,8 @@ import {
   getAddressList,
   saveAddress,
   editAddress,
-  setDefaltAddress
+  setDefaltAddress,
+  checkPickUpActive
 } from '@/api/address';
 import {
   getDictionary,
@@ -313,12 +314,24 @@ class AddressList extends React.Component {
       let pickupAddress = find(addressList, (e) => {
         return e.receiveType == 'PICK_UP';
       });
+
       this.setState({
         defaultCity: pickupAddress ? pickupAddress.city : '',
         addressList: addressList,
         addOrEdit: !addressList.length,
         selectedId: addressIdStr
       });
+
+      if (pickupAddress) {
+        const pickUpActiveRes = await checkPickUpActive({
+          deliveryAddressId: pickupAddress.deliveryAddressId
+        });
+        if (!pickUpActiveRes.context.pickupPointState) {
+          this.setState({
+            saveErrorMsg: this.props.intl.messages['pickUpNoActive']
+          });
+        }
+      }
     } catch (err) {
       this.setState({
         errMsg: err.message.toString()
