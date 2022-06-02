@@ -399,7 +399,11 @@ class LoginCart extends React.Component {
                                             </span>
                                             &nbsp;
                                             <span
-                                              className="red"
+                                              className={
+                                                window.__.env
+                                                  .REACT_APP_COUNTRY !== 'jp' &&
+                                                'red'
+                                              }
                                               style={{ fontSize: '.875rem' }}
                                             >
                                               {formatMoney(
