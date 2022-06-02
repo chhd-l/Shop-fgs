@@ -889,6 +889,10 @@ class SubscriptionDetail extends React.Component {
                       type={type}
                       save={(el) => this.paymentSave(el)}
                       cancel={this.cancelEdit}
+                      isMoto={
+                        currentCardInfo?.paymentItem?.toLowerCase() ===
+                        'adyen_moto'
+                      }
                     />
                   )}
                 </div>

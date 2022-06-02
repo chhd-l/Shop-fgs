@@ -274,6 +274,7 @@ class PaymentComp extends React.Component {
     this.setState({ editFormVisible: status, isEdit: false });
   };
   getPaymentMethodList = async (msg, { showLoading = true } = {}) => {
+    const { isMoto } = this.props;
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod({}, true);
@@ -306,6 +307,12 @@ class PaymentComp extends React.Component {
         );
         temparr.unshift(tempObj);
         ret = temparr;
+      }
+      //如果moto切换成其他支付了，就删选掉moto支付
+      if (!isMoto) {
+        ret = ret.filter(
+          (item) => item?.paymentItem?.toLowerCase() !== 'adyen_moto'
+        );
       }
 
       this.setState({
@@ -801,7 +808,8 @@ class PaymentComp extends React.Component {
     const {
       needEmail,
       needPhone,
-      paymentStore: { supportPaymentMethods, curPayWayInfo }
+      paymentStore: { supportPaymentMethods, curPayWayInfo },
+      isMoto
     } = this.props;
     const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
 
