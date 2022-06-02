@@ -37,7 +37,11 @@ function CardItem(props) {
     >
       <div
         className={`pt-4 pb-2 ${listVisible ? 'md:pt-4' : 'md:pt-2'} ${
-          data?.paymentItem.toLowerCase() !== 'adyen_ideal' ? 'w-1/2' : 'w-100'
+          !['adyen_ideal', 'adyen_paypal'].includes(
+            data?.paymentItem.toLowerCase()
+          )
+            ? 'w-1/2'
+            : 'w-100'
         }`}
       >
         <div
@@ -88,7 +92,11 @@ function CardItem(props) {
               <div
                 className={`${
                   ['account_profile'].includes(props?.pageType)
-                    ? 'col-6'
+                    ? ['adyen_paypal'].includes(data?.paymentItem.toLowerCase())
+                      ? 'col-4'
+                      : 'col-6'
+                    : ['adyen_paypal'].includes(data?.paymentItem.toLowerCase())
+                    ? 'col-4'
                     : 'col-5'
                 } d-flex flex-column justify-content-center`}
               >
