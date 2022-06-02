@@ -81,7 +81,6 @@ const Ideal = ({ billingJSX, updateBank }) => {
             onClick={() => {
               if (bankList.length > 0) {
                 setClickFlag(!clickFlag);
-                setCurrentItem('');
                 setErrFlag(false);
               } else {
                 setCurrentItem('NO Data');
