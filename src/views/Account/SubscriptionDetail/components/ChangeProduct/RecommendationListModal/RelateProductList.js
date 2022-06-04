@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Skeleton from 'react-skeleton-loader';
 import PLPCover from '@/components/PLPCover';
 import { FormattedMessage } from 'react-intl-phraseapp';
@@ -14,6 +14,7 @@ import Pagination from '@/components/Pagination';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import { ChangeProductContext } from '../index';
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -123,6 +124,8 @@ const RelateProductList = observer((configStore) => {
   const [filterListRes, setFilterListRes] = useState([]);
   const [searchFilter, setSearchFilter] = useState('');
   const [resetList, setResetList] = useState(false);
+  const ChangeProductValue = useContext(ChangeProductContext);
+  const { showProdutctDetail, errMsg } = ChangeProductValue;
 
   const history = useHistory();
 
@@ -599,6 +602,10 @@ const RelateProductList = observer((configStore) => {
                             <PLPCover
                               item={item}
                               key={item.id}
+                              notUpdateRouter={true}
+                              onClick={() => {
+                                showProdutctDetail(item.goodsNo);
+                              }}
                               // sourceParam={this.state.sourceParam}
                               // GAListParam={GAListParam}
                               // breadListByDeco={breadListByDeco}
