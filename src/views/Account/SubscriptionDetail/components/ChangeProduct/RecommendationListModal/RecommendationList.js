@@ -20,9 +20,9 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
       <ErrorMessage msg={errMsg} />
       {!!productDetail.mainProduct && (
         <>
-          <div className="p-f-result-box w-3/6">
+          <div className="p-f-result-box w-11/12 md:w-3/6">
             <img
-              className="m-auto"
+              className="m-auto w-32"
               style={{ maxWidth: '168px' }}
               src={getClubLogo({})}
               alt="club icon"
@@ -110,7 +110,7 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
           <div className="mt-5  text-center">
             <span
               onClick={goMoreProducts}
-              className="red text-lg font-medium cursor-pointer"
+              className="red text-base md:text-lg font-medium cursor-pointer"
             >
               <FormattedMessage id="subscription.viewMoreProducts" />
               <svg
@@ -134,7 +134,7 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
       )}
       {!!productDetail.otherProducts && (
         <>
-          <p className="text-center mt-12 mb-3 red text-2xl">
+          <p className="text-center mt-6 md:mt-12 mb-3 red text-lg md:text-2xl">
             <FormattedMessage id="productFinder.otherProductsToConsider" />
           </p>
           <div className="rc-scroll--x pb-4 px-40">

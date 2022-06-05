@@ -193,13 +193,15 @@ class Filter extends React.Component {
   handleFilterClearBtn = () => {
     const { filterList } = this.state;
     const { pathname, search } = this.props.history.location;
-    const { baseSearchStr } = this.props;
+    const { baseSearchStr, notUpdateRouter, prefnParamListSearch } = this.props;
     if (search.includes('prefn')) {
       const _router = {
         pathname,
         search: baseSearchStr
       };
       this.props.history.push(_router);
+    } else if (notUpdateRouter && prefnParamListSearch.length) {
+      this.props.getProductList();
     } else {
       this.setState({
         selectedFilterParams: []

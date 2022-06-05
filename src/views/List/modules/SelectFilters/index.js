@@ -25,8 +25,18 @@ class SelectFilters extends React.Component {
     return ret;
   }
 
+  handleClearItemFilter = (router) => {
+    this.props.selectedFilterPref(router?.search);
+  };
+
+  handleClearFilter = () => {
+    if (this.props.notUpdateRouter) {
+      this.props.getProductList();
+    }
+  };
+
   render() {
-    const { history, baseSearchStr, filterList } = this.props;
+    const { history, baseSearchStr, filterList, notUpdateRouter } = this.props;
     const { pathname } = history.location;
     let isSelectedFilter = false; // 是否有选择筛选项
     for (let pItem in filterList) {
@@ -58,10 +68,22 @@ class SelectFilters extends React.Component {
                   if (cItem.selected) {
                     return (
                       <li className="filter-value px-1 py-0" key={cItem.id}>
-                        <Link to={cItem.router}>
-                          {cItem.attributeDetailNameEn}
-                          <em className="rc-icon rc-close--xs rc-iconography inline-block" />
-                        </Link>
+                        {notUpdateRouter ? (
+                          <span>
+                            {cItem.attributeDetailNameEn}
+                            <em
+                              onClick={() =>
+                                this.handleClearItemFilter(cItem.router)
+                              }
+                              className="rc-icon rc-close--xs rc-iconography inline-block"
+                            />
+                          </span>
+                        ) : (
+                          <Link to={cItem.router}>
+                            {cItem.attributeDetailNameEn}
+                            <em className="rc-icon rc-close--xs rc-iconography inline-block" />
+                          </Link>
+                        )}
                       </li>
                     );
                   } else {
@@ -71,12 +93,21 @@ class SelectFilters extends React.Component {
               })}
               {this.hasSelecedItems && (
                 <li className="mt-3 d-inline-block" key="removeAllFilters">
-                  <Link
-                    className="underline font-weight-normal"
-                    to={{ pathname, search: `?${baseSearchStr}` }}
-                  >
-                    <FormattedMessage id="removeAllFilters" />
-                  </Link>
+                  {notUpdateRouter ? (
+                    <a
+                      onClick={this.handleClearFilter}
+                      className="underline font-weight-normal"
+                    >
+                      <FormattedMessage id="removeAllFilters" />
+                    </a>
+                  ) : (
+                    <Link
+                      className="underline font-weight-normal"
+                      to={{ pathname, search: `?${baseSearchStr}` }}
+                    >
+                      <FormattedMessage id="removeAllFilters" />
+                    </Link>
+                  )}
                 </li>
               )}
             </ul>

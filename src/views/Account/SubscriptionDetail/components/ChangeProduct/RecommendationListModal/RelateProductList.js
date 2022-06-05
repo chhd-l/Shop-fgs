@@ -9,7 +9,7 @@ import { getDeviceType, fetchFilterList } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
-import { Filters, FiltersPC } from '@/views/List/modules';
+import { Filters, FiltersPC, SelectFilters } from '@/views/List/modules';
 import Pagination from '@/components/Pagination';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
@@ -525,6 +525,24 @@ const RelateProductList = ({ mainProduct }) => {
     });
   };
 
+  const toggleFilterModal = (status) => {
+    setFilterModalVisible(status);
+  };
+
+  // handle the number of selected filters on the mobile
+  const handleFilterCounts = (filterList) => {
+    let filtersCounts = 0;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+        }
+      });
+    });
+
+    return <>{filtersCounts ? <span>({filtersCounts})</span> : null}</>;
+  };
+
   const _loadingJXS = Array(6)
     .fill(null)
     .map((item, i) => (
@@ -538,7 +556,9 @@ const RelateProductList = ({ mainProduct }) => {
   return (
     <>
       <div>
-        <h3 className="red text-center text-2xl mt-8 mb-3">More Products</h3>
+        <h3 className="red text-center text-xl md:text-2xl mt-5 md:mt-8 mb-1 md:mb-3">
+          More Products
+        </h3>
         <div
           className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
           id="J_filter_contaner"
@@ -550,15 +570,31 @@ const RelateProductList = ({ mainProduct }) => {
             id="refineBar"
             className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
           >
+            <div className="flex md:hidden justify-content-between align-items-center list_select_choose flex-col">
+              <button
+                onClick={() => toggleFilterModal(!filterModalVisible)}
+                className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4 d-flex justify-content-center align-items-center"
+              >
+                <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
+                <FormattedMessage id="plp.filter" />
+                {handleFilterCounts(filterList)}
+              </button>
+              <SelectFilters
+                filterList={filterList}
+                history={history}
+                notUpdateRouter={true}
+                selectedFilterPref={handleSelectedFilterPref}
+                getProductList={initProductList}
+              />
+            </div>
             <aside
               className={`rc-filters ${filterModalVisible ? 'active' : ''}`}
             >
               {isMobilePhone ? (
-                // <div className={`${showMegaMenu ? '' : 'rc-hidden'}`}>
                 <Filters
                   history={history}
                   initing={initingFilter}
-                  // onToggleFilterModal={this.toggleFilterModal}
+                  onToggleFilterModal={toggleFilterModal}
                   filterList={filterList}
                   key={`2-${filterList.length}`}
                   inputLabelKey={2}
@@ -629,7 +665,7 @@ const RelateProductList = ({ mainProduct }) => {
             ) : (
               <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
                 <article
-                  className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles"
+                  className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles pt-0"
                   id="scroll-img-box"
                 >
                   {loading
