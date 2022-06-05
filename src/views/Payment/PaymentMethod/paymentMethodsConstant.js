@@ -5,6 +5,7 @@ export const radioTypes = {
   se: 'box',
   jp: 'box',
   nl: 'box',
+  de: 'box',
   default: 'circle'
 };
 

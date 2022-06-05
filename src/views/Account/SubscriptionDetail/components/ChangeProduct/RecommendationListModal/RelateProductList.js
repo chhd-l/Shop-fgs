@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Skeleton from 'react-skeleton-loader';
 import PLPCover from '@/components/PLPCover';
 import { FormattedMessage } from 'react-intl-phraseapp';
@@ -14,6 +14,7 @@ import Pagination from '@/components/Pagination';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import { ChangeProductContext } from '../index';
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -121,6 +122,11 @@ const RelateProductList = observer((configStore) => {
   }); // 初始化filter查询参数
   const [initingList, setInitingList] = useState(true);
   const [filterListRes, setFilterListRes] = useState([]);
+  const [searchFilter, setSearchFilter] = useState('');
+  const [resetList, setResetList] = useState(false);
+  const ChangeProductValue = useContext(ChangeProductContext);
+  const { showProdutctDetail, errMsg } = ChangeProductValue;
+
   const history = useHistory();
 
   useEffect(() => {
@@ -129,14 +135,23 @@ const RelateProductList = observer((configStore) => {
   }, []);
 
   useEffect(() => {
-    console.log(defaultFilterSearchForm, 'defaultFilterSearchForm==');
     if (
-      defaultFilterSearchForm.attrList.length > 0 ||
-      defaultFilterSearchForm.filterList.length > 0
+      defaultFilterSearchForm?.attrList?.length > 0 ||
+      defaultFilterSearchForm?.filterList?.length > 0
     ) {
       getProductLists();
     }
   }, [defaultFilterSearchForm]);
+
+  useEffect(() => {
+    if (
+      resetList &&
+      (defaultFilterSearchForm?.attrList?.length < 1 ||
+        defaultFilterSearchForm?.filterList?.length < 1)
+    ) {
+      getProductLists();
+    }
+  }, [resetList, defaultFilterSearchForm]);
 
   const getFilterList = async () => {
     const filterListRes = await fetchFilterList();
@@ -173,7 +188,7 @@ const RelateProductList = observer((configStore) => {
   // 3 拼接router参数，用于点击filter时，跳转链接用
   const handleFilterResData = (res, customFilter) => {
     // const { baseSearchStr } = this.state;
-    const { pathname, search } = history.location;
+    const { pathname } = history.location;
     let tmpList = res.filter((ele) => +ele.filterStatus);
     let allFilterList = tmpList.concat(customFilter);
     allFilterList?.forEach((item) => bSort(item.attributesValueList || []));
@@ -193,15 +208,22 @@ const RelateProductList = observer((configStore) => {
       orginChildListName: 'storeGoodsFilterValueVOList'
     });
     let prefnParamListFromSearch = [];
-    const prefnNum = (search.match(/prefn/gi) || []).length;
+    const prefnNum = (searchFilter.match(/prefn/gi) || []).length;
     for (let index = 0; index < prefnNum; index++) {
-      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
+      const fnEle = decodeURI(
+        funcUrl({
+          name: `prefn${index + 1}`,
+          customSearch: searchFilter.substr(1)
+        }) || ''
+      );
       const fvEles = decodeURI(
-        funcUrl({ name: `prefv${index + 1}` }) || ''
+        funcUrl({
+          name: `prefv${index + 1}`,
+          customSearch: searchFilter.substr(1)
+        }) || ''
       ).split('|');
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
-
     handleCountFilters(prefnParamListFromSearch);
 
     // 处理每个filter的router
@@ -276,48 +298,19 @@ const RelateProductList = observer((configStore) => {
 
       return pEle;
     });
-
     setFilterList(allFilterList);
     setInitingFilter(false);
     setPrefnParamListFromSearch(prefnParamListFromSearch);
   };
 
   const getProductLists = async () => {
-    let goodsAttributesValueRelVOList = initingList
-      ? [...defaultFilterSearchForm.attrList]
-      : [];
+    let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
+
     let goodsFilterRelList = initingList
       ? [...defaultFilterSearchForm.filterList]
       : [];
 
-    // 处理filter查询值
-    Array.from(filterList, (pItem) => {
-      const seletedList = (
-        pItem.attributesValueList ||
-        pItem.storeGoodsFilterValueVOList ||
-        []
-      ).filter((cItem) => cItem.selected);
-      if (seletedList.length) {
-        // filterType: 0是属性， 1 是自定义；
-        if (pItem.filterType === '0') {
-          goodsAttributesValueRelVOList.push({
-            attributeId: pItem.attributeId,
-            attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
-            attributeName: pItem.attributeName,
-            filterType: pItem.filterType
-          });
-        } else {
-          // todo:why pItem.filterType ==='1'需要这么处理？目前单选项saleable的filterType是1，因此下方的.concat(goodsFilterRelList).map找不到attributeName，attributeValues；
-          goodsFilterRelList.push({
-            filterId: pItem.id,
-            filterValueIdList: seletedList.map((s) => s.id)
-          });
-        }
-      }
-      return pItem;
-    });
-
+    setInitingFilter(true);
     setLoading(true);
     let params = {
       storeId: window.__.env.REACT_APP_STOREID,
@@ -378,17 +371,20 @@ const RelateProductList = observer((configStore) => {
         setTotalPage(esGoodsPage.totalPages);
         setCurrentPageProductNum(esGoodsPage.numberOfElements);
         // this.handleCanonicalLink();
+      } else {
+        setProductList([]);
+        setResults(0);
       }
     } else {
       setProductList([]);
       setResults(0);
     }
     setLoading(false);
-    console.log(res, 'resdd');
+    setInitingFilter(false);
   };
 
   const handleSelectedFilterPref = (search) => {
-    console.log(search, 'preff');
+    setSearchFilter(search);
     let filters = [];
     // 解析prefn/prefv, 匹配filter, 设置默认选中值
     const prefnNum = (search.match(/prefn/gi) || []).length;
@@ -405,7 +401,6 @@ const RelateProductList = observer((configStore) => {
       const tItem = handledAttributeDetailNameEn(filterListRes).filter(
         (r) => r.attributeName === fnEle
       )[0];
-      console.log(filterListRes, fnEle, fvEles, tItem, 'tItem===');
       if (tItem) {
         let attributeValues = [];
         let attributeValueIdList = [];
@@ -452,6 +447,15 @@ const RelateProductList = observer((configStore) => {
     });
   };
 
+  const initProductList = () => {
+    setDefaultFilterSearchForm({
+      attrList: [],
+      filterList: []
+    });
+    setSearchFilter('');
+    setResetList(true);
+  };
+
   const initFilterSelectedSts = ({
     seletedValList,
     orginData,
@@ -489,10 +493,11 @@ const RelateProductList = observer((configStore) => {
         </span>
       </ListItemForDefault>
     ));
-  console.log(configStore, 'configStore==');
+
   return (
     <>
       <div>
+        <h3 className="red text-center text-2xl mt-8 mb-3">More Products</h3>
         <div
           className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
           id="J_filter_contaner"
@@ -544,6 +549,7 @@ const RelateProductList = observer((configStore) => {
                   filtersCounts={filtersCounts}
                   notUpdateRouter={true}
                   selectedFilterPref={handleSelectedFilterPref}
+                  getProductList={initProductList}
                 />
               )}
             </aside>
@@ -596,6 +602,10 @@ const RelateProductList = observer((configStore) => {
                             <PLPCover
                               item={item}
                               key={item.id}
+                              notUpdateRouter={true}
+                              onClick={() => {
+                                showProdutctDetail(item.goodsNo);
+                              }}
                               // sourceParam={this.state.sourceParam}
                               // GAListParam={GAListParam}
                               // breadListByDeco={breadListByDeco}
