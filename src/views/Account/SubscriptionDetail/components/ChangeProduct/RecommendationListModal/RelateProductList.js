@@ -13,7 +13,6 @@ import { Filters, FiltersPC } from '@/views/List/modules';
 import Pagination from '@/components/Pagination';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
 import { ChangeProductContext } from '../index';
 
 function ListItemForDefault(props) {
@@ -103,7 +102,7 @@ function bSort(arr) {
 
 const isMobilePhone = getDeviceType() === 'H5';
 
-const RelateProductList = observer((configStore) => {
+const RelateProductList = ({ mainProduct }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productList, setProductList] = useState(Array(1).fill(null));
   const [results, setResults] = useState(0);
@@ -130,7 +129,7 @@ const RelateProductList = observer((configStore) => {
   const history = useHistory();
 
   useEffect(() => {
-    getProductLists();
+    // getProductLists();
     getFilterList();
   }, []);
 
@@ -152,6 +151,49 @@ const RelateProductList = observer((configStore) => {
       getProductLists();
     }
   }, [resetList, defaultFilterSearchForm]);
+
+  useEffect(() => {
+    // Filter the product list by the attribute of the main product
+    if (filterListRes) {
+      let _list = cloneDeep(mainProduct.goodsAttributesValueRelVOList || []);
+      let _prefnParamList = [];
+      _list?.forEach((cEle) => {
+        if (cEle.goodsAttributeValueEn) {
+          cEle.attributeDetailNameEnSplitByLine = cEle.goodsAttributeValueEn
+            .split(' ')
+            .join('-');
+          _prefnParamList.push({
+            prefn: cEle.goodsAttributeName,
+            prefvs: [cEle.attributeDetailNameEnSplitByLine]
+          });
+        }
+      });
+      _prefnParamList.reduce((pre, cur, i) => {
+        if (pre?.prefn === cur?.prefn) {
+          let _cur = cur.prefvs.push(pre.prefvs[0]);
+          delete _prefnParamList[i - 1];
+          return _cur;
+        } else {
+          return cur;
+        }
+      }, []);
+      const _decoParam = _prefnParamList.reduce(
+        (pre, cur) => {
+          return {
+            ret:
+              pre.ret +
+              `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join(
+                '|'
+              )}`,
+            i: ++pre.i
+          };
+        },
+        { i: 1, ret: '' }
+      );
+      const _search = `?${_decoParam.ret.substr(1)}`;
+      handleSelectedFilterPref(_search);
+    }
+  }, [filterListRes]);
 
   const getFilterList = async () => {
     const filterListRes = await fetchFilterList();
@@ -279,7 +321,6 @@ const RelateProductList = observer((configStore) => {
           },
           { i: 1, ret: '' }
         );
-
         const search = decoParam.ret
           ? `?${baseSearchStr ? `${baseSearchStr}&` : ''}${decoParam.ret.substr(
               1
@@ -640,6 +681,6 @@ const RelateProductList = observer((configStore) => {
       </div>
     </>
   );
-});
+};
 
-export default inject((configStore) => configStore)(RelateProductList);
+export default RelateProductList;

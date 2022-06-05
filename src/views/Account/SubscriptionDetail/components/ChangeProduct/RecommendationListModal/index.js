@@ -18,8 +18,12 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
-    SubDetailHeaderValue;
+  const {
+    triggerShowChangeProduct,
+    setState,
+    productListLoading,
+    subDetail
+  } = SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -176,8 +180,14 @@ const RecommendationListModal = ({ intl }) => {
 
   const goMoreProducts = () => {
     console.log(333);
+    let anchorElement = document.getElementById(
+      'recommendation-more-products-box'
+    );
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
   };
-  console.log(productDetail, 'productDetail==');
+
   return (
     <div
       className={`change-product-modal ${
@@ -202,7 +212,7 @@ const RecommendationListModal = ({ intl }) => {
             />
             <div id="recommendation-more-products-box" className="my-8">
               <p className="bg-gray-100 h-2 w-full" />
-              <RelateProductList />
+              <RelateProductList mainProduct={productDetail?.mainProduct} />
             </div>
           </>
         ) : (
