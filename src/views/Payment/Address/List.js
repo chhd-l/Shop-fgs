@@ -1263,6 +1263,13 @@ class AddressList extends React.Component {
       });
     }, 5000);
   }
+  //不定时关闭
+  showErrMsg2(msg) {
+    this.setState({
+      saveErrorMsg: msg
+    });
+    this.scrollToTitle();
+  }
   showSuccessMsg() {
     this.setState({
       successTipVisible: true
@@ -1696,7 +1703,7 @@ class AddressList extends React.Component {
       this.setState({ loading: true });
       const res = await checkPickUpActive({ deliveryAddressId });
       if (!res.context.pickupPointState) {
-        this.showErrMsg(this.getIntlMsg('pickUpNoActive'));
+        this.showErrMsg2(this.getIntlMsg('pickUpNoActive'));
 
         this.updateConfirmBtnDisabled(true);
       }
