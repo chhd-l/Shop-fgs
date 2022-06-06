@@ -57,6 +57,7 @@ import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { PriceDetailsList } from '../components';
+import { GACartRecommendedProductClick } from '@/utils/GA/cart';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1537,7 +1538,10 @@ class LoginCart extends React.Component {
             )}
           </div>
           {this.state.relatedGoodsList.length > 0 ? (
-            <ProductCarousel goodsList={this.state.relatedGoodsList} />
+            <ProductCarousel
+              goodsList={this.state.relatedGoodsList}
+              onClick={(product) => GACartRecommendedProductClick(product)}
+            />
           ) : null}
           <Footer />
         </main>
