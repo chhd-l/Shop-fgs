@@ -251,14 +251,14 @@ const AddressPreview = ({
                   ) : null}
                 </p>
               </div>
-              <p className="text-12 pl-1">
+              {/* <p className="text-12 pl-1">
                 <FormattedMessage
                   id="DeliverytimeContentSec"
                   values={{
                     val: localStorage.getItem('cutOffTime')
                   }}
                 />
-              </p>
+              </p> */}
             </>
           ) : (
             <>

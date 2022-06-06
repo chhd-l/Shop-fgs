@@ -1595,6 +1595,7 @@ class Form extends React.Component {
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
     const { caninForm, apiType } = this.state;
+    debugger;
 
     return (
       <>
@@ -1985,7 +1986,6 @@ class Form extends React.Component {
                     item.inputSearchBoxFlag == 1
                       ? this.citySearchSelectiontJSX(item)
                       : null}
-
                     {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
                     {item.inputDropDownBoxFlag == 0 &&
                     item.inputFreeTextFlag == 1 &&

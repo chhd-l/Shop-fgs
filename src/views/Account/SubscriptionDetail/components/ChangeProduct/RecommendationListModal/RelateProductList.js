@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Skeleton from 'react-skeleton-loader';
 import PLPCover from '@/components/PLPCover';
 import { FormattedMessage } from 'react-intl-phraseapp';
@@ -9,11 +9,11 @@ import { getDeviceType, fetchFilterList } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
-import { Filters, FiltersPC } from '@/views/List/modules';
+import { Filters, FiltersPC, SelectFilters } from '@/views/List/modules';
 import Pagination from '@/components/Pagination';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
+import { ChangeProductContext } from '../index';
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -102,7 +102,7 @@ function bSort(arr) {
 
 const isMobilePhone = getDeviceType() === 'H5';
 
-const RelateProductList = observer((configStore) => {
+const RelateProductList = ({ mainProduct }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productList, setProductList] = useState(Array(1).fill(null));
   const [results, setResults] = useState(0);
@@ -121,22 +121,79 @@ const RelateProductList = observer((configStore) => {
   }); // 初始化filter查询参数
   const [initingList, setInitingList] = useState(true);
   const [filterListRes, setFilterListRes] = useState([]);
+  const [searchFilter, setSearchFilter] = useState('');
+  const [resetList, setResetList] = useState(false);
+  const ChangeProductValue = useContext(ChangeProductContext);
+  const { showProdutctDetail, errMsg } = ChangeProductValue;
+
   const history = useHistory();
 
   useEffect(() => {
-    getProductLists();
+    // getProductLists();
     getFilterList();
   }, []);
 
   useEffect(() => {
-    console.log(defaultFilterSearchForm, 'defaultFilterSearchForm==');
     if (
-      defaultFilterSearchForm.attrList.length > 0 ||
-      defaultFilterSearchForm.filterList.length > 0
+      defaultFilterSearchForm?.attrList?.length > 0 ||
+      defaultFilterSearchForm?.filterList?.length > 0
     ) {
       getProductLists();
     }
   }, [defaultFilterSearchForm]);
+
+  useEffect(() => {
+    if (
+      resetList &&
+      (defaultFilterSearchForm?.attrList?.length < 1 ||
+        defaultFilterSearchForm?.filterList?.length < 1)
+    ) {
+      getProductLists();
+    }
+  }, [resetList, defaultFilterSearchForm]);
+
+  useEffect(() => {
+    // Filter the product list by the attribute of the main product
+    if (filterListRes) {
+      let _list = cloneDeep(mainProduct.goodsAttributesValueRelVOList || []);
+      let _prefnParamList = [];
+      _list?.forEach((cEle) => {
+        if (cEle.goodsAttributeValueEn) {
+          cEle.attributeDetailNameEnSplitByLine = cEle.goodsAttributeValueEn
+            .split(' ')
+            .join('-');
+          _prefnParamList.push({
+            prefn: cEle.goodsAttributeName,
+            prefvs: [cEle.attributeDetailNameEnSplitByLine]
+          });
+        }
+      });
+      _prefnParamList.reduce((pre, cur, i) => {
+        if (pre?.prefn === cur?.prefn) {
+          let _cur = cur.prefvs.push(pre.prefvs[0]);
+          delete _prefnParamList[i - 1];
+          return _cur;
+        } else {
+          return cur;
+        }
+      }, []);
+      const _decoParam = _prefnParamList.reduce(
+        (pre, cur) => {
+          return {
+            ret:
+              pre.ret +
+              `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join(
+                '|'
+              )}`,
+            i: ++pre.i
+          };
+        },
+        { i: 1, ret: '' }
+      );
+      const _search = `?${_decoParam.ret.substr(1)}`;
+      handleSelectedFilterPref(_search);
+    }
+  }, [filterListRes]);
 
   const getFilterList = async () => {
     const filterListRes = await fetchFilterList();
@@ -173,7 +230,7 @@ const RelateProductList = observer((configStore) => {
   // 3 拼接router参数，用于点击filter时，跳转链接用
   const handleFilterResData = (res, customFilter) => {
     // const { baseSearchStr } = this.state;
-    const { pathname, search } = history.location;
+    const { pathname } = history.location;
     let tmpList = res.filter((ele) => +ele.filterStatus);
     let allFilterList = tmpList.concat(customFilter);
     allFilterList?.forEach((item) => bSort(item.attributesValueList || []));
@@ -193,15 +250,22 @@ const RelateProductList = observer((configStore) => {
       orginChildListName: 'storeGoodsFilterValueVOList'
     });
     let prefnParamListFromSearch = [];
-    const prefnNum = (search.match(/prefn/gi) || []).length;
+    const prefnNum = (searchFilter.match(/prefn/gi) || []).length;
     for (let index = 0; index < prefnNum; index++) {
-      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
+      const fnEle = decodeURI(
+        funcUrl({
+          name: `prefn${index + 1}`,
+          customSearch: searchFilter.substr(1)
+        }) || ''
+      );
       const fvEles = decodeURI(
-        funcUrl({ name: `prefv${index + 1}` }) || ''
+        funcUrl({
+          name: `prefv${index + 1}`,
+          customSearch: searchFilter.substr(1)
+        }) || ''
       ).split('|');
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
-
     handleCountFilters(prefnParamListFromSearch);
 
     // 处理每个filter的router
@@ -257,7 +321,6 @@ const RelateProductList = observer((configStore) => {
           },
           { i: 1, ret: '' }
         );
-
         const search = decoParam.ret
           ? `?${baseSearchStr ? `${baseSearchStr}&` : ''}${decoParam.ret.substr(
               1
@@ -276,48 +339,19 @@ const RelateProductList = observer((configStore) => {
 
       return pEle;
     });
-
     setFilterList(allFilterList);
     setInitingFilter(false);
     setPrefnParamListFromSearch(prefnParamListFromSearch);
   };
 
   const getProductLists = async () => {
-    let goodsAttributesValueRelVOList = initingList
-      ? [...defaultFilterSearchForm.attrList]
-      : [];
+    let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
+
     let goodsFilterRelList = initingList
       ? [...defaultFilterSearchForm.filterList]
       : [];
 
-    // 处理filter查询值
-    Array.from(filterList, (pItem) => {
-      const seletedList = (
-        pItem.attributesValueList ||
-        pItem.storeGoodsFilterValueVOList ||
-        []
-      ).filter((cItem) => cItem.selected);
-      if (seletedList.length) {
-        // filterType: 0是属性， 1 是自定义；
-        if (pItem.filterType === '0') {
-          goodsAttributesValueRelVOList.push({
-            attributeId: pItem.attributeId,
-            attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
-            attributeName: pItem.attributeName,
-            filterType: pItem.filterType
-          });
-        } else {
-          // todo:why pItem.filterType ==='1'需要这么处理？目前单选项saleable的filterType是1，因此下方的.concat(goodsFilterRelList).map找不到attributeName，attributeValues；
-          goodsFilterRelList.push({
-            filterId: pItem.id,
-            filterValueIdList: seletedList.map((s) => s.id)
-          });
-        }
-      }
-      return pItem;
-    });
-
+    setInitingFilter(true);
     setLoading(true);
     let params = {
       storeId: window.__.env.REACT_APP_STOREID,
@@ -378,17 +412,20 @@ const RelateProductList = observer((configStore) => {
         setTotalPage(esGoodsPage.totalPages);
         setCurrentPageProductNum(esGoodsPage.numberOfElements);
         // this.handleCanonicalLink();
+      } else {
+        setProductList([]);
+        setResults(0);
       }
     } else {
       setProductList([]);
       setResults(0);
     }
     setLoading(false);
-    console.log(res, 'resdd');
+    setInitingFilter(false);
   };
 
   const handleSelectedFilterPref = (search) => {
-    console.log(search, 'preff');
+    setSearchFilter(search);
     let filters = [];
     // 解析prefn/prefv, 匹配filter, 设置默认选中值
     const prefnNum = (search.match(/prefn/gi) || []).length;
@@ -405,7 +442,6 @@ const RelateProductList = observer((configStore) => {
       const tItem = handledAttributeDetailNameEn(filterListRes).filter(
         (r) => r.attributeName === fnEle
       )[0];
-      console.log(filterListRes, fnEle, fvEles, tItem, 'tItem===');
       if (tItem) {
         let attributeValues = [];
         let attributeValueIdList = [];
@@ -452,6 +488,15 @@ const RelateProductList = observer((configStore) => {
     });
   };
 
+  const initProductList = () => {
+    setDefaultFilterSearchForm({
+      attrList: [],
+      filterList: []
+    });
+    setSearchFilter('');
+    setResetList(true);
+  };
+
   const initFilterSelectedSts = ({
     seletedValList,
     orginData,
@@ -480,6 +525,24 @@ const RelateProductList = observer((configStore) => {
     });
   };
 
+  const toggleFilterModal = (status) => {
+    setFilterModalVisible(status);
+  };
+
+  // handle the number of selected filters on the mobile
+  const handleFilterCounts = (filterList) => {
+    let filtersCounts = 0;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+        }
+      });
+    });
+
+    return <>{filtersCounts ? <span>({filtersCounts})</span> : null}</>;
+  };
+
   const _loadingJXS = Array(6)
     .fill(null)
     .map((item, i) => (
@@ -489,10 +552,13 @@ const RelateProductList = observer((configStore) => {
         </span>
       </ListItemForDefault>
     ));
-  console.log(configStore, 'configStore==');
+
   return (
     <>
       <div>
+        <h3 className="red text-center text-xl md:text-2xl mt-5 md:mt-8 mb-1 md:mb-3">
+          More Products
+        </h3>
         <div
           className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
           id="J_filter_contaner"
@@ -504,15 +570,31 @@ const RelateProductList = observer((configStore) => {
             id="refineBar"
             className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
           >
+            <div className="flex md:hidden justify-content-between align-items-center list_select_choose flex-col">
+              <button
+                onClick={() => toggleFilterModal(!filterModalVisible)}
+                className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4 d-flex justify-content-center align-items-center"
+              >
+                <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
+                <FormattedMessage id="plp.filter" />
+                {handleFilterCounts(filterList)}
+              </button>
+              <SelectFilters
+                filterList={filterList}
+                history={history}
+                notUpdateRouter={true}
+                selectedFilterPref={handleSelectedFilterPref}
+                getProductList={initProductList}
+              />
+            </div>
             <aside
               className={`rc-filters ${filterModalVisible ? 'active' : ''}`}
             >
               {isMobilePhone ? (
-                // <div className={`${showMegaMenu ? '' : 'rc-hidden'}`}>
                 <Filters
                   history={history}
                   initing={initingFilter}
-                  // onToggleFilterModal={this.toggleFilterModal}
+                  onToggleFilterModal={toggleFilterModal}
                   filterList={filterList}
                   key={`2-${filterList.length}`}
                   inputLabelKey={2}
@@ -544,6 +626,7 @@ const RelateProductList = observer((configStore) => {
                   filtersCounts={filtersCounts}
                   notUpdateRouter={true}
                   selectedFilterPref={handleSelectedFilterPref}
+                  getProductList={initProductList}
                 />
               )}
             </aside>
@@ -582,7 +665,7 @@ const RelateProductList = observer((configStore) => {
             ) : (
               <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
                 <article
-                  className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles"
+                  className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles pt-0"
                   id="scroll-img-box"
                 >
                   {loading
@@ -596,6 +679,10 @@ const RelateProductList = observer((configStore) => {
                             <PLPCover
                               item={item}
                               key={item.id}
+                              notUpdateRouter={true}
+                              onClick={() => {
+                                showProdutctDetail(item.goodsNo);
+                              }}
                               // sourceParam={this.state.sourceParam}
                               // GAListParam={GAListParam}
                               // breadListByDeco={breadListByDeco}
@@ -630,6 +717,6 @@ const RelateProductList = observer((configStore) => {
       </div>
     </>
   );
-});
+};
 
-export default inject((configStore) => configStore)(RelateProductList);
+export default RelateProductList;

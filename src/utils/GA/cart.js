@@ -1,5 +1,3 @@
-import { filterObjectValue } from '../utils';
-
 export const GACartButtonClick = (item) => {
   window.dataLayer?.push({
     event: 'cartButtonClick', //String : constant
@@ -74,7 +72,6 @@ export const GACartRecommendedProductClick = (product) => {
     promoCodeName,
     promoCodeAmount
   };
-  debugger;
   // const  product = filterObjectValue(gaProduct);
 
   dataLayer.push({

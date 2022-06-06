@@ -28,6 +28,10 @@ class Filter extends React.Component {
   }
 
   componentDidMount() {
+    this.updateFilterInfo();
+  }
+
+  updateFilterInfo = () => {
     const { filterList } = this.state;
     let filtersCounts = 0;
     filterList.map((item) => {
@@ -43,6 +47,24 @@ class Filter extends React.Component {
       filterList,
       filtersCounts
     });
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.filterList !== this.state.filterList) {
+      this.setState(
+        {
+          filterList: nextProps.filterList
+        },
+        () => {
+          this.updateFilterInfo();
+        }
+      );
+    }
+    if (nextProps.prefnParamListSearch !== this.state.selectedFilterParams) {
+      this.setState({
+        selectedFilterParams: nextProps.prefnParamListSearch
+      });
+    }
   }
 
   get hasSelecedItems() {
@@ -159,13 +181,15 @@ class Filter extends React.Component {
   handleFilterClearBtn = () => {
     const { filterList } = this.state;
     const { pathname, search } = this.props.history.location;
-    const { baseSearchStr } = this.props;
+    const { baseSearchStr, notUpdateRouter, prefnParamListSearch } = this.props;
     if (search.includes('prefn')) {
       const _router = {
         pathname,
         search: baseSearchStr
       };
       this.props.history.push(_router);
+    } else if (notUpdateRouter && prefnParamListSearch.length) {
+      this.props.getProductList();
     } else {
       this.setState({
         selectedFilterParams: []
@@ -232,6 +256,16 @@ class Filter extends React.Component {
         ) : null}
       </>
     );
+  };
+
+  handleClearFilter = () => {
+    if (this.props.notUpdateRouter) {
+      this.props.getProductList();
+    }
+  };
+
+  handleClearItemFilter = (router) => {
+    this.props.selectedFilterPref(router?.search);
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
@@ -365,7 +399,8 @@ class Filter extends React.Component {
       initing,
       hanldePriceSliderChange,
       markPriceAndSubscriptionLangDict,
-      baseSearchStr
+      baseSearchStr,
+      notUpdateRouter
     } = this.props;
     const { pathname } = history.location;
     return (
@@ -403,10 +438,22 @@ class Filter extends React.Component {
                         return (
                           <li className="filter-value" key={cItem.id}>
                             {cItem.router ? (
-                              <Link to={cItem.router}>
-                                {cItem.attributeDetailNameEn}
-                                <em className="rc-icon rc-close--sm rc-iconography inline-block" />
-                              </Link>
+                              notUpdateRouter ? (
+                                <span>
+                                  {cItem.attributeDetailNameEn}
+                                  <em
+                                    onClick={() =>
+                                      this.handleClearItemFilter(cItem.router)
+                                    }
+                                    className="rc-icon rc-close--sm rc-iconography inline-block"
+                                  />
+                                </span>
+                              ) : (
+                                <Link to={cItem.router}>
+                                  {cItem.attributeDetailNameEn}
+                                  <em className="rc-icon rc-close--sm rc-iconography inline-block" />
+                                </Link>
+                              )
                             ) : (
                               <span>
                                 {cItem.attributeDetailNameEn}
@@ -424,12 +471,21 @@ class Filter extends React.Component {
               </div>
               {this.hasSelecedItems && (
                 <li className="text-center rc-margin-y--xs rc-padding-bottom--xs">
-                  <Link
-                    to={{ pathname, search: `?${baseSearchStr}` }}
-                    className="rc-styled-link js-clear-filter"
-                  >
-                    <FormattedMessage id="removeAllFilters" />
-                  </Link>
+                  {notUpdateRouter ? (
+                    <a
+                      onClick={this.handleClearFilter}
+                      className="rc-styled-link js-clear-filter"
+                    >
+                      <FormattedMessage id="removeAllFilters" />
+                    </a>
+                  ) : (
+                    <Link
+                      to={{ pathname, search: `?${baseSearchStr}` }}
+                      className="rc-styled-link js-clear-filter"
+                    >
+                      <FormattedMessage id="removeAllFilters" />
+                    </Link>
+                  )}
                 </li>
               )}
             </header>

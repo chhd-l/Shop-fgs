@@ -188,13 +188,15 @@ class AddressList extends React.Component {
         (item) => item.type === 'DELIVERY' && item.receiveType == 'PICK_UP'
       );
 
-      const pickUpActiveRes = await checkPickUpActive({
-        deliveryAddressId: pickupAddress[0].deliveryAddressId
-      });
-      if (!pickUpActiveRes.context.pickupPointState) {
-        this.setState({
-          errorMsg: this.props.intl.messages['pickUpNoActive']
+      if (pickupAddress[0]?.deliveryAddressId) {
+        const pickUpActiveRes = await checkPickUpActive({
+          deliveryAddressId: pickupAddress[0].deliveryAddressId
         });
+        if (!pickUpActiveRes.context.pickupPointState) {
+          this.setState({
+            errorMsg: this.props.intl.messages['pickUpNoActive']
+          });
+        }
       }
     } catch (err) {
       this.showErrorMsg(err.message);
