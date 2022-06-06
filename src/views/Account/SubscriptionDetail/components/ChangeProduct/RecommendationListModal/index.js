@@ -179,12 +179,18 @@ const RecommendationListModal = ({ intl }) => {
   const currentGoodsItem = currentGoodsItems[0] || {};
 
   const goMoreProducts = () => {
-    console.log(333);
     let anchorElement = document.getElementById(
       'recommendation-more-products-box'
     );
     if (anchorElement) {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (window.dataLayer) {
+      dataLayer?.push({
+        event: 'myAccountAction',
+        myAccountActionName: 'View more products'
+      });
     }
   };
 
