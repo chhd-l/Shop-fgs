@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProductCarousel from '@/components/ProductCarousel';
 import { getGoodsRelation } from '@/api/details';
+import {GAPdpRecommendedProductClick} from '../../GA';
 
 interface Props {
   id: string;
@@ -30,8 +31,13 @@ const HandledRelateProductCarousel = ({ id }: Props) => {
       //获取推荐产品end
     }
   }, [id]);
+
+  const handleClick=(item:any)=>{
+    GAPdpRecommendedProductClick(item)
+  }
+
   return relatedGoodsList.length > 0 ? (
-    <ProductCarousel goodsList={relatedGoodsList} />
+    <ProductCarousel goodsList={relatedGoodsList} onClick={handleClick} />
   ) : null;
 };
 export default HandledRelateProductCarousel;

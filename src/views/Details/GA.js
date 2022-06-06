@@ -9,8 +9,11 @@ const filterAttrValue = (list, keyWords) => {
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
-  const { currentSubscriptionStatus, currentSubscriptionPrice, skuPromotions } =
-    data;
+  const {
+    currentSubscriptionStatus,
+    currentSubscriptionPrice,
+    skuPromotions
+  } = data;
   let content = ['Single Purchase'];
   if (
     currentSubscriptionStatus &&
@@ -169,10 +172,64 @@ const GAPdpSizeChange = (size) => {
     });
 };
 
+const GAPdpRecommendedProductClick = (el) => {
+  const {
+    minMarketPrice,
+    goodsName,
+    mainItemCode,
+    goodsInfoVOS,
+    goodsSpecDetailVOS,
+    goodsAttributesValueRelVOAllList
+  } = el;
+  const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
+  const specie = filterAttrValue(
+    goodsAttributesValueRelVOAllList,
+    'species'
+  ).toString();
+  const range = filterAttrValue(
+    goodsAttributesValueRelVOAllList,
+    'range'
+  ).toString();
+  const technology = filterAttrValue(
+    goodsAttributesValueRelVOAllList,
+    'technology'
+  ).toString();
+  const SKU = goodsInfoVOS?.[0]?.goodsInfoNo || '';
+  const size = goodsSpecDetailVOS?.[0]?.detailName || '';
+  const RecProduct = {
+    // 'pillar' : 'SPT', //String : 'SPT' or 'Vet' depending on type of product range
+    price: minMarketPrice, //Integer : Product Price, including discount if promo code activated for this product
+    specie: specie, //String : 'Cat' or 'Dog',
+    range: range, //String : Possible values are 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+    name: goodsName, //String : WeShare product name, always in English
+    mainItemCode: mainItemCode, //String : Main item code
+    SKU: SKU, //String : product SKU
+    // 'subscription': 'One Shot', //String : 'One Shot', 'Subscription', 'Club'
+    // 'subscriptionFrequency': 3, //Integer : Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+    technology: technology, //String : 'Dry', 'Wet', 'Pack'
+    brand: 'Royal Canin', //String : 'Royal Canin' or 'Eukanuba'
+    size: size, //String : Same wording as displayed on the site, with units depending on the country (oz, grams...)
+    breed: breed //Array : All animal breeds associated with the product in an array
+    // 'quantity': 2, //Integer : Number of products, only if already added to cart
+    // 'promoCodeName': 'PROMO1234', //String : Promo code name, only if promo activated
+    // 'promoCodeAmount': 8 //Integer : Promo code amount, only if promo activated
+  };
+  const _RecProduct = filterObjectValue(RecProduct);
+  if (window.dataLayer) {
+    dataLayer?.push({
+      event: 'PDPRecommendedProductClick',
+      PDPRecommendedProductClick: {
+        products: [_RecProduct]
+      }
+    });
+  }
+};
+
 export {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
   hubGAAToCar,
   HubGaPdpBuyFromRetailer,
-  GAPdpSizeChange
+  GAPdpSizeChange,
+  GAPdpRecommendedProductClick
 };
