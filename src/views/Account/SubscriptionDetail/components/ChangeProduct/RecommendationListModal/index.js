@@ -18,12 +18,8 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const {
-    triggerShowChangeProduct,
-    setState,
-    productListLoading,
-    subDetail
-  } = SubDetailHeaderValue;
+  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
+    SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -179,12 +175,18 @@ const RecommendationListModal = ({ intl }) => {
   const currentGoodsItem = currentGoodsItems[0] || {};
 
   const goMoreProducts = () => {
-    console.log(333);
     let anchorElement = document.getElementById(
       'recommendation-more-products-box'
     );
     if (anchorElement) {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (window.dataLayer) {
+      dataLayer?.push({
+        event: 'myAccountAction',
+        myAccountActionName: 'View more products'
+      });
     }
   };
 

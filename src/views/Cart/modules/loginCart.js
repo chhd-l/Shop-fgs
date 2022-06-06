@@ -57,7 +57,10 @@ import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { PriceDetailsList } from '../components';
-import { GACartRecommendedProductClick } from '@/utils/GA/cart';
+import {
+  GACartRecommendedProductClick,
+  GACartButtonClick
+} from '@/utils/GA/cart';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -458,7 +461,12 @@ class LoginCart extends React.Component {
       this.showErrMsg(err.message);
     }
   }
-  handleCheckout = async () => {
+  handleCheckout = async ({ needLogin = false } = {}) => {
+    if (needLogin) {
+      GACartButtonClick('Buy Now');
+    } else {
+      GACartButtonClick('Guest checkout');
+    }
     if (!this.btnStatus) {
       return false;
     }

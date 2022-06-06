@@ -429,8 +429,6 @@ class Details extends React.Component {
           })
         });
       }
-
-      console.log(this.state.details, selectedSpecItem, 'details???');
     });
 
     // bundle商品的ga初始化填充
@@ -772,7 +770,6 @@ class Details extends React.Component {
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    console.log('retailer config:', buyFromRetailerConfig);
     const widgetId =
       buyFromRetailerConfig.retailerEnable &&
       buyFromRetailerConfig.type === 'API'
@@ -905,9 +902,6 @@ class Details extends React.Component {
       const { checkoutStore } = this.props;
       const { currentUnitPrice, quantity, form, details, questionParams } =
         this.state;
-
-      console.log({ details });
-      // debugger;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1120,7 +1114,6 @@ class Details extends React.Component {
       return bol;
     });
 
-    console.log(isAdult, sptGoods, LifestagesAttr, 'isAdult_spt');
     /**
      *  是否显示计算工具
      *  1、dailyPortion show/hide
