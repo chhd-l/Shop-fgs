@@ -3800,12 +3800,9 @@ class Payment extends React.Component {
                         {/* 校验状态
                     1 校验邮箱
                     2 billing校验 */}
-                        {payConfirmBtn({
-                          disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                        })}
                       </>
                     )}
-                  {COUNTRY !== 'de' &&
+                  {COUNTRY === 'de' &&
                     item.code === 'adyen_klarna_pay_now' &&
                     curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
                       <>
@@ -3822,9 +3819,9 @@ class Payment extends React.Component {
                           // }
                           showIcon={true}
                         />
-                        {payConfirmBtn({
+                        {/* {payConfirmBtn({
                           disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                        })}
+                        })} */}
                       </>
                     )}
                 </>
@@ -3874,6 +3871,16 @@ class Payment extends React.Component {
           {curPayWayInfo?.code === 'cod_japan' &&
             payConfirmBtn({
               disabled: this.isInputPointDisabled
+            })}
+          {COUNTRY === 'de' &&
+            curPayWayInfo?.code === 'adyen_klarna_pay_later' &&
+            payConfirmBtn({
+              disabled: !EMAIL_REGEXP.test(email) || validForBilling
+            })}
+          {COUNTRY === 'de' &&
+            curPayWayInfo?.code === 'adyen_klarna_pay_now' &&
+            payConfirmBtn({
+              disabled: !EMAIL_REGEXP.test(email) || validForBilling
             })}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
