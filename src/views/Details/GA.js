@@ -7,6 +7,14 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
+const pillarEnum = {
+  0: 'SPT',
+  1: 'SPT',
+  2: 'BUNDLE',
+  3: 'VET',
+  4: 'GIFT'
+};
+
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
   const {
@@ -75,7 +83,8 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     goodsInfos,
     goodsNo,
     goodsAttributesValueRelList,
-    goodsImg
+    goodsImg,
+    goodsType
   } = item;
   const { clinicStore, selectPrice } = pdpScreenLoadData;
   const cateName = goodsCateName?.split('/') || '';
@@ -125,7 +134,8 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     brand: 'Royal Canin',
     size,
     breed,
-    imageURL: goodsImg
+    imageURL: goodsImg,
+    pillar: pillarEnum[goodsType]
   };
   const product = filterObjectValue(GAProductsInfo);
   if (window.dataLayer) {

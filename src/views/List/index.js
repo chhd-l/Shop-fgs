@@ -66,6 +66,14 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
+const pillarEnum = {
+  0: 'SPT',
+  1: 'SPT',
+  2: 'BUNDLE',
+  3: 'VET',
+  4: 'GIFT'
+};
+
 function bSort(arr) {
   var len = arr.length;
   for (var i = 0; i < len - 1; i++) {
@@ -867,7 +875,8 @@ class List extends React.Component {
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName,
-        goodsImg
+        goodsImg,
+        goodsType
       } = item;
       const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
       // const spezies = filterAttrValue(
@@ -900,7 +909,8 @@ class List extends React.Component {
         brand: 'Royal Canin',
         breed,
         sizeCategory,
-        imageURL: goodsImg
+        imageURL: goodsImg,
+        pillar: pillarEnum[goodsType] || ''
       };
       let res = filterObjectValue(productItem);
       return res;
