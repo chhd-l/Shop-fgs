@@ -52,7 +52,10 @@ import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { PriceDetailsList } from '../components';
 import { funcUrl } from '@/lib/url-utils';
-import { GACartButtonClick } from '@/utils/GA/cart';
+import {
+  GACartButtonClick,
+  GACartRecommendedProductClick
+} from '@/utils/GA/cart';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
@@ -2335,7 +2338,10 @@ class UnLoginCart extends React.Component {
             )}
           </div>
           {this.state.relatedGoodsList.length > 0 ? (
-            <ProductCarousel goodsList={this.state.relatedGoodsList} />
+            <ProductCarousel
+              goodsList={this.state.relatedGoodsList}
+              onClick={(product) => GACartRecommendedProductClick(product)}
+            />
           ) : null}
           <Footer />
         </main>

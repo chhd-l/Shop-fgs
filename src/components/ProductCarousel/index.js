@@ -10,7 +10,6 @@ import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
 
 const isMobilePhone = getDeviceType() === 'H5';
 import './index.less';
-import { GACartRecommendedProductClick } from '@/utils/GA/cart';
 
 /**
  * 产品轮播组件
@@ -47,7 +46,7 @@ export default class ProductCarousel extends Component {
                 item={{ ...item }}
                 key={index}
                 showBorder={!isMobilePhone}
-                onClick={() => GACartRecommendedProductClick(item)}
+                onClick={() => this.props.onClick(item)}
                 link={{
                   pathname: item
                     ? `/${item.goodsName
