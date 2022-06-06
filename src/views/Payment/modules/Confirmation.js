@@ -4,6 +4,7 @@ import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 import { PanelContainer } from '../Common';
+import { DistributeLinkOrATag } from '@/components/DistributeLink';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -28,8 +29,16 @@ function JpConfirmationText() {
         <span className="border-b border-gray-600">返品・交換について</span>
       </p>
       <p>
-        返品・交換については、こちら[リンク: FAQ
-        返品・交換について]をご確認ください。
+        返品・交換については、
+        <DistributeLinkOrATag
+          target="_blank"
+          href="/faq"
+          to="/faq"
+          className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
+        >
+          <FormattedMessage id="here2" />
+        </DistributeLinkOrATag>
+        をご確認ください。
       </p>
       <p className="mt-2">
         <span className="border-b border-gray-600">定期購入について</span>
