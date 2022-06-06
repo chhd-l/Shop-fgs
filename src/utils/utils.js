@@ -46,7 +46,6 @@ export function formatMoney(val) {
   val = Number(val).toFixed(2);
   val += '';
   let length = val.length;
-  debugger;
   switch (COUNTRY) {
     case 'tr':
       return val + ' TL';
