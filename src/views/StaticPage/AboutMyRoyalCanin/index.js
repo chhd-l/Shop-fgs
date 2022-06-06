@@ -33,7 +33,7 @@ function AboutMyRoyalCanin(props) {
           {/* 1 */}
           <div className="md:w-cs-920 md:h-cs-431 md:m-auto md:flex md:justify-between md:mt-20 md:pb-20 box-content">
             <div className="md:h-cs-431 md:transform md:scale-100 md:z-50">
-              <h1 className="font-PingFangSC text-rc-red text-22 leading-7 mb-4 m-auto md:ml-0 md:text-30 w-cs-288 h-cs-56 md:w-cs-392 md:h-cs-80 md:leading-10 font-semibold mt-6 md:mt-auto">
+              <h1 className="font-PingFangSC text-rc-red text-22 leading-7 mb-4 m-auto md:ml-0 md:text-30 w-cs-288 md:w-cs-392 md:leading-10 font-semibold mt-6 md:mt-auto">
                 マイ ロイヤルカナンについて
               </h1>
               <p
@@ -74,7 +74,7 @@ function AboutMyRoyalCanin(props) {
               className="w-cs-186 h-cs-143 mb-4 m-auto md:w-cs-479 md:h-cs-334"
             />
             <div className="md:w-cs-440 md:h-full">
-              <h1 className="text-rc-red hidden md:block font-PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-30 md:leading-8 md:mt-12 mb-4">
+              <h1 className="text-rc-red hidden md:block font-PingFangSC w-cs-288 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:text-30 md:leading-8 md:mt-12 mb-4">
                 最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
               </h1>
               <p

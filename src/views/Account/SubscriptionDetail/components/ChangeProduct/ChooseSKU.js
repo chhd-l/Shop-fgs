@@ -236,7 +236,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               </strong>
             </div>
           </div>
-          <div className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs -mb-5 md:-mb-0">
+          <div className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs -mb-5 md:-mb-0 md:max-w-xs">
             <div className="specAndQuantity rc-margin-bottom--xs ">
               {details.goodsInfos && (
                 <HandledSpec

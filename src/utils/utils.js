@@ -46,6 +46,7 @@ export function formatMoney(val) {
   val = Number(val).toFixed(2);
   val += '';
   let length = val.length;
+  debugger;
   switch (COUNTRY) {
     case 'tr':
       return val + ' TL';
@@ -69,7 +70,7 @@ export function formatMoney(val) {
           currency: CURRENCY
         })
           .format(val)
-          .replace(/¥/g, '') + '円'
+          .replace(/[￥|¥]/g, '') + '円'
       );
   }
 
