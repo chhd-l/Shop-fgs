@@ -58,9 +58,9 @@ import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 import PreciseCatNutrition from './views/PreciseCatNutrition';
 import CartDEBreeder from './views/CartDEBreeder';
 import { funcUrl } from './lib/url-utils';
-// import LogRocket from 'logrocket';
+import LogRocket from 'logrocket';
 
-// LogRocket.init('kvnk0e/test');
+LogRocket.init('kvnk0e/test');
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
