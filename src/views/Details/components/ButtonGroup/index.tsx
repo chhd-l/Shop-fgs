@@ -17,6 +17,7 @@ interface Props {
   isUrl: boolean;
   retailerUrl: string;
   versionType?: boolean;
+  showAddToCartBtn?: boolean;
 }
 const ButtonGroup = ({
   addToCartLoading,
@@ -32,7 +33,8 @@ const ButtonGroup = ({
   isApi,
   isUrl,
   retailerUrl,
-  versionType
+  versionType,
+  showAddToCartBtn = true
 }: Props) => {
   const handleAddToCart = () => {
     addToCart();
@@ -89,7 +91,7 @@ const ButtonGroup = ({
         style={{ transform: 'translateY(-80px)' }}
       >
         <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-          {!vet ? (
+          {!vet && showAddToCartBtn? (
             <button
               className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                 addToCartLoading && 'ui-btn-loading'
@@ -108,7 +110,7 @@ const ButtonGroup = ({
               </span>
             </button>
           ) : null}
-          {isShowRetailerBtn ? (
+          {isShowRetailerBtn? (
             <BuyFromRetailerBtn
               barcode={barcode}
               goodsType={goodsType}

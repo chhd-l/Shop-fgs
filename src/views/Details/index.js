@@ -220,8 +220,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -244,6 +250,16 @@ class Details extends React.Component {
       !isUnitPriceZero &&
       form.buyWay !== -1
     );
+  }
+
+  get skuOffShelves() {
+    // addedFlag 0:Off shelves 1:On shelves
+    let addedFlag = 1;
+    const { sizeList } = this.state.details;
+    if (sizeList?.length) {
+      addedFlag = sizeList.filter((el) => el.selected)?.[0]?.addedFlag;
+    }
+    return addedFlag;
   }
 
   get isNullGoodsInfos() {
@@ -452,7 +468,6 @@ class Details extends React.Component {
       clinicStore,
       selectPrice
     };
-
     // cc.js加载
     this.loadWidgetIdBtn(barcode);
 
@@ -554,11 +569,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -900,8 +912,13 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1189,7 +1206,7 @@ class Details extends React.Component {
           updatedPriceOrCode={this.updatedPriceOrCode}
           defaultSkuId={this.state.defaultSkuId}
         />
-        <div className="Quantity">
+        <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
           <span className="amount">
             <FormattedMessage id="amount" />:
           </span>
@@ -1217,7 +1234,7 @@ class Details extends React.Component {
     );
   };
 
-  ButtonGroupDom = (showRetailerBtn) => {
+  ButtonGroupDom = (showRetailerBtn, showAddToCartBtn) => {
     const {
       addToCartLoading,
       form,
@@ -1258,6 +1275,7 @@ class Details extends React.Component {
         isUrl={isUrl}
         retailerUrl={retailerUrl}
         versionType={versionB}
+        showAddToCartBtn={showAddToCartBtn}
       />
     );
   };
@@ -1329,6 +1347,7 @@ class Details extends React.Component {
     const retailerUrl = buyFromRetailerConfig.retailerEnable
       ? buyFromRetailerConfig.url
       : '';
+
     return (
       <div id="Details">
         <GA_Comp props={this.props} details={details} />
@@ -1521,29 +1540,32 @@ class Details extends React.Component {
                                 replyNum={replyNum}
                                 instockStatus={instockStatus}
                                 vet={vet}
+                                skuOffShelves={this.skuOffShelves}
                               />
                               {!vet ? (
                                 <>
                                   {!isMobile ? this.specAndQuantityDom() : null}
-                                  {versionB && (
-                                    <PurchaseMethodB
-                                      form={form}
-                                      fromPrice={fromPrice}
-                                      isMobile={isMobile}
-                                      specAndQuantityDom={
-                                        this.specAndQuantityDom
-                                      }
-                                      isNullGoodsInfos={this.isNullGoodsInfos}
-                                    />
-                                  )}
-                                  {details.promotions &&
-                                  details.promotions.includes('club') &&
-                                  !window.__.env
-                                    .REACT_APP_CLOSE_PRODUCT_FINDER ? (
-                                    <Ration
-                                      goodsNo={details.goodsNo}
-                                      setState={this.setState.bind(this)}
-                                    />
+                                  {versionB ? (
+                                    <>
+                                      <PurchaseMethodB
+                                        form={form}
+                                        fromPrice={fromPrice}
+                                        isMobile={isMobile}
+                                        specAndQuantityDom={
+                                          this.specAndQuantityDom
+                                        }
+                                        isNullGoodsInfos={this.isNullGoodsInfos}
+                                      />
+                                      {details.promotions &&
+                                      details.promotions.includes('club') &&
+                                      !window.__.env
+                                        .REACT_APP_CLOSE_PRODUCT_FINDER ? (
+                                        <Ration
+                                          goodsNo={details.goodsNo}
+                                          setState={this.setState.bind(this)}
+                                        />
+                                      ) : null}
+                                    </>
                                   ) : null}
                                 </>
                               ) : null}
@@ -1622,7 +1644,9 @@ class Details extends React.Component {
                               {isMobile ? this.specAndQuantityDom() : null}
                               <div
                                 className={`${
-                                  currentUnitPrice ? '' : 'hidden'
+                                  currentUnitPrice && this.skuOffShelves
+                                    ? ''
+                                    : 'hidden'
                                 }`}
                               >
                                 <SingleBuyMethod
@@ -1727,6 +1751,9 @@ class Details extends React.Component {
                                   setState={this.setState.bind(this)}
                                 />
                               ) : null}
+                              {isMobile && !this.skuOffShelves
+                                ? this.ButtonGroupDom(false, false)
+                                : null}
                             </div>
                           ))
                         )}
