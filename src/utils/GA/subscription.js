@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 export const GAForSeeRecommendationBtn = () => {
   window.dataLayer?.push({
     event: 'myAccountAction',
