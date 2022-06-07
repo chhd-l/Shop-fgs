@@ -28,7 +28,7 @@ import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
-@inject('configStore')
+@inject('configStore', 'paymentStore')
 @injectIntl
 @observer
 class HomeDeliveryOrPickUp extends React.Component {
@@ -46,7 +46,10 @@ class HomeDeliveryOrPickUp extends React.Component {
     updatePickupEditNumber: () => {},
     updateConfirmBtnDisabled: () => {},
     calculateFreight: () => {},
-    updateData: () => {}
+    updateData: () => {},
+    cartData: [],
+    subscriptionDetail: [],
+    pickPointRange: ''
   };
   constructor(props) {
     super(props);
@@ -259,7 +262,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         );
       }
     } catch (err) {
-      console.log(789, err.message);
+      console.log(789, err);
     }
   }
   // 设置手机号输入限制
@@ -309,8 +312,11 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 搜索下拉选择。1、游客和新用户展示homeDelivery和pickup；2、有地址的用户直接展示地图。
   handlePickupCitySelectChange = async (data) => {
-    const { isLogin, pickupEditNumber, defaultCity, pageType } = this.props;
+    const { isLogin, pickupEditNumber, defaultCity, pageType, pickPointRange } =
+      this.props;
     const { selectedItem, pickupForm } = this.state;
+    const { subscriptionDetail } = this.props.paymentStore;
+
     let res = null;
     this.setState({
       pickLoading: true,
@@ -324,10 +330,10 @@ class HomeDeliveryOrPickUp extends React.Component {
       let pknum = Number(pickupEditNumber) + 1;
       this.props.updatePickupEditNumber(pknum);
 
-      if (this.props.pickPointRange == 'goodsSize') {
-        //pickPointRange default:固定长宽高，goodsSize：从商品信息里面通过接口获取
-        //pageType === 'checkout' || pageType == 'onlyPickup'
-        let goodsInfoDetails = [];
+      let goodsInfoDetails = [];
+
+      if (this.props.cartData.length > 0 && pageType === 'checkout') {
+        //支付页面 计算的购物车里面商品的数据
         // 取到购物车里面的 goodsInfoId、购买的sku数量
         if (isLogin) {
           let cartData = this.props.cartData?.filter((el) => el.goodsInfoId);
@@ -352,6 +358,17 @@ class HomeDeliveryOrPickUp extends React.Component {
             });
           });
         }
+      } else if (subscriptionDetail.length > 0) {
+        //myaccout subscription页面 计算订阅商品里面的数据
+        subscriptionDetail?.forEach((item) => {
+          goodsInfoDetails.push({
+            goodsInfoId: item?.goodsInfoVO?.goodsInfoId,
+            quantity: item?.subscribeNum
+          });
+        });
+      }
+
+      if (goodsInfoDetails.length > 0) {
         // 合并包裹
         let ckg = await dimensionsByPackage({
           goodsInfoDetails: goodsInfoDetails
@@ -365,6 +382,10 @@ class HomeDeliveryOrPickUp extends React.Component {
           data['dimensions'] = null;
           data['weight'] = null;
         }
+      } else {
+        data['dimensions'] = null;
+        data['weight'] = null;
+        debugger;
       }
 
       pickupForm['provinceCode'] = data?.regionIsoCode || '';
@@ -740,7 +761,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   pickupValidvalidat = async (tname, tvalue) => {
     const { intl } = this.props;
     const { pickupForm, pickupErrMsgs } = this.state;
-    let targetRule = pickupForm.formRule.filter((e) => e.key === tname);
+    let targetRule = pickupForm?.formRule.filter((e) => e.key === tname);
     try {
       await validData({
         rule: targetRule,
@@ -767,7 +788,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     const { intl } = this.props;
     const { pickupForm } = this.state;
     try {
-      await validData({ rule: pickupForm.formRule, data: pickupForm, intl });
+      await validData({ rule: pickupForm?.formRule, data: pickupForm, intl });
       this.props.updateConfirmBtnDisabled(false);
       pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);

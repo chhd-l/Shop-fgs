@@ -51,7 +51,7 @@ import Canonical from '@/components/Canonical';
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
-@inject('configStore')
+@inject('configStore', 'paymentStore')
 @injectIntl
 @seoHoc('Subscription Page')
 @observer
@@ -413,9 +413,12 @@ class SubscriptionDetail extends React.Component {
   };
 
   getDetail = async (fn) => {
+    const { setSubscriptionDetail } = this.props.paymentStore;
+
     try {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
+      setSubscriptionDetail(res.context.goodsInfo);
 
       let subDetail = res.context || {};
       const subscribeStatusVal =

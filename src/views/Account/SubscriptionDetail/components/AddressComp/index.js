@@ -151,7 +151,7 @@ function CardItem(props) {
     );
   }
 }
-@inject('checkoutStore', 'configStore')
+@inject('checkoutStore', 'configStore', 'paymentStore')
 @observer
 /**
  * address list(delivery/billing) - member
@@ -1455,7 +1455,9 @@ class AddressList extends React.Component {
                           updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                           deliveryOrPickUp={showDeliveryOrPickUp}
                           intlMessages={this.props.intl.messages}
-                          cartData={this.props.checkoutStore.loginCartData} //这里传订阅商品的数据，不传购物车里商品的数据
+                          subscriptionDetail={
+                            this.props.paymentStore.subscriptionDetail
+                          }
                           pickPointRange="goodsSize"
                         />
 
