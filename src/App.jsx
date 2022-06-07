@@ -279,6 +279,9 @@ const Whistlefit = loadable(() => import('@/views/Whistlefit'));
 const CouponAgreement = loadable(() =>
   import('@/views/StaticPage/CouponAgreement')
 );
+const AssistanceDog = loadable(() =>
+  import('@/views/StaticPage/AssistanceDog')
+);
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
@@ -1156,6 +1159,16 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_COUNTRY === 'fr') {
                       return <Felin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/chiens-guides-aveugles"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <AssistanceDog {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }

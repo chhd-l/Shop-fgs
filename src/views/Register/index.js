@@ -62,6 +62,12 @@ class Register extends Component {
       emailValid: true,
       passwordValid: true,
 
+      formWarning: {
+        name: false,
+        email: false,
+        password: false
+      },
+
       registerForm: {
         name: '',
         email: '',
@@ -254,61 +260,69 @@ class Register extends Component {
     const symbolReg2 = /^\-+$/;
     const deIllegalSymbol =
       symbolReg1.test(value.trim()) || symbolReg2.test(value.trim());
+    let valid;
     switch (name) {
       case 'password':
         const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
           this.state;
-        const passwordValid =
+        valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
-          passwordValid,
+          passwordValid: valid,
           passwordMessage: value.trim()
             ? this.props.intl.messages.registerPasswordFormat
             : this.props.intl.messages.registerFillIn
         });
         break;
       case 'name':
+        valid = !!value.trim();
         this.setState({
-          nameValid: !!value.trim()
+          nameValid: valid
         });
         break;
       case 'firstName':
+        valid = !!value.trim() && !deIllegalSymbol;
         this.setState({
-          firstNameValid: !!value.trim() && !deIllegalSymbol,
+          firstNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'lastName':
+        valid = !!value.trim() && !deIllegalSymbol;
         this.setState({
-          lastNameValid: !!value.trim() && !deIllegalSymbol,
+          lastNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticFirstName':
         console.log('phoneticFirstNameValid');
+        valid = !!value.trim() && !deIllegalSymbol;
         this.setState({
-          phoneticFirstNameValid: !!value.trim() && !deIllegalSymbol,
+          phoneticFirstNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticLastName':
         console.log('phoneticLastNameValid');
+        valid = !!value.trim() && !deIllegalSymbol;
         this.setState({
-          phoneticLastNameValid: !!value.trim() && !deIllegalSymbol,
+          phoneticLastNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'email':
+        valid = EMAIL_REGEXP.test(value);
         this.setState({
-          emailValid: EMAIL_REGEXP.test(value),
+          emailValid: valid,
           emailMessage: value
             ? this.props.intl.messages.registerEmailFormate
             : this.props.intl.messages.registerFillIn
         });
         break;
-      default:
-        break;
     }
+    this.setState({
+      formWarning: Object.assign({}, this.state.formWarning, { [name]: !valid })
+    });
   }
 
   registerChange = (e) => {
@@ -572,7 +586,7 @@ class Register extends Component {
       errorMessage,
       passwordInputType,
       regError,
-      regErrorMessage
+      formWarning
     } = this.state;
     const allValid =
       (window.__.env.REACT_APP_COUNTRY !== 'de'
@@ -853,14 +867,19 @@ class Register extends Component {
                     maxLength="90"
                     name="email"
                     valid={emailValid}
+                    isWarning={formWarning.email}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
                     value={registerForm.email}
                     label={<FormattedMessage id="jp.email" />}
                     rightOperateBoxJSX={
-                      emailValid ? null : (
-                        <ChaChaIcon onClick={() => this.deleteInput('email')} />
-                      )
+                      formWarning.email ? (
+                        <>
+                          <ChaChaIcon
+                            onClick={() => this.deleteInput('email')}
+                          />
+                        </>
+                      ) : null
                     }
                     inValidLabel={emailMessage}
                   />
@@ -873,6 +892,7 @@ class Register extends Component {
                     minLength="8"
                     name="password"
                     valid={passwordValid}
+                    isWarning={formWarning.password}
                     onChange={this.registerChange}
                     onFocus={this.inputFocus}
                     onBlur={this.inputBlur}
@@ -881,11 +901,11 @@ class Register extends Component {
                     inValidLabel={passwordMessage}
                     rightOperateBoxJSX={
                       <>
-                        {passwordValid ? null : (
+                        {formWarning.password ? (
                           <ChaChaIcon
                             onClick={() => this.deleteInput('password')}
                           />
-                        )}
+                        ) : null}
                         <span
                           style={{ color: '#666' }}
                           className={cn(
@@ -1260,17 +1280,18 @@ class Register extends Component {
                                   name="name"
                                   id="registerName"
                                   valid={nameValid}
+                                  isWarning={formWarning.name}
                                   autocomplete="off"
                                   onChange={this.registerChange}
                                   onBlur={this.inputBlur}
                                   value={registerForm.name}
                                   label={<FormattedMessage id="registerName" />}
                                   rightOperateBoxJSX={
-                                    nameValid ? null : (
+                                    formWarning.name ? (
                                       <ChaChaIcon
                                         onClick={() => this.deleteInput('name')}
                                       />
-                                    )
+                                    ) : null
                                   }
                                   inValidLabel={
                                     <FormattedMessage id="registerFillIn" />
@@ -1349,16 +1370,19 @@ class Register extends Component {
                               maxLength="90"
                               name="email"
                               valid={emailValid}
+                              isWarning={formWarning.email}
                               onChange={this.registerChange}
                               onBlur={this.inputBlur}
                               value={registerForm.email}
                               label={<FormattedMessage id="registerEmail" />}
                               rightOperateBoxJSX={
-                                emailValid ? null : (
-                                  <ChaChaIcon
-                                    onClick={() => this.deleteInput('email')}
-                                  />
-                                )
+                                formWarning.email ? (
+                                  <>
+                                    <ChaChaIcon
+                                      onClick={() => this.deleteInput('email')}
+                                    />
+                                  </>
+                                ) : null
                               }
                               inValidLabel={emailMessage}
                             />
