@@ -171,20 +171,28 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
             {payRecord && payRecord.lastFourDigits ? (
               payRecord?.paymentItem?.toLowerCase() === 'adyen_ideal' ? (
                 <PaymentMethodContainer>
-                  <div className="medium mb-2">
-                    <LazyLoad className="inline">
-                      <img
-                        alt="card background"
-                        className="d-inline-block mr-1 w-2/5"
-                        src={
-                          'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
-                        }
-                      />
-                    </LazyLoad>
+                  <div className="flex items-center mt-8">
+                    <div className="medium mb-2">
+                      <LazyLoad className="inline">
+                        <img
+                          alt="card background"
+                          className="d-inline-block mr-1 w-3/5"
+                          src={
+                            'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
+                          }
+                        />
+                      </LazyLoad>
+                    </div>
+                    {payRecord?.singlePurchaseCardInfo && (
+                      <p>
+                        **** ****
+                        {payRecord?.singlePurchaseCardInfo?.substr(
+                          payRecord?.singlePurchaseCardInfo?.length - 2,
+                          2
+                        )}
+                      </p>
+                    )}
                   </div>
-                  {payRecord?.lastFourDigits && (
-                    <p>**** ****{payRecord?.lastFourDigits?.substr(2)}</p>
-                  )}
                 </PaymentMethodContainer>
               ) : (
                 <PaymentMethodContainer>
