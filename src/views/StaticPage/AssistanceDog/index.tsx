@@ -167,22 +167,21 @@ class AssistanceDog extends React.Component {
                 <p className="font-DinPro font-medium mt-3">{item.desc}</p>
               </div>
             ))}
-
-            <div className="col-span-12 mt-5">
-              <p className="text-rc-red font-DinPro text-2xl font-normal">
-                Découvrez l’aliment adapté aux besoins précis de votre animal
-              </p>
-              <button
-                className="rc-btn rc-btn--one mt-6"
-                onClick={() => {
-                  scrollIntoView(document.querySelector(`#registerForm`));
-                }}
-              >
-                Contactez-nous
-              </button>
-            </div>
           </div>
           <Divider />
+          <div className="mt-12 text-center">
+            <p className="text-rc-red font-DinPro text-2xl font-normal">
+              Découvrez l’aliment adapté aux besoins précis de votre animal
+            </p>
+            <button
+              className="rc-btn rc-btn--one mt-6"
+              onClick={() => {
+                scrollIntoView(document.querySelector(`#registerForm`));
+              }}
+            >
+              Contactez-nous
+            </button>
+          </div>
           <p className="md:w-1/2 mx-auto text-center py-10 font-DinPro text-lg px-5 md:px-0">
             *Contactez-nous du lundi au vendredi de 8h30 à 19h et le samedi de
             9h à 18h. Appels gratuits depuis un poste fixe. <br />

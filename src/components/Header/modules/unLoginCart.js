@@ -377,11 +377,9 @@ class UnloginCart extends React.Component {
                         </div>
                       </div>
                     );
-                    console.log(item, 'unlog');
-                    // 日本折扣商品如果没有折扣不显示折扣价
+                    // 折扣商品如果没有折扣不显示折扣价
                     if (
-                      item.goodsInfoFlag === 1 &&
-                      window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                      item.goodsInfoFlag > 0 &&
                       item.originalPrice === item.subscribePrice
                     ) {
                       discountPrice = null;

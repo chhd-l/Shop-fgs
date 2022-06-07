@@ -107,11 +107,8 @@ const SubGoodsInfos = ({
           style={{ display: isMobile ? 'block' : 'none' }}
         >
           {(subDetail.goodsInfo || []).map((el, index) => {
-            let disCountPriceVisible = !isIndv; // 如果是日本 并且折扣价为0 不显示
-            if (
-              window.__.env.REACT_APP_COUNTRY === 'jp' &&
-              el.originalPrice === el.subscribePrice
-            ) {
+            let disCountPriceVisible = !isIndv; // 折扣商品如果没有折扣就不显示折扣价
+            if (el.originalPrice === el.subscribePrice) {
               disCountPriceVisible = false;
             }
             return (
@@ -270,11 +267,8 @@ const SubGoodsInfos = ({
         <div className="card-container mt-0 hidden md:block border-0">
           {(subDetail.goodsInfo || []).map((el, index) => {
             let showDiscountPrice = !isIndv;
-            // 如果是日本 没有折扣 不显示折扣价
-            if (
-              window.__.env.REACT_APP_COUNTRY === 'jp' &&
-              el.originalPrice === el.subscribePrice
-            ) {
+            // 折扣商品如果没有折扣就不显示折扣价
+            if (el.originalPrice === el.subscribePrice) {
               showDiscountPrice = false;
             }
             return (
