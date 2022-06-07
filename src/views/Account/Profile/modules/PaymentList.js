@@ -386,13 +386,15 @@ class PaymentList extends React.Component {
     this.setState({ fromPage });
     window.scroll({ top: 0, behavior: 'smooth' });
   }
-  updateConfirmTooltipVisible(el, status) {
-    let { creditCardList } = this.state;
-    el.confirmTooltipVisible = status;
+  updateConfirmTooltipVisible = (el, status) => {
+    console.log(this.state);
+    const { creditCardList } = this.state;
+    let obj = creditCardList.find((item) => item?.id == el?.id);
+    obj.confirmTooltipVisible = status;
     this.setState({
       creditCardList
     });
-  }
+  };
   handleClickDeleteBtn(data, e) {
     if (data?.paddingFlag) return;
     e.preventDefault();
