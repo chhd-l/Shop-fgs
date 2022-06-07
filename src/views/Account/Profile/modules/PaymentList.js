@@ -436,6 +436,18 @@ class PaymentList extends React.Component {
       this.getPaymentMethodList({ showLoading: false });
     }
   }
+  // 每种类型的卡只展示一张
+  getOnlyCardTypeArr = () => {
+    const arr = [];
+    const { creditCardList } = this.state;
+    creditCardList.forEach((item) => {
+      if (!arr.find((it) => it?.paymentItem === item?.paymentItem)) {
+        arr.push(item);
+      }
+    });
+    return arr;
+  };
+
   render() {
     const {
       listVisible,
@@ -549,15 +561,17 @@ class PaymentList extends React.Component {
                     hidden: editFormVisible || listVisible
                   })}
                 >
-                  {creditCardList.slice(0, 2).map((el, i) => (
-                    <div className="col-12 col-md-4 p-2" key={i}>
-                      <CardItem
-                        data={el}
-                        supportPaymentMethods={supportPaymentMethods}
-                        pageType={this.props?.pageType}
-                      />
-                    </div>
-                  ))}
+                  {this.getOnlyCardTypeArr()
+                    .slice(0, 3)
+                    .map((el, i) => (
+                      <div className="col-12 col-md-4 p-2" key={i}>
+                        <CardItem
+                          data={el}
+                          supportPaymentMethods={supportPaymentMethods}
+                          pageType={this.props?.pageType}
+                        />
+                      </div>
+                    ))}
                   {creditCardList.slice(0, 2).length < 2 && (
                     <div className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'cover' })}

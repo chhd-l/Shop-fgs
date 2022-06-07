@@ -113,8 +113,7 @@ const DetailHeader = ({
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
         )}
-          {(window.__.env.REACT_APP_COUNTRY === 'de' ||
-          window.__.env.REACT_APP_COUNTRY === 'mx') && (
+          {(window.__.env.REACT_APP_COUNTRY === 'mx') && (
           <div className="stars text-nowrap">
             <div className="rc-card__price flex">
               <div

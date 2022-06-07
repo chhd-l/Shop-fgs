@@ -55,15 +55,24 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
     .filter((attr) => attr?.goodsAttributeName?.toLowerCase() == keyWords)
     .map((item) => item?.goodsAttributeValue);
+};
+
+const pillarEnum = {
+  0: 'SPT',
+  1: 'SPT',
+  2: 'BUNDLE',
+  3: 'VET',
+  4: 'GIFT'
 };
 
 function bSort(arr) {
@@ -867,7 +876,8 @@ class List extends React.Component {
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName,
-        goodsImg
+        goodsImg,
+        goodsType
       } = item;
       const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
       // const spezies = filterAttrValue(
@@ -900,7 +910,8 @@ class List extends React.Component {
         brand: 'Royal Canin',
         breed,
         sizeCategory,
-        imageURL: goodsImg
+        imageURL: goodsImg,
+        pillar: pillarEnum[goodsType] || ''
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -1682,8 +1693,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {

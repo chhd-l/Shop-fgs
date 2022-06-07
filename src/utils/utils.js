@@ -69,7 +69,7 @@ export function formatMoney(val) {
           currency: CURRENCY
         })
           .format(val)
-          .replace(/¥/g, '') + '円'
+          .replace(/[￥|¥]/g, '') + '円'
       );
   }
 

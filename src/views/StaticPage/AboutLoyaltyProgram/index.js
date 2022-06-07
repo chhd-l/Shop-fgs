@@ -14,6 +14,7 @@ import Bitmap3 from './images/Bitmap3.png';
 import Cat2 from './images/Cat2.png';
 import Dog2 from './images/Dog2.png';
 import ThroughLine from './components/index';
+import { Link } from 'react-router-dom';
 
 const pageLink = window.location.href;
 
@@ -70,12 +71,12 @@ function AboutLoyaltyProgram(props) {
               マイ ロイヤルカナン
               ポイントプログラムでは、愛犬・愛猫の真の健康を実現していくために、今後、愛犬・愛猫の健康管理をコンセプトとした特典やプロモーションを実施していく予定です。
             </p>
-            <a
-              href="subscription"
+            <Link
+              to="/subscription"
               className="font-PingFangSC w-cs-240 text-12 md:text-16 font-medium text-cs-black leading-6 underline ml-22 mr-22"
             >
               定期購入について詳しくはこちら
-            </a>
+            </Link>
             <img
               src={Bitmap1}
               alt=""

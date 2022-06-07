@@ -375,6 +375,7 @@ class PetForm extends React.Component {
     const isPrescriptiongGate = this.props.location.search
       .substring(1)
       .split('=')[1];
+    console.log('isPrescriptiongGate', isPrescriptiongGate);
     return (
       <div className="petForm">
         <GoogleTagManager

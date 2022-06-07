@@ -286,10 +286,11 @@ class LoginCart extends React.Component {
                   ) : (
                     cartData.map((item, index) => {
                       // 是否显示折扣价格
+                      console.log(item, 'log');
                       let showDiscountPrice = true;
                       // 日本折扣商品如果没有折扣不显示折扣价
                       if (
-                        item.goodsInfoFlag === 3 &&
+                        item.goodsInfoFlag === 1 &&
                         window.__.env.REACT_APP_COUNTRY === 'jp' &&
                         item.originalPrice === item.subscribePrice
                       ) {

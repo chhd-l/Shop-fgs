@@ -10,6 +10,14 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
+const pillarEnum = {
+  0: 'SPT',
+  1: 'SPT',
+  2: 'BUNDLE',
+  3: 'VET',
+  4: 'GIFT'
+};
+
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
   return promotionInfo?.goodsInfos?.map((item) => {
@@ -259,6 +267,7 @@ export const GAInitUnLogin = ({
         'species'
       ).toString();
       let obj = deleteObjEmptyAttr({
+        pillar: pillarEnum[item.goodsType] || '',
         price: price, //Product Price, including discount if promo code activated for this product
         specie, //'Cat' or 'Dog',
         range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
@@ -361,6 +370,7 @@ export const GAInitLogin = ({
       'species'
     ).toString();
     let productItem = {
+      pillar: pillarEnum[item.goods.goodsType] || '',
       price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie, //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'

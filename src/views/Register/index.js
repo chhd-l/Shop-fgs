@@ -1078,7 +1078,7 @@ class Register extends Component {
                     >
                       *
                     </span>
-                    <FormattedMessage id="jp.registerMandatory" />
+                    <FormattedMessage id="registerMandatory" />
                   </p>
                   {this.state.showValidErrorMsg ? (
                     <aside
