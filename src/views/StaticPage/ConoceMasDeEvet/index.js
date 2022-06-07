@@ -7,6 +7,7 @@ import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import Canonical from '@/components/Canonical';
+import { LOGO_PRIMARY } from '@/utils/constant';
 
 @seoHoc()
 class Landing extends Component {
