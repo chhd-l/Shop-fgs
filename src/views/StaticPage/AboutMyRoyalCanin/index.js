@@ -114,7 +114,7 @@ function AboutMyRoyalCanin(props) {
               </p>
               <a
                 href="javasrcipt:;"
-                className="DINPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
+                className="font-DinPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
                 style={{ color: '#444444', display: 'inline' }}
               >
                 定期購入サービスについて詳しくはこちら。
@@ -147,7 +147,7 @@ function AboutMyRoyalCanin(props) {
               </p>
               <a
                 href="javasrcipt:;"
-                className="DINPro d7bottom-border md:w-cs-73/100 md:font-medium md:text-16 md:leading-6 "
+                className="font-DinPro d7bottom-border md:w-cs-73/100 md:font-medium md:text-16 md:leading-6 "
                 style={{ color: '#444444', display: 'inline' }}
               >
                 ポイントプログラムについて詳しくはこちら。
@@ -231,7 +231,7 @@ function AboutMyRoyalCanin(props) {
               </p>
               <a
                 href="javasrcipt:;"
-                className="DINPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
+                className="font-DinPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
                 style={{ color: '#444444', display: 'inline' }}
               >
                 おいしさ満足保証返金制度について詳しくはこちら。

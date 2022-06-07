@@ -16,7 +16,8 @@ export default class Selection extends React.Component {
     emptyFirstItem: '',
     selectedItemData: null,
     customCls: '',
-    hasBorder: false
+    hasBorder: false,
+    selectedItemChange: () => {}
   };
   constructor(props) {
     super(props);
