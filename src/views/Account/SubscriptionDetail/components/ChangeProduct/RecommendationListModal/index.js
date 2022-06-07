@@ -18,8 +18,12 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
-    SubDetailHeaderValue;
+  const {
+    triggerShowChangeProduct,
+    setState,
+    productListLoading,
+    subDetail
+  } = SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -218,7 +222,7 @@ const RecommendationListModal = ({ intl }) => {
             </div>
           </>
         ) : (
-          <div className="text-center  rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
+          <div className="text-center px-2 md:px-60">
             <img
               className="m-auto"
               style={{ maxWidth: '100px' }}
