@@ -55,11 +55,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -389,7 +388,8 @@ class List extends React.Component {
       hiddenFilter: false,
       invalidPage: false, //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
       prefnParamListFromSearch: [],
-      filtersCounts: 0
+      filtersCounts: 0,
+      categoryDogType: false
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1183,6 +1183,9 @@ class List extends React.Component {
           targetRouter.isPeriod === 1;
         const invalidPage =
           targetRouter?.cateRouter && targetRouter.isPeriod === 0;
+        const categoryDogType = targetRouter.cateType.includes('dog')
+          ? true
+          : false;
         this.setState(
           {
             sortList,
@@ -1211,7 +1214,8 @@ class List extends React.Component {
             hiddenFilter,
             invalidPage,
             breadList,
-            isSpecialNeedFilter
+            isSpecialNeedFilter,
+            categoryDogType
           },
           () => {
             this.getProductList();
@@ -1693,9 +1697,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1796,7 +1799,8 @@ class List extends React.Component {
       animalType,
       hiddenFilter,
       invalidPage,
-      filtersCounts
+      filtersCounts,
+      categoryDogType
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -2146,7 +2150,7 @@ class List extends React.Component {
                                       <PLPCover
                                         item={item}
                                         key={item.id}
-                                        isDogPage={isDogPage}
+                                        isDogPage={categoryDogType}
                                         sourceParam={this.state.sourceParam}
                                         GAListParam={GAListParam}
                                         breadListByDeco={breadListByDeco}

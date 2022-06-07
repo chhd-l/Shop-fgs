@@ -320,11 +320,8 @@ const NextDelivery = ({
       {el.tradeItems &&
         el.tradeItems.map((tradeItem, index) => {
           let showDiscountPrice = !isIndv;
-          // 如果是日本 没有折扣 不显示折扣价
-          if (
-            window.__.env.REACT_APP_COUNTRY === 'jp' &&
-            el.originalPrice === el.subscribePrice
-          ) {
+          // 折扣商品如果没有折扣就不显示折扣价
+          if (el.originalPrice === el.subscribePrice) {
             showDiscountPrice = false;
           }
           return (

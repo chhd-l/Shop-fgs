@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getStoreOpenConsentList } from '@/api/consent';
+import { getConsentGroupList } from '@/api/consent';
 import Consent from '@/components/Consent';
 import { inject, observer } from 'mobx-react';
 
@@ -36,9 +36,8 @@ const ConsentModule = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const res: any = await getStoreOpenConsentList({
-        consentPage: 'Landing page',
-        customerId: userInfo?.customerId
+      const res: any = await getConsentGroupList({
+        consentGroup: 'assistanceDogs'
       });
       const optionalList = res?.context?.optionalList.map((item: any) => ({
         id: item.id,
