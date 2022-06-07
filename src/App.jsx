@@ -58,9 +58,9 @@ import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 import PreciseCatNutrition from './views/PreciseCatNutrition';
 import CartDEBreeder from './views/CartDEBreeder';
 import { funcUrl } from './lib/url-utils';
-import LogRocket from 'logrocket';
+// import LogRocket from 'logrocket';
 
-LogRocket.init('kvnk0e/test');
+// LogRocket.init('kvnk0e/test');
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
@@ -278,6 +278,9 @@ const Adoptions = loadable(() => import('@/views/Adoptions'));
 const Whistlefit = loadable(() => import('@/views/Whistlefit'));
 const CouponAgreement = loadable(() =>
   import('@/views/StaticPage/CouponAgreement')
+);
+const AssistanceDog = loadable(() =>
+  import('@/views/StaticPage/AssistanceDog')
 );
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
@@ -1156,6 +1159,16 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_COUNTRY === 'fr') {
                       return <Felin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/chiens-guides-aveugles"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <AssistanceDog {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }

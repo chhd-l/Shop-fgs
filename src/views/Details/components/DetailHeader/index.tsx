@@ -18,6 +18,7 @@ interface Props {
   selectedSpecItem: any;
   instockStatus:any;
   vet: any;
+  skuOffShelves:any;
 }
 const DetailHeader = ({
   checkOutErrMsg,
@@ -27,7 +28,8 @@ const DetailHeader = ({
   replyNum,
   selectedSpecItem,
   instockStatus,
-  vet
+  vet,
+  skuOffShelves
 }: Props) => {
   const handleAClick = () => {
     if (replyNum > 0) {
@@ -92,7 +94,7 @@ const DetailHeader = ({
         className="description"
         dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
       />
-      {stockDom()}
+      {skuOffShelves?stockDom():null}
       {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
@@ -113,8 +115,7 @@ const DetailHeader = ({
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
         )}
-          {(window.__.env.REACT_APP_COUNTRY === 'de' ||
-          window.__.env.REACT_APP_COUNTRY === 'mx') && (
+          {(window.__.env.REACT_APP_COUNTRY === 'mx') && (
           <div className="stars text-nowrap">
             <div className="rc-card__price flex">
               <div
@@ -137,7 +138,7 @@ const DetailHeader = ({
             </div>
           </div>
         )}
-        {stockDom()}
+        {skuOffShelves?stockDom():null}
       <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
         <div className="des">
           <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>

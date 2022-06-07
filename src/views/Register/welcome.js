@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { LOGO } from '@/utils/constant';
 import './index.less';
+import { Link } from 'react-router-dom';
 
 export default class welcome extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class welcome extends Component {
   }
   render() {
     let homePage = window.__.env.REACT_APP_HOMEPAGE;
+    const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
     const contactUrl = `${homePage.replace(/\/$/gi, '')}/help/contact`;
     const helpUrl = `${homePage.replace(/\/$/gi, '')}/help`;
@@ -75,6 +77,13 @@ export default class welcome extends Component {
                 </strong>
               </a>
             </p>
+            {['de'].includes(COUNTRY) && (
+              <p>
+                <Link to={'/'}>
+                  <FormattedMessage id="welcome.toHome" />
+                </Link>
+              </p>
+            )}
           </div>
         </div>
       </div>

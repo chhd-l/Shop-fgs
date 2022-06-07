@@ -1595,7 +1595,6 @@ class Form extends React.Component {
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
     const { caninForm, apiType } = this.state;
-    debugger;
 
     return (
       <>
