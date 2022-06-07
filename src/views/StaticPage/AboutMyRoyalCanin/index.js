@@ -248,11 +248,10 @@ function AboutMyRoyalCanin(props) {
               愛犬・愛猫の健康管理に役立つ情報をご提供
             </h1>
             <p
-              className="font-PingFangSC text-16 leading-6 text-center mb-4  md:mb-7 md:text-18 md:leading-7"
+              className="font-PingFangSC text-16 leading-6 text-left md:text-center mb-4  md:mb-7 md:text-18 md:leading-7"
               style={{ color: '#666666' }}
             >
               キャンペーンなどのお得な情報や、愛犬・愛猫の健康管理に役
-              <br />
               立つ情報をニュースレターで配信しています。
             </p>
           </div>
