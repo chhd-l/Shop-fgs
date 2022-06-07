@@ -139,7 +139,7 @@ class AssistanceDog extends React.Component {
             {[
               {
                 img: {
-                  src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/mechanism-2@2x.png`
+                  src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/mechanism-1@2x.png`
                 },
                 desc: 'Fédération Française des Associations de Chiens Guides'
               },
