@@ -597,6 +597,7 @@ const RelateProductList = ({ mainProduct }) => {
                   onToggleFilterModal={toggleFilterModal}
                   filterList={filterList}
                   key={`2-${filterList.length}`}
+                  notUpdateRouter={true}
                   inputLabelKey={2}
                   // hanldePriceSliderChange={
                   //   this.hanldePriceSliderChange
@@ -605,7 +606,9 @@ const RelateProductList = ({ mainProduct }) => {
                   //   markPriceAndSubscriptionLangDict
                   // }
                   // baseSearchStr={baseSearchStr}
+                  getProductList={initProductList}
                   prefnParamListSearch={prefnParamListFromSearch}
+                  selectedFilterPref={handleSelectedFilterPref}
                 />
               ) : (
                 <FiltersPC
