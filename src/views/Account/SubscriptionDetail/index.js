@@ -165,7 +165,7 @@ class SubscriptionDetail extends React.Component {
       isNotInactive: false,
       isDataChange: false,
       petName: '', //订阅单的petName
-      showTempolineError: false,
+      tempolineError: '',
       jpSlotTime: {},
       slotTimeChanged: false
     };
@@ -239,7 +239,7 @@ class SubscriptionDetail extends React.Component {
       checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
         .then()
         .catch((err) => {
-          this.setState({ showTempolineError: err.message });
+          this.setState({ tempolineError: err.message });
           return;
         });
       if (isBillSame) {
@@ -720,6 +720,7 @@ class SubscriptionDetail extends React.Component {
       this.props.history.push('/account/subscription');
       return;
     }
+    let checkSubscriptionAddressPickPointSuccess = false;
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
@@ -761,6 +762,7 @@ class SubscriptionDetail extends React.Component {
       });
       await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
       await this.doUpdateDetail(param);
+      checkSubscriptionAddressPickPointSuccess = true;
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
@@ -769,7 +771,11 @@ class SubscriptionDetail extends React.Component {
       });
     } catch (err) {
       this.showErrMsg(err.message);
-      // this.setState({ showTempolineError: err.message });
+      // 修改数量，失败时，需重新查询接口
+      if (!checkSubscriptionAddressPickPointSuccess) {
+        this.getDetail();
+      }
+      // this.setState({ tempolineError: err.message });
     } finally {
       this.setState({ loading: false });
     }
@@ -974,9 +980,9 @@ class SubscriptionDetail extends React.Component {
 
                       {/*tempoline api error message tip*/}
                       <TempolineAPIError
-                        showError={this.state.showTempolineError}
+                        error={this.state.tempolineError}
                         closeError={() => {
-                          this.setState({ showTempolineError: false });
+                          this.setState({ tempolineError: '' });
                         }}
                       />
 
