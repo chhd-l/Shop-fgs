@@ -137,15 +137,14 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
           <p className="text-center mt-6 md:mt-12 mb-3 red text-lg md:text-2xl">
             <FormattedMessage id="productFinder.otherProductsToConsider" />
           </p>
-          <div className="rc-scroll--x pb-4 px-40">
+          <div className="rc-scroll--x pb-4 px-1 md:px-40">
             <div className="d-flex">
               {productDetail?.otherProducts?.map((ele, i) => (
                 <div
-                  className={`border rounded pt-3 pb-3 pl-2 pr-2 md:pl-0 md:pr-0 ${
-                    i ? 'ml-2' : ''
+                  className={`border rounded pt-3 pb-3 pl-2 pr-2 md:pl-0 md:pr-0 w-72 ${
+                    i ? 'ml-3' : ''
                   }`}
                   key={ele.id}
-                  style={{ flex: 1 }}
                 >
                   <div className="mb-3 p-f-product-img">
                     {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
@@ -163,7 +162,7 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
                     {/* </LazyLoad> */}
                   </div>
                   <div className="d-flex flex-column justify-content-center">
-                    <header className="rc-text--center">
+                    <header className="rc-text--center px-1">
                       <h3
                         className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen p-f-product-title"
                         title={ele.goodsName}
