@@ -36,13 +36,13 @@ class DeleteMyAccount extends React.Component {
     return (
       <div className={classNames({ border: curPageAtCover })}>
         <div className="userContactPreferenceInfo">
-          <div className="profileSubFormTitle pl-3 pr-3 pt-3">
+          <div className="profileSubFormTitle pl-0 pr-3 pt-3">
             <h5
               className="mb-0 text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
               <div
-                className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                className="svg-icon account-info-icon align-middle ml-1"
                 style={{
                   width: '2.5em',
                   height: '2.5em',
