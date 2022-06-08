@@ -928,7 +928,7 @@ class AddressList extends React.Component {
                       updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                       deliveryOrPickUp={showDeliveryOrPickUp}
                       intlMessages={this.props.intl.messages}
-                      pickPointRange="default"
+                      fromPage="myAccount"
                     />
 
                     {/* 分割线 */}

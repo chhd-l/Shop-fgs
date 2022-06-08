@@ -1458,7 +1458,7 @@ class AddressList extends React.Component {
                           subscriptionDetail={
                             this.props.paymentStore.subscriptionDetail
                           }
-                          pickPointRange="goodsSize"
+                          fromPage="subscription"
                         />
 
                         {/* 分割线 */}
