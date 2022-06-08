@@ -15,6 +15,10 @@ const Canonical = ({ href }) => {
           hreflang={window.__.env.REACT_APP_LANG_LOCALE}
         />
       ) : null}
+      {/* // x-default hreflang tags should be updated on all D2C pages for all markets. */}
+      {['ru', 'fr', 'tr', 'uk'].includes(window.__.env.REACT_APP_COUNTRY) ? (
+        <link rel="alternate" href={ret} hreflang="x-default" />
+      ) : null}
     </Helmet>
   );
 };
