@@ -1,3 +1,5 @@
+import { filterObjectValue } from '../utils';
+
 export const GACartButtonClick = (item) => {
   window.dataLayer?.push({
     event: 'cartButtonClick', //String : constant
@@ -6,7 +8,8 @@ export const GACartButtonClick = (item) => {
     }
   });
 };
-export const GACartRecommendedProductClick = (product) => {
+
+export const GACartRecommendedProductClick = (el) => {
   window.dataLayer = window.dataLayer || [];
   const filterAttrValue = (list, keyWords) => {
     return (list || [])
@@ -23,21 +26,14 @@ export const GACartRecommendedProductClick = (product) => {
     goodsName,
     mainItemCode,
     goodsAttributesValueRelVOAllList,
+    goodsSpecDetailVOS,
     goodsCateName,
     goodsImg,
-    subscription,
     goodsInfoVOS,
-    subscriptionFrequency,
     goodsInfoIds,
-    promoCodeName,
-    brandName,
-    promoCodeAmount = ''
-  } = product;
+    brandName
+  } = el;
   const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
-  // const spezies = filterAttrValue(
-  //   goodsAttributesValueRelVOAllList,
-  //   'spezies'
-  // );
   const specie = filterAttrValue(
     goodsAttributesValueRelVOAllList,
     'species'
@@ -50,11 +46,8 @@ export const GACartRecommendedProductClick = (product) => {
     goodsAttributesValueRelVOAllList,
     'technology'
   ).toString();
-  const size = filterAttrValue(goodsAttributesValueRelVOAllList, 'size')[0];
-  const SKU = goodsInfoIds[0];
-  const quantity = goodsInfoVOS[0].buyCount;
-  // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';//这个方法有时候数据没有breed，判断不了
-  // const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+  const size = goodsSpecDetailVOS?.[0]?.detailName || '';
+  const SKU = goodsInfoVOS?.[0]?.goodsInfoNo || '';
   const gaProduct = {
     price: fromPrice,
     specie,
@@ -63,21 +56,17 @@ export const GACartRecommendedProductClick = (product) => {
     mainItemCode,
     SKU,
     technology,
-    subscription,
-    subscriptionFrequency,
     brand: brandName,
     breed,
-    size,
-    quantity,
-    promoCodeName,
-    promoCodeAmount
+    size
   };
-  // const  product = filterObjectValue(gaProduct);
+
+  const product = filterObjectValue(gaProduct);
 
   dataLayer.push({
     event: 'cartRecommendedProductClick',
     cartRecommendedProductClick: {
-      products: [gaProduct]
+      products: [product]
     }
   });
 };
