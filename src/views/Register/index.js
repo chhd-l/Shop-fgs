@@ -25,7 +25,7 @@ import { Input } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
-// import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import NlConsentAdditionalText from '@/components/Consent/ConsentAdditionalText/nlConsentText';
 import './components/notification.less';
 
 // 日本logo
@@ -158,11 +158,17 @@ class Register extends Component {
     });
     try {
       const result = await getStoreOpenConsentList({});
-      const optioalList = result.context.optionalList.map((item) => {
+      let _optionalList = result.context.optionalList;
+      if (window.__.env.REACT_APP_COUNTRY === 'nl') {
+        _optionalList = result.context.optionalList.filter(
+          (item) => item.consentDesc !== 'MARS-PETCARE_NL_GLOBAL_B2C_DATALAKE'
+        );
+      }
+      const optioalList = _optionalList.map((item) => {
         return {
           id: item.id,
           consentTitle:
-            window.__.env.REACT_APP_COUNTRY === 'uk'
+            ['uk', 'nl'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
               ? item.consentRegisterTitle || item.consentTitle
               : item.consentTitle,
           isChecked: false,
@@ -198,7 +204,7 @@ class Register extends Component {
 
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
-      if (window.__.env.REACT_APP_COUNTRY === 'uk') {
+      if (['uk', 'nl'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
         list = [...optioalList, ...requiredList]; //uk的排序特殊化
       }
       this.setState({
@@ -263,8 +269,13 @@ class Register extends Component {
     let valid;
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -334,8 +345,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -1022,28 +1032,6 @@ class Register extends Component {
                   />
                   {/* 下方条框勾选 */}
                   <div id="wrap">
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <div
-                        className="footer-checkbox-title rc-text--left"
-                        style={{ zoom: this.state.fontZoom }}
-                      >
-                        <p>
-                          We’d like to keep you and your pet up to date with
-                          exciting promotions and new product developments from{' '}
-                          <a
-                            href="https://www.mars.com/made-by-mars/petcare"
-                            target="_blank"
-                          >
-                            Mars Petcare and its affiliates
-                          </a>
-                          .
-                        </p>
-                        <p>
-                          I am over 16 years old, and would like to receive
-                          these from:
-                        </p>
-                      </div>
-                    ) : null}
                     <Consent
                       url={url}
                       list={this.state.list}
@@ -1055,40 +1043,6 @@ class Register extends Component {
                       key={'required'}
                       pageType="register"
                     />
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <div
-                        className="footer-checkbox-title rc-text--left"
-                        style={{ zoom: this.state.fontZoom }}
-                      >
-                        <p>
-                          I understand that I may change these preferences at
-                          any time by updating my preferences in my account or
-                          by clicking the unsubscribe link in any communication
-                          I receive.
-                        </p>
-                        <p>
-                          From time to time, we may use your data for research
-                          to enhance our product and service offerings. You can
-                          find out how{' '}
-                          <a
-                            href="https://www.mars.com/made-by-mars/petcare"
-                            target="_blank"
-                          >
-                            Mars Petcare and its affiliates
-                          </a>{' '}
-                          collects and processes your data, contact us with
-                          privacy questions, and exercise your personal data
-                          rights via the{' '}
-                          <a
-                            href="https://www.mars.com/privacy-policy"
-                            target="_blank"
-                          >
-                            Mars Privacy Statement
-                          </a>
-                          .
-                        </p>
-                      </div>
-                    ) : null}
                   </div>
                   {/* 注册按钮上的警示文字 */}
                   <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
@@ -1557,6 +1511,9 @@ class Register extends Component {
                                   </p>
                                 </div>
                               ) : null}
+                              {window.__.env.REACT_APP_COUNTRY === 'nl' ? (
+                                <NlConsentAdditionalText textPosition="top" />
+                              ) : null}
                               <Consent
                                 url={url}
                                 list={this.state.list}
@@ -1602,6 +1559,9 @@ class Register extends Component {
                                     .
                                   </p>
                                 </div>
+                              ) : null}
+                              {window.__.env.REACT_APP_COUNTRY === 'nl' ? (
+                                <NlConsentAdditionalText textPosition="bottom" />
                               ) : null}
                             </div>
                           </div>

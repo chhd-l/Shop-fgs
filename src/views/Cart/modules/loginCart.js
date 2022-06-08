@@ -462,11 +462,7 @@ class LoginCart extends React.Component {
     }
   }
   handleCheckout = async ({ needLogin = false } = {}) => {
-    if (needLogin) {
-      GACartButtonClick('Buy Now');
-    } else {
-      GACartButtonClick('Guest checkout');
-    }
+    GACartButtonClick('Buy Now');
     if (!this.btnStatus) {
       return false;
     }
