@@ -161,7 +161,7 @@ class Register extends Component {
       let _optionalList = result.context.optionalList;
       if (window.__.env.REACT_APP_COUNTRY === 'nl') {
         _optionalList = result.context.optionalList.filter(
-          (item) => item.consentDesc !== 'RC-DF_NL_FGS_B2C_OPT-ALL'
+          (item) => item.consentDesc !== 'MARS-PETCARE_NL_GLOBAL_B2C_DATALAKE'
         );
       }
       const optioalList = _optionalList.map((item) => {
