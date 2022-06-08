@@ -25,6 +25,7 @@ const SPECAIL_CONSENT_ENUM =
     uk: ['RC_DF_UK_CLIXRAY_OPT_EMAIL'],
     se: ['RC_SE_B2C_OPT'],
     mx: ['RC_MX_B2C_OPT'],
+    nl: ['RC-DF_NL_FGS_B2C_OPT-ALL'],
     tr: ['RC_DF_TR_FGS_OPT_EMAIL_MOBILE_PRINT']
   }[window.__.env.REACT_APP_COUNTRY] || [];
 
@@ -460,7 +461,7 @@ class CommunicationDataEditForm extends React.Component {
             ) : null}
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
-              {['fr', 'de', 'se', 'mx', 'tr', 'jp'].indexOf(
+              {['fr', 'de', 'se', 'mx', 'tr', 'jp', 'nl'].indexOf(
                 window.__.env.REACT_APP_COUNTRY
               ) < 0 ? (
                 <div className="mb-3">
