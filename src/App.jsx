@@ -41,10 +41,10 @@ import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
-import ProductFinder from '@/views/ProductFinder';
+// import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
-import ProductFinderResult from '@/views/ProductFinder/modules/Result';
-import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
+// import ProductFinderResult from '@/views/ProductFinder/modules/Result';
+// import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 import SearchShow from '@/views/StaticPage/SearchShow';
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
 // const PromotionRefuge = loadable(() => import('@/views/StaticPage/PromotionRefuge')); // todo slide
