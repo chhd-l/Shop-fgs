@@ -137,8 +137,8 @@ class SubscriptionDetail extends React.Component {
           type: 'changeDate'
         },
         {
-          title: 'modalChangeDateTitle',
-          content: 'modalChangeDateContent',
+          title: 'modalChangeTimeTitle',
+          content: 'modalChangeTimeContent',
           type: 'changeTime'
         }
       ],
