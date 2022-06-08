@@ -32,7 +32,7 @@ const SeoConfig = ({ errMsg, goodsId, pageLink, setHeadingTag }: Props) => {
   return (
     <div>
       <Helmet>
-        <link rel="canonical" href={pageLink} />
+        <link rel="canonical" href={pageLink.toLowerCase()} />
         <title>{seoConfig.title}</title>
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />

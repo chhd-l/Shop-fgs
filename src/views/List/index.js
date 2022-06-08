@@ -1852,8 +1852,8 @@ class List extends React.Component {
             rel="canonical"
             href={
               this.state.canonicalforTRSpecialPageSearchFlag
-                ? canonicalLink.cur.split('?')[0]
-                : canonicalLink.cur
+                ? canonicalLink.cur.split('?')[0].toLowerCase()
+                : canonicalLink.cur.toLowerCase()
             }
           />
           {/* <link rel="canonical" href={canonicalLink.cur} /> */}
