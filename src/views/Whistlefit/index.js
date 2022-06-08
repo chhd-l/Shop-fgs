@@ -28,7 +28,7 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import { getDeviceType } from '@/utils/utils';
 import HeroCarousel from './components/carousel/index2';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 //import HeroCarousel from '@/components/HeroCarousel';
 
 const PAGE_NUM = '121313';

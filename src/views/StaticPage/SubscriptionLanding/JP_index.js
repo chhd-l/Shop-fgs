@@ -6,9 +6,8 @@ import BannerTip from '@/components/BannerTip';
 import HeroCarousel from '@/components/HeroCarousel';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 import { seoHoc } from '@/framework/common';
-import LazyLoad from 'react-lazyload';
 import { optimizeImage } from '@/utils/utils';
 
 import './index.css';
@@ -20,8 +19,6 @@ import icon3 from './images/jp_icon3.png';
 import icon4 from './images/jp_icon4.png';
 import icon5 from './images/jp_icon5.png';
 import cateimg from './images/us_autoship.png';
-
-const pageLink = window.location.href;
 
 @seoHoc('Subscription Page')
 class JPLandingPage extends React.Component {
@@ -35,9 +32,7 @@ class JPLandingPage extends React.Component {
 
     return (
       <div className="subscriptionLanding">
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

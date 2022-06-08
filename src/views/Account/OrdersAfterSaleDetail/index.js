@@ -10,7 +10,7 @@ import SideMenu from '@/components/SideMenu';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @seoHoc()
 export default class OrdersAfterSaleDetail extends React.Component {

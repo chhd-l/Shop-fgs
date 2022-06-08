@@ -13,7 +13,7 @@ import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 import Skeleton from 'react-skeleton-loader';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @injectIntl
 @seoHoc()

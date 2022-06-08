@@ -33,7 +33,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

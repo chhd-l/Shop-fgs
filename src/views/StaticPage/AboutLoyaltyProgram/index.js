@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
+
 import hootbg from './images/hootbg.png';
 import Group1 from './images/Group1.png';
 import Bitmap1 from './images/Bitmap1.png';
@@ -15,16 +15,13 @@ import Cat2 from './images/Cat2.png';
 import Dog2 from './images/Dog2.png';
 import ThroughLine from './components/index';
 import { Link } from 'react-router-dom';
-
-const pageLink = window.location.href;
+import { Canonical } from '@/components/Common';
 
 function AboutLoyaltyProgram(props) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="aboutLoyaltyProgram">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />

@@ -10,19 +10,15 @@ import { validData } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 
 import Bitmap from './images/Bitmap.png';
-
-const pageLink = window.location.href;
 
 function JpContactUs(props) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="contactUs">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />

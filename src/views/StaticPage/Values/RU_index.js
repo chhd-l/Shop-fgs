@@ -8,12 +8,11 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
-
 import './index.css';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 @seoHoc()

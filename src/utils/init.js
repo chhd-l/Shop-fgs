@@ -28,14 +28,14 @@ if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   document.getElementsByTagName('head')[0].appendChild(linkTag);
 }
 
-const selfReferencingCountry = ['tr', 'fr', 'uk'];
-if (selfReferencingCountry.includes(window.__.env.REACT_APP_COUNTRY)) {
-  const linkTag = document.createElement('link');
-  linkTag.rel = 'alternate';
-  linkTag.hreflang = window.__.env.REACT_APP_LANG_LOCALE;
-  linkTag.href = window.location.href;
-  document.getElementsByTagName('head')[0].appendChild(linkTag);
-}
+// const selfReferencingCountry = ['tr', 'fr', 'uk'];
+// if (selfReferencingCountry.includes(window.__.env.REACT_APP_COUNTRY)) {debugger
+//   const linkTag = document.createElement('link');
+//   linkTag.rel = 'alternate';
+//   linkTag.hreflang = window.__.env.REACT_APP_LANG_LOCALE;
+//   linkTag.href = window.location.href;
+//   document.getElementsByTagName('head')[0].appendChild(linkTag);
+// }
 
 if (window.__.env.REACT_APP_HUB) {
   let dom = document.querySelector('#root');

@@ -107,7 +107,7 @@ import {
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 import {
   USEPOINT,
   NOTUSEPOINT

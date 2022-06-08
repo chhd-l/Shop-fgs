@@ -20,7 +20,7 @@ import { inject, observer } from 'mobx-react';
 import { formatDate } from '@/utils/utils';
 import { format } from 'date-fns';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
