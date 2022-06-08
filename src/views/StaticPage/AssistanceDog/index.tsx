@@ -122,15 +122,25 @@ class AssistanceDog extends React.Component {
                 reservé permettant de :
               </p>
               <ul className="mt-5">
-                <li>Simplifier l'accès à nos aliments</li>
-                <li>
-                  Accompagner la santé du Chien Guide grâce à une nutrition
-                  adaptée
-                </li>
-                <li>
-                  Réserver un tarif exclusif de nos aliments aux maitres Chien
-                  Guide d'aveugle
-                </li>
+                {[
+                  {
+                    icon: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/icon01@2x.png`,
+                    desc: "Simplifier l'accès à nos aliments"
+                  },
+                  {
+                    icon: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/icon02@2x.png`,
+                    desc: 'Accompagner la santé du Chien Guide grâce à une nutrition adaptée'
+                  },
+                  {
+                    icon: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/icon03@2x.png`,
+                    desc: "Réserver un tarif exclusif de nos aliments aux maitres Chien Guide d'aveugle"
+                  }
+                ].map((item, i) => (
+                  <li className="flex items-center my-2 font-medium" key={i}>
+                    <img src={item.icon} alt="dog icon" className="w-10 mr-2" />
+                    <span>{item.desc}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
