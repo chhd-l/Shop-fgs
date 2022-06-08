@@ -1520,8 +1520,8 @@ class Details extends React.Component {
                         <div
                           className={`wrap-short-des ${
                             !isMobile &&
-                            (versionB
-                              ? 'col-md-10 offset-sm-2'
+                            (versionB || !this.skuOffShelves
+                              ? 'col-md-12'
                               : !vet
                               ? 'col-md-7'
                               : '')
@@ -1556,16 +1556,31 @@ class Details extends React.Component {
                                         }
                                         isNullGoodsInfos={this.isNullGoodsInfos}
                                       />
-                                      {details.promotions &&
-                                      details.promotions.includes('club') &&
-                                      !window.__.env
-                                        .REACT_APP_CLOSE_PRODUCT_FINDER ? (
-                                        <Ration
-                                          goodsNo={details.goodsNo}
-                                          setState={this.setState.bind(this)}
-                                        />
-                                      ) : null}
                                     </>
+                                  ) : null}
+                                  {PC &&
+                                  details.promotions &&
+                                  details.promotions.includes('club') &&
+                                  !window.__.env
+                                    .REACT_APP_CLOSE_PRODUCT_FINDER ? (
+                                    <Ration
+                                      goodsNo={details.goodsNo}
+                                      setState={this.setState.bind(this)}
+                                    />
+                                  ) : null}
+                                  {PC &&
+                                  this.retailerBtnStatus &&
+                                  !this.skuOffShelves ? (
+                                    <div className="mt-5">
+                                      <BuyFromRetailerBtn
+                                        barcode={barcode}
+                                        goodsType={goodsType}
+                                        onClick={this.handleBuyFromRetailer}
+                                        isApi={isApi}
+                                        isUrl={isUrl}
+                                        retailerUrl={retailerUrl}
+                                      />
+                                    </div>
                                   ) : null}
                                 </>
                               ) : null}
@@ -1591,7 +1606,9 @@ class Details extends React.Component {
                                 ) : (
                                   <div
                                     className={classNames({
-                                      hidden: this.isNullGoodsInfos,
+                                      hidden:
+                                        this.isNullGoodsInfos ||
+                                        !this.skuOffShelves,
                                       'w-full': isMobile,
                                       'col-md-5': !isMobile
                                     })}
@@ -1636,7 +1653,9 @@ class Details extends React.Component {
                           ) : (
                             <div
                               className={classNames({
-                                hidden: this.isNullGoodsInfos,
+                                hidden:
+                                  this.isNullGoodsInfos ||
+                                  (!this.skuOffShelves && !isMobile),
                                 'w-full': isMobile,
                                 'col-md-5': !isMobile
                               })}

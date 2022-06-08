@@ -742,7 +742,7 @@ class SubscriptionDetail extends React.Component {
       this.props.history.push('/account/subscription');
       return;
     }
-    let checkSubscriptionAddressPickPointSuccess = false;
+    // let checkSubscriptionAddressPickPointSuccess = false;
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
@@ -782,9 +782,9 @@ class SubscriptionDetail extends React.Component {
         paymentId: subDetail?.paymentId,
         deliveryAddressId: subDetail?.deliveryAddressId
       });
-      await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
+      // await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
       await this.doUpdateDetail(param);
-      checkSubscriptionAddressPickPointSuccess = true;
+      // checkSubscriptionAddressPickPointSuccess = true;
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
@@ -794,9 +794,9 @@ class SubscriptionDetail extends React.Component {
     } catch (err) {
       this.showErrMsg(err.message);
       // 修改数量，失败时，需重新查询接口
-      if (!checkSubscriptionAddressPickPointSuccess) {
-        this.getDetail();
-      }
+      // if (!checkSubscriptionAddressPickPointSuccess) {
+      this.getDetail();
+      // }
       // this.setState({ tempolineError: err.message });
     } finally {
       this.setState({ loading: false });
