@@ -49,7 +49,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     updateData: () => {},
     cartData: [],
     subscriptionDetail: [],
-    pickPointRange: ''
+    fromPage: ''
   };
   constructor(props) {
     super(props);
@@ -312,7 +312,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 搜索下拉选择。1、游客和新用户展示homeDelivery和pickup；2、有地址的用户直接展示地图。
   handlePickupCitySelectChange = async (data) => {
-    const { isLogin, pickupEditNumber, defaultCity, pageType, pickPointRange } =
+    const { isLogin, pickupEditNumber, defaultCity, pageType, fromPage } =
       this.props;
     const { selectedItem, pickupForm } = this.state;
     const { subscriptionDetail } = this.props.paymentStore;
@@ -332,7 +332,7 @@ class HomeDeliveryOrPickUp extends React.Component {
 
       let goodsInfoDetails = [];
 
-      if (this.props.cartData.length > 0 && pageType === 'checkout') {
+      if (this.props.cartData.length > 0 && fromPage === 'checkout') {
         //支付页面 计算的购物车里面商品的数据
         // 取到购物车里面的 goodsInfoId、购买的sku数量
         if (isLogin) {
@@ -358,7 +358,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             });
           });
         }
-      } else if (subscriptionDetail.length > 0) {
+      } else if (subscriptionDetail.length > 0 && fromPage === 'subscription') {
         //myaccout subscription页面 计算订阅商品里面的数据
         subscriptionDetail?.forEach((item) => {
           goodsInfoDetails.push({
@@ -385,7 +385,6 @@ class HomeDeliveryOrPickUp extends React.Component {
       } else {
         data['dimensions'] = null;
         data['weight'] = null;
-        debugger;
       }
 
       pickupForm['provinceCode'] = data?.regionIsoCode || '';
