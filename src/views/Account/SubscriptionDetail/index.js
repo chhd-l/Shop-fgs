@@ -303,6 +303,10 @@ class SubscriptionDetail extends React.Component {
           //errorMsg: this.props.intl.messages.pickUpNoActive,
           pickupNoActiveErrMsg: this.props.intl.messages.pickUpNoActive
         });
+      } else {
+        this.setState({
+          pickupNoActiveErrMsg: ''
+        });
       }
     } catch (err) {
       console.log(err);

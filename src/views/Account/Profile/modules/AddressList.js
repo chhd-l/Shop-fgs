@@ -196,6 +196,10 @@ class AddressList extends React.Component {
           this.setState({
             errorMsg: this.props.intl.messages['pickUpNoActive']
           });
+        } else {
+          this.setState({
+            errorMsg: ''
+          });
         }
       }
     } catch (err) {

@@ -1706,6 +1706,10 @@ class AddressList extends React.Component {
         this.showErrMsg2(this.getIntlMsg('pickUpNoActive'));
 
         this.updateConfirmBtnDisabled(true);
+      } else {
+        this.setState({
+          saveErrorMsg: ''
+        });
       }
     } catch (err) {
       console.log(err);
