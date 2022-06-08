@@ -4563,7 +4563,7 @@ export default {
       redirectUrl: '/general-terms-conditions'
     },
     {
-      shortUrl: '/home',
+      shortUrl: '/',
       redirectUrl: ''
     },
     {
