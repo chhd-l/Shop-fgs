@@ -33,16 +33,15 @@ const HandledSpec = ({
   const [sizeList, setSizeList] = useState([]);
 
   const getPriceOrCode = () => {
-    const selectGoodSize = goodsSpecs.map((item: any) =>
+    const selectSpecDetailId = goodsSpecs.map((item: any) =>
       item.chidren.find((good: any) => good.selected)
-    )?.[0]?.detailName;
-    const selectPrice = goodsInfos.find(
-      (item: any) => item.packSize == selectGoodSize
-    )?.marketPrice;
-    const goodsInfoBarcode =
-      goodsInfos.find((item: any) => item.packSize === selectGoodSize)
-        ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-    const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+    )?.[0]?.specDetailId;
+    const selectSkuDetail = goodsInfos.find(
+      (item: any) => item.mockSpecDetailIds.includes(selectSpecDetailId)
+    );
+    const goodsInfoBarcode = selectSkuDetail?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode
+    const selectPrice = selectSkuDetail?.marketPrice
+    const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12';
     updatedPriceOrCode({ barcode, selectPrice });
   };
 
@@ -154,8 +153,11 @@ const HandledSpec = ({
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.detailName;
     GAPdpSizeChange(goodSize);
+    const specDetailId = goodsSpecs.map((item: any) =>
+      item.chidren.find((good: any) => good.specDetailId === sdId)
+    )?.[0]?.specDetailId;
     const barcode = goodsInfos.find(
-      (item: any) => item.packSize === goodSize
+      (item: any) => item.mockSpecDetailIds.includes(specDetailId)
     )?.goodsInfoBarcode;
     updatedPriceOrCode({ barcode, clickEvent: true });
     matchGoods();
