@@ -3795,7 +3795,7 @@ class Payment extends React.Component {
                           //     (el) => el.code === 'adyen_klarna_pay_later'
                           //   )[0].logoUrl
                           // }
-                          showIcon={true}
+                          showIcon={false}
                         />
                         {/* 校验状态
                     1 校验邮箱
@@ -3817,7 +3817,7 @@ class Payment extends React.Component {
                           //     (el) => el.code === 'adyen_klarna_pay_now'
                           //   )[0].logoUrl
                           // }
-                          showIcon={true}
+                          showIcon={false}
                         />
                         {/* {payConfirmBtn({
                           disabled: !EMAIL_REGEXP.test(email) || validForBilling
