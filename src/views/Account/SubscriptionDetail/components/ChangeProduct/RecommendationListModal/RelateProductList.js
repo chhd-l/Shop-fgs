@@ -557,7 +557,7 @@ const RelateProductList = ({ mainProduct }) => {
     <>
       <div>
         <h3 className="red text-center text-xl md:text-2xl mt-5 md:mt-8 mb-1 md:mb-3">
-          More Products
+          <FormattedMessage id="moreProducts" />
         </h3>
         <div
           className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
@@ -597,6 +597,7 @@ const RelateProductList = ({ mainProduct }) => {
                   onToggleFilterModal={toggleFilterModal}
                   filterList={filterList}
                   key={`2-${filterList.length}`}
+                  notUpdateRouter={true}
                   inputLabelKey={2}
                   // hanldePriceSliderChange={
                   //   this.hanldePriceSliderChange
@@ -605,7 +606,9 @@ const RelateProductList = ({ mainProduct }) => {
                   //   markPriceAndSubscriptionLangDict
                   // }
                   // baseSearchStr={baseSearchStr}
+                  getProductList={initProductList}
                   prefnParamListSearch={prefnParamListFromSearch}
+                  selectedFilterPref={handleSelectedFilterPref}
                 />
               ) : (
                 <FiltersPC

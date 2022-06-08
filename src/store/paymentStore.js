@@ -130,6 +130,8 @@ class PaymentStore {
   @observable curPayWayVal = '';
   @observable addCardDirectToPayFlag = false; //是否新增卡直接下单
 
+  @observable subscriptionDetail = [];
+
   @computed get clinicPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'clinic').status;
   }
@@ -598,6 +600,11 @@ class PaymentStore {
   @action.bound
   setPetSelectedIds(data) {
     this.petSelectedIds = data;
+  }
+
+  @action.bound
+  setSubscriptionDetail(data) {
+    this.subscriptionDetail = data;
   }
 }
 export default PaymentStore;
