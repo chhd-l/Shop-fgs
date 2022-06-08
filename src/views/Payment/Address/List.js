@@ -875,7 +875,9 @@ class AddressList extends React.Component {
       deliveryDateId: 0,
       timeSlot: '',
       timeSlotId: 0,
-      isDefalt: false
+      isDefalt: false,
+      firstNameKatakana: '',
+      lastNameKatakana: ''
     };
     this.setState({
       typeForGA: idx > -1 ? 'Edit' : 'Add'
