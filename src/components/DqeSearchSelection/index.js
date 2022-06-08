@@ -241,8 +241,7 @@ class SearchSelection extends React.Component {
       return;
     } else {
       const form = { ...this.state.form };
-      //form.value = item?.newName || item.name;
-      form.value = item.name;
+      form.value = item?.newName || item.name;
       this.setState({
         form: form,
         optionList: [],
