@@ -8,6 +8,7 @@ import IMask from 'imask';
 import { saveAssistanceDogs } from '@/api/pet';
 import { ErrorMessage, SuccessMessage } from '@/components/Message';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
+import { submitEvent } from './GA';
 // import Selection from '@/components/Selection';
 
 interface Props {
@@ -22,17 +23,13 @@ interface FormType {
   petGraduationSchool: string;
   petID: string;
 }
-// 不满足校验，且有值时，才显示红色和叉叉，主动清楚了邮箱，也需要显示红色和叉叉
-// 满足校验了 且有值时，就显示绿色
-
-// emailValid -- true:
-// emailValid --
 
 const Form = ({ intl }: Props) => {
   const [submitBtnLoading, setSubmitBtnLoading] = useState<boolean>(false);
   const [submitBtnValid, setSubmitBtnValid] = useState<boolean>(false);
   const [consentValid, setConsentValid] = useState<boolean>(false);
 
+  // 一旦输入过，且不检验成功时，就显示红色报错和叉号
   const [formWarning, setFormWarning] = useState({
     name: false,
     phone: false,
@@ -134,6 +131,7 @@ const Form = ({ intl }: Props) => {
   };
 
   const onSubmit = async () => {
+    submitEvent();
     try {
       setSubmitBtnLoading(true);
       const param = {

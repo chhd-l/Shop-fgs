@@ -43,6 +43,10 @@ class Filter extends React.Component {
       }
     };
 
+    this.updateFilterInfo();
+  }
+
+  updateFilterInfo = () => {
     const { filterList } = this.state;
     let filtersCounts = 0;
     filterList.map((item) => {
@@ -58,6 +62,24 @@ class Filter extends React.Component {
       filterList,
       filtersCounts
     });
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.filterList !== this.state.filterList) {
+      this.setState(
+        {
+          filterList: nextProps.filterList
+        },
+        () => {
+          this.updateFilterInfo();
+        }
+      );
+    }
+    if (nextProps.prefnParamListSearch !== this.state.selectedFilterParams) {
+      this.setState({
+        selectedFilterParams: nextProps.prefnParamListSearch
+      });
+    }
   }
 
   get hasSelecedItems() {
@@ -162,7 +184,7 @@ class Filter extends React.Component {
 
   handleFilterApplyBtn = () => {
     const { pathname } = this.props.history.location;
-    const { baseSearchStr } = this.props;
+    const { baseSearchStr, notUpdateRouter } = this.props;
     const searchFilterParams = this.state.selectedFilterParams.reduce(
       (pre, cur) => {
         return {
@@ -179,14 +201,20 @@ class Filter extends React.Component {
           baseSearchStr ? `${baseSearchStr}&` : ''
         }${searchFilterParams.ret.substr(1)}`
       : `?${baseSearchStr}`;
+    const searchFormat = `?${removeArgFromUrl({
+      search: _search.substr(1),
+      name: 'p'
+    })}`;
     const _router = {
       pathname,
-      search: `?${removeArgFromUrl({
-        search: _search.substr(1),
-        name: 'p'
-      })}`
+      search: searchFormat
     };
-    this.props.history.push(_router);
+    if (notUpdateRouter) {
+      this.props.selectedFilterPref(searchFormat);
+      this.props.onToggleFilterModal(false);
+    } else {
+      this.props.history.push(_router);
+    }
   };
 
   // 判断router上是否已经选择了filters，如果选择了则清空filter跳转router,若没有直接清空目前正在操作选择的。
@@ -202,6 +230,7 @@ class Filter extends React.Component {
       this.props.history.push(_router);
     } else if (notUpdateRouter && prefnParamListSearch.length) {
       this.props.getProductList();
+      this.props.onToggleFilterModal(false);
     } else {
       this.setState({
         selectedFilterParams: []

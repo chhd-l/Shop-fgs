@@ -18,12 +18,8 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const {
-    triggerShowChangeProduct,
-    setState,
-    productListLoading,
-    subDetail
-  } = SubDetailHeaderValue;
+  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
+    SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
