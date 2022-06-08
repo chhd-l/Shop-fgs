@@ -7,8 +7,7 @@ import {
   getAddressList,
   saveAddress,
   editAddress,
-  setDefaltAddress,
-  checkPickUpActive
+  setDefaltAddress
 } from '@/api/address';
 import {
   getDictionary,
@@ -152,7 +151,7 @@ function CardItem(props) {
     );
   }
 }
-@inject('checkoutStore', 'configStore')
+@inject('checkoutStore', 'configStore', 'paymentStore')
 @observer
 /**
  * address list(delivery/billing) - member
@@ -321,17 +320,6 @@ class AddressList extends React.Component {
         addOrEdit: !addressList.length,
         selectedId: addressIdStr
       });
-
-      if (pickupAddress) {
-        const pickUpActiveRes = await checkPickUpActive({
-          deliveryAddressId: pickupAddress.deliveryAddressId
-        });
-        if (!pickUpActiveRes.context.pickupPointState) {
-          this.setState({
-            saveErrorMsg: this.props.intl.messages['pickUpNoActive']
-          });
-        }
-      }
     } catch (err) {
       this.setState({
         errMsg: err.message.toString()
@@ -1467,7 +1455,9 @@ class AddressList extends React.Component {
                           updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                           deliveryOrPickUp={showDeliveryOrPickUp}
                           intlMessages={this.props.intl.messages}
-                          cartData={this.props.checkoutStore.loginCartData} //这里传订阅商品的数据，不传购物车里商品的数据
+                          subscriptionDetail={
+                            this.props.paymentStore.subscriptionDetail
+                          }
                           pickPointRange="goodsSize"
                         />
 

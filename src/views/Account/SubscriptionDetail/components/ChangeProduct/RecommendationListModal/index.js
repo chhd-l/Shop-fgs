@@ -218,7 +218,7 @@ const RecommendationListModal = ({ intl }) => {
             </div>
           </>
         ) : (
-          <div className="text-center  rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
+          <div className="text-center px-2 md:px-60">
             <img
               className="m-auto"
               style={{ maxWidth: '100px' }}

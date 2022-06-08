@@ -2,7 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import FrequencySelection from '@/components/FrequencySelection';
 import { ErrorMessage } from '@/components/Message';
-import { changeSubscriptionGoods } from '@/api/subscription';
+import {
+  changeSubscriptionGoods,
+  checkSubscriptionAddressPickPoint
+} from '@/api/subscription';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import find from 'lodash/find';
@@ -99,7 +102,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     newForm.frequencyId = data.id;
     setForm(newForm);
   };
-  const doChangeSubscriptionGoods = () => {
+  const doChangeSubscriptionGoods = async () => {
     try {
       let { sizeList } = details;
       if (
@@ -154,19 +157,37 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         addGoodsItems: [addGoodsItems],
         deleteGoodsItems
       };
-      changeSubscriptionGoods(params)
-        .then((res) => {
-          getDetail(({ goodsInfo }) => {
-            changeSubDetail(goodsInfo, addGoodsItemsSku);
-            // 需要把订阅详情请求回来再重置状态，不然用户一直点击会出现还没正常更替就重复点击有问题
-            setChangeNowLoading(false);
-            initMainProduct();
-          });
-        })
-        .catch((err) => {
-          setChangeNowLoading(false);
-          changeErrorMsg(err && err.message);
-        });
+      await checkSubscriptionAddressPickPoint(
+        Object.assign({}, params, { goodsItems: params.addGoodsItems })
+      );
+      await changeSubscriptionGoods(params);
+      await getDetail(({ goodsInfo }) => {
+        changeSubDetail(goodsInfo, addGoodsItemsSku);
+        // 需要把订阅详情请求回来再重置状态，不然用户一直点击会出现还没正常更替就重复点击有问题
+        setChangeNowLoading(false);
+        initMainProduct();
+      });
+
+      // checkSubscriptionAddressPickPoint(params)
+      //   .then((r) => {
+      //     changeSubscriptionGoods(params)
+      //       .then((res) => {
+      //         getDetail(({ goodsInfo }) => {
+      //           changeSubDetail(goodsInfo, addGoodsItemsSku);
+      //           // 需要把订阅详情请求回来再重置状态，不然用户一直点击会出现还没正常更替就重复点击有问题
+      //           setChangeNowLoading(false);
+      //           initMainProduct();
+      //         });
+      //       })
+      //       .catch((err) => {
+      //         setChangeNowLoading(false);
+      //         changeErrorMsg(err && err.message);
+      //       });
+      //   })
+      //   .catch((e) => {
+      //     setChangeNowLoading(false);
+      //     changeErrorMsg(e && e.message);
+      //   });
     } catch (err) {
       changeErrorMsg(err && err.message);
 

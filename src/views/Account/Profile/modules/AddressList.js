@@ -918,6 +918,7 @@ class AddressList extends React.Component {
 
                     <HomeDeliveryOrPickUp
                       key={defaultCity}
+                      initData={this.state.pickupFormData}
                       isLogin={true}
                       defaultCity={defaultCity}
                       pageType="onlyPickup"

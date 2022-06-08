@@ -17,7 +17,7 @@ import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
 import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
-import { getDeliveryDateAndTimeSlot } from '@/api/address';
+import { getDeliveryDateAndTimeSlot, checkPickUpActive } from '@/api/address';
 
 import {
   getRation,
@@ -51,7 +51,7 @@ import Canonical from '@/components/Canonical';
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
-@inject('configStore')
+@inject('configStore', 'paymentStore')
 @injectIntl
 @seoHoc('Subscription Page')
 @observer
@@ -149,6 +149,7 @@ class SubscriptionDetail extends React.Component {
       },
       modalType: '',
       errorMsg: '',
+      pickupNoActiveErrMsg: false,
       successMsg: '',
       minDate: new Date(),
       tabName: [],
@@ -165,7 +166,7 @@ class SubscriptionDetail extends React.Component {
       isNotInactive: false,
       isDataChange: false,
       petName: '', //订阅单的petName
-      showTempolineError: false,
+      tempolineError: '',
       jpSlotTime: {},
       slotTimeChanged: false
     };
@@ -239,7 +240,7 @@ class SubscriptionDetail extends React.Component {
       checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
         .then()
         .catch((err) => {
-          this.setState({ showTempolineError: err.message });
+          this.setState({ tempolineError: err.message });
           return;
         });
       if (isBillSame) {
@@ -290,6 +291,23 @@ class SubscriptionDetail extends React.Component {
     });
     this.initPage();
   }
+  doCheckPickUpActive = async (deliveryAddressId) => {
+    try {
+      const res = await checkPickUpActive({ deliveryAddressId });
+      if (!res.context.pickupPointState) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        this.setState({
+          //errorMsg: this.props.intl.messages.pickUpNoActive,
+          pickupNoActiveErrMsg: this.props.intl.messages.pickUpNoActive
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   initPage = (isAddedPet) => {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
@@ -297,6 +315,7 @@ class SubscriptionDetail extends React.Component {
       funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
+      this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       let goodsInfo = [...this.state.subDetail.goodsInfo];
@@ -394,9 +413,12 @@ class SubscriptionDetail extends React.Component {
   };
 
   getDetail = async (fn) => {
+    const { setSubscriptionDetail } = this.props.paymentStore;
+
     try {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
+      setSubscriptionDetail(res.context.goodsInfo);
 
       let subDetail = res.context || {};
       const subscribeStatusVal =
@@ -720,6 +742,7 @@ class SubscriptionDetail extends React.Component {
       this.props.history.push('/account/subscription');
       return;
     }
+    let checkSubscriptionAddressPickPointSuccess = false;
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
@@ -761,6 +784,7 @@ class SubscriptionDetail extends React.Component {
       });
       await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
       await this.doUpdateDetail(param);
+      checkSubscriptionAddressPickPointSuccess = true;
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
@@ -769,7 +793,11 @@ class SubscriptionDetail extends React.Component {
       });
     } catch (err) {
       this.showErrMsg(err.message);
-      // this.setState({ showTempolineError: err.message });
+      // 修改数量，失败时，需重新查询接口
+      if (!checkSubscriptionAddressPickPointSuccess) {
+        this.getDetail();
+      }
+      // this.setState({ tempolineError: err.message });
     } finally {
       this.setState({ loading: false });
     }
@@ -924,7 +952,34 @@ class SubscriptionDetail extends React.Component {
                   }}
                 >
                   <ErrorMessage msg={errorMsg} />
+                  {/* 错误提示信息 */}
+                  <div
+                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                      this.state.pickupNoActiveErrMsg ? '' : 'hidden'
+                    }`}
+                  >
+                    <aside
+                      className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                      role="alert"
+                    >
+                      <span className="pl-0">
+                        {this.state.pickupNoActiveErrMsg}
+                      </span>
+                      <button
+                        className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                        onClick={() => {
+                          this.setState({ pickupNoActiveErrMsg: '' });
+                        }}
+                        aria-label="Close"
+                      >
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="close" />
+                        </span>
+                      </button>
+                    </aside>
+                  </div>
                   <SuccessMessage msg={successMsg} />
+
                   <SubDetailHeader
                     triggerShowChangeProduct={triggerShowChangeProduct}
                     getDetail={this.getDetail}
@@ -974,9 +1029,9 @@ class SubscriptionDetail extends React.Component {
 
                       {/*tempoline api error message tip*/}
                       <TempolineAPIError
-                        showError={this.state.showTempolineError}
+                        error={this.state.tempolineError}
                         closeError={() => {
-                          this.setState({ showTempolineError: false });
+                          this.setState({ tempolineError: '' });
                         }}
                       />
 

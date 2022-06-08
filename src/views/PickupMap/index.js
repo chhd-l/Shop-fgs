@@ -92,21 +92,8 @@ class PickupMap extends React.Component {
           },
           weight: weight
         });
-      // window.kaktusMap &&
-      //   window.kaktusMap.openWidget({
-      //     city_from: 'Москва',
-      //     city_to: city,
-      //     dimensions: {
-      //       height: 10,
-      //       width: 10,
-      //       depth: 10
-      //     },
-      //     weight: 600
-      //   });
     } catch (error) {
       console.log('666 ★ 打开地图city: ', city);
-      console.log(error.message);
-      debugger;
       window.kaktusMap &&
         window.kaktusMap.openWidget({
           city_from: 'Москва',
