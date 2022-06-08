@@ -95,6 +95,9 @@ class AdyenCreditCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get curPayWayVal() {
+    return this.props.paymentStore.curPayWayVal;
+  }
   queryList = async ({
     currentCardEncryptedSecurityCode,
     showListLoading = true
@@ -105,9 +108,19 @@ class AdyenCreditCardList extends React.Component {
       if (sessionItemRoyal.get('rc-userGroup')) {
         res = await getPaymentMethod({}, true);
       } else {
-        res = await getPaymentMethod({ isPC: true }, true);
+        res = await getPaymentMethod({}, true);
       }
       let cardList = res.context;
+      //根据curPayWayVal筛选对应支付的绑卡信息
+      switch (this.curPayWayVal) {
+        case 'adyen_credit_card':
+          cardList = cardList.filter(
+            (item) => item.paymentItem.toLowerCase() === 'adyen_credit_card'
+          );
+          break;
+        default:
+          break;
+      }
 
       // 初始化时，重置保存卡列表的isLoadCvv状态
       Array.from(cardList, (c) => {
