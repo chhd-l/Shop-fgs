@@ -53,8 +53,9 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -185,7 +186,7 @@ class CommunicationDataEditForm extends React.Component {
       // us/uk/de/se隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
       if (
         hasCheckedTheConsent &&
-        ['us', 'uk', 'de', 'se', 'mx', 'tr'].indexOf(
+        ['us', 'uk', 'de', 'se', 'mx', 'tr', 'nl'].indexOf(
           window.__.env.REACT_APP_COUNTRY
         ) > -1
       ) {
@@ -193,7 +194,7 @@ class CommunicationDataEditForm extends React.Component {
       }
       if (
         !hasCheckedTheConsent &&
-        ['us', 'uk', 'de', 'se', 'mx', 'tr'].indexOf(
+        ['us', 'uk', 'de', 'se', 'mx', 'tr', 'nl'].indexOf(
           window.__.env.REACT_APP_COUNTRY
         ) > -1
       ) {
