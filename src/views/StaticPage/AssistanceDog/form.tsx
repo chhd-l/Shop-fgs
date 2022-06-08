@@ -158,8 +158,8 @@ const Form = ({ intl }: Props) => {
             'Merci! Nous avons bien reçu votre demande. nous vous recontacterons dans un délai de 48h max!'
         })
       );
-    } catch (err) {
-      setSubmitMsg((cur) => Object.assign({}, cur, { error: err}));
+    } catch (err: any) {
+      setSubmitMsg((cur) => Object.assign({}, cur, { error: err.message }));
     } finally {
       setSubmitBtnLoading(false);
       setTimeout(() => {
