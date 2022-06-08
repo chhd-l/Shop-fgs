@@ -4,7 +4,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 import { getDeviceType } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Table from './components/table';

@@ -16,7 +16,7 @@ import { seoHoc } from '@/framework/common';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

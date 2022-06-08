@@ -6,7 +6,7 @@ import './index.css';
 import { doGetGAVal } from '@/utils/GA';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 

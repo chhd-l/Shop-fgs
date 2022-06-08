@@ -5,9 +5,8 @@ import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 
-const pageLink = window.location.href;
 const legalNotice = '';
 function LegalNotice(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,9 +17,7 @@ function LegalNotice(props) {
   const mar = 'mb-6 md:mb-10';
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="legalNotice">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />

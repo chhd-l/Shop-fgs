@@ -1199,11 +1199,7 @@ class UnLoginCart extends React.Component {
     this.setState({ mobileCartVisibleKey: name });
   }
   async handleCheckout({ needLogin = false } = {}) {
-    if (needLogin) {
-      GACartButtonClick('Buy Now');
-    } else {
-      GACartButtonClick('Guest checkout');
-    }
+    GACartButtonClick('Guest checkout');
     if (!this.btnStatus) {
       return false;
     }
@@ -2199,7 +2195,6 @@ class UnLoginCart extends React.Component {
     return (
       <div className="Carts">
         <Helmet>
-          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

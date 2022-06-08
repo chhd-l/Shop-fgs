@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import { seoHoc } from '@/framework/common';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

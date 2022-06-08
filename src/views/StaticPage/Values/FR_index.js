@@ -9,11 +9,10 @@ import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
-
 import './index.css';
 import FrTips from '../Help/fr/frTips';
 import FrFaq from '../Help/fr/frFaq';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @seoHoc('Contact Us Page')
 class FrTips extends Component {

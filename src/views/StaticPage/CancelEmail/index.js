@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { cancelEmailBind } from '@/api';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @seoHoc()
 class CancelEmail extends React.Component {

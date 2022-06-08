@@ -41,7 +41,7 @@ import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 
 import './index.less';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

@@ -6,7 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { Link } from 'react-router-dom';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;

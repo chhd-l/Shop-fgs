@@ -41,10 +41,10 @@ import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
-import ProductFinder from '@/views/ProductFinder';
+// import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
-import ProductFinderResult from '@/views/ProductFinder/modules/Result';
-import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
+// import ProductFinderResult from '@/views/ProductFinder/modules/Result';
+// import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 import SearchShow from '@/views/StaticPage/SearchShow';
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
 // const PromotionRefuge = loadable(() => import('@/views/StaticPage/PromotionRefuge')); // todo slide
@@ -459,7 +459,6 @@ const App = () => {
                   path={'/okta-logout-page'}
                   component={OktaLogoutPage}
                 />
-                <Route exact path={'/home'} component={Home} />
                 <Route exact path={'/pickupmap'} component={PickupMap} />
                 <Route exact path={'/test/'} component={Test} />
                 <Route
@@ -475,6 +474,7 @@ const App = () => {
                 <Route
                   exact
                   path="/precise-cat-nutrition-recommendation"
+                  sensitive
                   render={(props) =>
                     stgShowAuth() ? (
                       <PreciseRecommendation {...props} />
@@ -486,6 +486,7 @@ const App = () => {
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route
                   exact
+                  sensitive
                   path="/cart"
                   render={(props) => {
                     return <Cart {...props} />;
@@ -494,6 +495,7 @@ const App = () => {
                 <Route
                   exact
                   path="/checkout"
+                  sensitive
                   render={(props) => (
                     <Payment key={props.match.params.type} {...props} />
                   )}
@@ -501,6 +503,7 @@ const App = () => {
                 <Route
                   exact
                   path="/confirmation"
+                  sensitive
                   render={(props) => {
                     if (
                       !sessionItemRoyal.get('subOrderNumberList') ||

@@ -5,7 +5,7 @@ import { seoHoc } from '@/framework/common';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
 import { dataList } from './data';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 const localItemRoyal = window.__.localItemRoyal;
 // alert(1)
 

@@ -9,7 +9,7 @@ import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 @seoHoc()

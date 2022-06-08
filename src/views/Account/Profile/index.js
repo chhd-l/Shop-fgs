@@ -21,7 +21,7 @@ import BannerTip from '@/components/BannerTip';
 import './index.less';
 import Modal from '@/components/Modal';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

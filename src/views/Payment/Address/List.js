@@ -875,7 +875,9 @@ class AddressList extends React.Component {
       deliveryDateId: 0,
       timeSlot: '',
       timeSlotId: 0,
-      isDefalt: false
+      isDefalt: false,
+      firstNameKatakana: '',
+      lastNameKatakana: ''
     };
     this.setState({
       typeForGA: idx > -1 ? 'Edit' : 'Add'
@@ -951,7 +953,6 @@ class AddressList extends React.Component {
           key: this.curPanelKey,
           hideOthers: this.isDeliverAddress ? true : false
         });
-        debugger;
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
@@ -1706,6 +1707,10 @@ class AddressList extends React.Component {
         this.showErrMsg2(this.getIntlMsg('pickUpNoActive'));
 
         this.updateConfirmBtnDisabled(true);
+      } else {
+        this.setState({
+          saveErrorMsg: ''
+        });
       }
     } catch (err) {
       console.log(err);

@@ -10,7 +10,7 @@ import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import { seoHoc } from '@/framework/common';
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

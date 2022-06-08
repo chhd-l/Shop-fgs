@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useSeo } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-const pageLink = window.location.href;
+import { Canonical } from '@/components/Common';
 
 const HrLine = () => (
   <hr
@@ -29,8 +29,8 @@ const Decouverteroyalcanin = (props) => {
   return (
     <div>
       <GoogleTagManager key={props.location.key} additionalEvents={event} />
+      <Canonical />
       <Helmet>
-        <link rel="canonical" href={pageLink} />
         <title>{seoinfo.title}</title>
         <meta name="description" content={seoinfo.metaDescription} />
         <meta name="keywords" content={seoinfo.metaKeywords} />

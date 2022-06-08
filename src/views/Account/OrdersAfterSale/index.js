@@ -20,7 +20,7 @@ import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
 
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

@@ -26,6 +26,7 @@ export const DivWrapper = styled.div`
     color: #666;
     + .rc-input__label-overwrite {
       color: #d7d7d7;
+      font-size: 0.85em;
     }
     &:focus {
       & + .rc-input__label-overwrite {

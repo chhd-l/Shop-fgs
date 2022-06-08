@@ -46,7 +46,7 @@ import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
 import { SuccessMessage, ErrorMessage } from '@/components/Message';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -137,8 +137,8 @@ class SubscriptionDetail extends React.Component {
           type: 'changeDate'
         },
         {
-          title: 'modalChangeDateTitle',
-          content: 'modalChangeDateContent',
+          title: 'modalChangeTimeTitle',
+          content: 'modalChangeTimeContent',
           type: 'changeTime'
         }
       ],
@@ -268,6 +268,7 @@ class SubscriptionDetail extends React.Component {
             'success'
           )
         );
+        this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
       })
       .catch((err) => {
         this.setState({ loading: false });
@@ -302,6 +303,10 @@ class SubscriptionDetail extends React.Component {
         this.setState({
           //errorMsg: this.props.intl.messages.pickUpNoActive,
           pickupNoActiveErrMsg: this.props.intl.messages.pickUpNoActive
+        });
+      } else {
+        this.setState({
+          pickupNoActiveErrMsg: ''
         });
       }
     } catch (err) {

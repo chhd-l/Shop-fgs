@@ -10,7 +10,7 @@ import { validData } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @seoHoc('Contact Us Page')
 class ContactUs extends Component {
