@@ -20,7 +20,7 @@ import Help from './modules/help';
 import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

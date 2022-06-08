@@ -21,7 +21,7 @@ import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { LOGO_CLUB, LOGO } from '@/utils/constant';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @inject('configStore')
 @seoHoc('Subscription Page')

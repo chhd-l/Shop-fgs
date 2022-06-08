@@ -23,9 +23,7 @@ import { getRecommendationInfo } from '@/api/productFinder';
 import Loading from '@/components/Loading';
 import GroupOne from './image/GroupOne.png';
 import { inject, observer } from 'mobx-react';
-
-console.info('productList', productList);
-const pageLink = window.location.href;
+import { Canonical } from '@/components/Common';
 
 @seoHoc('preciseRecommendation')
 @inject('configStore')
@@ -216,9 +214,9 @@ class PreciseRecommendation extends React.Component {
 
     return (
       <>
+        <Canonical />
         <div>
           <Helmet>
-            <link rel="canonical" href={pageLink} />
             <meta name="robots" content="noindex" />
           </Helmet>
           <GoogleTagManager

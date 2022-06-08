@@ -17,7 +17,7 @@ import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import LazyLoad from 'react-lazyload';
 import { clubSubscriptionSavePets } from '@/api/pet';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

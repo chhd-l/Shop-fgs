@@ -41,22 +41,29 @@ import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
-import ProductFinder from '@/views/ProductFinder';
+// import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
-import ProductFinderResult from '@/views/ProductFinder/modules/Result';
-import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
-import SearchShow from '@/views/StaticPage/SearchShow';
-import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
+// import ProductFinderResult from '@/views/ProductFinder/modules/Result';
+// import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
+const SearchShow = loadable(() => import('@/views/StaticPage/SearchShow'));
+const PromotionRefuge = loadable(() =>
+  import('@/views/StaticPage/PromotionRefuge')
+);
 // const PromotionRefuge = loadable(() => import('@/views/StaticPage/PromotionRefuge')); // todo slide
-import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
+const RefugeSource = loadable(() =>
+  import('@/views/StaticPage/PromotionRefuge/source.js')
+);
 // import register from '@/views/Register';
-import Welcome from '@/views/Register/welcome.js';
-import CancelEmail from '@/views/StaticPage/CancelEmail';
+const Welcome = loadable(() => import('@/views/Register/welcome.js'));
+const CancelEmail = loadable(() => import('@/views/StaticPage/CancelEmail'));
+const FelinTermsConditions = loadable(() =>
+  import('@/views/StaticPage/FelinTermsConditions')
+);
 
-import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
-
-import PreciseCatNutrition from './views/PreciseCatNutrition';
-import CartDEBreeder from './views/CartDEBreeder';
+const PreciseCatNutrition = loadable(() =>
+  import('@/views/PreciseCatNutrition')
+);
+const CartDEBreeder = loadable(() => import('@/views/CartDEBreeder'));
 import { funcUrl } from './lib/url-utils';
 // import LogRocket from 'logrocket';
 

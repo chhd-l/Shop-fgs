@@ -9,7 +9,7 @@ import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { getEmailWay } from './config';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @inject('configStore')
 @seoHoc()

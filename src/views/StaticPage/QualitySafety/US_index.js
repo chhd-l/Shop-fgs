@@ -17,7 +17,7 @@ import image4 from './images/image4.jpg';
 import image5 from './images/image5.jpg';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 @seoHoc()

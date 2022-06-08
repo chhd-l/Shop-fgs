@@ -24,7 +24,7 @@ import { Helmet } from 'react-helmet';
 import { funcUrl } from '@/lib/url-utils';
 import { redirectHoc, seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
-
+import { Canonical } from '@/components/Common';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -32,7 +32,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import renderLinkLang from './hreflang';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const pageLink = window.location.href;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
@@ -669,10 +668,8 @@ class Home extends React.Component {
 
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          {renderLang('home')}
-        </Helmet>
+        <Canonical />
+        <Helmet>{renderLang('home')}</Helmet>
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

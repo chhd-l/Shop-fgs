@@ -16,7 +16,7 @@ import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @inject('configStore')
 @injectIntl

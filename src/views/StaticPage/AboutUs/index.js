@@ -11,7 +11,7 @@ import './index.css';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @injectIntl
 @seoHoc('About Us Page')

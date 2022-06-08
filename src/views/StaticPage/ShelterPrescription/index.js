@@ -13,7 +13,7 @@ import './index.less';
 import ProductCarousel from '@/components/ProductCarousel';
 import Help from '../../SmartFeederSubscription/modules/Help';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('clinicStore')

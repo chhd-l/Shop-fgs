@@ -45,7 +45,7 @@ import loadable from '@/lib/loadable-component';
 import SelectFilters from './modules/SelectFilters';
 import TopDesc from './modules/TopDesc';
 import cn from 'classnames';
-
+import { Canonical } from '@/components/Common';
 import './index.less';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
@@ -1847,16 +1847,14 @@ class List extends React.Component {
             ecommerceEvents={eEvents}
           />
         )}
+        <Canonical
+          href={
+            this.state.canonicalforTRSpecialPageSearchFlag
+              ? canonicalLink.cur.split('?')[0].toLowerCase()
+              : canonicalLink.cur.toLowerCase()
+          }
+        />
         <Helmet>
-          <link
-            rel="canonical"
-            href={
-              this.state.canonicalforTRSpecialPageSearchFlag
-                ? canonicalLink.cur.split('?')[0].toLowerCase()
-                : canonicalLink.cur.toLowerCase()
-            }
-          />
-          {/* <link rel="canonical" href={canonicalLink.cur} /> */}
           {canonicalLink.prev ? (
             <link rel="prev" href={canonicalLink.prev} />
           ) : null}

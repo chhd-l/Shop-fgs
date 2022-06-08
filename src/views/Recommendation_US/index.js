@@ -32,7 +32,7 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';

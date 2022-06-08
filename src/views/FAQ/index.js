@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

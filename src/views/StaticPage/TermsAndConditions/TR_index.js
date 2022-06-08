@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 import { seoHoc } from '@/framework/common';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 @injectIntl

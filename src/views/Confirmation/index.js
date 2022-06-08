@@ -22,7 +22,7 @@ import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
 import { mktCallBack, accountCallBack } from '@/api/home.js';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { bindSubmitParam } from '@/utils/utils';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

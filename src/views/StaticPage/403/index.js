@@ -5,7 +5,7 @@ import { seoHoc } from '@/framework/common';
 import { LOGO } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const event = {
   page: {

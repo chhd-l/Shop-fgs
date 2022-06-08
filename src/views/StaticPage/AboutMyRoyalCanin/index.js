@@ -5,8 +5,7 @@ import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
-
+import { Canonical } from '@/components/Common';
 import ScreenHot1 from './images/Screenshot.png';
 import ScreenHot2 from './images/Screenshot2.png';
 import Bitmap1 from './images/Bitmap1.png';
@@ -14,15 +13,12 @@ import Bitmap2 from './images/Bitmap2.png';
 import Bitmap3 from './images/Bitmap3.png';
 import Bitmap4 from './images/Bitmap4.png';
 import Bitmap5 from './images/Bitmap5.png';
-const pageLink = window.location.href;
 
 function AboutMyRoyalCanin(props) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="myRoyalCanin">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />
