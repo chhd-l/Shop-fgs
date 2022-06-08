@@ -951,7 +951,6 @@ class AddressList extends React.Component {
           key: this.curPanelKey,
           hideOthers: this.isDeliverAddress ? true : false
         });
-        debugger;
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );

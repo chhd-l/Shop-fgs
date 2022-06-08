@@ -268,6 +268,7 @@ class SubscriptionDetail extends React.Component {
             'success'
           )
         );
+        this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
       })
       .catch((err) => {
         this.setState({ loading: false });
