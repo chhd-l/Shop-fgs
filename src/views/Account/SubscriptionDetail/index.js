@@ -216,6 +216,13 @@ class SubscriptionDetail extends React.Component {
     }
   };
 
+  showTempolineError = (msg) => {
+    this.setState({ tempolineError: msg });
+    setTimeout(() => {
+      this.setState({ tempolineError: '' });
+    }, 5000);
+  };
+
   addressSave = (el, isBillSame, fn) => {
     const { subDetail } = this.state;
     const { intl } = this.props;
@@ -240,7 +247,8 @@ class SubscriptionDetail extends React.Component {
       checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
         .then()
         .catch((err) => {
-          this.setState({ tempolineError: err.message });
+          this.showTempolineError(err.message);
+          this.getDetail();
           return;
         });
       if (isBillSame) {
@@ -395,7 +403,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: true });
       await updateDetail(param);
     } catch (err) {
-      throw new Error(err.message);
+      throw new Error(err);
     } finally {
       this.setState({ loading: false });
     }
@@ -783,13 +791,8 @@ class SubscriptionDetail extends React.Component {
         goodsItems: goodsItems,
         changeField: changeField.length > 0 ? changeField.join(',') : ''
       });
-      let checkSubAddressPickPointParams = Object.assign({}, param, {
-        paymentId: subDetail?.paymentId,
-        deliveryAddressId: subDetail?.deliveryAddressId
-      });
-      // await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
-      await this.doUpdateDetail(param);
-      // checkSubscriptionAddressPickPointSuccess = true;
+      this.setState({ loading: true });
+      await updateDetail(param);
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
@@ -797,12 +800,13 @@ class SubscriptionDetail extends React.Component {
         slotTimeChanged: false
       });
     } catch (err) {
-      this.showErrMsg(err.message);
-      // 修改数量，失败时，需重新查询接口
-      // if (!checkSubscriptionAddressPickPointSuccess) {
-      this.getDetail();
-      // }
-      // this.setState({ tempolineError: err.message });
+      if (err.code === 'K-050330') {
+        // 修改数量，失败时，需重新查询接口
+        this.showTempolineError(err.message);
+        this.getDetail();
+      } else {
+        this.showErrMsg(err.message);
+      }
     } finally {
       this.setState({ loading: false });
     }
@@ -1033,12 +1037,7 @@ class SubscriptionDetail extends React.Component {
                       </>
 
                       {/*tempoline api error message tip*/}
-                      <TempolineAPIError
-                        error={this.state.tempolineError}
-                        closeError={() => {
-                          this.setState({ tempolineError: '' });
-                        }}
-                      />
+                      <TempolineAPIError error={this.state.tempolineError} />
 
                       {/* Ongoing Order */}
                       {subDetail.onGoingTradeList &&
