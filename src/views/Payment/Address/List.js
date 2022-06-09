@@ -1740,7 +1740,11 @@ class AddressList extends React.Component {
     // console.log('666 >>> 单选按钮选择 val: ', val);
     this.updateShippingMethodType(val);
 
-    if (val == 'pickup' && pickupAddress[0]?.deliveryAddressId) {
+    if (
+      COUNTRY == 'ru' &&
+      val == 'pickup' &&
+      pickupAddress[0]?.deliveryAddressId
+    ) {
       this.doCheckPickUpActive(pickupAddress[0]?.deliveryAddressId);
     } else {
       this.updateConfirmBtnDisabled(false);

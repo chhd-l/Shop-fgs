@@ -268,7 +268,9 @@ class SubscriptionDetail extends React.Component {
             'success'
           )
         );
-        this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+        if (COUNTRY == 'ru') {
+          this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+        }
       })
       .catch((err) => {
         this.setState({ loading: false });
@@ -320,7 +322,9 @@ class SubscriptionDetail extends React.Component {
       funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
-      this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+      if (COUNTRY == 'ru') {
+        this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+      }
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       let goodsInfo = [...this.state.subDetail.goodsInfo];
