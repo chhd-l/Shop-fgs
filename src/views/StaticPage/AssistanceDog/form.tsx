@@ -72,7 +72,7 @@ const Form = ({ intl }: Props) => {
     const name = target.name;
     validInput(name, value);
     setRegisterForm((cur) =>
-      Object.assign({}, registerForm, { [name]: value })
+      Object.assign({}, cur, { [name]: value })
     );
   };
 
@@ -299,7 +299,9 @@ const Form = ({ intl }: Props) => {
           valid={formValid.phone}
           isWarning={formWarning.phone}
           autocomplete="off"
-          onChange={registerChange}
+          // onChange={registerChange}
+          onInput={registerChange}
+          
           onBlur={inputBlur}
           value={registerForm.phone}
           label={
