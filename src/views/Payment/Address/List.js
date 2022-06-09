@@ -1703,7 +1703,7 @@ class AddressList extends React.Component {
     try {
       this.setState({ loading: true });
       const res = await checkPickUpActive({ deliveryAddressId });
-      if (!res.context.pickupPointState) {
+      if (res.context.pickupPointState === false) {
         this.showErrMsg2(this.getIntlMsg('pickUpNoActive'));
 
         this.updateConfirmBtnDisabled(true);

@@ -192,7 +192,7 @@ class AddressList extends React.Component {
         const pickUpActiveRes = await checkPickUpActive({
           deliveryAddressId: pickupAddress[0].deliveryAddressId
         });
-        if (!pickUpActiveRes.context.pickupPointState) {
+        if (pickUpActiveRes.context.pickupPointState === false) {
           this.setState({
             errorMsg: this.props.intl.messages['pickUpNoActive']
           });

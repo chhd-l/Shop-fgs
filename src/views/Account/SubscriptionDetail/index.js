@@ -295,7 +295,7 @@ class SubscriptionDetail extends React.Component {
   doCheckPickUpActive = async (deliveryAddressId) => {
     try {
       const res = await checkPickUpActive({ deliveryAddressId });
-      if (!res.context.pickupPointState) {
+      if (res.context.pickupPointState === false) {
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
