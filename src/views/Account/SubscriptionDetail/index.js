@@ -276,7 +276,7 @@ class SubscriptionDetail extends React.Component {
             'success'
           )
         );
-        if (COUNTRY == 'ru') {
+        if (window.__.env.REACT_APP_COUNTRY == 'ru') {
           this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
         }
       })
@@ -330,7 +330,7 @@ class SubscriptionDetail extends React.Component {
       funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
-      if (COUNTRY == 'ru') {
+      if (window.__.env.REACT_APP_COUNTRY == 'ru') {
         this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
       }
       // 邮件展示需要绑定宠物
