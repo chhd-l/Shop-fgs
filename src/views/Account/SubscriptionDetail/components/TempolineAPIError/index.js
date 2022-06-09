@@ -1,20 +1,10 @@
 import React from 'react';
+import { ErrorMessage } from '@/components/Message';
 
-const TempolineApiError = ({ error, closeError }) => {
-  const closeErrorTip = () => {
-    closeError && closeError();
-  };
+const TempolineApiError = ({ error }) => {
   return error ? (
-    <div className="row mx-0 border border-rc-red p-2 md:p-4 mt-8 md:mt-4 bg-red-500 bg-opacity-20 text-rc-red text-base col-12">
-      <span className="row mx-0 col-12 col-md-1">
-        <span className="iconfont iconchahao justify-start col-6 col-md-1 text-left pl-0" />
-        <span className="md:hidden iconfont iconguan justify-end col-6 text-right" />
-      </span>
-      <span className="col-md-10 col-12 md:-ml-4 xl:-ml-12">{error}</span>
-      <span
-        className="iconfont iconguan justify-end col-md-1 col-12 text-right hidden md:block cursor-pointer"
-        onClick={closeErrorTip}
-      />
+    <div className="mt-6">
+      <ErrorMessage msg={error} />
     </div>
   ) : null;
 };

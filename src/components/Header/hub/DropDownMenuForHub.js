@@ -114,7 +114,183 @@ export default class DropDownMenuForHub extends React.Component {
         }
       ].sort((a, b) => a.sort - b.sort);
     }
-
+    const otherMenuItemRender = (list) => {
+      if (list.length <= 2) {
+        return list.value.map((cItem, cIdx) => (
+          <React.Fragment key={cItem.id}>
+            {cItem.Type === 'DetailedMenuItem' && (
+              <div
+                className={`d-flex align-items-center11 dropdown-nav__catogery__card1 pr-51 pl-411`}
+              >
+                <div
+                  className={cn('mr-41 text-center1 h-full flex items-end', {
+                    'order-1': cIdx
+                  })}
+                  // style={{ width: '35%' }}
+                  // style={{ width: '160px' }}
+                >
+                  {/* <LazyLoad> */}
+                  <img
+                    src={cItem.Image.Url}
+                    alt={cItem.Image.AltText}
+                    srcSet={cItem.Image.Srcset}
+                    style={{
+                      width: '160px'
+                      //  margin: '0 auto'
+                    }}
+                  />
+                  {/* </LazyLoad> */}
+                  {/* <p className="red medium">
+                    {cItem.ImageDescription}
+                  </p> */}
+                </div>
+                <div
+                  // style={{ flex: 1 }}
+                  className={cn('pb-10 nav-column')}
+                  style={{ color: '#66666' }}
+                >
+                  <p className="text-xl ui-text-overflow-line1 text-rc-red">
+                    {cItem.ImageDescription}
+                  </p>
+                  {cItem.SubItems.map((sItem, sIdx) => (
+                    <React.Fragment key={sIdx}>
+                      <a
+                        href={sItem.Link.Url}
+                        className="mb-0 ui-cursor-pointer hover:underline text-lg ui-text-overflow-line1"
+                        onClick={this.handleClickNavItem.bind(this, {
+                          item,
+                          cItem: sItem,
+                          type: 1
+                        })}
+                      >
+                        {sItem.Title}
+                      </a>
+                      {sItem.Subtitle ? (
+                        <p className="mb-3 text-sm ui-text-overflow-line2">
+                          {sItem.Subtitle}
+                        </p>
+                      ) : null}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+            )}
+            {cItem.Type === 'PromotionalMenuItem' && (
+              <PromotionPanel
+                key={cItem.id}
+                item={item}
+                cItem={cItem}
+                handleClickNavItem={this.handleClickNavItem}
+                className={cn(`dropdown-nav__ad__card flex-grow-111`, {
+                  'dropdown-nav__ad__productcard':
+                    item.Type === 'DetailedMenuGroup'
+                })}
+                // {/* 当promotionItem在最前边时 - border-r, 在后边时-border-l */}
+                borderFix={!i ? 'border-r pr-10' : 'border-l pl-10'}
+              />
+            )}
+            {cItem.Type === 'ImageMenuItem' && (
+              <div className="dropdown-nav__ad__card">
+                <div className="pl-10">
+                  <img
+                    // className="w-full"
+                    src={cItem?.Image?.Url}
+                    alt={cItem?.Image?.AltText}
+                  />
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        ));
+      } else {
+        return list.value.map((cItem, cIdx) => (
+          <React.Fragment key={cItem.id}>
+            {cItem.Type === 'DetailedMenuItem' && (
+              <div
+                className={`d-flex align-items-center11 dropdown-nav__catogery__card1 pr-51 pl-411 flex-1 overflow-hidden`}
+              >
+                <div
+                  className={cn('mr-41 text-center1 h-full flex items-end', {
+                    'order-1': cIdx
+                  })}
+                  // style={{ width: '35%' }}
+                  // style={{ width: '160px' }}
+                >
+                  {/* <LazyLoad> */}
+                  <img
+                    src={cItem.Image.Url}
+                    alt={cItem.Image.AltText}
+                    srcSet={cItem.Image.Srcset}
+                    style={{
+                      width: '100px'
+                      //  margin: '0 auto'
+                    }}
+                  />
+                  {/* </LazyLoad> */}
+                  {/* <p className="red medium">
+                    {cItem.ImageDescription}
+                  </p> */}
+                </div>
+                <div
+                  // style={{ flex: 1 }}
+                  className={cn('pb-10 nav-column-3-item')}
+                  style={{ color: '#66666' }}
+                >
+                  <p className="text-xl ui-text-overflow-line1 text-rc-red">
+                    {cItem.ImageDescription}
+                  </p>
+                  {cItem.SubItems.map((sItem, sIdx) => (
+                    <React.Fragment key={sIdx}>
+                      <a
+                        href={sItem.Link.Url}
+                        className="mb-0 ui-cursor-pointer hover:underline text-lg ui-text-overflow-line1 block"
+                        onClick={this.handleClickNavItem.bind(this, {
+                          item,
+                          cItem: sItem,
+                          type: 1
+                        })}
+                      >
+                        {sItem.Title}
+                      </a>
+                      {sItem.Subtitle ? (
+                        <p className="mb-3 text-sm ui-text-overflow-line2">
+                          {sItem.Subtitle}
+                        </p>
+                      ) : null}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+            )}
+            {cItem.Type === 'PromotionalMenuItem' && (
+              <PromotionPanel
+                key={cItem.id}
+                item={item}
+                cItem={cItem}
+                handleClickNavItem={this.handleClickNavItem}
+                className={cn(`dropdown-nav__ad__card flex-grow-111`, {
+                  'dropdown-nav__ad__productcard':
+                    item.Type === 'DetailedMenuGroup'
+                })}
+                // {/* 当promotionItem在最前边时 - border-r, 在后边时-border-l */}
+                borderFix={!i ? 'border-r pr-10' : 'border-l pl-10'}
+              />
+            )}
+            {cItem.Type === 'ImageMenuItem' && (
+              <div className="dropdown-nav__ad__card">
+                <div className="pl-10">
+                  <img
+                    // className="w-full"
+                    src={cItem?.Image?.Url}
+                    alt={cItem?.Image?.AltText}
+                  />
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        ));
+      }
+    };
     return (
       <div
         className={cn(
@@ -132,125 +308,32 @@ export default class DropDownMenuForHub extends React.Component {
       >
         {lists.map((list, i) => (
           <React.Fragment key={i}>
-            {list.value.length > 0 ? (
-              list.type === 'MenuItem' ? (
-                list.value.map((l, idx) => (
-                  <div className="pl-411 pr-4 nav-column" key={idx}>
-                    {l.map((cItem) => (
-                      <a
-                        href={cItem.Link.Url}
-                        className={cn(
-                          'mb-2 ui-cursor-pointer text-lg ui-text-overflow-line1 hover:underline',
-                          { 'font-normal': cItem.isBold }
-                        )}
-                        key={cItem.id}
-                        style={{ display: 'block', color: '#333' }}
-                        onClick={this.handleClickNavItem.bind(this, {
-                          item,
-                          cItem
-                        })}
-                        title={cItem.Link.Text}
-                      >
-                        {cItem.Link.Text}
-                      </a>
-                    ))}
-                  </div>
-                ))
-              ) : (
-                <>
-                  {list.value.map((cItem, cIdx) => (
-                    <React.Fragment key={cItem.id}>
-                      {cItem.Type === 'DetailedMenuItem' && (
-                        <div
-                          className={`d-flex align-items-center11 dropdown-nav__catogery__card1 pr-51 pl-411`}
-                        >
-                          <div
-                            className={cn(
-                              'mr-41 text-center1 h-full flex items-end',
-                              { 'order-1': cIdx }
-                            )}
-                            // style={{ width: '35%' }}
-                            // style={{ width: '160px' }}
-                          >
-                            {/* <LazyLoad> */}
-                            <img
-                              src={cItem.Image.Url}
-                              alt={cItem.Image.AltText}
-                              srcSet={cItem.Image.Srcset}
-                              style={{
-                                width: '160px'
-                                //  margin: '0 auto'
-                              }}
-                            />
-                            {/* </LazyLoad> */}
-                            {/* <p className="red medium">
-                              {cItem.ImageDescription}
-                            </p> */}
-                          </div>
-                          <div
-                            // style={{ flex: 1 }}
-                            className={cn('pb-10 nav-column')}
-                            style={{ color: '#66666' }}
-                          >
-                            <p className="text-xl ui-text-overflow-line1 text-rc-red">
-                              {cItem.ImageDescription}
-                            </p>
-                            {cItem.SubItems.map((sItem, sIdx) => (
-                              <React.Fragment key={sIdx}>
-                                <a
-                                  href={sItem.Link.Url}
-                                  className="mb-0 ui-cursor-pointer hover:underline text-lg ui-text-overflow-line1"
-                                  onClick={this.handleClickNavItem.bind(this, {
-                                    item,
-                                    cItem: sItem,
-                                    type: 1
-                                  })}
-                                >
-                                  {sItem.Title}
-                                </a>
-                                {sItem.Subtitle ? (
-                                  <p className="mb-3 text-sm ui-text-overflow-line2">
-                                    {sItem.Subtitle}
-                                  </p>
-                                ) : null}
-                              </React.Fragment>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {cItem.Type === 'PromotionalMenuItem' && (
-                        <PromotionPanel
-                          key={cItem.id}
-                          item={item}
-                          cItem={cItem}
-                          handleClickNavItem={this.handleClickNavItem}
+            {list.value.length > 0
+              ? list.type === 'MenuItem'
+                ? list.value.map((l, idx) => (
+                    <div className="pl-411 pr-4 nav-column" key={idx}>
+                      {l.map((cItem) => (
+                        <a
+                          href={cItem.Link.Url}
                           className={cn(
-                            `dropdown-nav__ad__card flex-grow-111`,
-                            {
-                              'dropdown-nav__ad__productcard':
-                                item.Type === 'DetailedMenuGroup'
-                            }
+                            'mb-2 ui-cursor-pointer text-lg ui-text-overflow-line1 hover:underline',
+                            { 'font-normal': cItem.isBold }
                           )}
-                          // {/* 当promotionItem在最前边时 - border-r, 在后边时-border-l */}
-                          borderFix={!i ? 'border-r pr-10' : 'border-l pl-10'}
-                        />
-                      )}
-                      {cItem.Type === 'ImageMenuItem' && (
-                        <div className="dropdown-nav__ad__card">
-                          <div className="pl-10">
-                            <img
-                              // className="w-full"
-                              src={cItem?.Image?.Url}
-                              alt={cItem?.Image?.AltText}
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </>
-              )
-            ) : null}
+                          key={cItem.id}
+                          style={{ display: 'block', color: '#333' }}
+                          onClick={this.handleClickNavItem.bind(this, {
+                            item,
+                            cItem
+                          })}
+                          title={cItem.Link.Text}
+                        >
+                          {cItem.Link.Text}
+                        </a>
+                      ))}
+                    </div>
+                  ))
+                : otherMenuItemRender(list)
+              : null}
           </React.Fragment>
         ))}
       </div>

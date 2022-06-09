@@ -269,13 +269,8 @@ class Register extends Component {
     let valid;
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -345,7 +340,8 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
