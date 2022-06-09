@@ -11,7 +11,7 @@ import pic3 from './images/pic-03.jpg';
 import pic4 from './images/pic-04.jpg';
 import pic5 from './images/pic-05.jpg';
 import pic6 from './images/pic-06.jpg';
-const pageLink = window.location.href;
+import { Canonical } from '@/components/Common';
 
 const HrLine = () => (
   <hr
@@ -35,8 +35,8 @@ const Decouverteroyalcanin = (props) => {
   return (
     <div>
       <GoogleTagManager key={props.location.key} additionalEvents={event} />
+      <Canonical />
       <Helmet>
-        <link rel="canonical" href={pageLink} />
         <title>{seoinfo.title}</title>
         <meta name="description" content={seoinfo.metaDescription} />
         <meta name="keywords" content={seoinfo.metaKeywords} />

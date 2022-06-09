@@ -13,7 +13,7 @@ import { productFinderPushEvent } from '@/utils/GA';
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import './index.less';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

@@ -10,7 +10,6 @@ import './index.less';
 import './mobile.less';
 import 'react-calendar/dist/Calendar.css';
 import { inject, observer } from 'mobx-react';
-import { Helmet } from 'react-helmet';
 import Slider from 'react-slick';
 import img from './image/img.png';
 import thak from './image/thak.png';
@@ -22,11 +21,13 @@ import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
+import { seoHoc } from '@/framework/common';
+import { Canonical } from '@/components/Common';
 
-const pageLink = window.location.href;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 
 @inject('loginStore')
+@seoHoc()
 @observer
 class Felin extends React.Component {
   constructor(props) {
@@ -35,11 +36,6 @@ class Felin extends React.Component {
       reviews: {
         visible: false,
         list: []
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       visible: false,
       list: [
@@ -252,15 +248,7 @@ class Felin extends React.Component {
     };
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

@@ -20,7 +20,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

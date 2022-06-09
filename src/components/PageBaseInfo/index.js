@@ -9,8 +9,7 @@ import { Helmet } from 'react-helmet';
 import { setSeoConfig } from '@/utils/utils';
 import { observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
-
-const pageLink = window.location.href;
+import { Canonical } from '@/components/Common';
 
 @observer
 class PageBaseInfo extends React.Component {
@@ -42,8 +41,8 @@ class PageBaseInfo extends React.Component {
           key={this.props.location.key}
           additionalEvents={this.props.additionalEvents}
         />
+        <Canonical />
         <Helmet>
-          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

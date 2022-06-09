@@ -14,7 +14,7 @@ import { seoHoc } from '@/framework/common';
 
 import deLPdog from './deimage/deLPdog.png';
 import deLPcat from './deimage/deLPcat.png';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;

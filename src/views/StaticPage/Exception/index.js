@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @seoHoc()
 class Exception extends React.Component {

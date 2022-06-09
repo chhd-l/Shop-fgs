@@ -1,6 +1,6 @@
 import React from 'react';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @seoHoc()
 class Consent1 extends React.Component {

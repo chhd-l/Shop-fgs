@@ -14,7 +14,7 @@ import icon3 from '../../StaticPage/SubscriptionLanding/images/icon3.png';
 import icon4 from '../../StaticPage/SubscriptionLanding/images/icon4.png';
 import HelpComponents from '../../../components/HelpComponents/HelpComponents';
 import vetimg from './images/VET@2x.webp';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

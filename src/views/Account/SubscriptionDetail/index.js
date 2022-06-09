@@ -46,7 +46,7 @@ import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
 import { SuccessMessage, ErrorMessage } from '@/components/Message';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -137,8 +137,8 @@ class SubscriptionDetail extends React.Component {
           type: 'changeDate'
         },
         {
-          title: 'modalChangeDateTitle',
-          content: 'modalChangeDateContent',
+          title: 'modalChangeTimeTitle',
+          content: 'modalChangeTimeContent',
           type: 'changeTime'
         }
       ],
@@ -268,6 +268,9 @@ class SubscriptionDetail extends React.Component {
             'success'
           )
         );
+        if (COUNTRY == 'ru') {
+          this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+        }
       })
       .catch((err) => {
         this.setState({ loading: false });
@@ -294,7 +297,7 @@ class SubscriptionDetail extends React.Component {
   doCheckPickUpActive = async (deliveryAddressId) => {
     try {
       const res = await checkPickUpActive({ deliveryAddressId });
-      if (!res.context.pickupPointState) {
+      if (res.context.pickupPointState === false) {
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
@@ -319,7 +322,9 @@ class SubscriptionDetail extends React.Component {
       funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
-      this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+      if (COUNTRY == 'ru') {
+        this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+      }
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       let goodsInfo = [...this.state.subDetail.goodsInfo];

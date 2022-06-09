@@ -253,15 +253,10 @@ const NextDelivery = ({
               <div
                 className={cn('changeDate whitespace-nowrap mr-6 text-right')}
               >
+                <span className="iconfont icondata text-cs-gray" />
                 <span
-                  className="iconfont icondata"
+                  className="text-cs-gray"
                   style={{
-                    color: '#666'
-                  }}
-                />
-                <span
-                  style={{
-                    color: '#666',
                     fontWeight: '400',
                     marginLeft: '5px',
                     borderBottom: '1px solid #666',
@@ -300,14 +295,9 @@ const NextDelivery = ({
               )}
 
               <div className="whitespace-nowrap">
-                <span
-                  className="iconfont iconskip font-bold mr-1"
-                  style={{
-                    color: '#666'
-                  }}
-                />
+                <span className="iconfont iconskip font-bold mr-1 text-cs-gray" />
                 <a
-                  className="rc-styled-link ui-text-overflow-line1 whitespace-normal break-words"
+                  className="rc-styled-link ui-text-overflow-line1 whitespace-normal break-words py-1"
                   onClick={(e) => skipNext(el)}
                 >
                   <FormattedMessage id="skip" />
@@ -334,33 +324,34 @@ const NextDelivery = ({
               key={index}
             >
               <div className={`col-9 col-md-6 d-flex row align-items-center`}>
-                <LazyLoad className="col-6 col-md-3">
-                  <img
-                    src={
-                      optimizeImage({ originImageUrl: tradeItem.pic }) ||
-                      IMG_DEFAULT
-                    }
-                    alt={tradeItem.skuName}
-                  />
-                </LazyLoad>
+                <div className="col-6 col-md-3">
+                  <LazyLoad>
+                    <img
+                      src={
+                        optimizeImage({ originImageUrl: tradeItem.pic }) ||
+                        IMG_DEFAULT
+                      }
+                      alt={tradeItem.skuName}
+                    />
+                  </LazyLoad>
+                </div>
                 <div style={{ display: `${isIndv ? 'none' : 'block'}` }}>
                   <h5
-                    className="text-nowrap"
+                    className="text-nowrap text-base font-normal"
                     style={{
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       overflowWrap: 'normal',
-                      fontSize: '.875rem',
                       width: isMobile ? '100px' : 'auto'
                     }}
                   >
                     {tradeItem.skuName}
                   </h5>
                   <p
+                    className="my-2 font-normal"
                     style={{
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      marginBottom: '8px',
                       fontSize: '.875rem'
                     }}
                   >

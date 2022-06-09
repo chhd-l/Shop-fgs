@@ -8,7 +8,7 @@ import { seoHoc } from '@/framework/common';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

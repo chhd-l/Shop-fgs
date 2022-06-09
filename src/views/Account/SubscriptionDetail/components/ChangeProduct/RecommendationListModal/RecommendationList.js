@@ -14,27 +14,30 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
   const ChangeProductValue = useContext(ChangeProductContext);
   const { productListLoading } = SubDetailHeaderValue;
   const { showProdutctDetail, errMsg } = ChangeProductValue;
-  console.info('productDetailproductDetailproductDetail', productDetail);
+  const boxWidth =
+    productDetail.otherProducts.length > 0
+      ? productDetail.otherProducts.length * 280
+      : 280;
   return (
     <>
       <ErrorMessage msg={errMsg} />
       {!!productDetail.mainProduct && (
         <>
-          <div className="p-f-result-box w-11/12 md:w-3/6">
+          <div className="m-auto w-11/12 md:w-3/6">
             <img
               className="m-auto w-32"
               style={{ maxWidth: '168px' }}
               src={getClubLogo({})}
               alt="club icon"
             />
-            <h4 className="red text-center mb-3 mt-6">
+            <h4 className="red text-center mb-3 mt-6 text">
               <FormattedMessage id="subscription.productRecommendation" />
             </h4>
             <p className="mb-3 text-center">
               <FormattedMessage id="subscription.productRecommendationTip" />
             </p>
           </div>
-          <div className="p-f-result-box">
+          <div className="md:w-1/2 m-auto w-3/4">
             <div className="border rounded row pt-3 pb-3">
               <div className="col-12 col-md-6">
                 {/* LazyLoad在弹窗有点问题，显示不出来图片 */}
@@ -138,7 +141,7 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
             <FormattedMessage id="productFinder.otherProductsToConsider" />
           </p>
           <div className="rc-scroll--x pb-4 px-1 md:px-40">
-            <div className="d-flex">
+            <div className="d-flex" style={{ width: boxWidth }}>
               {productDetail?.otherProducts?.map((ele, i) => (
                 <div
                   className={`border rounded pt-3 pb-3 pl-2 pr-2 md:pl-0 md:pr-0 w-72 ${

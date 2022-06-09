@@ -19,7 +19,7 @@ import { validData, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

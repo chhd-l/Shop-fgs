@@ -29,7 +29,7 @@ class AssistanceDog extends React.Component {
                 </span>{' '}
                 <span>
                   Inscrivez-vous dès maintenant pour bénéficier des avantages
-                  Royal Canin.Royal Canin..Royal Canin.
+                  Royal Canin.
                 </span>
               </p>
               <p className="text-rc-red my-7 font-normal text-xl font-DinPro">

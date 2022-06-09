@@ -875,7 +875,9 @@ class AddressList extends React.Component {
       deliveryDateId: 0,
       timeSlot: '',
       timeSlotId: 0,
-      isDefalt: false
+      isDefalt: false,
+      firstNameKatakana: '',
+      lastNameKatakana: ''
     };
     this.setState({
       typeForGA: idx > -1 ? 'Edit' : 'Add'
@@ -951,7 +953,6 @@ class AddressList extends React.Component {
           key: this.curPanelKey,
           hideOthers: this.isDeliverAddress ? true : false
         });
-        debugger;
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
@@ -992,7 +993,7 @@ class AddressList extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } finally {
-      console.log(555, data);
+      console.log(5555, data);
       this.setState({ deliveryAddress: data });
     }
   };
@@ -1702,7 +1703,7 @@ class AddressList extends React.Component {
     try {
       this.setState({ loading: true });
       const res = await checkPickUpActive({ deliveryAddressId });
-      if (!res.context.pickupPointState) {
+      if (res.context.pickupPointState === false) {
         this.showErrMsg2(this.getIntlMsg('pickUpNoActive'));
 
         this.updateConfirmBtnDisabled(true);
@@ -1739,7 +1740,11 @@ class AddressList extends React.Component {
     // console.log('666 >>> 单选按钮选择 val: ', val);
     this.updateShippingMethodType(val);
 
-    if (val == 'pickup' && pickupAddress[0]?.deliveryAddressId) {
+    if (
+      COUNTRY == 'ru' &&
+      val == 'pickup' &&
+      pickupAddress[0]?.deliveryAddressId
+    ) {
       this.doCheckPickUpActive(pickupAddress[0]?.deliveryAddressId);
     } else {
       this.updateConfirmBtnDisabled(false);

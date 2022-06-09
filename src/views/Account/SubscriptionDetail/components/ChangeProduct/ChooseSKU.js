@@ -158,7 +158,11 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         deleteGoodsItems
       };
       await checkSubscriptionAddressPickPoint(
-        Object.assign({}, params, { goodsItems: params.addGoodsItems })
+        Object.assign({}, params, {
+          goodsItems: params.addGoodsItems,
+          deliveryAddressId: subDetail.deliveryAddressId,
+          paymentId: subDetail?.paymentId
+        })
       );
       await changeSubscriptionGoods(params);
       await getDetail(({ goodsInfo }) => {

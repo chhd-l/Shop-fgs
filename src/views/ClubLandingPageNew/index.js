@@ -39,7 +39,7 @@ import frhowitworknewmobile1 from './Components/HowItWorksNew/image/frhowitworkn
 import frhowitworknewmobile2 from './Components/HowItWorksNew/image/frhowitworknewmobile2.png';
 import frhowitworknewmobile3 from './Components/HowItWorksNew/image/frhowitworknewmobile3.png';
 import frhowitworknewmobile4 from './Components/HowItWorksNew/image/frhowitworknewmobile4.png';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;

@@ -14,7 +14,7 @@ import { inject, observer } from 'mobx-react';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import './index.less';
-import Canonical from '@/components/Canonical/index.jsx';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

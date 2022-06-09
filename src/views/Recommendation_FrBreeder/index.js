@@ -35,7 +35,7 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';

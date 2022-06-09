@@ -5,23 +5,18 @@ import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
-
+import { Canonical } from '@/components/Common';
 import hootbg from './images/hootbg.png';
 import hootbg2 from './images/hootbg2.png';
 import Bitmap1 from './images/Bitmap1.png';
 import Bitmap2 from './images/Bitmap2.png';
 import Bitmap3 from './images/Bitmap3.png';
 
-const pageLink = window.location.href;
-
 function AboutSubscription(props) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="aboutSubscription">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />
