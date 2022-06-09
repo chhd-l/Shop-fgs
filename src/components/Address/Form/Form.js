@@ -358,10 +358,10 @@ class Form extends React.Component {
 
           if (obj.deliveryDate == v.date) {
             obj.deliveryDateId = dateStr;
-          } else if (obj.deliveryDate == '') {
+          } else if (obj.deliveryDate == '' && COUNTRY == 'jp') {
             obj.deliveryDate = 'Unspecified';
             obj.deliveryDateId = 'Unspecified';
-          } else if (isBelongDelievryDate() == false) {
+          } else if (isBelongDelievryDate() == false && COUNTRY == 'jp') {
             obj.deliveryDate = 'Unspecified';
             obj.deliveryDateId = 'Unspecified';
             obj.timeSlotId = 'Unspecified';
