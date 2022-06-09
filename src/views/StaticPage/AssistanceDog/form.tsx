@@ -9,6 +9,7 @@ import { saveAssistanceDogs } from '@/api/pet';
 import { ErrorMessage, SuccessMessage } from '@/components/Message';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { submitEvent } from './GA';
+import { DivWrapper } from './style';
 // import Selection from '@/components/Selection';
 
 interface Props {
@@ -221,7 +222,7 @@ const Form = ({ intl }: Props) => {
   ]);
 
   return (
-    <div className="grid grid-cols-12 md:gap-x-14">
+    <DivWrapper className="grid grid-cols-12 md:gap-x-14 ui-form">
       <div className="col-span-12 mb-5">
         <ErrorMessage msg={submitMsg.error} />
         <SuccessMessage msg={submitMsg.success} />
@@ -436,7 +437,7 @@ const Form = ({ intl }: Props) => {
         à des fins marketing. Vous devez être âgé de 16 ans ou plus pour
         soumettre un formulaire.{' '}
       </div>
-    </div>
+    </DivWrapper>
   );
 };
 
