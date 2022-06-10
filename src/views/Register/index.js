@@ -268,11 +268,24 @@ class Register extends Component {
     const symbolReg2 = /^\-+$/;
     const deIllegalSymbol =
       symbolReg1.test(value.trim()) || symbolReg2.test(value.trim());
+    // jp katakana verification
+    let jpNameValid = true;
+    if (name === 'phoneticLastName' || name === 'phoneticFirstName') {
+      const jpNameReg = /^(?=.*?[\u30A1-\u30FC])[\u30A1-\u30FC\s]*$/;
+      jpNameValid = jpNameReg.test(value.trim());
+      console.log(jpNameValid, 'jpjpjp');
+    }
+
     let valid;
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -303,16 +316,14 @@ class Register extends Component {
         });
         break;
       case 'phoneticFirstName':
-        console.log('phoneticFirstNameValid');
-        valid = !!value.trim() && !deIllegalSymbol;
+        valid = !!value.trim() && !deIllegalSymbol && jpNameValid;
         this.setState({
           phoneticFirstNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticLastName':
-        console.log('phoneticLastNameValid');
-        valid = !!value.trim() && !deIllegalSymbol;
+        valid = !!value.trim() && !deIllegalSymbol && jpNameValid;
         this.setState({
           phoneticLastNameValid: valid,
           illegalSymbol: deIllegalSymbol
@@ -342,8 +353,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -822,6 +832,7 @@ class Register extends Component {
                     type="text"
                     maxLength="50"
                     name="phoneticLastName"
+                    isWarning={!phoneticLastNameValid}
                     valid={phoneticLastNameValid}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
@@ -851,6 +862,7 @@ class Register extends Component {
                     valid={phoneticFirstNameValid}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
+                    isWarning={!phoneticFirstNameValid}
                     value={registerForm.phoneticFirstName}
                     label={<FormattedMessage id="phoneticFirstName" />}
                     rightOperateBoxJSX={
