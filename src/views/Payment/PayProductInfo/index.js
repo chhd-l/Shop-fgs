@@ -612,7 +612,8 @@ class PayProductInfo extends React.Component {
       purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
       purchasesPara.address1 = this.props.deliveryAddress?.address1;
       let tmpParam = Object.assign(purchasesPara, {
-        ...this.props
+        ...this.props,
+        isThrowValidPromotionCodeErr: true
       });
 
       if (!this.isLogin) {
@@ -630,7 +631,6 @@ class PayProductInfo extends React.Component {
       }
 
       console.log(result);
-      // debugger;
 
       if (!result?.context?.promotionFlag || result?.context?.couponCodeFlag) {
         //表示输入apply promotionCode成功
@@ -638,9 +638,9 @@ class PayProductInfo extends React.Component {
         this.setState({ discount });
         this.props.sendPromotionCode(this.state.promotionInputValue);
         this.setState({
-          isStudentPurchase: result.context.promotionSubType === 8
+          isStudentPurchase: result?.context?.promotionSubType === 8
         });
-        if (result.context.promotionSubType === 8) {
+        if (result?.context?.promotionSubType === 8) {
           this.props.welcomeBoxChange('no');
         }
       } else {
@@ -671,7 +671,16 @@ class PayProductInfo extends React.Component {
       }
     } catch (err) {
       console.info('....', err);
-      // debugger;
+      this.setState({
+        validPromotionCodeErrMsg: err.message
+      });
+      this.props.sendPromotionCode('');
+      this.setState({ isStudentPurchase: false });
+      setTimeout(() => {
+        this.setState({
+          validPromotionCodeErrMsg: ''
+        });
+      }, 5000);
       this.setState({
         isClickApply: false
       });
@@ -788,6 +797,7 @@ class PayProductInfo extends React.Component {
       discount,
       needHideProductList,
       isShowValidCode,
+      validPromotionCodeErrMsg,
       isFirstOrder,
       isStudentPurchase
     } = this.state;
@@ -867,6 +877,11 @@ class PayProductInfo extends React.Component {
                   </button>
                 </div>
               </div>
+              {validPromotionCodeErrMsg ? (
+                <div className="red" style={{ fontSize: '.875rem' }}>
+                  {validPromotionCodeErrMsg}
+                </div>
+              ) : null}
               {isShowValidCode ? (
                 <div className="red" style={{ fontSize: '.875rem' }}>
                   <FormattedMessage id="validPromotionCode" />
