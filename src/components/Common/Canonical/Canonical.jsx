@@ -19,7 +19,7 @@ const Canonical = ({ href }) => {
       {['ru', 'fr', 'tr', 'uk'].includes(window.__.env.REACT_APP_COUNTRY) ? (
         <link
           rel="alternate"
-          href={ret.replace(/window.__.env.REACT_APP_COUNTRY/, 'uk')}
+          href={ret.replace(new RegExp(window.__.env.REACT_APP_COUNTRY), 'uk')}
           hreflang="x-default"
         />
       ) : null}
