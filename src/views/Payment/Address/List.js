@@ -2259,6 +2259,12 @@ class AddressList extends React.Component {
               className="d-flex col-10 col-md-8 pl-1 pr-1"
               style={{ flexDirection: 'column' }}
             >
+              {COUNTRY === 'jp' && (
+                <span style={{ color: '#e2001a' }}>
+                  <FormattedMessage id="DeliveryShelter" />
+                </span>
+              )}
+
               <span>
                 {item.lastName}
                 {item.firstName}
@@ -2276,9 +2282,19 @@ class AddressList extends React.Component {
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+
                     {item.deliveryDate !== 'Unspecified' && (
                       <>
-                        <FormattedMessage id="Deliverytime" />
+                        {COUNTRY === 'jp' ? (
+                          <span style={{ color: '#e2001a' }}>
+                            <FormattedMessage id="Deliverytime" />
+                          </span>
+                        ) : (
+                          <span>
+                            <FormattedMessage id="Deliverytime" />
+                          </span>
+                        )}
+
                         {formatJPDate(item.deliveryDate)}
                       </>
                     )}
