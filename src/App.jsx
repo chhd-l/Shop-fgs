@@ -60,8 +60,7 @@ import CartDEBreeder from './views/CartDEBreeder';
 import { funcUrl } from './lib/url-utils';
 import LogRocket from 'logrocket';
 
-//LogRocket.init('kvnk0e/test');
-LogRocket.init('kvnk0e/test', {
+LogRocket.init('kvnk0e/shop-lki8n', {
   dom: {
     baseHref: '	https://fgs-cdn.azureedge.net/'
   }

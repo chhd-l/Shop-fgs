@@ -108,7 +108,7 @@ class Header extends React.Component {
   }
   async componentDidMount() {
     if (this?.userInfo?.email) {
-      LogRocket.identify('kvnk0e/test', {
+      LogRocket.identify('kvnk0e/shop-lki8n', {
         name: this.userInfo.firstName,
         email: this.userInfo.email
       });
