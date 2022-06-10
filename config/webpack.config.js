@@ -430,7 +430,7 @@ module.exports = function (webpackEnv) {
               loader: require.resolve('url-loader'),
               options: {
                 limit: imageInlineSizeLimit,
-                name: 'assets/media/[name].[hash:8].[ext]'
+                name: 'assets/media/[name].[hash:8].[ext]?[hash:8]'
               }
             },
             // Process application JS with Babel.
@@ -685,8 +685,8 @@ module.exports = function (webpackEnv) {
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename: 'assets/css/[name].[contenthash:8].css',
-          chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css'
+          filename: 'assets/css/[name].[contenthash:8].css?[contenthash:8]',
+          chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css?[contenthash:8]'
         }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
