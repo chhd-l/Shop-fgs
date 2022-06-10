@@ -4,10 +4,8 @@ import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import Selection from '@/components/Selection';
-import DatePicker from 'react-datepicker';
 import {
   getDeviceType,
-  datePickerConfig,
   formatMoney,
   getZoneTime,
   formatDate,
@@ -17,6 +15,7 @@ import { getDeliveryDateAndTimeSlot } from '@/api/address';
 import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
 import PriceDetailsList from '../PriceDetailsList';
+import { DatePickerComponent } from '@/components/Common';
 
 const Unspecified = 'Unspecified';
 
@@ -263,11 +262,8 @@ const NextDelivery = ({
                     cursor: 'pointer'
                   }}
                 >
-                  <DatePicker
+                  <DatePickerComponent
                     className="receiveDate subs-receiveDate for-mobile-pad-0"
-                    placeholder="Select Date"
-                    dateFormat={datePickerConfig.format}
-                    locale={datePickerConfig.locale}
                     minDate={getMinDate(el.tradeItems[0].nextDeliveryTime)}
                     selected={
                       el.tradeItems

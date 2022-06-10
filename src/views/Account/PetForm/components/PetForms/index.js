@@ -11,7 +11,6 @@ import Selection from '@/components/Selection';
 import SelectMultiple from '@/components/SelectMultiple';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
-import DatePicker from 'react-datepicker';
 import InputBox from '../FormItem/InputBox';
 import RadioBox from '../FormItem/RadioBox';
 import UploadImg from '../ImgUpload';
@@ -21,13 +20,13 @@ import { changeSubscriptionDetailPets } from '@/api/subscription';
 import { addPet, delPets, editPets } from '@/api/pet';
 import {
   getZoneTime,
-  datePickerConfig,
   getDeviceType,
   getDictionary,
   handleDateForIos
 } from '@/utils/utils';
 import { format } from 'date-fns';
 import { ErrorMessage } from '@/components/Message';
+import { DatePickerComponent } from '@/components/Common';
 
 const purebredOpitons = [
   {
@@ -77,6 +76,7 @@ const sterilizedOptions = [
     checked: false
   }
 ];
+
 const localItemRoyal = window.__.localItemRoyal;
 
 const PetForms = ({
@@ -649,11 +649,8 @@ const PetForms = ({
               className="rc-input rc-input--label rc-margin--none rc-input--full-width"
               input-setup="true"
             >
-              <DatePicker
+              <DatePickerComponent
                 className="receiveDate"
-                placeholder="Select Date"
-                dateFormat={datePickerConfig.format}
-                locale={datePickerConfig.locale}
                 maxDate={new Date()}
                 selected={
                   petForm.birthdate ? getZoneTime(petForm.birthdate) : ''
