@@ -2,10 +2,10 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import React, { useContext, useState } from 'react';
 import FrequencySelection from '@/components/FrequencySelection';
 import { SubGoodsInfosContext } from './index';
-import DatePicker from 'react-datepicker';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import { datePickerConfig, getZoneTime, formatDate } from '@/utils/utils';
+import { getZoneTime, formatDate } from '@/utils/utils';
 import { GAForChangeProductBtn } from '@/utils/GA';
+import { DatePickerComponent } from '@/components/Common';
 import cn from 'classnames';
 
 const ChangeSelection = ({ el, idx }) => {
@@ -14,7 +14,6 @@ const ChangeSelection = ({ el, idx }) => {
     setState,
     isIndv,
     isActive,
-    onDateChange,
     getMinDate,
     isGift,
     subDetail,
@@ -124,11 +123,8 @@ const ChangeSelection = ({ el, idx }) => {
             fontSize: '1.25rem'
           }}
         >
-          <DatePicker
+          <DatePickerComponent
             className="receiveDate"
-            placeholder="Select Date"
-            dateFormat={datePickerConfig.format}
-            locale={datePickerConfig.locale}
             minDate={getMinDate(el.nextDeliveryTime)}
             selected={
               !isActive
@@ -138,7 +134,6 @@ const ChangeSelection = ({ el, idx }) => {
                 : new Date()
             }
             disabled={true}
-            onChange={(date) => onDateChange(date)}
           />
         </div>
       </div>

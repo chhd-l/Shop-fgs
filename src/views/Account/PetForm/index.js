@@ -16,11 +16,9 @@ import Loading from '@/components/Loading';
 import {
   getDictionary,
   getDeviceType,
-  datePickerConfig,
   getElementToPageTop,
   getClubFlag
 } from '@/utils/utils';
-import 'react-datepicker/dist/react-datepicker.css';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import ProductCarousel from '@/components/ProductCarousel';
@@ -63,17 +61,11 @@ class PetForm extends React.Component {
       recommendData: []
     };
   }
-  componentWillUnmount() {}
   async componentDidMount() {
-    let datePickerDom = document.querySelector('.receiveDate');
     let subdetailInfo = await sessionItemRoyal.get('rc-subdetailInfo');
     this.props.location.state = subdetailInfo && JSON.parse(subdetailInfo);
     sessionItemRoyal.remove('rc-subdetailInfo');
     console.info(sessionItemRoyal.get('rc-subdetailInfo'));
-    // datePickerDom.disabled = true;
-    console.log('datePickerConfig:', datePickerConfig);
-    datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
-    console.log(this.props, 'props');
     let petsType = this.props.location.state?.petsType;
     if (petsType) {
       let isCat = petsType?.toLowerCase() === 'cat';
