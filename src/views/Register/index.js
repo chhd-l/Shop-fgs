@@ -11,7 +11,8 @@ import stores from '@/store';
 import {
   mergeUnloginCartData,
   getOktaCallBackUrl,
-  bindSubmitParam
+  bindSubmitParam,
+  getDeviceType
 } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -30,7 +31,8 @@ import './components/notification.less';
 
 // 日本logo
 import jpLogo from '@/assets/images/register/jp_logo.svg';
-
+const isMobilePhone = getDeviceType() === 'H5';
+console.log(isMobilePhone, 'isMobilePhone');
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
@@ -266,11 +268,24 @@ class Register extends Component {
     const symbolReg2 = /^\-+$/;
     const deIllegalSymbol =
       symbolReg1.test(value.trim()) || symbolReg2.test(value.trim());
+    // jp katakana verification
+    let jpNameValid = true;
+    if (name === 'phoneticLastName' || name === 'phoneticFirstName') {
+      const jpNameReg = /^(?=.*?[\u30A1-\u30FC])[\u30A1-\u30FC\s]*$/;
+      jpNameValid = jpNameReg.test(value.trim());
+      console.log(jpNameValid, 'jpjpjp');
+    }
+
     let valid;
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -301,16 +316,14 @@ class Register extends Component {
         });
         break;
       case 'phoneticFirstName':
-        console.log('phoneticFirstNameValid');
-        valid = !!value.trim() && !deIllegalSymbol;
+        valid = !!value.trim() && !deIllegalSymbol && jpNameValid;
         this.setState({
           phoneticFirstNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticLastName':
-        console.log('phoneticLastNameValid');
-        valid = !!value.trim() && !deIllegalSymbol;
+        valid = !!value.trim() && !deIllegalSymbol && jpNameValid;
         this.setState({
           phoneticLastNameValid: valid,
           illegalSymbol: deIllegalSymbol
@@ -340,8 +353,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -722,18 +734,20 @@ class Register extends Component {
                 <span>{<FormattedMessage id="jp.regTitleSeven" />}</span>
               </p>
               <h3>{<FormattedMessage id="jp.regTitleEight" />}</h3>
-              <p className="text-center align-bottom gologin">
-                <a
-                  onClick={() =>
-                    this.props.oktaAuth.signInWithRedirect(
-                      window.__.env.REACT_APP_HOMEPAGE
-                    )
-                  }
-                  className="rc-styled-link"
-                >
-                  {<FormattedMessage id="jp.regToLogin" />}
-                </a>
-              </p>
+              {!isMobilePhone && (
+                <p className="text-center align-bottom gologin">
+                  <a
+                    onClick={() =>
+                      this.props.oktaAuth.signInWithRedirect(
+                        window.__.env.REACT_APP_HOMEPAGE
+                      )
+                    }
+                    className="jp-reg-to-login-btn"
+                  >
+                    {<FormattedMessage id="jp.regToLogin" />}
+                  </a>
+                </p>
+              )}
             </div>
             {/* SocialRegister */}
             {window.__.env.REACT_APP_FaceBook_IDP ||
@@ -818,6 +832,7 @@ class Register extends Component {
                     type="text"
                     maxLength="50"
                     name="phoneticLastName"
+                    isWarning={!phoneticLastNameValid}
                     valid={phoneticLastNameValid}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
@@ -847,6 +862,7 @@ class Register extends Component {
                     valid={phoneticFirstNameValid}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
+                    isWarning={!phoneticFirstNameValid}
                     value={registerForm.phoneticFirstName}
                     label={<FormattedMessage id="phoneticFirstName" />}
                     rightOperateBoxJSX={
@@ -1142,11 +1158,11 @@ class Register extends Component {
                               <FormattedMessage id="registerErrorMessage" />
                             )}
                             <strong>
+                              9
                               <Link
                                 to="/help"
                                 className="rc-text-colour--brand1"
                               >
-                                {' '}
                                 <FormattedMessage id="contactUs" />
                               </Link>
                             </strong>

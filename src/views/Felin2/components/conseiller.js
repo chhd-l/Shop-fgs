@@ -1,8 +1,6 @@
 import React from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
 import '../index.less';
 import '../mobile.less';
-import 'react-calendar/dist/Calendar.css';
 import { inject, observer } from 'mobx-react';
 import img from '../image/img.png';
 import exper1 from '../image/exper.png';
