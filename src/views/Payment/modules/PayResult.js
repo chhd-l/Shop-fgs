@@ -7,6 +7,7 @@ import { sleep } from '@/utils/utils';
 import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 @inject('loginStore')
 @observer
@@ -47,18 +48,37 @@ class AdyenPayResult extends Component {
         redirectResult,
         businessId: sessionItemRoyal.get('orderNumber')
       });
+
       if (res.context.status === 'SUCCEED') {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
       console.log(err);
       const { history } = this.props;
-      if (this.isLogin) {
-        sessionItemRoyal.set('rc-tid', err.context.businessId);
-        sessionItemRoyal.set('rc-tidList', JSON.stringify(err.context.tidList));
-        history.push('/checkout');
+      if (err?.message === 'Pay order error' && COUNTRY === 'nl') {
+        if (this.isLogin) {
+          sessionItemRoyal.set('rc-tid', sessionItemRoyal.get('orderNumber'));
+          sessionItemRoyal.set(
+            'rc-tidList',
+            JSON.stringify(
+              JSON.parse(sessionItemRoyal.get('subOrderNumberList'))
+            )
+          );
+          history.push('/checkout');
+        } else {
+          history.push('/home');
+        }
       } else {
-        history.push('/cart');
+        if (this.isLogin) {
+          sessionItemRoyal.set('rc-tid', err.context.businessId);
+          sessionItemRoyal.set(
+            'rc-tidList',
+            JSON.stringify(err.context.tidList)
+          );
+          history.push('/checkout');
+        } else {
+          history.push('/cart');
+        }
       }
     } finally {
       await sleep(2000); //防止还没跳转
