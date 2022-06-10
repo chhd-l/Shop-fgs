@@ -69,7 +69,13 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 let preventChangeSize = false; // 修改bug: 先选中数量框，再直接点击切换规则，引起的购物车数据重复
 
-@inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'clinicStore',
+  'configStore',
+  'paymentStore'
+)
 @injectIntl
 @observer
 class LoginCart extends React.Component {
@@ -118,6 +124,7 @@ class LoginCart extends React.Component {
   }
   async componentDidMount() {
     console.log('loginPage');
+    this.props.paymentStore.serCurPayWayVal(''); //为了从checout页面回到购物车页面时 清空支付方式
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
