@@ -698,6 +698,7 @@ class CheckoutStore {
         shippingFeeAddress, // DuData地址对象，俄罗斯计算运费用
         paymentCode: paymentStore?.curPayWayInfo?.code
       });
+
       // console.log('purchase api res', sitePurchasesRes);
       // debugger;
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);

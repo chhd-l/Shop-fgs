@@ -2839,6 +2839,9 @@ class Payment extends React.Component {
       param = Object.assign(param, { intl });
       if (this.isLogin) {
         await this.props.checkoutStore.updateLoginCart(param);
+        if (COUNTRY == 'jp' && this.props.paymentStore.curPayWayVal) {
+          this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        }
       } else {
         await this.props.checkoutStore.updateUnloginCart(param);
       }
