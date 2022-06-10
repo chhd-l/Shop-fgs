@@ -11,7 +11,8 @@ import stores from '@/store';
 import {
   mergeUnloginCartData,
   getOktaCallBackUrl,
-  bindSubmitParam
+  bindSubmitParam,
+  getDeviceType
 } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -30,7 +31,8 @@ import './components/notification.less';
 
 // 日本logo
 import jpLogo from '@/assets/images/register/jp_logo.svg';
-
+const isMobilePhone = getDeviceType() === 'H5';
+console.log(isMobilePhone, 'isMobilePhone');
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
@@ -722,18 +724,20 @@ class Register extends Component {
                 <span>{<FormattedMessage id="jp.regTitleSeven" />}</span>
               </p>
               <h3>{<FormattedMessage id="jp.regTitleEight" />}</h3>
-              <p className="text-center align-bottom gologin">
-                <a
-                  onClick={() =>
-                    this.props.oktaAuth.signInWithRedirect(
-                      window.__.env.REACT_APP_HOMEPAGE
-                    )
-                  }
-                  className="jp-reg-to-login-btn"
-                >
-                  {<FormattedMessage id="jp.regToLogin" />}
-                </a>
-              </p>
+              {!isMobilePhone && (
+                <p className="text-center align-bottom gologin">
+                  <a
+                    onClick={() =>
+                      this.props.oktaAuth.signInWithRedirect(
+                        window.__.env.REACT_APP_HOMEPAGE
+                      )
+                    }
+                    className="jp-reg-to-login-btn"
+                  >
+                    {<FormattedMessage id="jp.regToLogin" />}
+                  </a>
+                </p>
+              )}
             </div>
             {/* SocialRegister */}
             {window.__.env.REACT_APP_FaceBook_IDP ||
@@ -1141,6 +1145,15 @@ class Register extends Component {
                             ) : (
                               <FormattedMessage id="registerErrorMessage" />
                             )}
+                            <strong>
+                              9
+                              <Link
+                                to="/help"
+                                className="rc-text-colour--brand1"
+                              >
+                                <FormattedMessage id="contactUs" />
+                              </Link>
+                            </strong>
                           </div>
                         </p>
                         <button
