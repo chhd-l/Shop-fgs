@@ -55,6 +55,7 @@ class PersonalDataEditForm extends React.Component {
       isValid: false,
       errMsgObj: {},
       formAddressValid: false,
+      jpNameValid: false,
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
@@ -365,6 +366,19 @@ class PersonalDataEditForm extends React.Component {
     );
   };
 
+  getJpNameValidFlag = (flag) => {
+    this.setState(
+      {
+        jpNameValid: flag
+      },
+      () => {
+        if (flag) {
+          this.validFormData();
+        }
+      }
+    );
+  };
+
   render() {
     const {
       editFormVisible,
@@ -527,6 +541,7 @@ class PersonalDataEditForm extends React.Component {
                   personalData={true}
                   updateData={this.handleEditFormChange}
                   getFormAddressValidFlag={this.getFormAddressValidFlag}
+                  getJpNameValidFlag={this.getJpNameValidFlag}
                 />
               )}
 
@@ -552,7 +567,11 @@ class PersonalDataEditForm extends React.Component {
                   })}
                   name="personalInformation"
                   type="submit"
-                  disabled={isValid && formAddressValid ? false : true}
+                  disabled={
+                    isValid && formAddressValid && this.state.jpNameValid
+                      ? false
+                      : true
+                  }
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
