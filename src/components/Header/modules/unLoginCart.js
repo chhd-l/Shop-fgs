@@ -378,12 +378,17 @@ class UnloginCart extends React.Component {
                       </div>
                     );
                     // 折扣商品如果没有折扣不显示折扣价
+                    const goodsDetailInfo = item.sizeList.filter(
+                      (el) => el.selected
+                    )[0];
                     if (
                       item.goodsInfoFlag > 0 &&
-                      item.originalPrice === item.subscribePrice
+                      goodsDetailInfo.salePrice ===
+                        goodsDetailInfo.subscriptionPrice
                     ) {
                       discountPrice = null;
                     }
+
                     return (
                       <div className="minicart__product" key={idx}>
                         <div className="product-summary__products__item">

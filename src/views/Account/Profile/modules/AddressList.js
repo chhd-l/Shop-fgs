@@ -10,8 +10,6 @@ import {
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
-import 'react-datepicker/dist/react-datepicker.css';
-// import classNames from 'classnames';
 import {
   saveAddress,
   editAddress,
@@ -188,7 +186,10 @@ class AddressList extends React.Component {
         (item) => item.type === 'DELIVERY' && item.receiveType == 'PICK_UP'
       );
 
-      if (COUNTRY == 'ru' && pickupAddress[0]?.deliveryAddressId) {
+      if (
+        window.__.env.REACT_APP_COUNTRY == 'ru' &&
+        pickupAddress[0]?.deliveryAddressId
+      ) {
         const pickUpActiveRes = await checkPickUpActive({
           deliveryAddressId: pickupAddress[0].deliveryAddressId
         });

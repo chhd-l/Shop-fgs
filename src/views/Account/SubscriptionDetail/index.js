@@ -37,7 +37,6 @@ import {
   checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
 import Modal from '@/components/Modal';
-import 'react-datepicker/dist/react-datepicker.css';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
@@ -176,6 +175,7 @@ class SubscriptionDetail extends React.Component {
     const { subDetail } = this.state;
     const param = {
       subscribeId: subDetail.subscribeId,
+      nextDeliveryTime: subDetail.nextDeliveryTime,
       paymentId: el.id,
       goodsItems: subDetail.goodsInfo?.map((el) => {
         return {
@@ -228,7 +228,7 @@ class SubscriptionDetail extends React.Component {
     const { intl } = this.props;
     let changeField = '';
     this.scrollToWhere('page-top');
-    console.log('this.state.addressType:', this.state.addressType);
+    // console.log('this.state.addressType:', this.state.addressType);
     let param = {
       subscribeId: subDetail.subscribeId,
       goodsItems: subDetail.goodsInfo.map((el) => {
@@ -237,7 +237,8 @@ class SubscriptionDetail extends React.Component {
           subscribeNum: el.subscribeNum,
           subscribeGoodsId: el.subscribeGoodsId
         };
-      })
+      }),
+      nextDeliveryTime: subDetail.nextDeliveryTime
     };
     if (this.state.addressType === 'delivery') {
       param.deliveryAddressId = el.deliveryAddressId;
@@ -763,6 +764,7 @@ class SubscriptionDetail extends React.Component {
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
+        nextDeliveryTime: subDetail.nextDeliveryTime,
         subscribeStatus: findKeyFromObject({
           obj: SUBSCRIBE_STATUS_ENUM,
           value: subDetail.subscribeStatus
