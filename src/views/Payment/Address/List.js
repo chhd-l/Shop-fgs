@@ -2298,9 +2298,9 @@ class AddressList extends React.Component {
                     {item.deliveryDate !== 'Unspecified' && (
                       <>
                         {COUNTRY === 'jp' ? (
-                          <span style={{ color: '#e2001a' }}>
+                          <p style={{ color: '#e2001a' }}>
                             <FormattedMessage id="Deliverytime" />
-                          </span>
+                          </p>
                         ) : (
                           <span>
                             <FormattedMessage id="Deliverytime" />

@@ -116,6 +116,7 @@ import Pos from './PaymentMethod/Pos';
 import Cash from './PaymentMethod/Cash';
 import Moto from './PaymentMethod/Moto';
 import Ideal from './PaymentMethod/Ideal/indes';
+import { openPromotionBox } from '@/views/Payment/modules/utils';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -2703,6 +2704,7 @@ class Payment extends React.Component {
     } = this.props;
     // code 转换小写
     serCurPayWayVal(paymentTypeCode);
+    openPromotionBox();
     this.setState({ email: '' }, () => {
       this.onPaymentTypeValChange();
     });
@@ -2839,6 +2841,9 @@ class Payment extends React.Component {
       param = Object.assign(param, { intl });
       if (this.isLogin) {
         await this.props.checkoutStore.updateLoginCart(param);
+        if (COUNTRY == 'jp' && this.props.paymentStore.curPayWayVal) {
+          this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        }
       } else {
         await this.props.checkoutStore.updateUnloginCart(param);
       }
