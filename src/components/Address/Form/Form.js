@@ -20,13 +20,11 @@ import SearchSelection from '@/components/DqeSearchSelection';
 import {
   getDictionary,
   validData,
-  datePickerConfig,
   getZoneTime,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
   formatDate
 } from '@/utils/utils';
-import DatePicker from 'react-datepicker';
 import find from 'lodash/find';
 import Loading from '@/components/Loading';
 import {
@@ -48,19 +46,11 @@ import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
 import { format } from 'date-fns';
-import { Input } from '@/components/Common';
+import { DatePickerComponent, Input } from '@/components/Common';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
-
-const sleep = (time) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-};
 
 @inject('configStore')
 @injectIntl
@@ -148,16 +138,9 @@ class Form extends React.Component {
   }
   async componentDidMount() {
     const {
-      configStore: { localAddressForm }
+      configStore: { localAddressForm },
+      initData = {}
     } = this.props;
-    let timer = setInterval(() => {
-      let datePickerDom = document.querySelector('.receiveDate');
-      if (datePickerDom) {
-        datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
-        clearInterval(timer);
-      }
-    }, 3000);
-    const { initData = {} } = this.props;
 
     //日本
     if (COUNTRY === 'jp') {
@@ -1930,12 +1913,9 @@ class Form extends React.Component {
               <FormattedMessage id="account.birthDate" />
             </label>
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-              <DatePicker
+              <DatePickerComponent
                 className="receiveDate birthDateShipping"
                 style={{ padding: '.95rem 0' }}
-                placeholder={datePickerConfig.format}
-                dateFormat={datePickerConfig.format}
-                locale={datePickerConfig.locale}
                 maxDate={new Date()}
                 selected={
                   caninForm.birthdate ? getZoneTime(caninForm.birthdate) : ''

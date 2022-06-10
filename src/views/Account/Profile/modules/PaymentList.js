@@ -5,7 +5,6 @@ import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
-import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
 import {
   getPaymentMethod,

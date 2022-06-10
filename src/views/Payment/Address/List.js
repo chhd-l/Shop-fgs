@@ -737,12 +737,24 @@ class AddressList extends React.Component {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
     let nextConfirmPanel;
-    if (localItemRoyal.get('rc-promotionCode')) {
-      nextConfirmPanel = paymentStore?.panelStatus?.filter(
-        (item) => item.key === 'confirmation'
-      )[0];
+    const isUserGroup = sessionItemRoyal.get('rc-userGroup') ? true : false;
+    //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
+    // 如果代客下单是日本 需要推送bindPet
+    // 如果不是代客下单
+    // 代客下单
+    if (isUserGroup && localItemRoyal.get('rc-promotionCode')) {
+      // 如果是日本
+      if (COUNTRY === 'jp') {
+        nextConfirmPanel = paymentStore?.panelStatus?.filter(
+          (item) => item.key === 'bindPet'
+        )[0];
+      } else {
+        nextConfirmPanel = paymentStore?.panelStatus?.filter(
+          (item) => item.key === 'confirmation'
+        )[0];
+      }
     } else {
-      //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
+      // 正常下单
       if (COUNTRY !== 'jp') {
         nextConfirmPanel = searchNextConfirmPanel({
           list: toJS(
@@ -750,11 +762,6 @@ class AddressList extends React.Component {
           ),
           curKey: this.curPanelKey
         });
-        // // 下一个最近的未complete的panel
-        // nextConfirmPanel = searchNextConfirmPanel({
-        //   list: toJS(paymentStore.panelStatus),
-        //   curKey: this.curPanelKey
-        // });
       } else {
         // 下一个最近的未complete的panel
         nextConfirmPanel = searchNextConfirmPanel({
@@ -763,6 +770,7 @@ class AddressList extends React.Component {
         });
       }
     }
+
     if (data) {
       paymentStore.setStsToCompleted({
         key: this.curPanelKey,
@@ -2290,9 +2298,9 @@ class AddressList extends React.Component {
                     {item.deliveryDate !== 'Unspecified' && (
                       <>
                         {COUNTRY === 'jp' ? (
-                          <span style={{ color: '#e2001a' }}>
+                          <p style={{ color: '#e2001a' }}>
                             <FormattedMessage id="Deliverytime" />
-                          </span>
+                          </p>
                         ) : (
                           <span>
                             <FormattedMessage id="Deliverytime" />
