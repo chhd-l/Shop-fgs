@@ -9,6 +9,7 @@ const Input = ({
   valid = true,
   highLightSuccess = false,
   onChange,
+  onInput,
   onBlur,
   value,
   label,
@@ -45,6 +46,7 @@ const Input = ({
           maxLength={maxLength}
           name={name}
           onChange={onChange}
+          onInput={onInput}
           onBlur={onBlur}
           value={value}
           {...rest}
