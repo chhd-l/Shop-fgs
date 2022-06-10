@@ -288,11 +288,15 @@ class LoginCart extends React.Component {
                       // 是否显示折扣价格
                       let showDiscountPrice = true;
                       // 折扣商品如果没有折扣不显示折扣价
+                      const goodsDetailInfo = item.sizeList.filter(
+                        (el) => el.selected
+                      )[0];
                       if (
                         item.goodsInfoFlag > 0 &&
-                        item.originalPrice === item.subscribePrice
+                        goodsDetailInfo.salePrice ===
+                          goodsDetailInfo.subscriptionPrice
                       ) {
-                        showDiscountPrice = false;
+                        discountPrice = null;
                       }
                       return (
                         <div className="minicart__product" key={index}>
