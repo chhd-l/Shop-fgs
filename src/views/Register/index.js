@@ -729,7 +729,7 @@ class Register extends Component {
                       window.__.env.REACT_APP_HOMEPAGE
                     )
                   }
-                  className="rc-styled-link"
+                  className="jp-reg-to-login-btn"
                 >
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>
@@ -1141,15 +1141,6 @@ class Register extends Component {
                             ) : (
                               <FormattedMessage id="registerErrorMessage" />
                             )}
-                            <strong>
-                              <Link
-                                to="/help"
-                                className="rc-text-colour--brand1"
-                              >
-                                {' '}
-                                <FormattedMessage id="contactUs" />
-                              </Link>
-                            </strong>
                           </div>
                         </p>
                         <button
