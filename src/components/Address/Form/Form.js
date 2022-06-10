@@ -737,12 +737,10 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (COUNTRY == 'fr') {
             // 法国
-            regExp =
-              /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'uk') {
             // 英国
-            regExp =
-              /^\(\+[4][4]\)[\s](([0][0-9][0-9])|[0-9][0-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp = /^\(\+[4][4]\)[\s](([0][0-9][0-9])|[0-9][0-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -751,12 +749,10 @@ class Form extends React.Component {
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{4}$/;
           } else if (COUNTRY == 'ru') {
             // 俄罗斯
-            regExp =
-              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (COUNTRY == 'tr') {
             // 土耳其
-            regExp =
-              /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else if (COUNTRY == 'jp') {
             regExp = /^[0]\d{9,10}$/;
           } else {
@@ -816,6 +812,15 @@ class Form extends React.Component {
             }
           }
         );
+      }
+
+      if (COUNTRY == 'jp') {
+        item.fieldKey == 'firstNameKatakana' &&
+          this.jpNameKatakanaValid(item.fieldKey, cfdata.firstNameKatakana);
+        setTimeout(() => {
+          item.fieldKey == 'lastNameKatakana' &&
+            this.jpNameKatakanaValid(item.fieldKey, cfdata.lastNameKatakana);
+        }, 100);
       }
 
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
@@ -1230,6 +1235,43 @@ class Form extends React.Component {
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
+
+  jpNameKatakanaValid = (name, value) => {
+    if (COUNTRY !== 'jp') return;
+    const { errMsgObj } = this.state;
+    if (['firstNameKatakana', 'lastNameKatakana'].indexOf(name) > -1) {
+      const jpNameReg = /^(?=.*?[\u30A1-\u30FC])[\u30A1-\u30FC\s]*$/;
+      const jpNameValid = jpNameReg.test(value);
+      if (jpNameValid) {
+        this.setState(
+          {
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [name]: ''
+            })
+          },
+          () => {
+            const { firstNameKatakana, lastNameKatakana } = errMsgObj;
+            if (!firstNameKatakana && !lastNameKatakana)
+              this.props.getJpNameValidFlag(true);
+          }
+        );
+      } else {
+        this.setState(
+          {
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [name]: this.getIntlMsg('registerIllegalSymbol')
+            })
+          },
+          () => {
+            const { firstNameKatakana, lastNameKatakana } = errMsgObj;
+            if (firstNameKatakana || lastNameKatakana)
+              this.props.getJpNameValidFlag(false);
+          }
+        );
+      }
+    }
+  };
+
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
     const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
@@ -1237,8 +1279,8 @@ class Form extends React.Component {
     if (!caninForm?.formRuleRu?.length) {
       return;
     }
-
     let targetRule = null;
+    this.jpNameKatakanaValid(tname, tvalue);
 
     if (isDeliveryDateAndTimeSlot) {
       targetRule = caninForm?.formRuleRu.filter((e) => e.key === tname);
@@ -1589,8 +1631,11 @@ class Form extends React.Component {
             // 自动填充
             if (apiType === 'DADATA') {
               res = await getAddressBykeyWord({ keyword: inputVal });
-              robj = ((res?.context && res?.context?.addressList) || []).map(
-                (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
+              robj = (
+                (res?.context && res?.context?.addressList) ||
+                []
+              ).map((ele) =>
+                Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
               // inputVal = inputVal.replace(/\|/g, '，');

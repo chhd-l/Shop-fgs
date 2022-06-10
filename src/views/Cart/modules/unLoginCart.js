@@ -1906,6 +1906,11 @@ class UnLoginCart extends React.Component {
               </p>
             </div>
           </div>
+          {this.state.validPromotionCodeErrMsg ? (
+            <div className="red pl-3 pb-3 pt-2 text-sm">
+              {this.state.validPromotionCodeErrMsg}
+            </div>
+          ) : null}
           {this.state.isShowValidCode ? (
             <div className="red pl-3 pb-3 pt-2 text-sm">
               <FormattedMessage id="validPromotionCode" />
@@ -2094,52 +2099,68 @@ class UnLoginCart extends React.Component {
       isShowValidCode: false,
       lastPromotionInputValue: promotionInputValue
     });
-    if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart({
-        promotionCode: promotionInputValue,
-        subscriptionFlag: buyWay === 'frequency',
-        intl
-      });
-    } else {
-      result = await checkoutStore.updateUnloginCart({
-        promotionCode: promotionInputValue,
-        intl
-      });
-    }
-    if (
-      result &&
-      (!result.context.promotionFlag || result.context.couponCodeFlag)
-    ) {
-      //表示输入apply promotionCode成功
-      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-      this.setState({ discount });
-      // this.props.sendPromotionCode(
-      //   this.state.promotionInputValue
-      // );
-    } else {
+    try {
+      if (loginStore.isLogin) {
+        result = await checkoutStore.updateLoginCart({
+          promotionCode: promotionInputValue,
+          subscriptionFlag: buyWay === 'frequency',
+          intl,
+          isThrowValidPromotionCodeErr: true
+        });
+      } else {
+        result = await checkoutStore.updateUnloginCart({
+          promotionCode: promotionInputValue,
+          intl,
+          isThrowValidPromotionCodeErr: true
+        });
+      }
+      if (
+        result &&
+        (!result.context.promotionFlag || result.context.couponCodeFlag)
+      ) {
+        //表示输入apply promotionCode成功
+        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        this.setState({ discount });
+        // this.props.sendPromotionCode(
+        //   this.state.promotionInputValue
+        // );
+      } else {
+        this.setState({
+          isShowValidCode: true
+        });
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.setState(
+            {
+              isShowValidCode: false
+            },
+            () => {
+              // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+              result &&
+                result.code === 'K-000000' &&
+                this.handleClickPromotionApply(true);
+            }
+          );
+        }, 4000);
+        // this.props.sendPromotionCode('');
+      }
+    } catch (err) {
       this.setState({
-        isShowValidCode: true
+        validPromotionCodeErrMsg: err.message
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState(
-          {
-            isShowValidCode: false
-          },
-          () => {
-            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
-            result &&
-              result.code === 'K-000000' &&
-              this.handleClickPromotionApply(true);
-          }
-        );
+        this.setState({
+          validPromotionCodeErrMsg: '',
+          promotionInputValue: ''
+        });
       }, 4000);
-      // this.props.sendPromotionCode('');
+    } finally {
+      this.setState({
+        isClickApply: false,
+        promotionInputValue: ''
+      });
     }
-    this.setState({
-      isClickApply: false,
-      promotionInputValue: ''
-    });
   };
   handleRemovePromotionCode = async () => {
     const { checkoutStore, loginStore, buyWay, intl } = this.props;

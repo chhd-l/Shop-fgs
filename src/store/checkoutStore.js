@@ -448,6 +448,7 @@ class CheckoutStore {
     taxFeeData,
     guestEmail,
     isThrowErr,
+    isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
     intl,
@@ -615,7 +616,9 @@ class CheckoutStore {
       });
     } catch (err) {
       console.log(err.message);
-      // debugger;
+      if (err.code === 'K-000071' && isThrowValidPromotionCodeErr) {
+        throw new Error(err.message);
+      }
       if (isThrowErr) {
         throw new Error(err.message);
       }
@@ -634,6 +637,7 @@ class CheckoutStore {
     purchaseFlag,
     taxFeeData,
     isThrowErr = false,
+    isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
     intl,
@@ -698,6 +702,7 @@ class CheckoutStore {
         shippingFeeAddress, // DuData地址对象，俄罗斯计算运费用
         paymentCode: paymentStore?.curPayWayInfo?.code
       });
+
       // console.log('purchase api res', sitePurchasesRes);
       // debugger;
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
@@ -845,8 +850,11 @@ class CheckoutStore {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
-      console.log(err);
+      console.log(11111166, err);
       this.changeIsLoadingCartData(false);
+      if (err.code === 'K-000071' && isThrowValidPromotionCodeErr) {
+        throw new Error(err.message);
+      }
       if (isThrowErr) {
         throw new Error(err.message);
       }

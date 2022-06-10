@@ -69,7 +69,13 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 let preventChangeSize = false; // 修改bug: 先选中数量框，再直接点击切换规则，引起的购物车数据重复
 
-@inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'clinicStore',
+  'configStore',
+  'paymentStore'
+)
 @injectIntl
 @observer
 class LoginCart extends React.Component {
@@ -118,6 +124,7 @@ class LoginCart extends React.Component {
   }
   async componentDidMount() {
     console.log('loginPage');
+    this.props.paymentStore.serCurPayWayVal(''); //为了从checout页面回到购物车页面时 清空支付方式
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
@@ -965,6 +972,7 @@ class LoginCart extends React.Component {
       checkoutLoading,
       promotionCode,
       isShowValidCode,
+      validPromotionCodeErrMsg,
       mobileCartVisibleKey
     } = this.state;
     const subtractionSign = '-';
@@ -1018,6 +1026,11 @@ class LoginCart extends React.Component {
             </p>
           </div>
         </div>
+        {validPromotionCodeErrMsg ? (
+          <div className="red pl-3 pb-3 pt-2 text-sm">
+            {validPromotionCodeErrMsg}
+          </div>
+        ) : null}
         {isShowValidCode ? (
           <div className="red pl-3 pb-3 pt-2 text-sm">
             <FormattedMessage id="validPromotionCode" />
@@ -1304,6 +1317,7 @@ class LoginCart extends React.Component {
   };
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
+
     const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
@@ -1315,54 +1329,71 @@ class LoginCart extends React.Component {
       lastPromotionInputValue,
       discount: []
     });
-    if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart({
-        promotionCode: lastPromotionInputValue,
-        subscriptionFlag: buyWay === 'frequency',
-        intl
-      });
-    } else {
-      result = await checkoutStore.updateUnloginCart({
-        promotionCode: lastPromotionInputValue,
-        intl
-      });
-    }
-    if (
-      result &&
-      (!result.context.promotionFlag || result.context.couponCodeFlag)
-    ) {
-      //表示输入apply promotionCode成功
-      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-      this.setState({ discount });
-      // this.props.sendPromotionCode(
-      //   this.state.promotionInputValue
-      // );
-    } else {
+    try {
+      if (loginStore.isLogin) {
+        result = await checkoutStore.updateLoginCart({
+          promotionCode: lastPromotionInputValue,
+          subscriptionFlag: buyWay === 'frequency',
+          intl,
+          isThrowValidPromotionCodeErr: true
+        });
+      } else {
+        result = await checkoutStore.updateUnloginCart({
+          promotionCode: lastPromotionInputValue,
+          intl,
+          isThrowValidPromotionCodeErr: true
+        });
+      }
+      if (
+        result &&
+        (!result.context.promotionFlag || result.context.couponCodeFlag)
+      ) {
+        //表示输入apply promotionCode成功
+        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        this.setState({ discount });
+        // this.props.sendPromotionCode(
+        //   this.state.promotionInputValue
+        // );
+      } else {
+        this.setState({
+          isShowValidCode: true
+        });
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.setState(
+            {
+              isShowValidCode: false,
+              promotionInputValue: ''
+            },
+            () => {
+              // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+              result &&
+                result.code === 'K-000000' &&
+                this.handleClickPromotionApply(true);
+            }
+          );
+        }, 4000);
+        // this.props.sendPromotionCode('');
+      }
+    } catch (err) {
       this.setState({
-        isShowValidCode: true
+        validPromotionCodeErrMsg: err.message
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState(
-          {
-            isShowValidCode: false,
-            promotionInputValue: ''
-          },
-          () => {
-            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
-            result &&
-              result.code === 'K-000000' &&
-              this.handleClickPromotionApply(true);
-          }
-        );
+        this.setState({
+          validPromotionCodeErrMsg: '',
+          promotionInputValue: ''
+        });
       }, 4000);
-      // this.props.sendPromotionCode('');
+    } finally {
+      this.setState({
+        isClickApply: false
+        // promotionInputValue: ''
+      });
     }
-    this.setState({
-      isClickApply: false
-      // promotionInputValue: ''
-    });
   };
+
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
