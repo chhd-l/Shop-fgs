@@ -66,7 +66,7 @@ class AdyenPayResult extends Component {
           );
           history.push('/checkout');
         } else {
-          history.push('/home');
+          history.push('/');
         }
       } else {
         if (this.isLogin) {
