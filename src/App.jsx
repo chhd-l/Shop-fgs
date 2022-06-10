@@ -60,7 +60,12 @@ import CartDEBreeder from './views/CartDEBreeder';
 import { funcUrl } from './lib/url-utils';
 import LogRocket from 'logrocket';
 
-LogRocket.init('kvnk0e/test');
+//LogRocket.init('kvnk0e/test');
+LogRocket.init('kvnk0e/test', {
+  dom: {
+    baseHref: '	https://fgs-cdn.azureedge.net/'
+  }
+});
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
