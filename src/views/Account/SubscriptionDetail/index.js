@@ -175,13 +175,13 @@ class SubscriptionDetail extends React.Component {
     const { subDetail } = this.state;
     const param = {
       subscribeId: subDetail.subscribeId,
-      nextDeliveryTime: subDetail.nextDeliveryTime,
       paymentId: el.id,
       goodsItems: subDetail.goodsInfo?.map((el) => {
         return {
           skuId: el.skuId,
           subscribeNum: el.subscribeNum,
-          subscribeGoodsId: el.subscribeGoodsId
+          subscribeGoodsId: el.subscribeGoodsId,
+          nextDeliveryTime: el.nextDeliveryTime
         };
       }),
       changeField: 'paymentMethod',
@@ -235,10 +235,10 @@ class SubscriptionDetail extends React.Component {
         return {
           skuId: el.skuId,
           subscribeNum: el.subscribeNum,
-          subscribeGoodsId: el.subscribeGoodsId
+          subscribeGoodsId: el.subscribeGoodsId,
+          nextDeliveryTime: el.nextDeliveryTime
         };
-      }),
-      nextDeliveryTime: subDetail.nextDeliveryTime
+      })
     };
     if (this.state.addressType === 'delivery') {
       param.deliveryAddressId = el.deliveryAddressId;
@@ -764,7 +764,6 @@ class SubscriptionDetail extends React.Component {
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
-        nextDeliveryTime: subDetail.nextDeliveryTime,
         subscribeStatus: findKeyFromObject({
           obj: SUBSCRIBE_STATUS_ENUM,
           value: subDetail.subscribeStatus
@@ -788,7 +787,8 @@ class SubscriptionDetail extends React.Component {
           skuId: el.skuId,
           subscribeNum: el.subscribeNum,
           subscribeGoodsId: el.subscribeGoodsId,
-          periodTypeId: el.periodTypeId
+          periodTypeId: el.periodTypeId,
+          nextDeliveryTime: el.nextDeliveryTime
         };
       });
       Object.assign(param, {
