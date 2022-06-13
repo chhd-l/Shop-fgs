@@ -26,6 +26,7 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 function CardItem(props) {
   const { data } = props;
@@ -762,7 +763,9 @@ class AddressList extends React.Component {
       let params = Object.assign({}, deliveryAddress, {
         region: deliveryAddress.province, // DuData相关参数
         consigneeName:
-          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+          COUNTRY == 'jp'
+            ? deliveryAddress.lastName + ' ' + deliveryAddress.firstName
+            : deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
         deliveryAddress:

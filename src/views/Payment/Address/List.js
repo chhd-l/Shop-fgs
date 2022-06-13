@@ -1991,7 +1991,10 @@ class AddressList extends React.Component {
         calculation: pickupCalculation,
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
-        consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
+        consigneeName:
+          COUNTRY == 'jp'
+            ? pickupFormData.lastName + ' ' + pickupFormData.firstName
+            : pickupFormData.firstName + ' ' + pickupFormData.lastName,
         consigneeNumber: pickupFormData.consigneeNumber,
         address1: pickupFormData.address1,
         deliveryAddress: pickupFormData.address1,
