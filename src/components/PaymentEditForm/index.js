@@ -23,6 +23,7 @@ import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
 
 const localItemRoyal = window.__.localItemRoyal;
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 @inject('loginStore')
 @injectIntl
@@ -165,6 +166,18 @@ class PaymentEditForm extends React.Component {
       mask: phoneReg
     };
     let pval = IMask(element, maskOptions);
+
+    if (
+      COUNTRY == 'ru' &&
+      (this.state.creditCardInfoForm.phoneNumber == '' ||
+        this.state.creditCardInfoForm.phoneNumber == null)
+    ) {
+      const { creditCardInfoForm } = this.state;
+      let newForm = Object.assign({}, creditCardInfoForm, {
+        phoneNumber: '+7(___)___-__-__'
+      });
+      this.setState({ creditCardInfoForm: newForm });
+    }
   };
   componentDidMount() {
     //查询国家
@@ -202,6 +215,7 @@ class PaymentEditForm extends React.Component {
     const target = e?.target;
     const value = target?.type === 'checkbox' ? target?.checked : target?.value;
     const name = target?.name;
+    console.log(name);
     const { creditCardInfoForm } = this.state;
     if (name === 'cardNumber') {
       let beforeValue = value.substr(0, value.length - 1);
@@ -403,7 +417,7 @@ class PaymentEditForm extends React.Component {
       });
       this.setState({ isValid: true });
     } catch (err) {
-      console.log(err);
+      console.log(123, err);
       this.setState({ isValid: false });
     }
   }
@@ -1041,12 +1055,10 @@ class PaymentEditForm extends React.Component {
                           min-lenght="18"
                           max-length="18"
                           data-phonelength="18"
-                          // data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                          // data-js-pattern="(^\d{10}$)"
                           data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.phoneNumber}
                           onChange={this.cardInfoInputChange}
-                          onBlur={this.inputBlur}
+                          onBlur={this.cardInfoInputChange}
                           name="phoneNumber"
                           maxLength="2147483647"
                         />
