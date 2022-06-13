@@ -673,46 +673,46 @@ class Register extends Component {
               </DistributeHubLinkOrATag>
             </div>
             {/* 注册重复错误提示 */}
-            {/* {regError ? ( */}
-            <aside
-              className="rc-alert rc-alert--error mb-2 rc-alert__close"
-              role="alert"
-              style={{
-                padding: '.5rem',
-                width: '750px',
-                margin: '0px auto',
-                textAlign: 'center'
-              }}
-            >
-              <span>
-                {
-                  <FormattedMessage
-                    id="jp.regErrorMessage"
-                    values={{
-                      val: ''
-                    }}
-                    // values={{
-                    //   val: (
-                    //     <a
-                    //       className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
-                    //       href="https://shopsit.royalcanin.com/jp/help"
-                    //     >
-                    //       {<FormattedMessage id="jp.reghelp" />}
-                    //     </a>
-                    //   )
-                    // }}
-                  />
-                }
-              </span>
-              <button
-                class="rc-alert__close rc-icon rc-icon rc-alert__close rc-close--xs rc-iconography"
-                data-close=""
-                onClick={() => this.setState({ regError: false })}
+            {regError ? (
+              <aside
+                className="rc-alert rc-alert--error mb-2 rc-alert__close"
+                role="alert"
+                style={{
+                  padding: '.5rem',
+                  width: '750px',
+                  margin: '0px auto',
+                  textAlign: 'center'
+                }}
               >
-                <span class="rc-screen-reader-text">Close</span>
-              </button>
-            </aside>
-            {/* ) : null} */}
+                <span>
+                  {
+                    <FormattedMessage
+                      id="jp.regErrorMessage"
+                      values={{
+                        val: ''
+                      }}
+                      // values={{
+                      //   val: (
+                      //     <a
+                      //       className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                      //       href="https://shopsit.royalcanin.com/jp/help"
+                      //     >
+                      //       {<FormattedMessage id="jp.reghelp" />}
+                      //     </a>
+                      //   )
+                      // }}
+                    />
+                  }
+                </span>
+                <button
+                  class="rc-alert__close rc-icon rc-icon rc-alert__close rc-close--xs rc-iconography"
+                  data-close=""
+                  onClick={() => this.setState({ regError: false })}
+                >
+                  <span class="rc-screen-reader-text">Close</span>
+                </button>
+              </aside>
+            ) : null}
             {/* logo下标题 */}
             <div className="text-center logo-bottom-title">
               <p>{<FormattedMessage id="jp.regtitle" />}</p>
