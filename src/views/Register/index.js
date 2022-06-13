@@ -688,16 +688,16 @@ class Register extends Component {
                   {
                     <FormattedMessage
                       id="jp.regErrorMessage"
-                      values={{
-                        val: (
-                          <a
-                            className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
-                            href="https://shopsit.royalcanin.com/jp/help"
-                          >
-                            {<FormattedMessage id="jp.reghelp" />}
-                          </a>
-                        )
-                      }}
+                      // values={{
+                      //   val: (
+                      //     <a
+                      //       className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                      //       href="https://shopsit.royalcanin.com/jp/help"
+                      //     >
+                      //       {<FormattedMessage id="jp.reghelp" />}
+                      //     </a>
+                      //   )
+                      // }}
                     />
                   }
                 </span>
@@ -730,20 +730,18 @@ class Register extends Component {
                 <span>{<FormattedMessage id="jp.regTitleSeven" />}</span>
               </p>
               <h3>{<FormattedMessage id="jp.regTitleEight" />}</h3>
-              {/* {!isMobilePhone && (
-                <p className="text-center align-bottom gologin">
-                  <a
-                    onClick={() =>
-                      this.props.oktaAuth.signInWithRedirect(
-                        window.__.env.REACT_APP_HOMEPAGE
-                      )
-                    }
-                    className="jp-reg-to-login-btn"
-                  >
-                    {<FormattedMessage id="jp.regToLogin" />}
-                  </a>
-                </p>
-              )} */}
+              <p className="text-center align-bottom gologin">
+                <a
+                  onClick={() =>
+                    this.props.oktaAuth.signInWithRedirect(
+                      window.__.env.REACT_APP_HOMEPAGE
+                    )
+                  }
+                  className="jp-reg-to-login-btn"
+                >
+                  {<FormattedMessage id="jp.regToLogin" />}
+                </a>
+              </p>
             </div>
             {/* SocialRegister */}
             {window.__.env.REACT_APP_FaceBook_IDP ||
