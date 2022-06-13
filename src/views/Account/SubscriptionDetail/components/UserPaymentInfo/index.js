@@ -62,7 +62,7 @@ const UserPaymentInfo = ({
             {subDetail.subscribeStatus === 'ACTIVE' && (
               <a
                 className="rc-styled-link red-text float-right"
-                style={{ marginTop: '5px' }}
+                style={{ marginTop: '5px', overflow: 'visible' }}
                 onClick={() => eidtModule('delivery')}
               >
                 <FormattedMessage id="edit" />{' '}
@@ -146,7 +146,7 @@ const UserPaymentInfo = ({
               {subDetail.subscribeStatus === 'ACTIVE' && (
                 <a
                   className="rc-styled-link red-text float-right"
-                  style={{ marginTop: '5px' }}
+                  style={{ marginTop: '5px', overflow: 'visible' }}
                   onClick={() => eidtModule('billing')}
                 >
                   <FormattedMessage id="edit" />{' '}
@@ -206,7 +206,7 @@ const UserPaymentInfo = ({
               {subDetail.subscribeStatus === 'ACTIVE' && (
                 <a
                   className="rc-styled-link red-text float-right"
-                  style={{ marginTop: '5px' }}
+                  style={{ marginTop: '5px', overflow: 'visible' }}
                   onClick={() => eidtModule('PaymentComp')}
                 >
                   <FormattedMessage id="edit" />{' '}
