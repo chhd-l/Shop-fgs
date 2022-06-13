@@ -477,6 +477,7 @@ class PersonalDataEditForm extends React.Component {
 
             {/* preview form */}
             {/* {JSON.stringify(data)} */}
+            {console.log(123, data)}
             {data ? (
               <div
                 className={`row userProfileInfo text-break ${
@@ -515,7 +516,7 @@ class PersonalDataEditForm extends React.Component {
                     val:
                       window.__.env.REACT_APP_COUNTRY === 'us'
                         ? null
-                        : data.address1
+                        : data.province + ' ' + data.city + ' ' + data.address1
                   }
                 ].map((item, i) => (
                   <React.Fragment key={i}>
