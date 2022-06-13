@@ -1406,7 +1406,7 @@ class Details extends React.Component {
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
-                    <div className="rc-layout-container rc-six-column">
+                    <div className="rc-layout-container rc-six-column items-start">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         {loading ? (
                           <Skeleton />
@@ -1568,20 +1568,6 @@ class Details extends React.Component {
                                       setState={this.setState.bind(this)}
                                     />
                                   ) : null}
-                                  {PC &&
-                                  this.retailerBtnStatus &&
-                                  !this.skuOffShelves ? (
-                                    <div className="mt-5">
-                                      <BuyFromRetailerBtn
-                                        barcode={barcode}
-                                        goodsType={goodsType}
-                                        onClick={this.handleBuyFromRetailer}
-                                        isApi={isApi}
-                                        isUrl={isUrl}
-                                        retailerUrl={retailerUrl}
-                                      />
-                                    </div>
-                                  ) : null}
                                 </>
                               ) : null}
                               {versionB &&
@@ -1653,11 +1639,9 @@ class Details extends React.Component {
                           ) : (
                             <div
                               className={classNames({
-                                hidden:
-                                  this.isNullGoodsInfos ||
-                                  (!this.skuOffShelves && !isMobile),
+                                hidden: this.isNullGoodsInfos,
                                 'w-full': isMobile,
-                                'col-md-5': !isMobile
+                                'col-md-5': !isMobile && this.skuOffShelves
                               })}
                             >
                               {isMobile ? this.specAndQuantityDom() : null}
@@ -1746,7 +1730,13 @@ class Details extends React.Component {
                               </div>
 
                               {PC && this.retailerBtnStatus ? (
-                                <div className="flex justify-content-center mt-5">
+                                <div
+                                  className={`flex justify-content-center mt-5 ${
+                                    !this.skuOffShelves
+                                      ? 'absolute left-8 -bottom-12'
+                                      : ''
+                                  }`}
+                                >
                                   <BuyFromRetailerBtn
                                     // ccidBtnDisplay={ccidBtnDisplay}
                                     barcode={barcode}
