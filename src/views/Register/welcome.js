@@ -78,7 +78,7 @@ export default class welcome extends Component {
               </a>
             </p>
             {['de'].includes(COUNTRY) && (
-              <p>
+              <p style={{ color: '#e2001a', fontWeight: 600 }}>
                 <Link to={'/'}>
                   <FormattedMessage id="welcome.toHome" />
                 </Link>
