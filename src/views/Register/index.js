@@ -688,6 +688,9 @@ class Register extends Component {
                   {
                     <FormattedMessage
                       id="jp.regErrorMessage"
+                      values={{
+                        val: ''
+                      }}
                       // values={{
                       //   val: (
                       //     <a
