@@ -688,6 +688,9 @@ class Register extends Component {
                   {
                     <FormattedMessage
                       id="jp.regErrorMessage"
+                      values={{
+                        val: ''
+                      }}
                       // values={{
                       //   val: (
                       //     <a
@@ -738,6 +741,7 @@ class Register extends Component {
                     )
                   }
                   className="jp-reg-to-login-btn"
+                  style={{ color: '#C03344', fontSize: '1rem' }}
                 >
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>
