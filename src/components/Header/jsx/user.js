@@ -161,6 +161,14 @@ const UserJSX = (props) => {
                         <FormattedMessage id="account.subscriptionTitle" />
                       </Link>
                     </div>
+                    {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                      <div className="link-style">
+                        <Link to="/account/loyalty" className="click-hover">
+                          <span className="iconfont mr-1">&#xe608;</span>
+                          <FormattedMessage id="account.loyalty.program" />
+                        </Link>
+                      </div>
+                    ) : null}
                     <div className="link-style">
                       <DistributeHubLinkOrATag
                         href="/about-us/faqs"

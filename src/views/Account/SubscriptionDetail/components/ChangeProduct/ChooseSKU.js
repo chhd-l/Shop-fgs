@@ -129,6 +129,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         subscribeNum: quantity,
         goodsInfoFlag: 2,
         periodTypeId: form.frequencyId
+
         // productFinderFlag: currentSelectedSize.productFinderFlag
       };
 
@@ -137,7 +138,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         .map((el) => {
           return {
             subscribeId,
-            skuId: el.goodsInfoVO?.goodsInfoId
+            skuId: el.goodsInfoVO?.goodsInfoId,
+            subscribeNum: el.subscribeNum
           };
         });
       let isTheSamePro = deleteGoodsItems.find(
@@ -159,7 +161,12 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
       };
       await checkSubscriptionAddressPickPoint(
         Object.assign({}, params, {
-          goodsItems: params.addGoodsItems,
+          goodsItems: params.addGoodsItems.map((p) =>
+            Object.assign(p, {
+              nextDeliveryTime:
+                currentGoodsItems[currentChangeProductIdx].nextDeliveryTime
+            })
+          ),
           deliveryAddressId: subDetail.deliveryAddressId,
           paymentId: subDetail?.paymentId
         })
