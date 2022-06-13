@@ -110,14 +110,22 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
                     {/* delivery date */}
                     {newDeliveryDate && (
                       <p className="mb-0 od_mb_deliveryDate">
-                        {newDeliveryDate}
+                        {newDeliveryDate === 'Unspecified' ? (
+                          <FormattedMessage id="Unspecified" />
+                        ) : (
+                          newDeliveryDate
+                        )}
                       </p>
                     )}
 
                     {/* time slot */}
                     {details.consignee.timeSlot && (
                       <p className="mb-0 od_mb_timeSlot">
-                        {details.consignee.timeSlot}
+                        {details.consignee.timeSlot == 'Unspecified' ? (
+                          <FormattedMessage id="Unspecified" />
+                        ) : (
+                          details.consignee.timeSlot
+                        )}
                       </p>
                     )}
 

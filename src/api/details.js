@@ -102,3 +102,11 @@ export function getMixFeedings(ids) {
     }
   });
 }
+
+export function getDailyPortionLifeStage(data) {
+  return axios({
+    url: '/productFinderDailyPortion/lifestage',
+    method: 'post',
+    data
+  });
+}
