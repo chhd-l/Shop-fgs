@@ -22,6 +22,7 @@ import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const addressType = ({ hideBillingAddr }) => {
   const defaultAddressType = [{ type: 'delivery', langKey: 'deliveryAddress' }];
@@ -228,7 +229,10 @@ class ShippingAddressFrom extends React.Component {
         county: data?.county,
         city: data.city,
         cityId: data.cityId,
-        consigneeName: data.firstName + ' ' + data.lastName,
+        consigneeName:
+          COUNTRY == 'jp'
+            ? data.lastName + ' ' + data.firstName
+            : data.firstName + ' ' + data.lastName,
         consigneeNumber: data.phoneNumber,
         customerId: data.customerId,
         deliveryAddress: data.address1 + ' ' + data.address2,

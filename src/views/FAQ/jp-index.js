@@ -205,6 +205,7 @@ class FAQ extends React.Component {
               <h1 className="font-semibold text-16 leading-7 mb-4 md:text-28  text-cs-gray">
                 よくあるお問合せ
               </h1>
+
               <p className="text-cs-gray text-18 leading-cs-26">
                 {this.state.dataFAQ.map((item, index) => {
                   return (

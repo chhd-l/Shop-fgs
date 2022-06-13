@@ -150,16 +150,19 @@ class AddressList extends React.Component {
       validationAddress: null, // 建议地址
       jpCutOffTime: '',
       bugData: {},
-      addressConfirmState: true
+      addressConfirmState: true,
+      jpNameValid: false
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup =
-      this.handleCancelAddOrEditPickup.bind(this);
+    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
+      this
+    );
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -1227,8 +1230,11 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const { deliveryAddress, selectListValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectListValidationOption,
+      validationAddress
+    } = this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1991,7 +1997,10 @@ class AddressList extends React.Component {
         calculation: pickupCalculation,
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
-        consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
+        consigneeName:
+          COUNTRY == 'jp'
+            ? pickupFormData.lastName + ' ' + pickupFormData.firstName
+            : pickupFormData.firstName + ' ' + pickupFormData.lastName,
         consigneeNumber: pickupFormData.consigneeNumber,
         address1: pickupFormData.address1,
         deliveryAddress: pickupFormData.address1,
@@ -2126,6 +2135,12 @@ class AddressList extends React.Component {
     }
   };
 
+  getJpNameValidFlag = (flag) => {
+    this.setState({
+      jpNameValid: flag
+    });
+  };
+
   render() {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
@@ -2155,7 +2170,8 @@ class AddressList extends React.Component {
       addressList,
       allAddressList,
       pickupAddress,
-      pickupEditNumber
+      pickupEditNumber,
+      jpNameValid
     } = this.state;
 
     // 地址列表
@@ -2420,6 +2436,7 @@ class AddressList extends React.Component {
                 this.state.typeForGA
               );
             }}
+            getJpNameValidFlag={this.getJpNameValidFlag}
           />
         )}
 
@@ -2451,7 +2468,9 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={isValid && formAddressValid ? false : true}
+                    disabled={
+                      isValid && formAddressValid && jpNameValid ? false : true
+                    }
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -2478,7 +2497,9 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={isValid && formAddressValid ? false : true}
+                    disabled={
+                      isValid && formAddressValid && jpNameValid ? false : true
+                    }
                   >
                     <FormattedMessage id="save" />
                   </button>
