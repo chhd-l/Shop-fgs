@@ -1073,6 +1073,11 @@ class SubscriptionDetail extends React.Component {
                         <h4 className="h4">
                           <FormattedMessage id="myAutoshipOrder" />
                         </h4>
+                        {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                          <p className="jp-no-coupon-desc">
+                            *定期購入の次回発送で、現在一時的にポイント・クーポンが利用できません。お手数をおかけしますが、定期購入でポイント・クーポンをご利用になりたい場合は、現在の定期購入をキャンセルしていただき、新たな定期購入のお申込みをお願いいたします。なお、2022年8月ごろより、次回発送設定画面でポイント・クーポンがご利用いただけるようになる予定です。
+                          </p>
+                        )}
                         <div className="rc-max-width--xl">
                           <DeliveryList
                             {...this.props}
