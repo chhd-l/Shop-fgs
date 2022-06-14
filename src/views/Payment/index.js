@@ -723,7 +723,8 @@ class Payment extends React.Component {
     return (
       (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
         !this.props.checkoutStore.inputPoint) ||
-      this.props.checkoutStore.inputPointErr
+      (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
+        this.props.checkoutStore.inputPointErr)
     ); //使用积分为空或者输入的积分不满足条件->按钮都disabled
   }
 

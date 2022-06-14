@@ -1358,7 +1358,9 @@ class AddressList extends React.Component {
 
   //日本 处理要显示的字段
   jpSetAddressFields = (data) => {
-    return [data.province, data.city, data.area, data.address1].join(', ');
+    return [data.province, data.city, data.area, data.address1]
+      .filter((item) => item && item.trim())
+      .join(', ');
   };
 
   // ************************ pick up 相关
