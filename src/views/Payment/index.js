@@ -2705,7 +2705,7 @@ class Payment extends React.Component {
     // code 转换小写
     serCurPayWayVal(paymentTypeCode);
     openPromotionBox();
-    this.setState({ email: '' }, () => {
+    this.setState({ email: '', convenienceStore: '' }, () => {
       this.onPaymentTypeValChange();
     });
   };
