@@ -1455,7 +1455,7 @@ class UnLoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div className="product-info__img mr-2 overflow-hidden">
+              <div className="product-info__img mr-2 overflow-hidden flex-shrink-0">
                 <LazyLoad>
                   <img
                     className="w-100"
@@ -1470,7 +1470,10 @@ class UnLoginCart extends React.Component {
                   />
                 </LazyLoad>
               </div>
-              <div className="product-info__desc relative" style={{ flex: 1 }}>
+              <div
+                className="product-info__desc relative flex-shrink-0"
+                style={{ flex: 1, width: 'calc(100% - 100px)' }}
+              >
                 <Link
                   className="ui-cursor-pointer rc-margin-top--xs inline-block mr-5 md:inline align-items-md-center flex-column flex-md-row mt-0"
                   to={`/${pitem.goodsName
@@ -1482,6 +1485,7 @@ class UnLoginCart extends React.Component {
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
                     title={pitem.goodsName}
+                    style={{ wordBreak: 'break-word' }}
                   >
                     {pitem.goodsName}
                   </h4>
