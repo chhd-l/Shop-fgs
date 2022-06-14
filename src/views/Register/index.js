@@ -459,7 +459,7 @@ class Register extends Component {
             localItemRoyal.set('rc-register', true);
             if (checkoutStore.cartData.length) {
               await mergeUnloginCartData();
-              await checkoutStore.updateLoginCart({ intl: this.props.intl });
+              await checkoutStore.updateLoginCart();
             }
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(

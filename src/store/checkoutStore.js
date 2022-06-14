@@ -11,6 +11,18 @@ import {
 } from '@/api/payment';
 import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 import { v4 as uuidv4 } from 'uuid';
+import { createIntl, createIntlCache } from 'react-intl';
+import { getDynamicLanguage } from '@/lang';
+
+let intl;
+
+async function initIntl() {
+  const lang = await getDynamicLanguage();
+  const cache = createIntlCache();
+  intl = createIntl({ locale: 'en', messages: lang }, cache); //locale and message can come from Redux or regular import
+}
+
+initIntl();
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -394,7 +406,6 @@ class CheckoutStore {
     outOfstockProNames = this.outOfstockProNames,
     deletedProNames = this.deletedProNames,
     notSeableProNames = this.notSeableProNames,
-    intl = {},
     purchasesRes = {}
   } = {}) {
     const { formatMessage } = intl;
@@ -451,10 +462,9 @@ class CheckoutStore {
     isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
-    intl,
     transactionId
   } = {}) {
-    console.log(data);
+    // console.log(data);
     // debugger;
     try {
       let recommend_data = null;
@@ -609,7 +619,7 @@ class CheckoutStore {
       this.notSeableProNames = tmpNotSeableProNames;
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ intl, purchasesRes });
+        await this.validCheckoutLimitRule({ purchasesRes });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: purchasesRes });
@@ -640,7 +650,6 @@ class CheckoutStore {
     isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
-    intl,
     paymentStore
   } = {}) {
     try {
@@ -712,7 +721,6 @@ class CheckoutStore {
       this.setGiftList(sitePurchasesRes.giftList);
 
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
-      //debugger;
       this.setPromotionCode(newPromotionCode);
 
       let goodsList = siteMiniPurchasesRes.goodsList;
@@ -842,7 +850,6 @@ class CheckoutStore {
       // 抛出错误
       if (isThrowErr) {
         await this.validCheckoutLimitRule({
-          intl,
           purchasesRes: sitePurchasesRes
         });
       }
@@ -926,11 +933,8 @@ class CheckoutStore {
     cartItemList,
     currentUnitPrice = 0,
     isMobile,
-    intl = {},
     configStore
   }) {
-    console.log(this.cartData);
-    // debugger;
     const { formatMessage } = intl;
     const {
       info: { skuLimitThreshold }
@@ -1014,7 +1018,7 @@ class CheckoutStore {
             )
           );
         }
-        await this.updateUnloginCart({ cartData: cartDataCopy, intl });
+        await this.updateUnloginCart({ cartData: cartDataCopy });
         if (!isMobile) {
           stores.headerCartStore.show();
           clearTimeout(this.timer);

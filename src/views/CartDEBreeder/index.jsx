@@ -38,9 +38,7 @@ const CartDEBreeder = ({
             clinicId: customerId
           });
 
-          await checkoutStore.updateLoginCart({
-            intl
-          });
+          await checkoutStore.updateLoginCart();
         }
       } else {
         const getDetail = ({
@@ -173,8 +171,7 @@ const CartDEBreeder = ({
           return item;
         });
         await checkoutStore.updateUnloginCart({
-          cartData: goodsList,
-          intl
+          cartData: goodsList
         });
       }
       setLoadingRecommendation(false);

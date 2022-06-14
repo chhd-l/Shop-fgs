@@ -981,8 +981,7 @@ class UnLoginCart extends React.Component {
       });
 
       await this.props.checkoutStore.updateUnloginCart({
-        cartData: goodsList,
-        intl: this.props.intl
+        cartData: goodsList
       });
     }
 
@@ -1287,8 +1286,7 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
-        isThrowErr,
-        intl: this.props.intl
+        isThrowErr
       });
       callback && callback();
       this.getGoodsIdArr(); //删除相关商品
@@ -2089,7 +2087,7 @@ class UnLoginCart extends React.Component {
   }
   handleClickPromotionApply = async (falseCodeAndReRequest) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
 
@@ -2104,13 +2102,11 @@ class UnLoginCart extends React.Component {
         result = await checkoutStore.updateLoginCart({
           promotionCode: promotionInputValue,
           subscriptionFlag: buyWay === 'frequency',
-          intl,
           isThrowValidPromotionCodeErr: true
         });
       } else {
         result = await checkoutStore.updateUnloginCart({
           promotionCode: promotionInputValue,
-          intl,
           isThrowValidPromotionCodeErr: true
         });
       }
@@ -2163,7 +2159,7 @@ class UnLoginCart extends React.Component {
     }
   };
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
@@ -2171,13 +2167,12 @@ class UnLoginCart extends React.Component {
     await checkoutStore.removeCouponCode();
     if (!loginStore.isLogin) {
       //游客
-      result = await checkoutStore.updateUnloginCart({ intl });
+      result = await checkoutStore.updateUnloginCart();
     } else {
       //会员
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency',
-        intl
+        subscriptionFlag: buyWay === 'frequency'
       });
     }
     this.setState({

@@ -322,9 +322,7 @@ class FelinRecommendation extends React.Component {
           this.setState({ buttonLoading: false });
         }
       }
-      await this.props.checkoutStore.updateLoginCart({
-        intl: this.props.intl
-      });
+      await this.props.checkoutStore.updateLoginCart();
       if (retPath === '/checkout') {
         retPath = await distributeLinktoPrecriberOrPaymentPage({
           configStore: this.props.configStore,
@@ -406,7 +404,6 @@ class FelinRecommendation extends React.Component {
 
   //     await checkoutStore.updateUnloginCart({
   //       cartData: cartDataCopy,
-  //       intl
   //     });
   //   }
   //   this.props.history.push(path);
@@ -566,7 +563,7 @@ class FelinRecommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart({ intl: this.props.intl });
+          await checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }

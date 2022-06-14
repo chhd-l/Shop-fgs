@@ -235,9 +235,7 @@ class DedicatedLandingPage extends React.Component {
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
         });
-        await this.props.checkoutStore.updateLoginCart({
-          intl: this.props.intl
-        });
+        await this.props.checkoutStore.updateLoginCart();
         this.setState({ buttonLoading: false, showKitten: false });
         this.props.history.push('/cart');
       } catch (e) {

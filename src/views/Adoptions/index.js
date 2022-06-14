@@ -225,9 +225,7 @@ const Adoptions = (props) => {
     }
 
     try {
-      await checkoutStore.updateLoginCart({
-        intl: props.intl
-      });
+      await checkoutStore.updateLoginCart();
       props.history.push('/cart');
     } catch (err) {
       setBtnLoading(false);

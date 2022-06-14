@@ -149,7 +149,6 @@ const AddCartSuccessMobile = ({
                         mixFeedingData.periodTypeId = periodTypeId;
                         const param = {
                           product: mixFeedingData,
-                          intl
                         };
                         isLogin
                           ? await addToLoginCartData(param)

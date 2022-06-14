@@ -228,9 +228,7 @@ class Help extends React.Component {
             recommendationId: this.props.clinicStore.linkClinicId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
-          await this.props.checkoutStore.updateLoginCart({
-            intl: this.props.intl
-          });
+          await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -316,8 +314,7 @@ class Help extends React.Component {
       }
       // console.log(cartDataCopy, 'cartDataCopy');
       await this.props.checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy,
-        intl: this.props.intl
+        cartData: cartDataCopy
       });
     }
 
@@ -424,7 +421,7 @@ class Help extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart({ intl: this.props.intl });
+          await checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
