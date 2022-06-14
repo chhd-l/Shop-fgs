@@ -42,7 +42,10 @@ import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 import moment from 'moment';
-import { getConsigneeNameByCountry } from '@/utils/constant';
+import {
+  getConsigneeNameByCountry,
+  isSaveAddressBtnDisabled
+} from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -2460,9 +2463,11 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={
-                      isValid && formAddressValid && jpNameValid ? false : true
-                    }
+                    disabled={isSaveAddressBtnDisabled(
+                      isValid,
+                      formAddressValid,
+                      jpNameValid
+                    )}
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -2489,9 +2494,11 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={
-                      isValid && formAddressValid && jpNameValid ? false : true
-                    }
+                    disabled={isSaveAddressBtnDisabled(
+                      isValid,
+                      formAddressValid,
+                      jpNameValid
+                    )}
                   >
                     <FormattedMessage id="save" />
                   </button>
