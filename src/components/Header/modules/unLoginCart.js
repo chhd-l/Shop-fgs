@@ -40,7 +40,7 @@ class UnloginCart extends React.Component {
     ) {
       // await this.props.checkoutStore.removePromotionCode();
     }
-    this.props.checkoutStore.updateUnloginCart({ intl: this.props.intl });
+    this.props.checkoutStore.updateUnloginCart();
   }
   get selectedCartData() {
     return this.props.checkoutStore.cartData.filter(

@@ -175,6 +175,7 @@ const Form = ({ intl }: Props) => {
           petID: true
         })
       );
+      setSubmitBtnValid(false);
     } catch (err: any) {
       setSubmitMsg((cur) => Object.assign({}, cur, { error: err.message }));
       setTimeout(() => {

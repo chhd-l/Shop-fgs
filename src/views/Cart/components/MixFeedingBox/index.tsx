@@ -301,8 +301,7 @@ const MixFeedingBox = function ({
                       copyData.quantity = quantity;
                       console.log('copyData', copyData);
                       const param = {
-                        product: copyData,
-                        intl
+                        product: copyData
                       };
                       isLogin
                         ? await addToLoginCartData(param)

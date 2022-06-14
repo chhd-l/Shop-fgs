@@ -1098,7 +1098,7 @@ export function handleRecommendation(product) {
   return Object.assign({}, product.goodsInfo.goods, product.goodsInfo);
 }
 
-export async function addToUnloginCartData({ product, intl }) {
+export async function addToUnloginCartData({ product }) {
   // let quantityNew = product.recommendationNumber;
   let quantityNew = product.quantity;
   let tmpData = Object.assign(product, {
@@ -1147,13 +1147,12 @@ export async function addToUnloginCartData({ product, intl }) {
     cartDataCopy.push(tmpData);
   }
   await checkoutStore.updateUnloginCart({
-    cartData: cartDataCopy,
-    intl
+    cartData: cartDataCopy
   });
   // history.push(path);
 }
 
-export async function addToLoginCartData({ product, intl }) {
+export async function addToLoginCartData({ product }) {
   // let {
   //   productList,
   //   outOfStockProducts,
@@ -1187,7 +1186,7 @@ export async function addToLoginCartData({ product, intl }) {
       recommendationId: clinicStore.linkClinicId,
       recommendationName: clinicStore.linkClinicName
     });
-    await checkoutStore.updateLoginCart({ intl });
+    await checkoutStore.updateLoginCart();
   } catch (e) {
     console.log('hahaha1111', e);
     // this.setState({ buttonLoading: false });

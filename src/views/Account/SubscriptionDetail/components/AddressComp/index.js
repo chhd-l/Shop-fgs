@@ -619,9 +619,7 @@ class AddressList extends React.Component {
     }
     try {
       // 获取税额
-      await this.props.checkoutStore.updateLoginCart(
-        Object.assign(param, { intl: this.props.intl })
-      );
+      await this.props.checkoutStore.updateLoginCart(param);
     } catch (err) {
       console.warn(err);
     }
