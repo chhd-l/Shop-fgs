@@ -1038,20 +1038,14 @@ class PaymentEditForm extends React.Component {
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
-                        data-js-validate=""
-                        data-js-warning-message="*Phone Number isn’t valid"
                       >
+                        {/* todo qhx*/}
                         <input
                           type="text"
                           className="rc-input__control input__phoneField shippingPhoneNumber"
                           id="paymentPhoneNumber"
-                          min-lenght="18"
-                          max-length="18"
-                          data-phonelength="18"
-                          data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.phoneNumber}
                           onChange={this.cardInfoInputChange}
-                          //onBlur={this.cardInfoInputChange}
                           onBlur={this.inputBlur}
                           name="phoneNumber"
                           maxLength="2147483647"

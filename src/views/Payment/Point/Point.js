@@ -44,16 +44,6 @@ const Point = ({ checkoutStore, loginStore }) => {
     usePoint: <PointForm />
   };
 
-  // const openPromotionBox = () => {
-  //   document.getElementById('id-promotionCode').removeAttribute('disabled');
-  //   document.getElementById('promotionApply').removeAttribute('disabled');
-  // };
-
-  // const disabledPromotionBox = () => {
-  //   document.getElementById('id-promotionCode').setAttribute('disabled', true);
-  //   document.getElementById('promotionApply').setAttribute('disabled', true);
-  // };
-
   const getId = (id) => {
     setId(id);
     switch (id) {

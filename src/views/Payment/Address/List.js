@@ -984,7 +984,6 @@ class AddressList extends React.Component {
     this.setState({ bugData });
   };
   updateDeliveryAddress = async (data) => {
-    console.log(444, data);
     const { intl } = this.props;
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
