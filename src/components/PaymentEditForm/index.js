@@ -1051,8 +1051,8 @@ class PaymentEditForm extends React.Component {
                           data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.phoneNumber}
                           onChange={this.cardInfoInputChange}
-                          //onBlur={this.cardInfoInputChange}
-                          onBlur={this.inputBlur}
+                          onBlur={this.cardInfoInputChange}
+                          //onBlur={this.inputBlur}
                           name="phoneNumber"
                           maxLength="2147483647"
                         />
