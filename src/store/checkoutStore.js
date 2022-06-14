@@ -712,6 +712,7 @@ class CheckoutStore {
       this.setGiftList(sitePurchasesRes.giftList);
 
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
+      //debugger;
       this.setPromotionCode(newPromotionCode);
 
       let goodsList = siteMiniPurchasesRes.goodsList;

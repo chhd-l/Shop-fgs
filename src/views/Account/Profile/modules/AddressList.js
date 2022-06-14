@@ -28,6 +28,7 @@ import './AddressList.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 // 地址项
 function CardItem(props) {
@@ -687,7 +688,9 @@ class AddressList extends React.Component {
           lastName: pickupFormData.lastName,
           consigneeNumber: pickupFormData.phoneNumber,
           consigneeName:
-            pickupFormData.firstName + ' ' + pickupFormData.lastName,
+            COUNTRY == 'jp'
+              ? pickupFormData.lastName + ' ' + pickupFormData.firstName
+              : pickupFormData.firstName + ' ' + pickupFormData.lastName,
           address1: pickupFormData.address1,
           deliveryAddress: pickupFormData.address1,
           city: pickupFormData.city,

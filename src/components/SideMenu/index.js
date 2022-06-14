@@ -26,7 +26,7 @@ let menuList = [
   {
     catogery: 'Pets',
     isShow: true,
-    icon: <span className="iconfont text-lg -ml-0.5">&#xe69a;</span>,
+    icon: <span className="iconfont -ml-0.5">&#xe69a;</span>,
     langKey: 'account.pets',
     url: '/account/pets'
   },

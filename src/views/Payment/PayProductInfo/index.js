@@ -717,6 +717,7 @@ class PayProductInfo extends React.Component {
         promotionInputValue: '',
         isStudentPurchase: false
       });
+      //todo
       if (window.__.env.REACT_APP_COUNTRY == 'jp') {
         this.props.confirmCalculateServiceFeeAndLoyaltyPoints();
       }
