@@ -1393,8 +1393,7 @@ class SmartFeederSubscription extends Component {
     try {
       await checkoutStore.updateUnloginCart({
         cartData: cartDataCopy,
-        isThrowErr: true,
-        intl: this.props.intl
+        isThrowErr: true
       });
       if (redirect) {
         if (needLogin) {
@@ -1659,8 +1658,7 @@ class SmartFeederSubscription extends Component {
       }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart({
-        isThrowErr: true,
-        intl: this.props.intl
+        isThrowErr: true
       });
       if (isMobile) {
         // this.refs.showModalButton.click();

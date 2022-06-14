@@ -125,6 +125,7 @@ class LoginCart extends React.Component {
   async componentDidMount() {
     console.log('loginPage');
     this.props.paymentStore.serCurPayWayVal(''); //为了从checout页面回到购物车页面时 清空支付方式
+    this.props.checkoutStore.setEarnedPoint(0); //为了从checout页面回到购物车页面时 清空积分
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
@@ -163,7 +164,7 @@ class LoginCart extends React.Component {
       const unloginCartData = this.checkoutStore.cartData;
       if (unloginCartData.length) {
         await mergeUnloginCartData();
-        await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
+        await this.checkoutStore.updateLoginCart();
       }
 
       GACartScreenLoad(() =>
@@ -309,8 +310,7 @@ class LoginCart extends React.Component {
     try {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
-        isThrowErr,
-        intl: this.props.intl
+        isThrowErr
       });
       callback && callback();
       this.setData();
@@ -1293,7 +1293,7 @@ class LoginCart extends React.Component {
     this.setState({ checkoutLoading: false });
   }
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
@@ -1302,11 +1302,10 @@ class LoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency',
-        intl
+        subscriptionFlag: buyWay === 'frequency'
       });
     } else {
-      result = await checkoutStore.updateUnloginCart({ intl });
+      result = await checkoutStore.updateUnloginCart();
     }
     this.setState({
       discount: [],
@@ -1318,7 +1317,7 @@ class LoginCart extends React.Component {
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
 
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
     let result = {};
@@ -1334,13 +1333,11 @@ class LoginCart extends React.Component {
         result = await checkoutStore.updateLoginCart({
           promotionCode: lastPromotionInputValue,
           subscriptionFlag: buyWay === 'frequency',
-          intl,
           isThrowValidPromotionCodeErr: true
         });
       } else {
         result = await checkoutStore.updateUnloginCart({
           promotionCode: lastPromotionInputValue,
-          intl,
           isThrowValidPromotionCodeErr: true
         });
       }

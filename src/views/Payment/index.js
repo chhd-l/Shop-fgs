@@ -2705,7 +2705,7 @@ class Payment extends React.Component {
     // code 转换小写
     serCurPayWayVal(paymentTypeCode);
     openPromotionBox();
-    this.setState({ email: '' }, () => {
+    this.setState({ email: '', convenienceStore: '' }, () => {
       this.onPaymentTypeValChange();
     });
   };
@@ -2776,7 +2776,6 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    const { intl } = this.props;
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
     // this.setState({
@@ -2838,7 +2837,6 @@ class Payment extends React.Component {
     localItemRoyal.set('rc-payment-purchases-param', param);
     try {
       // 获取税额
-      param = Object.assign(param, { intl });
       if (this.isLogin) {
         await this.props.checkoutStore.updateLoginCart(param);
         if (COUNTRY == 'jp' && this.props.paymentStore.curPayWayVal) {
@@ -4132,7 +4130,6 @@ class Payment extends React.Component {
 
   updateGuestEmail = ({ email: guestEmail }) => {
     const {
-      intl,
       paymentStore: { setGuestEmail },
       checkoutStore: { updateUnloginCart }
     } = this.props;
@@ -4150,8 +4147,7 @@ class Payment extends React.Component {
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail
         },
-        shippingFeeAddress: this.state.shippingFeeAddress,
-        intl
+        shippingFeeAddress: this.state.shippingFeeAddress
       });
     });
   };

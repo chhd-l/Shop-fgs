@@ -42,6 +42,10 @@ import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 import moment from 'moment';
+import {
+  getConsigneeNameByCountry,
+  isSaveAddressBtnDisabled
+} from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -980,7 +984,6 @@ class AddressList extends React.Component {
     this.setState({ bugData });
   };
   updateDeliveryAddress = async (data) => {
-    console.log(444, data);
     const { intl } = this.props;
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
@@ -1079,8 +1082,7 @@ class AddressList extends React.Component {
       // }
 
       let params = Object.assign({}, deliveryAddress, {
-        consigneeName:
-          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeName: getConsigneeNameByCountry(deliveryAddress),
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
         deliveryAddress:
@@ -1992,10 +1994,7 @@ class AddressList extends React.Component {
         calculation: pickupCalculation,
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
-        consigneeName:
-          COUNTRY == 'jp'
-            ? pickupFormData.lastName + ' ' + pickupFormData.firstName
-            : pickupFormData.firstName + ' ' + pickupFormData.lastName,
+        consigneeName: getConsigneeNameByCountry(pickupFormData),
         consigneeNumber: pickupFormData.consigneeNumber,
         address1: pickupFormData.address1,
         deliveryAddress: pickupFormData.address1,
@@ -2463,9 +2462,11 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={
-                      isValid && formAddressValid && jpNameValid ? false : true
-                    }
+                    disabled={isSaveAddressBtnDisabled(
+                      isValid,
+                      formAddressValid,
+                      jpNameValid
+                    )}
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -2492,9 +2493,11 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={
-                      isValid && formAddressValid && jpNameValid ? false : true
-                    }
+                    disabled={isSaveAddressBtnDisabled(
+                      isValid,
+                      formAddressValid,
+                      jpNameValid
+                    )}
                   >
                     <FormattedMessage id="save" />
                   </button>

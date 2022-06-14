@@ -501,9 +501,7 @@ class Recommendation extends React.Component {
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
           });
-          await this.props.checkoutStore.updateLoginCart({
-            intl: this.props.intl
-          });
+          await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -676,7 +674,7 @@ class Recommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart({ intl: this.props.intl });
+          await checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }

@@ -44,7 +44,7 @@ class LoginCart extends React.Component {
       !sessionItemRoyal.get('recommend_product') &&
       pathname !== '/checkout'
     ) {
-      this.checkoutStore.updateLoginCart({ intl: this.props.intl });
+      this.checkoutStore.updateLoginCart();
     }
   }
 

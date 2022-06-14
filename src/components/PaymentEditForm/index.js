@@ -21,6 +21,7 @@ import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
+import { phoneNumberMask } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -167,17 +168,9 @@ class PaymentEditForm extends React.Component {
     };
     let pval = IMask(element, maskOptions);
 
-    if (
-      COUNTRY == 'ru' &&
-      (this.state.creditCardInfoForm.phoneNumber == '' ||
-        this.state.creditCardInfoForm.phoneNumber == null)
-    ) {
-      const { creditCardInfoForm } = this.state;
-      let newForm = Object.assign({}, creditCardInfoForm, {
-        phoneNumber: '+7(___)___-__-__'
-      });
-      this.setState({ creditCardInfoForm: newForm });
-    }
+    this.setState({
+      creditCardInfoForm: phoneNumberMask(this.state.creditCardInfoForm)
+    });
   };
   componentDidMount() {
     //查询国家
@@ -1045,20 +1038,15 @@ class PaymentEditForm extends React.Component {
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
-                        data-js-validate=""
-                        data-js-warning-message="*Phone Number isn’t valid"
                       >
+                        {/* todo qhx*/}
                         <input
                           type="text"
                           className="rc-input__control input__phoneField shippingPhoneNumber"
                           id="paymentPhoneNumber"
-                          min-lenght="18"
-                          max-length="18"
-                          data-phonelength="18"
-                          data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.phoneNumber}
                           onChange={this.cardInfoInputChange}
-                          onBlur={this.cardInfoInputChange}
+                          onBlur={this.inputBlur}
                           name="phoneNumber"
                           maxLength="2147483647"
                         />

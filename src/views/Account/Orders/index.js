@@ -265,7 +265,7 @@ class AccountOrders extends React.Component {
         };
       });
       await batchAdd({ goodsInfos: paramList });
-      await this.props.checkoutStore.updateLoginCart({ intl: this.props.intl });
+      await this.props.checkoutStore.updateLoginCart();
       this.props.history.push('/cart');
     } catch (err) {
     } finally {

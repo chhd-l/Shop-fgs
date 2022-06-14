@@ -697,9 +697,7 @@ class PayProductInfo extends React.Component {
       let purchasesPara =
         localItemRoyal.get('rc-payment-purchases-param') || {};
       purchasesPara.promotionCode = '';
-      const param = Object.assign(purchasesPara, {
-        intl: this.props.intl
-      });
+      const param = Object.assign(purchasesPara);
       if (!this.props.loginStore.isLogin) {
         // 游客
         result = await checkoutStore.updateUnloginCart(param);
@@ -717,7 +715,6 @@ class PayProductInfo extends React.Component {
         promotionInputValue: '',
         isStudentPurchase: false
       });
-      //todo
       if (window.__.env.REACT_APP_COUNTRY == 'jp') {
         this.props.confirmCalculateServiceFeeAndLoyaltyPoints();
       }

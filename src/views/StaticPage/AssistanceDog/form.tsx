@@ -40,6 +40,15 @@ const Form = ({ intl }: Props) => {
     petID: false
   });
 
+  const [formDisabled, setFormDisabled] = useState({
+    name: false,
+    phone: false,
+    petName: false,
+    email: false,
+    petGraduationSchool: false,
+    petID: false
+  });
+
   const [formValid, setFormValid] = useState({
     name: false,
     phone: false,
@@ -72,9 +81,7 @@ const Form = ({ intl }: Props) => {
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     validInput(name, value);
-    setRegisterForm((cur) =>
-      Object.assign({}, cur, { [name]: value })
-    );
+    setRegisterForm((cur) => Object.assign({}, cur, { [name]: value }));
   };
 
   const validInput = (name: string, value: string) => {
@@ -107,7 +114,6 @@ const Form = ({ intl }: Props) => {
         );
         break;
     }
-    if (name === 'phone') debugger;
     setFormValid(Object.assign({}, formValid, { [name]: valid }));
     setFormWarning(Object.assign({}, formWarning, { [name]: !valid }));
   };
@@ -156,21 +162,32 @@ const Form = ({ intl }: Props) => {
       setSubmitMsg((cur) =>
         Object.assign({}, cur, {
           success:
-            'Merci! Nous avons bien reçu votre demande. nous vous recontacterons dans un délai de 48h max!'
+            'Merci ! Nous avons bien reçu votre demande. nous vous recontacterons dans un délai de 48h maximum ! Si besoin de remplir le formulaire de nouveau, rechargez la page s\'il vous plaît.'
         })
       );
+      setFormDisabled((cur) =>
+        Object.assign({}, cur, {
+          name: true,
+          phone: true,
+          petName: true,
+          email: true,
+          petGraduationSchool: true,
+          petID: true
+        })
+      );
+      setSubmitBtnValid(false);
     } catch (err: any) {
       setSubmitMsg((cur) => Object.assign({}, cur, { error: err.message }));
-    } finally {
-      setSubmitBtnLoading(false);
-      setTimeout(() => {
-        scrollIntoView(document.querySelector(`#registerForm`));
-      });
       setTimeout(() => {
         setSubmitMsg((cur) =>
           Object.assign({}, cur, { error: '', success: '' })
         );
       }, 5000);
+    } finally {
+      setSubmitBtnLoading(false);
+      setTimeout(() => {
+        scrollIntoView(document.querySelector(`#registerForm`));
+      });
     }
   };
 
@@ -239,6 +256,7 @@ const Form = ({ intl }: Props) => {
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.email}
+          disabled={formDisabled.email}
           label={
             <>
               E-mail <span className="text-rc-red">*</span>
@@ -266,6 +284,7 @@ const Form = ({ intl }: Props) => {
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.name}
+          disabled={formDisabled.name}
           label={
             <>
               Nom <span className="text-rc-red">*</span>
@@ -302,7 +321,7 @@ const Form = ({ intl }: Props) => {
           autocomplete="off"
           // onChange={registerChange}
           onInput={registerChange}
-          
+          disabled={formDisabled.phone}
           onBlur={inputBlur}
           value={registerForm.phone}
           label={
@@ -332,6 +351,7 @@ const Form = ({ intl }: Props) => {
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.petName}
+          disabled={formDisabled.petName}
           label={'Nom du chien'}
           highLightSuccess={true}
           rightOperateBoxJSX={
@@ -355,6 +375,7 @@ const Form = ({ intl }: Props) => {
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.petGraduationSchool}
+          disabled={formDisabled.petGraduationSchool}
           label={'Ecole de provenance du chien'}
           highLightSuccess={true}
           rightOperateBoxJSX={
@@ -378,6 +399,7 @@ const Form = ({ intl }: Props) => {
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.petID}
+          disabled={formDisabled.petID}
           maxLength={15}
           label={"Numero d'identification de puce du chien"}
           highLightSuccess={true}
