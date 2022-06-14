@@ -47,7 +47,6 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
 import { format } from 'date-fns';
 import { DatePickerComponent, Input } from '@/components/Common';
-import { phoneNumberMask } from '@/utils/constant';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -522,7 +521,17 @@ class Form extends React.Component {
     };
     IMask(element, maskOptions);
 
-    this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
+    if (
+      COUNTRY == 'ru' &&
+      (this.state.caninForm.phoneNumber == '' ||
+        this.state.caninForm.phoneNumber == null)
+    ) {
+      const { caninForm } = this.state;
+      let newForm = Object.assign({}, caninForm, {
+        phoneNumber: '+7(___)___-__-__'
+      });
+      this.setState({ caninForm: newForm });
+    }
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {

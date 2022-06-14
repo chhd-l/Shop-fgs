@@ -42,10 +42,7 @@ import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 import moment from 'moment';
-import {
-  getConsigneeNameByCountry,
-  isSaveAddressBtnDisabled
-} from '@/utils/constant';
+import { getConsigneeNameByCountry } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1082,7 +1079,8 @@ class AddressList extends React.Component {
       // }
 
       let params = Object.assign({}, deliveryAddress, {
-        consigneeName: getConsigneeNameByCountry(deliveryAddress),
+        consigneeName:
+          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
         deliveryAddress:
@@ -1994,7 +1992,10 @@ class AddressList extends React.Component {
         calculation: pickupCalculation,
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
-        consigneeName: getConsigneeNameByCountry(pickupFormData),
+        consigneeName:
+          COUNTRY == 'jp'
+            ? pickupFormData.lastName + ' ' + pickupFormData.firstName
+            : pickupFormData.firstName + ' ' + pickupFormData.lastName,
         consigneeNumber: pickupFormData.consigneeNumber,
         address1: pickupFormData.address1,
         deliveryAddress: pickupFormData.address1,
@@ -2462,11 +2463,13 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={isSaveAddressBtnDisabled(
-                      isValid,
-                      formAddressValid,
-                      jpNameValid
-                    )}
+                    disabled={
+                      isValid &&
+                      formAddressValid &&
+                      (COUNTRY == 'jp' ? jpNameValid : true)
+                        ? false
+                        : true
+                    }
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -2493,11 +2496,13 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={isSaveAddressBtnDisabled(
-                      isValid,
-                      formAddressValid,
-                      jpNameValid
-                    )}
+                    disabled={
+                      isValid &&
+                      formAddressValid &&
+                      (COUNTRY == 'jp' ? jpNameValid : true)
+                        ? false
+                        : true
+                    }
                   >
                     <FormattedMessage id="save" />
                   </button>

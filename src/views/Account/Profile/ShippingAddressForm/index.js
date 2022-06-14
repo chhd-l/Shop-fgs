@@ -20,7 +20,6 @@ import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
-import { getConsigneeNameByCountry } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -230,7 +229,10 @@ class ShippingAddressFrom extends React.Component {
         county: data?.county,
         city: data.city,
         cityId: data.cityId,
-        consigneeName: getConsigneeNameByCountry(data),
+        consigneeName:
+          COUNTRY == 'jp'
+            ? data.lastName + ' ' + data.firstName
+            : data.firstName + ' ' + data.lastName,
         consigneeNumber: data.phoneNumber,
         customerId: data.customerId,
         deliveryAddress: data.address1 + ' ' + data.address2,

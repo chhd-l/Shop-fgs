@@ -21,7 +21,6 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { AddressPreview } from '@/components/Address';
-import { getConsigneeNameByCountry } from '@/utils/constant';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -761,7 +760,10 @@ class AddressList extends React.Component {
       });
       let params = Object.assign({}, deliveryAddress, {
         region: deliveryAddress.province, // DuData相关参数
-        consigneeName: getConsigneeNameByCountry(deliveryAddress),
+        consigneeName:
+          COUNTRY == 'jp'
+            ? deliveryAddress.lastName + ' ' + deliveryAddress.firstName
+            : deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
         deliveryAddress:

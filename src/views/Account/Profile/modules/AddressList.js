@@ -25,7 +25,6 @@ import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { AddressPreview } from '@/components/Address';
 import './AddressList.less';
-import { getConsigneeNameByCountry } from '@/utils/constant';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -688,7 +687,10 @@ class AddressList extends React.Component {
           firstName: pickupFormData.firstName,
           lastName: pickupFormData.lastName,
           consigneeNumber: pickupFormData.phoneNumber,
-          consigneeName: getConsigneeNameByCountry(pickupFormData),
+          consigneeName:
+            COUNTRY == 'jp'
+              ? pickupFormData.lastName + ' ' + pickupFormData.firstName
+              : pickupFormData.firstName + ' ' + pickupFormData.lastName,
           address1: pickupFormData.address1,
           deliveryAddress: pickupFormData.address1,
           city: pickupFormData.city,
