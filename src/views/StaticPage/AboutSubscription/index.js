@@ -73,7 +73,7 @@ function AboutSubscription(props) {
                   className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
                 >
-                  お届け回数は、３回から設定いただけます
+                  配送頻度、次回発送日、お届け時間帯は、マイページの定期購入からいつでも変更できます
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
@@ -84,7 +84,7 @@ function AboutSubscription(props) {
                   className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
                 >
-                  配送頻度、お届け回数、お届け時間帯は、マイページの「購入履歴・定期購入履歴」の「履歴を確認する」ボタンからいつでも変更できます
+                  定期購入でマイロイヤルカナンのポイント2％がアップします
                 </p>
               </div>
             </div>
@@ -92,8 +92,8 @@ function AboutSubscription(props) {
               className="font-PingFangSC text-16 leading-6 md:mt-10 md:leading-7 md:text-20 text-center"
               style={{ color: '#666' }}
             >
-              必要なくなった場合は、マイページの「購入履歴・定期購入履歴」の「履歴を確認する」ボタンからいつでもキャンセル可能です。
-              5,500円（税込）以上のご注文で配送料無料です。
+              必要なくなった場合は、マイページの定期購入から、対象の定期購入の「確認・変更」ボタンをクリックし、定期購入詳細ページにていつでもキャンセル可能です。
+              5,500円（税込み）以上のご注文で配送料無料です。
             </p>
           </div>
           <div className="throughLine"></div>
