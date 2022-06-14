@@ -42,6 +42,7 @@ import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 import moment from 'moment';
+import { getConsigneeNameByCountry } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -155,14 +156,12 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
-      this
-    );
+    this.handleCancelAddOrEditPickup =
+      this.handleCancelAddOrEditPickup.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -1081,8 +1080,7 @@ class AddressList extends React.Component {
       // }
 
       let params = Object.assign({}, deliveryAddress, {
-        consigneeName:
-          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeName: getConsigneeNameByCountry(deliveryAddress),
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
         deliveryAddress:
@@ -1230,11 +1228,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1997,10 +1992,7 @@ class AddressList extends React.Component {
         calculation: pickupCalculation,
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
-        consigneeName:
-          COUNTRY == 'jp'
-            ? pickupFormData.lastName + ' ' + pickupFormData.firstName
-            : pickupFormData.firstName + ' ' + pickupFormData.lastName,
+        consigneeName: getConsigneeNameByCountry(pickupFormData),
         consigneeNumber: pickupFormData.consigneeNumber,
         address1: pickupFormData.address1,
         deliveryAddress: pickupFormData.address1,

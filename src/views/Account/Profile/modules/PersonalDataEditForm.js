@@ -517,6 +517,7 @@ class PersonalDataEditForm extends React.Component {
                       window.__.env.REACT_APP_COUNTRY === 'us'
                         ? null
                         : data.province + ' ' + data.city + ' ' + data.address1
+                    //: data.address1
                   }
                 ].map((item, i) => (
                   <React.Fragment key={i}>
