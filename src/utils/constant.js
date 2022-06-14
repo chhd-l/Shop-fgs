@@ -357,3 +357,16 @@ export const PRESONAL_INFO_RULE = [
 ];
 
 export const PDP_Regex = /^(?!.*(\/).*\1).+[-].*[0-9]{1,}.*$/;
+
+export const getConsigneeNameByCountry = (data) => {
+  let res = '';
+  switch (window.__.env.REACT_APP_COUNTRY) {
+    case 'jp':
+      res = data.lastName + ' ' + data.firstName;
+      break;
+    default:
+      res = data.firstName + ' ' + data.lastName;
+      break;
+  }
+  return res;
+};
