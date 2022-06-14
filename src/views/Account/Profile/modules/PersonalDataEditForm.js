@@ -389,7 +389,8 @@ class PersonalDataEditForm extends React.Component {
       errMsgObj,
       validationLoading,
       validationModalVisible,
-      selectValidationOption
+      selectValidationOption,
+      jpNameValid
     } = this.state;
     const { data } = this.props;
     const curPageAtCover = !editFormVisible;
