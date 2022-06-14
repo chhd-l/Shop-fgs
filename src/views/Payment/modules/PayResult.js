@@ -49,8 +49,24 @@ class AdyenPayResult extends Component {
         businessId: sessionItemRoyal.get('orderNumber')
       });
 
-      if (res.context.status === 'SUCCEED') {
+      if (
+        res.context.status === 'SUCCEED' ||
+        res.context.status === 'PROCESSING'
+      ) {
         this.props.history.push('/confirmation');
+      } else {
+        if (this.isLogin) {
+          sessionItemRoyal.set('rc-tid', sessionItemRoyal.get('orderNumber'));
+          sessionItemRoyal.set(
+            'rc-tidList',
+            JSON.stringify(
+              JSON.parse(sessionItemRoyal.get('subOrderNumberList'))
+            )
+          );
+          history.push('/checkout');
+        } else {
+          history.push('/');
+        }
       }
     } catch (err) {
       console.log(err);

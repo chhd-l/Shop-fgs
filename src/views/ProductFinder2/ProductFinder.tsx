@@ -42,8 +42,8 @@ const ProductFinder = (props: any) => {
         <BreadCrumbs />
         <product-finder
           ref={element}
-          locale="en-GB"
-          country="FR"
+          locale="ja-JP"
+          country="JP"
           extra_rations_units={JSON.stringify(['japanCup'])}
           current_location={JSON.stringify(location)}
         ></product-finder>
