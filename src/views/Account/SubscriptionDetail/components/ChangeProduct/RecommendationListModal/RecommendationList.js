@@ -30,7 +30,7 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
               src={getClubLogo({})}
               alt="club icon"
             />
-            <h4 className="red text-center mb-3 mt-6 text">
+            <h4 className="red text-center mb-3 mt-6 text-lg md:text-2xl">
               <FormattedMessage id="subscription.productRecommendation" />
             </h4>
             <p className="mb-3 text-center">
@@ -39,7 +39,7 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
           </div>
           <div className="md:w-1/2 m-auto w-3/4">
             <div className="border rounded row pt-3 pb-3">
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-6 px-20 md:px-6">
                 {/* LazyLoad在弹窗有点问题，显示不出来图片 */}
                 {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
                 <img
