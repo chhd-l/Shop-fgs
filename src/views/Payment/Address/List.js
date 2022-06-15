@@ -42,7 +42,10 @@ import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 import moment from 'moment';
-import { getConsigneeNameByCountry } from '@/utils/constant';
+import {
+  getConsigneeNameByCountry,
+  jpSetAddressFields
+} from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1356,13 +1359,6 @@ class AddressList extends React.Component {
     return farr.join(', ');
   };
 
-  //日本 处理要显示的字段
-  jpSetAddressFields = (data) => {
-    return [data.province, data.city, data.area, data.address1]
-      .filter((item) => item && item.trim())
-      .join(', ');
-  };
-
   // ************************ pick up 相关
 
   // 计算homeDelivery运费
@@ -2301,7 +2297,7 @@ class AddressList extends React.Component {
               <span>
                 {COUNTRY === 'jp' ? '〒' + item.postCode : item.postCode}
               </span>
-              <p>{this.jpSetAddressFields(item)}</p>
+              <p>{jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
               <span>
                 {item.deliveryDate && item.timeSlot ? (
