@@ -12,6 +12,7 @@ import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Canonical } from '@/components/Common';
+const Country = window.__.env.REACT_APP_COUNTRY;
 
 @injectIntl
 @seoHoc('About Us Page')
@@ -137,13 +138,22 @@ class AboutUs extends React.Component {
                               <p>
                                 <FormattedMessage id="aboutUs.ourValuesDetail" />
                               </p>
-                              <Link
-                                className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                to="/Tailorednutrition"
-                                title="En savoir plus"
-                              >
-                                <FormattedMessage id="aboutUs.ourValuesBtn" />
-                              </Link>
+                              {Country === 'mx' ? (
+                                <a
+                                  className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
+                                  href="https://www.royalcanin.com/mx/about-us/our-values"
+                                >
+                                  <FormattedMessage id="aboutUs.ourValuesBtn" />
+                                </a>
+                              ) : (
+                                <Link
+                                  className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
+                                  to="/Tailorednutrition"
+                                  title="En savoir plus"
+                                >
+                                  <FormattedMessage id="aboutUs.ourValuesBtn" />
+                                </Link>
+                              )}
                             </div>
                           </div>
                         </div>
