@@ -38,7 +38,7 @@ const SingleBuyMethod = ({
       }`}
       onClick={handleClick}
     >
-      <div className="radioBox order-1 md:order-1 col-7 px-0">
+      <div className="radioBox order-1 md:order-1 col-8 px-0">
         <div className="rc-input rc-input--inline rc-input--full-width mr-0">
           <FormattedMessage id="email">
             {(txt) => (
@@ -85,7 +85,7 @@ const SingleBuyMethod = ({
       {/* <div className="freqency order-3 md:order-2 col-12 col-md-4 text-center">
         <FormattedMessage id="deliveryOneTimeOnly" />
       </div> */}
-      <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-5 text-nowrap px-0">
+      <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0">
         <div>
           {formatMoney(currentUnitPrice)}
           <span className="red unit-star">

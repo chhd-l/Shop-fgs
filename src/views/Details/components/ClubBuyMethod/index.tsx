@@ -49,7 +49,7 @@ const ClubBuyMethod = ({
         }`}
         onClick={changeMethod.bind(this)}
       >
-        <div className="radioBox order-1 md:order-1 col-7 px-0">
+        <div className="radioBox order-1 md:order-1 col-8 px-0">
           <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
             <FormattedMessage id="email">
               {(txt) => (
@@ -115,7 +115,7 @@ const ClubBuyMethod = ({
             </div>
           ) : null}
         </div>
-        <div className="price club-price font-weight-normal text-right position-relative order-2 md:order-3 col-5 text-nowrap px-0">
+        <div className="price club-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0">
           <div>
             {/* <span className="text-line-through-price">
             {formatMoney(currentUnitPrice)}
