@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { format } from 'date-fns';
+import { isSaveAddressBtnDisabled } from '@/utils/constant';
 @injectIntl
 @inject('loginStore')
 @observer
@@ -568,13 +569,11 @@ class PersonalDataEditForm extends React.Component {
                   })}
                   name="personalInformation"
                   type="submit"
-                  disabled={
-                    isValid &&
-                    formAddressValid &&
-                    (COUNTRY == 'jp' ? this.state.jpNameValid : true)
-                      ? false
-                      : true
-                  }
+                  disabled={isSaveAddressBtnDisabled(
+                    isValid,
+                    formAddressValid,
+                    jpNameValid
+                  )}
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
