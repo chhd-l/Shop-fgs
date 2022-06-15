@@ -30,7 +30,7 @@ import { seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
@@ -219,7 +219,7 @@ class Help extends React.Component {
       this.setState({ buttonLoading: true });
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
@@ -369,7 +369,7 @@ class Help extends React.Component {
       //游客直接购买调用sitePurchase加入后台购物车会报K-000002的错误
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: '',
@@ -415,7 +415,7 @@ class Help extends React.Component {
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
@@ -430,7 +430,7 @@ class Help extends React.Component {
     } else if (currentModalObj.type === 'payNow') {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: ''

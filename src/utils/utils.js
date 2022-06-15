@@ -1,5 +1,5 @@
 import { getSeoConfig, queryHeaderNavigations } from '@/api';
-import { purchases, mergePurchase, sitePurchase } from '@/api/cart';
+import { purchases, mergePurchase, addItemToBackendCart } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
 import { getDict, getAppointDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
@@ -1177,7 +1177,7 @@ export async function addToLoginCartData({ product }) {
   // this.setState({ buttonLoading: true });
   // for (let i = 0; i < inStockProducts.length; i++) {
   try {
-    await sitePurchase({
+    await addItemToBackendCart({
       goodsInfoId: product.goodsInfoId,
       goodsNum: product.quantity,
       goodsCategory: '',

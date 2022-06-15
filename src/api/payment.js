@@ -3,7 +3,7 @@ import axios from '@/utils/request';
 const api = {
   sevenPayApi: `/pay/voucher/`,
   visitorRegisterAndLogin: `/${window.__.env.REACT_APP_STOREID}/guest/register`,
-  batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add`,
+
   confirmAndCommit: `/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
   addOrUpdatePaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
   addOrUpdatePaymentMethodRu: `/${window.__.env.REACT_APP_STOREID}/card-authorization`, // 俄罗斯新增 card
@@ -117,14 +117,6 @@ export function usGuestPayCardSubscription(parameter) {
 export function postVisitorRegisterAndLogin(parameter) {
   return axios({
     url: api.visitorRegisterAndLogin,
-    method: 'post',
-    data: parameter
-  });
-}
-
-export function batchAdd(parameter) {
-  return axios({
-    url: api.batchAdd,
     method: 'post',
     data: parameter
   });

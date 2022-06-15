@@ -318,13 +318,13 @@ const felinParams = qs.parse(window.location.search, {
   ignoreQueryPrefix: true
 });
 
-console.log({ felinParams });
+// console.log({ felinParams });
 
 const guestId = felinParams?.guestId;
 const userGroup = felinParams?.userGroup;
 const petOwnerType = felinParams?.petOwnerType;
 
-console.log({ guestId });
+// console.log({ guestId });
 
 if (userGroup && tokenFromUrl) {
   sessionItemRoyal.set('rc-userGroup', userGroup);

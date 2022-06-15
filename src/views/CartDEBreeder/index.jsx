@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { funcUrl } from '@/lib/url-utils';
 import { inject, observer } from 'mobx-react';
 import { getRecommendation } from '@/api/recommendation';
-import { sitePurchase, valetGuestMiniCars } from '@/api/cart';
+import { addItemToBackendCart, valetGuestMiniCars } from '@/api/cart';
 import { injectIntl } from 'react-intl-phraseapp';
 const localItemRoyal = window.__.localItemRoyal;
 const CartDEBreeder = ({
@@ -29,7 +29,7 @@ const CartDEBreeder = ({
       clinicStore.setLinkClinicId(customerId);
       if (loginStore.isLogin) {
         for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {
-          await sitePurchase({
+          await addItemToBackendCart({
             goodsInfoId: recommendationGoodsInfoRels[i].goodsInfo.goodsInfoId,
             goodsNum: recommendationGoodsInfoRels[i].recommendationNumber,
             goodsCategory: '',
