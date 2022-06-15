@@ -53,18 +53,20 @@ const localEnv = {
     return ret;
   },
   productionHub: ({ countryFromLink }) => {
-    const host = window.location.host;
-    switch (host) {
-      case 'prd-royalcanin-cd-01.royalcanin.com':
-        return {
-          REACT_APP_BASEURL: `https://prd-royalcanin-cd-01.royalcanin.com/${countryFromLink}/shop/api`,
-          REACT_APP_HUB_APIURL: `https://prd-royalcanin-cd-01.royalcanin.com/${countryFromLink}/api`
-        };
-      case 'royalcanin.com':
-        return {
-          REACT_APP_BASEURL: `https://royalcanin.com/${countryFromLink}/shop/api`,
-          REACT_APP_HUB_APIURL: `https://royalcanin.com/${countryFromLink}/api`
-        };
+    if (process.env.NODE_ENV === 'production') {
+      const host = window.location.host;
+      switch (host) {
+        case 'prd-royalcanin-cd-01.royalcanin.com':
+          return {
+            REACT_APP_BASEURL: `https://prd-royalcanin-cd-01.royalcanin.com/${countryFromLink}/shop/api`,
+            REACT_APP_HUB_APIURL: `https://prd-royalcanin-cd-01.royalcanin.com/${countryFromLink}/api`
+          };
+        case 'royalcanin.com':
+          return {
+            REACT_APP_BASEURL: `https://royalcanin.com/${countryFromLink}/shop/api`,
+            REACT_APP_HUB_APIURL: `https://royalcanin.com/${countryFromLink}/api`
+          };
+      }
     }
     return {
       REACT_APP_BASEURL: `https://www.royalcanin.com/${countryFromLink}/shop/api`,

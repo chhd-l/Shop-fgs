@@ -129,18 +129,17 @@ const RelateProductList = ({ mainProduct }) => {
   const history = useHistory();
 
   useEffect(() => {
-    // getProductLists();
     getFilterList();
   }, []);
 
   useEffect(() => {
-    if (
-      defaultFilterSearchForm?.attrList?.length > 0 ||
-      defaultFilterSearchForm?.filterList?.length > 0
+    if (!resetList&&
+      (defaultFilterSearchForm?.attrList?.length > 0 ||
+      defaultFilterSearchForm?.filterList?.length > 0)
     ) {
       getProductLists();
     }
-  }, [defaultFilterSearchForm]);
+  }, [resetList,defaultFilterSearchForm]);
 
   useEffect(() => {
     if (
