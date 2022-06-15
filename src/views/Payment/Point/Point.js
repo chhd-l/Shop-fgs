@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
+import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import InputCircle from '@/components/InputCircle';
 import PointForm from '@/components/PointForm';
@@ -15,7 +16,8 @@ import {
 } from '@/views/Payment/modules/utils';
 
 const Point = ({ checkoutStore, loginStore }) => {
-  const { setSelectDiscountWay, setEarnedPoint } = checkoutStore;
+  const { setSelectDiscountWay, setEarnedPoint, calculateServiceFeeLoading } =
+    checkoutStore;
 
   const data = [
     {
@@ -30,13 +32,6 @@ const Point = ({ checkoutStore, loginStore }) => {
   useEffect(() => {
     //初始化折扣方式为未使用积分
     setSelectDiscountWay(NOTUSEPOINT);
-
-    // setTimeout(() => {
-    //   //获取当前积分
-    //   setCurrentHoldingPoint(10872);
-    //   //能挣得的积分
-    //   setEarnedPoint(250);
-    // }, 2000);
   }, []);
 
   const FormType = {
@@ -67,21 +62,27 @@ const Point = ({ checkoutStore, loginStore }) => {
   };
 
   return (
-    <div className="pointContainer">
-      <div className="title text-rc-red mb-5">
-        <span>
-          <FormattedMessage id="payment.points" />
-        </span>
-        <span>
-          <FormattedMessage id="payment.coupons" />
-        </span>
-        <span>
-          <FormattedMessage id="payment.tickets" />
-        </span>
-      </div>
-      <InputCircle data={data} getId={getId} />
-      {FormType[id]}
-    </div>
+    <>
+      {calculateServiceFeeLoading ? (
+        <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
+      ) : (
+        <div className="pointContainer">
+          <div className="title text-rc-red mb-5">
+            <span>
+              <FormattedMessage id="payment.points" />
+            </span>
+            {/* <span>
+            <FormattedMessage id="payment.coupons" />
+          </span>
+          <span>
+            <FormattedMessage id="payment.tickets" />
+          </span> */}
+          </div>
+          <InputCircle data={data} getId={getId} />
+          {FormType[id]}
+        </div>
+      )}
+    </>
   );
 };
 
