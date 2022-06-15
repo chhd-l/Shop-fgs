@@ -162,7 +162,7 @@ const Form = ({ intl }: Props) => {
       setSubmitMsg((cur) =>
         Object.assign({}, cur, {
           success:
-            'Merci ! Nous avons bien reçu votre demande. nous vous recontacterons dans un délai de 48h maximum ! Si besoin de remplir le formulaire de nouveau, rechargez la page s\'il vous plaît.'
+            'Merci ! Nous avons bien reçu votre demande, nous vous recontacterons dans un délai de 48h maximum jours ouvrés ! Si besoin de remplir le formulaire de nouveau, rechargez la page s\'il vous plaît.'
         })
       );
       setFormDisabled((cur) =>
