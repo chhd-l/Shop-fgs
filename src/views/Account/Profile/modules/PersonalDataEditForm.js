@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { format } from 'date-fns';
-import { isSaveAddressBtnDisabled } from '@/utils/constant';
+import { isSaveAddressBtnDisabled, nullToEmpty } from '@/utils/constant';
 @injectIntl
 @inject('loginStore')
 @observer
@@ -518,7 +518,11 @@ class PersonalDataEditForm extends React.Component {
                     val:
                       window.__.env.REACT_APP_COUNTRY === 'us'
                         ? null
-                        : data.province + ' ' + data.city + ' ' + data.address1
+                        : nullToEmpty(data.province) +
+                          ' ' +
+                          nullToEmpty(data.city) +
+                          ' ' +
+                          nullToEmpty(data.address1)
                     //: data.address1
                   }
                 ].map((item, i) => (
