@@ -1169,6 +1169,7 @@ class Payment extends React.Component {
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
         if (COUNTRY == 'jp') {
+          //todo
           this.confirmCalculateServiceFeeAndLoyaltyPoints();
         }
       }

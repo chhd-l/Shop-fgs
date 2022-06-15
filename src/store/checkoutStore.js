@@ -99,6 +99,8 @@ class CheckoutStore {
 
   @observable originTradePrice = -1; // 不包含任何服务费的总价，最初进入checkout页面的总价
 
+  @observable calculateServiceFeeLoading = false; //计算服务费的接口loading
+
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -351,6 +353,11 @@ class CheckoutStore {
   setGoodsMarketingMap(data) {
     this.goodsMarketingMap = data;
     localItemRoyal.set('goodsMarketingMap', data);
+  }
+
+  @action.bound
+  setCalculateServiceFeeLoading(data) {
+    this.calculateServiceFeeLoading = data;
   }
 
   @action.bound
@@ -1053,41 +1060,47 @@ class CheckoutStore {
     if (this.originTradePrice < 0) {
       this.originTradePrice = this.tradePrice;
     }
-    const res = await calculateServiceFeeAndLoyaltyPoints({
-      totalPrice: this.originTradePrice,
-      totalPriceHaveNotShippingFee: this.totalPrice,
-      deliveryPrice: this.deliveryPrice,
-      discountPrice: this.discountPrice,
-      taxFeePrice: this.taxFeePrice,
-      couponCodeDiscount: this.couponCodeDiscount,
-      paymentCode,
-      loyaltyPoints,
-      ownerId,
-      subscriptionFlag,
-      freeShippingDiscountPrice: this.freeShippingDiscountPrice
-    });
-    const {
-      loyaltyPointsPrice,
-      serviceFeePrice,
-      totalPrice,
-      allowed,
-      loyaltyPointsEarned,
-      loyaltyPointsMinimum,
-      loyaltyPointsMaximum
-    } = res?.context || {};
-
-    this.setEarnedPoint(loyaltyPointsEarned);
-    this.setLoyaltyPointsMinimum(loyaltyPointsMinimum);
-    this.setLoyaltyPointsMaximum(loyaltyPointsMaximum);
-    this.setIsCanUsePoint(allowed);
-
-    this.setCartPrice(
-      Object.assign({}, this.cartPrice, {
-        tradePrice: totalPrice,
+    try {
+      this.setCalculateServiceFeeLoading(true);
+      const res = await calculateServiceFeeAndLoyaltyPoints({
+        totalPrice: this.originTradePrice,
+        totalPriceHaveNotShippingFee: this.totalPrice,
+        deliveryPrice: this.deliveryPrice,
+        discountPrice: this.discountPrice,
+        taxFeePrice: this.taxFeePrice,
+        couponCodeDiscount: this.couponCodeDiscount,
+        paymentCode,
+        loyaltyPoints,
+        ownerId,
+        subscriptionFlag,
+        freeShippingDiscountPrice: this.freeShippingDiscountPrice
+      });
+      const {
+        loyaltyPointsPrice,
         serviceFeePrice,
-        loyaltyPointsPrice
-      })
-    );
+        totalPrice,
+        allowed,
+        loyaltyPointsEarned,
+        loyaltyPointsMinimum,
+        loyaltyPointsMaximum
+      } = res?.context || {};
+
+      this.setEarnedPoint(loyaltyPointsEarned);
+      this.setLoyaltyPointsMinimum(loyaltyPointsMinimum);
+      this.setLoyaltyPointsMaximum(loyaltyPointsMaximum);
+      this.setIsCanUsePoint(allowed);
+
+      this.setCartPrice(
+        Object.assign({}, this.cartPrice, {
+          tradePrice: totalPrice,
+          serviceFeePrice,
+          loyaltyPointsPrice
+        })
+      );
+      this.setCalculateServiceFeeLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /**

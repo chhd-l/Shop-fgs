@@ -21,6 +21,7 @@ import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
+import { phoneNumberMask } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -167,16 +168,10 @@ class PaymentEditForm extends React.Component {
     };
     let pval = IMask(element, maskOptions);
 
-    if (
-      COUNTRY == 'ru' &&
-      (this.state.creditCardInfoForm.phoneNumber == '' ||
-        this.state.creditCardInfoForm.phoneNumber == null)
-    ) {
-      const { creditCardInfoForm } = this.state;
-      let newForm = Object.assign({}, creditCardInfoForm, {
-        phoneNumber: '+7(___)___-__-__'
+    if (COUNTRY == 'ru') {
+      this.setState({
+        creditCardInfoForm: phoneNumberMask(this.state.creditCardInfoForm)
       });
-      this.setState({ creditCardInfoForm: newForm });
     }
   };
   componentDidMount() {
@@ -1053,7 +1048,8 @@ class PaymentEditForm extends React.Component {
                           id="paymentPhoneNumber"
                           value={creditCardInfoForm.phoneNumber}
                           onChange={this.cardInfoInputChange}
-                          onBlur={this.inputBlur}
+                          //onBlur={this.inputBlur}
+                          onBlur={this.cardInfoInputChange}
                           name="phoneNumber"
                           maxLength="2147483647"
                         />
