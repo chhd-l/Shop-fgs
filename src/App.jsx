@@ -56,8 +56,7 @@ import CancelEmail from '@/views/StaticPage/CancelEmail';
 import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 
 import PreciseCatNutrition from './views/PreciseCatNutrition';
-// import CartDEBreeder from './views/CartDEBreeder';
-const CartDEBreeder = loadable(() => import('@/views/CartDEBreeder'));
+import CartDEBreeder from './views/CartDEBreeder';
 import { funcUrl } from './lib/url-utils';
 import LogRocket from 'logrocket';
 
