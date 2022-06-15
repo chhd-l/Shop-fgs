@@ -85,7 +85,7 @@ class CadeauCoussinChat extends React.Component {
                                 <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                   <li className="rc-list__item">
                                     <em
-                                      className="wof rc-margin-right--xs"
+                                      className="wof rc-margin-right--xs iconfont"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
@@ -97,7 +97,7 @@ class CadeauCoussinChat extends React.Component {
                                   </li>
                                   <li className="rc-list__item">
                                     <em
-                                      className="wof rc-margin-right--xs"
+                                      className="wof rc-margin-right--xs iconfont"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
@@ -109,7 +109,7 @@ class CadeauCoussinChat extends React.Component {
                                   </li>
                                   <li className="rc-list__item">
                                     <em
-                                      className="wof rc-margin-right--xs"
+                                      className="wof rc-margin-right--xs iconfont"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
@@ -121,7 +121,7 @@ class CadeauCoussinChat extends React.Component {
                                   </li>
                                   <li className="rc-list__item">
                                     <em
-                                      className="wof rc-margin-right--xs"
+                                      className="wof rc-margin-right--xs iconfont"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
