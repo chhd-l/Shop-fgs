@@ -16,7 +16,7 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { sitePurchase, siteMiniPurchases } from '@/api/cart';
+import { addItemToBackendCart, siteMiniPurchases } from '@/api/cart';
 import Modal from './components/Modal';
 import { funcUrl } from '@/lib/url-utils';
 import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
@@ -310,7 +310,7 @@ class FelinRecommendation extends React.Component {
       this.setState({ buttonLoading: true });
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
@@ -436,7 +436,7 @@ class FelinRecommendation extends React.Component {
   //     // periodTypeId: details.defaultFrequencyId
   //   };
   //   try {
-  //     await sitePurchase(param);
+  //     await addItemToBackendCart(param);
   //     await checkoutStore.updateLoginCart({
   //       intl: props.intl
   //     });
@@ -508,7 +508,7 @@ class FelinRecommendation extends React.Component {
     } else {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: '',
@@ -556,7 +556,7 @@ class FelinRecommendation extends React.Component {
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
@@ -572,7 +572,7 @@ class FelinRecommendation extends React.Component {
     } else if (currentModalObj.type === 'payNow') {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: ''

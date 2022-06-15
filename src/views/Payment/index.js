@@ -42,7 +42,6 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
-  batchAdd,
   confirmAndCommit,
   customerCommitAndPay,
   rePay,
@@ -85,6 +84,7 @@ import {
 } from '@/utils/GA';
 import ConsentData from '@/utils/consent';
 import { querySurveyContent } from '@/api/cart';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
 import { funcUrl } from '@/lib/url-utils';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
@@ -723,7 +723,8 @@ class Payment extends React.Component {
     return (
       (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
         !this.props.checkoutStore.inputPoint) ||
-      this.props.checkoutStore.inputPointErr
+      (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
+        this.props.checkoutStore.inputPointErr)
     ); //使用积分为空或者输入的积分不满足条件->按钮都disabled
   }
 
@@ -2314,36 +2315,35 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
+      let addPramas;
+      let orderSource;
       if (sessionItemRoyal.get('recommend_product')) {
         // 线下店orderSource埋点L_ATELIER_FELIN
         let orderSource = sessionItemRoyal.get('orderSource');
-        let addPramas = {
-          goodsInfos: this.state.recommend_data.map((ele) => {
-            return {
-              verifyStock: false,
-              buyCount: ele.buyCount,
-              goodsInfoId: sessionItemRoyal.get('appointment-no')
-                ? ele.goodsInfoId
-                : find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
-            };
-          })
-        };
+        addPramas = this.state.recommend_data.map((ele) => {
+          return {
+            goodsNum: ele.buyCount,
+            goodsInfoId: sessionItemRoyal.get('appointment-no')
+              ? ele.goodsInfoId
+              : find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
+          };
+        });
         if (orderSource) {
-          addPramas.orderSource = orderSource;
+          orderSource = orderSource;
         }
-
-        await batchAdd(addPramas);
       } else {
-        await batchAdd({
-          goodsInfos: cartData.map((ele) => {
-            return {
-              verifyStock: false,
-              buyCount: ele.quantity,
-              goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
-            };
-          })
+        addPramas = cartData.map((ele) => {
+          return {
+            goodsNum: ele.quantity,
+            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+          };
         });
       }
+      await AddCartItemsMember({
+        paramList: addPramas,
+        orderSource,
+        doUpdateCart: false
+      });
     } catch (err) {
       console.warn(err);
       throw new Error(err.message);

@@ -11,7 +11,7 @@ import './index.less';
 import { injectIntl } from 'react-intl-phraseapp';
 import UsAndRu from '../Recommendation_US/components/UsAndRu';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import { GARecommendationProduct } from '@/utils/GA';
 import { useSeo } from '@/framework/common';
 import stores from '@/store';
@@ -221,7 +221,7 @@ const Adoptions = (props) => {
         // goodsInfoFlag: detail.goodsInfoFlag,
         // periodTypeId: detail.defaultFrequencyId
       };
-      await sitePurchase(param);
+      await addItemToBackendCart(param);
     }
 
     try {

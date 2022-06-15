@@ -21,7 +21,6 @@ import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
-import { phoneNumberMask } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -168,9 +167,17 @@ class PaymentEditForm extends React.Component {
     };
     let pval = IMask(element, maskOptions);
 
-    this.setState({
-      creditCardInfoForm: phoneNumberMask(this.state.creditCardInfoForm)
-    });
+    if (
+      COUNTRY == 'ru' &&
+      (this.state.creditCardInfoForm.phoneNumber == '' ||
+        this.state.creditCardInfoForm.phoneNumber == null)
+    ) {
+      const { creditCardInfoForm } = this.state;
+      let newForm = Object.assign({}, creditCardInfoForm, {
+        phoneNumber: '+7(___)___-__-__'
+      });
+      this.setState({ creditCardInfoForm: newForm });
+    }
   };
   componentDidMount() {
     //查询国家

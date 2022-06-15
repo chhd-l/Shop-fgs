@@ -29,7 +29,7 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import foodPic2 from './img/step2_food.png';
 import LazyLoad from 'react-lazyload';
@@ -1656,7 +1656,7 @@ class SmartFeederSubscription extends Component {
           packageId: packageId
         };
       }
-      await sitePurchase(param);
+      await addItemToBackendCart(param);
       await checkoutStore.updateLoginCart({
         isThrowErr: true
       });
