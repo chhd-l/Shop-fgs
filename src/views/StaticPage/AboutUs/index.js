@@ -34,7 +34,6 @@ class AboutUs extends React.Component {
     const Country = JSON.parse(
       sessionItemRoyal.get('base-config-shop')
     )?.REACT_APP_COUNTRY;
-    debugger;
     return (
       <div>
         <GoogleTagManager
