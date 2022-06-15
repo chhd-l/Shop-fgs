@@ -21,7 +21,7 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import Modal from './components/Modal';
 import {
   distributeLinktoPrecriberOrPaymentPage,
@@ -523,7 +523,7 @@ class Recommendation extends React.Component {
       this.setState({ buttonLoading: true });
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
@@ -676,7 +676,7 @@ class Recommendation extends React.Component {
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             periodTypeId: inStockProducts[i].defaultFrequencyId,
@@ -692,7 +692,7 @@ class Recommendation extends React.Component {
     } else if (currentModalObj.type === 'payNow') {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: ''

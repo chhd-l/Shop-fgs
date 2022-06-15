@@ -18,7 +18,7 @@ import { getOtherSpecies, getSpecies } from '@/utils/GA';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Help from './modules/help';
 import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import './index.css';
 import { Canonical } from '@/components/Common';
 
@@ -221,7 +221,7 @@ class DedicatedLandingPage extends React.Component {
     if (choosedProduct.length > 0) {
       try {
         await this.props.checkoutStore.setPromotionCode(promotionCode);
-        await sitePurchase({
+        await addItemToBackendCart({
           goodsInfoId: choosedProduct[0].goodsInfoId,
           goodsNum: 1,
           goodsCategory: '',

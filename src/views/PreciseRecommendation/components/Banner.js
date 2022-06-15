@@ -5,7 +5,7 @@ import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import cloneDeep from 'lodash/cloneDeep';
 import stores from '@/store';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
@@ -219,7 +219,7 @@ const Banner = ({
         event: 'individualizationRecoAddToCart'
       });
       setLoading(true);
-      await sitePurchase(params);
+      await addItemToBackendCart(params);
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
       await checkoutStore.updateLoginCart({

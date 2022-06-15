@@ -48,7 +48,7 @@ import {
   getDetailsBySpuNo,
   getMixFeeding
 } from '@/api/details';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 import { tempHubFrRedirect } from '@/redirect/utils';
@@ -890,7 +890,7 @@ class Details extends React.Component {
       if (Object.keys(this.state.requestJson).length > 0) {
         param = { ...param, ...this.state.requestJson };
       }
-      await sitePurchase(param); // 加入后端购物车
+      await addItemToBackendCart(param); // 加入后端购物车
       await checkoutStore.updateLoginCart();
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
