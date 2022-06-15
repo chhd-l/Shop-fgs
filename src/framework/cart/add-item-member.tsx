@@ -3,6 +3,7 @@ import stores from '@/store';
 
 interface Props {
   param: SITEPURCHASE_PARAM;
+  updateLoginCartParam?: any;
 }
 
 interface SITEPURCHASE_PARAM {
@@ -23,10 +24,10 @@ interface SITEPURCHASE_PARAM {
  * 单个商品加入购物车
  * @param param0
  */
-const addItem = async ({ param }: Props) => {
+const addItem = async ({ param, updateLoginCartParam = {} }: Props) => {
   try {
     await addItemToBackendCart(param); // add product to backend cart data
-    await stores.checkoutStore.updateLoginCart();
+    await stores.checkoutStore.updateLoginCart(updateLoginCartParam);
   } catch (err) {
     throw new Error((err as any).message);
   }
