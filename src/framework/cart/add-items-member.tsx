@@ -38,8 +38,8 @@ const addItems = async ({
       orderSource
     }); // add product to backend cart data
     if (doUpdateCart) await stores.checkoutStore.updateLoginCart();
-  } catch (err: any) {
-    throw new Error(err.message);
+  } catch (err) {
+    throw new Error((err as any).message);
   }
 };
 
