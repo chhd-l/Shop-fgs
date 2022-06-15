@@ -255,7 +255,6 @@ const register = loadable(() => import('@/views/Register'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
-// import smartFeederSubscription from '@/views/SmartFeederSubscription';
 const ShelterPrescription = loadable(() =>
   import('@/views/StaticPage/ShelterPrescription')
 );
@@ -267,7 +266,6 @@ const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const PreciseRecommendation = loadable(() =>
   import('@/views/PreciseRecommendation')
 );
-// import PreciseRecommendation from './views/PreciseRecommendation';
 // const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
   import('@/views/ClubLandingPageNew/delandingpage')

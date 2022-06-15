@@ -1,5 +1,5 @@
 import { action, observable, computed, runInAction } from 'mobx';
-import { purchases, sitePurchases, siteMiniPurchases } from '@/api/cart';
+import { purchases, sitePurchases, queryBackendCart } from '@/api/cart';
 import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -670,7 +670,7 @@ class CheckoutStore {
 
       // 获取购物车列表
       // 删除felin sku
-      let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
+      let siteMiniPurchasesRes = await queryBackendCart({ delFlag });
       siteMiniPurchasesRes.context.goodsList =
         siteMiniPurchasesRes?.context?.goodsList?.map((item) => {
           if (item.goodsInfos) {

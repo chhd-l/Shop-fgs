@@ -4,7 +4,7 @@ const api = {
   purchases: '/site/front/purchases', // 游客计算价格
   sitePurchases: '/site/purchases', // 会员计算价格
   carts: `/site/${window.__.env.REACT_APP_STOREID}/carts`, // 单个商品加入后台购物车
-  siteMiniPurchases: `/site/${window.__.env.REACT_APP_STOREID}/mini-carts`, // 查询后台购物车
+  queryBackendCart: `/site/${window.__.env.REACT_APP_STOREID}/mini-carts`, // 查询后台购物车
   mergePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
   switchSize: `/site/${window.__.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
   goodsRelationBatch: '/goodsRelation/batch', //购物车related product
@@ -72,7 +72,7 @@ export function deleteItemFromBackendCart(parameter) {
   });
 }
 
-export function siteMiniPurchases(parameter) {
+export function queryBackendCart(parameter) {
   // delFlag在checkout页面和buynow查询的时候不能删除ind商品，需要删除该字段
   if (
     location.pathname.includes('/checkout') ||
@@ -86,7 +86,7 @@ export function siteMiniPurchases(parameter) {
     parameter.delFlag = 2;
   }
   return axios({
-    url: `${api.siteMiniPurchases}`,
+    url: `${api.queryBackendCart}`,
     // method: 'post',
     // data: parameter
     method: 'get',
