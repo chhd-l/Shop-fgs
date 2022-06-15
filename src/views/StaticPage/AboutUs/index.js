@@ -139,6 +139,7 @@ class AboutUs extends React.Component {
                                 <FormattedMessage id="aboutUs.ourValues" />
                               </h2>
                               <p>
+                                {Country + '------------'}
                                 <FormattedMessage id="aboutUs.ourValuesDetail" />
                               </p>
                               {Country.toLowerCase() === 'mx' ? (
