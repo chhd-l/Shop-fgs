@@ -1212,7 +1212,7 @@ class Details extends React.Component {
               className="rc-quantity"
               initQuantity={parseInt(quantity)}
               min={quantityMinLimit}
-              max={skuLimitThreshold.skuMaxNum}
+              max={skuLimitThreshold?.skuMaxNum}
               updateQuantity={(val) => {
                 this.setState({ quantity: val }, () =>
                   this.updateInstockStatus()

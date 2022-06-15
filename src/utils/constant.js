@@ -372,13 +372,11 @@ export const getConsigneeNameByCountry = (data) => {
   return res;
 };
 
+//俄罗斯电话号码格式
 export const phoneNumberMask = (Form) => {
   const { phoneNumber } = Form;
   let newForm = {};
-  if (
-    window.__.env.REACT_APP_COUNTRY == 'ru' &&
-    (phoneNumber == null || phoneNumber == '')
-  ) {
+  if (phoneNumber == null || phoneNumber == '') {
     newForm = Object.assign({}, Form, {
       phoneNumber: '+7(___)___-__-__'
     });
@@ -386,6 +384,7 @@ export const phoneNumberMask = (Form) => {
   return newForm;
 };
 
+//地址保存按钮是否disabled
 export const isSaveAddressBtnDisabled = (
   isValid,
   formAddressValid,
@@ -401,4 +400,11 @@ export const isSaveAddressBtnDisabled = (
       break;
   }
   return res;
+};
+
+//日本 处理要显示的字段
+export const jpSetAddressFields = ({ province, city, area, address1 }) => {
+  return [province, city, area, address1]
+    .filter((item) => item && item.trim())
+    .join(', ');
 };

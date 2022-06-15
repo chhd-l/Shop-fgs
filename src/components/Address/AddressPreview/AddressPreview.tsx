@@ -9,6 +9,7 @@ import {
 } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DivWrapper } from './style';
+import { jpSetAddressFields } from '@/utils/constant';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
@@ -229,7 +230,7 @@ const AddressPreview = ({
                    {lastNameKatakana}{firstNameKatakana}
                 </span>
                 <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
-                <p>{[province, city, area, address1].join(', ')}</p>
+                <p>{jpSetAddressFields({province,city,area,address1})}</p>
                 <p>{consigneeNumber}</p>
                 <p className={`${showDeliveryDateAndTimeSlot ? '' : 'hidden'}`}>
                   {deliveryDate && timeSlot ? (
