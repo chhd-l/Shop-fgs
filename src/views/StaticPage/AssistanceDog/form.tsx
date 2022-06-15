@@ -176,8 +176,8 @@ const Form = ({ intl }: Props) => {
         })
       );
       setSubmitBtnValid(false);
-    } catch (err: any) {
-      setSubmitMsg((cur) => Object.assign({}, cur, { error: err.message }));
+    } catch (err) {
+      setSubmitMsg((cur) => Object.assign({}, cur, { error: (err as any).message }));
       setTimeout(() => {
         setSubmitMsg((cur) =>
           Object.assign({}, cur, { error: '', success: '' })

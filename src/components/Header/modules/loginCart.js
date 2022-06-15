@@ -288,9 +288,10 @@ class LoginCart extends React.Component {
                       // 是否显示折扣价格
                       let showDiscountPrice = true;
                       // 折扣商品如果没有折扣不显示折扣价
+                      debugger;
                       if (
                         item.goodsInfoFlag > 0 &&
-                        item.originalPrice === item.subscribePrice
+                        item.marketPrice === item.subscriptionPrice
                       ) {
                         showDiscountPrice = false;
                       }
