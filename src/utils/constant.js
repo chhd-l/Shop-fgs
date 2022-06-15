@@ -376,10 +376,7 @@ export const getConsigneeNameByCountry = (data) => {
 export const phoneNumberMask = (Form) => {
   const { phoneNumber } = Form;
   let newForm = {};
-  if (
-    window.__.env.REACT_APP_COUNTRY == 'ru' &&
-    (phoneNumber == null || phoneNumber == '')
-  ) {
+  if (phoneNumber == null || phoneNumber == '') {
     newForm = Object.assign({}, Form, {
       phoneNumber: '+7(___)___-__-__'
     });
