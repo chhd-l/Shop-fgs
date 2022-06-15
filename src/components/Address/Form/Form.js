@@ -1131,7 +1131,7 @@ class Form extends React.Component {
         no: c.no
       };
     });
-    if (key == 'state') {
+    if (key == 'state' && COUNTRY != 'jp') {
       tmp.unshift({ value: '', name: 'State' });
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });

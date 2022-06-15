@@ -27,8 +27,8 @@ const addItem = async ({ param }: Props) => {
   try {
     await addItemToBackendCart(param); // add product to backend cart data
     await stores.checkoutStore.updateLoginCart();
-  } catch (err: any) {
-    throw new Error(err.message);
+  } catch (err) {
+    throw new Error((err as any).message);
   }
 };
 
