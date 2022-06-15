@@ -2165,21 +2165,23 @@ class List extends React.Component {
                                   );
                                 })}
                           </article>
-                          <div
-                            className="grid-footer rc-full-width"
-                            style={{ marginTop: '0.5rem' }}
-                            data-tms="Pagination"
-                          >
-                            <Pagination
-                              loading={this.state.loading}
-                              defaultCurrentPage={this.state.currentPage}
-                              key={this.state.currentPage}
-                              totalPage={this.state.totalPage}
-                              onPageNumChange={this.hanldePageNumChange}
-                              prevPageLink={this.prevPageLink}
-                              nextPageLink={this.nextPageLink}
-                            />
-                          </div>
+                          {loading ? null : (
+                            <div
+                              className="grid-footer rc-full-width"
+                              style={{ marginTop: '0.5rem' }}
+                              data-tms="Pagination"
+                            >
+                              <Pagination
+                                loading={this.state.loading}
+                                defaultCurrentPage={this.state.currentPage}
+                                key={this.state.currentPage}
+                                totalPage={this.state.totalPage}
+                                onPageNumChange={this.hanldePageNumChange}
+                                prevPageLink={this.prevPageLink}
+                                nextPageLink={this.nextPageLink}
+                              />
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
