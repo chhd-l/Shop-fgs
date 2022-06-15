@@ -3,7 +3,7 @@ import axios from '@/utils/request';
 const api = {
   purchases: '/site/front/purchases', // 游客计算价格
   sitePurchases: '/site/purchases', // 会员计算价格
-  sitePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
+  carts: `/site/${window.__.env.REACT_APP_STOREID}/carts`, // 单个商品加入后台购物车
   siteMiniPurchases: `/site/${window.__.env.REACT_APP_STOREID}/mini-carts`, // 查询后台购物车
   mergePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
   switchSize: `/site/${window.__.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
@@ -11,7 +11,8 @@ const api = {
   shippingCalculation: '/tempoline', // 计算运费
   querySurveyContent: '/survey/active', //us 获取问卷调查内容
   recordSurveyReview: '/survey/views', //统计survey 1 review
-  valetGuestMiniCars: `/site/${window.__.env.REACT_APP_STOREID}`
+  valetGuestMiniCars: `/site/${window.__.env.REACT_APP_STOREID}`,
+  batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add` // 批量加入后台购物车
 };
 
 export default api;
@@ -44,25 +45,28 @@ export function purchases(parameter) {
   });
 }
 
-export function sitePurchase(parameter) {
+// Add products to the cart
+export function addItemToBackendCart(parameter) {
   return axios({
-    url: `${api.sitePurchase}`,
+    url: `${api.carts}`,
     method: 'post',
     data: parameter
   });
 }
 
+// Update products in the cart
 export function updateBackendCart(parameter) {
   return axios({
-    url: `${api.sitePurchase}`,
+    url: `${api.carts}`,
     method: 'put',
     data: parameter
   });
 }
 
+// Delete products in the cart
 export function deleteItemFromBackendCart(parameter) {
   return axios({
-    url: `${api.sitePurchase}`,
+    url: `${api.carts}`,
     method: 'delete',
     data: parameter
   });
@@ -164,5 +168,13 @@ export function valetGuestOrderPaymentResponse(guestId) {
   return axios({
     url: `/site/${guestId}/valet-guest-order-payment-response`,
     method: 'post'
+  });
+}
+
+export function batchAdd(parameter) {
+  return axios({
+    url: api.batchAdd,
+    method: 'post',
+    data: parameter
   });
 }
