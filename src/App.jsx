@@ -53,10 +53,13 @@ import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 import Welcome from '@/views/Register/welcome.js';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 
-import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
+const FelinTermsConditions = loadable(() =>
+  import('@/views/StaticPage/FelinTermsConditions')
+);
 
-import PreciseCatNutrition from './views/PreciseCatNutrition';
-// import CartDEBreeder from './views/CartDEBreeder';
+const PreciseCatNutrition = loadable(() =>
+  import('@/views/PreciseCatNutrition')
+);
 const CartDEBreeder = loadable(() => import('@/views/CartDEBreeder'));
 import { funcUrl } from './lib/url-utils';
 import LogRocket from 'logrocket';
