@@ -453,7 +453,8 @@ class AccountOrders extends React.Component {
                                     freeShippingFlag:
                                       details.tradePrice.freeShippingFlag,
                                     promotionVOList:
-                                      details?.tradePrice?.promotionVOList,
+                                      details?.tradePrice?.promotionVOList ||
+                                      [],
                                     isShowInstallMent:
                                       !!details.tradePrice.installmentPrice,
                                     installMentAdditionalFee:
