@@ -68,7 +68,8 @@ import {
   hubGAProductDetailPageView,
   hubGAAToCar,
   HubGaPdpBuyFromRetailer,
-  GAPdpSizeChange
+  GAPdpSizeChange,
+  pushPurchaseGA
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
@@ -85,11 +86,7 @@ const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 const Jp = window.__.env.REACT_APP_COUNTRY === 'jp';
-const purchaseType = {
-  0: 'Single purchase',
-  1: 'Autoship',
-  2: 'Club'
-};
+
 @inject(
   'checkoutStore',
   'loginStore',
@@ -838,7 +835,6 @@ class Details extends React.Component {
   };
   async hanldeAddToCart() {
     try {
-      if (!this.btnStatus) return false;
       this.setState({ checkOutErrMsg: '' });
       await this.showPrescriberCodeBeforeAddCart();
       if (!this.state.showPrescriberCodeModal) {
@@ -921,7 +917,6 @@ class Details extends React.Component {
         cartItem = { ...cartItem, ...this.state.requestJson };
       }
       await checkoutStore.hanldeUnloginAddToCart({
-        valid: this.btnStatus,
         cartItemList: [cartItem],
         currentUnitPrice,
         isMobile,
@@ -935,16 +930,6 @@ class Details extends React.Component {
     }
   }
 
-  pushPurchase(type) {
-    window.dataLayer &&
-      window.dataLayer.push({
-        event: `pdpPurchaseTypeChange`,
-        pdpPurchaseTypeChange: {
-          newItem: purchaseType[type]
-        }
-      });
-  }
-
   handleInputChange(e) {
     let { form } = this.state;
     form.buyWay = parseInt(e.currentTarget.value);
@@ -954,7 +939,7 @@ class Details extends React.Component {
     let { form } = this.state;
     form.buyWay = parseInt(buyType);
     this.setState({ form });
-    this.pushPurchase(buyType);
+    pushPurchaseGA(buyType);
   }
   showCheckoutErrMsg(msg) {
     this.setState({
@@ -973,59 +958,12 @@ class Details extends React.Component {
       });
     }
   }
-  formatUnit(baseSpecLabel) {
-    let res = baseSpecLabel.slice(String(parseFloat(baseSpecLabel)).length);
-    if (isNaN(parseFloat(res))) {
-      return res;
-    } else {
-      return this.formatUnit(res);
-    }
-  }
-  //加入购物车，埋点
-  GAAddToCar(num, item) {
-    let cur_selected_size = item.sizeList.filter((item2) => {
-      return item2.selected == true;
-    });
-    let variant = cur_selected_size[0]?.specText;
-    let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
-    let { form } = this.state;
-    window?.dataLayer?.push({
-      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
-      ecommerce: {
-        add: {
-          products: [
-            {
-              name: item.goodsName,
-              id: item.goodsNo,
-              club: 'no',
-              type:
-                { 0: 'one-time', 1: 'subscription', 2: 'club' }[form.buyWay] ||
-                '',
-              price:
-                {
-                  0: cur_selected_size[0]?.marketPrice,
-                  1: cur_selected_size[0]?.subscriptionPrice
-                }[form.buyWay] || 0,
-              brand: item.brandName || 'Royal Canin',
-              category: item.goodsCateName,
-              variant: parseInt(variant),
-              quantity: num,
-              recommendation: 'self-selected',
-              sku: goodsInfoNo
-            }
-          ]
-        }
-      }
-    });
-  }
 
   handleBuyFromRetailer = () => {
     HubGaPdpBuyFromRetailer();
   };
 
   addMixFeedingToCart = async () => {
-    const btnStatus = this.btnStatus;
-    if (!btnStatus) return;
     this.setState({
       mixFeedingBtnLoading: true
     });
