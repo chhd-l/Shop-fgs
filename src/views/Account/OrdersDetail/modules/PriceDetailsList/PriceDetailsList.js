@@ -114,28 +114,29 @@ const PriceDetailsList = ({
   return (
     <div className="py-2 md:px-4">
       <div className="row mt-2 text-left">
-        {priceList.map((item, idx) =>
-          item.rowHtml ? (
-            item.rowHtml
-          ) : (
-            <Fragment key={idx}>
-              <div className="col-2 col-md-7 mb-2 rc-md-up">&nbsp;</div>
-              <div className={cn('col-6 col-md-2 mb-2', item.className)}>
-                {item.title}
-              </div>
-              <div
-                className={cn(
-                  'col-6 col-md-3 text-right text-nowrap',
-                  item.className
-                )}
-              >
-                {typeof item.val === 'number'
-                  ? formatMoney(item.val)
-                  : item.val}
-              </div>
-            </Fragment>
-          )
-        )}
+        {priceList?.length > 0 &&
+          priceList.map((item, idx) =>
+            item.rowHtml ? (
+              item.rowHtml
+            ) : (
+              <Fragment key={idx}>
+                <div className="col-2 col-md-7 mb-2 rc-md-up">&nbsp;</div>
+                <div className={cn('col-6 col-md-2 mb-2', item.className)}>
+                  {item.title}
+                </div>
+                <div
+                  className={cn(
+                    'col-6 col-md-3 text-right text-nowrap',
+                    item.className
+                  )}
+                >
+                  {typeof item.val === 'number'
+                    ? formatMoney(item.val)
+                    : item.val}
+                </div>
+              </Fragment>
+            )
+          )}
       </div>
     </div>
   );

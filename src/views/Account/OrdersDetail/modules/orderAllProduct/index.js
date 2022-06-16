@@ -107,7 +107,7 @@ const OrderAllProduct = ({ details }) => {
                       )}
                     </span>
                   </span>
-                  {item.subscriptionSourceList?.length ? (
+                  {item.subscriptionSourceList?.length > 0 ? (
                     <span>
                       <span className="iconfont mr-2 text-rc-red">
                         &#xe675;

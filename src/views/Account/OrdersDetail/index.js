@@ -189,11 +189,11 @@ class AccountOrders extends React.Component {
         item.goodsItemSet = (item.shippingItems || [])
           .concat(item.giftItemList)
           .concat(
-            (item.subscriptionPlanGiftItemList || []).map((s) =>
+            (item.subscriptionPlanGiftItemList || [])?.map((s) =>
               Object.assign({}, s, { isWelcomeBox: true })
             )
           );
-        item.goodsItemSet = item.goodsItemSet.map((g) => {
+        item.goodsItemSet = item.goodsItemSet?.map((g) => {
           g.pic =
             optimizeImage({
               originImageUrl: g.pic
@@ -216,7 +216,7 @@ class AccountOrders extends React.Component {
             {/* tab表头，length大于才展示 */}
             {logisticsList.length > 1 ? (
               <nav className="rc-bg-colour--brand4 p-3">
-                {logisticsList.map(
+                {logisticsList?.map(
                   (item, i) =>
                     true && (
                       <span
@@ -238,7 +238,7 @@ class AccountOrders extends React.Component {
               </nav>
             ) : null}
 
-            {logisticsList.map((item, i) => (
+            {logisticsList?.map((item, i) => (
               <div
                 key={i}
                 className={`mx-3 ${i === activeTabIdx ? '' : 'hidden'}`}
@@ -300,7 +300,7 @@ class AccountOrders extends React.Component {
         ) : null}
 
         <div className="mx-4 rc-md-down mt-2 md:mt-0">
-          {filteredLogisticsList.map((item, i) => (
+          {filteredLogisticsList?.map((item, i) => (
             <div
               className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
               onClick={this.handleClickLogisticsCard.bind(this, item)}
@@ -318,7 +318,7 @@ class AccountOrders extends React.Component {
                 <span className="icon iconfont iconjiantouyou1" />
               </div>
               <div className="col-12 row mt-2">
-                {item.goodsItemSet.map((sItem) => (
+                {item.goodsItemSet?.map((sItem) => (
                   <div className="col-3 flex items-end" key={sItem.skuId}>
                     <LazyLoad>
                       <img
@@ -361,6 +361,7 @@ class AccountOrders extends React.Component {
 
     console.log({ details });
     console.log({ logisticsList: this.state.logisticsList });
+    console.log({ currentProgressIndex });
 
     return (
       <DivWrapper>
