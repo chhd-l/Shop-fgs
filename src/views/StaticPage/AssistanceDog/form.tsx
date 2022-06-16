@@ -155,7 +155,7 @@ const Form = ({ intl }: Props) => {
         assistanceDogsFlag: true,
         petName: registerForm.petName,
         petSchool: registerForm.petGraduationSchool,
-        petId: registerForm.petGraduationSchool,
+        petId: registerForm.petID,
         customerName: registerForm.name
       };
       await saveAssistanceDogs(param);
