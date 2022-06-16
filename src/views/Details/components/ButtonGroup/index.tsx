@@ -2,6 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import BuyFromRetailerBtn from '../BuyFromRetailerBtn';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel';
+import cn from 'classnames';
+
 interface Props {
   addToCartLoading: boolean;
   btnStatus: boolean;
@@ -46,18 +48,23 @@ const ButtonGroup = ({
     <div>
       <div className="rc-md-up">
         <div
-          className={`buy-btn-box rc-max-width--xl fullHeight text-right ${
-            versionType ? '' : 'mt-4'
-          }`}
+          className={cn(`buy-btn-box rc-max-width--xl fullHeight text-right`, {
+            'mt-4': !versionType
+          })}
         >
           <button
             style={{ padding: '2px 30px' }}
-            className={`add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-              addToCartLoading ? 'ui-btn-loading' : ''
-            } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+            className={cn(
+              `add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`,
+              {
+                'ui-btn-loading': addToCartLoading
+                // 'rc-btn-solid-disabled': !btnStatus
+              }
+            )}
+            disabled={!btnStatus}
             onClick={handleAddToCart}
           >
-            <span className="fa rc-icon rc-cart--xs rc-brand3" />
+            <span className="fa rc-icon rc-cart--xs rc-brand3 opacity-100" />
             <span className="default-txt">
               <FormattedMessage
                 id={`${
@@ -91,11 +98,16 @@ const ButtonGroup = ({
         style={{ transform: 'translateY(-80px)' }}
       >
         <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-          {!vet && showAddToCartBtn? (
+          {!vet && showAddToCartBtn ? (
             <button
-              className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                addToCartLoading && 'ui-btn-loading'
-              } ${!btnStatus && 'rc-btn-solid-disabled'}`}
+              className={cn(
+                `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`,
+                {
+                  'ui-btn-loading': addToCartLoading
+                  // 'rc-btn-solid-disabled': !btnStatus
+                }
+              )}
+              disabled={!btnStatus}
               onClick={handleAddToCart}
             >
               <span className="fa rc-icon rc-cart--xs rc-brand3" />
@@ -110,7 +122,7 @@ const ButtonGroup = ({
               </span>
             </button>
           ) : null}
-          {isShowRetailerBtn? (
+          {isShowRetailerBtn ? (
             <BuyFromRetailerBtn
               barcode={barcode}
               goodsType={goodsType}

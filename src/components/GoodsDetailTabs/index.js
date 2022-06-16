@@ -398,7 +398,7 @@ const GoodsDetailTabs = function (props) {
   let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
   let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
-  console.log(goodsDetailSpace, '🐕※');
+  // console.log(goodsDetailSpace, '🐕※');
   if (activeTabIdxList === undefined) {
     activeTabIdxList = isMobile ? [] : [0];
   }
