@@ -822,7 +822,7 @@ const PetForms = ({
                   optionList={activityOptions}
                   selectedItemChange={(el) => activityChange(el)}
                   selectedItemData={{
-                    value: petForm.activity.toLowerCase()
+                    value: petForm.activity?.toLowerCase()
                   }}
                   key={petForm.activity}
                 />
@@ -846,7 +846,7 @@ const PetForms = ({
                     required=""
                     aria-required="true"
                     style={{ padding: '.5rem 0', height: '49px' }}
-                    value={petForm.weightObj.measure}
+                    value={petForm.weightObj?.measure}
                     onChange={weightChange}
                     maxLength="50"
                     autoComplete="address-line"
@@ -878,7 +878,7 @@ const PetForms = ({
                     // petForm.weightObj.measureUnit = el.value;
                   }}
                   selectedItemData={{
-                    value: petForm.weightObj.measureUnit
+                    value: petForm.weightObj?.measureUnit
                   }}
                   key={petForm.activity}
                   customCls="weight-unit-select"
