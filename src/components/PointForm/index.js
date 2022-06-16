@@ -18,7 +18,8 @@ const PointForm = ({ checkoutStore, loginStore }) => {
     loyaltyPointsMinimum,
     loyaltyPointsMaximum,
     isCanUsePoint,
-    setInputPointOk
+    setInputPointOk,
+    calculateServiceFeeLoading
   } = checkoutStore;
 
   const MinPointMsg = () => {
@@ -106,7 +107,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
         <br />
         <input
           type="number"
-          //disabled={!isCanUsePoint}
+          disabled={calculateServiceFeeLoading}
           value={inputPoint}
           className={cn(
             'p-2 text-16 border rounded',

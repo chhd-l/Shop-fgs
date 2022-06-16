@@ -63,25 +63,21 @@ const Point = ({ checkoutStore, loginStore }) => {
 
   return (
     <>
-      {calculateServiceFeeLoading ? (
-        <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
-      ) : (
-        <div className="pointContainer">
-          <div className="title text-rc-red mb-5">
-            <span>
-              <FormattedMessage id="payment.points" />
-            </span>
-            {/* <span>
+      <div className="pointContainer">
+        <div className="title text-rc-red mb-5">
+          <span>
+            <FormattedMessage id="payment.points" />
+          </span>
+          {/* <span>
             <FormattedMessage id="payment.coupons" />
           </span>
           <span>
             <FormattedMessage id="payment.tickets" />
           </span> */}
-          </div>
-          <InputCircle data={data} getId={getId} />
-          {FormType[id]}
         </div>
-      )}
+        <InputCircle data={data} getId={getId} />
+        {FormType[id]}
+      </div>
     </>
   );
 };
