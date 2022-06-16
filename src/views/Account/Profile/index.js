@@ -10,19 +10,20 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import PersonalDataEditForm from './modules/PersonalDataEditForm';
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm';
+import DeleteMyAccount from './modules/DeleteMyAccount';
 import ClinicEditForm from './modules/ClinicEditForm';
 import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
-import { queryCityNameById } from '@/api';
-import { FormattedMessage } from 'react-intl';
-import { setSeoConfig } from '@/utils/utils';
+import { FormattedMessage } from 'react-intl-phraseapp';
+import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
-import { Helmet } from 'react-helmet';
+import Modal from '@/components/Modal';
+import { seoHoc } from '@/framework/common';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
 
 function PanleContainer(props) {
   const loading = props.loading || false;
@@ -46,6 +47,7 @@ function PanleContainer(props) {
 }
 
 @inject('loginStore')
+@seoHoc('Account personal information')
 @observer
 class AccountProfile extends React.Component {
   constructor(props) {
@@ -55,13 +57,8 @@ class AccountProfile extends React.Component {
       addressBookData: {
         address1: '',
         address2: '',
-        country: 'Mexico',
+        country: '',
         city: '',
-        seoConfig: {
-          title: '',
-          metaKeywords: '',
-          metaDescription: ''
-        },
         postCode: '',
         phoneNumber: '',
         rfc: ''
@@ -71,110 +68,113 @@ class AccountProfile extends React.Component {
       },
       clinicData: {
         clinicName: '',
-        clinicId: ''
+        clinicId: '',
+        recommendationCode: ''
       },
       originData: null, // 提交接口时，保留未修改参数用
       loading: true,
-      editOperationPaneName: ''
+      personalDataIsEdit: false,
+      editOperationPaneName: '',
+      successMsg: ''
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig({
-      pageName: 'Account personal information'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    myAccountPushEvent('Personal information');
+
     this.queryCustomerBaseInfo();
   }
-  queryCustomerBaseInfo = () => {
-    this.setState({ loading: true });
-    getCustomerInfo()
-      .then((res) => {
-        this.setState({ loading: false });
-        let prescriberName;
-        let prescriberId;
-        const context = res.context;
-        this.props.loginStore.setUserInfo(context);
-        if (context.defaultClinics) {
-          prescriberName = context.defaultClinics.clinicsName;
-          prescriberId = context.defaultClinics.clinicsId;
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
+  queryCustomerBaseInfo = async () => {
+    try {
+      const customerId = this.userInfo && this.userInfo.customerId;
+      this.setState({ loading: true });
+      let res = await getCustomerInfo({ customerId });
+
+      this.setState({ loading: false });
+      let prescriberName;
+      let prescriberId;
+      let recommendationCode;
+      const context = res.context;
+      this.props.loginStore.setUserInfo(context);
+      if (context.defaultClinics) {
+        prescriberName = context.defaultClinics.clinicsName;
+        prescriberId = context.defaultClinics.clinicsId;
+        recommendationCode = context.defaultClinics.recommendationCode || '';
+      }
+
+      let mydata = {
+        firstName: context.firstName,
+        lastName: context.lastName,
+        email: context.email,
+        birthdate: context.birthDay
+          ? context.birthDay.split('-').join('/')
+          : context.birthDay,
+        country: context.countryId,
+        county: context.county,
+        cityId: context.cityId,
+        city: context.city,
+        areaId: context.areaId,
+        area: context.area,
+        phoneNumber: context.contactPhone,
+        rfc: context.reference,
+        address1: context.address1,
+        address2: context.address2,
+        postCode: context.postalCode,
+        entrance: context?.entrance,
+        apartment: context?.apartment,
+        communicationEmail: context.communicationEmail,
+        communicationPhone: context.communicationPhone,
+        communicationPrint: context.communicationPrint,
+        provinceNo: context?.provinceNo,
+        province: context?.province,
+        provinceId: context?.provinceId,
+        region: context?.region,
+        firstNameKatakana: context?.firstNameKatakana,
+        lastNameKatakana: context?.lastNameKatakana
+      };
+
+      this.setState({
+        originData: context,
+        personalData: mydata,
+        addressBookData: {
+          address1: context.house,
+          address2: context.housing,
+          country: context.countryId,
+          city: context.cityId,
+          postCode: context.postCode,
+          phoneNumber: context.contactPhone,
+          rfc: context.reference
+        },
+        communicationData: {
+          contactMethod: context.contactMethod
+        },
+        clinicData: {
+          clinicName: prescriberName,
+          clinicId: prescriberId,
+          recommendationCode: recommendationCode
         }
-
-        this.setState({
-          originData: context,
-          personalData: {
-            firstName: context.firstName,
-            lastName: context.lastName,
-            email: context.email,
-            birthdate: context.birthDay
-              ? context.birthDay.split('-').join('/')
-              : context.birthDay,
-            country: context.countryId,
-            city: context.cityId,
-
-            phoneNumber: context.contactPhone,
-            rfc: context.reference,
-            address1: context.address1,
-            address2: context.address2,
-            postCode: context.postalCode,
-            communicationEmail: context.communicationEmail,
-            communicationPhone: context.communicationPhone
-          },
-          addressBookData: {
-            address1: context.house,
-            address2: context.housing,
-            country: context.countryId,
-            city: context.cityId,
-            postCode: context.postCode,
-            phoneNumber: context.contactPhone,
-            rfc: context.reference
-          },
-          communicationData: {
-            contactMethod: context.contactMethod
-          },
-          clinicData: {
-            clinicName: prescriberName,
-            clinicId: prescriberId
-          }
-        });
-
-        queryCityNameById({
-          id: [context.cityId]
-        }).then((cityRes) => {
-          const cityVORes = cityRes.context.systemCityVO || [];
-          this.setState({
-            personalData: Object.assign(this.state.personalData, {
-              cityName: cityVORes.filter((c) => c.id === context.cityId).length
-                ? cityVORes.filter((c) => c.id === context.cityId)[0].cityName
-                : ''
-            })
-          });
-        });
-      })
-      .catch(() => {
-        this.setState({ loading: false });
       });
+    } catch (err) {
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+  updateIsEditFlag = (data) => {
+    console.log(data);
+    this.setState({
+      personalDataIsEdit: data
+    });
   };
   updateEditOperationPanelName = (name) => {
     this.setState({ editOperationPaneName: name });
   };
 
   render() {
-    const {
-      loading,
-      editOperationPaneName,
-      originData,
-      personalData,
-      seoConfig
-    } = this.state;
+    const { loading, editOperationPaneName, originData, personalData } =
+      this.state;
     const event = {
       page: {
         type: 'Account',
@@ -187,30 +187,19 @@ class AccountProfile extends React.Component {
     };
     return (
       <div className="accountProfile">
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{seoConfig ? seoConfig.title : ''}</title>
-          <meta
-            name="description"
-            content={seoConfig ? seoConfig.metaDescription : ''}
-          />
-          <meta
-            name="keywords"
-            content={seoConfig ? seoConfig.metaKeywords : ''}
-          />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">
           <BannerTip />
           <BreadCrumbs />
-          <div className="rc-padding--sm rc-max-width--xl">
+          <div
+            className="rc-padding--sm rc-max-width--xl"
+            id="rc_myaccount_profile"
+          >
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Profile" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
@@ -218,47 +207,58 @@ class AccountProfile extends React.Component {
                   <Link to="/account" className="rc-md-down mb-2 inlineblock">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
-                      <FormattedMessage id="home" />
+                      <FormattedMessage id="account.home" />
                     </span>
                   </Link>
                 )}
-
+                <h5 className="md:-ml-4 mb-3 text-lg text-rc-red">
+                  <FormattedMessage
+                    id="account.myprofile.title"
+                    defaultMessage={' '}
+                  />
+                </h5>
                 <div className="card-body_">
-                  <>
-                    <PanleContainer
-                      loading={loading}
-                      customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'My account'
-                      })}
-                    >
-                      <PersonalDataEditForm
-                        originData={originData}
-                        data={personalData}
-                        key={Object.keys(personalData || {})}
-                        updateData={this.queryCustomerBaseInfo}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
+                  <PanleContainer
+                    loading={loading}
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'My account'
+                    })}
+                  >
+                    <PersonalDataEditForm
+                      originData={originData}
+                      data={personalData}
+                      key={Object.keys(personalData || {})}
+                      updateData={this.queryCustomerBaseInfo}
+                      updateIsEditFlag={(data) => this.updateIsEditFlag(data)}
+                      personalDataIsEdit={this.state.personalDataIsEdit}
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                      editFormVisible={editOperationPaneName === 'My account'}
+                    />
+                  </PanleContainer>
 
-                    <PanleContainer
-                      customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'My addresses'
-                      })}
-                    >
-                      <AddressList
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
+                  <PanleContainer
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'My addresses'
+                    })}
+                  >
+                    <AddressList
+                      hideBillingAddr={
+                        +window.__.env.REACT_APP_HIDE_ACCOUNT_BILLING_ADDR
+                      }
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                    />
+                  </PanleContainer>
 
-                    {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
+                  {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+                    window.__.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
                       <PanleContainer
                         loading={loading}
                         customCls={classNames({
@@ -278,45 +278,87 @@ class AccountProfile extends React.Component {
                       </PanleContainer>
                     )}
 
-                    <PanleContainer
-                      customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'My payments'
-                      })}
-                    >
-                      <PaymentList
-                        history={this.props.history}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
+                  <PanleContainer
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'My payments'
+                    })}
+                  >
+                    <PaymentList
+                      history={this.props.history}
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                      // 此入口总是要email phone
+                      needEmail={true}
+                      needPhone={true}
+                      pageType={'account_profile'}
+                    />
+                  </PanleContainer>
 
+                  <PanleContainer
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'Communication'
+                    })}
+                  >
+                    <CommunicationDataEditForm
+                      originData={originData}
+                      data={personalData}
+                      userInfo={this.userInfo}
+                      // 俄罗斯 需要message
+                      needEmail={
+                        !Boolean(
+                          +window.__.env
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_EMAIL
+                        )
+                      }
+                      needMessengers={
+                        !Boolean(
+                          +window.__.env
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS
+                        )
+                      }
+                      // 美国 墨西哥 不需要phone
+                      needPhone={
+                        !Boolean(
+                          +window.__.env
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_PHONE
+                        )
+                      }
+                      key={Object.keys(personalData || {})}
+                      updateData={this.queryCustomerBaseInfo}
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                    />
+                  </PanleContainer>
+
+                  {/* 俄罗斯增加 Delete my account 模块，先做接口，后期跳转到okta */}
+                  {window.__.env.REACT_APP_DELETE_My_ACCOUNT_URL && (
                     <PanleContainer
                       customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'Communication'
+                        hidden: editOperationPaneName
                       })}
                     >
-                      <CommunicationDataEditForm
-                        originData={originData}
-                        data={personalData}
-                        key={Object.keys(personalData || {})}
-                        updateData={this.queryCustomerBaseInfo}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
+                      <DeleteMyAccount />
                     </PanleContainer>
-                  </>
+                  )}
                 </div>
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+        />
       </div>
     );
   }

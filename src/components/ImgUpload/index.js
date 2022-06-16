@@ -74,10 +74,7 @@ export default class ImgUpload extends React.Component {
         >
           {this.state.imgList.map((src, i) => (
             <div className="img-item mr-2 mb-2" key={i}>
-              <div
-                className="img-layer d-flex justify-content-around align-items-center"
-                style={{ color: '#fff' }}
-              >
+              <div className="img-layer d-flex justify-content-around align-items-center text-white">
                 {/* <span className="rc-icon rc-incompatible--xs rc-iconography">EYE</span> */}
                 <span
                   className="ui-cursor-pointer-pure"
@@ -97,7 +94,12 @@ export default class ImgUpload extends React.Component {
                 </span>
               </div>
               <LazyLoad>
-              <img className="" src={src} id={`cropedBigImg_${i}`} alt="" />
+                <img
+                  className=""
+                  src={src}
+                  id={`cropedBigImg_${i}`}
+                  alt="cropedbig-image"
+                />
               </LazyLoad>
             </div>
           ))}
@@ -155,12 +157,12 @@ export default class ImgUpload extends React.Component {
           }}
         >
           <LazyLoad>
-          <img
-            className="img-pre"
-            src={this.state.preImg}
-            onClick={(e) => e.stopPropagation()}
-            alt=""
-          />
+            <img
+              className="img-pre"
+              src={this.state.preImg}
+              onClick={(e) => e.stopPropagation()}
+              alt="img-upload img-pre"
+            />
           </LazyLoad>
         </div>
       </div>

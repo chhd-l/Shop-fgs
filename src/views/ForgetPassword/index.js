@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { forgetPassword } from '@/api/login';
 import './index.css';
 
@@ -19,12 +19,9 @@ class ForgetPassword extends React.Component {
     }
     forgetPassword({ customerAccount: this.state.email })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.showSuccessMsg(
-            res.message || this.props.intl.messages.resetPasswordEmail
-          );
-          console.log(res);
-        }
+        this.showSuccessMsg(
+          res.message || this.props.intl.messages.resetPasswordEmail
+        );
       })
       .catch((err) => {
         this.showErrorMsg(
@@ -56,7 +53,8 @@ class ForgetPassword extends React.Component {
     }, 5000);
   };
   emailVerify = (email) => {
-    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    let reg =
+      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email);
   };
   backToLogin() {

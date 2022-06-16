@@ -1,0 +1,59 @@
+.personalInfo {
+  .card_item_border {
+    border: 1px solid #FFF;
+
+    &.selected {
+      border: 1px solid #008900 !important;
+    }
+
+    &.forbid {
+      border: 1px solid #e2001a !important;
+      cursor: not-allowed;
+    }
+  }
+
+  .address_list_panel {
+
+    .address_item_none {
+      display: none;
+    }
+    .address-item-forbid {
+      color: #e2001a;
+      font-size: 14px;
+      padding: 6px 0;
+      text-align: right;
+    }
+  }
+
+  .address_title_pannel {
+    color: #e2001a;
+  }
+
+  .show_more_address {
+    display: block;
+    width: 1000%;
+
+    .rc-up--xs {
+      &::after {
+        background-position: 55.36% 100%;
+      }
+    }
+
+    .rc-down--xs,
+    .rc-up--xs {
+      &::after {
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .cancel_pickup_edit {
+    border-bottom: 1px solid #d7d7d7;
+  }
+}
+
+.address_list_panel {
+  .address_item_none {
+    display: none !important;
+  }
+}

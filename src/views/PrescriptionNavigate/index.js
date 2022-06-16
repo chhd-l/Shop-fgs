@@ -1,22 +1,17 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Pagination from '@/components/Pagination';
 import MapFlag from '@/components/MapFlag';
 import GoogleMap from '@/components/GoogleMap';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import initLocation from './location';
-import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
-
-const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+import '../Prescription/index.css';
+import PageBaseInfo from '@/components/PageBaseInfo';
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
@@ -27,49 +22,34 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
         sonMess={sonMess}
         props={props}
         mode="navigate"
-      ></MapFlag>
+      />
     );
   } else {
     return (
       <div>
         <LazyLoad>
-        <img
-          alt=""
-          src={meImg}
-          draggable="false"
-          style={{
-            position: 'absolute',
-            left: '0px',
-            top: '0px',
-            width: '1.5rem',
-            height: '1.5rem',
-            userSelect: 'none',
-            border: '0px',
-            padding: '0px',
-            margin: '0px',
-            maxWidth: 'none'
-          }}
-        />
+          <img
+            alt="map default marker"
+            src={meImg}
+            draggable="false"
+            className="map-default-marker"
+          />
         </LazyLoad>
       </div>
     );
   }
 };
 
-@inject('clinicStore')
+@inject('clinicStore', 'checkoutStore')
 @observer
 class Prescription extends React.Component {
   constructor(props) {
-    const lang = process.env.REACT_APP_LANG;
-    const lat = initLocation[lang].lat;
-    const lng = initLocation[lang].lng;
+    const lang = window.__.env.REACT_APP_COUNTRY || 'mx';
+    const initLocationData = initLocation[lang] || initLocation['mx'];
+    const lat = initLocationData.lat;
+    const lng = initLocationData.lng;
     super(props);
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       type: 'perscription',
       keywords: '',
       selectedSort: 1,
@@ -77,8 +57,6 @@ class Prescription extends React.Component {
       total: 0, // 总数
       totalPage: 1,
       center: {
-        //lat: 19.09,
-        //lng: -99.24,
         lat,
         lng
       },
@@ -86,13 +64,10 @@ class Prescription extends React.Component {
       mapKey: 0,
       me: {
         id: 1001,
-
         title: 'me',
         type: 'customer'
       },
       meLocation: {
-        //lat: 19.09,
-        //lng: -99.24,
         lat,
         lng
       },
@@ -104,11 +79,9 @@ class Prescription extends React.Component {
         input: '',
         pageNum: 0,
         pageSize: 3,
-        //latitude: 19.09,//墨西哥纬度
-        //longitude: -99.24,//墨西哥经度
         latitude: lat,
         longitude: lng,
-        storeId: process.env.REACT_APP_STOREID
+        storeId: window.__.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
         lat: 0,
@@ -118,21 +91,11 @@ class Prescription extends React.Component {
     };
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     this.handleInit();
 
     this.getAllPrescription();
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   inputSearchValue = (e) => {
     this.setState({
       keywords: e.target.value
@@ -168,41 +131,37 @@ class Prescription extends React.Component {
   async getPrescription(params) {
     this.setState({ loading: true });
     const res = await getPrescription(params);
-    if (res.code === 'K-000000') {
-      let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
-      this.setState({
-        currentClinicArr: res.context.content,
-        totalPage: totalPage,
-        loading: false
-      });
-    }
+    let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
+    this.setState({
+      currentClinicArr: res.context.content,
+      totalPage: totalPage,
+      loading: false
+    });
   }
   async getAllPrescription() {
     let params = {
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     };
     const res = await getAllPrescription(params);
-    if (res.code === 'K-000000') {
-      let clinicArr = res.context.prescriberVo;
-      //过滤掉经纬度非数字值
-      clinicArr = clinicArr.filter((item) => {
-        return !(isNaN(item.latitude) || isNaN(item.longitude));
-      });
+    let clinicArr = res.context.prescriberVo;
+    //过滤掉经纬度非数字值
+    clinicArr = clinicArr.filter((item) => {
+      return !(isNaN(item.latitude) || isNaN(item.longitude));
+    });
 
-      //过滤掉 经度-180-180 ，纬度 -90-90
-      clinicArr = clinicArr.filter((item) => {
-        return (
-          +item.latitude >= -90 &&
-          +item.latitude <= 90 &&
-          +item.longitude >= -180 &&
-          +item.longitude <= 180
-        );
-      });
+    //过滤掉 经度-180-180 ，纬度 -90-90
+    clinicArr = clinicArr.filter((item) => {
+      return (
+        +item.latitude >= -90 &&
+        +item.latitude <= 90 &&
+        +item.longitude >= -180 &&
+        +item.longitude <= 180
+      );
+    });
 
-      this.setState({
-        clinicArr: clinicArr
-      });
-    }
+    this.setState({
+      clinicArr
+    });
   }
   handleSearch = () => {
     const { params } = this.state;
@@ -240,19 +199,6 @@ class Prescription extends React.Component {
         lng: +item.longitude
       }
     });
-  };
-  handleConfirm = (item) => {
-    const {
-      setSelectClinicId,
-      setSelectClinicName,
-      removeLinkClinicId,
-      removeLinkClinicName
-    } = this.props.clinicStore;
-    removeLinkClinicId();
-    removeLinkClinicName();
-    setSelectClinicId(item.id);
-    setSelectClinicName(item.prescriberName);
-    this.props.history.push('/checkout');
   };
   getSonMess(center) {
     this.setState({
@@ -302,20 +248,7 @@ class Prescription extends React.Component {
 
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <PageBaseInfo additionalEvents={event} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div
@@ -326,7 +259,7 @@ class Prescription extends React.Component {
           >
             {/* <Progress type="perscription" /> */}
 
-            <div className="clinic-tip" style={{ marginTop: '1.5rem' }}>
+            <div className="clinic-tip mt-6">
               <FormattedMessage id="clinic.clinicTip" />
             </div>
 
@@ -374,17 +307,16 @@ class Prescription extends React.Component {
                       )}
                     </FormattedMessage>
                     <label className="rc-input__label" htmlFor="id-submit-2">
-                      <span className="rc-input__label-text"></span>
+                      <span className="rc-input__label-text" />
                     </label>
-                    <i
+                    <em
                       className="rc-icon rc-location2--xs rc-iconography rc-vertical-align click-btn"
                       aria-label="location"
                       onClick={(e) => this.handleInit(e)}
-                    ></i>
+                    />
                   </span>
 
-                  {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
-                    style={{width:'100%',maxWidth:'100%', padding: "1rem 0 0 0"}}>
+                  {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop w-full max-w-full pt-4 px-0 pb-0">
                     <select data-js-select="" id="id-single-select" value={this.state.selectedSort}>
                     <FormattedMessage id='clinic.sortResultsByDistance'>
                         {(txt) => (
@@ -404,20 +336,16 @@ class Prescription extends React.Component {
                   >
                     {this.state.currentClinicArr.map((item) => (
                       <article
-                        className="rc-card rc-card--a clinic-card-boder"
-                        style={{ width: '100%', margin: '1rem 0' }}
+                        className="rc-card rc-card--a clinic-card-boder w-full my-4 mx-0"
                         key={item.id}
                       >
-                        <div
-                          className="rc-card__body"
-                          style={{ padding: '0 0 0 1rem' }}
-                        >
+                        <div className="rc-card__body py-0 pr-0 pl-4">
                           <div onClick={() => this.handleItem(item)}>
                             {/* clinic vet */}
                             <p style={{ margin: '.5rem 0 0 0' }}>
-                              <FormattedMessage id="clinic.vet"></FormattedMessage>
+                              <FormattedMessage id="clinic.vet" />
                             </p>
-                            
+
                             {/* prescriberName  Name of the clinic*/}
                             <h3 className="rc-card__title rc-delta click-btn clinic-title">
                               {item.prescriberName}
@@ -428,11 +356,11 @@ class Prescription extends React.Component {
                                 : item.email}{' '}
                             </div> */}
                             <div className="clinic-phone">
-                              {item.phone ? item.phone: null}
+                              {item.phone ? item.phone : null}
                             </div>
                             {/* primaryCity */}
-                            <div >
-                              {item.primaryCity ? item.primaryCity: null}
+                            <div>
+                              {item.primaryCity ? item.primaryCity : null}
                             </div>
                             {/* zip code */}
                             <div className="zip-code">
@@ -467,13 +395,15 @@ class Prescription extends React.Component {
                   zoom={this.state.zoom}
                   flags={flags}
                   key={this.state.mapKey}
-                ></GoogleMap>
-                {/* <SimpleMap></SimpleMap> */}
+                  //新增
+                  clinicArr={this.state.clinicArr}
+                  currentSelectClinic={this.state.currentSelectClinic}
+                />
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

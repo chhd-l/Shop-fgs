@@ -2,5 +2,9 @@ node_modules
 build
 .idea
 debug.log
-.env.development.local
+#.env.development.local
 build_tmp
+package-lock.json
+.vscode
+demo_index.html
+.templates

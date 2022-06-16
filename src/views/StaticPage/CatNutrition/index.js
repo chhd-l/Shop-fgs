@@ -4,9 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { inject, observer } from 'mobx-react';
-import Carouselem from '@/components/Carouselem';
+import ProductCarousel from '@/components/ProductCarousel';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { list1 } from './goods';
@@ -14,19 +12,13 @@ import { Link } from 'react-router-dom';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class CatNutrition extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   render(h) {
     const event = {
@@ -41,14 +33,11 @@ class CatNutrition extends React.Component {
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -70,7 +59,7 @@ class CatNutrition extends React.Component {
                                 className="w-100 lazyloaded"
                                 alt="Aliments pour chats"
                                 title="Aliments pour chats"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/CAT-1A.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/CAT-1A.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -108,12 +97,14 @@ class CatNutrition extends React.Component {
                     <div className="content-asset">
                       <div className="product-reco">
                         <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Nos meilleures ventes
-                            </h4>
-                          </div>
-                          <Carouselem list={list1} />
+                          <ProductCarousel
+                            goodsList={list1}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Nos meilleures ventes
+                              </h4>
+                            }
+                          />
                         </div>
                       </div>
                     </div>
@@ -156,15 +147,15 @@ class CatNutrition extends React.Component {
                         Pourquoi choisir Royal Canin ?
                       </h4>
                       <div className="value-proposition__container">
-                        <div className="row mx-0">
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                        <div className="row mx-0row mx-0">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
                                   alt="Camion Royal Canin"
                                   title="Camion Royal Canin"
-                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4B.png`}
+                                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4B.png`}
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -174,14 +165,14 @@ class CatNutrition extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
                                   alt="Serveur de paiement sécurisé"
                                   title="Serveur de paiement sécurisé"
-                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4C.png`}
+                                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4C.png`}
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -191,12 +182,13 @@ class CatNutrition extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
-                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4D.png`}
+                                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4D.png`}
+                                  alt="CatNutrition image"
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -206,12 +198,13 @@ class CatNutrition extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
-                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4E.png`}
+                                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4E.png`}
+                                  alt="CatNutrition image"
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -239,7 +232,8 @@ class CatNutrition extends React.Component {
                             <LazyLoad>
                               <img
                                 className="w-100 lazyloaded"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/CAT 6A.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/CAT 6A.jpg`}
+                                alt="CatNutrition image"
                               />
                             </LazyLoad>
                           </picture>
@@ -270,8 +264,8 @@ class CatNutrition extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -1,0 +1,263 @@
+{
+  "IND10001": {
+    "name": "FCN Light Weight Care",
+    "recoSentence": "ind.IND10001.recoSentence",
+    "provenBenefits": [
+      {
+        "title": "ind.IND10001.title1",
+        "des": "ind.IND10001.des1",
+        "img": "ind.IND10001.img1"
+      },
+      {
+        "title": "ind.IND10001.title2",
+        "des": "ind.IND10001.des2",
+        "img": "ind.IND10001.img2"
+      },
+      {
+        "title": "ind.IND10001.title3",
+        "des": "ind.IND10001.des3",
+        "img": "ind.IND10001.img3"
+      }
+    ],
+    "productComposition": {
+      "compositionTitle": "ind.composition",
+      "additivesTitle": "ind.additives",
+      "compositionDes": "ind.IND10001.Composition",
+      "additives": "ind.IND10001.Additives",
+      "analyticalConsitituentsDes": ["ind.IND10001.proteinVal", "ind.IND10001.fatContentVal", "ind.IND10001.crudeAshVal", "ind.IND10001.crudeFibreVal"],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre"]
+    }
+  },
+  "IND10002": {
+    "name": "FCN Appetite Control Care",
+    "recoSentence": "ind.IND10002.recoSentence",
+    "provenBenefits": [
+      {
+        "title": "ind.IND10002.title1",
+        "des": "ind.IND10002.des1",
+        "img": "ind.IND10002.img1"
+      },
+      {
+        "title": "ind.IND10002.title2",
+        "des": "ind.IND10002.des2",
+        "img": "ind.IND10002.img2"
+      },
+      {
+        "title": "ind.IND10002.title3",
+        "des": "ind.IND10002.des3",
+        "img": "ind.IND10002.img3"
+      },
+      {
+        "title": "ind.IND10002.title4",
+        "des": "ind.IND10002.des4",
+        "img": "ind.IND10002.img4"
+      }
+    ],
+    "productComposition": {
+      "compositionTitle": "ind.composition",
+      "additivesTitle": "ind.additives",
+      "compositionDes": "ind.IND10002.Composition",
+      "additives": "ind.IND10002.Additives",
+      "analyticalConsitituentsDes": ["ind.IND10002.proteinVal", "ind.IND10002.fatContentVal", "ind.IND10002.crudeAshVal", "ind.IND10002.crudeFibreVal", "ind.IND10002.LcarnitineVal"],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Lcarnitine"]
+    }
+  },
+  "IND10003": {
+    "name": "FHN Indoor Adult",
+    "recoSentence": "ind.IND10003.recoSentence",
+    "provenBenefits": [
+      {
+        "title": "ind.IND10003.title1",
+        "des": "ind.IND10003.des1",
+        "img": "ind.IND10003.img1"
+      },
+      {
+        "title": "ind.IND10003.title2",
+        "des": "ind.IND10003.des2",
+        "img": "ind.IND10003.img2"
+      },
+      {
+        "title": "ind.IND10003.title3",
+        "des": "ind.IND10003.des3",
+        "italicSentence": "ind.IND10003.italicSentence3",
+        "img": "ind.IND10003.img3"
+      },
+      {
+        "title": "ind.IND10003.title4",
+        "des": "ind.IND10003.des4",
+        "img": "ind.IND10003.img4"
+      }
+    ],
+    "productComposition": {
+      "compositionTitle": "ind.composition",
+      "additivesTitle": "ind.additives",
+      "compositionDes": "ind.IND10003.Composition",
+      "additives": "ind.IND10003.Additives",
+      "analyticalConsitituentsDes": ["ind.IND10003.proteinVal", "ind.IND10003.fatContentVal", "ind.IND10003.crudeAshVal", "ind.IND10003.crudeCellulosenVal"],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose"]
+    }
+  },
+  "IND10004": {
+    "name": "FHN Indoor Long Hair",
+    "recoSentence": "ind.IND10004.recoSentence",
+    "provenBenefits": [
+      {
+        "title": "ind.IND10004.title1",
+        "des": "ind.IND10004.des1",
+        "img": "ind.IND10004.img1"
+      },
+      {
+        "title": "ind.IND10004.title2",
+        "des": "ind.IND10004.des2",
+        "img": "ind.IND10004.img2"
+      },
+      {
+        "title": "ind.IND10004.title3",
+        "des": "ind.IND10004.des3",
+        "img": "ind.IND10004.img3"
+      },
+      {
+        "title": "ind.IND10004.title4",
+        "des": "ind.IND10004.des4",
+        "img": "ind.IND10004.img4"
+      }
+    ],
+    "productComposition": {
+      "compositionTitle": "ind.composition",
+      "additivesTitle": "ind.additives",
+      "compositionDes": "ind.IND10004.Composition",
+      "additives": "ind.IND10004.Additives",
+      "analyticalConsitituentsDes": ["ind.IND10004.proteinVal", "ind.IND10004.fatContentVal", "ind.IND10004.crudeAshVal", "ind.IND10004.crudeCellulosenVal", "ind.IND10004.EPADHAVal"],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose", "ind.EPADHA"]
+    }
+  },
+  "IND10005": {
+    "name": "Indoor 7+",
+    "recoSentence": "ind.IND10005.recoSentence",
+    "provenBenefits": [
+      {
+        "title": "ind.IND10005.title1",
+        "des": "ind.IND10005.des1",
+        "img": "ind.IND10005.img1"
+      },
+      {
+        "title": "ind.IND10005.title2",
+        "des": "ind.IND10005.des2",
+        "img": "ind.IND10005.img2"
+      },
+      {
+        "title": "ind.IND10005.title3",
+        "des": "ind.IND10005.des3",
+        "img": "ind.IND10005.img3"
+      },
+      {
+        "title": "ind.IND10005.title4",
+        "des": "ind.IND10005.des4",
+        "img": "ind.IND10005.img4"
+      }
+    ],
+    "productComposition": {
+      "compositionTitle": "ind.composition",
+      "additivesTitle": "ind.additives",
+      "compositionDes": "ind.IND10005.Composition",
+      "additives": "ind.IND10005.Additives",
+      "analyticalConsitituentsDes": [
+        "ind.IND10005.proteinVal",
+        "ind.IND10005.fatContentVal",
+        "ind.IND10005.crudeAshVal",
+        "ind.IND10005.crudeFibreVal",
+        "ind.IND10005.PhosphorusVal",
+        "ind.IND10005.EPADHAVal"
+      ],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Phosphorus", "ind.EPADHA"]
+    }
+  },
+  "IND10006": {
+    "name": "Ageing 12+",
+    "recoSentence": "ind.IND10006.recoSentence",
+    "provenBenefits": [
+      {
+        "title": "ind.IND10006.title1",
+        "des": "ind.IND10006.des1",
+        "img": "ind.IND10006.img1"
+      },
+      {
+        "title": "ind.IND10006.title2",
+        "des": "ind.IND10006.des2",
+        "img": "ind.IND10006.img2",
+        "italicSentence": "ind.IND10006.italicSentence2"
+      },
+      {
+        "title": "ind.IND10006.title3",
+        "des": "ind.IND10006.des3",
+        "img": "ind.IND10006.img3"
+      },
+      {
+        "title": "ind.IND10006.title4",
+        "des": "ind.IND10006.des4",
+        "img": "ind.IND10006.img4"
+      }
+    ],
+    "productComposition": {
+      "compositionTitle": "ind.composition",
+      "additivesTitle": "ind.additives",
+      "compositionDes": "ind.IND10006.Composition",
+      "additives": "ind.IND10006.Additives",
+      "analyticalConsitituentsDes": [
+        "ind.IND10006.proteinVal",
+        "ind.IND10006.fatContentVal",
+        "ind.IND10006.crudeAshVal",
+        "ind.IND10006.crudeFibreVal",
+        "ind.IND10006.PhosphorusVal",
+        "ind.IND10006.PerVal",
+        "ind.IND10006.OmegaVal",
+        "ind.IND10006.LycopeneVal"
+      ],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Phosphorus", "ind.Per", "ind.Omega", "ind.Lycopene"]
+    }
+  },
+  "IND10007": {
+    "name": "Ageing 12+ Sterilized",
+    "recoSentence": "ind.IND10007.recoSentence",
+    "provenBenefits": [
+      {
+        "title": "ind.IND10007.title1",
+        "des": "ind.IND10007.des1",
+        "img": "ind.IND10007.img1"
+      },
+      {
+        "title": "ind.IND10007.title2",
+        "des": "ind.IND10007.des2",
+        "italicSentence": "ind.IND10007.italicSentence2",
+        "img": "ind.IND10007.img2"
+      },
+      {
+        "title": "ind.IND10007.title3",
+        "des": "ind.IND10007.des3",
+        "img": "ind.IND10007.img3"
+      },
+      {
+        "title": "ind.IND10007.title4",
+        "des": "ind.IND10007.des4",
+        "img": "ind.IND10007.img4"
+      }
+    ],
+    "productComposition": {
+      "compositionTitle": "ind.composition",
+      "additivesTitle": "ind.additives",
+      "compositionDes": "ind.IND10007.Composition",
+      "additives": "ind.IND10007.Additives",
+      "analyticalConsitituentsDes": [
+        "ind.IND10007.proteinVal",
+        "ind.IND10007.fatContentVal",
+        "ind.IND10007.crudeAshVal",
+        "ind.IND10007.crudeFibreVal",
+        "ind.IND10007.PhosphorusVal",
+        "ind.IND10007.PerVal",
+        "ind.IND10007.OmegaVal",
+        "ind.IND10007.LycopeneVal"
+      ],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Phosphorus", "ind.Per", "ind.Omega", "ind.Lycopene"]
+    }
+  }
+}

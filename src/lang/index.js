@@ -1,37 +1,41 @@
-import en_US from '@/lang/en_US';
-import es_ES from '@/lang/es_ES';
-import de_DE from '@/lang/de_DE';
-import fr_FR from '@/lang/fr_FR';
-import ru_RU from '@/lang/ru_RU';
-import tr_TR from '@/lang/tr_TR';
+/**
+ *
+ * Multi language has integrated to Phrase app flatform.
+ * https://app.phrase.com/
+ * minytang@deloitte.com.cn/Test1106,,,^^^^^^
+ *
+ */
 
-const ENUM_LANGFILE = {
-  en: en_US,
-  es: es_ES,
-  de: de_DE,
-  fr: fr_FR,
-  ru: ru_RU,
-  tr: tr_TR
-};
+import Axios from 'axios';
 
-// export default ENUM_LANGFILE;
+async function getDynamicLanguage() {
+  // key - 对应对应语言文件名
+  const key = window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
+  const sessionItemRoyal = window.__.sessionItemRoyal;
+  const phraseSession = sessionItemRoyal.get('PHRASE_LANGUAGE');
+  let phraseRet = {};
+  if (phraseSession) {
+    phraseRet = JSON.parse(phraseSession);
+  } else {
+    try {
+      const res = await Axios({
+        method: 'get',
+        url: `https://d2cshop.blob.core.windows.net/cdn/phrase/${
+          window.__.env.REACT_APP_PHRASE_BRANCH || 'master'
+        }/${key}.json`,
+        // 禁用缓存
+        headers: { 'Cache-Control': 'no-cache' }
+      });
+      sessionItemRoyal.set('PHRASE_LANGUAGE', JSON.stringify(res.data));
+      phraseRet = res.data;
+    } catch (err) {
+      console.log('phrase langugage fetch error', err);
+    } finally {
+    }
+  }
 
-// ENUM_LANGFILE[process.env.REACT_APP_LANG]
+  const language = Object.assign(phraseRet || {});
+  return language;
+}
 
-const locales = {
-  en: require('@/lang/en_US'),
-  es: require('@/lang/es_ES'),
-  de: require('@/lang/de_DE'),
-  fr: require('@/lang/fr_FR'),
-  ru: require('@/lang/ru_RU'),
-  tr: require('@/lang/tr_TR')
-};
-// const locales = {
-//   en: import(/*webpackChunkName: "h-w1*/'@/lang/en_US'),
-//   es: import(/*webpackChunkName: "h-w1*/'@/lang/es_ES'),
-//   de: import(/*webpackChunkName: "h-w1*/'@/lang/de_DE'),
-//   fr: import(/*webpackChunkName: "h-w1*/'@/lang/fr_FR'),
-//   ru: import(/*webpackChunkName: "h-w1*/'@/lang/ru_RU'),
-//   tr: import(/*webpackChunkName: "h-w1*/'@/lang/tr_TR')
-// };
-export default locales[process.env.REACT_APP_LANG].default;
+export { getDynamicLanguage };

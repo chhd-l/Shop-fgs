@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
 import './index.less';
 import Tooltip from '@/components/Tooltip';
-import redStar from './images/redStar.svg';
-import grayStar from './images/grayStar.svg';
-import oraStar from './images/oraStar.svg';
-import halfStar from './images/halfStar.png';
-import oraStar_active from './images/oraStar_active.svg';
-import LazyLoad from 'react-lazyload';
 export default class Rate extends Component {
-  state = {
-    count: this.props.number || 5,
-    num: this.props.def || 0,
-    disabled: this.props.disabled || false,
-    enter: 0,
-    leave: this.props.def || 0,
-    state: ['不满意', '满意', '超满意'],
-    tooltipStatus: false,
-    inActiveStar: grayStar,
-    activeStar: redStar,
-    halfStar: halfStar
+  static defaultProps = {
+    color: 'red' // red yellow
   };
-  componentDidMount = () => {
-    if (this.props.color === 'yellow') {
-      this.setState({ inActiveStar: oraStar, activeStar: oraStar_active });
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: this.props.number || 5,
+      num: this.props.def || 0,
+      disabled: this.props.disabled || false,
+      enter: 0,
+      leave: this.props.def || 0,
+      state: ['不满意', '满意', '超满意'],
+      tooltipStatus: false
+    };
+  }
   /** 数据更新前 */
   UNSAFE_componentWillUpdate = () => {
     this.showState();
@@ -45,19 +37,42 @@ export default class Rate extends Component {
       return state[1];
     }
   }
-  /** 数据更新后 */
-  componentDidUpdate = () => {};
   render() {
+    const { color } = this.props;
     let { count, num, enter, leave } = this.state;
     const t = /^(([^0][0-9]+|0)$)|^(([1-9]+)$)/; //整数
     const flag = !t.test(num);
     const numInt = parseInt(num);
     const tooltip = this.props.tooltip ? this.props.tooltip : null;
+
+    const activeStar =
+      color === 'red' ? (
+        <span className="iconfont text-rc-red rate__icon icongrayStar" />
+      ) : (
+        <span className="iconfont rate__icon yellow icongrayStar" />
+      );
+
+    const halfStar = (
+      <img
+        className="inline-block"
+        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/star.svg`}
+        alt="icons star"
+        style={{ width: '1.3rem', height: '1.3rem', verticalAlign: 'middle' }}
+      />
+    );
+
+    const inActiveStar =
+      color === 'red' ? (
+        <span className="iconfont rate__icon grey icongrayStar" />
+      ) : (
+        <span className="iconfont rate__icon grey icongrayStar1" />
+      );
     return (
       <div>
-        <div className="rate flex">
+        <div className="rate flex 1111111 items-center">
           {new Array(count).fill().map((item, index) => (
             <span
+              className="rate__icon__container"
               key={index}
               onClick={() => {
                 if (!this.state.disabled) {
@@ -89,43 +104,17 @@ export default class Rate extends Component {
               }}
             >
               {enter > index || num - 1 >= index ? (
-                // <span
-                //   className={`rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs ${this.props.marginSize}`}
-                //   disabled={this.state.disabled}
-                //   // style={{marginRight:this.props.marginSize}}
-                // ></span>
-                <LazyLoad>
-                <img src={this.state.activeStar} alt="" />
-                </LazyLoad>
+                <>{activeStar}</>
               ) : flag && index === numInt ? (
-                // <span
-                //   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star ${this.props.marginSize}`}
-                //   disabled={this.state.disabled}
-                //   // style={{marginRight:this.props.marginSize}}
-                // />
-                <LazyLoad>
-                <img src={this.state.halfStar} alt="" />
-                </LazyLoad>
+                <>{halfStar}</>
               ) : (
-                // <img src={redStar}/>
-                // <span
-                //   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs  ${this.props.marginSize}`}
-                //   style={{ opacity: '.5' }}
-                //   disabled={this.state.disabled}
-                // ></span>
-                <LazyLoad>
-                <img src={this.state.inActiveStar} alt="" />
-                </LazyLoad>
+                <>{inActiveStar}</>
               )}
             </span>
           ))}
         </div>
         {tooltip && this.state.tooltipStatus ? (
-          <Tooltip
-            // containerStyle={{ transform: 'translate(-89%, 89%)' }}
-            // arrowStyle={{ left: '120%' }}
-            content={tooltip}
-          />
+          <Tooltip content={tooltip} />
         ) : null}
       </div>
     );

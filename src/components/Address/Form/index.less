@@ -1,0 +1,65 @@
+// 解决文本框自动填充后背景蓝色黄色问题
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.rc_form_box {
+  .rc_row_line {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .rc-input__label {
+    &::before {
+      height: 2px !important;
+    }
+  }
+
+  .rc_input_textarea {
+    padding: .95rem;
+    resize: vertical;
+    min-height: 120px;
+    height: auto;
+    border-style: solid;
+    border-width: 2px;
+    display: block;
+    line-height: 1.5rem;
+    width: 100%;
+    margin-bottom: 0;
+    font-weight: 300;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #d7d7d7 !important;
+  }
+
+  .rc_first_noselect {
+    .choices__list.choices__list--dropdown {
+      .choices__item {
+        &:nth-child(1) {
+          cursor: not-allowed;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+}
+
+@media (max-width: 960px) {
+  .rc_form_box {
+    .choices {
+      max-width: 100% !important;
+    }
+  }
+}
+
+.rc-input__label::after {
+  background-color: #d7d7d7 !important;
+}

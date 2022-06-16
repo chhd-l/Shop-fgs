@@ -1,57 +1,37 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import image from '@/assets/images/500.png';
-import logo from '@/assets/images/logo--animated.png';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
+import { LOGO } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 
-const pageLink = window.location.href
 const event = {
   page: {
-    type: 'other',
+    type: 'error',
     theme: '',
     path: location.pathname,
     error: '',
     hitTimestamp: new Date(),
-    filters: '',
+    filters: ''
   }
 };
+@seoHoc()
 class Page500 extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    }
-  }
-  componentDidMount(){
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-  }
-  render(){
+  render() {
     return (
       <React.Fragment>
         {/* <Header showMiniIcons={true} location={this.props.location} /> */}
-        <GoogleTagManager additionalEvents={event}/>
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <LazyLoad>
-          <img
-            src={logo}
-            style={{ width: '150px', margin: '80px auto 20px' }}
-            alt=""
-          />
-        </LazyLoad>
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
+        <Canonical />
+        <div className="text-center mt-5">
+          <img src={LOGO} alt="" className="inline-block w-40 md:w-auto" />
+        </div>
+
         <div>
           <div className="container">
             <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
@@ -59,13 +39,13 @@ class Page500 extends React.Component {
                 <img
                   src={image}
                   style={{ width: '300px', margin: '0 auto' }}
-                  alt=""
+                  alt="Internet problem 500"
                 />
               </LazyLoad>
               <div className="rc-bg-colour--brand3">
                 <div className="rc-padding--sm rc-margin-bottom--xs">
                   <div className="rc-padding-y--md rc-md-down"></div>
-  
+
                   <div className="rc-layout-container rc-one-column rc-max-width--md">
                     <div className="rc-column">
                       <div className="rc-full-width rc-text--center rc-padding-x--sm">
@@ -80,12 +60,12 @@ class Page500 extends React.Component {
                       </div>
                     </div>
                   </div>
-  
+
                   <div className="rc-padding-y--md rc-md-down"></div>
                 </div>
               </div>
               {/* <Link
-                to="/home"
+                to="/"
                 className="rc-btn rc-btn--two"
                 role="button"
                 aria-pressed="true"
@@ -95,7 +75,7 @@ class Page500 extends React.Component {
             </div>
           </div>
         </div>
-  
+
         {/* <Footer /> */}
       </React.Fragment>
     );

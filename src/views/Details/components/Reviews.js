@@ -1,12 +1,14 @@
 import React from 'react';
 import Pagination from '@/components/Pagination';
 import Rate from '@/components/Rate';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details';
 import LazyLoad from 'react-lazyload';
 import '../index.css';
 import Skeleton from 'react-skeleton-loader';
-import { getDeviceType } from '@/utils/utils';
+import { getDeviceType, handleDateForIos } from '@/utils/utils';
+
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 @injectIntl
 class Reviews extends React.Component {
   static defaultProps = {
@@ -25,13 +27,11 @@ class Reviews extends React.Component {
       noData: true,
       showPicIndex: -1,
       imgList: -1,
-      total: 0,
-      isMobile: false
+      total: 0
     };
     this.handleDirectionClick = this.handleDirectionClick.bind(this);
   }
   componentDidMount() {
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
     this.state.id && this.getGoodsEvaluates(1, 5, null);
   }
 
@@ -105,6 +105,7 @@ class Reviews extends React.Component {
       default:
         break;
     }
+
     let res = await (this.props.isLogin
       ? getLoginGoodsEvaluate
       : getUnLoginGoodsEvaluate)(parmas);
@@ -115,7 +116,7 @@ class Reviews extends React.Component {
       if (list.length > 0) {
         list.forEach((item) => {
           item.commentator = item.customerName;
-          item.commentTime = new Date(item.evaluateTime)
+          item.commentTime = new Date(handleDateForIos(item.evaluateTime))
             .toGMTString()
             .split(' ')
             .splice(1, 3)
@@ -199,7 +200,15 @@ class Reviews extends React.Component {
   }
 
   render() {
-    const { data, imgList, showPicIndex, total, isMobile } = this.state;
+    const {
+      imgList,
+      showPicIndex,
+      total,
+      goodsEvaluatesList,
+      evaluatesCurrentPage,
+      valuatesTotalPages,
+      noData
+    } = this.state;
     return (
       <div>
         {showPicIndex >= 0 && imgList ? (
@@ -211,7 +220,7 @@ class Reviews extends React.Component {
               />
               <LazyLoad height={200}>
                 <img
-                  alt=""
+                  alt="artwork image"
                   style={{ maxWidth: '100%', maxHeight: '100%' }}
                   src={imgList[showPicIndex].artworkUrl}
                 />
@@ -230,7 +239,7 @@ class Reviews extends React.Component {
             <div className="Mask" onClick={this.handleCancelMask.bind(this)} />
           </div>
         ) : null}
-        {data && !data.noData ? (
+        {!noData ? (
           <div className="commentBox">
             {/* <div>
               <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
@@ -261,7 +270,7 @@ class Reviews extends React.Component {
                       <label
                         className="rc-select__label"
                         htmlFor="id-single-select"
-                        style={{ fontSize: '16px', top: '-1.6rem' }}
+                        style={{ fontSize: '1rem', top: '-1.6rem' }}
                       >
                         <FormattedMessage id="sortBy" />
                       </label>
@@ -289,11 +298,11 @@ class Reviews extends React.Component {
                       {this.state.loading ? (
                         <Skeleton color="#f5f5f5" width="100%" height="100%" />
                       ) : (
-                        data.goodsEvaluatesList.map((item, i) => (
+                        goodsEvaluatesList.map((item, i) => (
                           <div
                             className="rc-border-bottom rc-border-colour--interface"
                             key={i}
-                            style={{ paddingBottom: '20px' }}
+                            style={{ paddingBottom: '1.25rem' }}
                           >
                             <div className="rc-column padl0 padr0">
                               <div
@@ -323,7 +332,7 @@ class Reviews extends React.Component {
                               <div>
                                 <span
                                   style={{
-                                    fontSize: '14px',
+                                    fontSize: '.875rem',
                                     marginTop: '.3rem'
                                   }}
                                 >
@@ -340,7 +349,7 @@ class Reviews extends React.Component {
                                         return (
                                           <LazyLoad height={200}>
                                             <img
-                                              alt=""
+                                              alt="artwork image"
                                               className="rc-img--square rc-img--square-custom mr-1"
                                               src={img.artworkUrl}
                                               key={j}
@@ -378,9 +387,9 @@ class Reviews extends React.Component {
                     <div className="rc-column rc-margin-top--md">
                       <Pagination
                         loading={false}
-                        defaultCurrentPage={data.evaluatesCurrentPage}
-                        key={data.evaluatesCurrentPage}
-                        totalPage={data.valuatesTotalPages}
+                        defaultCurrentPage={evaluatesCurrentPage}
+                        key={evaluatesCurrentPage}
+                        totalPage={valuatesTotalPages}
                         onPageNumChange={this.hanldePageNumChange}
                       />
                     </div>

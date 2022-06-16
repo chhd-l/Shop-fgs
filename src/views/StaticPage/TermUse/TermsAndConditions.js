@@ -1,54 +1,20 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import BannerTip from '@/components/BannerTip';
-import { Helmet } from 'react-helmet';
 import './index.less';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
 
+@seoHoc()
 class TermUse extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    };
-  }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-  }
   render(h) {
     return (
       <div className="TermsAndConditions">
-      <Helmet>
-      <link rel="canonical" href={pageLink} />
-        <title>{this.state.seoConfig.title}</title>
-        <meta name="description" content={this.state.seoConfig.metaDescription}/>
-        <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-      </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
@@ -377,7 +343,8 @@ class TermUse extends React.Component {
                     - An ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring
                     2, 50674 Köln
                     <br />
-                    Tel.: +49 (0) 221 937060-610, Fax: +49 (0) 221 937060-800
+                    Tel.: +49 (0) 221 937060-650, Fax: +49 (0) 221 937060-820
+                    oder per E-Mail an service.de@royalcanin.com
                   </div>
                   <div className="pl-5 mt-3">
                     - Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*)
@@ -477,8 +444,8 @@ class TermUse extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

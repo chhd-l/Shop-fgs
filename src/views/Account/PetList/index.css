@@ -1,5 +1,5 @@
 .list-select-pet .name--select.active {
-  border: 10px solid #e2001a;
+  border: 0.625rem solid #e2001a;
 }
 .list-select-pet .name--select {
   line-height: 62px;
@@ -19,7 +19,7 @@
   overflow: hidden;
   position: relative;
   background: #f0f0f0;
-  padding: 20px 30px;
+  padding: 1.25rem 30px;
   margin-top: 1rem;
 }
 .pet-information .name-pet {
@@ -38,9 +38,9 @@
   z-index: 1;
 }
 .pet-information .pet-data li.breed.dog:before {
-  content: "";
+  content: '';
   background: url(./../../../assets/images/pet-dog.svg) no-repeat;
-  width: 21px;
+  width: 1.3125rem;
   height: 30px;
   background-size: 100%;
   margin: 0 auto;
@@ -49,9 +49,9 @@
   position: absolute;
 }
 .pet-information .pet-data li.breed.cat:before {
-  content: "";
+  content: '';
   background: url(./../../../assets/images/pet-cat.svg) no-repeat;
-  width: 21px;
+  width: 1.3125rem;
   height: 25px;
   background-size: 100%;
   margin: 0 auto;
@@ -60,12 +60,11 @@
   position: absolute;
 }
 
-
 .pet-information .pet-data li.birth:before {
-  content: "";
+  content: '';
   background: url(./../../../assets/images/birth-pet.svg) no-repeat;
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   background-size: 100%;
   margin: 0 auto;
   left: 0;
@@ -74,7 +73,7 @@
 }
 .pet-information .pet-data li.gender.female:before,
 .pet-information .pet-data li.gender.male:before {
-  content: "";
+  content: '';
   position: absolute;
   -webkit-transform: scale(1.2);
   transform: scale(1.2);
@@ -96,34 +95,34 @@
   background-image: url(./../../../assets/images/royal-canin-sprite.svg);
 }
 .pet-information .pet-data li.weight:before {
-  content: "";
+  content: '';
   background: url(./../../../assets/images/weigh-pet.svg) no-repeat;
-  width: 21px;
+  width: 1.3125rem;
   height: 30px;
   background-size: 100%;
   margin: 0 auto;
   left: 0;
-  top: 10px;
+  top: 0.625rem;
   position: absolute;
 }
 .pet-information .list-special-need li {
   padding: 7px;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: #d7d7d7;
   display: block;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 .pet-information .list-special-need {
   list-style: none;
   padding: 0;
   font-size: 1rem;
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 .pet-information .pet-data li {
-  padding: 10px;
+  padding: 0.625rem;
   padding-left: 30px;
   position: relative;
   text-transform: capitalize;
@@ -131,17 +130,17 @@
 .pet-information .edit {
   position: absolute;
   overflow: hidden;
-  right: 20px;
-  top: 20px;
+  right: 1.25rem;
+  top: 1.25rem;
   background: #dadada;
-  padding: 10px;
+  padding: 0.625rem;
   border-radius: 50%;
   cursor: pointer;
-  margin-right:0;
+  margin-right: 0;
 }
 .pet-information .delete {
   position: absolute;
-  right: 20px;
+  right: 1.25rem;
   top: 90px;
   width: 50px;
   height: 50px;

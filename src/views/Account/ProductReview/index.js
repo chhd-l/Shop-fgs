@@ -1,4 +1,4 @@
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -8,27 +8,19 @@ import SideMenu from '@/components/SideMenu';
 import BannerTip from '@/components/BannerTip';
 import Rate from '@/components/Rate';
 import ReviewForm from './components/ReviewForm';
-import { getGoodsList, addGoodsEvaluate } from '@/api/review';
+import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 //import ReviewList from './components/ReviewList';
-//import ImgUpload from '@/components/ImgUpload';
-import './index.css';
 import Skeleton from 'react-skeleton-loader';
-//import { Link } from 'react-router-dom';
-import { setSeoConfig } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
-
-const pageLink = window.location.href
+import { myAccountActionPushEvent } from '@/utils/GA';
+import { seoHoc } from '@/framework/common';
+import { Canonical } from '@/components/Common';
 
 @injectIntl
+@seoHoc()
 class ProductReview extends React.Component {
   constructor() {
     super();
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       orderId: 0,
       productList: [],
       purchaseRate: 0,
@@ -57,9 +49,6 @@ class ProductReview extends React.Component {
         this.getGoodsList(this.state.orderId);
       }
     );
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
   }
   showErrMsg(msg) {
     this.setState({
@@ -99,23 +88,19 @@ class ProductReview extends React.Component {
     this.setState({
       loading: false
     });
-    if ((res.code = 'K-000000')) {
-      const productList = res.context;
-      const list = [];
-      if (productList.length > 0) {
-        productList.forEach((item) => {
-          let obj = {
-            id: item.skuId
-          };
-          list.push(obj);
-        });
-        this.setState({
-          productList: productList,
-          reviewList: list
-        });
-      }
-    } else {
-      console.log(res.message);
+    const productList = res.context;
+    const list = [];
+    if (productList.length > 0) {
+      productList.forEach((item) => {
+        let obj = {
+          id: item.skuId
+        };
+        list.push(obj);
+      });
+      this.setState({
+        productList: productList,
+        reviewList: list
+      });
     }
   }
   handleSubmit = async () => {
@@ -163,7 +148,9 @@ class ProductReview extends React.Component {
             goodsEvaluateImageList: item.goodsEvaluateImageList
               ? item.goodsEvaluateImageList
               : [],
-            evaluateReviewTitle: item.title
+            evaluateReviewTitle: item.title,
+            // 服务类型产品 1  普通产品 0
+            goodsTypeRelateEvaluate: 0
           };
           goodsParams.push(obj);
         });
@@ -268,6 +255,7 @@ class ProductReview extends React.Component {
     });
   }
   handleImgChange(imgRef, product) {
+    myAccountActionPushEvent('Add picture');
     const list = this.state.reviewList;
     if (list.length > 0) {
       let imgsParam = [];
@@ -299,20 +287,12 @@ class ProductReview extends React.Component {
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -363,7 +343,7 @@ class ProductReview extends React.Component {
                                   className="rc-font-bold"
                                   style={{ fontWeight: '500' }}
                                 >
-                                  <FormattedMessage id="purchaseRating"></FormattedMessage>
+                                  <FormattedMessage id="purchaseRating" />
                                 </span>
                               </span>
                               <div className="rc-margin-top--xs">
@@ -390,7 +370,7 @@ class ProductReview extends React.Component {
                                   className="rc-font-bold"
                                   style={{ fontWeight: '500' }}
                                 >
-                                  <FormattedMessage id="logisticsRating"></FormattedMessage>
+                                  <FormattedMessage id="logisticsRating" />
                                 </span>
                               </span>
                               <div className="rc-margin-top--xs">
@@ -407,7 +387,7 @@ class ProductReview extends React.Component {
                       </div>
                     </div>
 
-                    <div className="rc-layout-container rc-three-column">
+                    <div className="rc-border-bottom rc-border-colour--interface">
                       {/*<div className="rc-column rc-triple-width pad-left0 pad-right0">*/}
                       {/*    <ReviewList update={this.updateCurrent} />*/}
                       {/*</div>*/}
@@ -448,27 +428,27 @@ class ProductReview extends React.Component {
                               />
                             ))
                           : null}
-                        {this.state.productList.length > 0 ? (
-                          <div className="rc-padding-top--sm">
-                            <button
-                              className="rc-btn rc-btn--sm rc-btn--two"
-                              name="contactPreference"
-                              type="submit"
-                              onClick={this.handleSubmit}
-                            >
-                              <FormattedMessage id="submit" />
-                            </button>
-                          </div>
-                        ) : null}
                       </div>
                     </div>
+                    {this.state.productList.length > 0 ? (
+                      <div className="rc-padding-top--sm">
+                        <button
+                          className="rc-btn rc-btn--sm rc-btn--two"
+                          name="contactPreference"
+                          type="submit"
+                          onClick={this.handleSubmit}
+                        >
+                          <FormattedMessage id="submit" />
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
                 )}
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

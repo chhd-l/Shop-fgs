@@ -3,51 +3,54 @@ import { inject, observer } from 'mobx-react';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
-import { setSeoConfig } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
+import { doGetGAVal } from '@/utils/GA';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import { seoHoc } from '@/framework/common';
+import { Canonical } from '@/components/Common';
 
-const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
-@inject('loginStore', 'configStore')
+@inject('loginStore', 'configStore', 'checkoutStore')
+@seoHoc()
 @observer
 class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
-    }
+      pet: {}
+    };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
+  UNSAFE_componentWillMount() {
+    isHubGA && this.getPetVal();
   }
-  componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+  getPetVal() {
+    let obj = doGetGAVal(this.props);
+    this.setState({ pet: obj });
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
   render() {
     const { configStore, history, match } = this.props;
+    const event = {
+      page: {
+        type: 'Cart',
+        theme: '',
+        path: history.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      },
+      pet: this.state.pet
+    };
+
     return (
       <>
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-            <title>{this.state.seoConfig.title}</title>
-            <meta name="description" content={this.state.seoConfig.metaDescription}/>
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
+        <Canonical />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         {this.isLogin ? (
           <LoginCart
             history={history}

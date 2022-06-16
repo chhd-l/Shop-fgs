@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.less';
-import { customerInfoSave } from '@/api/landing';
+import { customerInfoSave } from '@/api/staticPageApi';
 import Loading from '@/components/Loading';
-import { setSeoConfig } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
+import { Link } from 'react-router-dom';
+import { Canonical } from '@/components/Common';
+import { LOGO_PRIMARY } from '@/utils/constant';
 
-const pageLink = window.location.href
-
+@seoHoc()
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -20,11 +18,7 @@ class Landing extends Component {
       showSuccess: false,
       showFail: false,
       errMessage: '',
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
+
       inputType: [
         { name: 'Nombre', value: '', isRequired: true }, //姓名
         { name: 'Nombre de clínica', value: '', isRequired: true }, //诊所名字
@@ -67,20 +61,18 @@ class Landing extends Component {
         email,
         storeId: 123456858
       });
-      if (res.code === 'K-000000') {
-        this.setState(
-          {
-            showSuccess: true
-          },
-          () => {
-            setTimeout(() => {
-              this.setState({
-                showSuccess: false
-              });
-            }, 3000);
-          }
-        );
-      }
+      this.setState(
+        {
+          showSuccess: true
+        },
+        () => {
+          setTimeout(() => {
+            this.setState({
+              showSuccess: false
+            });
+          }, 3000);
+        }
+      );
     } catch (err) {
       this.setState(
         {
@@ -121,9 +113,6 @@ class Landing extends Component {
     );
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
     this.cal_clientWidth(document.body.clientWidth);
   }
   render() {
@@ -138,13 +127,12 @@ class Landing extends Component {
     };
     return (
       <div className="landing-wrap">
-        <GoogleTagManager additionalEvents={event} GTMID="GTM-NR3FWTQ" />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+          GTMID="GTM-NR3FWTQ"
+        />
+        <Canonical />
         {this.state.loading ? <Loading /> : null}
         <div className="rc-three-column">
           <div className="rc-column rc-double-width borderRight videoPadding">
@@ -164,10 +152,7 @@ class Landing extends Component {
 
             {/* go to shop按钮 */}
             <div style={{ textAlign: 'center', marginTop: '-31px' }}>
-              <Link
-                className="rc-btn rc-btn rc-btn--one"
-                to="/home"
-              >
+              <Link to="/" className="rc-btn rc-btn rc-btn--one">
                 Conoce la Tienda
               </Link>
             </div>
@@ -177,8 +162,8 @@ class Landing extends Component {
               style={{
                 textAlign: 'justify',
                 color: '#000',
-                fontSize: '14px',
-                margin: '20px'
+                fontSize: '.875rem',
+                margin: '1.25rem'
               }}
             >
               Te presentamos la innovación de Royal Canin México, eVet. La
@@ -214,24 +199,16 @@ class Landing extends Component {
               <div className="rc-column rc-quad-width">
                 {/* logo */}
                 <Link
-                  to="/home"
+                  to="/"
                   className="header__nav__brand logo-home"
                   style={{ marginTop: '40px' }}
                 >
-                  <span className="rc-screen-reader-text"></span>
-                  <LazyLoad>
+                  <span className="rc-screen-reader-text" />
                   <img
-                    alt="Royal Canin"
-                    src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                    style={{
-                      background:
-                        'url(' + logoAnimatedPng + ') no-repeat center center',
-                      width: '105px',
-                      height: '50px',
-                      backgroundSize: 'cover'
-                    }}
+                    src={LOGO_PRIMARY}
+                    alt="Royal Canin Flagship Store"
+                    className="w-40 md:w-auto"
                   />
-                  </LazyLoad>
                 </Link>
                 <div className="form-margin-top">
                   {/* form */}

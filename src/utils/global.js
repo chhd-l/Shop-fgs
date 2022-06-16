@@ -1,26 +1,29 @@
-import store from 'storejs'
+import store from 'storejs';
+import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 
-window.__ = {
+const countryLink = getCountryCodeFromHref()?.countryLink;
+
+window.__ = Object.assign(window.__ || {}, {
   sessionItemRoyal: {
     set(key, val) {
-      sessionStorage.setItem(`${process.env.REACT_APP_LANG}-${key}`, val);
+      sessionStorage.setItem(`${countryLink}-${key}`, val);
     },
     get(key) {
-      return sessionStorage.getItem(`${process.env.REACT_APP_LANG}-${key}`);
+      return sessionStorage.getItem(`${countryLink}-${key}`);
     },
     remove(key) {
-      sessionStorage.removeItem(`${process.env.REACT_APP_LANG}-${key}`);
+      sessionStorage.removeItem(`${countryLink}-${key}`);
     }
   },
   localItemRoyal: {
     set(key, val) {
-      store.set(`${process.env.REACT_APP_LANG}-${key}`, val);
+      store.set(`${countryLink}-${key}`, val);
     },
     get(key) {
-      return store.get(`${process.env.REACT_APP_LANG}-${key}`);
+      return store.get(`${countryLink}-${key}`);
     },
     remove(key) {
-      store.remove(`${process.env.REACT_APP_LANG}-${key}`);
+      store.remove(`${countryLink}-${key}`);
     }
   }
-};
+});

@@ -1,0 +1,15 @@
+.bingo {
+  display: inline-block !important;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  @apply bg-rc-red rounded-full;
+  text-align: center;
+  /* background: url('./image/bingo.png') no-repeat;
+  background-size: 24px auto;
+  background-position: center center; */
+}
+.bingo::after {
+  @apply text-white;
+  content: '\ec9e';
+}

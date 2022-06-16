@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.less';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
@@ -10,103 +10,83 @@ import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
-import Selection from '@/components/Selection';
+import { funcUrl } from '@/lib/url-utils';
+import SubDetailHeader from './components/SubDetailHeader';
+import SubGoodsInfos from './components/SubGoodsInfos';
+import UserPaymentInfo from './components/UserPaymentInfo';
+import RemainingsList from './components/RemainingsList';
+import DeliveryList from './components/DeliveryList';
+import Loading from '@/components/Loading';
+import { getDeliveryDateAndTimeSlot, checkPickUpActive } from '@/api/address';
+
 import {
-  getDictionary,
-  dynamicLoadCss,
-  getDeviceType,
-  getFrequencyDict,
-  getFormatDate,
-  datePickerConfig,
-  formatMoney,
-  setSeoConfig
+  getRation,
+  handleDateForIos,
+  findKeyFromObject,
+  getDeviceType
 } from '@/utils/utils';
-import DatePicker from 'react-datepicker';
-import cancelIcon from './images/cancel.png';
-import skipIcon from './images/skip.png';
-import dateIcon from './images/date.png';
-import deliveryIcon from './images/deliveryAddress.png';
-import billingIcon from './images/billingAddress.png';
-import paymentIcon from './images/payment.png';
+import GiftList from './components/GiftList';
 import { Link } from 'react-router-dom';
 import {
-  ORDER_STATUS_ENUM,
-  CREDIT_CARD_IMG_ENUM
-  // CREDIT_CARD_IMGURL_ENUM
-} from '@/utils/constant';
-import {
   updateDetail,
-  getAddressDetail,
   getSubDetail,
   skipNextSub,
   cancelAllSub,
   orderNowSub,
-  getPromotionPrice,
-  updateNextDeliveryTime
+  updateNextDeliveryTime,
+  checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
-import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
-import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
-import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import OngoingOrder from './components/OngoingOrder';
+import TempolineAPIError from './components/TempolineAPIError';
+import { format } from 'date-fns';
+import { seoHoc } from '@/framework/common';
+import { DivWrapper } from './style';
+import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
+import { SuccessMessage, ErrorMessage } from '@/components/Message';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
-@inject('checkoutStore', 'loginStore')
+@inject('configStore', 'paymentStore')
 @injectIntl
+@seoHoc('Subscription Page')
+@observer
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //订阅购物车参数
-      subTotal: 0,
-      subShipping: 0,
-      promotionDiscount: 0,
-      promotionDesc: '',
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+      triggerShowAddNewPet: false,
+      petType: '',
+      errMsgPage: '',
+      productListLoading: false,
+      loadingPage: false,
+      timeSlotArr: [],
+      triggerShowChangeProduct: {
+        goodsInfo: [],
+        firstShow: false,
+        isShowModal: false,
+        showBox: false // 只有一个商品的情况下都需要添加被动更换商品
       },
-      subTradeTotal: 0,
+      currentChangeProductIdx: 0, // 默认只有一个产品时，设置change product idx为0
+      isGift: false,
+      remainingsList: [],
+      remainingsVisible: false,
       //订阅购物车参数
-      discount: [], //促销码的折扣信息汇总
-      promotionInputValue: '', //输入的促销码
-      isClickApply: false, //是否点击apply按钮
       lastPromotionInputValue: '', //上一次输入的促销码
-      isShowValidCode: false, //是否显示无效promotionCode
       subDetail: {},
       loading: false,
       subId: 0,
       selectedTime: 'Every 4 weeks',
       nextOrderTime: '2020-18-06',
-      productName: 'Glycobalance Feline',
-      productPrice: '$46.54',
-      totalMoney: 10,
-      shipping: 'FREE',
-      totalRealPay: 0,
-      shippingAddress: {
-        name: 'George Guo',
-        address: 'TESTST',
-        code: '2929292',
-        addressType: 'SNSN,CO 27272'
-      },
-      billingAddress: {
-        name: 'George Guo',
-        address: 'TESTST',
-        code: '2929292',
-        addressType: 'SNSN,CO 27272'
-      },
       payment: {
         name: 'George Guo',
         card: '00000008',
         type: 'CREDIT',
         cardImg: visaImg
       },
-      isChangeQuatity: false,
       type: 'main',
       currentCardInfo: {
         id: 'PM202007100416145447',
@@ -133,51 +113,46 @@ class SubscriptionDetail extends React.Component {
         countryId: 6
       },
       addressType: '',
-      countryList: [],
-      frequencyList: [],
-      orderOptions: [],
       modalShow: false,
-      currentGoodsInfo: [],
       modalList: [
         {
-          title: this.props.intl.messages.modalSkipTitle,
-          content: this.props.intl.messages.modalSkipContent,
+          title: 'modalSkipTitle',
+          content: 'modalSkipContent',
           type: 'skipNext'
         },
         {
-          title: this.props.intl.messages.modalCancelAllTitle,
-          content: this.props.intl.messages.modalCancelAllContent,
+          title: 'modalCancelAllTitle',
+          content: 'modalCancelAllContent',
           type: 'cancelAll'
         },
         {
-          title: this.props.intl.messages.modalOrderNowTitle,
-          content: this.props.intl.messages.modalOrderNowContent,
+          title: 'modalOrderNowTitle',
+          content: 'modalOrderNowContent',
           type: 'orderNow'
         },
         {
-          title: this.props.intl.messages.modalChangeDateTitle,
-          content: this.props.intl.messages.modalChangeDateContent,
+          title: 'modalChangeDateTitle',
+          content: 'modalChangeDateContent',
           type: 'changeDate'
+        },
+        {
+          title: 'modalChangeTimeTitle',
+          content: 'modalChangeTimeContent',
+          type: 'changeTime'
         }
       ],
       currentModalObj: {
-        title: this.props.intl.messages.modalSkipTitle,
-        content: this.props.intl.messages.modalSkipContent,
+        title: 'modalSkipTitle',
+        content: 'modalSkipContent',
         type: 'skipNext'
       },
       modalType: '',
-      errorShow: false,
       errorMsg: '',
-      successTipVisible: false,
+      pickupNoActiveErrMsg: false,
+      successMsg: '',
       minDate: new Date(),
-      maxDate: new Date(),
-      todaydate: new Date(),
-      tabName: [
-        this.props.intl.messages.noStart,
-        this.props.intl.messages.completed
-      ],
+      tabName: [],
       activeTabIdx: 0,
-      isMobile: false,
       noStartYearOption: [],
       completedYearOption: [],
       noStartYear: {
@@ -187,68 +162,33 @@ class SubscriptionDetail extends React.Component {
         value: ''
       },
       isActive: false,
-      isDataChange: false
+      isNotInactive: false,
+      isDataChange: false,
+      petName: '', //订阅单的petName
+      tempolineError: '',
+      jpSlotTime: {},
+      slotTimeChanged: false
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
 
-  async componentDidMount() {
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
-    await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res
-      });
-    });
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-
-    await this.getDetail();
-
-    await this.doGetPromotionPrice();
-
-    this.setState({
-      subId: this.props.match.params.subscriptionNumber
-    });
-  }
-  get frequencyListOptions() {
-    return this.state.frequencyList.map((ele) => {
-      ele && delete ele.value;
-      return {
-        value: ele.id,
-        ...ele
-      };
-    });
-  }
-  changeTab(e, i) {
-    this.setState({ activeTabIdx: i });
-  }
-  onDateChange(date, goodsInfo) {
-    let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
-    let param = {
+  paymentSave = (el) => {
+    const { subDetail } = this.state;
+    const param = {
       subscribeId: subDetail.subscribeId,
-      nextDeliveryTime: subDetail.nextDeliveryTime,
-      goodsItems: goodsInfo
+      paymentId: el.id,
+      goodsItems: subDetail.goodsInfo?.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId,
+          nextDeliveryTime: el.nextDeliveryTime
+        };
+      }),
+      changeField: 'paymentMethod',
+      payPspItemEnum: el.payPspItemEnum || el.paymentItem
     };
     this.setState({ loading: true });
-    updateNextDeliveryTime(param)
+    updateDetail(param)
       .then((res) => {
         this.getDetail(
           this.showErrMsg.bind(
@@ -261,233 +201,414 @@ class SubscriptionDetail extends React.Component {
       .catch((err) => {
         this.setState({ loading: false });
       });
-    // updateDetail(param)
-    //   .then((res) => {
-    //     // this.setState({ loading: false });
-    //     // window.location.reload();
-    //     this.getDetail(
-    //       this.showErrMsg.bind(
-    //         this,
-    //         this.props.intl.messages.saveSuccessfullly,
-    //         'success'
-    //       )
-    //     );
-    //   })
-    //   .catch((err) => {
-    //     this.setState({ loading: false });
-    //   });
+    this.setState({ type: 'main', currentCardInfo: el });
+  };
+
+  cancelEdit = () => {
+    this.setState({ type: 'main' });
+  };
+
+  // 返回某个地方
+  scrollToWhere = (str) => {
+    let pstit = document.getElementById(str);
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  showTempolineError = (msg) => {
+    this.setState({ tempolineError: msg });
+    setTimeout(() => {
+      this.setState({ tempolineError: '' });
+    }, 5000);
+  };
+
+  addressSave = (el, isBillSame, fn) => {
+    const { subDetail } = this.state;
+    const { intl } = this.props;
+    let changeField = '';
+    this.scrollToWhere('page-top');
+    // console.log('this.state.addressType:', this.state.addressType);
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      goodsItems: subDetail.goodsInfo.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId,
+          nextDeliveryTime: el.nextDeliveryTime
+        };
+      })
+    };
+    if (this.state.addressType === 'delivery') {
+      param.deliveryAddressId = el.deliveryAddressId;
+      if (isBillSame) {
+        param.billingAddressId = el.deliveryAddressId;
+      }
+      //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
+      changeField = intl.messages['subscription.shippingAddress'];
+      if (param.billingAddressId) {
+        changeField =
+          changeField + ',' + intl.messages['subscription.BillingAddress'];
+      }
+    } else {
+      param.billingAddressId = el.deliveryAddressId;
+      changeField = intl.messages['subscription.BillingAddress'];
+    }
+    param.changeField = changeField;
+    this.setState({ loading: true });
+    updateDetail(param)
+      .then((res) => {
+        fn && fn();
+        this.getDetail(
+          this.showErrMsg.bind(
+            this,
+            this.props.intl.messages.saveSuccessfullly,
+            'success'
+          )
+        );
+        if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+          this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+        }
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+      });
+    if (this.state.addressType === 'delivery') {
+      this.setState({
+        type: 'main',
+        currentDeliveryAddress: el
+      });
+    } else {
+      this.setState({
+        type: 'main',
+        currentBillingAddress: el
+      });
+    }
+  };
+
+  componentDidMount() {
+    this.setState({
+      subId: this.props.match.params.subscriptionNumber
+    });
+    this.initPage();
   }
-  //订阅数量更改
-  async onQtyChange() {
+  doCheckPickUpActive = async (deliveryAddressId) => {
     try {
-      // this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-      //await this.doUpdateDetail(param)
-      await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
-      this.setState({ isDataChange: true });
-      //await this.getDetail()
+      const res = await checkPickUpActive({ deliveryAddressId });
+      if (res.context.pickupPointState === false) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        this.setState({
+          //errorMsg: this.props.intl.messages.pickUpNoActive,
+          pickupNoActiveErrMsg: this.props.intl.messages.pickUpNoActive
+        });
+      } else {
+        this.setState({
+          pickupNoActiveErrMsg: ''
+        });
+      }
     } catch (err) {
-      this.showErrMsg(err.message);
+      console.log(err);
+    }
+  };
+  initPage = (isAddedPet) => {
+    let { search } = this.props.history.location;
+    search = search && decodeURIComponent(search);
+    let needBindPet =
+      funcUrl({ name: 'needBindPet' }) ||
+      this.props.location.state?.needBindPet;
+    this.getDetail(() => {
+      if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+        this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+      }
+      // 邮件展示需要绑定宠物
+      needBindPet && this.setState({ triggerShowAddNewPet: true });
+      let goodsInfo = [...this.state.subDetail.goodsInfo];
+      let isIndv =
+        this.state.subDetail.subscriptionType === 'Individualization';
+      // 非激活状态就不展示
+      // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
+      !isIndv &&
+        goodsInfo?.length === 1 &&
+        this.state.subDetail.petsLifeStageFlag === 1 &&
+        this.state.isNotInactive &&
+        this.setState({
+          triggerShowChangeProduct: {
+            firstShow: true,
+            showBox: true,
+            goodsInfo,
+            isShowModal: false
+          }
+        });
+      !isIndv &&
+        goodsInfo?.length == 1 &&
+        this.state.isNotInactive &&
+        isAddedPet &&
+        this.setState({
+          triggerShowChangeProduct: {
+            firstShow: !this.state.triggerShowChangeProduct.firstShow,
+            showBox: false,
+            goodsInfo,
+            isShowModal: true
+          }
+        });
+    });
+  };
+
+  changeTab = (e, i) => {
+    this.setState({ activeTabIdx: i });
+  };
+
+  async onDateChange(date, goodsInfo, isUpdateTimeslot) {
+    let { subDetail } = this.state;
+    subDetail.nextDeliveryTime = format(
+      new Date(handleDateForIos(date)),
+      'yyyy-MM-dd'
+    );
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      nextDeliveryTime: subDetail.nextDeliveryTime,
+      goodsItems: goodsInfo,
+      changeField: 'Next Delivery Time'
+    };
+    this.setState({ loading: true });
+    try {
+      await updateNextDeliveryTime(param);
+      if (isUpdateTimeslot) {
+        this.getDeliveryDateAndTimeSlotData();
+      } else {
+        this.getDetail(
+          this.showErrMsg.bind(
+            this,
+            this.props.intl.messages.saveSuccessfullly,
+            'success'
+          )
+        );
+      }
+    } catch (err) {
+      this.setState({ loading: false });
     }
   }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
+
   async doUpdateDetail(param) {
     try {
       this.setState({ loading: true });
       await updateDetail(param);
     } catch (err) {
-      throw new Error(err.message);
+      throw new Error(err);
     } finally {
       this.setState({ loading: false });
     }
   }
-  getMinDate(nextDeliveryTime) {
-    let time = new Date(nextDeliveryTime);
-    if (
-      time.getTime() - 14 * 24 * 60 * 60 * 1000 >
-      this.state.minDate.getTime() + 24 * 60 * 60 * 1000
-    ) {
-      return new Date(time.getTime() - 14 * 24 * 60 * 60 * 1000);
-    } else {
-      return new Date(this.state.minDate.getTime() + 24 * 60 * 60 * 1000);
-    }
-  }
+
+  getMinDate = (nextDeliveryTime) => {
+    return new Date(this.state.minDate.getTime() + 1 * 24 * 60 * 60 * 1000);
+  };
+
   getMaxDate(nextDeliveryTime) {
     return new Date(
-      new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
+      new Date(handleDateForIos(nextDeliveryTime)).getTime() +
+        14 * 24 * 60 * 60 * 1000
     );
   }
-  async getDetail(fn) {
+
+  getGoodsRations = async (subDetail, isIndv) => {
+    let petsId = subDetail.petsInfo?.petsId;
+    return subDetail.petsInfo;
+  };
+
+  getDetail = async (fn) => {
+    const { setSubscriptionDetail } = this.props.paymentStore;
+
     try {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
-      let subDetail = res.context;
+      setSubscriptionDetail(res.context.goodsInfo);
+
+      let subDetail = res.context || {};
+      const subscribeStatusVal =
+        SUBSCRIBE_STATUS_ENUM[subDetail.subscribeStatus];
       let noStartYear = {};
       let completedYear = {};
       let noStartYearOption = [];
       let completedYearOption = [];
+      let petsType = '';
+      let isIndv = subDetail.subscriptionType == 'Individualization';
+      const isShowClub =
+        subDetail.subscriptionType?.toLowerCase().includes('club') ||
+        subDetail.subscriptionType?.toLowerCase().includes('individualization');
+      subDetail.goodsInfo =
+        subDetail.goodsInfo?.map((item) => {
+          if (isIndv) {
+            item.spuName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: item.petsName }}
+              />
+            );
+            item.num = 1;
+            item.goodsName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: subDetail?.petsInfo?.petsName }}
+              />
+            );
+          }
+          item.oldSubscribeNum = item.subscribeNum;
+          item.oldPeriodTypeId = item.periodTypeId;
+          item.canDelete =
+            subDetail.goodsInfo.length > 1 && subscribeStatusVal === 'ACTIVE';
+          item.confirmTooltipVisible = false;
+          return item;
+        }) || []; //防止商品被删报错
+      // change product状态
+      const cPStatus = isShowClub && !isIndv && subscribeStatusVal === 'ACTIVE';
+      subDetail.canChangeProduct = cPStatus;
+      // 多个商品时，change product按钮放在商品行
+      subDetail.canChangeProductAtGoodsLine =
+        cPStatus && subDetail?.goodsInfo?.length > 1;
+      // 单个商品时，change product按钮放在外边
+      subDetail.canChangeProductAtOuterBox =
+        cPStatus && subDetail?.goodsInfo?.length == 1;
+      const isCat =
+        subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
+        'Cat';
+      const isDog =
+        subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/dog/i)) &&
+        'Dog';
+      petsType = isCat || isDog || 'CatAndDog';
+
       let completeOption = new Set(
         (subDetail.completedTradeList || []).map((el) => {
           return el.tradeState.createTime.split('-')[0];
         })
       );
       let noStartOption = new Set(
-        subDetail.noStartTradeList.map((el) => {
+        (subDetail.noStartTradeList || []).map((el) => {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
+      subDetail.noStartTradeList?.forEach((el) => {
+        el.tradeItems.forEach((item) => {
+          item.num = isIndv ? 1 : item.num;
+        });
+      });
+      let petsId = subDetail.petsInfo?.petsId;
+      if (petsId) {
+        if (isIndv) {
+          subDetail.goodsInfo.map((item) => {
+            item.petsRation = Math.round(item.subscribeNum / 30) + 'g/jour';
+            // return item;
+          });
+        } else {
+          let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
+          // get rations
+          let rationsParams = { petsId, spuNoList };
+          let rations = [];
+          try {
+            // 不能删除trycatch 该接口有问题会影响后续流程
+            let rationRes = await getRation(rationsParams);
+            rations = rationRes?.context?.rationResponseItems;
+            subDetail.goodsInfo?.forEach((el) => {
+              rations?.forEach((ration) => {
+                if (el.spuNo == ration.mainItem) {
+                  el.petsRation = `${Math.round(ration.weight)}${
+                    ration.weightUnit
+                  }/${this.props.intl.messages['day-unit']}`;
+                }
+              });
+            });
+            // return subDetail.goodsInfo;
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });
       completedYear = {
         value: (completedYearOption[0] && completedYearOption[0]['value']) || ''
       };
+
       noStartOption.forEach((el) => {
         noStartYearOption.push({ name: el, value: el });
       });
-      noStartYear = {
-        value: noStartYearOption[0]['value'],
-        name: noStartYearOption[0]['value']
-      };
-
-      subDetail.goodsInfo = subDetail.goodsInfo.map((el) => {
-        let filterData =
-          this.frequencyListOptions.filter(
-            (item) => item.id === el.periodTypeId
-          )[0] || this.frequencyListOptions[0];
-        // el.periodTypeValue = filterData.valueEn;
-        return el;
-      });
-      let orderOptions = (subDetail.trades || []).map((el) => {
-        let orderStatus =
-          ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState;
-        return { value: el.id, name: el.id + ' ' + orderStatus };
-      });
-
-      let now = new Date(res.defaultLocalDateTime);
-      now.setDate(now.getDate() + 4);
-      let cityRes = await queryCityNameById({
-        id: [subDetail.consignee.cityId, subDetail.invoice.cityId]
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      subDetail.consignee.cityName = this.matchCityName(
-        cityRes,
-        subDetail.consignee.cityId
-      );
-      subDetail.invoice.cityName = this.matchCityName(
-        cityRes,
-        subDetail.invoice.cityId
-      );
-      let tempCardInfo;
-      if (subDetail.paymentInfo) {
-        const adyenPaymentMethod = subDetail.paymentInfo.adyenPaymentMethod;
-        const payuPaymentMethod = subDetail.paymentInfo.payuPaymentMethod;
-        if (adyenPaymentMethod) {
-          tempCardInfo = {
-            paymentMethod: {
-              vendor: adyenPaymentMethod.name,
-              last_4_digits: adyenPaymentMethod.lastFour,
-              holder_name: adyenPaymentMethod.holderName
-            },
-            phoneNumber: adyenPaymentMethod.phoneNumber
-          };
-        } else if (payuPaymentMethod) {
-          tempCardInfo = {
-            paymentMethod: {
-              vendor: payuPaymentMethod.vendor,
-              last_4_digits: payuPaymentMethod.last_4_digits,
-              holder_name: payuPaymentMethod.holder_name
-            },
-            phoneNumber: subDetail.paymentInfo.phoneNumber
-          };
-        }
-        if (subDetail.paymentInfo.paymentType === 'ADYEN') {
-          dynamicLoadCss(
-            'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
-          );
-        }
+      let tabName = [];
+      if (noStartYearOption.length > 0) {
+        tabName.push(this.props.intl.messages.noStart);
       }
+      if (completedYearOption.length > 0) {
+        tabName.push(this.props.intl.messages.completed);
+      }
+      noStartYear = {
+        value: noStartYearOption[0] && noStartYearOption[0]['value'],
+        name: noStartYearOption[0] && noStartYearOption[0]['value']
+      };
+      let isGift =
+        subDetail.goodsInfo &&
+        subDetail.goodsInfo[0]?.subscriptionPlanId &&
+        subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
+      //   subDetail.timeSlot = '10:00-15:00';
+      // subDetail.deliveryDate = null;//test数据
       this.setState(
         {
-          subDetail: subDetail,
-          currentCardInfo: tempCardInfo,
+          petType: petsType,
+          isGift: isGift,
+          subDetail: Object.assign({}, subDetail, {
+            subscribeStatus: subscribeStatusVal
+          }),
+          petName: subDetail?.petsInfo?.petsName,
+          currentCardInfo:
+            subDetail.paymentMethod === 'JAPAN_COD'
+              ? { pspName: 'JAPAN_COD' }
+              : subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
-          orderOptions: orderOptions,
-          // minDate: now,
           noStartYearOption,
           completedYearOption,
           noStartYear,
           completedYear,
-          isActive: subDetail.subscribeStatus === '0'
+          isActive: subDetail.subscribeStatus === 'ACTIVE',
+          tabName,
+          isNotInactive: subDetail.subscribeStatus !== 'INACTIVE' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
-          fn && fn();
+          if (!this.state.subDetail.petsLifeStageFlag) {
+            this.setState({
+              triggerShowChangeProduct: Object.assign(
+                {},
+                this.state.triggerShowChangeProduct,
+                {
+                  // isShowModal: false,
+                  showBox: false // 只有一个商品的情况下都需要添加被动更换商品
+                }
+              )
+            });
+          }
+
+          fn && fn(subDetail);
         }
       );
     } catch (err) {
       console.log(22222, err);
-      this.showErrMsg(err.message);
-      // throw new Error(err);
+      this.showErrMsg(err.message || err);
     } finally {
       this.setState({ loading: false });
     }
-  }
+  };
+
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
   }
-  async doGetPromotionPrice(promotionCode = '') {
-    try {
-      //计算Tota
-      let goodsInfo = this.state.subDetail.goodsInfo;
-      let subTotal = 0;
-      for (let goods of goodsInfo) {
-        subTotal += Number(goods.originalPrice) * goods.subscribeNum;
-      }
-      //拼装goodsInfoList参数
-      let goodsInfoList = this.state.subDetail.goodsInfo.map((ele) => {
-        return {
-          goodsInfoId: ele.skuId,
-          buyCount: ele.subscribeNum
-        };
-      });
-      //根据参数查询促销的金额与订单运费
-      const res = await getPromotionPrice({
-        totalPrice: subTotal,
-        goodsInfoList,
-        promotionCode,
-        isAutoSub: true
-      });
-      //拼装订阅购物车参数
-      if (res.code === 'K-000000' && !res.context.promotionFlag) {
-        //只有promotionFlag为false的时候表示prootionCode生效
-        let subTradeTotal = subTotal + Number(res.context.deliveryPrice);
-        // -Number(res.context.discountsPrice);
-        //Number(res.context.promotionDiscount);
-        this.setState({
-          // loading: false,
-          subShipping: res.context.deliveryPrice,
-          promotionDiscount: res.context.promotionDiscount,
-          promotionDesc: res.context.promotionDesc,
-          subTradeTotal,
-          subTotal
-        });
-      }
-      return new Promise((resolve) => {
-        resolve(res);
-      });
-    } catch (err) {
-      this.showErrMsg(err.message);
-      // throw new Error(err);
-    } finally {
-      this.setState({ loading: false });
-    }
-  }
-  hanldeClickSubmit() {
-    let { modalType, subDetail } = this.state;
+
+  hanldeClickSubmit = () => {
+    let { modalType, subDetail, jpSlotTime } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (modalType === 'skipNext') {
       skipNextSub({
@@ -527,44 +648,166 @@ class SubscriptionDetail extends React.Component {
           this.showErrMsg(err.message);
         });
     } else if (modalType === 'changeDate') {
+      // 日本才需要去处理timeslot
+      const showTimeSlot = window.__.env.REACT_APP_COUNTRY === 'jp';
       this.onDateChange(
         this.state.currentChangeDate,
-        this.state.currentChangeItem
+        this.state.currentChangeItem,
+        showTimeSlot
       );
+    } else if (modalType === 'changeTime') {
+      this.setState({ slotTimeChanged: true }, () => {
+        this.handleSaveChange(jpSlotTime, true);
+      });
     }
-  }
+  };
+
+  closeRemainings = () => {
+    this.setState({ remainingsVisible: false });
+  };
+
   showErrMsg(msg, type, fn) {
     if (type === 'success') {
       this.setState({
-        successTipVisible: true
+        successMsg: msg
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          successTipVisible: false
+          successMsg: ''
         });
-        fn && fn();
+        typeof fn == 'function' && fn();
       }, 1000);
     } else {
       this.setState({
-        errorShow: true,
         errorMsg: msg
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          errorShow: false
+          errorMsg: ''
         });
         fn && fn();
       }, 3000);
     }
   }
-  handlerChange(e) {
-    let promotionInputValue = e.target.value;
-    this.setState({
-      promotionInputValue
+  getDeliveryDateAndTimeSlotData = async () => {
+    let { subDetail } = this.state;
+    const res = await getDeliveryDateAndTimeSlot({
+      cityNo: '',
+      subscribeId: this.state.subDetail.subscribeId
     });
+    if (res.context) {
+      let deliveryDateList = res.context.timeSlots.map((el) => {
+        return { ...el, value: el.date, name: el.date };
+      });
+      this.setState({
+        timeSlotArr: deliveryDateList
+      });
+      let deliveryDate = deliveryDateList[0].date;
+      let timeSlotList = deliveryDateList[0].dateTimeInfos?.map((el) => {
+        return {
+          ...el,
+          value: `${el.startTime}-${el.endTime}`,
+          name: `${el.startTime}-${el.endTime}`
+        };
+      });
+      timeSlotList.unshift({
+        name: 'Unspecified',
+        value: 'Unspecified',
+        startTime: 'Unspecified'
+      });
+      let timeSlot =
+        timeSlotList.find((el) => el.value == this.state.subDetail.timeSlot)
+          ?.value || 'Unspecified';
+      // deliveryDateList.forEach((item) => {
+      //   if (!deliveryDate) {
+      //     let timeSlotList = item.dateTimeInfos.find(
+      //       (el) =>
+      //         `${el.startTime}-${el.endTime}` == this.state.subDetail.timeSlot
+      //     );
+      //     if (timeSlotList) {
+      //       timeSlot = this.state.subDetail.timeSlot;
+      //       deliveryDate = item.date;
+      //     }
+      //   }
+      // });
+      // if (!deliveryDate) {
+      //   deliveryDate = deliveryDateList[0].date;
+      //   timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
+      // }
+      subDetail.deliveryDate = deliveryDate;
+      subDetail.timeSlot = timeSlot;
+      this.handleSaveChange(subDetail, true);
+    }
+  };
+  async handleSaveChange(subDetail, isChangeTimeslot) {
+    if (!this.state.isDataChange && !isChangeTimeslot) {
+      return false;
+    }
+    if (this.state.isGift) {
+      //food dispensor 不能修改，不能暂停
+      this.props.history.push('/account/subscription');
+      return;
+    }
+    // let checkSubscriptionAddressPickPointSuccess = false;
+    try {
+      let param = {
+        subscribeId: subDetail.subscribeId,
+        subscribeStatus: findKeyFromObject({
+          obj: SUBSCRIBE_STATUS_ENUM,
+          value: subDetail.subscribeStatus
+        })
+      };
+      let changeField = [];
+      let goodsItems = subDetail.goodsInfo?.map((el) => {
+        if (
+          el.subscribeNum !== el.oldSubscribeNum &&
+          !changeField.includes('productNumber')
+        ) {
+          changeField.push('productNumber');
+        }
+        if (
+          el.periodTypeId !== el.oldPeriodTypeId &&
+          !changeField.includes('frequency')
+        ) {
+          changeField.push('frequency');
+        }
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId,
+          periodTypeId: el.periodTypeId,
+          nextDeliveryTime: el.nextDeliveryTime
+        };
+      });
+      Object.assign(param, {
+        timeSlot: subDetail.timeSlot,
+        deliveryDate: subDetail.deliveryDate,
+        goodsItems: goodsItems,
+        changeField: changeField.length > 0 ? changeField.join(',') : ''
+      });
+      this.setState({ loading: true });
+      await updateDetail(param);
+      await this.getDetail();
+      this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
+      this.setState({
+        isDataChange: false,
+        slotTimeChanged: false
+      });
+    } catch (err) {
+      if (err.code === 'K-050330') {
+        // 修改数量，失败时，需重新查询接口
+        this.showTempolineError(err.message);
+        this.getDetail();
+      } else {
+        this.showErrMsg(err.message);
+      }
+    } finally {
+      this.setState({ loading: false });
+    }
   }
+
   render() {
     const event = {
       page: {
@@ -576,55 +819,60 @@ class SubscriptionDetail extends React.Component {
         filters: ''
       }
     };
-    const data = this.state;
-    const { checkoutStore } = this.props;
     let {
-      isChangeQuatity,
-      discount,
       type,
       currentCardInfo,
       currentDeliveryAddress,
       currentBillingAddress,
       addressType,
+      loading,
       subDetail,
+      triggerShowAddNewPet,
+      errMsgPage,
       currentModalObj,
-      todaydate,
-      isMobile,
+      productListLoading,
+      petType,
       noStartYearOption,
       completedYearOption,
-      noStartYear,
+      isDataChange,
+      tabName,
+      activeTabIdx,
       completedYear,
-      isActive
+      isGift,
+      remainingsList,
+      noStartYear,
+      modalList,
+      modalShow,
+      loadingPage,
+      remainingsVisible,
+      submitLoading,
+      triggerShowChangeProduct,
+      petName,
+      errorMsg,
+      successMsg,
+      slotTimeChanged,
+      currentChangeProductIdx
     } = this.state;
-    console.log(noStartYear, currentCardInfo, 'hahaha');
+    let isShowClub =
+      subDetail.subscriptionType?.toLowerCase().includes('club') ||
+      subDetail.subscriptionType?.toLowerCase().includes('individualization'); //indv的展示和club类似
+    // && window.__.env.REACT_APP_COUNTRY != 'ru'; //ru的club展示不绑定宠物，和普通订阅一样
     return (
-      <div className="subscriptionDetail">
+      <DivWrapper className="subscriptionDetail">
         <div>
-          <GoogleTagManager additionalEvents={event} />
-          <Helmet>
-            <link rel="canonical" href={pageLink} />
-            <title>{this.state.seoConfig.title}</title>
-            <meta
-              name="description"
-              content={this.state.seoConfig.metaDescription}
-            />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-          </Helmet>
-          <Header
-            showMiniIcons={true}
-            showUserIcon={true}
-            location={this.props.location}
-            history={this.props.history}
-            match={this.props.match}
+          <GoogleTagManager
+            key={this.props.location.key}
+            additionalEvents={event}
           />
-
+          <Canonical />
+          <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />
             <Modal
               key="1"
-              visible={this.state.modalShow}
-              confirmLoading={this.state.submitLoading}
-              modalTitle={currentModalObj.title}
+              visible={modalShow}
+              confirmLoading={submitLoading}
+              modalTitle={this.props.intl.messages[currentModalObj.title]}
               confirmBtnText={<FormattedMessage id="yes" />}
               cancelBtnVisible={<FormattedMessage id="cancel" />}
               close={() => {
@@ -632,12 +880,12 @@ class SubscriptionDetail extends React.Component {
               }}
               hanldeClickConfirm={() => this.hanldeClickSubmit()}
             >
-              <span>{currentModalObj.content}</span>
+              <span>{this.props.intl.messages[currentModalObj.content]}</span>
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
-                {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
-                {/* <SideMenu type="Subscription" /> */}
+                {loadingPage ? <Loading positionFixed="true" /> : null}
+
                 {isMobile ? (
                   <div className="col-12 rc-md-down">
                     <Link to="/account/subscription">
@@ -652,204 +900,107 @@ class SubscriptionDetail extends React.Component {
                 )}
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
-                  style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
+                  style={{
+                    display: type === 'PaymentComp' ? 'block' : 'none'
+                  }}
                 >
                   {currentCardInfo && (
                     <PaymentComp
+                      needEmail={+window.__.env.REACT_APP_PAYU_EMAIL}
+                      needPhone={+window.__.env.REACT_APP_PAYU_PHONE}
                       history={this.props.history}
-                      paymentId={currentCardInfo.id}
+                      paymentId={
+                        currentCardInfo.id ||
+                        subDetail?.paymentId ||
+                        currentCardInfo.pspName
+                      }
+                      key={
+                        currentCardInfo.id ||
+                        subDetail?.paymentId ||
+                        currentCardInfo.pspName
+                      }
                       type={type}
-                      save={(el) => {
-                        console.log(el);
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          paymentId: el.id,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-                        console.log(param);
-                        this.setState({ loading: true });
-                        updateDetail(param)
-                          .then((res) => {
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({ type: 'main', currentCardInfo: el });
-                      }}
-                      cancel={() => this.setState({ type: 'main' })}
+                      save={(el) => this.paymentSave(el)}
+                      cancel={this.cancelEdit}
+                      isMoto={
+                        currentCardInfo?.paymentItem?.toLowerCase() ===
+                        'adyen_moto'
+                      }
                     />
                   )}
                 </div>
-                <div
-                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+
+                {/* <div
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscription_address_list"
                   style={{ display: type === 'AddressComp' ? 'block' : 'none' }}
                 >
                   <AddressComp
+                    customerAccount={subDetail?.customerAccount}
+                    tradeItems={subDetail?.noStartTradeList}
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
-                    save={(el, isBillSame, fn) => {
-                      console.log(el, isBillSame);
-                      if (addressType === 'delivery') {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          deliveryAddressId: el.deliveryAddressId,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-                        if (isBillSame) {
-                          param.billingAddressId = el.deliveryAddressId;
-                        }
-                        //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
-                        let title = '';
-                        //寄送地址
-                        title = this.props.intl.messages[
-                          'subscription.shippingAddress'
-                        ];
-                        //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
-                        if (param.billingAddressId) {
-                          title =
-                            title +
-                            ',' +
-                            this.props.intl.messages[
-                              'subscription.BillingAddress'
-                            ];
-                        }
-                        //增加返回changeField字段
-                        Object.assign(param, {
-                          changeField: title
-                        });
-                        console.log(param);
-                        this.setState({ loading: true });
-                        updateDetail(param)
-                          .then((res) => {
-                            fn && fn();
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({
-                          type: 'main',
-                          currentDeliveryAddress: el
-                        });
-                      } else {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          billingAddressId: el.deliveryAddressId,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-                        //增加返回changeField字段
-                        Object.assign(param, {
-                          changeField: this.props.intl.messages[
-                            'subscription.BillingAddress'
-                          ]
-                        });
-                        console.log(param);
-                        this.setState({ loading: true });
-                        updateDetail(param)
-                          .then((res) => {
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({
-                          type: 'main',
-                          currentBillingAddress: el
-                        });
-                      }
-                    }}
-                    cancel={() => this.setState({ type: 'main' })}
+                    save={(el, isBillSame, fn) =>
+                      this.addressSave(el, isBillSame, fn)
+                    }
+                    cancel={this.cancelEdit}
                   />
-                </div>
+                </div> */}
+
                 <div
-                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
-                  style={{ display: type === 'main' ? 'block' : 'none' }}
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscription_detail_info"
+                  style={{
+                    display:
+                      type === 'main' || type === 'AddressComp'
+                        ? 'block'
+                        : 'none'
+                  }}
                 >
-                  <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
-                    <h4
-                      className="rc-delta font-weight-normal mb-2"
-                      style={{ color: '#666' }}
+                  <ErrorMessage msg={errorMsg} />
+                  {/* 错误提示信息 */}
+                  <div
+                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                      this.state.pickupNoActiveErrMsg ? '' : 'hidden'
+                    }`}
+                  >
+                    <aside
+                      className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                      role="alert"
                     >
-                      {/* <FormattedMessage id="subscription" /> */}
-                      {/* {subDetail.subscribeId && (
-                        <img
-                          style={{ width: '20px', display: 'inline-block' }}
-                          src={subscriptionIcon}
-                        />
-                      )} */}
-                      {subDetail.subscribeId ? (
-                        <span>{`${subDetail.subscribeId}`}</span>
-                      ) : null}
-                      {subDetail.subscribeId ? (
-                        isActive ? (
-                          <span
-                            style={{
-                              background: '#E0F3D4',
-                              color: '#47B700',
-                              fontSize: '14px',
-                              padding: '0 5px',
-                              marginLeft: '10px'
-                            }}
-                          >
-                            <FormattedMessage id="active" />
-                          </span>
-                        ) : (
-                          <span
-                            style={{
-                              background: '#FCEBD4',
-                              color: '#ED8A00',
-                              fontSize: '14px',
-                              padding: '0 5px',
-                              marginLeft: '10px'
-                            }}
-                          >
-                            <FormattedMessage id="inactive" />
-                          </span>
-                        )
-                      ) : null}
-                    </h4>
+                      <span className="pl-0">
+                        {this.state.pickupNoActiveErrMsg}
+                      </span>
+                      <button
+                        className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                        onClick={() => {
+                          this.setState({ pickupNoActiveErrMsg: '' });
+                        }}
+                        aria-label="Close"
+                      >
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="close" />
+                        </span>
+                      </button>
+                    </aside>
                   </div>
+                  <SuccessMessage msg={successMsg} />
+
+                  <SubDetailHeader
+                    triggerShowChangeProduct={triggerShowChangeProduct}
+                    getDetail={this.getDetail}
+                    productListLoading={productListLoading}
+                    petType={petType}
+                    isShowClub={isShowClub}
+                    setState={this.setState.bind(this)}
+                    subDetail={subDetail}
+                    initPage={this.initPage}
+                    history={this.props.history}
+                    triggerShowAddNewPet={triggerShowAddNewPet}
+                    currentChangeProductIdx={currentChangeProductIdx}
+                  />
                   {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">
-                    {this.state.loading && (
+                    {loading && (
                       <div className="mt-4">
                         <Skeleton
                           color="#f5f5f5"
@@ -859,2092 +1010,168 @@ class SubscriptionDetail extends React.Component {
                         />
                       </div>
                     )}
-                    <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div
-                        className="mobileGoodsBox"
-                        style={{ display: isMobile ? 'block' : 'none' }}
-                      >
-                        {subDetail.goodsInfo &&
-                          subDetail.goodsInfo.map((el, index) => (
-                            <div
-                              className="goodsItem rc-card-content"
-                              style={{
-                                border: '1px solid #d7d7d7',
-                                padding: '12px'
-                              }}
-                            >
-                              <div style={{ display: 'flex' }}>
-                                <LazyLoad>
-                                  <img
-                                    src={el.goodsPic}
-                                    style={{ width: '100px' }}
-                                  />
-                                </LazyLoad>
-                                <div
-                                  className="v-center"
-                                  style={{ flex: '1', paddingLeft: '10px' }}
-                                >
-                                  <h3
-                                    style={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      overflowWrap: 'normal',
-                                      color: '#e2001a'
-                                    }}
-                                  >
-                                    {el.goodsName}
-                                  </h3>
-                                  {/* <p
-                                style={{
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  marginBottom: '8px'
-                                }}
-                              >
-                                Dog food
-                              </p> */}
-                                  <p
-                                    style={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      marginBottom: '8px'
-                                    }}
-                                  >
-                                    {el.specText}
-                                  </p>
-                                </div>
-                              </div>
-                              <div style={{ marginTop: '15px' }}>
-                                <div>
-                                  <span
-                                    className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                    style={{ marginLeft: '-8px' }}
-                                    onClick={() => {
-                                      if (el.subscribeNum > 1) {
-                                        el.subscribeNum = el.subscribeNum - 1;
-                                        this.doGetPromotionPrice();
-                                        this.setState({
-                                          subDetail,
-                                          isDataChange: true
-                                        });
-                                      } else {
-                                        this.showErrMsg(
-                                          <FormattedMessage id="cart.errorInfo" />
-                                        );
-                                      }
-                                    }}
-                                  ></span>
-                                  <input
-                                    className="rc-quantity__input"
-                                    id="quantity"
-                                    name="quantity"
-                                    min="1"
-                                    max="899"
-                                    maxLength="5"
-                                    onChange={(e) => {
-                                      this.setState({
-                                        errorShow: false
-                                      });
-                                      const val = e.target.value;
-                                      let { currentGoodsInfo } = this.state;
-                                      if (val === '') {
-                                        el.subscribeNum = 1;
-                                        this.setState({
-                                          currentGoodsInfo
-                                        });
-                                      } else {
-                                        let tmp = parseInt(val);
-                                        if (isNaN(tmp)) {
-                                          tmp = 1;
-                                          this.showErrMsg(
-                                            <FormattedMessage id="cart.errorInfo" />
-                                          );
-                                        }
-                                        if (tmp < 1) {
-                                          tmp = 1;
-                                          this.showErrMsg(
-                                            <FormattedMessage id="cart.errorInfo" />
-                                          );
-                                        }
-                                        if (
-                                          tmp >
-                                          process.env.REACT_APP_LIMITED_NUM
-                                        ) {
-                                          tmp =
-                                            process.env.REACT_APP_LIMITED_NUM;
-                                          this.showErrMsg(
-                                            <FormattedMessage
-                                              id="cart.errorMaxInfo"
-                                              values={{
-                                                val:
-                                                  process.env
-                                                    .REACT_APP_LIMITED_NUM
-                                              }}
-                                            />
-                                          );
-                                        }
-                                        el.subscribeNum = tmp;
-                                        this.setState({
-                                          currentGoodsInfo
-                                        });
-                                        // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                      }
-                                      //数量变更后
-                                      subDetail.goodsInfo[index].subscribeNum =
-                                        el.subscribeNum;
-                                      this.onQtyChange();
-                                    }}
-                                    value={el.subscribeNum}
-                                  />
-                                  <span
-                                    className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                    onClick={() => {
-                                      if (
-                                        el.subscribeNum <
-                                        process.env.REACT_APP_LIMITED_NUM
-                                      ) {
-                                        el.subscribeNum = el.subscribeNum + 1;
-                                        this.doGetPromotionPrice();
-                                        this.setState({
-                                          subDetail,
-                                          isDataChange: true
-                                        });
-                                      } else {
-                                        this.showErrMsg(
-                                          <FormattedMessage
-                                            id="cart.errorMaxInfo"
-                                            values={{
-                                              val:
-                                                process.env
-                                                  .REACT_APP_LIMITED_NUM
-                                            }}
-                                          />
-                                        );
-                                      }
-                                    }}
-                                  ></span>
-                                  <span
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '22px',
-                                      lineHeight: '40px',
-                                      verticalAlign: 'middle'
-                                    }}
-                                  >
-                                    =
-                                  </span>
-                                  <span
-                                    className="price"
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '20px',
-                                      fontWeight: '400',
-                                      verticalAlign: 'middle',
-                                      marginLeft: '8px',
-                                      height: '25px'
-                                    }}
-                                  >
-                                    {formatMoney(
-                                      el.subscribePrice * el.subscribeNum
-                                    )}
-                                  </span>
-                                  <span
-                                    className="price"
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '20px',
-                                      fontWeight: '400',
-                                      textDecoration: 'line-through',
-                                      verticalAlign: 'middle',
-                                      marginLeft: '8px',
-                                      height: '11px',
-                                      color: '#aaa',
-                                      fontSize: '14px'
-                                    }}
-                                  >
-                                    {formatMoney(
-                                      el.originalPrice * el.subscribeNum
-                                    )}
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                              // className="col-4 col-md-5"
-                              // style={{ paddingLeft: '60px' }}
-                              >
-                                <div className="rc-card-content">
-                                  <b
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <FormattedMessage id="subscription.frequency"></FormattedMessage>
-                                    :
-                                  </b>
-                                  <h1
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      marginTop: '10px',
-                                      display: 'inline-block',
-                                      marginLeft: '10px'
-                                    }}
-                                  >
-                                    <Selection
-                                      optionList={this.frequencyListOptions}
-                                      selectedItemChange={(data) => {
-                                        if (el.periodTypeId !== data.id) {
-                                          el.periodTypeId = data.id;
-                                          // el.periodTypeValue = data.valueEn;
-                                          this.setState({ isDataChange: true });
-                                        }
-                                      }}
-                                      selectedItemData={{
-                                        value: el.periodTypeId
-                                      }}
-                                      key={index + '_' + el.periodTypeId}
-                                    />
-                                  </h1>
-                                </div>
-                                <div className="rc-card-content">
-                                  <b
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    {/* Shipping Method: */}
-                                    <FormattedMessage id="autoShipStarted" />
-                                  </b>
-                                  <h1
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      marginTop: '10px',
-                                      display: 'inline-block',
-                                      marginLeft: '10px'
-                                    }}
-                                  >
-                                    {getFormatDate(el.createTime.split(' ')[0])}
-                                  </h1>
-                                </div>
-                                <div className="rc-card-content">
-                                  <b
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <LazyLoad>
-                                      <img
-                                        src={dateIcon}
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '20px',
-                                          verticalAlign: 'middle',
-                                          marginRight: '8px'
-                                        }}
-                                      />
-                                    </LazyLoad>
-                                    <FormattedMessage id="nextShipment"></FormattedMessage>
-                                    :
-                                  </b>
-                                  <h1
-                                    className="rc-card__meta order-Id"
-                                    style={{
-                                      marginTop: '10px',
-                                      display: 'inline-block',
-                                      marginLeft: '10px'
-                                    }}
-                                  >
-                                    <DatePicker
-                                      className="receiveDate"
-                                      placeholder="Select Date"
-                                      dateFormat={datePickerConfig.format}
-                                      locale={datePickerConfig.locale}
-                                      // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                      minDate={
-                                        this.getMinDate(el.nextDeliveryTime) ||
-                                        this.state.minDate
-                                      }
-                                      selected={
-                                        el.nextDeliveryTime
-                                          ? new Date(el.nextDeliveryTime)
-                                          : new Date()
-                                      }
-                                      disabled={true}
-                                      onChange={(date) =>
-                                        this.onDateChange(date)
-                                      }
-                                    />
-                                  </h1>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                      <div
-                        className="card-container"
-                        style={{
-                          marginTop: '0',
-                          display: isMobile ? 'none' : 'block',
-                          borderBottom: 'none'
-                        }}
-                      >
-                        {subDetail.goodsInfo &&
-                          subDetail.goodsInfo.map((el, index) => (
-                            <div
-                              className="row rc-margin-x--none row align-items-center"
-                              style={{
-                                padding: '1rem 0',
-                                borderBottom: '1px solid #d7d7d7'
-                              }}
-                            >
-                              <div className="col-4 col-md-6">
-                                <div
-                                  className="rc-layout-container rc-five-column"
-                                  style={{
-                                    height: '160px',
-                                    paddingRight: '60px',
-                                    paddingTop: '0'
-                                  }}
-                                >
-                                  <div
-                                    className="rc-column flex-layout"
-                                    style={{ width: '80%', padding: 0 }}
-                                  >
-                                    <div className="img-container">
-                                      <LazyLoad>
-                                        <img src={el.goodsPic} alt="" />
-                                      </LazyLoad>
-                                    </div>
-                                    <div
-                                      className="v-center"
-                                      style={{
-                                        width: '300px'
-                                      }}
-                                    >
-                                      <h5
-                                        style={{
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          overflowWrap: 'normal',
-                                          color: '#e2001a'
-                                        }}
-                                      >
-                                        {el.goodsName}
-                                      </h5>
-                                      {/* <p
-                                        style={{
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          marginBottom: '8px'
-                                        }}
-                                      >
-                                        Dog food
-                                      </p> */}
-                                      <p
-                                        style={{
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          marginBottom: '8px'
-                                        }}
-                                      >
-                                        {el.specText}
-                                      </p>
-                                      <div>
-                                        <div>
-                                          <span
-                                            className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                              isActive ? '' : 'disabled'
-                                            }`}
-                                            style={{ marginLeft: '-8px' }}
-                                            onClick={() => {
-                                              if (el.subscribeNum > 1) {
-                                                el.subscribeNum =
-                                                  el.subscribeNum - 1;
-                                                this.doGetPromotionPrice();
-                                                this.setState({
-                                                  subDetail,
-                                                  isDataChange: true
-                                                });
-                                              } else {
-                                                this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorInfo" />
-                                                );
-                                              }
-                                            }}
-                                          ></span>
-                                          <input
-                                            className="rc-quantity__input"
-                                            id="quantity"
-                                            name="quantity"
-                                            min="1"
-                                            max="899"
-                                            maxLength="5"
-                                            onChange={(e) => {
-                                              this.setState({
-                                                errorShow: false
-                                              });
-                                              const val = e.target.value;
-                                              let {
-                                                currentGoodsInfo
-                                              } = this.state;
-                                              if (val === '') {
-                                                el.subscribeNum = 1;
-                                                this.setState({
-                                                  currentGoodsInfo
-                                                });
-                                              } else {
-                                                let tmp = parseInt(val);
-                                                if (isNaN(tmp)) {
-                                                  tmp = 1;
-                                                  this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorInfo" />
-                                                  );
-                                                }
-                                                if (tmp < 1) {
-                                                  tmp = 1;
-                                                  this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorInfo" />
-                                                  );
-                                                }
-                                                if (
-                                                  tmp >
-                                                  process.env
-                                                    .REACT_APP_LIMITED_NUM
-                                                ) {
-                                                  tmp =
-                                                    process.env
-                                                      .REACT_APP_LIMITED_NUM;
-                                                  this.showErrMsg(
-                                                    <FormattedMessage
-                                                      id="cart.errorMaxInfo"
-                                                      values={{
-                                                        val:
-                                                          process.env
-                                                            .REACT_APP_LIMITED_NUM
-                                                      }}
-                                                    />
-                                                  );
-                                                }
-                                                el.subscribeNum = tmp;
-                                                this.setState({
-                                                  currentGoodsInfo
-                                                });
-                                                // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                              }
-                                              //数量变更后
-                                              subDetail.goodsInfo[
-                                                index
-                                              ].subscribeNum = el.subscribeNum;
-                                              this.onQtyChange();
-                                            }}
-                                            value={el.subscribeNum}
-                                          />
-                                          <span
-                                            className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                              isActive ? '' : 'disabled'
-                                            }`}
-                                            onClick={() => {
-                                              if (
-                                                el.subscribeNum <
-                                                process.env
-                                                  .REACT_APP_LIMITED_NUM
-                                              ) {
-                                                el.subscribeNum =
-                                                  el.subscribeNum + 1;
-                                                this.doGetPromotionPrice();
-                                                this.setState({
-                                                  subDetail,
-                                                  isDataChange: true
-                                                });
-                                              } else {
-                                                this.showErrMsg(
-                                                  <FormattedMessage
-                                                    id="cart.errorMaxInfo"
-                                                    values={{
-                                                      val:
-                                                        process.env
-                                                          .REACT_APP_LIMITED_NUM
-                                                    }}
-                                                  />
-                                                );
-                                              }
-                                            }}
-                                          ></span>
-                                          <span
-                                            style={{
-                                              display: 'inline-block',
-                                              fontSize: '22px',
-                                              lineHeight: '40px',
-                                              verticalAlign: 'middle'
-                                            }}
-                                          >
-                                            =
-                                          </span>
-                                          <span
-                                            className="price"
-                                            style={{
-                                              display: 'inline-block',
-                                              fontSize: '20px',
-                                              fontWeight: '400',
-                                              verticalAlign: 'middle',
-                                              marginLeft: '8px',
-                                              height: '25px'
-                                            }}
-                                          >
-                                            {formatMoney(
-                                              el.subscribePrice *
-                                                el.subscribeNum
-                                            )}
-                                          </span>
-                                          <span
-                                            className="price"
-                                            style={{
-                                              display: 'inline-block',
-                                              fontSize: '20px',
-                                              fontWeight: '400',
-                                              textDecoration: 'line-through',
-                                              verticalAlign: 'middle',
-                                              marginLeft: '8px',
-                                              height: '11px',
-                                              color: '#aaa',
-                                              fontSize: '14px'
-                                            }}
-                                          >
-                                            {formatMoney(
-                                              el.originalPrice * el.subscribeNum
-                                            )}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-4 col-md-1"></div>
-                              <div
-                                className="col-4 col-md-5"
-                                style={{ paddingLeft: '60px' }}
-                              >
-                                <div className="rc-card-content">
-                                  <b
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <FormattedMessage id="subscription.frequency"></FormattedMessage>
-                                    :
-                                  </b>
-                                  <h1
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      marginTop: '10px',
-                                      display: 'inline-block',
-                                      marginLeft: '10px'
-                                    }}
-                                  >
-                                    <Selection
-                                      optionList={this.frequencyListOptions}
-                                      selectedItemChange={(data) => {
-                                        if (el.periodTypeId !== data.id) {
-                                          el.periodTypeId = data.id;
-                                          // el.periodTypeValue = data.valueEn;
-                                          this.setState({ isDataChange: true });
-                                        }
-                                      }}
-                                      selectedItemData={{
-                                        value: el.periodTypeId
-                                      }}
-                                      key={index + '_' + el.periodTypeId}
-                                      disabled={!isActive}
-                                    />
-                                  </h1>
-                                </div>
-                                <div className="rc-card-content">
-                                  <b
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    {/* Shipping Method: */}
-                                    <FormattedMessage id="autoShipStarted" />
-                                  </b>
-                                  <h1
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      marginTop: '10px',
-                                      display: 'inline-block',
-                                      marginLeft: '10px'
-                                    }}
-                                  >
-                                    {getFormatDate(el.createTime.split(' ')[0])}
-                                    {/* <FormattedDate value={el.createTime.split(' ')[0]}/> */}
-                                  </h1>
-                                </div>
-                                <div className="rc-card-content">
-                                  <b
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <LazyLoad>
-                                      <img
-                                        src={dateIcon}
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '20px',
-                                          verticalAlign: 'middle',
-                                          marginRight: '8px'
-                                        }}
-                                      />
-                                    </LazyLoad>
-                                    <FormattedMessage id="nextShipment"></FormattedMessage>
-                                    :
-                                  </b>
-                                  <h1
-                                    className="rc-card__meta order-Id"
-                                    style={{
-                                      marginTop: '10px',
-                                      display: 'inline-block',
-                                      marginLeft: '10px'
-                                    }}
-                                  >
-                                    <DatePicker
-                                      className="receiveDate"
-                                      placeholder="Select Date"
-                                      dateFormat={datePickerConfig.format}
-                                      locale={datePickerConfig.locale}
-                                      // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                      minDate={
-                                        this.getMinDate(el.nextDeliveryTime) ||
-                                        this.state.minDate
-                                      }
-                                      selected={
-                                        el.nextDeliveryTime
-                                          ? new Date(el.nextDeliveryTime)
-                                          : new Date()
-                                      }
-                                      disabled={true}
-                                      onChange={(date) =>
-                                        this.onDateChange(date)
-                                      }
-                                    />
-                                  </h1>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                      <div
-                        className="footerGroupButton"
-                        style={{ display: isActive ? 'block' : 'none' }}
-                      >
-                        <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-                          {/* <div className="col-12 col-md-2"> */}
-                          <LazyLoad>
-                            <img
-                              style={{
-                                display: 'inline-block',
-                                width: '20px',
-                                marginRight: '5px'
-                              }}
-                              src={cancelIcon}
+                    <div className={`${loading ? 'hidden' : ''} `}>
+                      {/* 商品详情 */}
+                      <>
+                        <SubGoodsInfos
+                          {...this.props}
+                          getDetail={this.getDetail}
+                          handleSaveChange={this.handleSaveChange.bind(this)}
+                          modalList={modalList}
+                          triggerShowChangeProduct={triggerShowChangeProduct}
+                          isDataChange={isDataChange}
+                          isShowClub={isShowClub}
+                          isGift={isGift}
+                          onDateChange={this.onDateChange}
+                          productListLoading={productListLoading}
+                          errMsgPage={errMsgPage}
+                          setState={this.setState.bind(this)}
+                          getMinDate={this.getMinDate}
+                          showErrMsg={this.showErrMsg.bind(this)}
+                          subDetail={subDetail}
+                        />
+                      </>
+
+                      {/*tempoline api error message tip*/}
+                      <TempolineAPIError error={this.state.tempolineError} />
+
+                      {/* Ongoing Order */}
+                      {subDetail.onGoingTradeList &&
+                      subDetail.onGoingTradeList.length > 0 ? (
+                        <>
+                          <h4 className="h4">
+                            {petName ? (
+                              <FormattedMessage
+                                id="subscription.ongoingOrderForPet"
+                                values={{ val: petName }}
+                              />
+                            ) : (
+                              <FormattedMessage id="subscription.noPetOngoingOrder" />
+                            )}
+                          </h4>
+                          <div className="rc-max-width--xl">
+                            <OngoingOrder
+                              {...this.props}
+                              subDetail={subDetail}
                             />
-                          </LazyLoad>
-                          <a
-                            className="rc-styled-link"
-                            href="#/"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              this.setState({
-                                modalType: 'cancelAll',
-                                modalShow: true,
-                                currentModalObj: this.state.modalList.filter(
-                                  (el) => el.type === 'cancelAll'
-                                )[0]
-                              });
-                            }}
-                          >
-                            <FormattedMessage id="subscription.cancelAll" />
-                          </a>
-                          {/* </div> */}
-                          &nbsp;&nbsp;&nbsp;&nbsp;
-                          <button
-                            className={`rc-btn rc-btn--one ${
-                              this.state.isDataChange
-                                ? ''
-                                : 'rc-btn-solid-disabled'
-                            }`}
-                            style={{ marginTop: isMobile ? '10px' : '0' }}
-                            onClick={async () => {
-                              if (!this.state.isDataChange) {
-                                return false;
-                              }
-                              try {
-                                // subDetail.goodsInfo = this.state.currentGoodsInfo;
-                                let param = {
-                                  subscribeId: subDetail.subscribeId,
-                                  goodsItems: subDetail.goodsInfo.map((el) => {
-                                    return {
-                                      skuId: el.skuId,
-                                      subscribeNum: el.subscribeNum,
-                                      subscribeGoodsId: el.subscribeGoodsId,
-                                      periodTypeId: el.periodTypeId
-                                    };
-                                  })
-                                };
-                                Object.assign(param, {
-                                  changeField: this.props.intl.messages[
-                                    'produtctNumber'
-                                  ]
-                                });
-                                await this.doUpdateDetail(param);
-                                await this.getDetail();
-                                this.showErrMsg(
-                                  this.props.intl.messages.saveSuccessfullly,
-                                  'success'
-                                );
-                                this.setState({
-                                  isChangeQuatity: false,
-                                  isDataChange: false
-                                });
-                              } catch (err) {
-                                this.showErrMsg(err.message);
-                              } finally {
-                                this.setState({ loading: false });
-                              }
-                            }}
-                          >
-                            <FormattedMessage id="saveChange" />
-                          </button>
-                        </p>
-                      </div>
+                          </div>
+                        </>
+                      ) : null}
 
-                      <h4 className="h4">
-                        <FormattedMessage id="transactionInfo" />
-                      </h4>
-                      <div className="row text-left text-break editCard ml-0 mr-0">
-                        <div
-                          className="col-12 col-md-4 mb-2"
-                          style={{ padding: '5px', paddingLeft: '0' }}
-                        >
-                          <div
-                            style={{
-                              border: '1px solid #d7d7d7',
-                              padding: '20px',
-                              height: '225px'
-                            }}
-                          >
-                            <div className="align-items-center">
-                              {/* <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
-                              <LazyLoad>
-                                <img
-                                  src={deliveryIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '18px',
-                                    display: 'inline-block'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <span>
-                                <FormattedMessage id="delivery2" />
-                              </span>
-                              {subDetail.subscribeStatus === '0' && (
-                                <a
-                                  className="rc-styled-link red-text"
-                                  style={{ float: 'right', marginTop: '5px' }}
-                                  onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    this.setState({
-                                      type: 'AddressComp',
-                                      addressType: 'delivery'
-                                    });
-                                  }}
-                                >
-                                  <FormattedMessage id="edit" />{' '}
-                                  {/* <FormattedMessage id="address" /> */}
-                                </a>
-                              )}
-                            </div>
-                            <div className="ml-1">
-                              <span
-                                className="medium"
-                                style={{
-                                  fontSize: '18px',
-                                  fontWeight: '400',
-                                  color: '#333',
-                                  margin: '25px 0 10px'
-                                }}
-                              >
-                                {currentDeliveryAddress.consigneeName}
-                              </span>
-                              <br />
-                              {currentDeliveryAddress.consigneeNumber}
-                              <br />
-                              {this.state.countryList.length &&
-                              this.state.countryList.filter(
-                                (el) =>
-                                  el.id === currentDeliveryAddress.countryId
-                              ).length
-                                ? this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentDeliveryAddress.countryId
-                                  )[0].valueEn
-                                : currentDeliveryAddress.countryId}
-                              , {currentDeliveryAddress.cityName}
-                              <br />
-                              {currentDeliveryAddress.address1}
-                              <br />
-                            </div>
-                          </div>
+                      {/* 历史订单 */}
+                      <>
+                        <h4 className="h4">
+                          <FormattedMessage id="myAutoshipOrder" />
+                        </h4>
+                        {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                          <p className="jp-no-coupon-desc">
+                            *定期購入の次回発送で、現在一時的にポイント・クーポンが利用できません。お手数をおかけしますが、定期購入でポイント・クーポンをご利用になりたい場合は、現在の定期購入をキャンセルしていただき、新たな定期購入のお申込みをお願いいたします。なお、2022年8月ごろより、次回発送設定画面でポイント・クーポンがご利用いただけるようになる予定です。
+                          </p>
+                        )}
+                        <div className="rc-max-width--xl">
+                          <DeliveryList
+                            {...this.props}
+                            handleSaveChange={this.handleSaveChange.bind(this)}
+                            modalList={modalList}
+                            timeSlotArr={this.state.timeSlotArr}
+                            getMinDate={this.getMinDate}
+                            completedYearOption={completedYearOption}
+                            setState={this.setState.bind(this)}
+                            changeTab={this.changeTab}
+                            noStartYear={noStartYear}
+                            tabName={tabName}
+                            noStartYearOption={noStartYearOption}
+                            subDetail={subDetail}
+                            isGift={isGift}
+                            completedYear={completedYear}
+                            activeTabIdx={activeTabIdx}
+                            slotTimeChanged={slotTimeChanged}
+                          />
+                          <GiftList
+                            {...this.props}
+                            modalList={modalList}
+                            setState={this.setState.bind(this)}
+                            activeTabIdx={this.activeTabIdx}
+                            tabName={this.tabName}
+                            changeTab={this.changeTab}
+                            subDetail={subDetail}
+                            noStartYear={noStartYear}
+                            isGift={isGift}
+                          />
                         </div>
-                        <div
-                          className="col-12 col-md-4 mb-2"
-                          style={{ padding: '5px' }}
-                        >
-                          <div
-                            style={{
-                              border: '1px solid #d7d7d7',
-                              padding: '20px',
-                              height: '225px'
-                            }}
-                          >
-                            <div className="align-items-center">
-                              <LazyLoad>
-                                <img
-                                  src={billingIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '18px',
-                                    display: 'inline-block'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <span>
-                                <FormattedMessage id="billing2" />
-                              </span>
-                              {subDetail.subscribeStatus === '0' && (
-                                <a
-                                  className="rc-styled-link red-text"
-                                  style={{ float: 'right', marginTop: '5px' }}
-                                  onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    this.setState({
-                                      type: 'AddressComp',
-                                      addressType: 'billing'
-                                    });
-                                  }}
-                                >
-                                  <FormattedMessage id="edit" />{' '}
-                                  {/* <FormattedMessage id="address" /> */}
-                                </a>
-                              )}
-                            </div>
-                            <div className="ml-1">
-                              <span
-                                className="medium"
-                                style={{
-                                  fontSize: '18px',
-                                  fontWeight: '400',
-                                  color: '#333',
-                                  margin: '25px 0 10px'
-                                }}
-                              >
-                                {currentBillingAddress.consigneeName}
-                              </span>
-                              <br />
-                              {currentBillingAddress.consigneeNumber}
-                              <br />
-                              {this.state.countryList.length &&
-                              this.state.countryList.filter(
-                                (el) =>
-                                  el.id === currentBillingAddress.countryId
-                              ).length
-                                ? this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentBillingAddress.countryId
-                                  )[0].valueEn
-                                : currentBillingAddress.countryId}
-                              , {currentBillingAddress.cityName}
-                              <br />
-                              {currentBillingAddress.address1}
-                              <br />
-                            </div>
-                          </div>
-                        </div>
-                        {
-                          <div
-                            className="col-12 col-md-4 mb-2"
-                            style={{ padding: '5px', paddingRight: '0' }}
-                          >
-                            <div
-                              style={{
-                                border: '1px solid #d7d7d7',
-                                padding: '20px',
-                                height: '225px'
-                              }}
-                            >
-                              <div className="align-items-center">
-                                <LazyLoad style={{ display: 'inline' }}>
-                                  <img
-                                    src={paymentIcon}
-                                    style={{
-                                      width: '30px',
-                                      marginRight: '18px',
-                                      display: 'inline-block'
-                                    }}
-                                  />
-                                </LazyLoad>
-                                <span>
-                                  <FormattedMessage id="payment.payment" />
-                                </span>
-                                {subDetail.subscribeStatus === '0' && (
-                                  <a
-                                    className="rc-styled-link red-text"
-                                    style={{ float: 'right', marginTop: '5px' }}
-                                    onClick={() => {
-                                      window.scrollTo(0, 0);
-                                      this.setState({ type: 'PaymentComp' });
-                                    }}
-                                  >
-                                    <FormattedMessage id="edit" />{' '}
-                                    {/* <FormattedMessage id="card" /> */}
-                                  </a>
-                                )}
-                              </div>
-                              <div className="ml-1">
-                                {currentCardInfo &&
-                                currentCardInfo.paymentMethod &&
-                                currentCardInfo.paymentMethod.last_4_digits ? (
-                                  <>
-                                    <span
-                                      className="medium"
-                                      style={{
-                                        fontSize: '18px',
-                                        fontWeight: '400',
-                                        color: '#333',
-                                        margin: '25px 0 10px',
-                                        verticalAlign: 'middle'
-                                      }}
-                                    >
-                                      **** **** ****
-                                      {
-                                        currentCardInfo.paymentMethod
-                                          .last_4_digits
-                                      }
-                                    </span>
-                                    <br />
-                                    <LazyLoad
-                                      style={{
-                                        width: '20%',
-                                        marginRight: '.2rem'
-                                      }}
-                                    >
-                                      <img
-                                        alt=""
-                                        className="d-inline-block"
-                                        src={
-                                          CREDIT_CARD_IMG_ENUM[
-                                            currentCardInfo.paymentMethod
-                                              ? currentCardInfo.paymentMethod
-                                                  .vendor
-                                              : currentCardInfo.vendor
-                                          ]
-                                        }
-                                      />
-                                    </LazyLoad>
-                                  </>
-                                ) : null}
+                      </>
 
-                                {currentCardInfo &&
-                                currentCardInfo.paymentMethod
-                                  ? currentCardInfo.paymentMethod.holder_name
-                                  : ''}
-                                <br />
-                                {currentCardInfo && currentCardInfo.phoneNumber}
-                                <br />
-                              </div>
-                            </div>
-                          </div>
-                        }
-                      </div>
-                      <h4 className="h4">
-                        <FormattedMessage id="myAutoshipOrder" />
-                      </h4>
-                      <div className="rc-max-width--xl">
-                        <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
-                          <div>
-                            <div
-                              className="rc-border-bottom rc-border-colour--interface"
-                              style={{ width: '70%', display: 'inline-block' }}
-                            >
-                              <nav className="rc-fade--x">
-                                <ul
-                                  className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
-                                  role="tablist"
-                                >
-                                  {this.state.tabName.map((ele, index) => (
-                                    <li key={index}>
-                                      <button
-                                        className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                        data-toggle={`tab__panel-${index}`}
-                                        aria-selected={
-                                          this.state.activeTabIdx === index
-                                            ? 'true'
-                                            : 'false'
-                                        }
-                                        role="tab"
-                                        onClick={(e) =>
-                                          this.changeTab(e, index)
-                                        }
-                                      >
-                                        {ele}
-                                      </button>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </nav>
-                            </div>
-                            <div
-                              style={{
-                                width: '30%',
-                                display: 'inline-block',
-                                textAlign: 'right',
-                                verticalAlign: 'middle'
-                              }}
-                            >
-                              <span
-                                style={{
-                                  display: 'inline-block',
-                                  width: isMobile ? 'auto' : '230px',
-                                  borderBottom: '1px solid #aaa',
-                                  textAlign: 'left'
-                                }}
-                              >
-                                {this.state.activeTabIdx === 0 &&
-                                noStartYearOption.length &&
-                                completedYearOption.length ? (
-                                  <Selection
-                                    optionList={noStartYearOption}
-                                    selectedItemData={noStartYear}
-                                    selectedItemChange={(el) => {
-                                      console.log(el, 'hahaha');
-                                      if (this.state.activeTabIdx === 0) {
-                                        this.setState({ noStartYear: el });
-                                      } else {
-                                        this.setState({ completedYear: el });
-                                      }
-                                    }}
-                                    type="freqency"
-                                    key={
-                                      (noStartYear && noStartYear.value) || ''
-                                    }
-                                  />
-                                ) : (
-                                  <Selection
-                                    optionList={completedYearOption}
-                                    selectedItemData={completedYear}
-                                    selectedItemChange={(el) => {
-                                      if (this.state.activeTabIdx === 0) {
-                                        this.setState({ noStartYear: el });
-                                      } else {
-                                        this.setState({ completedYear: el });
-                                      }
-                                    }}
-                                    type="freqency"
-                                    key={
-                                      (completedYear && completedYear.value) ||
-                                      ''
-                                    }
-                                  />
-                                )}
-                              </span>
-                            </div>
-                            <div
-                              className="rc-tabs tabs-detail"
-                              style={{ marginTop: '40px' }}
-                            >
-                              {this.state.activeTabIdx === 0 &&
-                                subDetail.noStartTradeList &&
-                                subDetail.noStartTradeList
-                                  .filter(
-                                    (el) =>
-                                      noStartYear &&
-                                      el.tradeItems[0].nextDeliveryTime.split(
-                                        '-'
-                                      )[0] === noStartYear.value
-                                  )
-                                  .map((el) => (
-                                    <>
-                                      <div className="card-container">
-                                        <div className="card rc-margin-y--none ml-0">
-                                          <div
-                                            className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                                            style={{
-                                              background: '#f9f9f9',
-                                              height: '60px',
-                                              padding: 0
-                                            }}
-                                          >
-                                            <div
-                                              className={`${
-                                                isMobile ? 'col-4' : 'col-md-3'
-                                              }`}
-                                              style={{
-                                                padding: isMobile
-                                                  ? '0 0 0 10px'
-                                                  : '0 15px 0 20px'
-                                              }}
-                                            >
-                                              <FormattedMessage id="shipmentOn" />
-                                              :
-                                              <br />
-                                              <span
-                                                style={{
-                                                  color: '#e2001a',
-                                                  fontWeight: '400'
-                                                }}
-                                              >
-                                                {getFormatDate(
-                                                  el.tradeItems[0].nextDeliveryTime.split(
-                                                    ' '
-                                                  )[0]
-                                                )}
-                                                {/* <FormattedDate value={el.tradeItems[0].nextDeliveryTime.split(' ')[0]}/> */}
-                                                {/* {
-                                                  el.tradeItems[0].nextDeliveryTime.split(' ')[0]
-                                                } */}
-                                              </span>
-                                            </div>
-                                            <div
-                                              className={`${
-                                                isMobile ? 'col-0' : 'col-md-5'
-                                              }`}
-                                            ></div>
-                                            <div
-                                              className={`changeDate ${
-                                                isMobile
-                                                  ? 'col-5'
-                                                  : 'col-md-3 pl-4'
-                                              }`}
-                                              style={{
-                                                textAlign: 'right',
-                                                padding: isMobile
-                                                  ? '0'
-                                                  : '0 20px 0 15px'
-                                              }}
-                                            >
-                                              {isActive ? (
-                                                <>
-                                                  <LazyLoad>
-                                                    <img
-                                                      src={dateIcon}
-                                                      style={{
-                                                        width: '20px',
-                                                        display: 'inline'
-                                                      }}
-                                                    />
-                                                  </LazyLoad>
-                                                  <span
-                                                    style={{
-                                                      color: '#666',
-                                                      fontWeight: '400',
-                                                      marginLeft: '5px',
-                                                      borderBottom:
-                                                        '1px solid #666',
-                                                      cursor: 'pointer'
-                                                    }}
-                                                  >
-                                                    <DatePicker
-                                                      className="receiveDate subs-receiveDate"
-                                                      placeholder="Select Date"
-                                                      dateFormat={
-                                                        datePickerConfig.format
-                                                      }
-                                                      locale={
-                                                        datePickerConfig.locale
-                                                      }
-                                                      // maxDate={this.getMaxDate(el.tradeItems[0].nextDeliveryTime)}
-                                                      minDate={
-                                                        this.getMinDate(
-                                                          el.tradeItems[0]
-                                                            .nextDeliveryTime
-                                                        ) || this.state.minDate
-                                                      }
-                                                      selected={
-                                                        el.tradeItems
-                                                          ? new Date(
-                                                              el.tradeItems[0].nextDeliveryTime
-                                                            )
-                                                          : new Date()
-                                                      }
-                                                      onChange={(date) => {
-                                                        this.setState({
-                                                          modalType:
-                                                            'changeDate',
-                                                          modalShow: true,
-                                                          currentModalObj: this.state.modalList.filter(
-                                                            (el) =>
-                                                              el.type ===
-                                                              'changeDate'
-                                                          )[0],
-                                                          currentChangeDate: date,
-                                                          currentChangeItem: el.tradeItems.map(
-                                                            (el) => {
-                                                              return {
-                                                                skuId: el.skuId
-                                                              };
-                                                            }
-                                                          )
-                                                        });
-                                                      }}
-                                                    />
-                                                  </span>
-                                                </>
-                                              ) : null}
-                                            </div>
-                                            <div
-                                              className={`${
-                                                isMobile ? 'col-3' : 'col-md-1'
-                                              }`}
-                                              style={{
-                                                padding: isMobile
-                                                  ? '0 0 0 10px'
-                                                  : '0'
-                                              }}
-                                            >
-                                              {isActive ? (
-                                                <>
-                                                  <LazyLoad>
-                                                    <img
-                                                      style={{
-                                                        display: 'inline-block',
-                                                        width: '20px',
-                                                        marginRight: '5px'
-                                                      }}
-                                                      src={skipIcon}
-                                                    />
-                                                  </LazyLoad>
-                                                  <a
-                                                    className="rc-styled-link"
-                                                    href="#/"
-                                                    onClick={(e) => {
-                                                      e.preventDefault();
-                                                      this.setState({
-                                                        modalType: 'skipNext',
-                                                        modalShow: true,
-                                                        currentModalObj: this.state.modalList.filter(
-                                                          (el) =>
-                                                            el.type ===
-                                                            'skipNext'
-                                                        )[0],
-                                                        skipNextGoods: el.tradeItems.map(
-                                                          (el) => {
-                                                            return {
-                                                              skuId: el.skuId
-                                                            };
-                                                          }
-                                                        )
-                                                      });
-                                                    }}
-                                                  >
-                                                    <FormattedMessage id="skip" />
-                                                  </a>
-                                                </>
-                                              ) : null}
-                                            </div>
-                                          </div>
-                                        </div>
-                                        {el.tradeItems &&
-                                          el.tradeItems.map(
-                                            (tradeItem, index) => (
-                                              <div
-                                                className="row rc-margin-x--none row align-items-center"
-                                                style={{
-                                                  padding: '1rem 0',
-                                                  borderBottom:
-                                                    '1px solid #d7d7d7'
-                                                }}
-                                                key={index}
-                                              >
-                                                <div
-                                                  className={`${
-                                                    isMobile ? 'col-6' : 'col-4'
-                                                  } col-md-4`}
-                                                >
-                                                  <div
-                                                    className="rc-layout-container rc-five-column"
-                                                    style={{
-                                                      paddingRight: isMobile
-                                                        ? '0'
-                                                        : '60px',
-                                                      paddingTop: '0'
-                                                    }}
-                                                  >
-                                                    <div
-                                                      className="rc-column flex-layout"
-                                                      style={{
-                                                        width: '80%',
-                                                        padding: 0
-                                                      }}
-                                                    >
-                                                      <LazyLoad>
-                                                        <img
-                                                          style={{
-                                                            width: '70px',
-                                                            margin: '0 10px'
-                                                          }}
-                                                          src={tradeItem.pic}
-                                                          alt=""
-                                                        />
-                                                      </LazyLoad>
-                                                      <div
-                                                        style={{
-                                                          width: '200px',
-                                                          paddingTop: '30px'
-                                                        }}
-                                                      >
-                                                        <h5
-                                                          className="text-nowrap"
-                                                          style={{
-                                                            overflow: 'hidden',
-                                                            textOverflow:
-                                                              'ellipsis',
-                                                            overflowWrap:
-                                                              'normal',
-                                                            fontSize: '14px',
-                                                            width: isMobile
-                                                              ? '95px'
-                                                              : 'auto'
-                                                          }}
-                                                        >
-                                                          {tradeItem.skuName}
-                                                        </h5>
-                                                        <p
-                                                          style={{
-                                                            overflow: 'hidden',
-                                                            textOverflow:
-                                                              'ellipsis',
-                                                            marginBottom: '8px',
-                                                            fontSize: '14px'
-                                                          }}
-                                                        >
-                                                          {
-                                                            tradeItem.specDetails
-                                                          }{' '}
-                                                          {isMobile
-                                                            ? `x ${tradeItem.num}`
-                                                            : null}
-                                                        </p>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div
-                                                  className={`${
-                                                    isMobile ? 'none' : 'col-4'
-                                                  } col-md-4`}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      textAlign: 'center',
-                                                      marginBottom: '0',
-                                                      fontWeight: '400'
-                                                    }}
-                                                  >
-                                                    x {tradeItem.num}
-                                                  </p>
-                                                </div>
-                                                <div
-                                                  className={`${
-                                                    isMobile ? 'col-6' : 'col-4'
-                                                  } col-md-4`}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      textAlign: 'right',
-                                                      paddingRight: '10px',
-                                                      marginBottom: '0'
-                                                    }}
-                                                  >
-                                                    <span className="red">
-                                                      {formatMoney(
-                                                        tradeItem.subscriptionPrice
-                                                      )}
-                                                    </span>
-                                                    <span
-                                                      style={{
-                                                        fontSize: '12px',
-                                                        textDecoration:
-                                                          'line-through',
-                                                        marginLeft: '5px'
-                                                      }}
-                                                    >
-                                                      {formatMoney(
-                                                        tradeItem.originalPrice
-                                                      )}
-                                                    </span>
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            )
-                                          )}
-                                        <div
-                                          className="row rc-margin-x--none row align-items-center"
-                                          style={{
-                                            padding: '1rem 0',
-                                            borderBottom: '1px solid #d7d7d7'
-                                          }}
-                                        >
-                                          <div className={`col-12 col-md-6`}>
-                                            <div
-                                              className="footer"
-                                              style={{
-                                                marginTop: '10px',
-                                                marginBottom: '10px',
-                                                padding: '0 40px',
-                                                display: 'none'
-                                                // display:
-                                                //   subDetail.subscribeStatus ===
-                                                //   '0'
-                                                //     ? 'block'
-                                                //     : 'none'
-                                              }}
-                                            >
-                                              <span
-                                                className="rc-input rc-input--inline rc-input--label"
-                                                style={{
-                                                  width: isMobile
-                                                    ? '50%'
-                                                    : '170px',
-                                                  verticalAlign: 'middle'
-                                                }}
-                                              >
-                                                <input
-                                                  className="rc-input__control"
-                                                  id="id-text2"
-                                                  type="text"
-                                                  name="text"
-                                                  placeholder={
-                                                    this.props.intl.messages
-                                                      .promotionCode
-                                                  }
-                                                  value={
-                                                    this.state
-                                                      .promotionInputValue
-                                                  }
-                                                  onChange={(e) =>
-                                                    this.handlerChange(e)
-                                                  }
-                                                />
-                                                <label
-                                                  className="rc-input__label"
-                                                  htmlFor="id-text2"
-                                                ></label>
-                                              </span>
-                                              <button
-                                                className={[
-                                                  'rc-btn',
-                                                  'rc-btn--sm',
-                                                  'rc-btn--two',
-                                                  this.state.isClickApply &&
-                                                    'ui-btn-loading ui-btn-loading-border-red'
-                                                ].join(' ')}
-                                                style={{ marginTop: '10px' }}
-                                                onClick={async () => {
-                                                  let result = {};
-                                                  if (
-                                                    !this.state
-                                                      .promotionInputValue
-                                                  )
-                                                    return;
-                                                  this.setState({
-                                                    isClickApply: true,
-                                                    isShowValidCode: false,
-                                                    lastPromotionInputValue: this
-                                                      .state.promotionInputValue
-                                                  });
-                                                  //会员
-                                                  result = await this.doGetPromotionPrice(
-                                                    this.state
-                                                      .promotionInputValue
-                                                  );
-                                                  if (
-                                                    result.code ===
-                                                      'K-000000' &&
-                                                    !result.context
-                                                      .promotionFlag
-                                                  ) {
-                                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
-                                                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                                    this.setState({
-                                                      discount,
-                                                      promotionDesc:
-                                                        result.context
-                                                          .promotionDesc
-                                                    });
-                                                  } else {
-                                                    this.setState({
-                                                      isShowValidCode: true
-                                                    });
-                                                  }
-                                                  this.setState({
-                                                    isClickApply: false,
-                                                    promotionInputValue: '',
-                                                    loading: false
-                                                  });
-                                                }}
-                                              >
-                                                <FormattedMessage id="apply" />
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <div className={`col-12 col-md-6`}>
-                                            <div className="text-right">
-                                              <div className="row">
-                                                <div class="col-1 col-md-3" />
-                                                <label className="col-5 text-left">
-                                                  <FormattedMessage id="subscription.total" />
-                                                </label>
-                                                <div className="col-5 col-md-3 text-right">
-                                                  <b>
-                                                    {formatMoney(
-                                                      el.tradePrice.goodsPrice
-                                                    )}
-                                                  </b>
-                                                </div>
-                                              </div>
-                                              {el.tradePrice
-                                                .subscriptionDiscountPrice ? (
-                                                <div className="row">
-                                                  <div class="col-1 col-md-3" />
-                                                  <label className="green col-5 text-left">
-                                                    <FormattedMessage id="promotion" />
-                                                    :
-                                                  </label>
-                                                  <div className="col-5 col-md-3 text-right green">
-                                                    <b>
-                                                      -
-                                                      {formatMoney(
-                                                        el.tradePrice
-                                                          .subscriptionDiscountPrice
-                                                      )}
-                                                    </b>
-                                                  </div>
-                                                </div>
-                                              ) : null}
-                                              {el.tradePrice
-                                                .promotionDiscountPrice ? (
-                                                <div className="row">
-                                                  <div class="col-1 col-md-3" />
-                                                  <label className="green col-5 text-left">
-                                                    <FormattedMessage id="promotion" />
-                                                    :
-                                                  </label>
-                                                  <div className="col-5 col-md-3 text-right green">
-                                                    <b>
-                                                      -
-                                                      {formatMoney(
-                                                        el.tradePrice
-                                                          .promotionDiscountPrice
-                                                      )}
-                                                    </b>
-                                                  </div>
-                                                </div>
-                                              ) : null}
-                                              {!this.state.isShowValidCode &&
-                                                discount.map((el, i) => (
-                                                  <div className="row" key={i}>
-                                                    <div class="col-1 col-md-3" />
-                                                    <label
-                                                      className="red-text col-5"
-                                                      style={{
-                                                        flex: isMobile
-                                                          ? '1'
-                                                          : 'inherit'
-                                                      }}
-                                                    >
-                                                      {this.state.promotionDesc}
-                                                    </label>
-                                                    <div
-                                                      className="text-right red-text col-5 col-md-3"
-                                                      style={{
-                                                        position: 'relative',
-                                                        flex: isMobile
-                                                          ? '1'
-                                                          : 'inherit'
-                                                      }}
-                                                    >
-                                                      <b>
-                                                        -
-                                                        {formatMoney(
-                                                          this.state
-                                                            .promotionDiscount
-                                                        )}
-                                                      </b>
-                                                      <span
-                                                        style={{
-                                                          position: 'absolute',
-                                                          right: '-18px',
-                                                          fontSize: '22px',
-                                                          bottom: '5px',
-                                                          cursor: 'pointer'
-                                                        }}
-                                                        onClick={() => {
-                                                          discount.pop();
-                                                          this.setState({
-                                                            discount: discount
-                                                          });
-                                                        }}
-                                                      >
-                                                        x
-                                                      </span>
-                                                    </div>
-                                                  </div>
-                                                ))}
-                                              <div className="row">
-                                                <div className="col-1 col-md-3" />
-                                                <label className="col-5 text-left">
-                                                  <FormattedMessage id="subscription.shipping" />
-                                                </label>
-                                                <div className="text-right red-text col-5 col-md-3">
-                                                  <b>
-                                                    {formatMoney(
-                                                      el.tradePrice
-                                                        .deliveryPrice
-                                                    )}
-                                                  </b>
-                                                </div>
-                                              </div>
-                                              <div className="row">
-                                                <div className="col-1 col-md-3" />
-                                                <label className="col-5 text-left">
-                                                  <b
-                                                    style={{
-                                                      fontSize: '20px',
-                                                      color: '#333'
-                                                    }}
-                                                  >
-                                                    <FormattedMessage id="order.total" />
-                                                  </b>{' '}
-                                                  <span
-                                                    style={{ fontSize: '12px' }}
-                                                  >
-                                                    <FormattedMessage id="order.iVAIncluido" />
-                                                  </span>
-                                                </label>
-                                                <div className="text-right col-5 col-md-3">
-                                                  <b>
-                                                    {formatMoney(
-                                                      el.tradePrice.totalPrice
-                                                    )}
-                                                  </b>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  ))}
-                              {this.state.activeTabIdx === 1 &&
-                                subDetail.completedTradeList &&
-                                subDetail.completedTradeList
-                                  .filter(
-                                    (el) =>
-                                      completedYear &&
-                                      el.tradeState.createTime.split('-')[0] ===
-                                        completedYear.value
-                                  )
-                                  .map((el) => (
-                                    <div className="card-container">
-                                      <div className="card rc-margin-y--none ml-0">
-                                        <div
-                                          className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                                          style={{
-                                            background: '#f9f9f9',
-                                            height: '75px'
-                                          }}
-                                        >
-                                          <div
-                                            className={`${
-                                              isMobile ? 'col-5' : 'col-md-3'
-                                            }`}
-                                            style={{ paddingLeft: '20px' }}
-                                          >
-                                            <FormattedMessage id="shipmentOn" />
-                                            :{' '}
-                                            <span
-                                              style={{
-                                                color: '#e2001a',
-                                                fontWeight: '400'
-                                              }}
-                                            >
-                                              {getFormatDate(
-                                                el.tradeState.createTime.split(
-                                                  ' '
-                                                )[0]
-                                              )}
-                                              {/* <FormattedDate value={el.tradeState.createTime.split(' ')[0]}/> */}
-                                            </span>
-                                          </div>
-                                          {isMobile ? null : (
-                                            <div className="col-12 col-md-3"></div>
-                                          )}
-                                          {isMobile ? null : (
-                                            <div className="col-12 col-md-3 pl-4">
-                                              <FormattedMessage id="promotion" />
-                                              :{' '}
-                                              <span
-                                                className="green"
-                                                style={{
-                                                  // color: '#e2001a',
-                                                  fontWeight: '400'
-                                                }}
-                                              >
-                                                -
-                                                {formatMoney(
-                                                  el.tradePrice.discountsPrice
-                                                )}
-                                              </span>
-                                            </div>
-                                          )}
-                                          <div
-                                            className="col-7 col-md-3"
-                                            style={{
-                                              padding: isMobile ? '0' : '0 15px'
-                                            }}
-                                          >
-                                            {isMobile ? (
-                                              <>
-                                                <div
-                                                  style={{ textAlign: 'right' }}
-                                                >
-                                                  {el.id ? (
-                                                    <>
-                                                      <i className="greenCircle"></i>
-                                                      <span>
-                                                        {ORDER_STATUS_ENUM[
-                                                          el.tradeState
-                                                            .flowState
-                                                        ] ||
-                                                          el.tradeState
-                                                            .flowState}
-                                                      </span>
-                                                      <span
-                                                        className="rc-icon rc-right rc-iconography"
-                                                        onClick={(e) => {
-                                                          e.preventDefault();
-                                                          const {
-                                                            history
-                                                          } = this.props;
-                                                          history.push(
-                                                            `/account/orders/detail/${el.id}`
-                                                          );
-                                                        }}
-                                                      ></span>
-                                                    </>
-                                                  ) : (
-                                                    <>
-                                                      <i className="yellowCircle"></i>
-                                                      <span
-                                                        style={{
-                                                          paddingRight: '30px'
-                                                        }}
-                                                      >
-                                                        <FormattedMessage id="skiped" />
-                                                      </span>
-                                                    </>
-                                                  )}
-                                                </div>
-                                              </>
-                                            ) : el.id ? (
-                                              <>
-                                                <LazyLoad>
-                                                  <img
-                                                    style={{
-                                                      display: 'inline-block',
-                                                      width: '20px',
-                                                      marginRight: '5px'
-                                                    }}
-                                                    src={dateIcon}
-                                                  />
-                                                </LazyLoad>
-                                                <a
-                                                  className="rc-styled-link"
-                                                  href="#/"
-                                                  onClick={(e) => {
-                                                    e.preventDefault();
-                                                    const {
-                                                      history
-                                                    } = this.props;
-                                                    history.push(
-                                                      `/account/orders/detail/${el.id}`
-                                                    );
-                                                  }}
-                                                >
-                                                  <FormattedMessage id="orderDetail" />
-                                                  {/* Order detail */}
-                                                </a>
-                                              </>
-                                            ) : null}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      {/* {subDetail.goodsInfo &&
-                                    subDetail.goodsInfo.map((el, index) => ( */}
-                                      <div
-                                        className="row rc-margin-x--none row align-items-center"
-                                        style={{
-                                          padding: '1rem 0',
-                                          borderBottom: '1px solid #d7d7d7'
-                                        }}
-                                      >
-                                        {isMobile ? (
-                                          <div className="col-8 col-md-6">
-                                            {el.tradeItems &&
-                                              el.tradeItems.map(
-                                                (tradeItem, index) => {
-                                                  if (index < 2) {
-                                                    return (
-                                                      <>
-                                                        <LazyLoad>
-                                                          <img
-                                                            style={{
-                                                              width: '70px',
-                                                              margin: '0 10px',
-                                                              display: 'inline'
-                                                            }}
-                                                            src={tradeItem.pic}
-                                                            alt=""
-                                                          />
-                                                        </LazyLoad>
-                                                        <div
-                                                          className="v-center"
-                                                          style={{
-                                                            width: '95px',
-                                                            verticalAlign:
-                                                              'middle',
-                                                            display:
-                                                              'inline-block'
-                                                          }}
-                                                        >
-                                                          <h5
-                                                            style={{
-                                                              overflow:
-                                                                'hidden',
-                                                              textOverflow:
-                                                                'ellipsis',
-                                                              overflowWrap:
-                                                                'normal',
-                                                              fontSize: '14px',
-                                                              whiteSpace:
-                                                                'nowrap'
-                                                            }}
-                                                          >
-                                                            {tradeItem.skuName}
-                                                          </h5>
-                                                          <p
-                                                            style={{
-                                                              overflow:
-                                                                'hidden',
-                                                              textOverflow:
-                                                                'ellipsis',
-                                                              marginBottom:
-                                                                '8px',
-                                                              fontSize: '14px'
-                                                            }}
-                                                          >
-                                                            {
-                                                              tradeItem.specDetails
-                                                            }
-                                                            &nbsp;&nbsp;x{' '}
-                                                            {tradeItem.num}
-                                                          </p>
-                                                        </div>
-                                                      </>
-                                                    );
-                                                  }
-                                                }
-                                              )}
-                                          </div>
-                                        ) : (
-                                          <div className="col-4 col-md-7">
-                                            <div
-                                              className="rc-layout-container rc-five-column"
-                                              style={{
-                                                paddingRight: '60px',
-                                                paddingTop: '0'
-                                              }}
-                                            >
-                                              <div
-                                                className="rc-column flex-layout"
-                                                style={{
-                                                  width: '100%',
-                                                  padding: 0
-                                                }}
-                                              >
-                                                {el.tradeItems &&
-                                                  el.tradeItems.map(
-                                                    (tradeItem, index) => {
-                                                      if (index < 2) {
-                                                        return (
-                                                          <>
-                                                            <LazyLoad>
-                                                              <img
-                                                                style={{
-                                                                  width: '70px',
-                                                                  margin:
-                                                                    '0 10px'
-                                                                }}
-                                                                src={
-                                                                  tradeItem.pic
-                                                                }
-                                                                alt=""
-                                                              />
-                                                            </LazyLoad>
-                                                            <div
-                                                              style={{
-                                                                width: isMobile
-                                                                  ? '120px'
-                                                                  : 'auto',
-                                                                paddingTop:
-                                                                  '30px'
-                                                              }}
-                                                            >
-                                                              <h5
-                                                                style={{
-                                                                  overflow:
-                                                                    'hidden',
-                                                                  textOverflow:
-                                                                    'ellipsis',
-                                                                  overflowWrap:
-                                                                    'normal',
-                                                                  fontSize:
-                                                                    '14px',
-                                                                  whiteSpace:
-                                                                    'nowrap'
-                                                                }}
-                                                              >
-                                                                {
-                                                                  tradeItem.skuName
-                                                                }
-                                                              </h5>
-                                                              <p
-                                                                style={{
-                                                                  overflow:
-                                                                    'hidden',
-                                                                  textOverflow:
-                                                                    'ellipsis',
-                                                                  marginBottom:
-                                                                    '8px',
-                                                                  fontSize:
-                                                                    '14px'
-                                                                }}
-                                                              >
-                                                                {
-                                                                  tradeItem.specDetails
-                                                                }{' '}
-                                                                x{' '}
-                                                                {tradeItem.num}
-                                                              </p>
-                                                            </div>
-                                                          </>
-                                                        );
-                                                      }
-                                                    }
-                                                  )}
-                                                {el.tradeItems &&
-                                                  el.tradeItems.length > 2 && (
-                                                    <div
-                                                      style={{
-                                                        width: '120px',
-                                                        paddingTop: '30px',
-                                                        marginLeft: '40px',
-                                                        fontSize: '25px',
-                                                        fontWeight: 400
-                                                      }}
-                                                    >
-                                                      ...
-                                                    </div>
-                                                  )}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        )}
-                                        {isMobile ? null : (
-                                          <div className="col-4 col-md-3">
-                                            <div
-                                              style={{ textAlign: 'center' }}
-                                            >
-                                              {el.id ? (
-                                                <>
-                                                  <i className="greenCircle"></i>
-                                                  <span>
-                                                    {ORDER_STATUS_ENUM[
-                                                      el.tradeState.flowState
-                                                    ] ||
-                                                      el.tradeState.flowState}
-                                                  </span>
-                                                </>
-                                              ) : (
-                                                <>
-                                                  <i className="yellowCircle"></i>
-                                                  <span>
-                                                    <FormattedMessage id="skiped" />
-                                                  </span>
-                                                </>
-                                              )}
-                                            </div>
-                                          </div>
-                                        )}
-                                        <div
-                                          className="col-4 col-md-2"
-                                          style={{ textAlign: 'center' }}
-                                        >
-                                          {formatMoney(
-                                            el.tradePrice.totalPrice
-                                          )}
-                                        </div>
-                                      </div>
-                                      {/* ))} */}
-                                    </div>
-                                  ))}
-                              {/* {this.state.goodsDetailTab.tabContent.map((ele, i) => (
-                                  <div
-                                    id={`tab__panel-${i}`}
-                                    key={i}
-                                    className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                                    aria-expanded={
-                                      this.state.activeTabIdx === i ? 'true' : 'false'
-                                    }
-                                  >
-                                    <div className="block">
-                                      <p
-                                        className="content rc-scroll--x"
-                                        dangerouslySetInnerHTML={createMarkup(ele)}
-                                      />
-                                    </div>
-                                  </div>
-                                ))} */}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      {/* 用户信息、地址列表 */}
+                      <>
+                        <h4 className="h4" id="sub-user-paymentinfo-title">
+                          <FormattedMessage id="transactionInfo" />
+                        </h4>
+                        {/* 订阅详情用户数据 */}
+                        {type === 'main' ? (
+                          <UserPaymentInfo
+                            currentCardInfo={currentCardInfo}
+                            currentBillingAddress={currentBillingAddress}
+                            subDetail={subDetail}
+                            setState={this.setState.bind(this)}
+                            currentDeliveryAddress={currentDeliveryAddress}
+                          />
+                        ) : null}
+
+                        {/* 地址列表 */}
+                        {type === 'AddressComp' ? (
+                          <AddressComp
+                            customerAccount={subDetail?.customerAccount}
+                            tradeItems={subDetail?.noStartTradeList}
+                            type={addressType}
+                            deliveryAddressId={subDetail.deliveryAddressId}
+                            billingAddressId={subDetail.billingAddressId}
+                            save={(el, isBillSame, fn) =>
+                              this.addressSave(el, isBillSame, fn)
+                            }
+                            cancel={this.cancelEdit}
+                          />
+                        ) : null}
+                      </>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div className="rc-md-up">
+              <Modal
+                headerVisible={false}
+                // footerVisible={false}
+                visible={remainingsVisible}
+                cancelBtnIsLink={true}
+                modalTitle={''}
+                close={this.closeRemainings}
+                hanldeClickConfirm={() => this.hanldeClickSubmit()}
+              >
+                <RemainingsList remainingsList={remainingsList} />
+              </Modal>
+            </div>
+            <div
+              className="sub-des-mobile-modal rc-md-down"
+              style={{
+                display: remainingsVisible ? 'block' : 'none'
+              }}
+            >
+              <RemainingsList remainingsList={remainingsList} />
+              <a className="rc-styled-link" onClick={this.closeRemainings}>
+                cancel
+              </a>
+              <span style={{ padding: '0 1rem' }}>or</span>
+              <button
+                className="rc-btn rc-btn--one"
+                onClick={this.hanldeClickSubmit}
+              >
+                confoirm
+              </button>
+            </div>
+            <Footer />
           </main>
-          <Footer />
         </div>
-      </div>
+      </DivWrapper>
     );
   }
 }

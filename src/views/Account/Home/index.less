@@ -1,4 +1,4 @@
-.card-header>a {
+.card-header > a {
   float: right;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .my__account__information h4 {
-  padding: 0 0 10px;
+  padding: 0 0 .625rem;
   position: relative;
   top: 0;
   text-transform: capitalize
@@ -183,7 +183,7 @@
 
 @media (max-width: 768.98px) {
   .order__listing .card {
-      margin-top:20px
+      margin-top:1.25rem
   }
 }
 
@@ -199,7 +199,7 @@
 }
 
 .order__listing .order-list-container h4,.order__listing .order-list-container p {
-  font-size: 14px;
+  font-size: .875rem;
   color: #767676;
   margin: 0
 }
@@ -250,7 +250,7 @@
 .my__account__information.receipt_order .order-product-summary {
   color: #333;
   background: #f6f6f6;
-  margin-bottom: 40px;
+  // margin-bottom: 40px;
   margin: 0 auto;
   max-width: 80%
 }
@@ -277,7 +277,7 @@
 .my__account__information.receipt_order .order-product-summary-head {
   background: #444;
   color: #fff;
-  padding: 10px 10px 4px
+  padding: .625rem .625rem 4px
 }
 
 .my__account__information.receipt_order .order-product-summary .card {
@@ -318,13 +318,13 @@
 .my__account__information.receipt_order .order-product-summary .line-item-pricing-info {
   position: relative;
   left: -53px;
-  top: 20px;
+  top: 1.25rem;
   height: 50px
 }
 
 .my__account__information.receipt_order .order-product-summary .line-item-pricing-info .pricing.qty-card-quantity-count {
   position: relative;
-  top: -24px;
+  top: -1.5rem;
   left: 104px
 }
 
@@ -543,7 +543,7 @@
 }
 
 @media (min-width: 992px) {
-  [data-country=RU] .dashboard__profile-cards .rc-column>div .rc-content-block {
+  [data-country=ru] .dashboard__profile-cards .rc-column>div .rc-content-block {
       min-height:290px;
       max-height: 290px
   }
@@ -624,6 +624,40 @@ div.order-number {
 }
 
 .account-home-icon{
-  width: 3em;
+  width: 2.6rem;
   height: auto;
+}
+
+.accountHomeFooterLink{
+  padding: 40px 0;
+  background-color: #F6F6F6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h2{
+    img{
+      width: 65px;
+      height: 65px;
+    }
+  }
+  .brandName{
+    font-weight: 500;
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+    color:#E94157;
+  }
+  .content{
+    font-size: 1.125rem;
+    color: #888989;
+  }
+  .payBtn{
+    display: flex;
+    margin-top: .625rem;
+    img{
+      width: 140px;
+      height: 45px;
+      margin: 0 .625rem;
+      cursor: pointer;
+    }
+  }
 }

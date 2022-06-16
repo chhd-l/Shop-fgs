@@ -1,165 +1,173 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import {
+  getDictionary,
+  matchNamefromDict,
+  handleFelinAppointTime,
+  formatDate
+} from '@/utils/utils';
+import { AddressPreview } from '@/components/Address';
+import cn from 'classnames';
 
+@injectIntl
 class InfosPreview extends React.Component {
   static defaultProps = {
-    payRecord: null
+    payRecord: null,
+    hideBillingAddr: false
   };
   constructor(props) {
     super(props);
     this.state = {
-      countryList: [],
-      deviceType: '',
-      orderArr: []
+      countryList: []
     };
   }
   componentDidMount() {
-    this.setState({ deviceType: getDeviceType() }, () => {
-      this.computedOrder(); //地址栏三个部分的order顺序需要动态调整
-    });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
       });
     });
   }
-  computedOrder = () => {
-    if (this.state.deviceType == 'PC') {
-      this.setState({ orderArr: ['order1', 'order2', 'order3'] });
-    } else {
-      this.setState({ orderArr: ['order1', 'order3', 'order2'] });
-    }
+  handleFelinOrderDate = (appointmentDate) => {
+    const orderTime = handleFelinAppointTime(appointmentDate);
+    return (
+      formatDate({ date: orderTime.appointStartTime.split(' ')[0] }) +
+      ' ' +
+      orderTime.appointStartTime.split(' ')[1] +
+      ' - ' +
+      orderTime.appointEndTime.split(' ')[1]
+    );
   };
   render() {
     const { payRecord, details } = this.props;
     return (
-      <div style={{ padding: '0 15px' }}>
-        <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break 1111111111111">
-          {details ? (
-            <div
-              className={[
-                'col-12',
-                'col-md-6',
-                'mb-3',
-                this.state.orderArr[0]
-              ].join(' ')}
-            >
-              <div
-                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
-              >
-                <FormattedMessage id="deliveryAddress" />
-              </div>
-              <div>
-                <span>{details.consignee.name}</span>
-              </div>
-              <div>
-                {details.consignee.postCode}, {details.consignee.phone}
-              </div>
-              {matchNamefromDict(
-                this.state.countryList,
-                details.consignee.countryId
-              )}{' '}
-              {details.consignee.cityName}
-              <br />
-              {details.consignee.detailAddress1}
-              <br />
-              {details.consignee.detailAddress2}
-              {details.consignee.detailAddress2 ? <br /> : null}
-              {details.consignee.rfc}
-              {details.consignee.rfc ? <br /> : null}
-              {details.buyerRemark}
+      <div className="row1 rc-bg-colour--brand3 p-3 text-break grid grid-cols-12">
+        {/*Felin Appointment summary*/}
+        {details?.appointmentNo ? (
+          <div className="col-span-12 md:col-span-6 mb-3">
+            <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
+              <FormattedMessage id="Appointment summary" />
             </div>
-          ) : null}
-          {payRecord && payRecord.last4Digits ? (
-            // && payRecord.paymentMethod !== 'ADYEN'
-            <div
-              className={[
-                'col-12',
-                'col-md-6',
-                'mb-3',
-                this.state.orderArr[1]
-              ].join(' ')}
-            >
-              <div
-                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
-              >
-                <FormattedMessage id="payment.paymentInformation" />
-              </div>
-              <div>
-                <span>{details.consignee.name}</span>
-              </div>
-              <div>{payRecord.vendor}</div>
-              <div>
-                {payRecord.last4Digits ? (
-                  <>
-                    <span className="medium">
-                      ********{payRecord.last4Digits}
-                    </span>
-                    <br />
-                  </>
-                ) : null}
-              </div>
-              <div>
-                {payRecord.expirationDate ? (
-                  <>
-                    <span className="medium">{payRecord.expirationDate}</span>
-                    <br />
-                  </>
-                ) : null}
-              </div>
+            <div className="d-flex flex-column">
+              <span>
+                <FormattedMessage id="Expert type" />
+                {details.specialistType}
+              </span>
+              <span>
+                <FormattedMessage id="Appointment type" />
+                {details.appointmentType}
+              </span>
+              <span>
+                <FormattedMessage id="Appointment time" />
+              </span>
+              <span>{this.handleFelinOrderDate(details.appointmentDate)}</span>
+            </div>
+          </div>
+        ) : null}
 
-              {payRecord.accountName ? (
+        {/* {JSON.stringify(details.consignee)} */}
+        {details && !details.appointmentNo ? (
+          <div className={cn('col-span-12 md:col-span-6 mb-3 order-1')}>
+            <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
+              <FormattedMessage id="deliveryAddress" />
+            </div>
+            <AddressPreview
+              data={{
+                name: details.consignee.name,
+                lastName: details.consignee.lastName,
+                firstName: details.consignee.firstName,
+                firstNameKatakana: details.consignee?.firstNameKatakana,
+                lastNameKatakana: details.consignee?.lastNameKatakana,
+                address1: details.consignee.detailAddress1,
+                address2: details.consignee.detailAddress2,
+                city: details.consignee.city,
+                area: details.consignee.area,
+                province: details.consignee.province,
+                county: details.consignee.county,
+                postCode: details.consignee.postCode,
+                rfc: details.consignee.rfc,
+                buyerRemark: details.buyerRemark,
+                countryName: matchNamefromDict(
+                  this.state.countryList,
+                  details.consignee.countryId
+                )
+              }}
+            />
+          </div>
+        ) : null}
+        {payRecord && payRecord.lastFourDigits ? (
+          <div
+            className={cn('col-span-12 md:col-span-6 mb-3 order-4 md:order-2')}
+          >
+            <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
+              <FormattedMessage id="payment.paymentInformation" />
+            </div>
+            <div>{details.consignee.name}</div>
+            <div>{payRecord.paymentVendor}</div>
+            {payRecord.lastFourDigits ? (
+              <div className="medium">********{payRecord.lastFourDigits}</div>
+            ) : null}
+            <div>
+              {payRecord.expirationDate ? (
                 <>
-                  {payRecord.accountName}
+                  <span className="medium">
+                    <FormattedMessage id="Expire" />{' '}
+                    {formatDate({
+                      date: payRecord.expirationDate,
+                      formatOption: {
+                        year: 'numeric',
+                        month: '2-digit'
+                      }
+                    })}
+                  </span>
                   <br />
                 </>
               ) : null}
-              {payRecord.phone ? (
-                <>
-                  {payRecord.phone}
-                  <br />
-                </>
-              ) : null}
-              {payRecord.email}
             </div>
-          ) : null}
-          {details ? (
-            <div
-              className={[
-                'col-12',
-                'col-md-6',
-                'mb-3',
-                this.state.orderArr[2]
-              ].join(' ')}
-            >
-              <div
-                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
-              >
-                <FormattedMessage id="billingAddress" />
-              </div>
-              <div>
-                <span>{details.invoice.contacts}</span>
-              </div>
-              <div>
-                {details.invoice.postCode}, {details.invoice.phone}
-              </div>
-              {matchNamefromDict(
-                this.state.countryList,
-                details.invoice.countryId
-              )}{' '}
-              {details.invoice.cityName}
-              <br />
-              {details.invoice.address1}
-              <br />
-              {details.invoice.address2}
-              {details.invoice.address2 ? <br /> : null}
-              {details.invoice.rfc}
-              {details.invoice.rfc ? <br /> : null}
+
+            {payRecord.accountName ? <p>{payRecord.accountName}</p> : null}
+            {/* 分期费用明细 */}
+            {0 && details.tradePrice.installmentPrice ? (
+              <p>
+                {formatMoney(details.tradePrice.totalPrice)} (
+                {details.tradePrice.installmentPrice.installmentNumber} *{' '}
+                {formatMoney(
+                  details.tradePrice.installmentPrice.installmentPrice
+                )}
+                )
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+        {/* {JSON.stringify(details.invoice)} */}
+        {details &&
+        !this.props.hideBillingAddr &&
+        details.invoice &&
+        !details.appointmentNo ? (
+          <div className={cn('col-span-12 md:col-span-6 mb-3 order-3')}>
+            <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
+              <FormattedMessage id="billingAddress" />
             </div>
-          ) : null}
-        </div>
+            <AddressPreview
+              data={{
+                name: details.invoice.contacts,
+                address1: details.invoice.address1,
+                address2: details.invoice.address2,
+                countryName: matchNamefromDict(
+                  this.state.countryList,
+                  details.invoice.countryId
+                ),
+                city: details.invoice.city,
+                area: details.invoice.area,
+                province: details.invoice.province,
+                county: details.invoice.county,
+                postCode: details.invoice.postCode,
+                rfc: details.invoice.rfc,
+                buyerRemark: details.buyerRemark
+              }}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }

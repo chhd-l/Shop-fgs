@@ -1,13 +1,36 @@
 import axios from '@/utils/request';
 
 const api = {
-  details: '/goods/unLogin/spu',
+  // apiupdate erreur de fonctionnement 原本接口就报错
+  details: '/guest/products',
+  // details: '/goods/unLogin/spu',
   loginDetails: '/goods/spu',
   detailsBySpu: '/goods/spu_no',
-  goodsRelation: '/goodsRelation'
+  detailsBySpuIgnoreDisplayFlag: '/goods/ignoreDisplayFlag/spu_no',
+  goodsRelation: '/goodsRelation',
+  getMixFeeding: '/goodsRelation/relatedInfo',
+  getMixFeedings: '/goodsRelation/relatedInfoBySpuIds',
+  productFinderDailyPortion: '/productFinderDailyPortion/breeds',
+  productFinderDailyPortionRation: 'productFinderDailyPortion/ration'
 };
 
 export default api;
+
+export function productFinderDailyPortion(data) {
+  return axios({
+    url: `${api.productFinderDailyPortion}`,
+    method: 'post',
+    data
+  });
+}
+
+export function productFinderDailyPortionRation(data) {
+  return axios({
+    url: `${api.productFinderDailyPortionRation}`,
+    method: 'post',
+    data
+  });
+}
 
 export function getDetails(parameter) {
   return axios({
@@ -26,6 +49,14 @@ export function getLoginDetails(parameter) {
 export function getDetailsBySpuNo(parameter) {
   return axios({
     url: `${api.detailsBySpu}/${parameter}`,
+    method: 'get'
+  });
+}
+
+// display为no的时候也需要查询到商品详情数据
+export function getDetailsBySpuNoIgnoreDisplayFlag(parameter) {
+  return axios({
+    url: `${api.detailsBySpuIgnoreDisplayFlag}/${parameter}`,
     method: 'get'
   });
 }
@@ -52,5 +83,30 @@ export function getGoodsRelation(parameter) {
   return axios({
     url: `${api.goodsRelation}/${parameter}`,
     method: 'get'
+  });
+}
+
+export function getMixFeeding(id) {
+  return axios({
+    url: `${api.getMixFeeding}/${id}`,
+    method: 'get'
+  });
+}
+
+export function getMixFeedings(ids) {
+  return axios({
+    url: `${api.getMixFeedings}`,
+    method: 'post',
+    data: {
+      goodsIds: ids
+    }
+  });
+}
+
+export function getDailyPortionLifeStage(data) {
+  return axios({
+    url: '/productFinderDailyPortion/lifestage',
+    method: 'post',
+    data
   });
 }

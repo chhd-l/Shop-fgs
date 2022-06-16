@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import './index.css';
-import { FormattedMessage } from 'react-intl';
-import noPic from '@/assets/images/noPic.png';
-// import noPic from './images/noPic1.png';
-//import LeftImg from '@/assets/images/left.png'
-//import RightImg from '@/assets/images/right.png'
-import { getDeviceType } from '@/utils/utils.js';
+import { getDeviceType, optimizeImage } from '@/utils/utils';
+import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
-let isMobile = getDeviceType() === 'H5';
+
+let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function getMuntiImg(img) {
   if (img) {
@@ -34,7 +31,8 @@ function getMuntiImg(img) {
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
-    taggingForImage: null
+    taggingForImage: null,
+    direction: 'col'
   };
   constructor(props) {
     super(props);
@@ -45,13 +43,13 @@ class ImageMagnifier extends Component {
        */
       params: {
         // 放大倍数
-        scale: (props.config && props.config.scale) || 2,
+        scale: (props.config && props.config.scale) || 1.2,
         // 组件宽
-        width: isMobile ? '230' : (props.config && props.config.width) || '250',
+        width: isMobile ? '230' : (props.config && props.config.width) || '300',
         // 组件高
         height: isMobile
           ? '324'
-          : (props.config && props.config.height) || '354'
+          : (props.config && props.config.height) || '404'
       },
       // 缩略图
       minImg: '',
@@ -160,28 +158,30 @@ class ImageMagnifier extends Component {
       selectedSizeInfo = [sizeList[0]];
     }
 
-    if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
-      let hoverIndex = 0;
-      images.map((el, i) => {
-        if (
-          el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
-          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
-        ) {
-          hoverIndex = i;
-        }
-        return el;
-      });
-      this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
-        videoShow: false,
-        hoverIndex,
-        offsetX: isMobile ? hoverIndex * 230 : hoverIndex * 250
-      });
-    }
+    // if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
+    //   console.log(selectedSizeInfo, images,'hoverIndex')
+    //   let hoverIndex = 0;
+    //   images.map((el, i) => {
+    //     if (
+    //       el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
+    //       el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
+    //     ) {
+    //       hoverIndex = i;
+    //     }
+    //     return el;
+    //   });
+
+    //   console.log(hoverIndex, 'hoverIndex')
+    //   this.setState({
+    //     currentImg: selectedSizeInfo[0].goodsInfoImg,
+    //     videoShow: false,
+    //     hoverIndex,
+    //     offsetX: isMobile ? hoverIndex * 230 : hoverIndex * 250
+    //   });
+    // }
   }
   // props 变化时更新
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log(nextProps, 'nextProps');
     let { currentImg } = this.state;
     let { images } = this.props;
     if (!currentImg && images && images.length > 0) {
@@ -220,15 +220,7 @@ class ImageMagnifier extends Component {
   mouseEnter = () => {
     this.setState(
       {
-        magnifierOff: true,
-        params: Object.assign({}, this.state.params, {
-          width: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetWidth
-            : 10,
-          height: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetHeight
-            : 10
-        })
+        magnifierOff: true
       },
       () => this.initParam()
     );
@@ -242,7 +234,7 @@ class ImageMagnifier extends Component {
   // 鼠标移动
   mouseMove = (event) => {
     let e = event.nativeEvent;
-    console.log(event, 'event', e);
+    // console.log(event, 'event', e);
     this.calculationBlock(e.offsetX, e.offsetY);
   };
 
@@ -272,12 +264,6 @@ class ImageMagnifier extends Component {
     /* 计算图片放大位置 */
     cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * scale) + 'px';
     cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * scale) + 'px';
-    console.log(
-      offsetX,
-      cssStyle.imgStyle2.left,
-      cssStyle.magnifierContainer.left,
-      'cssStyle'
-    );
     this.setState({
       cssStyle: cssStyle
     });
@@ -287,15 +273,14 @@ class ImageMagnifier extends Component {
   initParam() {
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     let params = JSON.parse(JSON.stringify(this.state.params));
-    console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
     cssStyle.imgContainer.width = isMobile ? 230 + 'px' : 250 + 'px';
     cssStyle.imgContainer.height = params.height + 'px';
-    cssStyle.magnifierContainer.width = params.width + 'px';
-    cssStyle.magnifierContainer.height = params.height + 'px';
+    cssStyle.magnifierContainer.width = 600 + 'px';
+    cssStyle.magnifierContainer.height = 704 + 'px';
     cssStyle.magnifierContainer.left = parseInt(params.width) + 120 + 'px';
-    cssStyle.imgStyle2.width = params.width + 'px';
-    cssStyle.imgStyle2.height = params.height + 'px';
+    cssStyle.imgStyle2.width = 600 + 'px';
+    cssStyle.imgStyle2.height = 'auto'; //不能重置成params.height,图片尺寸不统一会变形
     cssStyle.imgStyle2.transform = 'scale(' + params.scale + ')';
 
     this.setState({
@@ -305,13 +290,16 @@ class ImageMagnifier extends Component {
 
   // 更新图片
   updataImg(props) {
+    const masterImg = props.spuImages?.filter(
+      (el) => el.imageType === 'master'
+    );
     this.setState({
       minImg: props.minImg,
-      maxImg: props.maxImg
+      maxImg: masterImg?.[0]?.artworkUrl || props.maxImg //有的国家不设置主图，maxImg就会和images第一张不一样。
     });
   }
   imageChange(e, image, i) {
-    console.log(i);
+    // console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     cssStyle.imgContainer.cursor = 'move';
     this.setState({
@@ -336,11 +324,9 @@ class ImageMagnifier extends Component {
     if (this.refs.video) {
       this.refs.video['disablePictureInPicture'] = true;
       this.refs.video.addEventListener('play', () => {
-        console.log(false);
         this.setState({ videoModalShow: false });
       });
       this.refs.video.addEventListener('pause', () => {
-        console.log(true);
         this.setState({ videoModalShow: true });
       });
     }
@@ -361,6 +347,7 @@ class ImageMagnifier extends Component {
       });
     return images;
   }
+
   render() {
     const {
       cssStyle,
@@ -376,20 +363,49 @@ class ImageMagnifier extends Component {
       video,
       taggingForText,
       taggingForImage,
-      spuImages
+      taggingChildren,
+      bigImageOutBoxClassName,
+      spuImages,
+      imgAlt,
+      direction
     } = this.props;
-    console.log(images, 'images');
+    // console.log(spuImages, this.state.minImg, 'spuImages');
+    if (window.__.env.REACT_APP_COUNTRY !== 'fr' && spuImages.length) {
+      let idx = spuImages.findIndex((el) => el.imageType === 'master');
+      let masterIndex = idx < 0 ? 0 : idx;
+      let temImage = spuImages[masterIndex];
+      spuImages.splice(masterIndex, 1);
+      spuImages.unshift(temImage);
+    }
     // images = this.filterImage(images)
     let imgCount = spuImages.length;
     if (video) {
       imgCount = imgCount + 1;
     }
     let offsetX = isMobile ? 60 : 69;
+    const imageOutBoxStyle =
+      direction === 'row'
+        ? {
+            height: imgCount <= 5 ? '100%' : '1000px',
+            top: imgCount <= 5 ? '0' : this.state.positionLeft + 'px'
+          }
+        : {
+            width: imgCount <= 5 ? '100%' : '1000px',
+            left: imgCount <= 5 ? '0' : this.state.positionLeft + 'px'
+          };
+
     return (
-      <div>
+      <div
+        className={
+          direction === 'row' ? 'flex flex-row-reverse justify-around' : ''
+        }
+      >
         <div className="position-relative">
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
-          <div className="bigImageOutBox" style={cssStyle.imgContainer}>
+          <div
+            className={`bigImageOutBox ${bigImageOutBoxClassName}`}
+            style={cssStyle.imgContainer}
+          >
             {taggingForText ? (
               <div
                 className="product-item-flag-text"
@@ -401,32 +417,62 @@ class ImageMagnifier extends Component {
                 {taggingForText.taggingName}
               </div>
             ) : null}
-            {taggingForImage ? (
-              <div className="product-item-flag-image position-absolute">
-                <LazyLoad>
-                  <img src={taggingForImage.taggingImgUrl} />
-                </LazyLoad>
-              </div>
-            ) : null}
+            {taggingChildren ? taggingChildren : null}
             <div
-              className="bigImageInnerBox rc-loaded--final"
+              className="bigImageInnerBox rc-loaded--final 3"
               style={{
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {spuImages.map((el, i) => (
-                <div key={i}>
-                  {/* <LazyLoad> */}
-                  <img
-                    id="J_detail_img"
-                    style={cssStyle.imgStyle}
-                    src={el.artworkUrl || this.state.maxImg || noPic}
-                    // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
-                    alt=""
-                  />
-                  {/* </LazyLoad> */}
+              {spuImages.length > 0 ? (
+                spuImages.map((el, i) => (
+                  <div key={i}>
+                    <LazyLoad>
+                      <img
+                        className="J_detail_img"
+                        style={cssStyle.imgStyle}
+                        src={
+                          optimizeImage({
+                            originImageUrl: el.artworkUrl,
+                            width: 500
+                          }) ||
+                          this.state.minImg ||
+                          noPic
+                        }
+                        // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
+                        alt={imgAlt}
+                      />
+                    </LazyLoad>
+                  </div>
+                ))
+              ) : (
+                <div>
+                  <LazyLoad>
+                    <img
+                      className="J_detail_img"
+                      style={cssStyle.imgStyle}
+                      src={this.state.minImg || noPic}
+                      // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
+                      alt={imgAlt}
+                    />
+                  </LazyLoad>
                 </div>
-              ))}
+              )}
+              {videoShow && video && (
+                <div
+                  className="d-flex"
+                  style={{ alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <video
+                    ref="video"
+                    style={cssStyle.imgStyle}
+                    src={video ? video : ''}
+                    controlsList="nodownload"
+                    onContextMenu="return false;"
+                    controls
+                  />
+                </div>
+              )}
             </div>
             {videoShow && videoModalShow && (
               <div
@@ -453,20 +499,35 @@ class ImageMagnifier extends Component {
             <div style={cssStyle.magnifierContainer}>
               <LazyLoad>
                 <img
+                  className="zoom-img"
                   style={cssStyle.imgStyle2}
-                  src={currentImg || this.state.maxImg || noPic}
+                  src={
+                    optimizeImage({
+                      originImageUrl: currentImg,
+                      width: 'auto'
+                    }) ||
+                    optimizeImage({
+                      originImageUrl: this.state.maxImg,
+                      width: 'auto'
+                    }) ||
+                    noPic
+                  }
                   // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                   onLoad={this.handleImageLoaded.bind(this)}
                   onError={this.handleImageErrored.bind(this)}
-                  alt=""
+                  alt={imgAlt}
                 />
               </LazyLoad>
-              {!imgLoad && 'failed to load'}
+              {/* {!imgLoad && 'failed to load'} */}
             </div>
           )}
         </div>
-        <div className="scrollOutBox">
-          {/* <i
+        <div
+          className={`scrollOutBox ${
+            direction === 'row' ? 'row-scrollOutBox' : ''
+          }`}
+        >
+          {/* <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
             }`}
@@ -478,8 +539,11 @@ class ImageMagnifier extends Component {
               });
             }}
           /> */}
-          <i
-            className="leftArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+          <em
+            // className={`${direction === 'row' ?'rc-icon rc-iconography rc-down':'leftArrow iconfont font-weight-bold icon-direction ui-cursor-pointer'}`}
+            className={`rc-icon rc-iconography ui-cursor-pointer text-center ${
+              direction === 'row' ? 'rc-up--xs h-7' : 'rc-left--xs leftArrow'
+            }`}
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
@@ -487,17 +551,16 @@ class ImageMagnifier extends Component {
                 positionLeft: this.state.positionLeft + offsetX
               });
             }}
-          >
-            &#xe6fa;
-          </i>
+          ></em>
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox"
+              className={`imageInnerBox text-center md:text-left ${
+                direction === 'row' ? 'flex flex-col' : ''
+              }`}
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
-                width: imgCount <= 5 ? '100%' : '1000px',
-                left: imgCount <= 5 ? '0' : this.state.positionLeft + 'px'
+                ...imageOutBoxStyle
               }}
             >
               {spuImages.filter((el) => el.artworkUrl).length ? (
@@ -514,11 +577,18 @@ class ImageMagnifier extends Component {
                     style={{
                       backgroundImage:
                         'url(' +
-                        (el.artworkUrl || el.goodsInfoImg || noPic) +
-                        ')',
-                      backgroundSize: '100% 100%'
+                          optimizeImage({
+                            originImageUrl: el.artworkUrl,
+                            width: 200
+                          }) ||
+                        optimizeImage({
+                          originImageUrl: el.goodsInfoImg,
+                          width: 200
+                        }) ||
+                        noPic + ')',
+                      backgroundSize: 'contain'
                     }}
-                  ></div>
+                  />
                 ))
               ) : this.state.minImg ? (
                 <div
@@ -548,10 +618,10 @@ class ImageMagnifier extends Component {
                     this.setState({
                       videoShow: true,
                       cssStyle,
-                      hoverIndex: images.length,
+                      hoverIndex: spuImages.length,
                       offsetX: isMobile
-                        ? images.length * 230
-                        : images.length * 250
+                        ? spuImages.length * 230
+                        : spuImages.length * 250
                     });
                   }}
                   src={video ? video : ''}
@@ -560,8 +630,11 @@ class ImageMagnifier extends Component {
             </div>
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
-          <i
-            className="rightArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+          <em
+            // className="rightArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+            className={`rc-icon rc-iconography ui-cursor-pointer text-center ${
+              direction === 'row' ? 'rc-down--xs' : 'rc-right--xs rightArrow'
+            }`}
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
               if (this.state.positionLeft === (imgCount - 5) * -offsetX) return;
@@ -570,9 +643,9 @@ class ImageMagnifier extends Component {
               });
             }}
           >
-            &#xe6f9;
-          </i>
-          {/* <i
+            {/* &#xe6f9; */}
+          </em>
+          {/* <em
             className={`rc-icon rc-right rightArrow rc-iconography ${
               this.state.positionLeft === (imgCount - 5) * -offsetX
                 ? ''

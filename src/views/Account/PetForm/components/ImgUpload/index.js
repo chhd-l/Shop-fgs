@@ -2,8 +2,10 @@ import React from 'react';
 import { uploadResource } from '@/api';
 import './index.less';
 import LazyLoad from 'react-lazyload';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
+@injectIntl
 export default class ImgUpload extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +24,9 @@ export default class ImgUpload extends React.Component {
     if (/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|mp4|rmvb|avi|ts)$/.test(imgType)) {
       console.log('flag状态改变', errMsg);
       errMsg = '';
+    } else {
+      this.props.geterrMessage(this.props.intl.messages['imageFormatError']);
+      return false;
     }
 
     const { imgList } = this.state;
@@ -31,20 +36,22 @@ export default class ImgUpload extends React.Component {
     }
     if (files.length && files[0].size >= 1048576) {
       console.log('上传图片大小不得超过1M');
+      this.props.geterrMessage(this.props.intl.messages['imageLargeError']);
       return false;
     }
     console.log('falg:', errMsg);
-    this.props.geterrMessage(errMsg);
+
     if (errMsg) {
       console.log('文件类型错误');
     } else {
       const formData = new FormData();
       formData.append('uploadFile', files[0]);
-      this.props.showLoading()
+      this.props.showLoading();
       uploadResource(formData)
         .then((res) => {
           this.props.handleChange(res.context[0]);
-          this.props.hiddenLoading()
+          this.props.hiddenLoading();
+          myAccountActionPushEvent('Add picture');
         })
         .catch((err) => {
           console.log(err);
@@ -67,18 +74,26 @@ export default class ImgUpload extends React.Component {
   render() {
     return (
       <div className="aui-col-xs-3 d-flex flex-wrap" id="img">
-        <div
-          id="imgPreview"
-          className="d-flex flex-wrap"
-        >
-          <p style={{marginTop: '10px', width: '100%', textAlign: 'center'}}>
-          <a className="rc-styled-link" href="#/" onClick={(e) => {
-                        e.preventDefault()
-                        this.uploadDom.current.click()
-                      }}><FormattedMessage id="changepic" /></a>
+        <div id="imgPreview" className="d-flex flex-wrap">
+          <p
+            style={{ marginTop: '.625rem', width: '100%', textAlign: 'center' }}
+          >
+            <a
+              className="rc-styled-link"
+              href="#/"
+              onClick={(e) => {
+                e.preventDefault();
+                this.uploadDom.current.click();
+              }}
+            >
+              <FormattedMessage id="changepic" />
+            </a>
           </p>
           {this.state.imgList.length <= 2 ? (
-            <div className="icon-add" style={{visibility: 'hidden', position: 'absolute'}}>
+            <div
+              className="icon-add"
+              style={{ visibility: 'hidden', position: 'absolute' }}
+            >
               <div id="upImg">
                 <input
                   ref={this.uploadDom}
@@ -132,12 +147,12 @@ export default class ImgUpload extends React.Component {
           }}
         >
           <LazyLoad>
-          <img
-            className="img-pre"
-            src={this.state.preImg}
-            onClick={(e) => e.stopPropagation()}
-            alt=""
-          />
+            <img
+              className="img-pre"
+              src={this.state.preImg}
+              onClick={(e) => e.stopPropagation()}
+              alt="img-upload img-pre"
+            />
           </LazyLoad>
         </div>
       </div>

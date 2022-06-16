@@ -1,22 +1,24 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import LazyLoad from 'react-lazyload';
-import LoginButton from '@/components/LoginButton';
+//import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getFrequencyDict,
-  getDeviceType
+  getDeviceType,
+  optimizeImage
 } from '@/utils/utils';
+import FrequencyMatch from '@/components/FrequencyMatch';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
-//import PetModal from '@/components/PetModal';
-import { getProductPetConfig } from '@/api/payment';
 import './index.css';
+import { FOOD_DISPENSER_PIC } from '@/utils/constant';
+import LazyLoad from 'react-lazyload';
+import { toJS } from 'mobx';
+import GiftList from './GiftList.tsx';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+
 @injectIntl
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
@@ -26,180 +28,113 @@ class UnloginCart extends React.Component {
     this.state = {
       checkoutLoading: false,
       petModalVisible: false,
-      isAdd: 0,
-      frequencyList: []
+      isAdd: 0
     };
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
-    if (window.location.pathname !== '/checkout') {
-      await this.props.checkoutStore.removePromotionCode();
+    if (
+      ['/checkout', '/prescription', '/prescriptionNavigate'].indexOf(
+        window.location.pathname
+      ) === -1
+    ) {
+      // await this.props.checkoutStore.removePromotionCode();
     }
-    await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res
-      });
-    });
     this.props.checkoutStore.updateUnloginCart();
   }
   get selectedCartData() {
-    return this.props.checkoutStore.cartData.filter((ele) => ele.selected);
+    return this.props.checkoutStore.cartData.filter(
+      (ele) => ele.selected && !ele.isNotShowCart
+    ); //isNotShowCart 直接checkout的商品，不在购物车显示需要被过滤掉
+  }
+  get giftList() {
+    return this.props.checkoutStore.giftList || [];
   }
   get totalNum() {
-    return this.selectedCartData.reduce((pre, cur) => {
-      return pre + cur.quantity;
-    }, 0);
+    return (
+      this.selectedCartData.reduce((pre, cur) => {
+        return Number(pre) + Number(cur.quantity);
+      }, 0) +
+      this.giftList
+        .filter((item) => !item?.isHidden)
+        .reduce((total, el) => total + el.buyCount, 0)
+    );
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
-  get computedList() {
-    return this.state.frequencyList.map((ele) => {
-      delete ele.value;
-      return {
-        value: ele.valueEn,
-        ...ele
-      };
-    });
-  }
-  GAAccessToGuestCheck() {
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
-      interaction: {
-        category: 'checkout',
-        action: 'guest checkout',
-        label: 'cart pop-in', //"cart page  "
-        value: 1
-      }
-    });
-  }
-  async handleCheckout({ needLogin = false } = {}) {
-    this.GAAccessToGuestCheck();
-    try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        headerCartStore,
-        clinicStore
-      } = this.props;
-      sessionItemRoyal.set('okta-redirectUrl', '/cart');
-      this.setState({ checkoutLoading: true });
-      checkoutStore.updateUnloginCart();
-
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-
-      // 存在下架商品，不能下单
-      if (checkoutStore.offShelvesProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      if (checkoutStore.outOfstockProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: checkoutStore.outOfstockProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      if (checkoutStore.deletedProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo5"
-            values={{
-              val: checkoutStore.deletedProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-      } else {
-        let autoAuditFlag = false;
-        if (this.isLogin) {
-        } else {
-          let paramData = checkoutStore.cartData.map((el) => {
-            el.goodsInfoId = el.sizeList.filter(
-              (item) => item.selected
-            )[0].goodsInfoId;
-            return el;
-          });
-          let res = await getProductPetConfig({ goodsInfos: paramData });
-          let handledData = paramData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-          checkoutStore.setPetFlag(res.context.petFlag);
-        }
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: false
+  GAAccessToGuestCheck(type) {
+    this.hubGA
+      ? window?.dataLayer?.push({
+          event: 'cartHeaderClicks',
+          cartHeaderClicks: {
+            button: type == 'buyNow' ? 'Buy now' : 'Continue as a Guest'
+          }
+        })
+      : window?.dataLayer?.push({
+          event: `${window.__.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
+          interaction: {
+            category: 'checkout',
+            action: 'guest checkout',
+            label: 'cart pop-in', //"cart page  "
+            value: 1
+          }
         });
-        url && history.push(url);
-        // history.push('/prescription');
-      }
-    } catch (err) {
-    } finally {
-      this.setState({ checkoutLoading: false });
-    }
   }
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
+  // async handleCheckout({ type, needLogin = false } = {}) {
+  //   this.GAAccessToGuestCheck(type);
+  //   try {
+  //     const { configStore, checkoutStore, history, clinicStore } = this.props;
+  //     localItemRoyal.set('okta-redirectUrl', '/cart-force-to-checkout');
+  //     this.setState({ checkoutLoading: true });
+  //     await checkoutStore.updateUnloginCart({
+  //       isThrowErr: true,
+  //       intl: this.props.intl
+  //     });
+
+  //     if (needLogin) {
+  //     } else {
+  //       const url = await distributeLinktoPrecriberOrPaymentPage({
+  //         configStore,
+  //         checkoutStore,
+  //         clinicStore,
+  //         isLogin: false
+  //       });
+  //       url && history.push(url);
+  //     }
+  //   } catch (err) {
+  //     this.props.headerCartStore.setErrMsg(err.message);
+  //     throw new Error(err);
+  //   } finally {
+  //     this.setState({ checkoutLoading: false });
+  //   }
+  // }
+
+  EditToCart = () => {
+    this.hubGA &&
+      window?.dataLayer?.push({
+        event: 'cartHeaderClicks',
+        cartHeaderClicks: {
+          button: 'Edit'
+        }
       });
-    }
-    this.setState({
-      petModalVisible: false
-    });
-  }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
-  }
+  };
+
+  clickBasket = () => {
+    this.hubGA &&
+      window.dataLayer &&
+      dataLayer.push({
+        event: 'topPictosClick',
+        topPictosClick: {
+          itemName: 'Basket'
+        }
+      });
+  };
+
   render() {
-    const { headerCartStore } = this.props;
-    let { frequencyList } = this.state;
+    const { totalNum } = this;
+    const { headerCartStore, intl, configStore } = this.props;
+    const { paymentAuthority } = configStore;
     return (
       <span
         className="minicart inlineblock"
@@ -210,15 +145,22 @@ class UnloginCart extends React.Component {
           headerCartStore.hide();
         }}
       >
-        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
-          <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          {this.totalNum > 0 ? (
-            <span className="minicart-quantity">{this.totalNum}</span>
-          ) : (
-            ''
-          )}
+        <Link
+          to="/cart"
+          className="minicart-link"
+          data-loc="miniCartOrderBtn"
+          onClick={this.clickBasket}
+        >
+          <em
+            className={`minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive ${
+              window.__.env.REACT_APP_COUNTRY == 'jp' ? 'cartminwidth' : ''
+            }`}
+          />
+          {totalNum > 0 ? (
+            <span className="minicart-quantity">{totalNum}</span>
+          ) : null}
         </Link>
-        {!this.totalNum ? (
+        {!totalNum ? (
           <div
             className={`popover popover-bottom ${
               headerCartStore.visible ? 'show' : ''
@@ -230,7 +172,10 @@ class UnloginCart extends React.Component {
                 <div className="minicart__empty">
                   <img
                     className="cart-img"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`,
+                      width: 300
+                    })}
                     alt="ROYAL CANIN® online store"
                   />
                   <p className="rc-delta">
@@ -256,34 +201,41 @@ class UnloginCart extends React.Component {
           >
             <div className="container cart">
               <div>
-                <div className="minicart__header cart--head small">
-                  <span className="minicart__pointer"></span>
-                  <div className="d-flex minicart_freeshipping_info align-items-center">
-                    <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
-                    <p>
-                      {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
+                {['jp', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) < 0 && (
+                  <div className="minicart__header cart--head small">
+                    <span className="minicart__pointer" />
+                    <div className="d-flex minicart_freeshipping_info align-items-center">
+                      <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
+                      <p>
                         <FormattedMessage id="cart.miniCartTitle" />
-                      ) : (
-                        <FormattedMessage id="miniBasket" />
-                      )}
-                    </p>
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
+
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
-                    <FormattedMessage id="total" />{' '}
-                    <span style={{ fontWeight: '500' }}>
-                      {formatMoney(this.tradePrice)}
-                    </span>
+                    <FormattedMessage
+                      id="miniBasket.total"
+                      values={{
+                        totalPrice: (
+                          <span style={{ fontWeight: '500' }}>
+                            {formatMoney(this.tradePrice)}
+                          </span>
+                        )
+                      }}
+                    />
                   </span>
-                  <Link
+
+                  {/* <Link
                     to="/cart"
                     className="rc-styled-link pull-right"
                     role="button"
                     aria-pressed="true"
+                    onClick={this.EditToCart}
                   >
                     <FormattedMessage id="chang" />
-                  </Link>
+                  </Link> */}
                 </div>
                 <div
                   className={`${headerCartStore.errMsg ? '' : 'hidden'}`}
@@ -297,39 +249,56 @@ class UnloginCart extends React.Component {
                     <span className="pl-0">{headerCartStore.errMsg}</span>
                   </aside>
                 </div>
+                {/* 操作按钮组 start */}
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                  <LoginButton
-                    beforeLoginCallback={async () =>
-                      this.handleCheckout({ needLogin: true })
-                    }
+                  <Link
+                    to="/cart"
+                    className="rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn"
+                  >
+                    <FormattedMessage id="minicart.seemycart" />
+                  </Link>
+                  {/* <LoginButton
+                    beforeLoginCallback={async () => {
+                      try {
+                        await this.handleCheckout({
+                          type: 'buyNow',
+                          needLogin: true
+                        });
+                      } catch (err) {
+                        throw new Error(err);
+                      }
+                    }}
                     btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
-                    history={this.props.history}
+                    intl={intl}
                   >
-                    <FormattedMessage id="loginText" />
-                  </LoginButton>
+                    <FormattedMessage id="minicart.checkout" />
+                  </LoginButton> */}
                 </div>
-                {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
+                {/* {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
                   .length ? (
-                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
-                    <span
-                      id="unLoginCarCheckout"
-                      onClick={() => this.handleCheckout()}
-                      className={`rc-styled-link color-999 ${
-                        this.state.checkoutLoading
-                          ? 'ui-btn-loading ui-btn-loading-border-red'
-                          : ''
-                      }`}
-                    >
-                      <FormattedMessage id="guestCheckout" />
-                    </span>
-                  </div>
+                  paymentAuthority === 'MEMBER_AND_VISITOR' ? (
+                    <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
+                      <span
+                        id="unLoginCarCheckout"
+                        onClick={() => this.handleCheckout({ type: 'guest' })}
+                        className={`rc-styled-link color-999 ui-cursor-pointer ${
+                          this.state.checkoutLoading
+                            ? 'ui-btn-loading ui-btn-loading-border-red'
+                            : ''
+                        }`}
+                      >
+                        <FormattedMessage id="guestCheckout" />
+                      </span>
+                    </div>
+                  ) : null
                 ) : (
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <FormattedMessage id="unLoginSubscriptionTips" />
                   </div>
-                )}
+                )} */}
+                {/* 操作按钮组 end */}
 
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">
@@ -338,9 +307,9 @@ class UnloginCart extends React.Component {
                       values={{
                         val: (
                           <b style={{ fontWeight: 500 }}>
-                            {this.props.intl.formatMessage(
-                              { id: 'payment.totalProduct' },
-                              { val: this.totalNum }
+                            {intl.formatMessage(
+                              { id: 'minicart.totalProduct' },
+                              { val: totalNum }
                             )}
                           </b>
                         )
@@ -348,26 +317,97 @@ class UnloginCart extends React.Component {
                     />
                   </span>
                 </div>
-                <div className="minicart-error cart-error"></div>
                 <div className="product-summary limit">
-                  {this.selectedCartData.map((item, idx) => (
-                    <div className="minicart__product" key={item.goodsId + idx}>
-                      <div>
+                  {this.selectedCartData.map((item, idx) => {
+                    // 折扣价格
+                    let discountPrice = (
+                      <div className="line-item-total-price justify-content-end pull-right priceBox">
+                        <div className="price relative">
+                          <div className="strike-through non-adjusted-price">
+                            null
+                          </div>
+                          <b
+                            className="pricing line-item-total-price-amount light"
+                            style={{
+                              color: item.goodsInfoFlag ? '#888' : '#666',
+                              textDecoration: item.goodsInfoFlag
+                                ? 'line-through'
+                                : ''
+                              // textDecoration: 'line-through'
+                            }}
+                          >
+                            {formatMoney(
+                              (item.sizeList.filter((s) => s.selected)[0] &&
+                                item.sizeList.filter((s) => s.selected)[0]
+                                  .currentAmount) ||
+                                0
+                            )}
+                          </b>
+                        </div>
+                      </div>
+                    );
+                    // 原价
+                    let originalPrice = (
+                      <div className="line-item-total-price justify-content-end pull-right priceBox">
+                        <div className="item-total-07984de212e393df75a36856b6 price relative">
+                          <div className="strike-through non-adjusted-price">
+                            null
+                          </div>
+                          <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
+                            <span
+                              className="iconfont font-weight-bold green"
+                              style={{ fontSize: '.8em' }}
+                            >
+                              &#xe675;
+                            </span>
+                            &nbsp;
+                            <span
+                              className={
+                                window.__.env.REACT_APP_COUNTRY !== 'jp' &&
+                                'red'
+                              }
+                              style={{ fontSize: '.875rem' }}
+                            >
+                              {formatMoney(
+                                item.sizeList.filter((el) => el.selected)[0]
+                                  .subscriptionPrice * item.quantity
+                              )}
+                            </span>
+                          </b>
+                        </div>
+                      </div>
+                    );
+                    // 折扣商品如果没有折扣不显示折扣价
+                    const goodsDetailInfo = item.sizeList.filter(
+                      (el) => el.selected
+                    )[0];
+                    if (
+                      item.goodsInfoFlag > 0 &&
+                      goodsDetailInfo.salePrice ===
+                        goodsDetailInfo.subscriptionPrice
+                    ) {
+                      discountPrice = null;
+                    }
+
+                    return (
+                      <div className="minicart__product" key={idx}>
                         <div className="product-summary__products__item">
                           <div className="product-line-item">
                             <div className="product-line-item-details d-flex flex-row">
                               <div className="item-image">
-                                {/* <LazyLoad> */}
-                                <img
-                                  className="product-image"
-                                  src={
-                                    find(item.sizeList, (s) => s.selected)
-                                      .goodsInfoImg
-                                  }
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
-                                />
-                                {/* </LazyLoad> */}
+                                <LazyLoad>
+                                  <img
+                                    className="product-image"
+                                    src={optimizeImage({
+                                      originImageUrl: find(
+                                        item.sizeList,
+                                        (s) => s.selected
+                                      ).goodsInfoImg
+                                    })}
+                                    alt={item.goodsName}
+                                    title={item.goodsName}
+                                  />
+                                </LazyLoad>
                               </div>
                               <div className="wrap-item-title">
                                 <div className="item-title">
@@ -380,50 +420,25 @@ class UnloginCart extends React.Component {
                                     </span>
                                   </div>
                                 </div>
-                                <div
-                                  className="w-100"
-                                  style={{ overflow: 'hidden' }}
-                                >
+                                <div className="w-100 overflow-hidden">
                                   <div className="line-item-total-price justify-content-start pull-left">
                                     <div className="item-attributes">
                                       <p className="line-item-attributes">
-                                        {
-                                          find(item.sizeList, (s) => s.selected)
-                                            .specText
-                                        }{' '}
-                                        - <FormattedMessage id="quantityText" />
-                                        ：{item.quantity}
+                                        <FormattedMessage
+                                          id="minicart.quantityText"
+                                          values={{
+                                            specText:
+                                              find(
+                                                item.sizeList,
+                                                (s) => s.selected
+                                              ).specText || '',
+                                            buyCount: item.quantity
+                                          }}
+                                        />
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                    <div className="price relative">
-                                      <div className="strike-through non-adjusted-price">
-                                        null
-                                      </div>
-                                      <b
-                                        className="pricing line-item-total-price-amount light"
-                                        style={{
-                                          color: item.goodsInfoFlag
-                                            ? '#888'
-                                            : '#666',
-                                          textDecoration: item.goodsInfoFlag
-                                            ? 'line-through'
-                                            : 'inhert'
-                                          // textDecoration: 'line-through'
-                                        }}
-                                      >
-                                        {formatMoney(
-                                          item.sizeList.filter(
-                                            (s) => s.selected
-                                          )[0] &&
-                                            item.sizeList.filter(
-                                              (s) => s.selected
-                                            )[0].currentAmount || 0
-                                        )}
-                                      </b>
-                                    </div>
-                                  </div>
+                                  {discountPrice}
                                 </div>
                                 {item.goodsInfoFlag ? (
                                   <div
@@ -435,61 +450,75 @@ class UnloginCart extends React.Component {
                                     <div className="line-item-total-price justify-content-start pull-left">
                                       <div className="item-attributes">
                                         <p className="line-item-attributes">
-                                          <FormattedMessage id="subscription.frequency" />
+                                          <FormattedMessage id="minicart.frequency" />
                                           :{' '}
-                                          {(frequencyList || []).filter(
-                                            (el) => {
-                                              return (
-                                                el.id === item.periodTypeId
-                                              );
-                                            }
-                                          )[0] &&
-                                            (frequencyList || []).filter(
-                                              (el) => {
-                                                return (
-                                                  el.id === item.periodTypeId
-                                                );
-                                              }
-                                            )[0].name}
+                                          <FrequencyMatch
+                                            currentId={item.periodTypeId}
+                                          />
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                      <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                        <div className="strike-through non-adjusted-price">
-                                          null
-                                        </div>
-                                        <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
-                                          <span
-                                            className="iconfont font-weight-bold green"
-                                            style={{ fontSize: '.8em' }}
-                                          >
-                                            &#xe675;
-                                          </span>
-                                          &nbsp;
-                                          <span
-                                            className="red"
-                                            style={{ fontSize: '14px' }}
-                                          >
-                                            {formatMoney(
-                                              item.sizeList.filter(
-                                                (el) => el.selected
-                                              )[0].subscriptionPrice *
-                                                item.quantity
-                                            )}
-                                          </span>
-                                        </b>
-                                      </div>
-                                    </div>
+                                    {originalPrice}
                                   </div>
                                 ) : null}
                               </div>
                             </div>
                             <div className="item-options" />
                           </div>
+                          {toJS(
+                            item.sizeList.filter((e) => e.selected)[0].planId
+                          ) && false
+                            ? toJS(
+                                item.sizeList.filter((e) => e.selected)[0]
+                                  .planGifts
+                              ).map((gift) => (
+                                <div className="product-line-item-details d-flex flex-row gift-box">
+                                  <div className="item-image">
+                                    <LazyLoad>
+                                      <img
+                                        className="product-image"
+                                        src={
+                                          optimizeImage({
+                                            originImageUrl: gift.goodsInfoImg
+                                          }) || FOOD_DISPENSER_PIC
+                                        }
+                                        alt={gift.goodsInfoName}
+                                        title={gift.goodsInfoName}
+                                      />
+                                    </LazyLoad>
+                                  </div>
+                                  <div className="wrap-item-title">
+                                    <div className="item-title">
+                                      <div
+                                        style={{ color: '#333' }}
+                                        className="line-item-name ui-text-overflow-line2 text-break"
+                                        title={item.goodsName}
+                                      >
+                                        <span className="light">
+                                          {item.goodsName}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <div
+                                      className="w-100 overflow-hidden"
+                                      style={{
+                                        fontSize: '.75rem'
+                                      }}
+                                    >
+                                      x1{' '}
+                                      <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+                                    </div>
+                                  </div>
+                                </div>
+                              ))
+                            : null}
                         </div>
                       </div>
-                    </div>
+                    );
+                  })}
+                  {this.giftList.map((el, i) => (
+                    <GiftList data={el} key={i} {...this.props} />
                   ))}
                 </div>
               </div>

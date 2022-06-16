@@ -1,11 +1,11 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LoginButton from '@/components/LoginButton';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
-
 @inject('loginStore')
+@injectIntl
+@observer
 class Modal extends React.Component {
   static defaultProps = {
     modalTitle: <FormattedMessage id="information" />,
@@ -22,7 +22,7 @@ class Modal extends React.Component {
     this.props.hanldeClickConfirm();
   }
   render() {
-    const { visible } = this.props;
+    const { visible, intl } = this.props;
     return (
       <React.Fragment>
         {/* modal */}
@@ -46,20 +46,22 @@ class Modal extends React.Component {
             style={{ top: '50%', transform: 'translateY(-50%)' }}
           >
             <div className="modal-content mt-0">
-              <div className="modal-header delete-confirmation-header">
-                <h4 className="modal-title" id="removeProductLineItemModal">
-                  {this.props.modalTitle}
-                </h4>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => this.close()}
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
+              {
+                <div className="modal-header delete-confirmation-header">
+                  <h1 className="modal-title" id="removeProductLineItemModal">
+                    {this.props.modalTitle}
+                  </h1>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => this.close()}
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+              }
               <div
                 className="modal-body delete-confirmation-body"
                 style={{ maxHeight: '50vh', overflowY: 'auto' }}
@@ -67,7 +69,10 @@ class Modal extends React.Component {
                 {this.props.modalText}
                 {this.props.children}
               </div>
-              <div className="modal-footer">
+              <div
+                className="modal-footer"
+                style={{ display: this.props.hideFooter ? 'none' : 'flex' }}
+              >
                 {this.props.cancelBtnVisible ? (
                   <button
                     type="button"
@@ -92,8 +97,9 @@ class Modal extends React.Component {
                 ) : (
                   <LoginButton
                     beforeLoginCallback={() => {
-                      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+                      localItemRoyal.set('okta-redirectUrl', '/prescription');
                     }}
+                    intl={intl}
                   >
                     <FormattedMessage id="yes" />
                   </LoginButton>

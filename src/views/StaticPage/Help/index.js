@@ -6,50 +6,33 @@ import FrTips from './fr/frTips';
 import FrFaq from './fr/frFaq';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import './index.less';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
 
 @inject('configStore')
+@seoHoc('Contact Us Page')
 @observer
 class Help extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       tel: '',
       mailAddress: '',
       showModal: false
     };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  async componentDidMount() {
-    setSeoConfig({
-      pageName: 'Contact Us Page'
-    }).then(res => {
-      this.setState({seoConfig: res})
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+  componentWillUnmount() {}
+  componentDidMount() {
     const tel = 'tel:' + this.props.configStore.storeContactPhoneNumber;
     const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 
@@ -66,10 +49,10 @@ class Help extends React.Component {
       page: {
         type: 'other',
         theme: '',
-        path: location.pathname,
+        path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
@@ -77,20 +60,12 @@ class Help extends React.Component {
         {this.state.showModal ? (
           <PhoneModal cancelModal={this.cancelModal} />
         ) : null}
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div className="help-page" style={{ marginBottom: '1rem' }}>
@@ -101,19 +76,24 @@ class Help extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="text-md-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
+                          <div className="md:text-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
                             <div className="rc-padding-bottom--none--mobile text-center rc-padding-top--lg">
-                              <h1 className="rc-beta"><FormattedMessage id="help.title"/></h1>
+                              <h1 className="rc-beta">
+                                <FormattedMessage id="help.title" />
+                              </h1>
                             </div>
                             <div className=" text-center">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
-                                  {process.env.REACT_APP_LANG=='de'?null:<FormattedMessage id="help.tip1"/>}
+                                  {window.__.env.REACT_APP_COUNTRY ==
+                                  'de' ? null : (
+                                    <FormattedMessage id="help.tip1" />
+                                  )}
                                 </p>
                               </div>
                             </div>
                           </div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                             <div className="rc-column rc-double-width rc-padding--none">
                               <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                                 <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -178,7 +158,7 @@ class Help extends React.Component {
                                   <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                     <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div className="w-100">
-                                        <b>
+                                        <strong>
                                           <font
                                             style={{ verticalAlign: 'inherit' }}
                                           >
@@ -192,7 +172,7 @@ class Help extends React.Component {
                                               <FormattedMessage id="help.byEmail" />
                                             </a>
                                           </font>
-                                        </b>
+                                        </strong>
                                         <p>
                                           <span
                                             style={{ color: 'rgb(0, 0, 0)' }}
@@ -212,23 +192,59 @@ class Help extends React.Component {
                                             </font>
                                           </span>
                                         </p>
+                                        {window.__.env.REACT_APP_COUNTRY ===
+                                        'de' ? (
+                                          <div className="rc-margin-top--xs">
+                                            <span
+                                              style={{ color: 'rgb(0, 0, 0)' }}
+                                            >
+                                              <font
+                                                style={{
+                                                  verticalAlign: 'inherit'
+                                                }}
+                                              >
+                                                <FormattedMessage id="help.protectionDeclaration" />
+                                              </font>
+                                            </span>
+                                            <span>
+                                              <a
+                                                href="https://www.mars.com/privacy-policy-germany"
+                                                style={{
+                                                  fontSize: '1rem',
+                                                  color: 'rgb(0, 135, 189)',
+                                                  lineHeight: '1.5rem'
+                                                }}
+                                                className="rc-styled-link"
+                                              >
+                                                <FormattedMessage id="help.protectionDeclarationUrl" />
+                                              </a>
+                                            </span>
+                                          </div>
+                                        ) : null}
                                         <div className="rc-margin-top--xs">
                                           <p
-                                            className="rc-numeric rc-md-up text-nowrap"
+                                            className="rc-numeric"
                                             style={{
                                               color: 'rgb(0, 135, 189)'
                                             }}
                                           >
-                                            <a
-                                              href={this.state.mailAddress}
-                                              style={{
-                                                fontSize: '16px',
-                                                color: 'rgb(0, 135, 189)'
-                                              }}
-                                              className="rc-styled-link"
-                                            >
-                                              <FormattedMessage id="help.email" />
-                                            </a>
+                                            <span>
+                                              <a
+                                                href={this.state.mailAddress}
+                                                style={{
+                                                  fontSize: '1rem',
+                                                  color: 'rgb(0, 135, 189)',
+                                                  lineHeight: '1.5rem'
+                                                }}
+                                                className="rc-styled-link"
+                                              >
+                                                {/* <FormattedMessage id="help.email" /> */}
+                                                {
+                                                  this.props.configStore
+                                                    .storeContactEmail
+                                                }
+                                              </a>
+                                            </span>
                                           </p>
                                         </div>
                                       </div>
@@ -256,7 +272,11 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                    <img src={helpImg} alt=" " title=" " />
+                                    <img
+                                      src={helpImg}
+                                      alt="help-icon"
+                                      title=" "
+                                    />
                                   </LazyLoad>
                                 </picture>
                               </div>
@@ -270,15 +290,14 @@ class Help extends React.Component {
               </div>
             </div>
           </div>
-          {process.env.REACT_APP_LANG == 'fr' ? (
+          {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
             <div>
               <FrTips />
               <FrFaq />
             </div>
           ) : null}
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }

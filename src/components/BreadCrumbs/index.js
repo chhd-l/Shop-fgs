@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import BreadcrumbNameMap from './breadcrumbNameMap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 
 const BreadCrumbs = withRouter((props) => {
   const { location, match } = props;
@@ -12,7 +13,10 @@ const BreadCrumbs = withRouter((props) => {
   let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || [];
 
   return (
-    <div className="rc-md-up rc-bg-colour--brand3" style={{ paddingTop: '1px' }}>
+    <div
+      className="rc-md-up rc-bg-colour--brand3"
+      style={{ paddingTop: '1px' }}
+    >
       <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
         <ul
           className="d-flex"
@@ -24,17 +28,19 @@ const BreadCrumbs = withRouter((props) => {
             itemType="https://schema.org/ListItem"
             itemProp="itemListElement"
           >
-            <Link
-              to="/home"
+            <DistributeHubLinkOrATag
+              href={''}
+              to="/"
               className="rc-styled-link rc-progress__breadcrumb mr-0"
-              aria-label="Links to home page"
+              ariaLabel="Links to home page"
               itemType="https://schema.org/Thing"
               itemProp="item"
             >
               <span itemProp="name">
                 <FormattedMessage id="homePage" />
               </span>
-            </Link>
+            </DistributeHubLinkOrATag>
+            <meta itemProp="position" content="1" />
           </li>
           {mapData.length > 0 && (
             <span itemProp="name" className="font-weight-normal ml-2 mr-2">
@@ -69,6 +75,7 @@ const BreadCrumbs = withRouter((props) => {
                     )}
                   </FormattedMessage>
                 )}
+                <meta itemProp="position" content={index + 2} />
               </li>
               {index !== mapData.length - 1 && (
                 <span className="font-weight-normal ml-2 mr-2">&gt;</span>

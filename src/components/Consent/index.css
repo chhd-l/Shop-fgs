@@ -1,45 +1,65 @@
 /* 组件 */
-@media (max-width:769px){
-  .required-component .footer-checkbox-title p{
+@media (max-width: 769px) {
+  .required-component .footer-checkbox-title p {
     /* width: 300px; */
   }
 }
-@media (min-width:769px){
-  .required-component .footer-checkbox-title p{
-    width:auto;
+@media (min-width: 769px) {
+  .required-component .footer-checkbox-title p {
+    /* width: auto; */
+    max-width: 450px;
   }
 }
-.required-component .footer-checkbox-title p{
-    margin-bottom: 5px;
-    cursor: pointer;
-  }
-  .required-component .footer-checkbox-title p span{
-    color:#000;
-    font-weight: 700;
-    cursor: pointer;
-    user-select: none;
-  }
-  .required-component .footer-checkbox-title p .rc-text-colour--brand1 {
-    color: #e2001a;
-  }
-  .required-component .footer-checkbox-title p a{
-    color:#E2001A;
-  }
-  .required-component .Checkbox-detail p{
-    font-size: 12px;
-    text-align: justify;
-  }
-  .required-component .Checkbox-detail p a{
-    color:#E2001A;
-  }
-  .required-component .mt{
-    margin-top: 3px;
-  }
-  .m-auto{
-    margin: 0 auto;
-  }
+.required-component .footer-checkbox-title p {
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.required-component .footer-checkbox-title p span {
+  color: #e2001a;
+  font-weight: 400;
+  cursor: pointer;
+  user-select: none;
+}
+.required-component .footer-checkbox-title span {
+  color: #e2001a;
+  font-weight: 400;
+  cursor: pointer;
+  user-select: none;
+}
+.required-component .footer-checkbox-title p .rc-text-colour--brand1 {
+  color: #e2001a;
+}
+.re2001acolor p {
+  color: #e2001a !important;
+  font-weight: 500 !important;
+}
+.nore2001acolor p span:first-child {
+  color: #666 !important;
+  font-weight: 500 !important;
+}
+.required-component .footer-checkbox-title p a {
+  color: #e2001a !important;
+  font-weight: 500;
+}
+.required-component .Checkbox-detail p {
+  font-size: 0.75rem;
+  text-align: justify;
+}
+.required-component .Checkbox-detail p a {
+  color: #e2001a;
+}
+.required-component .mt {
+  margin-top: 3px;
+}
 
-  .required-component .footer-checkbox-title .rc-text-colour--brand1
-   {
-    display: contents;
-  }
+.required-component .footer-checkbox-title .rc-text-colour--brand1 {
+  display: contents;
+}
+
+.required-component .form-check-input {
+  margin-left: -20px;
+}
+
+#J_checkout_panel_confirmation .footer-checkbox-title a:hover {
+  border-bottom: 1px solid #e2001a;
+}

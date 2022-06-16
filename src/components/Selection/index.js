@@ -1,7 +1,10 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
+import cn from 'classnames';
 import './index.less';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 
+@injectIntl
 export default class Selection extends React.Component {
   static defaultProps = {
     optionList: [],
@@ -9,8 +12,12 @@ export default class Selection extends React.Component {
     customContainerStyle: null,
     placeholder: '',
     customInnerStyle: {},
+    choicesInput: false,
+    emptyFirstItem: '',
     selectedItemData: null,
-    customCls: ''
+    customCls: '',
+    hasBorder: false,
+    selectedItemChange: () => {}
   };
   constructor(props) {
     super(props);
@@ -23,9 +30,15 @@ export default class Selection extends React.Component {
           '',
         id: -1
       },
-      hoveredIdx: -1
+      hoveredIdx: -1,
+      dataList: [],
+      noResultsFound: false
     };
     this.timeOutId = null;
+    this.searchRef = React.createRef();
+  }
+  componentDidMount() {
+    this.searchRef?.current && this.searchRef?.current?.focus();
   }
   hideOptions = () => {
     this.setState({
@@ -33,14 +46,25 @@ export default class Selection extends React.Component {
     });
   };
   handleClickOption(value, item) {
-    this.setState(
-      {
-        selectedItem: { value, ...item }
-      },
-      () => {
-        this.props.selectedItemChange(this.state.selectedItem);
+    if (this.props.comfirmModal) {
+      this.props.selectedItemChange({ value, ...item });
+      if (this.props.slotTimeChanged) {
+        this.setState({
+          selectedItem: { value, ...item },
+          optionsVisible: false
+        });
       }
-    );
+    } else {
+      this.setState(
+        {
+          selectedItem: { value, ...item },
+          optionsVisible: false
+        },
+        () => {
+          this.props.selectedItemChange(this.state.selectedItem);
+        }
+      );
+    }
   }
   handleMouseEnterOption(idx) {
     this.setState({
@@ -52,6 +76,7 @@ export default class Selection extends React.Component {
     if (this.props.disabled) {
       return;
     }
+    this.props.onClick && this.props.onClick();
     this.setState((currentState) => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible
@@ -61,6 +86,16 @@ export default class Selection extends React.Component {
           )
         : -1
     }));
+    this.setState(
+      {
+        dataList: this.props.optionList
+      },
+      () => {
+        if (this.searchRef) {
+          this.searchRef?.current?.focus();
+        }
+      }
+    );
   };
   onBlurHandler = () => {
     this.timeOutId = setTimeout(() => {
@@ -72,9 +107,69 @@ export default class Selection extends React.Component {
   onFocusHandler = () => {
     clearTimeout(this.timeOutId);
   };
+  handleSearchInputChange = (e) => {
+    const { optionList } = this.props;
+    e.nativeEvent.stopImmediatePropagation();
+    e.stopPropagation();
+    let keyword = e.target.value;
+    let resl = optionList.filter((item) =>
+      item.name.match(new RegExp(keyword, 'i'))
+    );
+    if (this.props.emptyFirstItem) {
+      let efstr = this.props.emptyFirstItem;
+      if (resl.length == 0) {
+        this.setState({
+          noResultsFound: true
+        });
+      } else {
+        this.setState({
+          noResultsFound: false
+        });
+        if (resl[0]?.name != efstr) {
+          resl.unshift({ value: '', name: efstr });
+        }
+      }
+    }
+    this.setState({
+      dataList: resl
+    });
+  };
+  handleClickSearchInput = (e) => {
+    e.nativeEvent.stopImmediatePropagation();
+    e.stopPropagation();
+  };
+  showValue = () => {
+    let res = '';
+    const { placeholder, optionList } = this.props;
+    const { selectedItem } = this.state;
+
+    const length = optionList.filter(
+      (ele) => ele.value + '' === selectedItem.value + ''
+    ).length;
+    if (length) {
+      let option = optionList.filter(
+        (ele) => ele.value + '' === selectedItem.value + ''
+      )[0].name;
+      if (option) {
+        res = option;
+      } else {
+        res = placeholder;
+      }
+      return res;
+    }
+  };
   render() {
-    const { optionList, customStyleType } = this.props;
-    const { selectedItem, hoveredIdx, optionsVisible } = this.state;
+    const { optionList, customStyleType, wider } = this.props;
+    const {
+      dataList,
+      selectedItem,
+      noResultsFound,
+      hoveredIdx,
+      optionsVisible
+    } = this.state;
+    // this.setState({
+    //   dataList: optionList
+    // });
     return (
       <div
         onBlur={this.onBlurHandler}
@@ -84,56 +179,131 @@ export default class Selection extends React.Component {
       >
         <div
           id="Selection"
-          className={`choices ${optionsVisible ? 'is-open' : ''} ${
-            this.props.disabled ? 'disabled' : ''
-          }`}
+          className={cn(`choices`, {
+            'is-open': optionsVisible,
+            disabled: this.props.disabled,
+            'has-border': this.props.hasBorder
+          })}
           role="listbox"
           tabIndex="1"
-          data-type={customStyleType}
+          data-type={customStyleType || (wider ? 'select-wider' : '')}
           style={{ cursor: this.props.disabled ? 'auto' : 'pointer' }}
           onClick={this.toggleShowOptions}
         >
           <div
-            className="choices__inner"
-            style={{ ...this.props.customInnerStyle }}
+            className={cn('choices__inner')}
+            style={this.props.customInnerStyle}
+            ref={(node) => {
+              const { customInnerStyle } = this.props;
+              if (node) {
+                for (const key in customInnerStyle) {
+                  const value = customInnerStyle[key];
+                  if (value.includes('!important')) {
+                    node.style.setProperty(
+                      key,
+                      value.split('!important')[0],
+                      'important'
+                    );
+                  }
+                }
+              }
+            }}
           >
-            <div className="choices__list choices__list--single">
+            <div className="choices__list choices__list--single d-flex justify-content-center align-items-center">
               <div
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {optionList.filter(
+                {/* {optionList.filter(
                   (ele) => ele.value + '' === selectedItem.value + ''
                 ).length
                   ? optionList.filter(
                       (ele) => ele.value + '' === selectedItem.value + ''
                     )[0].name
-                  : this.props.placeholder}
-                &nbsp;
+                  : this.props.placeholder} */}
+                {/* {this.showValue()} */}
+                {this.showValue() == 'Unspecified' ? (
+                  <FormattedMessage id="Unspecified"></FormattedMessage>
+                ) : (
+                  this.showValue()
+                )}
               </div>
             </div>
           </div>
           <div
-            className={`choices__list choices__list--dropdown ${
-              optionsVisible ? 'is-active' : ''
-            }`}
+            className={cn(`choices__list choices__list--dropdown`, {
+              'visible block': optionsVisible
+            })}
             aria-expanded={optionsVisible}
           >
+            {/* 快速搜索关键字 */}
+            {this.props.choicesInput ? (
+              <input
+                type="text"
+                className="selection_choices_input choices__input choices__input--cloned"
+                autoCapitalize="off"
+                spellCheck="false"
+                placeholder=""
+                onClick={(e) => this.handleClickSearchInput(e)}
+                onChange={(e) => this.handleSearchInputChange(e)}
+                ref={this.searchRef}
+                autoComplete="new-password"
+              />
+            ) : null}
+
             <div className="choices__list" dir="ltr" role="listbox">
-              {optionList.map((item, i) => (
-                <div
-                  className={`choices__item choices__item--choice choices__item--selectable ${
-                    hoveredIdx === i ? 'is-highlighted' : ''
-                  }`}
-                  role="option"
-                  aria-selected="false"
-                  key={i}
-                  onClick={() => this.handleClickOption(item.value, item)}
-                  onMouseEnter={() => this.handleMouseEnterOption(i)}
-                >
-                  {item.name}
+              {noResultsFound && (
+                <div className="choices__item choices__item--custom-data choices__item--choice has-no-results">
+                  No results found
                 </div>
-              ))}
+              )}
+              {dataList.map((item, i) =>
+                item.value == '' ? (
+                  <div
+                    className={`choices__item choices__item--choice choices__item--selectable ${
+                      hoveredIdx === i ? 'is-highlighted' : ''
+                    }`}
+                    role="option"
+                    aria-selected="false"
+                    key={i}
+                  >
+                    {item.name == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      item.name
+                    )}
+                  </div>
+                ) : (
+                  <div
+                    className={`choices__item choices__item--choice choices__item--selectable ${
+                      hoveredIdx === i ? 'is-highlighted' : ''
+                    } ${item.disabled ? 'disabled_item' : ''}`}
+                    role="option"
+                    aria-selected="false"
+                    key={i}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (item.disabled) {
+                        return;
+                      }
+                      this.handleClickOption(item.value, item);
+                    }}
+                    onMouseEnter={() => {
+                      if (item.disabled) {
+                        return;
+                      }
+                      this.handleMouseEnterOption(i);
+                    }}
+                  >
+                    {item.name == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      item.name
+                    )}
+                  </div>
+                )
+              )}
             </div>
           </div>
           {customStyleType ? null : (

@@ -6,44 +6,17 @@ import SideMenu from '@/components/SideMenu';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
 import edit from '@/assets/images/edit.svg';
-import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
+import { Canonical } from '@/components/Common';
 
-const pageLink = window.location.href
-export default class PetForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      }
-    };
-  }
-  componentDidMount(){
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-  }
-
+@seoHoc()
+class PetForm extends React.Component {
   render() {
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -107,7 +80,11 @@ export default class PetForm extends React.Component {
                     <div className="edit js-edit-pet">
                       <a href="#" className="tab--img" data-toggle="">
                         <LazyLoad>
-                        <img src={edit} className="img-success" alt="" />
+                          <img
+                            src={edit}
+                            className="img-success"
+                            alt="edit image"
+                          />
                         </LazyLoad>
                       </a>
                     </div>
@@ -119,9 +96,10 @@ export default class PetForm extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }
 }
+export default PetForm;

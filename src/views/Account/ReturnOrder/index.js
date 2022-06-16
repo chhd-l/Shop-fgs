@@ -7,18 +7,19 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Pagination from '@/components/Pagination';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { formatMoney, setSeoConfig } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
 
-export default class ReturnOrder extends React.Component {
+@seoHoc()
+class ReturnOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,11 +29,6 @@ export default class ReturnOrder extends React.Component {
         returnNumber: '',
         dateRangeKey: 'inWeek'
       },
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       loading: false,
       currentPage: 1,
       totalPage: 1,
@@ -41,19 +37,8 @@ export default class ReturnOrder extends React.Component {
     };
     this.pageSize = 6;
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-
     this.queryReturnList();
   }
   hanldePageNumChange = (params) => {
@@ -134,20 +119,12 @@ export default class ReturnOrder extends React.Component {
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -161,7 +138,7 @@ export default class ReturnOrder extends React.Component {
                   </h4>
                 </div>
                 <div className="row justify-content-around">
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-5 row align-items-center mt-2 md:mt-0">
                     <div className="col-md-5">
                       <FormattedMessage id="order.returnNumber" />
                     </div>
@@ -184,7 +161,7 @@ export default class ReturnOrder extends React.Component {
                       </span>
                     </div>
                   </div>
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-5 row align-items-center mt-2 md:mt-0">
                     <div className="col-12">
                       <div className="rc-full-width rc-select-processed">
                         <select
@@ -283,13 +260,13 @@ export default class ReturnOrder extends React.Component {
                               <div className="col-12 col-md-6 d-flex flex-wrap">
                                 {order.returnItems.map((item) => (
                                   <LazyLoad>
-                                  <img
-                                    className="img-fluid"
-                                    key={item.oid}
-                                    src={item.pic || IMG_DEFAULT}
-                                    alt={item.spuName}
-                                    title={item.spuName}
-                                  />
+                                    <img
+                                      className="img-fluid"
+                                      key={item.oid}
+                                      src={item.pic || IMG_DEFAULT}
+                                      alt={item.spuName}
+                                      title={item.spuName}
+                                    />
                                   </LazyLoad>
                                 ))}
                               </div>
@@ -321,9 +298,10 @@ export default class ReturnOrder extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }
 }
+export default ReturnOrder;

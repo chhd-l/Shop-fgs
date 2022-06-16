@@ -4,32 +4,51 @@
   border-top: 1px solid #ccc;
 }
 
-@media(max-width: 960px){
+.vet-clinic-tip {
+  color: #000000;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.vet-clinic-tip-link {
+  color: #e2001a;
+  text-decoration: underline;
+}
+.vet-clinic-tip-link:hover {
+  color: #e2001a;
+  text-decoration: underline;
+}
+
+@media (max-width: 960px) {
   /* 手机 */
-  .clinic-search-list{
-    width:100%;
+  .clinic-search-list {
+    width: 100%;
     margin-left: 1rem;
   }
-  .clinic-map{
+  .clinic-map {
     height: 40rem;
-    width: 100%; 
+    width: 100%;
+    position: relative;
+    overflow: hidden;
   }
 }
-@media(min-width: 960px){
-  .map-saerch{
+@media (min-width: 960px) {
+  .map-saerch {
     display: flex;
   }
   /* PC */
-  .clinic-search-list{
-    width:30%
+  .clinic-search-list {
+    width: 30%;
   }
-  .clinic-map{
+  .clinic-map {
     height: 50rem;
     width: 70%;
     margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
   }
 }
-.clinic-card-boder{
+.clinic-card-boder {
   border: 1px solid #d7d7d7;
 }
 .pres-search {
@@ -42,58 +61,76 @@
 .modal-content {
   margin-top: 50%;
 }
-.confirm-clinic-btn{
+.confirm-clinic-btn {
   background-color: red;
   color: white;
   padding: 5px;
 }
-.gm-style-iw-c{
+.gm-style-iw-c {
   min-width: 17rem;
   position: absolute;
   box-sizing: border-box;
   overflow: hidden;
   top: 36px;
-  left: 12px;
-  transform: translate(-50%,-100%);
+  left: 0.75rem;
+  transform: translate(-50%, -100%);
   background-color: white;
   border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 7px 1px rgba(0,0,0,0.3);
+  padding: 0.75rem;
+  box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
 }
-.click-btn{
+.click-btn {
   cursor: pointer;
 }
-.clinic-title{
+.clinic-title {
   font-weight: 300;
   margin-bottom: 0 !important;
 }
-.clinic-phone{
+.clinic-phone {
   display: inline-block;
   vertical-align: middle;
   z-index: 2;
   overflow: hidden;
   margin-top: 1px;
   padding-bottom: 4px;
-  line-height: .9em;
+  line-height: 0.9em;
   font-weight: 500;
-  color:#666;
+  color: #666;
   font-size: 1em;
 }
-.clinic-address{
+.clinic-address {
   color: #666;
   font-weight: 300;
   font-size: 1em;
   line-height: 1.5;
 }
-.clinic-tip{
+.clinic-tip {
   color: #e2001a;
   font-weight: 300;
   margin-bottom: 1rem;
   font-size: 1.625rem;
   text-align: center;
 }
-.card-btn{
+.card-btn {
   float: right;
   margin-right: 1rem;
   margin-bottom: 1rem;
+}
+
+.gm-ui-hover-effect {
+  top: 0 !important;
+  right: 0 !important;
+}
+
+.map-default-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  user-select: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  max-width: none;
 }

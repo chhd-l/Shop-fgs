@@ -3,10 +3,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index:62;
-  padding-top: 16px !important;
+  z-index: 62;
+  padding-top: 1rem !important;
   // box-shadow:0 2px 4px #f1f1f1;
-  background:#fff;
+  background: #fff;
 }
 // .refine-bar{
 //   .bread-title{
@@ -16,88 +16,106 @@
 //     text-overflow: ellipsis;
 //   }
 // }
-#root .page-list-center-arrow .choices[data-type*=select-one]:after{
+#root .page-list-center-arrow .choices[data-type*='select-one']:after {
   margin-top: -8.5px;
 }
-.page-list-center-arrow{
-  &.rc-select .choices{
+.page-list-center-arrow {
+  &.rc-select .choices {
     border-bottom: 0;
   }
 }
-#root .refine-bar .choices[data-type*=select-one]:after {
+#root .refine-bar .choices[data-type*='select-one']:after {
   // margin-top: -7.5px;
   width: 30px;
   height: 28px;
 }
-.list_select_choose{
-  .choices .select, .rc-select .choices{
+.list-pagination-wrap {
+  .justify-content-between {
+    justify-content: center !important; //兼容list页面页数过多出现问题
+  }
+  .rc-pagination {
+    max-width: none;
+  }
+}
+.list_select_choose {
+  .choices .select,
+  .rc-select .choices {
     border-bottom: 0;
   }
 }
 .ui-font-nothing {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .ui-font-nothing .rc-icon {
   margin-right: 5px;
 }
-body .rc-layout-grid .rc-column-pad{
+body .rc-layout-grid .rc-column-pad {
   padding: 4px 0.5rem !important;
 }
-.margin0{
+.margin0 {
   margin: 0 !important;
 }
-.padding0{
+.padding0 {
   padding: 0 !important;
 }
-.fr-mobile-product-list{
+.fr-mobile-product-list {
   // padding-right: 2rem;
   text-align: left;
-  margin: auto  auto  auto 0rem;
-  .product-name{
-    line-height: 2rem;
-    font-size: 1.375rem;
+  margin: auto auto auto 0rem;
+  .for-no-global-price-h5{
+    justify-content: left !important;
+    .SePriceScreen{
+      transform: initial;
+    }
+  }
+
+  .product-name {
+    line-height: 1.5rem;
+    font-size: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     color: #e2001a;
-    font-weight: 300;
+    font-weight: 400;
+    word-break: break-word;
+    // width: calc(100% - 3rem);
   }
-  .product-price{
+  .product-price {
     display: block;
-    margin-top: .5rem;
+    // margin-top: 0.5rem;
     color: #000;
     font-size: 1.25rem;
   }
 }
+.SePriceScreen {
+  transform: translateX(24%);
+}
 @media (min-width: 640px) {
   .ui-font-nothing {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
-  .rc-meta{
-    &.rc-md-down{
+  .rc-meta {
+    &.rc-md-down {
       display: none;
     }
   }
 }
 .goodsSubtitle {
   position: absolute;
-  bottom: 14px;
+  bottom: 0.875rem;
   width: 100%;
   text-align: center;
 }
 
-.height-product-tile-plpOnly.height-product-tile {
-  position: relative;
-}
+
 .display-inline {
   display: inline-block;
 }
 .comments {
-  font-size: 14px;
+  font-size: 0.875rem;
   position: relative;
-  top: 4px;
 }
 .font16 {
   font-size: 1.6rem !important;
@@ -113,21 +131,16 @@ body .rc-layout-grid .rc-column-pad{
   font-size: 0.9rem !important;
 }
 .height18 {
-  line-height: 18px;
+  line-height: 1.125rem;
 }
 .margin-auto {
   margin: 0 auto;
 }
-.height-product-tile-plpOnly {
-  .product-title {
-    line-height: 1.2 !important;
-    height: 3.7rem;
-  }
-}
+
 .product-item-flag-text {
   position: absolute;
-  height: 20px;
-  line-height: 20px;
+  height: 1.25rem;
+  line-height: 1.25rem;
   text-align: center;
   width: 50%;
   background-color: red;
@@ -141,16 +154,18 @@ body .rc-layout-grid .rc-column-pad{
   padding: 0 9%;
 }
 .product-item-flag-image {
-  right: 2%;
+  right: 1%;
   top: 2%;
   width: 3.5rem;
-  height: 3.5rem;
   z-index: 3;
+  &.product-item-flag-image__pdp {
+    width: 4.5rem;
+  }
 }
 
 @media (max-width: 540px) {
-  .fr-mobile{
-    &.overflow-hidden{
+  .fr-mobile {
+    &.overflow-hidden {
       overflow: hidden !important;
     }
   }
@@ -164,29 +179,35 @@ body .rc-layout-grid .rc-column-pad{
     width: 100%;
     height: 100%;
   }
+  .ImgForMobile{
+    width: 50%;
+  }
+  .ImgForDog{
+    width: 200px;
+  }
   .TitleFitScreen {
-    font-size: 12px !important;
+    font-size: 0.75rem !important;
     line-height: 1rem !important;
     font-weight: 100 !important;
   }
   .RateFitScreen {
-    height: 24px;
+    height: 1.5rem;
     margin-bottom: 0rem !important;
   }
   .PriceFitScreen {
     font-size: 0.8rem;
   }
   .SubTitleScreen {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .NameFitScreen {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .PriceFitScreen {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .SePriceScreen {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .ItemBoxFitSCreen {
     padding-bottom: 0rem !important;
@@ -194,16 +215,12 @@ body .rc-layout-grid .rc-column-pad{
   .FilterFitScreen {
     margin-bottom: -1rem;
   }
-  .height-product-tile-plpOnly {
-    .product-title {
-      height: 3.2rem;
-    }
-  }
+
   .product-item-flag-text {
     width: 73%;
     left: -16%;
     top: 7%;
-    &.fr-label{
+    &.fr-label {
       width: 68%;
       left: -25%;
       top: 16%;
@@ -211,12 +228,19 @@ body .rc-layout-grid .rc-column-pad{
   }
   .product-item-flag-image {
     width: 3rem;
-    height: 3rem;
+  }
+  .top-desc-title {
+    font-size: 1.62rem !important;
+    font-weight: 400 !important;
+  }
+
+  .product-name {
+    font-family: 'Dyn Pro', sans-serif;
   }
 }
 
 .notate {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #000;
 }
 .notate .link {
@@ -225,18 +249,33 @@ body .rc-layout-grid .rc-column-pad{
 }
 .back-link {
   position: relative;
-  padding-left: 20px;
+  padding-left: 1.25rem;
   font-weight: 400;
 }
 .back-link:before {
   content: '\203A';
-  width: 10px;
-  height: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   display: inline-block;
   position: absolute;
   left: 0;
-  top: 15px;
+  top: 0.9375rem;
   color: #ec001a;
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+
+.smart-feeder-container {
+  text-align: center;
+  padding: 1.25rem 1.25rem 0 0;
+  p {
+    &:nth-of-type(1) {
+      color: #e2001a;
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.filter-btn-icon::after {
+  top: 0.2rem;
 }

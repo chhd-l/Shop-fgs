@@ -1,113 +1,95 @@
 import React from 'react';
-import Skeleton from 'react-skeleton-loader';
+import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
+import classNames from 'classnames';
 import { toJS } from 'mobx';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Selection from '@/components/Selection';
+import HandledSpec from '@/components/HandledSpec/index.tsx';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
+import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
+import SingleBuyMethod from './components/SingleBuyMethod/index.tsx';
+import AutoshipBuyMethod from './components/AutoshipBuyMethod/index.tsx';
+import ClubBuyMethod from './components/ClubBuyMethod/index.tsx';
+import SeoConfig from './components/SeoConfig/index.tsx';
+import ButtonGroup from './components/ButtonGroup/index.tsx';
+import ErrMsgForCheckoutPanel from './components/ErrMsgForCheckoutPanel/index.tsx';
+import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
+import DetailHeader from './components/DetailHeader/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import LoginButton from '@/components/LoginButton';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
-import Reviews from './components/Reviews';
-import Rate from '@/components/Rate';
-import PetModal from '@/components/PetModal';
+import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
+import Reviews from './components/Reviews';
+import Loading from '@/components/Loading';
+import DailyPortion from './components/DailyPortion';
 import {
-  formatMoney,
-  translateHtmlCharater,
-  distributeLinktoPrecriberOrPaymentPage,
-  setSeoConfig,
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  getParaByName,
-  loadJS
+  loadJS,
+  getDictionary,
+  filterObjectValue,
+  isCountriesContainer,
+  getClubFlag,
+  handleRecommendation,
+  isShowMixFeeding,
+  addToUnloginCartData
 } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import cloneDeep from 'lodash/cloneDeep';
-import findIndex from 'lodash/findIndex';
+import { funcUrl } from '@/lib/url-utils';
+import { decryptString } from '@/lib/aes-utils';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import find from 'lodash/find';
-import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
-import { sitePurchase } from '@/api/cart';
-import { getDict } from '@/api/dict';
-import { getProductPetConfig } from '@/api/payment';
-import Carousel from './components/Carousel';
-import { Helmet } from 'react-helmet';
-
+import {
+  getDetails,
+  getLoginDetails,
+  getDetailsBySpuNo,
+  getMixFeeding
+} from '@/api/details';
+import RelateProductCarousel from './components/RelateProductCarousel';
+import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
+import { tempHubFrRedirect } from '@/redirect/utils';
+import svg from './details.svg';
+import { QuantityPicker } from '@/components/Product';
+import Help from './components/Help';
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import './index.css';
 import './index.less';
-import { Link } from 'react-router-dom';
+import GoodsDetailTabs from '@/components/GoodsDetailTabs';
+import AdvantageTips from './components/AdvantageTips';
+import Advantage from './components/Advantage';
+import Ration from './components/Ration/index.tsx';
+import GA_Comp from './components/GA_Comp/index.tsx';
+import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
+import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
+import {
+  setGoogleProductStructuredDataMarkup,
+  hubGAProductDetailPageView,
+  hubGAAToCar,
+  HubGaPdpBuyFromRetailer,
+  GAPdpSizeChange
+} from './GA';
+import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
+import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
+import cloneDeep from 'lodash/cloneDeep';
+import PurchaseMethodB from './components/PurchaseMethodB';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC';
-// const pageLink = window.location.href;
-
-function Advantage() {
-  return (
-    {
-      en: (
-        <div className="rc-bg-colour--brand4">
-          <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">
-            <div className="rc-layout-container rc-four-column rc-text--center rc-content-h-middle">
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography"></span>
-                    The Royal Canin Pet Advisor Live app to answer all your pet
-                    questions
-                  </span>
-                </div>
-              </div>
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography"></span>
-                    Free shipping and 5% off every autoship order
-                  </span>
-                </div>
-              </div>
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-low-maintenance--sm rc-brand1 rc-iconography"></span>
-                    Welcome box with pet essentials
-                  </span>
-                </div>
-              </div>
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-food--sm rc-brand1 rc-iconography"></span>
-                    Personalized product recommendations
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }[process.env.REACT_APP_LANG] || null
-  );
-}
-
-function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
-  return (
-    <div className={`text-break mt-2 mb-2 ${checkOutErrMsg ? '' : 'hidden'}`}>
-      <aside
-        className="rc-alert rc-alert--error rc-alert--with-close"
-        role="alert"
-      >
-        <span className="pl-0">{checkOutErrMsg}</span>
-      </aside>
-    </div>
-  );
-}
-
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
+const isHub = window.__.env.REACT_APP_HUB;
+const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
+const Jp = window.__.env.REACT_APP_COUNTRY === 'jp';
+const purchaseType = {
+  0: 'Single purchase',
+  1: 'Autoship',
+  2: 'Club'
+};
 @inject(
   'checkoutStore',
   'loginStore',
@@ -121,9 +103,9 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tmpGoodsDescriptionDetailList: [], //获取tab处理后的相关数据
       event: {},
       eEvents: {},
-      GAListParam: '',
       initing: true,
       details: {
         id: '',
@@ -138,16 +120,12 @@ class Details extends React.Component {
         fromPrice: 0,
         toPrice: 0
       },
-      activeTabIdx: 0,
-      goodsDetailTab: {
-        tabName: [],
-        tabContent: []
-      },
+      activeTabIdxList: [0], //isMobile ? [] : [0], //mobile 也默认展开第一个tab
+      goodsDetailTab: [],
       quantity: 1,
       stock: 0,
       instockStatus: true,
       quantityMinLimit: 1,
-      quantityMaxLimit: 30,
       currentUnitPrice: 0,
       currentLinePrice: 0,
       currentSubscriptionPrice: 0,
@@ -160,132 +138,235 @@ class Details extends React.Component {
       errMsg: '',
       checkOutErrMsg: '',
       addToCartLoading: false,
-      tradePrice: '',
-      specList: [],
-      tabsValue: [],
-      petModalVisible: false,
-      isAdd: 0,
       productRate: 0,
+      backgroundSpaces: '🐕',
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
-      toolTipVisible: false,
-      relatedProduct: [],
       form: {
-        buyWay:
-          process.env.REACT_APP_PDP_BUYWAY === undefined
-            ? 1
-            : parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
+        buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
       },
       frequencyList: [],
-      tabs: [],
-      reviewShow: false,
       goodsNo: '', // SPU
       breadCrumbs: [],
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: '',
-        headingTag: 'h1'
-      },
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
-      pageLink: ''
+      pageLink: window.location.href,
+      purchaseTypeDict: [],
+      barcode: '',
+      descContent: '',
+      ccidBtnDisplay: false,
+      questionParams: undefined,
+      defaultPurchaseType: 0,
+      headingTag: 'h1',
+      showPrescriberCodeModal: false, //是否打开de PrescriberCodeModal
+      showErrorTip: false,
+      modalMobileCartSuccessVisible: false,
+      defaultSkuId: funcUrl({ name: 'skuId' }),
+      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
+      mixFeeding: null,
+      originalProductInfo: {},
+      mixFeedingByProductInfo: {},
+      mixFeedingBtnLoading: false,
+      hiddenMixFeedingBanner: false,
+      fromPrice: '',
+      versionB: false
     };
-    this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
-    this.handleAmountInput = this.handleAmountInput.bind(this);
-    this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
-    this.changeTab = this.changeTab.bind(this);
+    window.switchToVersionB = this.switchToVersionB;
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
+
   async componentDidMount() {
+    const { pathname } = this.props.location;
+    const { form } = this.state;
     this.getUrlParam();
-    console.log(this.state.form.buyWay, 'buyWay');
-    const { pathname, state } = this.props.location;
-    if (state) {
-      if (!!state.GAListParam) {
-        this.setState({ GAListParam: state.GAListParam });
-      }
-    }
-    await getFrequencyDict().then((res) => {
-      if (
-        process.env.REACT_APP_FREQUENCY_ID &&
-        process.env.REACT_APP_FREQUENCY_VAL &&
-        process.env.REACT_APP_FREQUENCY_NAME
-      ) {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: process.env.REACT_APP_FREQUENCY_VAL,
-            frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
-            frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
-          })
-        });
-      } else {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: res[0] ? res[0].valueEn : '',
-            frequencyName: res[0] ? res[0].name : '',
-            frequencyId: res[0] ? res[0].id : ''
-          })
-        });
-      }
-    });
-    const goodsSpuNo =
+    // 获取spu在?后面有很多数据的时候，需要特殊处理一下
+    let goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
         : '';
+    if (window.location.href.includes('?')) {
+      goodsSpuNo =
+        window.location.href?.split('?')?.[0].split('-').reverse()[0] || '';
+    }
     this.setState(
       {
         id: this.props.match.params.id,
-        goodsNo: goodsSpuNo || ''
+        goodsNo: goodsSpuNo || '',
+        pageLink: this.redirectCanonicalLink({ pageLink: this.state.pageLink })
       },
       () => this.queryDetails()
     );
   }
+
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
   get checkoutStore() {
     return this.props.checkoutStore;
   }
-  get computedList() {
-    return this.state.frequencyList.map((ele) => {
-      delete ele.value;
-      return {
-        value: ele.id,
-        ...ele
-      };
-    });
+  get buyFromRetailerConfig() {
+    const configStr = this.props.configStore?.info?.buyFromRetailerContext
+      ? decryptString(this.props.configStore.info.buyFromRetailerContext)
+      : '{}';
+    return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
+    const { sizeList } = details;
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    let addedFlag = 1;
+    let isUnitPriceZero = false;
+    if (details.sizeList.length) {
+      addedFlag = selectedSpecItem?.addedFlag;
+      isUnitPriceZero = form.buyWay === 0 && !selectedSpecItem?.marketPrice;
+    }
+    // details.sizeList.filter(el => el.selected).addedFlag
     // displayFlag 是否展示在前台
     // saleableFlag 是否可销售
     // 不可销售且不展示在前台 则前台按钮置灰
     return (
       !initing &&
+      !loading &&
       instockStatus &&
       quantity &&
-      (details.saleableFlag || !details.displayFlag)
+      (details.saleableFlag || !details.displayFlag) &&
+      addedFlag &&
+      !isUnitPriceZero &&
+      form.buyWay !== -1
     );
   }
+
+  get skuOffShelves() {
+    // addedFlag 0:Off shelves 1:On shelves
+    let addedFlag = 1;
+    const { sizeList } = this.state.details;
+    if (sizeList?.length) {
+      addedFlag = sizeList.filter((el) => el.selected)?.[0]?.addedFlag;
+    }
+    return addedFlag;
+  }
+
+  get isNullGoodsInfos() {
+    const { details } = this.state;
+
+    if (Array.isArray(details?.goodsInfos) && details?.goodsInfos.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  get retailerBtnStatus() {
+    const { loading, goodsType, exclusiveFlag = false } = this.state;
+    const sptGoods = goodsType === 0 || goodsType === 1;
+    let bundle = goodsType && goodsType === 2;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    //const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const enableRetailer =
+      buyFromRetailerConfig.retailerEnable && (!Tr || !sptGoods);
+    return !loading && !bundle && isHub && !exclusiveFlag && enableRetailer;
+  }
+
+  redirectCanonicalLink({ pageLink }) {
+    let ret;
+    const {
+      location: { pathname }
+    } = this.props;
+    const redirectUrl = (tempHubFrRedirect?.RECORDS || []).filter(
+      (t) => decodeURIComponent(t.shortUrl) === decodeURIComponent(pathname)
+    )[0]?.redirectUrl;
+    if (redirectUrl) {
+      ret = pageLink.split('/');
+      ret.splice(ret.length - 1, 1, redirectUrl.replace(/^\/?/gi, ''));
+      ret = ret.join('/');
+    }
+    return ret ? ret : pageLink;
+  }
+
+  setDefaultPurchaseType({ id }) {
+    const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
+    const skuPromotions =
+      details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
+    const targetDefaultPurchaseTypeItem =
+      purchaseTypeDict.filter(
+        (ele) => ele.id && id && ele.id + '' === id + ''
+      )[0] || purchaseTypeDict.filter((ele) => ele.name === 'None')[0];
+    const { configStore, checkoutStore } = this.props;
+    let defaultPurchaseType = 0;
+    if (targetDefaultPurchaseTypeItem) {
+      let buyWay = 0;
+      defaultPurchaseType = {
+        None: -1,
+        Subscription: 1,
+        'One-off purchase': 0
+      }[targetDefaultPurchaseTypeItem.valueEn];
+      if (
+        defaultPurchaseType === 1 ||
+        sessionItemRoyal.get('pf-result') ||
+        localStorage.getItem('pfls') ||
+        this.state.defaultGoodsInfoFlag
+      ) {
+        buyWay =
+          parseInt(this.state.defaultGoodsInfoFlag) || skuPromotions === 'club'
+            ? 2
+            : 1;
+      } else {
+        buyWay = defaultPurchaseType;
+      }
+      if (!isNaN(parseInt(this.state.defaultGoodsInfoFlag))) {
+        buyWay = parseInt(this.state.defaultGoodsInfoFlag);
+        if (parseInt(this.state.defaultGoodsInfoFlag) > 0) {
+          defaultPurchaseType = 1;
+        } else {
+          defaultPurchaseType = 0;
+        }
+      }
+
+      let autoshipDictRes = frequencyList.filter(
+        (el) => el.goodsInfoFlag === 1
+      );
+      let clubDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 2);
+
+      let defaultFrequencyId = 0;
+      // 获取默认frequencyId
+      if (details?.promotions === 'club') {
+        defaultFrequencyId =
+          details?.defaultFrequencyId ||
+          configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
+          (clubDictRes[0] && clubDictRes[0].id) ||
+          '';
+      } else {
+        defaultFrequencyId =
+          details?.defaultFrequencyId ||
+          configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
+          (autoshipDictRes[0] && autoshipDictRes[0].id) ||
+          '';
+      }
+
+      this.setState({
+        form: Object.assign(this.state.form, {
+          buyWay,
+          frequencyId: defaultFrequencyId
+        }),
+        defaultPurchaseType
+      });
+    }
+  }
+
   getUrlParam() {
-    const { search } = this.props.history.location;
-    const utmSource = getParaByName(search, 'utm_source');
-    const utmMedium = getParaByName(search, 'utm_medium');
-    const utmCampaign = getParaByName(search, 'utm_campaign');
-    const prefixFn = getParaByName(search, 'prefn1');
-    const prefixBreed = getParaByName(search, 'prefv1');
+    const utmSource = funcUrl({ name: 'utm_source' });
+    const utmMedium = funcUrl({ name: 'utm_medium' });
+    const utmCampaign = funcUrl({ name: 'utm_campaign' });
+    const prefixFn = funcUrl({ name: 'prefn1' });
+    const prefixBreed = funcUrl({ name: 'prefv1' });
     const requestJson = {
       utmSource,
       utmMedium,
@@ -297,154 +378,121 @@ class Details extends React.Component {
       requestJson
     });
   }
-  bundleMatchGoods() {
+
+  getPdpScreenLoadData = () => {
+    const { clinicStore } = this.props;
     let {
       details,
-      currentUnitPrice,
-      currentSubscriptionPrice,
       currentSubscriptionStatus,
-      stock
+      currentSubscriptionPrice,
+      skuPromotions
     } = this.state;
 
-    currentUnitPrice = details.goodsInfos[0].salePrice;
-    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
-    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
-    stock = details.goodsInfos[0].stock;
-    details.sizeList[0].selected = true;
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock
-      },
-      () => {
-        this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-      }
-    );
-  }
-  setGoogleProductStructuredDataMarkup() {
-    const {
+    const pdpScreenLoadData = {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      clinicStore
+      //selectPrice
+    };
+
+    hubGAProductDetailPageView(details, pdpScreenLoadData);
+  };
+
+  matchGoods(data, sizeList) {
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
+    let {
       instockStatus,
       details,
       spuImages,
       goodsDetailTab,
-      goodsNo
+      tmpGoodsDescriptionDetailList,
+      goodsNo,
+      form,
+      setDefaultPurchaseTypeParamId
     } = this.state;
-    loadJS({
-      code: JSON.stringify({
-        '@context': 'http://schema.org/',
-        '@type': 'Product',
-        name: details.goodsName,
-        description: goodsDetailTab.tabContent[0],
-        mpn: goodsNo,
-        sku: goodsNo,
-        image: spuImages.map((s) => s.artworkUrl),
-        offers: {
-          url: {},
-          '@type': 'AggregateOffer',
-          priceCurrency: process.env.REACT_APP_CURRENCY,
-          availability: instockStatus
-            ? 'http://schema.org/InStock'
-            : 'https://schema.org/OutOfStock',
-          lowPrice: details.fromPrice,
-          highPrice: details.toPrice || details.fromPrice
-        }
-      }),
-      type: 'application/ld+json'
-    });
-  }
-  matchGoods() {
-    let {
-      specList,
-      details,
-      currentUnitPrice,
-      currentLinePrice,
-      currentSubscriptionPrice,
-      currentSubscriptionStatus,
-      stock
-    } = this.state;
-    let selectedArr = [];
-    let idArr = [];
-    let baseSpecId = details.baseSpec;
-    specList.map((el) => {
-      if (el.chidren.filter((item) => item.selected).length) {
-        selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-      }
-      return el;
-    });
-    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    idArr = selectedArr.map((el) => el.specDetailId);
-    currentUnitPrice = details.marketPrice;
+    details.sizeList = sizeList;
 
-    details.sizeList.map((item, i) => {
-      item.basePrice = 0;
-      details.goodsSpecDetails.map((el) => {
-        if (
-          el.specId === baseSpecId &&
-          item.mockSpecDetailIds.includes(el.specDetailId)
-        ) {
-          item.baseSpecLabel = el.detailName;
-        }
-        return el;
+    this.setState(Object.assign({ details, form }, data), () => {
+      this.updateInstockStatus();
+      setTimeout(() =>
+        setGoogleProductStructuredDataMarkup({
+          instockStatus,
+          details,
+          spuImages,
+          goodsDetailTab: tmpGoodsDescriptionDetailList,
+          goodsNo
+        })
+      );
+      this.setDefaultPurchaseType({
+        id: setDefaultPurchaseTypeParamId
       });
-      let specTextArr = [];
-      for (let specItem of specList) {
-        for (let specDetailItem of specItem.chidren) {
-          if (
-            item.mockSpecIds.includes(specDetailItem.specId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            specTextArr.push(specDetailItem.detailName);
-          }
-          // console.log(item.mo)
-          if (
-            item.mockSpecIds.includes(baseSpecId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            console.log(
-              specDetailItem.detailName,
-              'specDetailItem.detailName',
-              i
-            );
-            item.baseSpecLabel = specDetailItem.detailName;
-          }
-        }
-      }
-      item.specText = specTextArr.join(' ');
-      if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-        console.log(item, 'item');
-        item.selected = true;
-        currentUnitPrice = item.salePrice;
-        currentLinePrice = item.linePrice;
-        currentSubscriptionPrice = item.subscriptionPrice;
-        currentSubscriptionStatus = item.subscriptionStatus;
-        stock = item.stock;
-      } else {
-        item.selected = false;
-      }
 
-      return item;
-    });
-    console.log(details, 'details');
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentLinePrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock
-      },
-      () => {
-        this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
+      let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+      if (!selectedSpecItem?.subscriptionStatus && this.state.form.buyWay > 0) {
+        this.setState({
+          form: Object.assign(this.state.form, {
+            buyWay: -1
+          })
+        });
       }
-    );
+    });
+
+    // bundle商品的ga初始化填充
+    if (!details.goodsSpecs) {
+      this.getPdpScreenLoadData();
+    }
   }
+
+  updatedPriceOrCode = ({ barcode, selectPrice, clickEvent }) => {
+    const { clinicStore } = this.props;
+    const {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      details
+    } = this.state;
+    const pdpScreenLoadData = {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      clinicStore,
+      selectPrice
+    };
+    // cc.js加载
+    this.loadWidgetIdBtn(barcode);
+
+    //hubGa初始化页面埋点,不是点击的事件才调用
+    if (!clickEvent) {
+      hubGAProductDetailPageView(details, pdpScreenLoadData);
+    }
+
+    this.setState({
+      barcode
+    });
+  };
+
+  toScroll = (anchorName) => {
+    let anchorElement = document.getElementById(anchorName);
+    // 如果对应id的锚点存在，就跳转到锚点
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  toClubTab = () => {
+    let ClubLength = this.state.tmpGoodsDescriptionDetailList?.length;
+    let activeTabIdx = isMobile
+      ? [...this.state.activeTabIdxList, ClubLength]
+      : [ClubLength];
+    this.setState({ activeTabIdxList: activeTabIdx }, () => {
+      this.toScroll('j-details-for-club');
+    });
+  };
+
   async queryDetails() {
+    const { configStore } = this.props;
     const { id, goodsNo } = this.state;
     let requestName;
     let param;
@@ -455,304 +503,162 @@ class Details extends React.Component {
       requestName = this.isLogin ? getLoginDetails : getDetails;
       param = id;
     }
-    Promise.all([requestName(param)])
+
+    Promise.all([
+      requestName(param),
+      getFrequencyDict(),
+      getDictionary({
+        type: 'purchase_type'
+      })
+    ])
       .then((resList) => {
         const res = resList[0];
-        if (res && res.context) {
+        const frequencyDictRes = resList[1];
+        const purchaseTypeDictRes = resList[2];
+        const goodsRes = res?.context?.goods;
+        const backgroundSpace = res.context?.goods?.cateId;
+        const contextResult = res.context;
+        this.setState({
+          fromPrice: contextResult.fromPrice
+        });
+        if (!contextResult) {
+          this.setState({ showErrorTip: true });
+          return;
+        }
+        // 获取club与autoship字典
+        if (res && res.context && goodsRes) {
           this.setState({
             productRate: res.context.avgEvaluate
           });
         }
-        if (res && res.context && res.context.goods) {
+        if (backgroundSpace) {
+          this.setState({
+            backgroundSpaces: res.context.goods.cateId
+          });
+        }
+
+        const technologyList = (
+          res.context?.goodsAttributesValueRelList || []
+        ).filter((el) => el.goodsAttributeName?.toLowerCase() === 'technology');
+        const dryOrWetObj =
+          technologyList.filter((el) =>
+            ['dry', 'wet'].includes(el.goodsAttributeValue?.toLowerCase())
+          )?.[0] || {};
+        let dryOrWet = {
+          value: dryOrWetObj?.goodsAttributeValue?.toLowerCase(),
+          valueEn: dryOrWetObj.goodsAttributeValueEn
+        };
+
+        if (goodsRes) {
+          const { goods = {}, images } = res.context;
+          if (isShowMixFeeding()) {
+            getMixFeeding(goods?.goodsId).then((res) => {
+              let mixFeeding = handleRecommendation(
+                res?.context?.goodsRelationAndRelationInfos.filter(
+                  (el) => el.sort === 0
+                )[0] || res?.context?.goodsRelationAndRelationInfos[0]
+              );
+              if (mixFeeding) {
+                mixFeeding.quantity = 1;
+              }
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
+              let _hiddenMixFeedingBanner = false;
+              let mixFeedingSelected = mixFeeding?.sizeList?.filter(
+                (el) => el.selected
+              )?.[0];
+              if (!mixFeedingSelected?.stock) {
+                _hiddenMixFeedingBanner = true;
+              }
+              this.setState({
+                mixFeeding,
+                mixFeedingByProductInfo: {
+                  imageSrc: goodsImg,
+                  goodsTitle: goodsName,
+                  goodsNo
+                },
+                hiddenMixFeedingBanner: _hiddenMixFeedingBanner
+              });
+            });
+          }
+
+          const taggingList = (res.context?.taggingList || []).filter(
+            (t) => t.displayStatus
+          );
           let pageLink = window.location.href.split('-');
-          pageLink.splice(pageLink.length - 1, 1);
-          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
+          pageLink.splice(pageLink.length - 1, 1, goodsRes.goodsNo);
+          pageLink = pageLink.join('-');
 
           this.setState(
             {
-              productRate: res.context.goods.avgEvaluate,
-              replyNum: res.context.goods.goodsEvaluateNum,
-              goodsId: res.context.goods.goodsId,
-              minMarketPrice: res.context.goods.minMarketPrice,
-              minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
+              purchaseTypeDict: purchaseTypeDictRes,
+              frequencyList: frequencyDictRes,
+              productRate: goodsRes.avgEvaluate,
+              replyNum: goodsRes.goodsEvaluateNum,
+              goodsId: goodsRes.goodsId,
+              minMarketPrice: goodsRes.minMarketPrice,
               details: Object.assign(this.state.details, {
-                taggingForText: (res.context.taggingList || []).filter(
+                promotions: goods?.promotions?.toLowerCase(),
+                taggingForTextAtPDP: taggingList.filter(
+                  (e) => e.taggingType === 'Text' && e.showPage?.includes('PDP')
+                )[0],
+                taggingForImageAtPDP: taggingList.filter(
+                  (e) =>
+                    e.taggingType === 'Image' && e.showPage?.includes('PDP')
+                )[0],
+                taggingForTextAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Text' &&
-                    e.showPage &&
-                    e.showPage.includes('PDP')
+                    e.showPage?.includes('Shopping cart page')
                 )[0],
-                taggingForImage: (res.context.taggingList || []).filter(
+                taggingForImageAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Image' &&
-                    e.showPage &&
-                    e.showPage.includes('PDP')
+                    e.showPage?.includes('Shopping cart page')
                 )[0],
                 fromPrice: res.context.fromPrice,
-                toPrice: res.context.toPrice
+                toPrice: res.context.toPrice,
+                goodsDescriptionDetailList:
+                  res.context.goodsDescriptionDetailList,
+                defaultFrequencyId: goodsRes.defaultFrequencyId
               }),
-              spuImages: res.context.images,
-              breadCrumbs: [{ name: res.context.goods.goodsName }],
-              pageLink
+              spuImages: images,
+              breadCrumbs: [{ name: goodsRes.goodsName }],
+              pageLink: this.redirectCanonicalLink({ pageLink }),
+              goodsType: goods.goodsType,
+              exclusiveFlag: goods.exclusiveFlag,
+              originalProductInfo: Object.assign(
+                this.state.originalProductInfo,
+                {
+                  imageSrc: images?.[0]?.artworkUrl || '',
+                  goodsTitle: goodsRes.goodsName || '',
+                  technology: dryOrWet || {}
+                }
+              ),
+              setDefaultPurchaseTypeParamId:
+                goodsRes.defaultPurchaseType ||
+                configStore.info?.storeVO?.defaultPurchaseType
             },
             () => {
-              // 面包屑展示规则
-              // 1 正向流程，使用history
-              // 2 逆向流程，进行分类匹配【从sales catogery(home page)中，至少匹配一个进行展示】
-              const { state } = this.props.location;
-              const { breadCrumbs } = this.state;
-              const cateNameInfos = res.context.storeCates || [];
-
-              if (state && state.historyBreads) {
-                this.setState({
-                  breadCrumbs: [...state.historyBreads, ...breadCrumbs]
-                });
-              } else if (cateNameInfos.length) {
-                queryStoreCateList().then((tmpRes) => {
-                  for (let index = 0; index < cateNameInfos.length; index++) {
-                    const info = cateNameInfos[index];
-                    const matchedItem = (tmpRes || []).filter(
-                      (f) => f.storeCateId === info.storeCateId
-                    )[0];
-                    if (matchedItem) {
-                      this.setState({
-                        breadCrumbs: [
-                          {
-                            name: matchedItem.cateName,
-                            link: matchedItem.cateRouter
-                          },
-                          ...breadCrumbs
-                        ]
-                      });
-                      break;
-                    }
-                  }
-                });
-              }
+              this.handleBreadCrumbsData();
+              // this.setDefaultPurchaseType({
+              //   id:
+              //     goodsRes.defaultPurchaseType ||
+              //     configStore.info?.storeVO?.defaultPurchaseType
+              // });
             }
           );
-          setSeoConfig({
-            goodsId: res.context.goods.goodsId,
-            categoryId: '',
-            pageName: 'Product Detail Page'
-          }).then((res) => {
-            this.setState({ seoConfig: res });
-          });
-          // setSeoConfig({
-          //   goodsId: res.context.goods.goodsId,
-          //   categoryId: '',
-          //   pageName: 'Product Detail Page'
-          // });
         } else {
-          this.setState({
-            errMsg: <FormattedMessage id="details.errMsg" />
-          });
+          throw new Error();
         }
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
-        let isSkuNoQuery = res.context.isSkuNoQuery;
-        let choosedSpecsArr = [];
-        if (isSkuNoQuery) {
-          // 通过sku查询
-          let specsItem = goodsInfos.filter(
-            (item) => item.goodsInfoNo == this.state.goodsNo
-          );
-          choosedSpecsArr =
-            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-        }
-        if (res && res.context && res.context.goodsSpecDetails) {
-          let specList = res.context.goodsSpecs;
-          let specDetailList = res.context.goodsSpecDetails;
-          specList.map((sItem, index) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              if (index === 0) {
-                // console.log(goodsInfos.filter(goodEl => goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)), 'aaaa')
-                let filterproducts = goodsInfos.filter((goodEl) =>
-                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                );
-                sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
-                sdItem.isEmpty = filterproducts.every(
-                  (item) => item.stock === 0
-                );
-                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-              }
-              return sdItem.specId === sItem.specId;
-            });
-            let defaultSelcetdSku = -1;
-            if (choosedSpecsArr.length) {
-              for (let i = 0; i < choosedSpecsArr.length; i++) {
-                let specDetailIndex = sItem.specDetailIds.indexOf(
-                  choosedSpecsArr[i]
-                );
-                if (specDetailIndex > -1) {
-                  defaultSelcetdSku = specDetailIndex;
-                }
-              }
-            }
-            console.info('defaultSelcetdSku', defaultSelcetdSku);
-            if (defaultSelcetdSku > -1) {
-              // 默认选择该sku
-              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-                // 如果是sku进来的，需要默认当前sku被选择
-                sItem.chidren[defaultSelcetdSku].selected = true;
-              }
-            } else {
-              if (
-                process.env.REACT_APP_LANG === 'de' &&
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[0].selected = true;
-              } else if (
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[1].selected = true;
-              } else {
-                for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty) {
-                  } else {
-                    sItem.chidren[i].selected = true;
-                    break;
-                  }
-                }
-              }
-            }
-            return sItem;
-          });
-          console.log(specList, 'specList');
-          // this.setState({ specList });
-          sizeList = goodsInfos.map((g, i) => {
-            // g = Object.assign({}, g, { selected: false });
-            g = Object.assign({}, g, { selected: i === 0 });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
-          console.log(sizeList, 'sizeList');
 
-          // const selectedSize = find(sizeList, s => s.selected)
-          const { goodsDetailTab, tabs } = this.state;
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (
-                    process.env.REACT_APP_LANG === 'fr' ||
-                    process.env.REACT_APP_LANG === 'ru' ||
-                    process.env.REACT_APP_LANG === 'tr'
-                  ) {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (
-                        key === 'Description' ||
-                        key === 'Описание' ||
-                        key === 'İçindekiler'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (
-                        key === 'Bénéfices' ||
-                        key === 'Полезные свойства' ||
-                        key === 'Yararları'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (
-                        key === 'Composition' ||
-                        key === 'Ингредиенты'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>
-                            
-                            <div class="content">${
-                              Object.values(JSON.parse(el))[0]
-                            }</div> 
-                          </p>`;
-                        });
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'err');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
+        if (res && res.context && res.context.goodsSpecDetails) {
           let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
-          // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
-          // if(filterImages.length) {
-          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)
-          // }else {
-          //   ima
-          // }
           images = res.context.goodsInfos;
           this.setState(
             {
@@ -761,255 +667,69 @@ class Details extends React.Component {
                 this.state.details,
                 res.context.goods,
                 {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:
+                    res.context.goodsAttributesValueRelList
                 }
               ),
-              images,
-              // images: res.context.images.concat(res.context.goodsInfos),
-              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
-              specList
+              images: cloneDeep(images)
             },
-            () => {
-              //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
-              this.matchGoods();
+            async () => {
+              // 不可销售，并且展示在前台的商品，获取envCode,去请求cc.js
+              const { goods, goodsInfos } = res.context;
+              const notSaleGoods =
+                window.__.env.REACT_APP_HUB &&
+                !goods.saleableFlag &&
+                goods.displayFlag;
+              const goodsInfoBarcode = goodsInfos?.[0]?.goodsInfoBarcode;
+              if (notSaleGoods) {
+                let barcode = goodsInfoBarcode
+                  ? goodsInfoBarcode
+                  : '3182550751148'; //暂时临时填充一个code,因为没有值，按钮将不会显示;
+                this.setState({
+                  barcode
+                });
+                this.loadWidgetIdBtn(barcode);
+              }
+
+              //启用BazaarVoice时，在PDP页面add schema.org markup
+              if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+                //设置延时获取BazaarVoice dom节点
+                setTimeout(() => {
+                  addSchemaOrgMarkup(
+                    this.state.details,
+                    this.state.instockStatus,
+                    <FormattedMessage id="homePage" />
+                  );
+                }, 60000);
+              }
             }
           );
         } else {
-          let sizeList = [];
-          let goodsInfos = res.context.goodsInfos || [];
-          sizeList = goodsInfos.map((g, i) => {
-            g = Object.assign({}, g, { selected: i === 0 });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
-
-          // const selectedSize = find(sizeList, s => s.selected)
-
-          const { goodsDetailTab, tabs } = this.state;
-          // try {
-          //   let tmpGoodsDetail = res.context.goods.goodsDetail;
-          //   if (tmpGoodsDetail) {
-          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-          //     for (let key in tmpGoodsDetail) {
-          //       if (tmpGoodsDetail[key]) {
-          //         goodsDetailTab.tabName.push(key);
-          //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-          //         tabs.push({ show: false });
-          //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-          //       }
-          //     }
-          //   }
-          //   this.setState({
-          //     goodsDetailTab: goodsDetailTab,
-          //     tabs
-          //   });
-          // } catch (err) {
-          //   getDict({
-          //     type: 'goodsDetailTab',
-          //     storeId: process.env.REACT_APP_STOREID
-          //   }).then((res) => {
-          //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-          //       (ele) => ele.name
-          //     );
-          //     this.setState({
-          //       goodsDetailTab: goodsDetailTab
-          //     });
-          //   });
-          // }
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (
-                    process.env.REACT_APP_LANG === 'fr' ||
-                    process.env.REACT_APP_LANG === 'ru' ||
-                    process.env.REACT_APP_LANG === 'tr'
-                  ) {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (
-                        key === 'Description' ||
-                        key === 'Описание' ||
-                        key === 'İçindekiler'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          } else if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'Prescriber Blod Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line; font-weight: 400">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          } else if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'Prescriber Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line; font-weight: 400;">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (
-                        key === 'Bénéfices' ||
-                        key === 'Полезные свойства' ||
-                        key === 'Yararları'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (key === 'Composition') {
-                        if (res.context.goods.goodsType !== 2) {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<p>
-                              
-                              <div class="content">${
-                                Object.values(JSON.parse(el))[0]
-                              }</div> 
-                            </p>`;
-                          });
-                        } else {
-                          tmpGoodsDetail[key].map((el) => {
-                            let contentObj = JSON.parse(el);
-                            let contentValue = '';
-                            Object.values(Object.values(contentObj)[0]).map(
-                              (el) => {
-                                contentValue += `<p>${el}</p>`;
-                              }
-                            );
-                            console.log(tempContent, 'heiheihaha');
-                            tempContent =
-                              tempContent +
-                              `
-                              <div class="title">
-                                ${Object.keys(contentObj)[0]}
-                              </div>
-                              <div class="content">${contentValue}</div> 
-                            `;
-                          });
-                        }
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'tmpGoodsDetail');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
           let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
           images = res.context.goodsInfos;
-          this.setState(
-            {
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
-                }
-              ),
-              images
-            },
-            () => {
-              //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
-              this.bundleMatchGoods();
-            }
-          );
-          // 没有规格的情况
-          // this.setState({
-          //   errMsg: <FormattedMessage id="details.errMsg" />
-          // });
+          this.setState({
+            details: Object.assign({}, this.state.details, res.context.goods, {
+              promotions: res.context.goods?.promotions?.toLowerCase(),
+              sizeList,
+              goodsInfos: res.context.goodsInfos,
+              goodsSpecDetails: res.context.goodsSpecDetails,
+              goodsSpecs: res.context.goodsSpecs,
+              goodsAttributesValueRelList:
+                res.context.goodsAttributesValueRelList
+            }),
+            images: cloneDeep(images)
+          });
         }
       })
       .catch((e) => {
         console.log(e);
         this.setState({
-          errMsg: e.message ? (
-            e.message.toString()
-          ) : (
-            <FormattedMessage id="details.errMsg2" />
-          )
+          errMsg: e.message || <FormattedMessage id="details.errMsg2" />
         });
       })
       .finally(() => {
@@ -1019,56 +739,76 @@ class Details extends React.Component {
         });
       });
   }
+  handleBreadCrumbsData() {
+    // 面包屑展示规则
+    // 1 正向流程，使用history
+    // 2 逆向流程，进行分类匹配【从sales catogery(home page)中，至少匹配一个进行展示】
+    const { state } = this.props.location;
+    const { breadCrumbs, details } = this.state;
+    const cateNameInfos = details.storeCates || [];
+
+    if (state && state.historyBreads) {
+      this.setState({
+        breadCrumbs: [...state.historyBreads, ...breadCrumbs]
+      });
+    } else if (cateNameInfos.length) {
+      queryStoreCateList().then((tmpRes) => {
+        for (let index = 0; index < cateNameInfos.length; index++) {
+          const info = cateNameInfos[index];
+          const matchedItem = (tmpRes || []).filter(
+            (f) => f.storeCateId === info.storeCateId
+          )[0];
+          if (matchedItem) {
+            this.setState({
+              breadCrumbs: [
+                {
+                  name: matchedItem.cateName,
+                  link: matchedItem.cateRouter
+                },
+                ...breadCrumbs
+              ]
+            });
+            break;
+          }
+        }
+      });
+    }
+  }
+  loadWidgetIdBtn(barcode) {
+    const { goodsType } = this.state;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const widgetId =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API'
+        ? buyFromRetailerConfig.idRetailProducts
+        : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const vetWidgetId =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API'
+        ? buyFromRetailerConfig.idVetProducts
+        : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
+    const id = goodsType === 3 ? vetWidgetId : widgetId;
+    if (widgetId || vetWidgetId) {
+      loadJS({
+        url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+        id: 'cci-widget',
+        dataSets: {
+          token: buyFromRetailerConfig.token, //'2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
+          locale: buyFromRetailerConfig.locale, // window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+          displaylanguage: buyFromRetailerConfig.displayLanguage,
+          //window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+          widgetid: id,
+          ean: barcode,
+          subid: '',
+          trackingid: buyFromRetailerConfig.trackingIdPrefix // ''
+        }
+      });
+    }
+  }
   updateInstockStatus() {
     this.setState({
       instockStatus: this.state.quantity <= this.state.stock
     });
-  }
-  hanldeAmountChange(type) {
-    this.setState({ checkOutErrMsg: '' });
-    if (!type) return;
-    const { quantity } = this.state;
-    let res;
-    if (type === 'minus') {
-      if (quantity <= 1) {
-        res = 1;
-      } else {
-        res = quantity - 1;
-      }
-    } else {
-      res = (quantity || 0) + 1;
-      if (quantity >= 30) {
-        res = 30;
-      }
-    }
-    this.setState(
-      {
-        quantity: res
-      },
-      () => {
-        this.updateInstockStatus();
-      }
-    );
-  }
-  handleAmountInput(e) {
-    this.setState({ checkOutErrMsg: '' });
-    const { quantityMinLimit, quantityMaxLimit } = this.state;
-    const val = e.target.value;
-    if (val === '') {
-      this.setState({ quantity: val });
-    } else {
-      let tmp = parseInt(val);
-      if (isNaN(tmp)) {
-        tmp = 1;
-      }
-      if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit;
-      }
-      if (tmp > quantityMaxLimit) {
-        tmp = quantityMaxLimit;
-      }
-      this.setState({ quantity: tmp }, () => this.updateInstockStatus());
-    }
   }
   handleSelectedItemChange = (data) => {
     const { form } = this.state;
@@ -1079,409 +819,132 @@ class Details extends React.Component {
       // this.props.updateSelectedData(this.state.form);
     });
   };
-  handleChooseSize(sId, sdId, isSelected) {
-    if (isSelected) {
-      return;
+  showPrescriberCodeBeforeAddCart = () => {
+    if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
+      const { clinicId, clinicName } = this.props.clinicStore;
+      if (!(clinicId && clinicName)) {
+        this.setState({ showPrescriberCodeModal: true });
+      }
     }
-    let { specList } = this.state;
-    specList
-      .filter((item) => item.specId === sId)[0]
-      .chidren.map((item) => {
-        if (item.specDetailId === sdId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-        return item;
-      });
-    console.log(specList, 'sss');
-    this.setState({ specList }, () => {
-      this.matchGoods();
-    });
-    // this.setState
-    // console.log(sItem, 'sItem')
-    // this.setState({ checkOutErrMsg: "" });
-    // const { sizeList } = this.state.details;
-    // let list = cloneDeep(sizeList);
-    // let ret = list.map((elem, indx) => {
-    //   if (indx === index) {
-    //     elem = Object.assign({}, elem, { selected: true });
-    //   } else {
-    //     elem = Object.assign({}, elem, { selected: false });
-    //   }
-    //   return elem;
-    // });
-    // this.setState(
-    //   {
-    //     currentUnitPrice: data.salePrice,
-    //     details: Object.assign({}, this.state.details, { sizeList: ret }),
-    //     stock: data.stock || 0,
-    //   },
-    //   () => this.updateInstockStatus()
-    // );
-  }
-  async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
-    try {
-      const { loading } = this.state;
-      if (!this.btnStatus || loading) return false;
-      this.setState({ checkOutErrMsg: '' });
+  };
+  closePrescriberCodeModal = async () => {
+    this.setState({ showPrescriberCodeModal: false });
+    const { clinicStore } = this.props;
+    if (clinicStore.selectClinicId && clinicStore.selectClinicName) {
       if (this.isLogin) {
-        this.hanldeLoginAddToCart({ redirect });
+        this.hanldeLoginAddToCart();
       } else {
-        await this.hanldeUnloginAddToCart({ redirect, needLogin });
+        await this.hanldeUnloginAddToCart();
+      }
+    }
+  };
+  async hanldeAddToCart() {
+    try {
+      if (!this.btnStatus) return false;
+      this.setState({ checkOutErrMsg: '' });
+      await this.showPrescriberCodeBeforeAddCart();
+      if (!this.state.showPrescriberCodeModal) {
+        if (this.isLogin) {
+          this.hanldeLoginAddToCart();
+        } else {
+          await this.hanldeUnloginAddToCart();
+        }
       }
     } catch (err) {}
   }
-  async hanldeLoginAddToCart({ redirect }) {
+  async hanldeLoginAddToCart(type) {
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        clinicStore,
-        headerCartStore
-      } = this.props;
-      const { quantity, form, details } = this.state;
+      const { checkoutStore, intl, headerCartStore } = this.props;
+      const { quantity, form, details, questionParams } = this.state;
+      // const { formatMessage } = intl;
 
-      this.GAAddToCar(quantity, details);
+      hubGAAToCar(quantity, form);
 
       const { sizeList } = details;
       let currentSelectedSize;
-      this.setState({ addToCartLoading: true });
+      !type && this.setState({ addToCartLoading: true });
       if (details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       } else {
         currentSelectedSize = sizeList[0];
       }
-
+      let buyWay = parseInt(form.buyWay);
+      let goodsInfoFlag =
+        buyWay && details.promotions?.includes('club') ? 2 : buyWay;
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsInfoFlag: parseInt(form.buyWay)
+        goodsInfoFlag,
+        petsId: currentSelectedSize.petsId,
+        petsType: currentSelectedSize.petsType,
+        questionParams,
+        recommendationId: this.props.clinicStore.linkClinicId,
+        recommendationName: this.props.clinicStore.linkClinicName
       };
-      if (parseInt(form.buyWay)) {
+      if (buyWay) {
         param.periodTypeId = form.frequencyId;
       }
 
       if (Object.keys(this.state.requestJson).length > 0) {
         param = { ...param, ...this.state.requestJson };
       }
-      await sitePurchase(param);
-      await checkoutStore.updateLoginCart();
-      if (isMobile) {
-        this.refs.showModalButton.click();
-      } else {
+      await AddCartItemMember({ param });
+      this.setState({ modalMobileCartSuccessVisible: true });
+      if (!isMobile) {
         headerCartStore.show();
         setTimeout(() => {
           headerCartStore.hide();
         }, 4000);
       }
-
-      if (redirect) {
-        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo3"
-              values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          );
-          return false;
-        }
-
-        // 存在下架商品，不能下单
-        if (checkoutStore.offShelvesProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo4"
-              values={{
-                val: checkoutStore.offShelvesProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-
-        // 库存不够，不能下单
-        if (checkoutStore.outOfstockProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo2"
-              values={{
-                val: checkoutStore.outOfstockProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-        // 存在被删除商品，不能下单
-        if (checkoutStore.deletedProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo5"
-              values={{
-                val: checkoutStore.deletedProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-        // this.openPetModal()
-        let autoAuditFlag = false;
-        let res = await getProductPetConfig({
-          goodsInfos: checkoutStore.loginCartData
-        });
-        let handledData = checkoutStore.loginCartData.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-          return el;
-        });
-        checkoutStore.setLoginCartData(handledData);
-        let AuditData = handledData.filter((el) => el.auditCatFlag);
-        checkoutStore.setAuditData(AuditData);
-        autoAuditFlag = res.context.autoAuditFlag;
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        checkoutStore.setPetFlag(res.context.petFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: this.isLogin
-        });
-        url && history.push(url);
-        // history.push('/prescription');
-      }
     } catch (err) {
-      console.log(err);
-      this.setState({ errMsg: err.message.toString() });
+      this.showCheckoutErrMsg(err.message);
     } finally {
       this.setState({ addToCartLoading: false });
     }
   }
-  async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    const {
-      configStore,
-      checkoutStore,
-      history,
-      headerCartStore,
-      clinicStore
-    } = this.props;
-    const {
-      currentUnitPrice,
-      quantity,
-      instockStatus,
-      form,
-      details,
-      loading
-    } = this.state;
-    const { goodsId, sizeList } = details;
-    // 加入购物车 埋点start
-    this.GAAddToCar(quantity, details);
-    // 加入购物车 埋点end
-    this.setState({ checkOutErrMsg: '' });
-    if (!this.btnStatus || loading) {
-      throw new Error();
-    }
-    const currentSelectedSize = find(sizeList, (s) => s.selected);
-    let quantityNew = quantity;
-    let tmpData = Object.assign({}, details, {
-      quantity: quantityNew
-    });
-    let cartDataCopy = cloneDeep(
-      toJS(checkoutStore.cartData).filter((el) => el)
-    );
-
-    if (!instockStatus || !quantityNew) {
-      throw new Error();
-    }
-    this.setState({ addToCartLoading: true });
-    let flag = true;
-    if (cartDataCopy && cartDataCopy.length) {
-      const historyItem = find(
-        cartDataCopy,
-        (c) =>
-          c.goodsId === goodsId &&
-          currentSelectedSize.goodsInfoId ===
-            c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-      );
-      if (historyItem) {
-        flag = false;
-        quantityNew += historyItem.quantity;
-        if (quantityNew > process.env.REACT_APP_LIMITED_NUM) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorMaxInfo"
-              values={{ val: process.env.REACT_APP_LIMITED_NUM }}
-            />
-          );
-          this.setState({ addToCartLoading: false });
-          return;
-        }
-        tmpData = Object.assign(tmpData, {
-          quantity: quantityNew,
-          goodsInfoFlag: parseInt(form.buyWay)
-        });
-        if (parseInt(form.buyWay)) {
-          tmpData.periodTypeId = form.frequencyId;
-        }
-      }
-    }
-
-    // 超过库存时，修改产品数量为最大值替换
-    // let res = await miniPurchases({
-    //   goodsInfoDTOList: [
-    //     {
-    //       goodsInfoId: currentSelectedSize.goodsInfoId,
-    //       goodsNum: quantityNew
-    //     }
-    //   ]
-    // });
-    // let tmpObj = find(
-    //   res.context.goodsList,
-    //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-    // );
-    // if (tmpObj) {
-    //   if (quantityNew > tmpObj.stock) {
-    //     quantityNew = tmpObj.stock;
-    //     if (flag) {
-    //       this.setState({
-    //         quantity: quantityNew
-    //       });
-    //     }
-    //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
-    //   }
-    // }
-
-    const idx = findIndex(
-      cartDataCopy,
-      (c) =>
-        c.goodsId === goodsId &&
-        currentSelectedSize.goodsInfoId ===
-          find(c.sizeList, (s) => s.selected).goodsInfoId
-    );
-    tmpData = Object.assign(tmpData, {
-      currentAmount: currentUnitPrice * quantityNew,
-      selected: true,
-      goodsInfoFlag: parseInt(form.buyWay)
-    });
-    if (parseInt(form.buyWay)) {
-      tmpData.periodTypeId = form.frequencyId;
-    }
-    if (idx > -1) {
-      cartDataCopy.splice(idx, 1, tmpData);
-    } else {
-      if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorMaxCate"
-            values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
-          />
-        );
-        return;
-      }
-      if (Object.keys(this.state.requestJson).length > 0) {
-        //requestJson是shelter和breeder产品的参数，有就加上
-        tmpData = { ...tmpData, ...this.state.requestJson };
-      }
-      cartDataCopy.push(tmpData);
-    }
-
-    await checkoutStore.updateUnloginCart(cartDataCopy);
+  async hanldeUnloginAddToCart(type) {
     try {
-      if (redirect) {
-        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo3"
-              values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          );
-          throw new Error();
-        }
-        if (checkoutStore.offShelvesProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo4"
-              values={{
-                val: checkoutStore.offShelvesProNames.join('/')
-              }}
-            />
-          );
-          throw new Error();
-        }
-        if (checkoutStore.outOfstockProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo2"
-              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
-            />
-          );
-          throw new Error();
-        }
-        if (needLogin) {
-          // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-        } else {
-          let autoAuditFlag = false;
-          if (this.isLogin) {
-            let res = await getProductPetConfig({
-              goodsInfos: checkoutStore.loginCartData
-            });
-            let handledData = checkoutStore.loginCartData.map((el, i) => {
-              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-              return el;
-            });
-            checkoutStore.setLoginCartData(handledData);
-            let AuditData = handledData.filter((el) => el.auditCatFlag);
-            checkoutStore.setAuditData(AuditData);
-            autoAuditFlag = res.context.autoAuditFlag;
-          } else {
-            let paramData = checkoutStore.cartData.map((el) => {
-              el.goodsInfoId = el.sizeList.filter(
-                (item) => item.selected
-              )[0].goodsInfoId;
-              return el;
-            });
-            let res = await getProductPetConfig({ goodsInfos: paramData });
-            let handledData = paramData.map((el, i) => {
-              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-              return el;
-            });
-            checkoutStore.setCartData(handledData);
-            let AuditData = handledData.filter((el) => el.auditCatFlag);
-            checkoutStore.setAuditData(AuditData);
-            autoAuditFlag = res.context.autoAuditFlag;
-            checkoutStore.setPetFlag(res.context.petFlag);
-          }
-          checkoutStore.setAutoAuditFlag(autoAuditFlag);
-          const url = distributeLinktoPrecriberOrPaymentPage({
-            configStore,
-            checkoutStore,
-            clinicStore,
-            isLogin: this.isLogin
-          });
-          url && history.push(url);
-          // history.push('/prescription');
-        }
+      !type && this.setState({ addToCartLoading: true });
+      const { checkoutStore } = this.props;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
+      hubGAAToCar(quantity, form);
+      let cartItem = Object.assign({}, details, {
+        selected: true,
+        goodsInfoFlag: parseInt(form.buyWay),
+        periodTypeId: parseInt(form.buyWay) ? form.frequencyId : '',
+        quantity,
+        questionParams,
+        recommendationId: this.props.clinicStore.linkClinicId,
+        recommendationName: this.props.clinicStore.linkClinicName
+      });
+      //requestJson是shelter和breeder产品的参数，有就加上
+      if (Object.keys(this.state.requestJson).length > 0) {
+        cartItem = { ...cartItem, ...this.state.requestJson };
       }
+      await checkoutStore.hanldeUnloginAddToCart({
+        valid: this.btnStatus,
+        cartItemList: [cartItem],
+        currentUnitPrice,
+        isMobile,
+        ...this.props
+      });
+      this.setState({ modalMobileCartSuccessVisible: true });
     } catch (err) {
-      console.log(err);
-      this.setState({ errMsg: err.message.toString() });
+      this.showCheckoutErrMsg(err.message);
     } finally {
       this.setState({ addToCartLoading: false });
     }
-    if (isMobile) {
-      this.refs.showModalButton.click();
-    } else {
-      headerCartStore.show();
-      setTimeout(() => {
-        headerCartStore.hide();
-      }, 4000);
-    }
+  }
+
+  pushPurchase(type) {
+    window.dataLayer &&
+      window.dataLayer.push({
+        event: `pdpPurchaseTypeChange`,
+        pdpPurchaseTypeChange: {
+          newItem: purchaseType[type]
+        }
+      });
   }
 
   handleInputChange(e) {
@@ -1490,89 +953,27 @@ class Details extends React.Component {
     this.setState({ form });
   }
   ChangeFormat(buyType) {
-    console.log(buyType, 'buytype');
     let { form } = this.state;
     form.buyWay = parseInt(buyType);
     this.setState({ form });
+    this.pushPurchase(buyType);
   }
   showCheckoutErrMsg(msg) {
     this.setState({
-      checkOutErrMsg: msg
+      checkOutErrMsg: msg,
+      addToCartLoading: false
     });
+    setTimeout(() => {
+      this.setState({
+        checkOutErrMsg: ''
+      });
+    }, 5000);
     if (isMobile) {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     }
-  }
-  changeTab(i) {
-    this.setState({ activeTabIdx: i });
-  }
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
-    }
-    this.setState({
-      petModalVisible: false
-    });
-  }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
-  }
-  handleAClick() {
-    // dataLayer.push({
-    //   event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
-    //   ecommerce: {
-    //     currencyCode:'TRY',
-    //     detail: {
-    //     actionField: {
-    //       list: 'Related Items'
-    //     },
-    //       products: [
-    //         {
-    //           id: '123',
-    //           name: 'Mother and Babycat',
-    //           price: '234',
-    //           brand: 'Royal Canin',
-    //           club: 'no',
-    //           category:'Cat/{{Range}}/Dry',
-    //           variant: '4.00 Kg',
-    //           sku: 'XFGHUIY',
-    //         }
-    //       ]
-    // }}})
-
-    if (this.state.replyNum > 0) {
-      let el = document.getElementById('review-container');
-      let length = this.getElementToPageTop(el);
-      window.scrollTo({
-        top: length - 80,
-        behavior: 'smooth'
-      });
-    }
-  }
-  getElementToPageTop(el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
   }
   formatUnit(baseSpecLabel) {
     let res = baseSpecLabel.slice(String(parseFloat(baseSpecLabel)).length);
@@ -1587,11 +988,11 @@ class Details extends React.Component {
     let cur_selected_size = item.sizeList.filter((item2) => {
       return item2.selected == true;
     });
-    let variant = cur_selected_size[0].specText;
-    let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
+    let variant = cur_selected_size[0]?.specText;
+    let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
     let { form } = this.state;
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+    window?.dataLayer?.push({
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
           products: [
@@ -1599,11 +1000,14 @@ class Details extends React.Component {
               name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
-              type: form.buyWay == 0 ? 'one-time' : 'subscription',
+              type:
+                { 0: 'one-time', 1: 'subscription', 2: 'club' }[form.buyWay] ||
+                '',
               price:
-                form.buyWay == 0
-                  ? cur_selected_size[0].marketPrice
-                  : cur_selected_size[0].subscriptionPrice,
+                {
+                  0: cur_selected_size[0]?.marketPrice,
+                  1: cur_selected_size[0]?.subscriptionPrice
+                }[form.buyWay] || 0,
               brand: item.brandName || 'Royal Canin',
               category: item.goodsCateName,
               variant: parseInt(variant),
@@ -1616,52 +1020,270 @@ class Details extends React.Component {
       }
     });
   }
-  //商品详情页 埋点
-  GAProductDetailPageView(item) {
-    const event = {
-      page: {
-        type: 'product',
-        theme: item.cateId == '1134' ? 'Cat' : 'Dog',
-        path: this.props.location.pathname,
-        error: '',
-        hitTimestamp: new Date(),
-        filters: ''
-      },
-      pet: {
-        specieId: item.cateId == '1134' ? '2' : '1'
-      }
+
+  handleBuyFromRetailer = () => {
+    HubGaPdpBuyFromRetailer();
+  };
+
+  addMixFeedingToCart = async () => {
+    const btnStatus = this.btnStatus;
+    if (!btnStatus) return;
+    this.setState({
+      mixFeedingBtnLoading: true
+    });
+    if (this.isLogin) {
+      await this.hanldeLoginAddToCart('mixFeedingToCartBtn');
+    } else {
+      await this.hanldeUnloginAddToCart('mixFeedingToCartBtn');
+    }
+    this.handleAddMixFeeding();
+  };
+
+  handleAddMixFeeding = async () => {
+    const { clinicStore } = this.props;
+    const { mixFeeding, form, details } = this.state;
+
+    let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
+    let goodsInfoFlag =
+      form.buyWay && details.promotions?.includes('club') ? 2 : form.buyWay;
+    const params = {
+      product: Object.assign(mixFeeding, {
+        quantity: 1,
+        periodTypeId,
+        goodsInfoFlag
+      })
     };
-    const eEvents = {
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
-      ecommerce: {
-        currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
-        detail: {
-          actionField: {
-            list: this.state.GAListParam //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-          },
-          products: [
-            {
-              id: item.goodsNo, //?goodsId客户反馈不对，id这里为空
-              name: item.goodsName,
-              price: item.minMarketPrice,
-              brand: item.brandName || 'ROYAL CANIN',
-              club: 'no',
-              category: item.goodsCateName,
-              variant:
-                item.goodsSpecDetails &&
-                item.goodsSpecDetails[0] &&
-                parseInt(item.goodsSpecDetails[0].detailName),
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
-            }
-          ]
-        }
-      }
-    };
-    this.setState({ event, eEvents });
+    this.isLogin
+      ? await AddCartItemMember({
+          param: {
+            goodsInfoId: params.product.goodsInfoId,
+            goodsNum: params.product.quantity,
+            goodsCategory: '',
+            goodsInfoFlag: params.product.goodsInfoFlag,
+            periodTypeId: params.product.periodTypeId,
+            recommendationId: clinicStore.linkClinicId,
+            recommendationName: clinicStore.linkClinicName
+          }
+        })
+      : await addToUnloginCartData(params);
+
+    this.setState({
+      mixFeedingBtnLoading: false
+    });
+  };
+
+  getPdpScreenLoadCTAs() {
+    const {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions
+    } = this.state;
+    let content = ['Single Purchase'];
+    if (
+      currentSubscriptionStatus &&
+      currentSubscriptionPrice &&
+      skuPromotions == 'autoship'
+    ) {
+      content.push('Subscription');
+    }
+    if (
+      currentSubscriptionStatus &&
+      currentSubscriptionPrice &&
+      skuPromotions == 'club'
+    ) {
+      content.push('Club');
+    }
+    return content;
   }
+
+  DailyPortionComponent = (details, barcode) => {
+    const { configStore } = this.props;
+    let {
+      goodsInfos = [],
+      goodsAttributesValueRelList = [],
+      wsEnergyCategory,
+      wsReferenceEnergyValue,
+      wsDensity
+    } = details;
+    let currentGoodsInfo = goodsInfos.find(
+      (item) => item.goodsInfoBarcode === barcode
+    );
+    let isTechnology = ['dry', 'wet'].includes(
+      details?.wsTechnologyCode?.toLocaleLowerCase()
+    );
+    let reg = new RegExp('baby', 'i');
+    let LifestagesAttr = goodsAttributesValueRelList
+      .filter((item) => item.goodsAttributeName === 'Lifestages')
+      ?.map((item) => item?.goodsAttributeValue);
+
+    LifestagesAttr = LifestagesAttr?.filter((item, index) => {
+      return LifestagesAttr.indexOf(item) === index;
+    });
+
+    let isBaby = LifestagesAttr?.find((item) => reg.test(item));
+
+    let sptGoods = details.goodsType === 0 || details.goodsType === 1;
+    let isAdult = LifestagesAttr?.some((item) => {
+      let bol = ['adult', 'mature', 'senior'].some((_el) =>
+        item.toLowerCase().includes(_el)
+      );
+      return bol;
+    });
+
+    /**
+     *  是否显示计算工具
+     *  1、dailyPortion show/hide
+     *    1.0 Product status show/hide
+     *    1.1、liquid products are excluded => wsTechnologyCode
+     *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
+     *    1.3  details => wsTechnologyCode wsEnergyCategory wsReferenceEnergyValue
+     *    1.4 weShareId === null hide
+     **/
+    if (!configStore?.info?.dailyPortion) return null;
+    if (isBaby) return null;
+    if (!isTechnology) return null;
+    if (currentGoodsInfo?.goodsInfoType === 2) return null;
+    if (details?.goodsType === 3) return null;
+    if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
+    if (!details?.weShareId) return null;
+    if (sptGoods && !isAdult) return null;
+
+    // 产品动物的种类
+    let speciesValue = goodsAttributesValueRelList.find(
+      (item) => item.goodsAttributeName === 'Species'
+    )?.goodsAttributeValue;
+
+    let breedAttr = goodsAttributesValueRelList
+      ?.filter((item) => item.goodsAttributeName === 'Breeds')
+      ?.map((item) => item?.goodsAttributeValue);
+
+    breedAttr = breedAttr.filter((item, index) => {
+      return breedAttr.indexOf(item) === index;
+    });
+
+    let initBreedValue = '';
+
+    if (
+      breedAttr.length === 1 &&
+      (breedAttr.includes('Cat_Cat') || breedAttr.includes('Dog_Dog'))
+    ) {
+      initBreedValue = '';
+    } else {
+      initBreedValue = breedAttr
+        ?.filter((item) => {
+          return item !== 'Cat_Cat' && item !== 'Dog_Dog';
+        })?.[0]
+        ?.split('_')?.[0];
+    }
+
+    return (
+      <div className="rc-max-width--xl rc-padding-x--sm">
+        <DailyPortion
+          initBreedValue={initBreedValue}
+          speciesValue={speciesValue}
+          goodsInfo={currentGoodsInfo}
+          details={details}
+        />
+      </div>
+    );
+  };
+
+  specAndQuantityDom = () => {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
+    const { details, quantity, quantityMinLimit, stock } = this.state;
+    return (
+      <div className="specAndQuantity rc-margin-bottom--xs ">
+        <HandledSpec
+          canSelectedWhenAllSpecDisabled={true}
+          details={details}
+          setState={this.setState.bind(this)}
+          updatedSku={this.matchGoods.bind(this)}
+          updatedPriceOrCode={this.updatedPriceOrCode}
+          defaultSkuId={this.state.defaultSkuId}
+        />
+        <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
+          <span className="amount">
+            <FormattedMessage id="amount" />:
+          </span>
+          <div className="quantity d-flex justify-content-between align-items-center">
+            <input
+              type="hidden"
+              id="invalid-quantity"
+              value="Пожалуйста, введите правильный номер."
+            />
+
+            <QuantityPicker
+              className="rc-quantity"
+              initQuantity={parseInt(quantity)}
+              min={quantityMinLimit}
+              max={skuLimitThreshold?.skuMaxNum}
+              updateQuantity={(val) => {
+                this.setState({ quantity: val }, () =>
+                  this.updateInstockStatus()
+                );
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  ButtonGroupDom = (showRetailerBtn, showAddToCartBtn) => {
+    const {
+      addToCartLoading,
+      form,
+      checkOutErrMsg,
+      barcode,
+      details,
+      versionB
+    } = this.state;
+    const btnStatus = this.btnStatus;
+    const vet =
+      (window.__.env.REACT_APP_HUB || Uk) &&
+      !details.saleableFlag &&
+      details.displayFlag;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const isApi =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API';
+    const isUrl =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'URL';
+    const retailerUrl = buyFromRetailerConfig.retailerEnable
+      ? buyFromRetailerConfig.url
+      : '';
+    return (
+      <ButtonGroup
+        addToCartLoading={addToCartLoading}
+        btnStatus={btnStatus}
+        form={form}
+        isShowRetailerBtn={
+          this.retailerBtnStatus && (showRetailerBtn || isMobile)
+        }
+        checkOutErrMsg={checkOutErrMsg}
+        barcode={barcode}
+        vet={vet}
+        addToCart={this.hanldeAddToCart}
+        buyFromRetailer={this.handleBuyFromRetailer}
+        isApi={isApi}
+        isUrl={isUrl}
+        retailerUrl={retailerUrl}
+        versionType={versionB}
+        showAddToCartBtn={showAddToCartBtn}
+      />
+    );
+  };
+
+  switchToVersionB = () => {
+    this.setState({ versionB: true });
+  };
   render() {
-    const createMarkup = (text) => ({ __html: text });
-    const { history, location, match } = this.props;
+    const { intl } = this.props;
     const {
       goodsId,
       details,
@@ -1674,61 +1296,86 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       errMsg,
-      addToCartLoading,
-      specList,
       form,
       productRate,
       instockStatus,
+      backgroundSpaces,
       goodsDetailTab,
-      tabs,
-      reviewShow,
-      activeTabIdx,
+      activeTabIdxList,
       checkOutErrMsg,
       breadCrumbs,
-      event,
+      // event,
       eEvents,
       spuImages,
-      pageLink
+      pageLink,
+      goodsType,
+      barcode,
+      ccidBtnDisplay,
+      seoConfig,
+      exclusiveFlag,
+      loading,
+      skuPromotions,
+      headingTag = 'h1',
+      replyNum,
+      mixFeeding,
+      fromPrice,
+      versionB
     } = this.state;
-
-    const btnStatus = this.btnStatus;
+    const filterImages =
+      images?.filter((i) => {
+        i.artworkUrl = i.goodsInfoImg;
+        return i.goodsInfoImg;
+      }) || [];
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    const De = process.env.REACT_APP_LANG === 'de';
-
-    let goodHeading = `<${
-      this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-    } 
+    const vet =
+      (window.__.env.REACT_APP_HUB || Uk) &&
+      !details.saleableFlag &&
+      details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
+    const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
-      </${
-        this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-      }>`;
+      </${headingTag || 'h1'}>`;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const isApi =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API';
+    const isUrl =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'URL';
+    const retailerUrl = buyFromRetailerConfig.retailerEnable
+      ? buyFromRetailerConfig.url
+      : '';
+
     return (
       <div id="Details">
-        {Object.keys(event).length > 0 ? (
-          <GoogleTagManager
-            additionalEvents={event}
-            ecommerceEvents={eEvents}
-          />
-        ) : null}
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={location}
-          history={history}
-          match={match}
+        <GA_Comp props={this.props} details={details} />
+        <SeoConfig
+          errMsg={errMsg}
+          goodsId={goodsId}
+          pageLink={pageLink}
+          setHeadingTag={(headingTag) => {
+            this.setState({ headingTag });
+          }}
         />
-        {errMsg ? (
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
+        {this.state.mixFeedingBtnLoading ? <Loading /> : null}
+        {this.state.showErrorTip ? (
+          <div className="context-null">
+            <div>
+              <img src={svg} />
+            </div>
+            <p
+              className="contextp1"
+              style={{ color: 'red', fontSize: '25px', fontWeight: 'bold' }}
+            >
+              <FormattedMessage id="detail.contextp1" />
+            </p>
+            <p style={{ paddingBottom: '7%' }}>
+              <FormattedMessage id="detail.contextp2" />
+            </p>
+          </div>
+        ) : errMsg ? (
           <main className="rc-content--fixed-header">
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
@@ -1737,7 +1384,7 @@ class Details extends React.Component {
                 style={{ margin: '50px 0' }}
               >
                 <div className="ui-font-nothing text-center">
-                  <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                  <em className="rc-icon rc-incompatible--sm rc-iconography" />
                   {errMsg}
                 </div>
               </div>
@@ -1745,79 +1392,23 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
+            {!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL &&
+              this.state.showPrescriberCodeModal && (
+                <PrescriberCodeModal
+                  visible={this.state.showPrescriberCodeModal}
+                  close={this.closePrescriberCodeModal}
+                />
+              )}
             <BannerTip />
-            <button
-              ref="showModalButton"
-              class="rc-btn rc-btn--one"
-              data-modal-trigger="modal-example"
-              style={{ position: 'absolute', visibility: 'hidden' }}
-            >
-              Open standard modal
-            </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
-                    {isMobile && (
-                      <div className="detailHeader mt-3">
-                        <ErrMsgForCheckoutPanel
-                          checkOutErrMsg={checkOutErrMsg}
-                        />
-                        <div
-                          dangerouslySetInnerHTML={{ __html: goodHeading }}
-                        />
-                        <div
-                          className="desAndStars"
-                        >
-                          <div className="des">
-                            <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
-                              {details.goodsNewSubtitle}
-                            </h2>
-                          </div>
-                          <div className="stars" style={{
-                            display:
-                              process.env.REACT_APP_LANG == 'fr'
-                                ? 'none'
-                                : 'block'
-                          }}>
-                            <div className="rc-card__price flex-inline">
-                              <div
-                                className="display-inline"
-                                style={{ verticalAlign: 'middle' }}
-                              >
-                                <Rate
-                                  def={productRate}
-                                  disabled={true}
-                                  marginSize="sRate"
-                                />
-                              </div>
-                              <span
-                                className="comments rc-margin-left--xs rc-text-colour--text"
-                                onClick={this.handleAClick.bind(this)}
-                              >
-                                ({this.state.replyNum})
-                                {/* <FormattedMessage id="reviews" /> */}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className="description"
-                          dangerouslySetInnerHTML={createMarkup(
-                            details.goodsDescription
-                          )}
-                        />
-                      </div>
-                    )}
-                    <div className="rc-layout-container rc-six-column">
+                    <div className="rc-layout-container rc-six-column items-start">
                       <div className="rc-column rc-double-width carousel-column imageBox">
-                        {this.state.loading ? (
-                          <Skeleton
-                            color="#f5f5f5"
-                            width="100%"
-                            height="100%"
-                          />
+                        {loading ? (
+                          <Skeleton />
                         ) : (
                           <div
                             className={`rc-full-width ${
@@ -1829,21 +1420,71 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {process.env.REACT_APP_LANG === 'fr' ||
-                                  process.env.REACT_APP_LANG === 'ru' ||
-                                  process.env.REACT_APP_LANG === 'tr' ? (
+                                  {details.taggingForImageAtPDP ? (
+                                    <div className="product-item-flag-image product-item-flag-image__pdp position-absolute">
+                                      <LazyLoad>
+                                        <img
+                                          src={
+                                            details.taggingForImageAtPDP
+                                              .taggingImgUrl
+                                          }
+                                          alt="tagging image"
+                                        />
+                                      </LazyLoad>
+                                    </div>
+                                  ) : null}
+                                  <ImageMagnifier_fr
+                                    sizeList={details.sizeList}
+                                    video={details.goodsVideo}
+                                    images={images}
+                                    minImg={details.goodsImg}
+                                    maxImg={details.goodsImg}
+                                    imgAlt={details?.goodsName}
+                                    config={this.state.imageMagnifierCfg.config}
+                                    taggingForText={details.taggingForTextAtPDP}
+                                    taggingForImage={
+                                      details.taggingForImageAtPDP
+                                    }
+                                    spuImages={
+                                      filterImages.length
+                                        ? filterImages
+                                        : spuImages
+                                    }
+                                    direction={isMobile ? 'col' : 'row'}
+                                  />
+                                  {/* {isCountriesContainer([
+                                    'fr',
+                                    'ru',
+                                    'tr',
+                                    'us',
+                                    'mx',
+                                    'uk',
+                                    'se',
+                                    'de',
+                                    'jp'
+                                  ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
                                       images={images}
                                       minImg={details.goodsImg}
                                       maxImg={details.goodsImg}
+                                      imgAlt={details?.goodsName}
                                       config={
                                         this.state.imageMagnifierCfg.config
                                       }
-                                      taggingForText={details.taggingForText}
-                                      taggingForImage={details.taggingForImage}
-                                      spuImages={spuImages}
+                                      taggingForText={
+                                        details.taggingForTextAtPDP
+                                      }
+                                      taggingForImage={
+                                        details.taggingForImageAtPDP
+                                      }
+                                      spuImages={
+                                        filterImages.length
+                                          ? filterImages
+                                          : spuImages
+                                      }
+                                      direction={isMobile ? 'col' : 'row'}
                                     />
                                   ) : (
                                     <ImageMagnifier
@@ -1855,751 +1496,275 @@ class Details extends React.Component {
                                       config={
                                         this.state.imageMagnifierCfg.config
                                       }
-                                      taggingForText={details.taggingForText}
-                                      taggingForImage={details.taggingForImage}
+                                      taggingForText={
+                                        details.taggingForTextAtPDP
+                                      }
+                                      taggingForImage={
+                                        details.taggingForImageAtPDP
+                                      }
                                       spuImages={spuImages}
                                     />
-                                  )}
+                                  )} */}
                                 </div>
                               }
                             </div>
                           </div>
                         )}
                       </div>
-                      <div className="rc-column product-column">
-                        <div className="wrap-short-des">
-                          {!isMobile && (
-                            <div className="detailHeader">
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: goodHeading
-                                }}
+                      <div
+                        className={`rc-column product-column ${
+                          !vet && !isMobile ? 'flex' : ''
+                        }`}
+                      >
+                        <div
+                          className={`wrap-short-des ${
+                            !isMobile &&
+                            (versionB || !this.skuOffShelves
+                              ? 'col-md-12'
+                              : !vet
+                              ? 'col-md-7'
+                              : '')
+                          }`}
+                        >
+                          {loading ? (
+                            <Skeleton />
+                          ) : (
+                            <>
+                              <DetailHeader
+                                checkOutErrMsg={checkOutErrMsg}
+                                goodHeading={goodHeading}
+                                selectedSpecItem={selectedSpecItem}
+                                details={details}
+                                productRate={productRate}
+                                replyNum={replyNum}
+                                instockStatus={instockStatus}
+                                vet={vet}
+                                skuOffShelves={this.skuOffShelves}
                               />
-                              <div className="desAndStars rc-margin-bottom--xs">
-                                <div className="des">
-                                  <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
-                                    {details.goodsNewSubtitle}
-                                  </h2>
-                                </div>
-                                <div
-                                  className="stars"
-                                  style={{
-                                    display:
-                                      process.env.REACT_APP_LANG == 'fr'
-                                        ? 'none'
-                                        : 'block'
-                                  }}
-                                >
-                                  <div className="rc-card__price flex-inline">
-                                    <div
-                                      className="display-inline"
-                                      style={{ verticalAlign: 'middle' }}
-                                    >
-                                      <Rate
-                                        def={productRate}
-                                        key={productRate}
-                                        disabled={true}
-                                        marginSize="sRate"
+                              {!vet ? (
+                                <>
+                                  {!isMobile ? this.specAndQuantityDom() : null}
+                                  {versionB ? (
+                                    <>
+                                      <PurchaseMethodB
+                                        form={form}
+                                        fromPrice={fromPrice}
+                                        isMobile={isMobile}
+                                        specAndQuantityDom={
+                                          this.specAndQuantityDom
+                                        }
+                                        isNullGoodsInfos={this.isNullGoodsInfos}
                                       />
-                                    </div>
-                                    <a
-                                      className="comments rc-margin-left--xs rc-text-colour--text"
-                                      onClick={this.handleAClick.bind(this)}
-                                    >
-                                      ({this.state.replyNum})
-                                      {/* <FormattedMessage id="reviews" /> */}
-                                    </a>
+                                    </>
+                                  ) : null}
+                                  {PC &&
+                                  details.promotions &&
+                                  details.promotions.includes('club') &&
+                                  !window.__.env
+                                    .REACT_APP_CLOSE_PRODUCT_FINDER ? (
+                                    <Ration
+                                      goodsNo={details.goodsNo}
+                                      setState={this.setState.bind(this)}
+                                    />
+                                  ) : null}
+                                </>
+                              ) : null}
+                              {versionB &&
+                                (!isMobile ? (
+                                  <div className="flex flex-row items-center mt-6">
+                                    <div>{this.ButtonGroupDom(false)}</div>
+                                    <span className="mx-4">
+                                      {isApi && isUrl && (
+                                        <FormattedMessage id="or" />
+                                      )}
+                                    </span>
+                                    <BuyFromRetailerBtn
+                                      // ccidBtnDisplay={ccidBtnDisplay}
+                                      barcode={barcode}
+                                      goodsType={goodsType}
+                                      onClick={this.handleBuyFromRetailer}
+                                      isApi={isApi}
+                                      isUrl={isUrl}
+                                      retailerUrl={retailerUrl}
+                                    />
                                   </div>
-                                </div>
-                              </div>
-                              <div
-                                className="description"
-                                dangerouslySetInnerHTML={createMarkup(
-                                  details.goodsDescription
-                                )}
-                              />
-                            </div>
+                                ) : (
+                                  <div
+                                    className={classNames({
+                                      hidden:
+                                        this.isNullGoodsInfos ||
+                                        !this.skuOffShelves,
+                                      'w-full': isMobile,
+                                      'col-md-5': !isMobile
+                                    })}
+                                  >
+                                    {this.ButtonGroupDom(false)}
+                                  </div>
+                                ))}
+                            </>
                           )}
                         </div>
-                        <div className="align-left flex rc-margin-bottom--xs">
-                          <div className="stock__wrapper">
-                            <div className="stock">
-                              {instockStatus ? (
-                                <>
-                                  <label className={`availability instock`}>
-                                    <span className="title-select"></span>
-                                  </label>
-                                  <span
-                                    className="availability-msg"
-                                    data-ready-to-order="true"
-                                  >
-                                    <div>
-                                      <FormattedMessage id="details.inStock" />
-                                    </div>
-                                  </span>
-                                </>
-                              ) : (
-                                <>
-                                  <label className={`availability outofstock`}>
-                                    <span className="title-select"></span>
-                                  </label>
-                                  <span
-                                    className="availability-msg"
-                                    data-ready-to-order="true"
-                                  >
-                                    <div className={`out-stock`}>
-                                      <FormattedMessage id="details.outStock" />
-                                    </div>
-                                  </span>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        {/* <div className="align-left flex rc-margin-bottom--xs">
-                          <div className="stock__wrapper">
-                            <div className="stock">
-                              <label className="availability instock">
-                                <span className="title-select"></span>
-                              </label>
-                              <span
-                                className="availability-msg"
-                                data-ready-to-order="true"
-                              >
-                                <div>
-                                  <FormattedMessage id="Available" />
-                                </div>
-                              </span>
-                              &nbsp; for pick-up at PetStores for Clinics nearby
-                            </div>
-                          </div>
-                        </div> */}
-                        <div className="specAndQuantity rc-margin-bottom--xs ">
-                          <div className="spec">
-                            {specList.map((sItem, i) => (
-                              <div id="choose-select" key={i}>
-                                <div className="rc-margin-bottom--xs">
-                                  <FormattedMessage id={sItem.specName} />:
-                                </div>
-                                <div data-attr="size">
-                                  <div
-                                    className="rc-swatch __select-size"
-                                    id="id-single-select-size"
-                                  >
-                                    {sItem.chidren.map((sdItem, i) => (
-                                      <div
-                                        key={i}
-                                        className={`rc-swatch__item ${
-                                          sdItem.selected ? 'selected' : ''
-                                        } ${
-                                          sdItem.isEmpty ? 'outOfStock' : ''
-                                        }`}
-                                        onClick={() => {
-                                          if (sdItem.isEmpty) {
-                                            return false;
-                                          } else {
-                                            this.handleChooseSize(
-                                              sItem.specId,
-                                              sdItem.specDetailId,
-                                              sdItem.selected
-                                            );
-                                          }
-                                        }}
-                                      >
-                                        <span
-                                          style={{
-                                            backgroundColor: sdItem.isEmpty
-                                              ? '#ccc'
-                                              : '#fff',
-                                            cursor: sdItem.isEmpty
-                                              ? 'not-allowed'
-                                              : 'pointer'
-                                          }}
-                                        >
-                                          {/* {parseFloat(sdItem.detailName)}{' '} */}
-                                          {sdItem.detailName}
-                                        </span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="Quantity">
-                            <span className="amount">
-                              <FormattedMessage id="amount" />:
-                            </span>
-                            <div className="quantity d-flex justify-content-between align-items-center">
-                              <input
-                                type="hidden"
-                                id="invalid-quantity"
-                                value="Пожалуйста, введите правильный номер."
-                              />
-                              <div className="rc-quantity text-right d-flex justify-content-end">
-                                <span
-                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                  onClick={() =>
-                                    this.hanldeAmountChange('minus')
-                                  }
-                                ></span>
-                                <input
-                                  className="rc-quantity__input"
-                                  id="quantity"
-                                  name="quantity"
-                                  value={quantity}
-                                  min={quantityMinLimit}
-                                  max={stock}
-                                  onChange={this.handleAmountInput}
-                                  maxLength="5"
-                                />
-                                <span
-                                  className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                  onClick={() =>
-                                    this.hanldeAmountChange('plus')
-                                  }
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {isMobile ? (
-                          <div
-                            className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 1"
-                            style={{
-                              borderColor: !parseInt(form.buyWay)
-                                ? '#e2001a'
-                                : '#d7d7d7',
-                              cursor: 'pointer'
-                            }}
-                            onClick={this.ChangeFormat.bind(this, 0)}
-                          >
-                            <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
-                              <div className="radioBox">
-                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                  <FormattedMessage id="email">
-                                    {(txt) => (
-                                      <input
-                                        className="rc-input__radio"
-                                        id="type_once"
-                                        type="radio"
-                                        alt={txt}
-                                        name="buyWay"
-                                        value="0"
-                                        key="0"
-                                        // onChange={(event) =>
-                                        //   this.handleInputChange(event)
-                                        // }
-                                        checked={form.buyWay === 0}
-                                      />
-                                    )}
-                                  </FormattedMessage>
-                                  <label
-                                    className="rc-input__label--inline"
-                                    htmlFor="type_once"
-                                  >
-                                    <span
-                                      style={{
-                                        fontWeight: '400',
-                                        color: '#333'
-                                      }}
-                                    >
-                                      <FormattedMessage id="singlePurchase" />
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="price font-weight-normal text-right">
-                                <div className={De ? 'current-unit-price' : ''}>
-                                  {formatMoney(currentUnitPrice)}
-                                </div>
-                                {process.env.REACT_APP_LANG === 'de' &&
-                                selectedSpecItem ? (
-                                  <div
-                                    style={{ fontSize: '14px', color: '#999' }}
-                                  >
-                                    {formatMoney(
-                                      (
-                                        currentUnitPrice /
-                                        parseFloat(
-                                          selectedSpecItem.goodsInfoWeight
-                                        )
-                                      ).toFixed(2)
-                                    )}
-                                    /{selectedSpecItem.goodsInfoUnit}{' '}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                            <div className="col-12 pl-0 pr-0">
-                              <span className="freeshippingBox mt-0">
-                                <FormattedMessage id="freeShipping" />
-                              </span>
-                            </div>
-                            <div
-                              className="freqency freqency2 col-12 pl-0 pr-0"
-                              style={{ textAlign: 'center' }}
-                            >
-                              <span
-                                style={{ height: '73px', lineHeight: '55px' }}
-                              >
-                                <FormattedMessage id="deliveryOneTimeOnly" />
-                                {/* Delivery 1 time only */}
-                              </span>
-                            </div>
-                          </div>
+                        {loading ? (
+                          <Skeleton />
                         ) : (
-                          <div
-                            className="buyMethod rc-margin-bottom--xs d-flex align-items-center 2"
-                            style={{
-                              borderColor: !parseInt(form.buyWay)
-                                ? '#e2001a'
-                                : '#d7d7d7',
-                              cursor: 'pointer'
-                            }}
-                            onClick={this.ChangeFormat.bind(this, 0)}
-                          >
-                            <div className="radioBox">
-                              <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                <FormattedMessage id="email">
-                                  {(txt) => (
-                                    <input
-                                      className="rc-input__radio"
-                                      id="type_once"
-                                      type="radio"
-                                      alt={txt}
-                                      name="buyWay"
-                                      value="0"
-                                      key="0"
-                                      // onChange={(event) =>
-                                      //   this.handleInputChange(event)
-                                      // }
-                                      checked={form.buyWay === 0}
-                                    />
-                                  )}
-                                </FormattedMessage>
-                                <label
-                                  className="rc-input__label--inline"
-                                  htmlFor="type_once"
-                                >
-                                  <span
-                                    style={{ fontWeight: '400', color: '#333' }}
-                                  >
-                                    <FormattedMessage id="singlePurchase" />
-                                  </span>
-                                </label>
-                                <br />
-                                <div className="freeshippingBox">
-                                  <FormattedMessage id="freeShipping" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="freqency">
-                              <span
-                                style={{ height: '73px', lineHeight: '55px' }}
+                          !versionB &&
+                          (vet ? (
+                            <div>
+                              <h2
+                                className="text-break mb-1"
+                                style={{ fontSize: '1.17rem' }}
                               >
-                                <FormattedMessage id="deliveryOneTimeOnly" />
-                                {/* Delivery 1 time only */}
-                              </span>
-                            </div>
-                            <div className="price font-weight-normal text-right">
-                              <div className={De ? 'current-unit-price' : ''}>
-                                {formatMoney(currentUnitPrice)}
-                              </div>
-                              {process.env.REACT_APP_LANG === 'de' &&
-                              selectedSpecItem ? (
-                                <div
-                                  style={{ fontSize: '14px', color: '#999' }}
-                                >
-                                  {formatMoney(
-                                    (
-                                      currentUnitPrice /
-                                      parseFloat(
-                                        selectedSpecItem.goodsInfoWeight
-                                      )
-                                    ).toFixed(2)
-                                  )}
-                                  /{selectedSpecItem.goodsInfoUnit}{' '}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div>
-                        )}
-                        {currentSubscriptionStatus ? (
-                          isMobile ? (
-                            <div
-                              className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 3"
-                              style={{
-                                borderColor: parseInt(form.buyWay)
-                                  ? '#e2001a'
-                                  : '#d7d7d7',
-                                cursor: 'pointer'
-                              }}
-                              onClick={this.ChangeFormat.bind(this, 1)}
-                            >
-                              <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
-                                <div className="radioBox">
-                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                    <FormattedMessage id="email">
-                                      {(txt) => (
-                                        <input
-                                          className="rc-input__radio"
-                                          id="type_frequency"
-                                          type="radio"
-                                          alt={txt}
-                                          name="buyWay"
-                                          value="1"
-                                          key="1"
-                                          // onChange={(event) =>
-                                          //   this.handleInputChange(event)
-                                          // }
-                                          // defaultChecked
-                                          checked={form.buyWay === 1}
-                                        />
-                                      )}
-                                    </FormattedMessage>
-                                    <label
-                                      className="rc-input__label--inline"
-                                      htmlFor="type_frequency"
-                                    >
-                                      <span className="iconfont mr-2">
-                                        &#xe675;
-                                      </span>
-                                      <span
-                                        style={{
-                                          fontWeight: '400',
-                                          color: '#333'
-                                        }}
-                                      >
-                                        <FormattedMessage id="autoship" />
-                                        <span
-                                          className="info-tooltip delivery-method-tooltip"
-                                          onMouseEnter={() => {
-                                            this.setState({
-                                              toolTipVisible: true
-                                            });
-                                          }}
-                                          onMouseLeave={() => {
-                                            this.setState({
-                                              toolTipVisible: false
-                                            });
-                                          }}
-                                        >
-                                          i
-                                        </span>
-                                        <ConfirmTooltip
-                                          arrowStyle={{ left: '65%' }}
-                                          display={this.state.toolTipVisible}
-                                          cancelBtnVisible={false}
-                                          confirmBtnVisible={false}
-                                          updateChildDisplay={(status) =>
-                                            this.setState({
-                                              toolTipVisible: status
-                                            })
-                                          }
-                                          content={
-                                            <FormattedMessage id="subscription.promotionTip2" />
-                                          }
-                                        />
-                                      </span>
-                                    </label>
-                                  </div>
-                                </div>
-                                <div className="price font-weight-normal text-right">
-                                  <div
-                                    className={De ? 'current-unit-price' : ''}
-                                  >
-                                    {formatMoney(currentSubscriptionPrice || 0)}
-                                  </div>
-                                  {process.env.REACT_APP_LANG === 'de' &&
-                                  selectedSpecItem ? (
-                                    <div
-                                      style={{
-                                        fontSize: '14px',
-                                        color: '#999'
-                                      }}
-                                    >
-                                      {formatMoney(
-                                        (
-                                          currentSubscriptionPrice /
-                                          parseFloat(
-                                            selectedSpecItem.goodsInfoWeight
-                                          )
-                                        ).toFixed(2)
-                                      )}
-                                      /{selectedSpecItem.goodsInfoUnit}{' '}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              <div className="col-12 pl-0 pr-0">
-                                <span className="discountBox">
-                                  <FormattedMessage
-                                    id="saveExtra"
-                                    values={{
-                                      val:
-                                        selectedSpecItem.subscriptionPercentage
-                                    }}
-                                  />
-                                </span>
-                              </div>
-                              <div className="col-12 pl-0 pr-0">
-                                <span className="freeshippingBox">
-                                  <FormattedMessage id="freeShipping" />
-                                </span>
-                              </div>
-                              <div className="freqency freqency3 col-12 pl-0 pr-0 d-flex align-items-center mt-2">
-                                <span>
-                                  <FormattedMessage id="subscription.frequency" />
-                                  :
-                                </span>
-                                <Selection
-                                  customCls="flex-grow-1"
-                                  selectedItemChange={
-                                    this.handleSelectedItemChange
-                                  }
-                                  optionList={this.computedList}
-                                  selectedItemData={{
-                                    value: form.frequencyId
-                                  }}
-                                  key={form.frequencyId}
+                                {details?.goodsSubtitle || ''}
+                              </h2>
+                              <div
+                                className="mb-4"
+                                dangerouslySetInnerHTML={{
+                                  __html: this.state.descContent
+                                }}
+                              />
+                              {/*这种情况时，eancode 在法国固定，其他国家待定  */}
+                              {PC && this.retailerBtnStatus ? (
+                                <BuyFromRetailerBtn
+                                  // ccidBtnDisplay={ccidBtnDisplay}
+                                  barcode={barcode}
+                                  goodsType={goodsType}
+                                  onClick={this.handleBuyFromRetailer}
+                                  isApi={isApi}
+                                  isUrl={isUrl}
+                                  retailerUrl={retailerUrl}
                                 />
-                              </div>
+                              ) : null}
                             </div>
                           ) : (
                             <div
-                              className="buyMethod rc-margin-bottom--xs d-flex align-items-center 4"
-                              style={{
-                                borderColor: parseInt(form.buyWay)
-                                  ? '#e2001a'
-                                  : '#d7d7d7',
-                                cursor: 'pointer'
-                              }}
-                              onClick={this.ChangeFormat.bind(this, 1)}
+                              className={classNames({
+                                hidden: this.isNullGoodsInfos,
+                                'w-full': isMobile,
+                                'col-md-5': !isMobile && this.skuOffShelves
+                              })}
                             >
-                              <div className="radioBox">
-                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
-                                  <FormattedMessage id="email">
-                                    {(txt) => (
-                                      <input
-                                        className="rc-input__radio"
-                                        id="type_frequency"
-                                        type="radio"
-                                        alt={txt}
-                                        name="buyWay"
-                                        value="1"
-                                        key="1"
-                                        checked={form.buyWay === 1}
-                                      />
+                              {isMobile ? this.specAndQuantityDom() : null}
+                              <div
+                                className={`${
+                                  currentUnitPrice && this.skuOffShelves
+                                    ? ''
+                                    : 'hidden'
+                                }`}
+                              >
+                                <SingleBuyMethod
+                                  configStore={this.props.configStore}
+                                  form={form}
+                                  skuPromotions={skuPromotions}
+                                  selectedSpecItem={selectedSpecItem}
+                                  currentUnitPrice={currentUnitPrice}
+                                  currentSubscriptionPrice={
+                                    currentSubscriptionPrice
+                                  }
+                                  changeMethod={this.ChangeFormat.bind(this, 0)}
+                                  changeFreqency={(data) => {
+                                    this.handleSelectedItemChange(data);
+                                  }}
+                                >
+                                  {this.ButtonGroupDom(false)}
+                                </SingleBuyMethod>
+                                {currentSubscriptionStatus &&
+                                currentSubscriptionPrice &&
+                                skuPromotions == 'autoship' ? (
+                                  <AutoshipBuyMethod
+                                    form={form}
+                                    configStore={this.props.configStore}
+                                    skuPromotions={skuPromotions}
+                                    selectedSpecItem={selectedSpecItem}
+                                    currentUnitPrice={currentUnitPrice}
+                                    currentSubscriptionPrice={
+                                      currentSubscriptionPrice
+                                    }
+                                    changeMethod={this.ChangeFormat.bind(
+                                      this,
+                                      1
                                     )}
-                                  </FormattedMessage>
-                                  <label
-                                    className="rc-input__label--inline"
-                                    htmlFor="type_frequency"
-                                  >
-                                    <span
-                                      style={{
-                                        fontWeight: '400',
-                                        color: '#333'
-                                      }}
-                                    >
-                                      <span className="iconfont mr-2">
-                                        &#xe675;
-                                      </span>
-                                      <FormattedMessage id="autoship" />
-                                      <span
-                                        className="info-tooltip delivery-method-tooltip"
-                                        onMouseEnter={() => {
-                                          this.setState({
-                                            toolTipVisible: true
-                                          });
-                                        }}
-                                        onMouseLeave={() => {
-                                          this.setState({
-                                            toolTipVisible: false
-                                          });
-                                        }}
-                                      >
-                                        i
-                                      </span>
-                                      <ConfirmTooltip
-                                        arrowStyle={{ left: '83%' }}
-                                        display={this.state.toolTipVisible}
-                                        cancelBtnVisible={false}
-                                        confirmBtnVisible={false}
-                                        updateChildDisplay={(status) =>
-                                          this.setState({
-                                            toolTipVisible: status
-                                          })
-                                        }
-                                        content={
-                                          <FormattedMessage id="subscription.promotionTip2" />
-                                        }
-                                      />
-                                    </span>
-                                  </label>
-                                </div>
-                                <br />
-                                <div className="discountBox">
-                                  <FormattedMessage
-                                    id="saveExtra"
-                                    values={{
-                                      val:
-                                        selectedSpecItem.subscriptionPercentage
+                                    changeFreqency={(data) => {
+                                      this.handleSelectedItemChange(data);
                                     }}
+                                  >
+                                    {this.ButtonGroupDom(false)}
+                                  </AutoshipBuyMethod>
+                                ) : null}
+                                {currentSubscriptionStatus &&
+                                currentSubscriptionPrice &&
+                                skuPromotions == 'club' ? (
+                                  <ClubBuyMethod
+                                    configStore={this.props.configStore}
+                                    form={form}
+                                    skuPromotions={skuPromotions}
+                                    selectedSpecItem={selectedSpecItem}
+                                    currentUnitPrice={currentUnitPrice}
+                                    currentSubscriptionPrice={
+                                      currentSubscriptionPrice
+                                    }
+                                    changeMethod={this.ChangeFormat.bind(
+                                      this,
+                                      2
+                                    )}
+                                    changeFreqency={(data) => {
+                                      this.handleSelectedItemChange(data);
+                                    }}
+                                    toClubTab={this.toClubTab}
+                                  >
+                                    {this.ButtonGroupDom(false)}
+                                  </ClubBuyMethod>
+                                ) : null}
+                                <div
+                                  className="mb-2 mr-2 text-right"
+                                  style={{ fontSize: '.875rem' }}
+                                >
+                                  <FormattedMessage
+                                    id="pricesIncludeVAT"
+                                    values={{
+                                      val: <span className="red">*</span>
+                                    }}
+                                    defaultMessage=" "
                                   />
                                 </div>
-                                <br />
-                                <div className="freeshippingBox">
-                                  <FormattedMessage id="freeShipping" />
-                                </div>
                               </div>
-                              <div className="freqency">
-                                <span>
-                                  <FormattedMessage id="subscription.frequency" />
-                                  :
-                                </span>
-                                <Selection
-                                  customContainerStyle={{
-                                    display: 'inline-block',
-                                    marginLeft: isMobile ? '50px' : '1.5rem',
-                                    height: isMobile ? '70px' : 'auto'
-                                  }}
-                                  selectedItemChange={
-                                    this.handleSelectedItemChange
-                                  }
-                                  optionList={this.computedList}
-                                  selectedItemData={{
-                                    value: form.frequencyId
-                                  }}
-                                  key={form.frequencyId}
+
+                              {PC && this.retailerBtnStatus ? (
+                                <div
+                                  className={`flex justify-content-center mt-5 ${
+                                    !this.skuOffShelves
+                                      ? 'absolute left-8 -bottom-12'
+                                      : ''
+                                  }`}
+                                >
+                                  <BuyFromRetailerBtn
+                                    // ccidBtnDisplay={ccidBtnDisplay}
+                                    barcode={barcode}
+                                    goodsType={goodsType}
+                                    onClick={this.handleBuyFromRetailer}
+                                    isApi={isApi}
+                                    isUrl={isUrl}
+                                    retailerUrl={retailerUrl}
+                                  />
+                                </div>
+                              ) : null}
+                              <ErrMsgForCheckoutPanel
+                                checkOutErrMsg={checkOutErrMsg}
+                              />
+                              {isMobile &&
+                              details.promotions &&
+                              details.promotions.includes('club') &&
+                              !window.__.env.REACT_APP_CLOSE_PRODUCT_FINDER ? (
+                                <Ration
+                                  goodsNo={details.goodsNo}
+                                  setState={this.setState.bind(this)}
                                 />
-                              </div>
-                              <div className="price font-weight-normal text-right">
-                                <div className={De ? 'current-unit-price' : ''}>
-                                  {formatMoney(currentSubscriptionPrice || 0)}
-                                </div>
-                                {process.env.REACT_APP_LANG === 'de' &&
-                                selectedSpecItem ? (
-                                  <div
-                                    style={{ fontSize: '14px', color: '#999' }}
-                                  >
-                                    {formatMoney(
-                                      (
-                                        currentSubscriptionPrice /
-                                        parseFloat(
-                                          selectedSpecItem.goodsInfoWeight
-                                        )
-                                      ).toFixed(2)
-                                    )}
-                                    /{selectedSpecItem.goodsInfoUnit}{' '}
-                                  </div>
-                                ) : null}
-                              </div>
+                              ) : null}
+                              {isMobile && !this.skuOffShelves
+                                ? this.ButtonGroupDom(false, false)
+                                : null}
                             </div>
-                          )
-                        ) : null}
-                        <div class="rc-md-up">
-                          <div className="rc-max-width--xl fullHeight justify-content-center text-right mt-4">
-                            {/* {!this.isLogin &&
-                                (form.buyWay ? (
-                                  <span style={{ marginLeft: '10px' }}>
-                                    <FormattedMessage id="unLoginSubscriptionTips" />
-                                  </span>
-                                ) : (
-                                  <button
-                                    className={`rc-styled-link color-999 mr-2 ${
-                                      addToCartLoading
-                                        ? 'ui-btn-loading ui-btn-loading-border-red'
-                                        : ''
-                                    } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                                    onClick={this.hanldeAddToCart.bind(this, {
-                                      redirect: true
-                                    })}
-                                  >
-                                    <FormattedMessage id="guestCheckout" />
-                                  </button>
-                                ))}
-                              &nbsp;&nbsp; */}
-                            {De ? (
-                              <div
-                                className="mb-2 mr-2"
-                                style={{ fontSize: '14px' }}
-                              >
-                                <span className="vat-text">
-                                  Preise inkl. MwSt
-                                </span>
-                              </div>
-                            ) : null}
-                            <button
-                              style={{ padding: '2px 30px' }}
-                              className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                                addToCartLoading ? 'ui-btn-loading' : ''
-                              } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                              onClick={this.hanldeAddToCart}
-                            >
-                              <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                              <span className="default-txt">
-                                <FormattedMessage
-                                  id={`${
-                                    form.buyWay === 1
-                                      ? 'subscribe'
-                                      : 'details.addToCart'
-                                  }`}
-                                />
-                              </span>
-                            </button>
-                            {/* {this.isLogin ? (
-                                <button
-                                  className={`rc-btn rc-btn--one js-sticky-cta ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
-                                  }`}
-                                  onClick={this.hanldeAddToCart.bind(this, {
-                                    redirect: true,
-                                    needLogin: false
-                                  })}
-                                >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
-                                  <span className="default-txt">
-                                    <FormattedMessage id="checkout" />
-                                  </span>
-                                </button>
-                              ) : (
-                                <LoginButton
-                                  beforeLoginCallback={async () => {
-                                    try {
-                                      await this.hanldeUnloginAddToCart({
-                                        redirect: true,
-                                        needLogin: true
-                                      });
-                                      sessionItemRoyal.set(
-                                        'okta-redirectUrl',
-                                        '/cart'
-                                      );
-                                    } catch (err) {
-                                      throw new Error();
-                                    }
-                                  }}
-                                  btnClass={`rc-btn rc-btn--one js-sticky-cta ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
-                                  }`}
-                                  history={history}
-                                >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
-                                  <span className="default-txt">
-                                    <FormattedMessage id="checkout" />
-                                  </span>
-                                </LoginButton>
-                              )} */}
-                          </div>
-                          <ErrMsgForCheckoutPanel
-                            checkOutErrMsg={checkOutErrMsg}
-                          />
-                        </div>
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
@@ -2607,264 +1772,94 @@ class Details extends React.Component {
               </div>
             </div>
             <Advantage />
-            {isMobile &&
-              goodsDetailTab.tabName.map((ele, index) => (
-                <>
-                  <dl>
-                    <div
-                      className={`rc-list__accordion-item test-color 
-                  ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
-                    >
-                      <div
-                        className="rc-list__header d-flex justify-content-between"
-                        onClick={() => {
-                          tabs[index].show = !this.state.tabs[index].show;
-                          this.setState({ tabs: this.state.tabs });
-                        }}
-                      >
-                        <div dangerouslySetInnerHTML={{ __html: ele }} />
-                        <span
-                          className="iconfont font-weight-bold"
-                          style={{
-                            transform: tabs[index].show
-                              ? 'rotate(90deg)'
-                              : 'rotate(-90deg)'
-                          }}
-                        >
-                          &#xe6fa;
-                        </span>
-                        {/* <span
-                          className={`icon-change ${
-                            tabs[index].show
-                              ? 'rc-icon rc-up rc-brand1'
-                              : 'rc-icon rc-down rc-iconography'
-                          }`}
-                        ></span> */}
-                      </div>
-                      <div className={`rc-list__content`}>
-                        <p
-                          dangerouslySetInnerHTML={{
-                            __html: goodsDetailTab.tabContent[index]
-                          }}
-                        />
-                        <LazyLoad height={200}>
-                          <img
-                            src={goodsDetailTab.tabContent[index].imgUl}
-                            alt=""
-                          />
-                        </LazyLoad>
-                      </div>
-                    </div>
-                  </dl>
-                </>
-              ))}
-            {!isMobile && goodsDetailTab.tabName.length ? (
-              <div className="rc-max-width--xl rc-padding-x--sm">
-                <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
-                  <div>
-                    <div className="rc-border-bottom rc-border-colour--interface">
-                      <nav className="rc-fade--x">
-                        <ul
-                          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
-                          role="tablist"
-                        >
-                          {goodsDetailTab.tabName.map((ele, index) => (
-                            <li key={index}>
-                              <button
-                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                data-toggle={`tab__panel-${index}`}
-                                aria-selected={
-                                  activeTabIdx === index ? 'true' : 'false'
-                                }
-                                role="tab"
-                                onClick={this.changeTab.bind(this, index)}
-                              >
-                                {ele}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      </nav>
-                    </div>
-                    <div
-                      className="rc-tabs tabs-detail"
-                      style={{ marginTop: '40px' }}
-                    >
-                      {goodsDetailTab.tabContent.map((ele, i) => (
-                        <div
-                          id={`tab__panel-${i}`}
-                          key={i}
-                          className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                          aria-expanded={activeTabIdx === i ? 'true' : 'false'}
-                        >
-                          <div className="block">
-                            <p
-                              className="content rc-scroll--x detail-content-tabinfo"
-                              style={{ marginBottom: '4rem' }}
-                              dangerouslySetInnerHTML={createMarkup(ele)}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+            {/* 描述、好处、组成、指南板块*/}
+            {details.goodsDescriptionDetailList &&
+            details.goodsType !== undefined ? (
+              <div id="j-details-description-tabs">
+                <GoodsDetailTabs
+                  activeTabIdxList={activeTabIdxList}
+                  goodsType={details.goodsType}
+                  goodsDescriptionDetailList={
+                    details.goodsDescriptionDetailList
+                  }
+                  saleableFlag={details.saleableFlag ?? this.isNullGoodsInfos}
+                  displayFlag={details.displayFlag}
+                  setState={this.setState.bind(this)}
+                  isClub={
+                    details.promotions &&
+                    details.promotions.includes('club') &&
+                    currentSubscriptionStatus
+                  }
+                  goodsDetailSpace={backgroundSpaces}
+                  goodsAttributesValueRelList={
+                    details.goodsAttributesValueRelList ?? []
+                  }
+                />
+                <div id="j-details-dailyportion">
+                  {this.DailyPortionComponent(details, barcode)}
                 </div>
               </div>
             ) : null}
-            <div>
-              <Carousel
-                location={location}
-                history={history}
-                goodsId={goodsId}
-                key={goodsId}
-              />
-            </div>
-            <div
-              className="sticky-addtocart"
-              style={{ transform: 'translateY(-80px)' }}
-            >
-              <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                <button
-                  className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                    addToCartLoading ? 'ui-btn-loading' : ''
-                  } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                  onClick={this.hanldeAddToCart}
-                >
-                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                  <span className="default-txt">
-                    {form.buyWay === 1 ? (
-                      <FormattedMessage id="subscribe" />
-                    ) : (
-                      <FormattedMessage id="details.addToCart" />
-                    )}
-                  </span>
-                </button>
-                {/* {this.isLogin ? (
-                  <button
-                    className={`rc-btn rc-btn--one js-sticky-cta ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    onClick={this.hanldeAddToCart.bind(this, {
-                      redirect: true,
-                      needLogin: false
-                    })}
-                  >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                    <span className="default-txt">
-                      <FormattedMessage id="checkout" />
-                    </span>
-                  </button>
-                ) : (
-                  <LoginButton
-                    beforeLoginCallback={async () => {
-                      try {
-                        await this.hanldeUnloginAddToCart({
-                          redirect: true,
-                          needLogin: true
-                        });
-                        sessionItemRoyal.set('okta-redirectUrl', '/cart');
-                      } catch (err) {
-                        throw new Error();
-                      }
-                    }}
-                    btnClass={`rc-btn rc-btn--one js-sticky-cta ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    history={history}
-                  >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
-                    <span className="default-txt">
-                      <FormattedMessage id="checkout" />
-                    </span>
-                  </LoginButton>
-                )} */}
-                {/* {!this.isLogin &&
-                  (form.buyWay ? (
-                    <span style={{ marginLeft: '10px' }}>
-                      <FormattedMessage id="unLoginSubscriptionTips" />
-                    </span>
-                  ) : (
-                    <button
-                      className={`rc-styled-link color-999 ${
-                        addToCartLoading ? 'ui-btn-loading' : ''
-                      } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                      onClick={this.hanldeAddToCart.bind(this, {
-                        redirect: true
-                      })}
-                    >
-                      <FormattedMessage id="guestCheckout" />
-                    </button>
-                  ))} */}
+            {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+              !!details.goodsNo && (
+                <BazaarVoiceReviews productId={details.goodsNo} />
+              )}
+
+            <div className="split-line rc-bg-colour--brand4" />
+            {window.__.env.REACT_APP_HUB && goodsType !== 3 ? (
+              <AdvantageTips />
+            ) : null}
+            {/* 电话邮箱联系板块 */}
+            {isHub ? (
+              <PhoneAndEmail loading={loading} details={details} />
+            ) : null}
+            {!!+window.__.env.REACT_APP_PDP_RATING_VISIBLE ? (
+              <div id="review-container">
+                <Reviews
+                  key={this.state.goodsId}
+                  id={this.state.goodsId}
+                  isLogin={this.isLogin}
+                />
               </div>
-            </div>
+            ) : null}
+            <RelateProductCarousel id={goodsId} />
+
+            {isMobile ? (
+              <AddCartSuccessMobile
+                visible={this.state.modalMobileCartSuccessVisible}
+                closeModal={() => {
+                  this.setState({ modalMobileCartSuccessVisible: false });
+                }}
+                mixFeedingData={this.state.mixFeeding}
+                periodTypeId={parseInt(form.buyWay) ? form.frequencyId : ''}
+                goodsInfoFlag={
+                  form.buyWay && details.promotions?.includes('club')
+                    ? 2
+                    : form.buyWay
+                }
+                isLogin={this.isLogin}
+                intl={intl}
+              />
+            ) : null}
+
+            {/* sprint6暂时不上，延迟到sprint7 */}
+            {/* {PC && Ru && mixFeeding && !this.state.hiddenMixFeedingBanner ? (
+              <MixFeedingBanner
+                originalProductInfo={this.state.originalProductInfo}
+                mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
+                mixFeedingForm={form}
+                addMixFeedingToCart={this.addMixFeedingToCart}
+                btnStatus={btnStatus}
+                mixFeedingBtnLoading={this.state.mixFeedingBtnLoading}
+              />
+            ) : null} */}
+
+            {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
+            {/* <More/> */}
+            <Help />
+            <Footer />
           </main>
         )}
-        <aside
-          role="modal"
-          class="rc-modal rc-hidden"
-          data-modal-target="modal-example"
-        >
-          <div class="rc-modal__container">
-            <header class="rc-modal__header">
-              <button
-                class="rc-btn rc-icon rc-btn--icon-label rc-modal__close rc-close--xs rc-iconography"
-                data-modal-trigger="modal-example"
-              >
-                <FormattedMessage id="close" />
-              </button>
-            </header>
-            <section
-              class="rc-modal__content rc-scroll--y"
-              style={{ textAlign: 'center' }}
-            >
-              <div class="rc-margin-top--md" style={{ textAlign: 'center' }}>
-                <svg
-                  t="1607498763458"
-                  class="icon"
-                  style={{
-                    width: '35px',
-                    height: '35px',
-                    marginBottom: '20px'
-                  }}
-                  viewBox="0 0 1024 1024"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  p-id="2968"
-                  width="200"
-                  height="200"
-                >
-                  <path
-                    d="M512 0C230.4 0 0 230.4 0 512c0 281.6 230.4 512 512 512 281.6 0 512-230.4 512-512C1024 230.4 793.6 0 512 0zM512 960c-249.6 0-448-204.8-448-448 0-249.6 204.8-448 448-448 249.6 0 448 198.4 448 448C960 761.6 761.6 960 512 960zM691.2 339.2 454.4 576 332.8 454.4c-19.2-19.2-51.2-19.2-76.8 0C243.2 480 243.2 512 262.4 531.2l153.6 153.6c19.2 19.2 51.2 19.2 70.4 0l51.2-51.2 224-224c19.2-19.2 25.6-51.2 0-70.4C742.4 320 710.4 320 691.2 339.2z"
-                    p-id="2969"
-                    fill="#47b800"
-                  ></path>
-                </svg>
-                <p style={{ color: '#47b800 !important' }}>
-                  <FormattedMessage id="addedtoCart" />
-                </p>
-                <Link to="/home" style={{ color: '#666', fontWeight: 400 }}>
-                  <FormattedMessage id="continueMyPurchases" />
-                </Link>
-                <p>
-                  <FormattedMessage id="or" />
-                </p>
-              </div>
-              <Link
-                class="rc-btn rc-btn--one"
-                style={{ fontWeight: 400 }}
-                to="/cart"
-              >
-                <FormattedMessage id="goToCart" />
-              </Link>
-            </section>
-          </div>
-        </aside>
-        <div class="rc-bg-colour--brand4">
-          <div class="contact-section rc-max-width--xl rc-padding-y--md rc-padding-x--sm">
-            <div class="content-asset">&nbsp;</div>
-          </div>
-        </div>
-        <Footer />
       </div>
     );
   }

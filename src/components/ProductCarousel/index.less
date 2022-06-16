@@ -1,0 +1,97 @@
+.responsive-carousel {
+  margin-bottom: 20px;
+  .rc-card{
+    width: auto;
+  }
+  .slick-track {
+    // display: flex;
+    height: 100%;
+  }
+  .slick-slide {
+    > * {
+      height: 100%;
+    }
+    // float: none;
+  }
+  @media (min-width: 769px) {
+    .slick-slider {
+      width: 1200px;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    .goods {
+      width: 95% !important;
+    }
+  }
+
+  .related-prodout-title {
+    text-align: center;
+    color: rgb(236, 0, 26);
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4rem;
+  }
+  .goods {
+    border: 1px solid #e5e5e5;
+    height: 460px;
+    .product-item-flag-image2 {
+      right: 6%;
+      top: 2%;
+      width: 3.5rem;
+      height: 3.5rem;
+      z-index: 3;
+    }
+    > img {
+      max-width: 50%;
+      max-height: 100%;
+      width: 150px;
+      height: auto;
+      margin: auto;
+    }
+    .Name {
+      font-size: 20px;
+      color: #e6311b;
+      margin-top: 20px;
+      text-align: center;
+      height: 80px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+    .Subtitle {
+      padding: 20px 10px 0;
+      font-size: 14px;
+      text-align: center;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+    .marketPrice {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 16px;
+      color: #323232;
+    }
+    .subscriptionPrice {
+      display: flex;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+      margin-right: 20px;
+    }
+  }
+}
+.slick-dots {
+  position: relative !important;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+}
+
+@media (max-width: 769px) {
+  .goods {
+    border: 0 none !important;
+  }
+}

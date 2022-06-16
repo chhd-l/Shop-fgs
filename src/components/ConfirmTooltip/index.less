@@ -10,6 +10,16 @@
       transform: translateX(-50%) rotate(90deg);
     }
   }
+  &.arrow-direction-bottom {//pdp buyFromRetailBtnTip
+    .confirm-tool-content {
+      transform: translate(-56%, -58%);
+    }
+    .confirm-tool-arrow {
+      left: 95.5%;
+      top: 100%;
+      transform: translateX(-50%) rotate(-180deg);
+    }
+  }
   &.arrow-direction-left {
     .confirm-tool-content {
       bottom: -50%;
@@ -21,36 +31,40 @@
       transform: translateX(-50%) rotate(-90deg);
     }
   }
+  .content-text {
+    text-align: left;
+  }
 }
 .confirm-tool-content {
+  background-color: blue;
   min-width: 300px;
   height: auto;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: .875rem;
+  line-height: 1.25rem;
   border-radius: 5px;
   color: #666;
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 105%);
-  z-index: 10;
+  z-index: 1000;
   border: 1px solid #d7d7d7;
 }
 .confirm-tool-arrow {
   position: absolute;
   width: 0;
   height: 0;
-  top: -10px;
-  border-bottom: 10px solid #d7d7d7;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
+  top: -.625rem;
+  border-bottom: .625rem solid #d7d7d7;
+  border-left: .625rem solid transparent;
+  border-right: .625rem solid transparent;
   left: 50%;
   transform: translateX(-50%);
 }
 .confirm-tool-arrow::after {
   content: '';
   position: absolute;
-  bottom: -11px;
+  bottom: -.6875rem;
   border-bottom: 9px solid #f6f6f6;
   left: -9px;
   border-left: 9px solid transparent;
@@ -62,5 +76,5 @@
 .confirm-tool-footer {
   width: 100%;
   display: inline-block;
-  padding-top: 10px;
+  padding-top: .625rem;
 }

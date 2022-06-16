@@ -2,51 +2,34 @@ import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
 @injectIntl
 @inject('configStore')
+@seoHoc('general terms conditions page')
 @observer
 class TermsConditions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tel: '',
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       mailAddress: ''
     };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     const tel = 'tel:' + this.props.configStore.storeContactPhoneNumber;
     const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 
     this.setState({ tel, mailAddress });
-    setSeoConfig({
-      pageName: 'general terms conditions page'
-    }).then(res => {
-      this.setState({seoConfig: res})
-    });
   }
   render(h) {
     const event = {
@@ -56,28 +39,20 @@ class TermsConditions extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
 
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
+          {window.__.env.REACT_APP_COUNTRY == 'fr' ? null : <BannerTip />}
           <BreadCrumbs />
           {/* <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile"> */}
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  noParagraphMargin">
@@ -90,7 +65,7 @@ class TermsConditions extends React.Component {
                         className="text-center"
                         style={{
                           color: '#E2001A',
-                          marginTop: '20px',
+                          marginTop: '1.25rem',
                           fontSize: '2.5rem'
                         }}
                       >
@@ -127,11 +102,19 @@ class TermsConditions extends React.Component {
                     id="termsandconditions.paragraph5"
                     values={{
                       val1: <strong>04 66 73 03 00</strong>,
-                      val4: <a href={this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com.href' })}>
-                            <u>
-                            {this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com' })}
-                            </u>
-                          </a>,
+                      val4: (
+                        <a
+                          href={this.props.intl.formatMessage({
+                            id: 'serviceclients.france@royalcanin.com.href'
+                          })}
+                        >
+                          <ins>
+                            {this.props.intl.formatMessage({
+                              id: 'serviceclients.france@royalcanin.com'
+                            })}
+                          </ins>
+                        </a>
+                      )
                     }}
                   />
                   <br />
@@ -142,11 +125,11 @@ class TermsConditions extends React.Component {
                     id="termsandconditions.paragraph7"
                     values={{
                       val1: <strong>Royal Canin</strong>,
-                      val2:<strong>Site</strong>,
-                      val3:<strong>Sites</strong>
+                      val2: <strong>Site</strong>,
+                      val3: <strong>Sites</strong>
                     }}
                   />
-                  <p style={{margin:0}}>
+                  <p style={{ margin: 0 }}>
                     <br />
                   </p>
                   <strong>
@@ -154,15 +137,20 @@ class TermsConditions extends React.Component {
                   </strong>
                 </p>
                 <p>
-                  <FormattedMessage id="termsandconditions.paragraph9" 
-                  values={{
-                    val1: <a href="https://www.royalcanin.com/fr">https://www.royalcanin.com/fr</a>
-                  }}
+                  <FormattedMessage
+                    id="termsandconditions.paragraph9"
+                    values={{
+                      val1: (
+                        <a href="https://www.royalcanin.com/fr">
+                          https://www.royalcanin.com/fr
+                        </a>
+                      )
+                    }}
                   />
                   <br />
                 </p>
 
-                <p style={{fontSize: '16px'}}>
+                <p style={{ fontSize: '1rem' }}>
                   <h3>
                     <FormattedMessage id="termsandconditions.title1" />
                   </h3>
@@ -177,10 +165,12 @@ class TermsConditions extends React.Component {
                     <FormattedMessage id="termsandconditions.title1.2" />
                   </h4>
 
-                  <FormattedMessage id="termsandconditions.title1.2descripition" 
-                  values={{
-                    val1: <br/>
-                  }}/>
+                  <FormattedMessage
+                    id="termsandconditions.title1.2descripition"
+                    values={{
+                      val1: <br />
+                    }}
+                  />
                   <br />
                   <br />
                   <h4>
@@ -192,8 +182,12 @@ class TermsConditions extends React.Component {
                     }}
                     id="termsandconditions.title1.3descripition"
                     values={{
-                      val1: <br/>,
-                      val2: <p style={{margin:0}}><br /></p>
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      )
                     }}
                   />
                 </p>
@@ -202,22 +196,33 @@ class TermsConditions extends React.Component {
                     <FormattedMessage id="termsandconditions.title2" />
                   </h3>
                   <br />
-                  <FormattedMessage id="termsandconditions.title2descripition" 
-                  values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>
-                  }}/>
+                  <FormattedMessage
+                    id="termsandconditions.title2descripition"
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      )
+                    }}
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage
-                    values={{
-                      val1: <br/>,
-                      val2: <p style={{margin:0}}><br /></p>
-                    }}
-                   id="termsandconditions.title3" />
+                      values={{
+                        val1: <br />,
+                        val2: (
+                          <p style={{ margin: 0 }}>
+                            <br />
+                          </p>
+                        )
+                      }}
+                      id="termsandconditions.title3"
+                    />
                   </h3>
                   <h4>
                     <FormattedMessage id="termsandconditions.title3.1" />
@@ -229,42 +234,62 @@ class TermsConditions extends React.Component {
                     <FormattedMessage id="termsandconditions.title3.2" />
                   </h4>
                   <FormattedMessage
-                  values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>
-                  }} id="termsandconditions.title3.2descripition" />
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      )
+                    }}
+                    id="termsandconditions.title3.2descripition"
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title4" />
                   </h3>
-                  <FormattedMessage 
-                   values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>
-                  }} 
-                  id="termsandconditions.title4descripition" />
+                  <FormattedMessage
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      )
+                    }}
+                    id="termsandconditions.title4descripition"
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title5" />
                   </h3>
                   <FormattedMessage
-                   values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>,
-                    val3: <strong>Garantie légale de conformité</strong>,
-                    val4: <strong>Garantie contre les défauts de la chose vendue</strong>
-                  }} 
-                  id="termsandconditions.title5descripition" />
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      ),
+                      val3: <strong>Garantie légale de conformité</strong>,
+                      val4: (
+                        <strong>
+                          Garantie contre les défauts de la chose vendue
+                        </strong>
+                      )
+                    }}
+                    id="termsandconditions.title5descripition"
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title6" />
                   </h3>
@@ -279,131 +304,202 @@ class TermsConditions extends React.Component {
                     <FormattedMessage id="termsandconditions.title6.2" />
                   </h4>
                   <FormattedMessage
-                   values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>,
-                    val3: <div className="rc-padding-left--md"> 
-                          {this.props.intl.formatMessage({ id: 'termsandconditions.title6.2.1' })}
-                        </div>,
-                    val4: <div className="rc-padding-left--md"> 
-                          {this.props.intl.formatMessage({ id: 'termsandconditions.title6.2.2' })}
-                        </div>,
-                    val5: <div className="rc-padding-left--md"> 
-                          {this.props.intl.formatMessage({ id: 'termsandconditions.title6.2.3' })}
-                        </div>,
-                  }} 
-                   id="termsandconditions.title6.2descripition" />
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      ),
+                      val3: (
+                        <div className="rc-padding-left--md">
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title6.2.1'
+                          })}
+                        </div>
+                      ),
+                      val4: (
+                        <div className="rc-padding-left--md">
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title6.2.2'
+                          })}
+                        </div>
+                      ),
+                      val5: (
+                        <div className="rc-padding-left--md">
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title6.2.3'
+                          })}
+                        </div>
+                      )
+                    }}
+                    id="termsandconditions.title6.2descripition"
+                  />
                   <br />
                   <br />
                   <h4>
                     <FormattedMessage id="termsandconditions.title6.3" />
                   </h4>
                   <FormattedMessage
-                  values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>,
-                    val3: <div className="rc-padding-left--md"> 
-                          {this.props.intl.formatMessage({ id: 'termsandconditions.title6.3descripition.1' })}
-                        </div>,
-                    val4: <div className="rc-padding-left--md"> 
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      ),
+                      val3: (
+                        <div className="rc-padding-left--md">
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title6.3descripition.1'
+                          })}
+                        </div>
+                      ),
+                      val4: (
+                        <div className="rc-padding-left--md">
                           {this.props.intl.formatMessage(
-                          { id: 'termsandconditions.title6.3descripition.2' },
-                          
-                          {
-                          // val4: <a href={this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com.href' })}>
-                          //   <u>
-                          //   {this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com' })}
-                          //   </u>
-                          // </a>,
-                            val:<a href="mailto:suivi.dtc.france@royalcanin.com"><u>
-                              suivi.dtc.france@royalcanin.com</u></a>}
+                            { id: 'termsandconditions.title6.3descripition.2' },
+
+                            {
+                              // val4: <a href={this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com.href' })}>
+                              //   <ins>
+                              //   {this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com' })}
+                              //   </ins>
+                              // </a>,
+                              val: (
+                                <a href="mailto:suivi.dtc.france@royalcanin.com">
+                                  <ins>suivi.dtc.france@royalcanin.com</ins>
+                                </a>
+                              )
+                            }
                           )}
-                        </div>,
-                    val5: <div className="rc-padding-left--md"> 
-                          {this.props.intl.formatMessage({ id: 'termsandconditions.title6.3descripition.3' })}
-                        </div>,
-                  }} 
-                   id="termsandconditions.title6.3descripition" />
+                        </div>
+                      ),
+                      val5: (
+                        <div className="rc-padding-left--md">
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title6.3descripition.3'
+                          })}
+                        </div>
+                      )
+                    }}
+                    id="termsandconditions.title6.3descripition"
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title7" />
                   </h3>
                   <FormattedMessage
-                  values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>
-                  }} 
-                   id="termsandconditions.title7descripition" />
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      )
+                    }}
+                    id="termsandconditions.title7descripition"
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title8" />
                   </h3>
                   <FormattedMessage
-                  values={{
-                    val3: <span style={{color: "red"}}> 
-                    {this.props.intl.formatMessage({ id: 'termsandconditions.title8descripition.1' })}
-                  </span>,
-                  val4: <a href={this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com.href' })}>
-                    <u>
-                    {this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com' })}
-                    </u>
-                  </a>
-                  }}
-                   id="termsandconditions.title8descripition" />
+                    values={{
+                      val3: (
+                        <span style={{ color: 'red' }}>
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title8descripition.1'
+                          })}
+                        </span>
+                      ),
+                      val4: (
+                        <a
+                          href={this.props.intl.formatMessage({
+                            id: 'serviceclients.france@royalcanin.com.href'
+                          })}
+                        >
+                          <ins>
+                            {this.props.intl.formatMessage({
+                              id: 'serviceclients.france@royalcanin.com'
+                            })}
+                          </ins>
+                        </a>
+                      )
+                    }}
+                    id="termsandconditions.title8descripition"
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title9" />
                   </h3>
-                  <FormattedMessage id="termsandconditions.title9descripition" 
-                  values={{
-                    val3: <a href='https://www.mars.com/privacy-policy-france'>
-                    <u>
-                    https://www.mars.com/privacy-policy-france
-                    </u>
-                  </a>
-                  }}/>
+                  <FormattedMessage
+                    id="termsandconditions.title9descripition"
+                    values={{
+                      val3: (
+                        <a href="https://www.mars.com/privacy-policy-france">
+                          <ins>https://www.mars.com/privacy-policy-france</ins>
+                        </a>
+                      )
+                    }}
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title10" />
                   </h3>
-                  <FormattedMessage 
-                   values={{
-                    val1: <br/>,
-                    val2: <p style={{margin:0}}><br /></p>,
-                    val3:  <a href='https://www.mars.com/privacy-policy-france'>
-                            <u>
-                            https://medicys-consommation.fr
-                            </u>
-                          </a>,
-                    val4:  <a href='https://webgate.ec.europa.eu/odr/main/?event=main.home.show&amp;lng=FR'>
-                    <u>
-                     https://webgate.ec.europa.eu/odr/main/?event=main.home.show&lng=FR
-                    </u>
-                  </a>,
-                   val5: <div className="rc-padding-left--md"> 
-                   {this.props.intl.formatMessage({ id: 'termsandconditions.title10.descripition.1' })}
-                 </div>,
-                  val6: <div className="rc-padding-left--md"> 
-                  {this.props.intl.formatMessage({ id: 'termsandconditions.title10.descripition.2' })}
-                </div>,
-                  }} 
-                  id="termsandconditions.title10descripition" />
+                  <FormattedMessage
+                    values={{
+                      val1: <br />,
+                      val2: (
+                        <p style={{ margin: 0 }}>
+                          <br />
+                        </p>
+                      ),
+                      val3: (
+                        <a href="https://www.mars.com/privacy-policy-france">
+                          <ins>https://medicys-consommation.fr</ins>
+                        </a>
+                      ),
+                      val4: (
+                        <a href="https://webgate.ec.europa.eu/odr/main/?event=main.home.show&amp;lng=FR">
+                          <ins>
+                             https://webgate.ec.europa.eu/odr/main/?event=main.home.show&lng=FR
+                          </ins>
+                        </a>
+                      ),
+                      val5: (
+                        <div className="rc-padding-left--md">
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title10.descripition.1'
+                          })}
+                        </div>
+                      ),
+                      val6: (
+                        <div className="rc-padding-left--md">
+                          {this.props.intl.formatMessage({
+                            id: 'termsandconditions.title10.descripition.2'
+                          })}
+                        </div>
+                      )
+                    }}
+                    id="termsandconditions.title10descripition"
+                  />
                 </p>
 
                 <p>
-                  <br/>
+                  <br />
                   <h3>
                     <FormattedMessage id="termsandconditions.title11" />
                   </h3>
@@ -412,9 +508,8 @@ class TermsConditions extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }

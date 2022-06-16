@@ -1,0 +1,74 @@
+.height-product-tile-plpOnly.height-product-tile {
+  position: relative;
+}
+.height-product-tile-plpOnly {
+  .product-title {
+    line-height: 1.2 !important;
+    // height: 3.6rem; //高度会导致文字被隐藏，因此注释了
+  }
+}
+.card--product-contaner-price {
+  font-size: 0.8em;
+  color: #000;
+  .contaner-price__value {
+    font-size: 1.25em;
+  }
+}
+
+.plp-stock-status .stock__wrapper .stock .availability-msg > div {
+  display: inline;
+  margin-left: 0;
+  color: #444;
+}
+
+.product-item-flag-text {
+  position: absolute;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  text-align: center;
+  width: 50%;
+  background-color: red;
+  color: #fff;
+  transform: rotate(-45deg);
+  left: -11%;
+  top: 6%;
+  z-index: 3;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 9%;
+}
+
+.product-item-flag-image {
+  right: 1%;
+  top: 2%;
+  width: 3.5rem;
+  z-index: 3;
+  &.product-item-flag-image__pdp {
+    width: 4.5rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .height-product-tile-plpOnly {
+    .product-title {
+      height: 3.2rem;
+    }
+  }
+  .plp-stock-status {
+    font-size: .875rem;
+  }
+
+  .product-item-flag-text {
+    width: 73%;
+    left: -16%;
+    top: 7%;
+    &.fr-label {
+      width: 68%;
+      left: -25%;
+      top: 16%;
+    }
+  }
+  .product-item-flag-image {
+    width: 3rem;
+  }
+}

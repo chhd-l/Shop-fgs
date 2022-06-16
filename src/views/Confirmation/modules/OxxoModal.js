@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './OxxoModal.css';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 
 export default class OxxoModal extends Component {
   constructor(props) {

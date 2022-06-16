@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
 import Skeleton from 'react-skeleton-loader';
@@ -18,12 +18,12 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function PetJSX(props) {
-  const { petBaseInfo } = props;
-  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
-  let sterilizedText = sterilized
-  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
+  const { petBaseInfo, intl } = props;
+  let sterilized = (petBaseInfo && petBaseInfo.sterilized) || '...';
+  let sterilizedText = sterilized;
+  if (sterilized.toLocaleLowerCase().includes('stérilisé')) {
     // 如果是法语
-    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+    sterilizedText = sterilized.includes('Non') ? 'Non' : 'Oui';
   }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
@@ -31,8 +31,8 @@ function PetJSX(props) {
         <div className="col-12">
           <div className="border rounded">
             <div className="row align-items-center text-break">
-              <div className="col-12 col-md-6 row mt-4 mb-2 mb-md-4">
-                <div className="col-12 col-md-6 mb-4 mb-md-0">
+              <div className="col-12 col-md-6 row mt-4 mb-2 md:mb-4">
+                <div className="col-12 col-md-5 mb-4 md:mb-0">
                   <LazyLoad style={{ height: '100%', width: '100%' }}>
                     <img
                       src={{ cat: catImg, dog: dogImg }[props.type]}
@@ -42,34 +42,34 @@ function PetJSX(props) {
                         width: '50%',
                         margin: '0 auto'
                       }}
-                      alt=""
+                      alt="pet-image"
                     />
                   </LazyLoad>
                 </div>
-                <div className="col-12 col-md-6 text-center text-md-left">
+                <div className="col-12 col-md-7 text-center md:text-left">
                   <div className="row">
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="age" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.age) || '...'}
                       </span>
                     </div>
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="breed" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.breed) || '...'}
                       </span>
                     </div>
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="gender" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.gender) || '...'}
                       </span>
                     </div>
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="sterilized" />
                       <br />
                       <span className="font-weight-normal">
@@ -96,13 +96,10 @@ function PetJSX(props) {
                   ) : (
                     <LoginButton
                       beforeLoginCallback={async () => {
-                        sessionItemRoyal.set(
-                          'okta-redirectUrl',
-                          '/account/pets'
-                        );
+                        localItemRoyal.set('okta-redirectUrl', '/account/pets');
                       }}
                       btnClass="col-12 col-md-6 rc-btn rc-btn--one mb-3"
-                      history={props.history}
+                      intl={intl}
                     >
                       <FormattedMessage id="productFinder.createMyPetProfile" />
                     </LoginButton>
@@ -124,6 +121,7 @@ function PetJSX(props) {
 }
 
 @inject('loginStore')
+@injectIntl
 @observer
 class ProductFinderNoResult extends React.Component {
   constructor(props) {
@@ -180,13 +178,7 @@ class ProductFinderNoResult extends React.Component {
     const { isLoading, questionlist, petBaseInfo, type } = this.state;
     return (
       <div>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={location}
-          history={history}
-          match={match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -205,6 +197,7 @@ class ProductFinderNoResult extends React.Component {
                 </p>
 
                 <PetJSX
+                  {...this.props}
                   type={type}
                   isLogin={this.isLogin}
                   questionlist={questionlist}
@@ -213,10 +206,10 @@ class ProductFinderNoResult extends React.Component {
                   history={history}
                 />
                 <div className="row">
-                  <div className="col-12 order-0 order-md-1">
+                  <div className="col-12 order-0 md:order-1">
                     <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
                       <div className="row">
-                        <div className="col-12 col-md-4 order-0 order-md-1 text-center">
+                        <div className="col-12 col-md-4 order-0 md:order-1 text-center">
                           <h2 className="rc-beta markup-text mb-4">
                             <FormattedMessage id="seeAllOurProducts" />
                           </h2>
@@ -229,9 +222,9 @@ class ProductFinderNoResult extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-1 order-md-0">
+                        <div className="col-12 col-md-4 order-1 md:order-0">
                           <LazyLoad style={{ width: '100%' }}>
-                            <img src={catImg} alt="" />
+                            <img src={catImg} alt="cat image" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link className="rc-btn rc-btn--one" to="/cats">
@@ -239,9 +232,9 @@ class ProductFinderNoResult extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-2 order-md-2">
+                        <div className="col-12 col-md-4 order-2 md:order-2">
                           <LazyLoad style={{ width: '100%' }}>
-                            <img src={dogImg} alt="" />
+                            <img src={dogImg} alt="dog image" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link className="rc-btn rc-btn--one" to="/dogs">
@@ -257,12 +250,9 @@ class ProductFinderNoResult extends React.Component {
             )}
           </div>
           <hr className="rc-md-down" />
-          <div className="col-12 order-1 order-md-0 rc-padding-bottom--lg">
+          <div className="col-12 order-1 md:order-0 rc-padding-bottom--lg">
             <div className="p-f-help-box mt-4">
-              <p
-                className="text-center pt-3"
-                style={{ fontSize: '1.3rem' }}
-              >
+              <p className="text-center pt-3" style={{ fontSize: '1.3rem' }}>
                 <FormattedMessage id="productFinder.helpTip1" />
               </p>
               <p className="text-center">
@@ -271,8 +261,8 @@ class ProductFinderNoResult extends React.Component {
               <Help />
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -1,0 +1,146 @@
+#GoodsDetailTabs {
+  .align-items-center > img {
+    width: 64px;
+    height: 64px;
+  }
+  .desc-line-height--custom {
+    height: 64px;
+    line-height: 64px;
+  }
+  .howitworks {
+    text-align: center;
+  }
+  .ui-star-list .list_item{
+    padding-top: .9375rem;
+    margin-bottom: 1.25rem;
+  }
+  .rc-layout-container {
+    margin:0;
+  }
+
+  .card-border-style {
+    border: 1px solid #d7d7d7;
+  }
+
+  .mixed-Feeding-box {
+    padding: 25px  5%;
+    text-align: center;
+    .mixed-Feeding-title {
+      text-transform: uppercase;
+    }
+    .mixed-Feeding-title2 {
+
+    }
+    .mixed-Feeding-text {
+
+    }
+    .mixed-Feeding-content {
+      display: flex;
+      justify-content: center;
+      text-align: left;
+      .mixed-Feeding-content-item {
+        flex: 1;
+        > h3 {
+          font-weight: bold;
+          padding-bottom: 1.15rem;
+        }
+        > h4 {
+          color: #e2001a;
+        }
+        img {
+          max-width: 60%;
+        }
+      }
+
+    }
+  }
+
+  @media (max-width: 639.98px) {
+    .clubdetailsdesktop {
+      height: 1509px;
+      overflow: hidden;
+      background-size: cover;
+    }
+    .pdpflexcolumn{
+      flex-direction: column;
+    }
+    //.mixed-Feeding-content {
+    //  flex-direction: column;
+    //  align-items: center;
+    //}
+  }
+}
+
+.goodsdetailtabs-item-mobile {
+  margin-bottom: 0;
+  .rc-list__accordion-item {
+    border-bottom: 0;
+  }
+  .showItem > div:last-child {
+    max-height: 5000px;
+    transition: max-height 0.5s ease-in-out;
+  }
+
+  .showItem > div:first-child {
+    color: red;
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  .hiddenItem > div:first-child {
+    color: #666;
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  .hiddenItem > div:last-child {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+  }
+  .mixed-Feeding-box {
+    padding: 0;
+    text-align: left;
+    .mixed-Feeding-title {
+      text-transform: uppercase;
+      padding-top: 1.25rem;
+    }
+    .mixed-Feeding-title2 {
+
+    }
+    .mixed-Feeding-content {
+      display: flex;
+      flex-direction: column;
+      //align-items: center;
+      text-align: left;
+      .mixed-Feeding-content-item {
+        flex: auto;
+        > h3 {
+          font-weight: bold;
+          padding-bottom: 1.15rem;
+        }
+        > h4 {
+          color: #e2001a;
+        }
+        img {
+          display: inline-block;
+          padding: 15px 0;
+          max-width: 60%;
+        }
+      }
+
+    }
+  }
+
+  @media (max-width: 639.98px) {
+    .rc-video-wrapper {
+      min-height: 168px !important;
+    }
+  }
+}
+
+#GoodsDetailTabs img {
+  display: inline-block;
+}
+
+

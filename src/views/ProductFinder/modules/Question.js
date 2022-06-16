@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import Modal from '@/components/Modal';
 import Skeleton from 'react-skeleton-loader';
@@ -11,6 +11,7 @@ import SelectAnswer from './SelectAnswer';
 import SearchAnswer from './SearchAnswer';
 import TextAnswer from './TextAnswer';
 import { query, edit, matchProducts } from '@/api/productFinder';
+import { clubSubscriptionSavePets } from '@/api/pet';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -75,12 +76,8 @@ class Question extends React.Component {
       () => {
         // 从缓存中读取上次答题进度缓存
         if (cachedQuestionData) {
-          const {
-            finderNumber,
-            stepOrder,
-            questionParams,
-            configSizeAttach
-          } = cachedQuestionData;
+          const { finderNumber, stepOrder, questionParams, configSizeAttach } =
+            cachedQuestionData;
           this.setState(
             {
               finderNumber,
@@ -125,7 +122,11 @@ class Question extends React.Component {
       }
       return item;
     });
-    this.props.GAHandle(targetItem.questionName);
+    this.props.GAHandle(
+      targetItem.questionName,
+      editStopOrder,
+      answerdQuestionList
+    );
     this.setDefaultDataFromCache({
       questionName: targetItem.questionName,
       answerList: targetItem.answerList,
@@ -324,7 +325,6 @@ class Question extends React.Component {
           });
           return;
         }
-        console.info('this.state.isEdit', this.state.isEdit);
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
         });
@@ -351,8 +351,6 @@ class Question extends React.Component {
       }
       const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
-      console.info('resContext', resContext);
-      console.info('!resContext.isEndOfTree', !resContext.isEndOfTree);
       if (!resContext.isEndOfTree) {
         const tmpStep = resContext.step;
         const qRes = this.handleQuestionConfigLogic({
@@ -384,7 +382,11 @@ class Question extends React.Component {
           questionType: qRes.questionType,
           configSizeAttach: sizeStep
         });
-        this.props.GAHandle(resContext.step.name);
+        this.props.GAHandle(
+          resContext.step.name,
+          resContext.stepOrder,
+          resContext.answerdQuestionList
+        );
         this.setState(
           {
             questionCfg: {
@@ -428,6 +430,10 @@ class Question extends React.Component {
           finderNumber,
           questionParams: tmpQuestionParams
         });
+        sessionItemRoyal.set(
+          'pr-question-params',
+          JSON.stringify(tmpQuestionParams)
+        );
         this.setState({ questionCfg: null, questionType: '', progress: 100 });
         localItemRoyal.remove(`pf-cache-${type}-question`);
         sessionItemRoyal.set(
@@ -441,8 +447,8 @@ class Question extends React.Component {
           );
         }
         let tmpUrl;
+        sessionItemRoyal.set('pf-result', JSON.stringify(proRes.context));
         if (proRes.context && proRes.context.mainProduct) {
-          sessionItemRoyal.set('pf-result', JSON.stringify(proRes.context));
           tmpUrl = '/product-finder-recommendation';
         } else {
           tmpUrl = '/product-finder-noresult';
@@ -490,11 +496,11 @@ class Question extends React.Component {
           Array.from({ length: 49 }).map((item, i) => {
             return {
               label: `${i + 1} Kg`,
-              key: i + i
+              key: i + 1
             };
           })
         ];
-        tmpPlaceHolderList = [<FormattedMessage id="weight" />];
+        tmpPlaceHolderList = [<FormattedMessage id="Weight" />];
         break;
       default:
         break;
@@ -654,7 +660,7 @@ class Question extends React.Component {
                 src={helpImg}
                 onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
                 onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
-                alt=""
+                alt="help icon"
               />
             </LazyLoad>
             <ConfirmTooltip
@@ -670,14 +676,14 @@ class Question extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-12 col-md-6 order-1 order-md-0 mt-4 mt-md-0 mb-4">
+          <div className="col-12 col-md-6 order-1 md:order-0 mt-4 md:mt-0 mb-4">
             {isPageLoading ? (
               <span className="mt-4">
                 <Skeleton color="#f5f5f5" width="100%" height="3%" count={5} />
               </span>
             ) : errMsg ? (
               <>
-                <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                <em className="rc-icon rc-incompatible--sm rc-iconography" />
                 {errMsg}
               </>
             ) : (
@@ -719,8 +725,8 @@ class Question extends React.Component {
                 )}
 
                 {questionType ? (
-                  <div className="row text-center text-md-left">
-                    <div className="col-12 col-md-3">
+                  <div className="row text-center md:text-left">
+                    <div className="col-12 col-md-5">
                       <button
                         className="rc-btn rc-btn--one rc-btn--sm"
                         disabled={!this.state.valid}
@@ -729,7 +735,7 @@ class Question extends React.Component {
                         <FormattedMessage id="next" />
                       </button>
                     </div>
-                    <div className="col-12 col-md-7 mt-2 mb-4 mt-md-0 mb-md-0">
+                    <div className="col-12 col-md-7 mt-2 mb-4 md:mt-0 md:mb-0">
                       <div className="position-relative inlineblock">
                         <p
                           className="rc-styled-link mb-0 mt-2"
@@ -778,12 +784,12 @@ class Question extends React.Component {
               </>
             )}
           </div>
-          <div className="col-12 col-md-6 order-0 order-md-1">
+          <div className="col-12 col-md-6 order-0 md:order-1">
             <LazyLoad>
               <img
                 src={{ cat: catImg, dog: dogImg }[type]}
                 className="p-f-q-avatar"
-                alt=""
+                alt="pet image"
               />
             </LazyLoad>
           </div>
@@ -817,6 +823,13 @@ class Question extends React.Component {
                     rel="nofollow"
                   >
                     <FormattedMessage id="aboutUs.learnMore" />
+                    {Boolean(
+                      window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    ) && (
+                      <span className="warning_blank">
+                        <FormattedMessage id="opensANewWindow" />
+                      </span>
+                    )}
                   </Link>
                   <Link
                     className="rc-btn rc-btn--two"
@@ -825,6 +838,13 @@ class Question extends React.Component {
                     rel="nofollow"
                   >
                     <FormattedMessage id="contactUs" />
+                    {Boolean(
+                      window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    ) && (
+                      <span className="warning_blank">
+                        <FormattedMessage id="opensANewWindow" />
+                      </span>
+                    )}
                   </Link>
                 </div>
               </div>
@@ -834,14 +854,14 @@ class Question extends React.Component {
                     src={veterinaryImg}
                     className="rc-md-up"
                     style={{ width: '20%', margin: '0 auto' }}
-                    alt=""
+                    alt="veterinary image"
                   />
                 </LazyLoad>
                 <LazyLoad>
                   <img
                     className="mt-3 rc-full-width"
                     src={veterinaryProductImg}
-                    alt=""
+                    alt="veterinary product image"
                   />
                 </LazyLoad>
               </div>

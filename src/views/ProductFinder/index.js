@@ -4,49 +4,45 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Question from './modules/Question';
 import LazyLoad from 'react-lazyload';
-import { setSeoConfig } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
+import { productFinderPushEvent } from '@/utils/GA';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import './index.less';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
+const GAStep = [
+  'age',
+  'breedCode',
+  'sterilized',
+  'genderCode',
+  'weight',
+  'sensitivity',
+  'petActivityCode',
+  'lifestyle'
+];
+
+@seoHoc('Product finder')
 class ProductFinder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
-      },
       type: '' // cat dog
     };
     this.seletTheType = this.seletTheType.bind(this);
   }
   componentDidMount() {
+    sessionItemRoyal.remove('product-finder-edit-order');
+    sessionItemRoyal.remove('pf-result');
     this.GAHandle('speciesCode');
-    // const cachedType = localItemRoyal.get(`pf-cache-type`);
-    // const tmpOrder = sessionItemRoyal.get('pf-edit-order');
-    // const cachedQuestionData = localItemRoyal.get(
-    //   `pf-cache-${cachedType}-question`
-    // );
-
-    // if (cachedType && (cachedQuestionData || tmpOrder)) {
-    //   this.setState({ type: cachedType });
-    // }
-    setSeoConfig({
-      pageName: 'Product finder'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   getStepCurrent = (stepCurrent) => {
     let type = this.state.type || 'cat';
@@ -67,16 +63,30 @@ class ProductFinder extends React.Component {
     };
     return stepVirtualPageURLObj[stepCurrent];
   };
-  GAHandle = (stepName) => {
-    if (dataLayer) {
-      dataLayer.push({
-        event: 'virtualPageView',
-        page: {
-          type: 'Product Finder',
-          virtualPageURL: this.getStepCurrent(stepName)
-        }
-      });
-    }
+
+  GAHandle = (stepName, stepOrder, answerdQuestionList) => {
+    if (!dataLayer) return;
+    window?.dataLayer?.push({
+      event: 'virtualPageView',
+      page: {
+        type: 'Product Finder',
+        virtualPageURL: this.getStepCurrent(stepName)
+      }
+    });
+    // if(isHubGA){
+    //   console.log(stepName)
+    //   // debugger
+    //   if(GAStep.indexOf(stepName) == -1) return //用GAStep去控制需要埋点的步骤
+    //   productFinderPushEvent({type:this.state.type,stepName,stepOrder,answerdQuestionList})
+    // }else{
+    //   dataLayer.push({
+    //     event: 'productFinderScreen',
+    //     page: {
+    //       type: 'Product Finder',
+    //       virtualPageURL: this.getStepCurrent(stepName)
+    //     }
+    //   });
+    // }
   };
   seletTheType(type) {
     this.setState({ type });
@@ -101,7 +111,7 @@ class ProductFinder extends React.Component {
     const homeJSX = (
       <>
         <div className="row">
-          <div className="col-12 col-md-4 order-0 order-md-1 text-center">
+          <div className="col-12 col-md-4 order-0 md:order-1 text-center">
             <h1 className="rc-gamma rc-padding--none text-center">
               <FormattedMessage id="productFinder.tip1" />
             </h1>
@@ -113,14 +123,14 @@ class ProductFinder extends React.Component {
             </h4>
             <div className="rc-md-up">{btnJSX}</div>
           </div>
-          <div className="col-6 col-md-4 order-1 order-md-0">
+          <div className="col-6 col-md-4 order-1 md:order-0">
             <LazyLoad style={{ width: '100%', height: '100%' }}>
-              <img src={catImg} alt="" />
+              <img src={catImg} alt="cat image" />
             </LazyLoad>
           </div>
-          <div className="col-6 col-md-4 order-2 order-md-2">
+          <div className="col-6 col-md-4 order-2 md:order-2">
             <LazyLoad style={{ width: '100%', height: '100%' }}>
-              <img src={dogImg} alt="" />
+              <img src={dogImg} alt="dog image" />
             </LazyLoad>
           </div>
         </div>
@@ -142,23 +152,12 @@ class ProductFinder extends React.Component {
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-        <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={location}
-          history={history}
-          match={match}
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
         />
+        <Canonical />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -167,18 +166,14 @@ class ProductFinder extends React.Component {
               <Question
                 GAHandle={this.GAHandle}
                 type={type}
-                // defaultQuestionData={localItemRoyal.get(
-                //   `pf-cache-${type}-question`
-                // )}
-                // defaultStep={sessionItemRoyal.get('pf-edit-order')}
                 history={this.props.history}
               />
             ) : (
               homeJSX
             )}
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -1,0 +1,62 @@
+
+.number-input-box{
+  position: relative;
+  line-height: 1;
+  .flex-center{
+    display: flex;
+    align-items: center;
+  }
+  .number-input-border{
+    position: absolute;
+    left: 0;
+    bottom:0;
+    width: 100%;
+    &:before{
+      width: 100%;
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-bottom: 2px solid;
+      z-index: 1;
+      transition: .2s;
+      border-color: #808285;
+    }
+    &:after{
+      width: 0;
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      border-bottom: 2px solid;
+      z-index: 2;
+      //border-color: #666;
+      border-color: #808285;
+    }
+  }
+  .number-input{
+    line-height: 48px;
+    border: none;
+    width: 35px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    font-weight: 300;
+    font-family: "RC TYPE",Roboto,Avenir,Helvetica,Arial,sans-serif;
+  }
+  .focus-visible+.number-input-border{
+    &:after{
+      transition: .2s;
+      width: 35px;
+    }
+  }
+}
+.age-select{
+  width: 135px;
+  flex: 1;
+  @media (max-width: 769px) {
+    width: auto;
+  }
+}
