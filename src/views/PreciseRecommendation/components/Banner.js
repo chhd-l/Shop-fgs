@@ -5,7 +5,7 @@ import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import cloneDeep from 'lodash/cloneDeep';
 import stores from '@/store';
-import { sitePurchase } from '@/api/cart';
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
@@ -17,6 +17,7 @@ import lefticon from '../image/lefticon.png';
 import righticon from '../image/righticon.png';
 import productback1 from '../image/productBack1.png';
 import productImage2 from '../image/productImage2.png';
+import cn from 'classnames';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -219,12 +220,9 @@ const Banner = ({
         event: 'individualizationRecoAddToCart'
       });
       setLoading(true);
-      await sitePurchase(params);
-      let recommendProd = Object.assign({}, params, recommData, goodsInfo);
-      // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
-      await checkoutStore.updateLoginCart({
-        delFlag: 1,
-        intl
+      await AddCartItemMember({
+        param: params,
+        updateLoginCartParam: { delFlag: 1 }
       });
       history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
@@ -406,12 +404,10 @@ const Banner = ({
                               {loginStore.isLogin || !addCartBtnStatus ? (
                                 <button
                                   onClick={handleBuyNow}
-                                  className={`rc-btn rc-btn--one
-                        ${loading ? 'ui-btn-loading' : ''} ${
-                                    addCartBtnStatus
-                                      ? ''
-                                      : 'rc-btn-solid-disabled'
-                                  }`}
+                                  className={cn(`rc-btn rc-btn--one`, {
+                                    'ui-btn-loading': loading,
+                                    'rc-btn-solid-disabled': !addCartBtnStatus
+                                  })}
                                   style={{ width: '300px', padding: '10px' }}
                                 >
                                   <FormattedMessage id="preciseNutrition.banner.button" />

@@ -1,6 +1,18 @@
 import styled from 'styled-components';
 
 export const DivWrapper = styled.div`
+  .rc-input-overwrite {
+    &.rc-input--success {
+      .rc-input__control-overwrite {
+        color: #008900;
+      }
+      .rc-input__label-overwrite {
+        &:before {
+          background-color: #008900;
+        }
+      }
+    }
+  }
   .rc-input__control-overwrite {
     display: block;
     line-height: 1.5rem;

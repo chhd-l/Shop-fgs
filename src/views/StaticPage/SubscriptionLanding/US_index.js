@@ -14,14 +14,13 @@ import icon4 from './images/us_icon4.png';
 import emailImg from './images/Emailus_icon.png';
 import callImg from './images/customer-service.png';
 import helpImg from './images/FAQ_icon.png';
-import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { LOGO_CLUB, LOGO } from '@/utils/constant';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @inject('configStore')
 @seoHoc('Subscription Page')

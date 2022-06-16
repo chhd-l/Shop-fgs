@@ -41,10 +41,10 @@ import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
-import ProductFinder from '@/views/ProductFinder';
+// import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
-import ProductFinderResult from '@/views/ProductFinder/modules/Result';
-import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
+// import ProductFinderResult from '@/views/ProductFinder/modules/Result';
+// import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 import SearchShow from '@/views/StaticPage/SearchShow';
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
 // const PromotionRefuge = loadable(() => import('@/views/StaticPage/PromotionRefuge')); // todo slide
@@ -53,14 +53,22 @@ import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 import Welcome from '@/views/Register/welcome.js';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 
-import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
+const FelinTermsConditions = loadable(() =>
+  import('@/views/StaticPage/FelinTermsConditions')
+);
 
-import PreciseCatNutrition from './views/PreciseCatNutrition';
-import CartDEBreeder from './views/CartDEBreeder';
+const PreciseCatNutrition = loadable(() =>
+  import('@/views/PreciseCatNutrition')
+);
+const CartDEBreeder = loadable(() => import('@/views/CartDEBreeder'));
 import { funcUrl } from './lib/url-utils';
 import LogRocket from 'logrocket';
 
-LogRocket.init('kvnk0e/test');
+LogRocket.init('kvnk0e/shop-lki8n', {
+  dom: {
+    baseHref: '	https://fgs-cdn.azureedge.net/'
+  }
+});
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
@@ -247,7 +255,6 @@ const register = loadable(() => import('@/views/Register'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
-// import smartFeederSubscription from '@/views/SmartFeederSubscription';
 const ShelterPrescription = loadable(() =>
   import('@/views/StaticPage/ShelterPrescription')
 );
@@ -259,7 +266,6 @@ const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const PreciseRecommendation = loadable(() =>
   import('@/views/PreciseRecommendation')
 );
-// import PreciseRecommendation from './views/PreciseRecommendation';
 // const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
   import('@/views/ClubLandingPageNew/delandingpage')
@@ -278,6 +284,9 @@ const Adoptions = loadable(() => import('@/views/Adoptions'));
 const Whistlefit = loadable(() => import('@/views/Whistlefit'));
 const CouponAgreement = loadable(() =>
   import('@/views/StaticPage/CouponAgreement')
+);
+const AssistanceDog = loadable(() =>
+  import('@/views/StaticPage/AssistanceDog')
 );
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
@@ -311,13 +320,13 @@ const felinParams = qs.parse(window.location.search, {
   ignoreQueryPrefix: true
 });
 
-console.log({ felinParams });
+// console.log({ felinParams });
 
 const guestId = felinParams?.guestId;
 const userGroup = felinParams?.userGroup;
 const petOwnerType = felinParams?.petOwnerType;
 
-console.log({ guestId });
+// console.log({ guestId });
 
 if (userGroup && tokenFromUrl) {
   sessionItemRoyal.set('rc-userGroup', userGroup);
@@ -456,7 +465,6 @@ const App = () => {
                   path={'/okta-logout-page'}
                   component={OktaLogoutPage}
                 />
-                <Route exact path={'/home'} component={Home} />
                 <Route exact path={'/pickupmap'} component={PickupMap} />
                 <Route exact path={'/test/'} component={Test} />
                 <Route
@@ -472,6 +480,7 @@ const App = () => {
                 <Route
                   exact
                   path="/precise-cat-nutrition-recommendation"
+                  sensitive
                   render={(props) =>
                     stgShowAuth() ? (
                       <PreciseRecommendation {...props} />
@@ -483,6 +492,7 @@ const App = () => {
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route
                   exact
+                  sensitive
                   path="/cart"
                   render={(props) => {
                     return <Cart {...props} />;
@@ -491,6 +501,7 @@ const App = () => {
                 <Route
                   exact
                   path="/checkout"
+                  sensitive
                   render={(props) => (
                     <Payment key={props.match.params.type} {...props} />
                   )}
@@ -498,6 +509,7 @@ const App = () => {
                 <Route
                   exact
                   path="/confirmation"
+                  sensitive
                   render={(props) => {
                     if (
                       !sessionItemRoyal.get('subOrderNumberList') ||
@@ -892,12 +904,18 @@ const App = () => {
                 <Route
                   path="/adoptant/:id"
                   exact
-                  render={(props) => (
-                    <DedicatedLandingPage
-                      key={props.match.params.id}
-                      {...props}
-                    />
-                  )}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return (
+                        <DedicatedLandingPage
+                          key={props.match.params.id}
+                          {...props}
+                        />
+                      );
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/general-conditions"
@@ -1156,6 +1174,16 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_COUNTRY === 'fr') {
                       return <Felin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/chiens-guides-aveugles"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <AssistanceDog {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }

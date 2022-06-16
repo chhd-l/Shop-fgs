@@ -10,19 +10,15 @@ import { validData } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 
 import Bitmap from './images/Bitmap.png';
-
-const pageLink = window.location.href;
 
 function JpContactUs(props) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="contactUs">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />
@@ -104,7 +100,8 @@ function JpContactUs(props) {
                   >
                     受付時間：月曜～土曜 09:30～16:00
                     <br />
-                    土曜・日曜・祝日。弊社指定定休日を除く
+                    {/* 土曜・日曜・祝日。弊社指定定休日を除く */}
+                    土曜・日曜・祝日・弊社指定定休日を除く
                   </p>
                 </div>
                 <div className="mt-4 md:mt-auto md:w-cs-439 md:h-cs-168">
@@ -125,7 +122,8 @@ function JpContactUs(props) {
                   >
                     受付時間：月曜～土曜 09:30～16:00
                     <br />
-                    土曜・日曜・祝日。弊社指定定休日を除く
+                    {/* 土曜・日曜・祝日。弊社指定定休日を除く */}
+                    土曜・日曜・祝日・弊社指定定休日を除く
                   </p>
                 </div>
               </div>

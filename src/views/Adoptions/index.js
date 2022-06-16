@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Selection from '@/components/Selection';
 import { useLocalStore } from 'mobx-react';
-import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -9,17 +8,18 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { getList } from '@/api/list';
 import './index.less';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { injectIntl } from 'react-intl-phraseapp';
 import UsAndRu from '../Recommendation_US/components/UsAndRu';
-const pageLink = window.location.href;
 import { IMG_DEFAULT } from '@/utils/constant';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import { GARecommendationProduct } from '@/utils/GA';
 import { useSeo } from '@/framework/common';
 import stores from '@/store';
 import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
+import { Canonical } from '@/components/Common';
+
 let goodsInfoNosObj = {
   'goodsNo-541425': ['Kitten <br/> (3-12 months)'],
   'goodsNo-41018': ['Kitten <br/> (3-12 months)'],
@@ -221,13 +221,11 @@ const Adoptions = (props) => {
         // goodsInfoFlag: detail.goodsInfoFlag,
         // periodTypeId: detail.defaultFrequencyId
       };
-      await sitePurchase(param);
+      await addItemToBackendCart(param);
     }
 
     try {
-      await checkoutStore.updateLoginCart({
-        intl: props.intl
-      });
+      await checkoutStore.updateLoginCart();
       props.history.push('/cart');
     } catch (err) {
       setBtnLoading(false);
@@ -307,8 +305,8 @@ const Adoptions = (props) => {
   };
   return (
     <div>
+      <Canonical />
       <Helmet>
-        <link rel="canonical" href={pageLink} />
         <title>{seoConfig.title}</title>
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />

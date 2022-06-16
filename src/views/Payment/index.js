@@ -42,7 +42,6 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
-  batchAdd,
   confirmAndCommit,
   customerCommitAndPay,
   rePay,
@@ -85,6 +84,7 @@ import {
 } from '@/utils/GA';
 import ConsentData from '@/utils/consent';
 import { querySurveyContent } from '@/api/cart';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
 import { funcUrl } from '@/lib/url-utils';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
@@ -107,7 +107,7 @@ import {
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 import {
   USEPOINT,
   NOTUSEPOINT
@@ -116,6 +116,7 @@ import Pos from './PaymentMethod/Pos';
 import Cash from './PaymentMethod/Cash';
 import Moto from './PaymentMethod/Moto';
 import Ideal from './PaymentMethod/Ideal/indes';
+import { openPromotionBox } from '@/views/Payment/modules/utils';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -149,7 +150,11 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
           ) : (
             <img
               className={`logo-payment-card mr-1  max-h-8 ${
-                el.cardType.toLowerCase() === 'moto' ? 'w-14' : 'w-7 md:w-10'
+                el.cardType.toLowerCase() === 'moto'
+                  ? 'w-14'
+                  : el.cardType.toLowerCase() === 'paypal'
+                  ? 'w-7 md:w-20'
+                  : 'w-7 md:w-10'
               }`}
               src={el.imgUrl}
               alt={el.cardType}
@@ -718,7 +723,8 @@ class Payment extends React.Component {
     return (
       (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
         !this.props.checkoutStore.inputPoint) ||
-      this.props.checkoutStore.inputPointErr
+      (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
+        this.props.checkoutStore.inputPointErr)
     ); //使用积分为空或者输入的积分不满足条件->按钮都disabled
   }
 
@@ -897,11 +903,21 @@ class Payment extends React.Component {
         key: 'billingAddr',
         isFirstLoad: true
       });
-      // 下一个最近的未complete的panel
-      const nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: 'deliveryAddr'
-      });
+      let nextConfirmPanel;
+      if (COUNTRY !== 'jp') {
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(
+            paymentStore?.panelStatus?.filter((item) => item.key !== 'bindPet')
+          ),
+          curKey: 'deliveryAddr'
+        });
+      } else {
+        // 下一个最近的未complete的panel
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: 'deliveryAddr'
+        });
+      }
       paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
@@ -966,11 +982,11 @@ class Payment extends React.Component {
     // sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
     try {
       let res;
-      if (sessionItemRoyal.get('rc-userGroup')) {
-        res = await getPaymentMethod({}, true);
-      } else {
-        res = await getPaymentMethod({ isPC: true }, true);
-      }
+      // if (sessionItemRoyal.get('rc-userGroup')) {
+      res = await getPaymentMethod({}, true);
+      // } else {
+      //   res = await getPaymentMethod({ isPC: true }, true);
+      // }
 
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(
@@ -1030,16 +1046,16 @@ class Payment extends React.Component {
         sessionItemRoyal.get('rc-userGroup') == 'fgs' ? true : false;
       let payWay;
       if (isFelin) {
-        payWay = await getWays({ isOfflinePayment: isFelin });
+        payWay = await getWays({ businessType: '2' });
       } else {
         if (isFgs) {
           // businessType
-          // 0 fgs
-          // 1 代客下单线上
-          // 2 代客下单线下
+          // 0 shop正常下单
+          // 1 代客下单 fgs
+          // 2 代客下单线下 felin
           payWay = await getWays({ businessType: '1' });
         } else {
-          payWay = await getWays();
+          payWay = await getWays({ businessType: '0' });
         }
       }
       let payWayNameArr = [];
@@ -1082,8 +1098,13 @@ class Payment extends React.Component {
         },
         () => {
           setPayWayNameArr(payWayNameArr);
+          // ideal支付只能在下单的时候添加卡
+          const supportPaymentMethods =
+            payWayNameArr[0]?.name === 'iDeal'
+              ? payWayNameArr[1]?.payPspItemCardTypeVOList
+              : payWayNameArr[0]?.payPspItemCardTypeVOList || [];
           this.props.paymentStore.setSupportPaymentMethods(
-            payWayNameArr[0]?.payPspItemCardTypeVOList
+            supportPaymentMethods
           );
           sessionItemRoyal.set(
             'rc-payWayNameArr',
@@ -1148,6 +1169,7 @@ class Payment extends React.Component {
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
         if (COUNTRY == 'jp') {
+          //todo
           this.confirmCalculateServiceFeeAndLoyaltyPoints();
         }
       }
@@ -2072,7 +2094,16 @@ class Payment extends React.Component {
           }
           break;
         case 'adyen_ideal':
+          subOrderNumberList = res.context.tidList;
+          this.removeLocalCartData();
+          // 给ideal支付跳转用
+          if (res.context.tid) {
+            sessionItemRoyal.set('orderNumber', res.context.tid);
+          }
           if (res.code === 'K-000000') {
+            if (res.context?.redirectUrl) {
+              window.location.href = res.context?.redirectUrl;
+            }
             console.log('adyen_ideal', res);
             // subOrderNumberList = tidList.length
             //   ? tidList
@@ -2285,36 +2316,35 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
+      let addPramas;
+      let orderSource;
       if (sessionItemRoyal.get('recommend_product')) {
         // 线下店orderSource埋点L_ATELIER_FELIN
         let orderSource = sessionItemRoyal.get('orderSource');
-        let addPramas = {
-          goodsInfos: this.state.recommend_data.map((ele) => {
-            return {
-              verifyStock: false,
-              buyCount: ele.buyCount,
-              goodsInfoId: sessionItemRoyal.get('appointment-no')
-                ? ele.goodsInfoId
-                : find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
-            };
-          })
-        };
+        addPramas = this.state.recommend_data.map((ele) => {
+          return {
+            goodsNum: ele.buyCount,
+            goodsInfoId: sessionItemRoyal.get('appointment-no')
+              ? ele.goodsInfoId
+              : find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
+          };
+        });
         if (orderSource) {
-          addPramas.orderSource = orderSource;
+          orderSource = orderSource;
         }
-
-        await batchAdd(addPramas);
       } else {
-        await batchAdd({
-          goodsInfos: cartData.map((ele) => {
-            return {
-              verifyStock: false,
-              buyCount: ele.quantity,
-              goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
-            };
-          })
+        addPramas = cartData.map((ele) => {
+          return {
+            goodsNum: ele.quantity,
+            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+          };
         });
       }
+      await AddCartItemsMember({
+        paramList: addPramas,
+        orderSource,
+        doUpdateCart: false
+      });
     } catch (err) {
       console.warn(err);
       throw new Error(err.message);
@@ -2466,8 +2496,6 @@ class Payment extends React.Component {
             num: ele.buyCount,
             skuId: ele.goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
-            recommenderId:
-              clinicStore.linkClinicRecommendationInfos.recommenderId,
             referenceObject: 'vet',
             recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId
@@ -2483,8 +2511,6 @@ class Payment extends React.Component {
             num: ele.quantity,
             skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
-            recommenderId:
-              clinicStore.linkClinicRecommendationInfos.recommenderId,
             referenceObject: 'vet',
             recommendationId:
               clinicStore.linkClinicRecommendationInfos.recommenderId
@@ -2679,7 +2705,8 @@ class Payment extends React.Component {
     } = this.props;
     // code 转换小写
     serCurPayWayVal(paymentTypeCode);
-    this.setState({ email: '' }, () => {
+    openPromotionBox();
+    this.setState({ email: '', convenienceStore: '' }, () => {
       this.onPaymentTypeValChange();
     });
   };
@@ -2750,7 +2777,6 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    const { intl } = this.props;
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
     // this.setState({
@@ -2812,9 +2838,11 @@ class Payment extends React.Component {
     localItemRoyal.set('rc-payment-purchases-param', param);
     try {
       // 获取税额
-      param = Object.assign(param, { intl });
       if (this.isLogin) {
         await this.props.checkoutStore.updateLoginCart(param);
+        if (COUNTRY == 'jp' && this.props.paymentStore.curPayWayVal) {
+          this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        }
       } else {
         await this.props.checkoutStore.updateUnloginCart(param);
       }
@@ -3770,6 +3798,50 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
+                  {COUNTRY === 'de' &&
+                    item.code === 'adyen_klarna_pay_later' &&
+                    curPayWayInfo?.code === 'adyen_klarna_pay_later' && (
+                      <>
+                        <AdyenCommonPay
+                          type={'adyenKlarnaPayLater'}
+                          updateEmail={this.updateEmail}
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyenKlarnaPayLater'
+                          })}
+                          // logoUrl={
+                          //   payWayNameArr?.filter(
+                          //     (el) => el.code === 'adyen_klarna_pay_later'
+                          //   )[0].logoUrl
+                          // }
+                          showIcon={false}
+                        />
+                        {/* 校验状态
+                    1 校验邮箱
+                    2 billing校验 */}
+                      </>
+                    )}
+                  {COUNTRY === 'de' &&
+                    item.code === 'adyen_klarna_pay_now' &&
+                    curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
+                      <>
+                        <AdyenCommonPay
+                          type={'adyenKlarnaPayNow'}
+                          updateEmail={this.updateEmail}
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyenKlarnaPayNow'
+                          })}
+                          // logoUrl={
+                          //   payWayNameArr?.filter(
+                          //     (el) => el.code === 'adyen_klarna_pay_now'
+                          //   )[0].logoUrl
+                          // }
+                          showIcon={false}
+                        />
+                        {/* {payConfirmBtn({
+                          disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                        })} */}
+                      </>
+                    )}
                 </>
               ))}
             </>
@@ -3817,6 +3889,16 @@ class Payment extends React.Component {
           {curPayWayInfo?.code === 'cod_japan' &&
             payConfirmBtn({
               disabled: this.isInputPointDisabled
+            })}
+          {COUNTRY === 'de' &&
+            curPayWayInfo?.code === 'adyen_klarna_pay_later' &&
+            payConfirmBtn({
+              disabled: !EMAIL_REGEXP.test(email) || validForBilling
+            })}
+          {COUNTRY === 'de' &&
+            curPayWayInfo?.code === 'adyen_klarna_pay_now' &&
+            payConfirmBtn({
+              disabled: !EMAIL_REGEXP.test(email) || validForBilling
             })}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
@@ -3943,50 +4025,52 @@ class Payment extends React.Component {
                   </>
                 )}
               {/* KlarnaPayLater */}
-              {curPayWayInfo?.code === 'adyen_klarna_pay_later' && (
-                <>
-                  <AdyenCommonPay
-                    type={'adyenKlarnaPayLater'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenKlarnaPayLater'
-                    })}
-                    // logoUrl={
-                    //   payWayNameArr?.filter(
-                    //     (el) => el.code === 'adyen_klarna_pay_later'
-                    //   )[0].logoUrl
-                    // }
-                    showIcon={true}
-                  />
-                  {/* 校验状态
+              {COUNTRY !== 'de' &&
+                curPayWayInfo?.code === 'adyen_klarna_pay_later' && (
+                  <>
+                    <AdyenCommonPay
+                      type={'adyenKlarnaPayLater'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'adyenKlarnaPayLater'
+                      })}
+                      // logoUrl={
+                      //   payWayNameArr?.filter(
+                      //     (el) => el.code === 'adyen_klarna_pay_later'
+                      //   )[0].logoUrl
+                      // }
+                      showIcon={true}
+                    />
+                    {/* 校验状态
                     1 校验邮箱
                     2 billing校验 */}
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
-              {/* KlarnaPayNow  */}
-              {curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
-                <>
-                  <AdyenCommonPay
-                    type={'adyenKlarnaPayNow'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenKlarnaPayNow'
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
                     })}
-                    // logoUrl={
-                    //   payWayNameArr?.filter(
-                    //     (el) => el.code === 'adyen_klarna_pay_now'
-                    //   )[0].logoUrl
-                    // }
-                    showIcon={true}
-                  />
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
+                  </>
+                )}
+              {/* KlarnaPayNow  */}
+              {COUNTRY !== 'de' &&
+                curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
+                  <>
+                    <AdyenCommonPay
+                      type={'adyenKlarnaPayNow'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'adyenKlarnaPayNow'
+                      })}
+                      // logoUrl={
+                      //   payWayNameArr?.filter(
+                      //     (el) => el.code === 'adyen_klarna_pay_now'
+                      //   )[0].logoUrl
+                      // }
+                      showIcon={true}
+                    />
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                    })}
+                  </>
+                )}
               {/* Sofort */}
               {curPayWayInfo?.code === 'directEbanking' && (
                 <>
@@ -4047,7 +4131,6 @@ class Payment extends React.Component {
 
   updateGuestEmail = ({ email: guestEmail }) => {
     const {
-      intl,
       paymentStore: { setGuestEmail },
       checkoutStore: { updateUnloginCart }
     } = this.props;
@@ -4065,8 +4148,7 @@ class Payment extends React.Component {
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail
         },
-        shippingFeeAddress: this.state.shippingFeeAddress,
-        intl
+        shippingFeeAddress: this.state.shippingFeeAddress
       });
     });
   };

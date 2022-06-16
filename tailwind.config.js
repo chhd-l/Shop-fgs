@@ -194,7 +194,8 @@ module.exports = {
         'cs-align-content': 'center'
       },
       fontFamily: {
-        PingFangSC: 'var(--font-family-PingFangSC)'
+        PingFangSC: 'var(--font-family-PingFangSC)',
+        DinPro: 'var(--font-family-DinPro)'
       }
     }
   },

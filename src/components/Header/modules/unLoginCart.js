@@ -40,7 +40,7 @@ class UnloginCart extends React.Component {
     ) {
       // await this.props.checkoutStore.removePromotionCode();
     }
-    this.props.checkoutStore.updateUnloginCart({ intl: this.props.intl });
+    this.props.checkoutStore.updateUnloginCart();
   }
   get selectedCartData() {
     return this.props.checkoutStore.cartData.filter(
@@ -362,7 +362,10 @@ class UnloginCart extends React.Component {
                             </span>
                             &nbsp;
                             <span
-                              className="red"
+                              className={
+                                window.__.env.REACT_APP_COUNTRY !== 'jp' &&
+                                'red'
+                              }
                               style={{ fontSize: '.875rem' }}
                             >
                               {formatMoney(
@@ -374,13 +377,18 @@ class UnloginCart extends React.Component {
                         </div>
                       </div>
                     );
-                    // 日本如果没有折扣不显示折扣价
+                    // 折扣商品如果没有折扣不显示折扣价
+                    const goodsDetailInfo = item.sizeList.filter(
+                      (el) => el.selected
+                    )[0];
                     if (
-                      window.__.env.REACT_APP_COUNTRY === 'jp' &&
-                      item.originalPrice === item.subscribePrice
+                      item.goodsInfoFlag > 0 &&
+                      goodsDetailInfo.salePrice ===
+                        goodsDetailInfo.subscriptionPrice
                     ) {
                       discountPrice = null;
                     }
+
                     return (
                       <div className="minicart__product" key={idx}>
                         <div className="product-summary__products__item">

@@ -10,6 +10,14 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
+const pillarEnum = {
+  0: 'SPT',
+  1: 'SPT',
+  2: 'BUNDLE',
+  3: 'VET',
+  4: 'GIFT'
+};
+
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
   return promotionInfo?.goodsInfos?.map((item) => {
@@ -259,6 +267,7 @@ export const GAInitUnLogin = ({
         'species'
       ).toString();
       let obj = deleteObjEmptyAttr({
+        pillar: pillarEnum[item.goodsType] || '',
         price: price, //Product Price, including discount if promo code activated for this product
         specie, //'Cat' or 'Dog',
         range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
@@ -361,6 +370,7 @@ export const GAInitLogin = ({
       'species'
     ).toString();
     let productItem = {
+      pillar: pillarEnum[item.goods.goodsType] || '',
       price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie, //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
@@ -604,19 +614,15 @@ export const orderConfirmationPushEvent = (details) => {
   let obj = {
     event: 'orderConfirmation',
     orderConfirmation: deleteObjEmptyAttr({
-      id: details.totalTid || '', //Transaction ID, same as backend system
+      id: details.totalTid || '', //Integer : Transaction ID, same as backend system
       currency: window.__.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
       amount: details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
       taxes: details.tradePrice.taxFeePrice, //Taxes amount, US number format, local currency
       shipping:
         details.tradePrice?.deliveryPrice -
         details.tradePrice?.freeShippingDiscountPrice, //Shipping amount, US number format, local currency
-      paymentMethod: details?.paymentMethodNickName
-        ? details?.paymentMethodNickName
-        : 'Credit Card', //String : Payment method used for the transaction : "Credit Card", "Paypal", "Swish" (SE), "Cash on delivery" (JP), "Convenience Store" (JP)
-      loyaltyPoints: details?.tradePrice?.loyaltyPoints, //Integer : part of the total amount in local currency (cf. "amount" key above) paid through loyalty points (JP only)
-      shippingMode, //String : "Clinic" if delivered in a vet Clinic (RU only), "Cash on delivery" (JP), "Convenience Store" (JP) , or "Standard Delivery" by default
-      // details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery'
+      paymentMethod: details?.paymentItem, //String : payment method returned by Adyen API, cf. full list below
+      loyaltyPoints: details?.tradePrice?.loyaltyPointsPrice, //Integer : part of the total amount in local currency (cf. "amount" key above) paid through loyalty points (JP only)
       ...GA_product
     })
   };

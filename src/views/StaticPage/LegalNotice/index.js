@@ -5,9 +5,8 @@ import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
+import { Canonical } from '@/components/Common';
 
-const pageLink = window.location.href;
 const legalNotice = '';
 function LegalNotice(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,9 +17,7 @@ function LegalNotice(props) {
   const mar = 'mb-6 md:mb-10';
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="legalNotice">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />
@@ -105,7 +102,8 @@ function LegalNotice(props) {
                   className="font-PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
-                  コンビニ決済を支払方法として選択された場合、コンビニ決済手数料としてご注文1件につき収納代金の3.85％をお客様にご負担いただきます。
+                  {/* コンビニ決済を支払方法として選択された場合、コンビニ決済手数料としてご注文1件につき収納代金の3.85％をお客様にご負担いただきます。 */}
+                  代金引換を支払方法として選択された場合、代引手数料としてご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。
                 </p>
                 <ul
                   className="font-PingFangSC text-16 leading-6 ml-3 mb-4 md:text-18 md:ml-5 md:leading-7 md:mb-8"
@@ -126,25 +124,27 @@ function LegalNotice(props) {
                   className="font-PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
-                  コンビニ決済を支払方法として選択された場合、ご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。
+                  {/* コンビニ決済を支払方法として選択された場合、ご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。 */}
+                  {/* 代金引換を支払方法として選択された場合、代引手数料としてご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。 */}
+                  コンビニ決済を支払方法として選択された場合、コンビニ決済手数料としてご注文1件につき収納代金の3.85％をお客様にご負担いただきます。
                 </p>
               </div>
               {/* 6 */}
               <div className={`${mar}`}>
                 <h2 className={contentTitleStyle}>6 支払方法</h2>
                 <p className={contentsubStyle}>
-                  通常購入の場合：​
+                  通常購入の場合：
                   <br />
-                  クレジットカード決済​
+                  クレジットカード決済
                   <br />
-                  コンビニ決済​
+                  コンビニ決済
                   <br />
-                  代金引換​
+                  代金引換
                   <br />
                   <br />
-                  ​ 定期購入の場合：​
+                  定期購入の場合：
                   <br />
-                  クレジットカード決済​
+                  クレジットカード決済
                   <br />
                   代金引換
                 </p>
@@ -176,25 +176,25 @@ function LegalNotice(props) {
                   className={`${contentsubStyle} mb-4 md:mb-6`}
                   style={{ color: '#666' }}
                 >
-                  お申込みいただいた製品と届いた製品が異なっていた場合、製品が汚れている、又は破損している場合は、製品配達完了後8日以内に限り、返品及び交換を承ります。​
+                  お申込みいただいた製品と届いた製品が異なっていた場合、製品が汚れている、又は破損している場合は、製品配達完了後8日以内に限り、返品及び交換を承ります。
                   <br />
-                  お客様都合による返品は、下記の１）と２）の場合を除いて承ることができませんので、あらかじめご了承ください。下記１）と2）の場合の返品については、未開封であり、製品配達完了後8日以内に限って承ります（なお、お客様都合による交換は承っておりません）。​
+                  お客様都合による返品は、下記の１）と２）の場合を除いて承ることができませんので、あらかじめご了承ください。下記１）と2）の場合の返品については、未開封であり、製品配達完了後8日以内に限って承ります（なお、お客様都合による交換は承っておりません）。
                 </p>
                 <p
                   className={`${contentsubStyle} mb-4 md:mb-6`}
                   style={{ color: '#666' }}
                 >
-                  １）獣医師に療法食を処方された場合​
+                  １）獣医師に療法食を処方された場合
                   <br />
-                  ２）ペットが亡くなった場合​
+                  ２）ペットが亡くなった場合
                 </p>
                 <p className={`${contentsubStyle}`} style={{ color: '#666' }}>
                   返品及び交換をご要望のお客様は、必ず事前に、マイ
                   ロイヤルカナン
-                  カスタマーサポートまでご連絡をお願い申し上げます。事前のご連絡なしに製品が返送された場合には、返品・交換をお断りする場合がございますので、あらかじめご了承ください。​
+                  カスタマーサポートまでご連絡をお願い申し上げます。事前のご連絡なしに製品が返送された場合には、返品・交換をお断りする場合がございますので、あらかじめご了承ください。
                   <br />
                   また、いかなる理由であれ度重なる返品が行われ、当社が問題であると判断した場合、マイ
-                  ロイヤルカナンでのご利用を事前の告知なく無期限に停止させていただくことがございます。​
+                  ロイヤルカナンでのご利用を事前の告知なく無期限に停止させていただくことがございます。
                   <br />
                   おいしさ満足保証での返品をご希望の方は、製品パッケージをご確認ください。
                 </p>

@@ -140,8 +140,7 @@ const LoginButton = (props) => {
                   ) {
                     await mergeUnloginCartData();
                     await checkoutStore.updateLoginCart({
-                      delFlag: 1,
-                      intl
+                      delFlag: 1
                     }); // indv登录的时候需要查询到相应的数据
                   }
 

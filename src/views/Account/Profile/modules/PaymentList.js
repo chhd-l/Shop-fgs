@@ -5,7 +5,6 @@ import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
-import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
 import {
   getPaymentMethod,
@@ -33,17 +32,24 @@ function CardItem(props) {
           : 'rc-bg-colour--brand4'
       } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between ui-cursor-pointer-pure ${
         ['account_profile'].includes(props?.pageType) ? '' : 'w-4/5'
-      }`}
+      } relative`}
     >
       <div
-        className={[
-          'pt-4',
-          'pb-2',
-          'w-100',
-          listVisible ? 'md:pt-4' : 'md:pt-2'
-        ].join(' ')}
+        className={`pt-4 pb-2 ${listVisible ? 'md:pt-4' : 'md:pt-2'} ${
+          !['adyen_ideal', 'adyen_paypal'].includes(
+            data?.paymentItem.toLowerCase()
+          )
+            ? 'w-1/2'
+            : 'w-100'
+        }`}
       >
-        <div className="row">
+        <div
+          className={`row ${
+            data?.paymentItem.toLowerCase() === 'adyen_ideal'
+              ? 'items-center'
+              : ''
+          }`}
+        >
           {data?.paymentItem.toLowerCase() === 'adyen_moto' ? (
             <div className={`col-8 d-flex flex-column justify-content-center`}>
               <LazyLoad height={100}>
@@ -56,12 +62,40 @@ function CardItem(props) {
                 />
               </LazyLoad>
             </div>
+          ) : data?.paymentItem.toLowerCase() === 'adyen_ideal' ? (
+            <>
+              <div
+                className={`${'col-3'} d-flex flex-column justify-content-center`}
+              >
+                <LazyLoad height={100}>
+                  <img
+                    className="PayCardImgFitScreen w-4/5"
+                    src={
+                      'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
+                    }
+                    alt="pay card img fit screen"
+                  />
+                </LazyLoad>
+              </div>
+              <div className="col-9 px-0" style={{ verticalAlign: 'middle' }}>
+                {/* <p className="mb-0">{data.holderName}</p> */}
+                <p className="mb-0">
+                  {data?.binNumber} BANK **** ****{' '}
+                  {data.lastFourDigits.substr(2)}
+                </p>
+                {/* <p className="mb-0">{data.paymentVendor}</p> */}
+              </div>
+            </>
           ) : (
             <>
               <div
                 className={`${
                   ['account_profile'].includes(props?.pageType)
-                    ? 'col-6'
+                    ? ['adyen_paypal'].includes(data?.paymentItem.toLowerCase())
+                      ? 'col-4'
+                      : 'col-6'
+                    : ['adyen_paypal'].includes(data?.paymentItem.toLowerCase())
+                    ? 'col-4'
                     : 'col-5'
                 } d-flex flex-column justify-content-center`}
               >
@@ -94,9 +128,58 @@ function CardItem(props) {
           )}
         </div>
       </div>
-      <div className="w-1/2" style={{ right: '25%', top: '15%' }}>
+      {/* {data?.paymentItem.toLowerCase() !== 'adyen_ideal' && editFormVisible && */}
+      <div style={{ position: 'absolute', right: '3%', top: '50%' }}>
         {props.operateBtnJSX}
       </div>
+      {listVisible && (
+        <div
+          className={`absolute p-2 ui-cursor-pointer-pure pdl-1`}
+          style={{
+            // top: '94%\ !important',
+            right: '-12%'
+          }}
+        >
+          <div
+            className={`${
+              data.paddingFlag ? 'ui-cursor-not-allowed' : 'rc-styled-link'
+            }`}
+            onClick={(e) => props.handleClickDeleteBtn(data, e)}
+          >
+            {/* <FormattedMessage id="delete" /> */}
+            <div
+              className="iconfont iconshanchu"
+              style={{
+                fontSize: '2rem',
+                lineHeight: '2rem'
+                // fontWeight: '600'
+              }}
+            ></div>
+          </div>
+          <ConfirmTooltip
+            containerStyle={{
+              transform: 'translate(-89%, 105%)'
+            }}
+            arrowStyle={{ left: '89%' }}
+            lastFourDigits={data.lastFourDigits}
+            content={
+              <FormattedMessage
+                id="confirmDelete2"
+                values={{
+                  val1: <br />,
+                  val2: '************' + data.lastFourDigits
+                }}
+              />
+            }
+            display={data.confirmTooltipVisible}
+            confirm={(e) => props.deleteCard(data, e)}
+            updateChildDisplay={(status) =>
+              props.updateConfirmTooltipVisible(data, status)
+            }
+          />
+        </div>
+      )}
+      {/* } */}
     </div>
   );
 }
@@ -138,7 +221,11 @@ class PaymentList extends React.Component {
       });
       const payPspItemVOList = res?.context?.payPspItemVOList || [];
       const supportPaymentMethods =
-        payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+        res?.context?.payPspItemVOList[0]?.name === 'iDeal'
+          ? res?.context?.payPspItemVOList[1]?.payPspItemCardTypeVOList
+          : res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      // const supportPaymentMethods =
+      //   payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
       setPayWayNameArr(payPspItemVOList);
       setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
       serCurPayWayVal(payPspItemVOList[0]?.code);
@@ -298,13 +385,15 @@ class PaymentList extends React.Component {
     this.setState({ fromPage });
     window.scroll({ top: 0, behavior: 'smooth' });
   }
-  updateConfirmTooltipVisible(el, status) {
-    let { creditCardList } = this.state;
-    el.confirmTooltipVisible = status;
+  updateConfirmTooltipVisible = (el, status) => {
+    console.log(this.state);
+    const { creditCardList } = this.state;
+    let obj = creditCardList.find((item) => item?.id == el?.id);
+    obj.confirmTooltipVisible = status;
     this.setState({
       creditCardList
     });
-  }
+  };
   handleClickDeleteBtn(data, e) {
     if (data?.paddingFlag) return;
     e.preventDefault();
@@ -348,6 +437,18 @@ class PaymentList extends React.Component {
       this.getPaymentMethodList({ showLoading: false });
     }
   }
+  // 每种类型的卡只展示一张
+  getOnlyCardTypeArr = () => {
+    const arr = [];
+    const { creditCardList } = this.state;
+    creditCardList.forEach((item) => {
+      if (!arr.find((it) => it?.paymentItem === item?.paymentItem)) {
+        arr.push(item);
+      }
+    });
+    return arr;
+  };
+
   render() {
     const {
       listVisible,
@@ -461,16 +562,18 @@ class PaymentList extends React.Component {
                     hidden: editFormVisible || listVisible
                   })}
                 >
-                  {creditCardList.slice(0, 2).map((el, i) => (
-                    <div className="col-12 col-md-4 p-2" key={i}>
-                      <CardItem
-                        data={el}
-                        supportPaymentMethods={supportPaymentMethods}
-                        pageType={this.props?.pageType}
-                      />
-                    </div>
-                  ))}
-                  {creditCardList.slice(0, 2).length < 2 && (
+                  {this.getOnlyCardTypeArr()
+                    .slice(0, 3)
+                    .map((el, i) => (
+                      <div className="col-12 col-md-4 p-2" key={i}>
+                        <CardItem
+                          data={el}
+                          supportPaymentMethods={supportPaymentMethods}
+                          pageType={this.props?.pageType}
+                        />
+                      </div>
+                    ))}
+                  {this.getOnlyCardTypeArr().slice(0, 2).length < 2 && (
                     <div className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'cover' })}
                     </div>
@@ -495,7 +598,13 @@ class PaymentList extends React.Component {
                         <CardItem
                           data={el}
                           listVisible={listVisible}
+                          editFormVisible={editFormVisible}
                           supportPaymentMethods={supportPaymentMethods}
+                          updateConfirmTooltipVisible={
+                            this.updateConfirmTooltipVisible
+                          }
+                          handleClickDeleteBtn={this.handleClickDeleteBtn}
+                          deleteCard={this.deleteCard}
                           operateBtnJSX={
                             <>
                               {el.isDefault === 1 ? (
@@ -525,7 +634,8 @@ class PaymentList extends React.Component {
                                       <FormattedMessage id="setAsDefault" />
                                     </span>
                                   </div>
-                                ) : (
+                                ) : el.paymentItem?.toLowerCase() ===
+                                  'adyen_ideal' ? null : (
                                   <div
                                     className={`ui-cursor-pointer flex -mt-10 mr-4 w-100 justify-end`}
                                     onClick={this.toggleSetDefault.bind(
@@ -545,55 +655,6 @@ class PaymentList extends React.Component {
                                   </div>
                                 )
                               ) : null}
-                              <div
-                                className={`position-absolute p-2 ui-cursor-pointer-pure pdl-1`}
-                                style={{
-                                  top: '35%',
-                                  right: '12%'
-                                }}
-                              >
-                                <div
-                                  className={`${
-                                    el.paddingFlag
-                                      ? 'ui-cursor-not-allowed'
-                                      : 'rc-styled-link'
-                                  }`}
-                                  onClick={this.handleClickDeleteBtn.bind(
-                                    this,
-                                    el
-                                  )}
-                                >
-                                  {/* <FormattedMessage id="delete" /> */}
-                                  <div
-                                    className="iconfont iconshanchu"
-                                    style={{
-                                      fontSize: '2rem',
-                                      lineHeight: '2rem'
-                                    }}
-                                  ></div>
-                                </div>
-                                <ConfirmTooltip
-                                  containerStyle={{
-                                    transform: 'translate(-89%, 105%)'
-                                  }}
-                                  arrowStyle={{ left: '89%' }}
-                                  lastFourDigits={el.lastFourDigits}
-                                  content={
-                                    <FormattedMessage
-                                      id="confirmDelete2"
-                                      values={{
-                                        val1: <br />,
-                                        val2: '************' + el.lastFourDigits
-                                      }}
-                                    />
-                                  }
-                                  display={el.confirmTooltipVisible}
-                                  confirm={this.deleteCard.bind(this, el)}
-                                  updateChildDisplay={(status) =>
-                                    this.updateConfirmTooltipVisible(el, status)
-                                  }
-                                />
-                              </div>
                             </>
                           }
                         />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { setSeoConfig } from '@/utils/utils';
+import { Canonical } from '@/components/Common';
 
 interface Props {
   errMsg: string;
@@ -31,8 +32,8 @@ const SeoConfig = ({ errMsg, goodsId, pageLink, setHeadingTag }: Props) => {
 
   return (
     <div>
+      <Canonical href={pageLink.toLowerCase()} />
       <Helmet>
-        <link rel="canonical" href={pageLink} />
         <title>{seoConfig.title}</title>
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />

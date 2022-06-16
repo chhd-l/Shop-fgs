@@ -1,5 +1,5 @@
 import { getSeoConfig, queryHeaderNavigations } from '@/api';
-import { purchases, mergePurchase, sitePurchase } from '@/api/cart';
+import { purchases, mergePurchase, addItemToBackendCart } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
 import { getDict, getAppointDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
@@ -9,7 +9,6 @@ import flatten from 'lodash/flatten';
 import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
-import { registerLocale } from 'react-datepicker';
 import { getAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import indvLogo from '@/assets/images/indv_log.svg';
@@ -69,7 +68,7 @@ export function formatMoney(val) {
           currency: CURRENCY
         })
           .format(val)
-          .replace(/¥/g, '') + '円'
+          .replace(/[￥|¥]/g, '') + '円'
       );
   }
 
@@ -750,42 +749,6 @@ export async function fetchHeaderNavigations() {
   return ret;
 }
 
-function getDatePickerConfig() {
-  //locale_module_lang为date-fns插件对应的多语言文件后缀名
-  const datePickerCfg = {
-    mx: { locale: 'es', locale_module_lang: 'es' },
-    de: { locale: 'de', locale_module_lang: 'de' },
-    fr: { locale: 'fr', locale_module_lang: 'fr' },
-    us: { locale: 'en', locale_module_lang: 'en-US' },
-    ru: { locale: 'ru', locale_module_lang: 'ru' },
-    tr: { locale: 'tr', locale_module_lang: 'tr' },
-    default: { locale: 'en', locale_module_lang: 'en-US' }
-  };
-  const curDatePickerCfg =
-    datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-  const curLocaleModule =
-    require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`).default;
-  registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
-  // 根据Intl.DateTimeFormat生成当前国家的日期格式
-  const specificDate = formatDate({ date: '2021-12-30' });
-  const datePickerConfig = Object.assign(
-    {},
-    curDatePickerCfg,
-    {
-      format: specificDate
-        .replace(/2021/gi, 'yyyy')
-        .replace(/12/gi, 'MM')
-        .replace(/30/gi, 'dd')
-    },
-    {
-      locale_module: curLocaleModule
-    }
-  );
-  return datePickerConfig;
-}
-let datePickerConfig = getDatePickerConfig();
-export { datePickerConfig };
-
 /**
  * 根据id或value匹配name，匹配不了则返回自己
  * @param {Array} dictList 字典数据
@@ -1135,7 +1098,7 @@ export function handleRecommendation(product) {
   return Object.assign({}, product.goodsInfo.goods, product.goodsInfo);
 }
 
-export async function addToUnloginCartData({ product, intl }) {
+export async function addToUnloginCartData({ product }) {
   // let quantityNew = product.recommendationNumber;
   let quantityNew = product.quantity;
   let tmpData = Object.assign(product, {
@@ -1184,54 +1147,9 @@ export async function addToUnloginCartData({ product, intl }) {
     cartDataCopy.push(tmpData);
   }
   await checkoutStore.updateUnloginCart({
-    cartData: cartDataCopy,
-    intl
+    cartData: cartDataCopy
   });
   // history.push(path);
-}
-
-export async function addToLoginCartData({ product, intl }) {
-  // let {
-  //   productList,
-  //   outOfStockProducts,
-  //   inStockProducts,
-  //   modalList
-  // } = this.state;
-  // console.log(outOfStockProducts, inStockProducts, '...1')
-  // return
-
-  // for (let i = 0; i < productList.length; i++) {
-  //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-  //     outOfStockProducts.push(productList[i])
-  //     this.setState({ buttonLoading: false });
-  //     continue
-  //   }else {
-  //     inStockProducts.push(productList[i])
-  //   }
-  // }
-  // if (outOfStockProducts.length > 0) {
-  //   // this.setState({ modalShow: true, currentModalObj: modalList[0] });
-  // } else {
-  // this.setState({ buttonLoading: true });
-  // for (let i = 0; i < inStockProducts.length; i++) {
-  try {
-    await sitePurchase({
-      goodsInfoId: product.goodsInfoId,
-      goodsNum: product.quantity,
-      goodsCategory: '',
-      goodsInfoFlag: product.goodsInfoFlag,
-      periodTypeId: product.periodTypeId,
-      recommendationId: clinicStore.linkClinicId,
-      recommendationName: clinicStore.linkClinicName
-    });
-    await checkoutStore.updateLoginCart({ intl });
-  } catch (e) {
-    console.log('hahaha1111', e);
-    // this.setState({ buttonLoading: false });
-  }
-  // }
-  // this.props.history.push('/cart');
-  // }
 }
 
 export function isShowMixFeeding() {

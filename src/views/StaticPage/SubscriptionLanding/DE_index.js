@@ -14,14 +14,13 @@ import icon1 from './images/icon1.png';
 import icon2 from './images/icon2.png';
 import icon3 from './images/icon3.png';
 import icon4 from './images/icon4.png';
-import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
 import { seoHoc } from '@/framework/common';
 import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @inject('configStore')
 @injectIntl
@@ -86,19 +85,19 @@ class SubscriptionLanding extends React.Component {
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs"></em>
+                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
                                 <FormattedMessage id="subscription.list1" />
                               </li>
                               <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs"></em>
+                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
                                 <FormattedMessage id="subscription.list2" />
                               </li>
                               <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs"></em>
+                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
                                 <FormattedMessage id="subscription.list3" />
                               </li>
                               <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs"></em>
+                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
                                 <FormattedMessage id="subscription.list4" />
                               </li>
                             </ul>

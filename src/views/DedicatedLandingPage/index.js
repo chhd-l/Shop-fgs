@@ -18,9 +18,9 @@ import { getOtherSpecies, getSpecies } from '@/utils/GA';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Help from './modules/help';
 import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -221,7 +221,7 @@ class DedicatedLandingPage extends React.Component {
     if (choosedProduct.length > 0) {
       try {
         await this.props.checkoutStore.setPromotionCode(promotionCode);
-        await sitePurchase({
+        await addItemToBackendCart({
           goodsInfoId: choosedProduct[0].goodsInfoId,
           goodsNum: 1,
           goodsCategory: '',
@@ -235,9 +235,7 @@ class DedicatedLandingPage extends React.Component {
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
         });
-        await this.props.checkoutStore.updateLoginCart({
-          intl: this.props.intl
-        });
+        await this.props.checkoutStore.updateLoginCart();
         this.setState({ buttonLoading: false, showKitten: false });
         this.props.history.push('/cart');
       } catch (e) {

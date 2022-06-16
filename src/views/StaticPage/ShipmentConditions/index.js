@@ -15,7 +15,7 @@ import image5 from './images/image5.jpeg';
 import image6 from './images/image6.jpeg';
 import image7 from './images/image7.jpeg';
 import LazyLoad from 'react-lazyload';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

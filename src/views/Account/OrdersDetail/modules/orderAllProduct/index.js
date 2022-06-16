@@ -107,7 +107,7 @@ const OrderAllProduct = ({ details }) => {
                       )}
                     </span>
                   </span>
-                  {item.subscriptionSourceList?.length ? (
+                  {item.subscriptionSourceList?.length > 0 ? (
                     <span>
                       <span className="iconfont mr-2 text-rc-red">
                         &#xe675;
@@ -133,6 +133,12 @@ const OrderAllProduct = ({ details }) => {
                     item.subscriptionStatus ? (
                       judgeIsIndividual(item) ? (
                         ''
+                      ) : window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                        item.subscriptionPrice === item.originalPrice ? (
+                        <span className="ml-2">
+                          {/* 日本的订阅折扣价和原价一样特别显示 */}
+                          {formatMoney(item.originalPrice)}
+                        </span>
                       ) : (
                         <>
                           <span className="red font-weight-normal">

@@ -19,7 +19,7 @@ import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
 import cn from 'classnames';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @injectIntl
 @inject('loginStore')

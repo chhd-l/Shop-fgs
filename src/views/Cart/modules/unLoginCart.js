@@ -52,6 +52,10 @@ import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { PriceDetailsList } from '../components';
 import { funcUrl } from '@/lib/url-utils';
+import {
+  GACartButtonClick,
+  GACartRecommendedProductClick
+} from '@/utils/GA/cart';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
@@ -977,8 +981,7 @@ class UnLoginCart extends React.Component {
       });
 
       await this.props.checkoutStore.updateUnloginCart({
-        cartData: goodsList,
-        intl: this.props.intl
+        cartData: goodsList
       });
     }
 
@@ -1195,6 +1198,7 @@ class UnLoginCart extends React.Component {
     this.setState({ mobileCartVisibleKey: name });
   }
   async handleCheckout({ needLogin = false } = {}) {
+    GACartButtonClick('Guest checkout');
     if (!this.btnStatus) {
       return false;
     }
@@ -1282,8 +1286,7 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
-        isThrowErr,
-        intl: this.props.intl
+        isThrowErr
       });
       callback && callback();
       this.getGoodsIdArr(); //删除相关商品
@@ -1452,7 +1455,7 @@ class UnLoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div className="product-info__img mr-2 overflow-hidden">
+              <div className="product-info__img mr-2 overflow-hidden flex-shrink-0">
                 <LazyLoad>
                   <img
                     className="w-100"
@@ -1467,7 +1470,10 @@ class UnLoginCart extends React.Component {
                   />
                 </LazyLoad>
               </div>
-              <div className="product-info__desc relative" style={{ flex: 1 }}>
+              <div
+                className="product-info__desc relative flex-shrink-0"
+                style={{ flex: 1, width: 'calc(100% - 100px)' }}
+              >
                 <Link
                   className="ui-cursor-pointer rc-margin-top--xs inline-block mr-5 md:inline align-items-md-center flex-column flex-md-row mt-0"
                   to={`/${pitem.goodsName
@@ -1479,6 +1485,7 @@ class UnLoginCart extends React.Component {
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
                     title={pitem.goodsName}
+                    style={{ wordBreak: 'break-word' }}
                   >
                     {pitem.goodsName}
                   </h4>
@@ -1901,6 +1908,11 @@ class UnLoginCart extends React.Component {
               </p>
             </div>
           </div>
+          {this.state.validPromotionCodeErrMsg ? (
+            <div className="red pl-3 pb-3 pt-2 text-sm">
+              {this.state.validPromotionCodeErrMsg}
+            </div>
+          ) : null}
           {this.state.isShowValidCode ? (
             <div className="red pl-3 pb-3 pt-2 text-sm">
               <FormattedMessage id="validPromotionCode" />
@@ -2079,7 +2091,7 @@ class UnLoginCart extends React.Component {
   }
   handleClickPromotionApply = async (falseCodeAndReRequest) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
 
@@ -2089,55 +2101,69 @@ class UnLoginCart extends React.Component {
       isShowValidCode: false,
       lastPromotionInputValue: promotionInputValue
     });
-    if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart({
-        promotionCode: promotionInputValue,
-        subscriptionFlag: buyWay === 'frequency',
-        intl
-      });
-    } else {
-      result = await checkoutStore.updateUnloginCart({
-        promotionCode: promotionInputValue,
-        intl
-      });
-    }
-    if (
-      result &&
-      (!result.context.promotionFlag || result.context.couponCodeFlag)
-    ) {
-      //表示输入apply promotionCode成功
-      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-      this.setState({ discount });
-      // this.props.sendPromotionCode(
-      //   this.state.promotionInputValue
-      // );
-    } else {
+    try {
+      if (loginStore.isLogin) {
+        result = await checkoutStore.updateLoginCart({
+          promotionCode: promotionInputValue,
+          subscriptionFlag: buyWay === 'frequency',
+          isThrowValidPromotionCodeErr: true
+        });
+      } else {
+        result = await checkoutStore.updateUnloginCart({
+          promotionCode: promotionInputValue,
+          isThrowValidPromotionCodeErr: true
+        });
+      }
+      if (
+        result &&
+        (!result.context.promotionFlag || result.context.couponCodeFlag)
+      ) {
+        //表示输入apply promotionCode成功
+        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        this.setState({ discount });
+        // this.props.sendPromotionCode(
+        //   this.state.promotionInputValue
+        // );
+      } else {
+        this.setState({
+          isShowValidCode: true
+        });
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.setState(
+            {
+              isShowValidCode: false
+            },
+            () => {
+              // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+              result &&
+                result.code === 'K-000000' &&
+                this.handleClickPromotionApply(true);
+            }
+          );
+        }, 4000);
+        // this.props.sendPromotionCode('');
+      }
+    } catch (err) {
       this.setState({
-        isShowValidCode: true
+        validPromotionCodeErrMsg: err.message
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState(
-          {
-            isShowValidCode: false
-          },
-          () => {
-            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
-            result &&
-              result.code === 'K-000000' &&
-              this.handleClickPromotionApply(true);
-          }
-        );
+        this.setState({
+          validPromotionCodeErrMsg: '',
+          promotionInputValue: ''
+        });
       }, 4000);
-      // this.props.sendPromotionCode('');
+    } finally {
+      this.setState({
+        isClickApply: false,
+        promotionInputValue: ''
+      });
     }
-    this.setState({
-      isClickApply: false,
-      promotionInputValue: ''
-    });
   };
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
@@ -2145,13 +2171,12 @@ class UnLoginCart extends React.Component {
     await checkoutStore.removeCouponCode();
     if (!loginStore.isLogin) {
       //游客
-      result = await checkoutStore.updateUnloginCart({ intl });
+      result = await checkoutStore.updateUnloginCart();
     } else {
       //会员
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency',
-        intl
+        subscriptionFlag: buyWay === 'frequency'
       });
     }
     this.setState({
@@ -2190,7 +2215,6 @@ class UnLoginCart extends React.Component {
     return (
       <div className="Carts">
         <Helmet>
-          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -2329,7 +2353,10 @@ class UnLoginCart extends React.Component {
             )}
           </div>
           {this.state.relatedGoodsList.length > 0 ? (
-            <ProductCarousel goodsList={this.state.relatedGoodsList} />
+            <ProductCarousel
+              goodsList={this.state.relatedGoodsList}
+              onClick={(product) => GACartRecommendedProductClick(product)}
+            />
           ) : null}
           <Footer />
         </main>

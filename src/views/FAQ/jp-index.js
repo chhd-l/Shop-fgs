@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -52,21 +52,35 @@ class FAQ extends React.Component {
               });
             }
             // 锚点跳转
-            document.getElementById('4652-x').addEventListener('click', (e) => {
-              this.scrollToAnchor(
-                document.getElementById('4652-x').getAttribute('data-id') + ''
-              );
+            this.state.dataFAQ.forEach((item, index) => {
+              document
+                .getElementById(`catogery-${item.sequence}`)
+                .addEventListener('click', (e) => {
+                  console.log(111);
+                  this.scrollToAnchor(
+                    document
+                      .getElementById(`catogery-${item.sequence}`)
+                      .getAttribute('data-id') + ''
+                  );
+                });
             });
-            document.getElementById('4649-x').addEventListener('click', (e) => {
-              this.scrollToAnchor(
-                document.getElementById('4649-x').getAttribute('data-id') + ''
-              );
-            });
-            document.getElementById('4609-x').addEventListener('click', (e) => {
-              this.scrollToAnchor(
-                document.getElementById('4609-x').getAttribute('data-id') + ''
-              );
-            });
+            // 锚点跳转
+            // document.getElementById('catogery-4617').addEventListener('click', (e) => {
+            //   console.log(111);
+            //   this.scrollToAnchor(
+            //     document.getElementById('catogery-4617').getAttribute('data-id') + ''
+            //   );
+            // });
+            // document.getElementById('4649-x').addEventListener('click', (e) => {
+            //   this.scrollToAnchor(
+            //     document.getElementById('4649-x').getAttribute('data-id') + ''
+            //   );
+            // });
+            // document.getElementById('4609-x').addEventListener('click', (e) => {
+            //   this.scrollToAnchor(
+            //     document.getElementById('4609-x').getAttribute('data-id') + ''
+            //   );
+            // });
           }
         );
       })
@@ -191,12 +205,28 @@ class FAQ extends React.Component {
               <h1 className="font-semibold text-16 leading-7 mb-4 md:text-28  text-cs-gray">
                 よくあるお問合せ
               </h1>
+
               <p className="text-cs-gray text-18 leading-cs-26">
-                配送について <br />
+                {this.state.dataFAQ.map((item, index) => {
+                  return (
+                    <>
+                      <span
+                        className="faqtypeTitle"
+                        style={{ cursor: 'pointer' }}
+                        id={`catogery-${item.sequence}`}
+                        data-id={`catogery-${index}`}
+                      >
+                        {item.faqType}
+                      </span>
+                      <br />
+                    </>
+                  );
+                })}
+                {/* 配送について <br />
                 お支払について <br />
                 返品・交換について <br />
                 ポイントプログラムについて <br />
-                定期購入について <br />
+                定期購入について <br /> */}
               </p>
             </div>
             <div className="md:w-cs-920 m-auto md:mt-cs-80 pl-4 pr-4">
@@ -218,7 +248,7 @@ class FAQ extends React.Component {
                     <h2
                       name={`catogery-${index}`}
                       id={`catogery-${index}`}
-                      className={`text-cs-gray md:font-medium font-semibold text-18 md:text-20 leading-cs-26 ${
+                      className={`text-cs-gray font-semibold text-18 md:text-20 leading-cs-26 ${
                         index === 0 ? '' : 'mt-20'
                       }`}
                     >

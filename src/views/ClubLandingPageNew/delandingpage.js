@@ -42,7 +42,7 @@ import DeMyList from './demylist';
 import PrescriberCode from './Components/DeStoreCode/precriberCode';
 import PhoneModal from '../../views/StaticPage/Help/components/phoneModal.js';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;

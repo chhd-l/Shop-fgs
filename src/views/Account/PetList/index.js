@@ -8,7 +8,7 @@ import './index.css';
 import edit from '@/assets/images/edit.svg';
 import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 @seoHoc()
 class PetForm extends React.Component {

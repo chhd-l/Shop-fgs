@@ -90,9 +90,9 @@ export default class Pagination extends Component {
   }
   render() {
     const { currentPage } = this.state;
-    const { totalPage } = this.props;
+    const { totalPage, paginationClass } = this.props;
     return (
-      <nav className="rc-pagination">
+      <nav className={`rc-pagination ${paginationClass}`}>
         <div className="d-flex justify-content-between align-items-center">
           {currentPage <= 1 || this.props.loading ? (
             <div

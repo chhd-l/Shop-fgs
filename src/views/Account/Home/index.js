@@ -16,7 +16,7 @@ import GooglePayImg from '@/assets/images/GooglePay.png';
 import './index.less';
 import { itemList } from './config';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 function Container({ className, item, children }) {
   return item.isOuter ? (

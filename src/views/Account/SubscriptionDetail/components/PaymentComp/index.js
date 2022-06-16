@@ -84,6 +84,36 @@ function CardItem(props) {
                     />
                   </LazyLoad>
                 </div>
+              ) : data?.paymentItem?.toLowerCase() === 'adyen_ideal' ? (
+                <>
+                  <div
+                    className={`col-4 d-flex flex-column justify-content-center`}
+                  >
+                    <LazyLoad height={100}>
+                      <img
+                        className="PayCardImgFitScreen w-cs-85/100"
+                        src={
+                          'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
+                        }
+                        alt="pay card img fit screen"
+                      />
+                    </LazyLoad>
+                  </div>
+                  <div
+                    className="col-8 px-0"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {/* <p className="mb-0">{data.holderName}</p> */}
+                    <p className="mb-0">
+                      {data?.binNumber} BANK **** ****{' '}
+                      {data.lastFourDigits.substr(2)}
+                    </p>
+                    {/* <p className="mb-0">{data.paymentVendor}</p> */}
+                  </div>
+                </>
               ) : (
                 <>
                   <div
@@ -191,8 +221,13 @@ class PaymentComp extends React.Component {
       });
       const payPspItemVOList = res?.context?.payPspItemVOList || [];
       setPayWayNameArr(payPspItemVOList);
+      // ideal支付只能在下单的时候添加卡
       const supportPaymentMethods =
-        payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+        res?.context?.payPspItemVOList[0]?.name === 'iDeal'
+          ? res?.context?.payPspItemVOList[1]?.payPspItemCardTypeVOList
+          : res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      // const supportPaymentMethods =
+      //   payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
       setSupportPaymentMethods(supportPaymentMethods);
       serCurPayWayVal(payPspItemVOList[0]?.code);
       this.setState(
@@ -239,6 +274,7 @@ class PaymentComp extends React.Component {
     this.setState({ editFormVisible: status, isEdit: false });
   };
   getPaymentMethodList = async (msg, { showLoading = true } = {}) => {
+    const { isMoto } = this.props;
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod({}, true);
@@ -271,6 +307,12 @@ class PaymentComp extends React.Component {
         );
         temparr.unshift(tempObj);
         ret = temparr;
+      }
+      //如果moto切换成其他支付了，就删选掉moto支付
+      if (!isMoto) {
+        ret = ret.filter(
+          (item) => item?.paymentItem?.toLowerCase() !== 'adyen_moto'
+        );
       }
 
       this.setState({
@@ -766,7 +808,8 @@ class PaymentComp extends React.Component {
     const {
       needEmail,
       needPhone,
-      paymentStore: { supportPaymentMethods, curPayWayInfo }
+      paymentStore: { supportPaymentMethods, curPayWayInfo },
+      isMoto
     } = this.props;
     const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
 

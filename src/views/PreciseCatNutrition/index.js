@@ -6,10 +6,8 @@ import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
-import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { getDeviceType } from '@/utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
@@ -18,8 +16,8 @@ import Subscription from './Components/Subscription';
 import HowItWorks from './Components/HowItWorks';
 import HelpComponents from './Components/HelpComponents';
 import LongBanner from './Components/LongBanner';
-
 import AboutPet from './aboutPet';
+import { Canonical } from '@/components/Common';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -34,7 +32,6 @@ function Divider() {
   );
 }
 
-const pageLink = window.location.href;
 const event = {
   page: {
     type: 'error',
@@ -77,9 +74,9 @@ class PreciseCatNutrition extends React.Component {
   render() {
     return (
       <>
+        <Canonical />
         <div>
           <Helmet>
-            <link rel="canonical" href={pageLink} />
             <meta name="robots" content="noindex" />
           </Helmet>
           <GoogleTagManager

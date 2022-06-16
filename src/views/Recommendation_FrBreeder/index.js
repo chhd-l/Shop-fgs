@@ -21,7 +21,7 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import { sitePurchase } from '@/api/cart';
+import { addItemToBackendCart } from '@/api/cart';
 import Modal from './components/Modal';
 import {
   distributeLinktoPrecriberOrPaymentPage,
@@ -35,7 +35,7 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -523,7 +523,7 @@ class Recommendation extends React.Component {
       this.setState({ buttonLoading: true });
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
@@ -538,9 +538,7 @@ class Recommendation extends React.Component {
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
           });
-          await this.props.checkoutStore.updateLoginCart({
-            intl: this.props.intl
-          });
+          await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -678,14 +676,14 @@ class Recommendation extends React.Component {
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             periodTypeId: inStockProducts[i].defaultFrequencyId,
             goodsCategory: '',
             goodsInfoFlag: 2
           });
-          await checkoutStore.updateLoginCart({ intl: this.props.intl });
+          await checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -694,7 +692,7 @@ class Recommendation extends React.Component {
     } else if (currentModalObj.type === 'payNow') {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: ''

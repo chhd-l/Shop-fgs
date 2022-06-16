@@ -5,8 +5,7 @@ import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
-
+import { Canonical } from '@/components/Common';
 import ScreenHot1 from './images/Screenshot.png';
 import ScreenHot2 from './images/Screenshot2.png';
 import Bitmap1 from './images/Bitmap1.png';
@@ -14,15 +13,12 @@ import Bitmap2 from './images/Bitmap2.png';
 import Bitmap3 from './images/Bitmap3.png';
 import Bitmap4 from './images/Bitmap4.png';
 import Bitmap5 from './images/Bitmap5.png';
-const pageLink = window.location.href;
 
 function AboutMyRoyalCanin(props) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="myRoyalCanin">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />
@@ -33,7 +29,7 @@ function AboutMyRoyalCanin(props) {
           {/* 1 */}
           <div className="md:w-cs-920 md:h-cs-431 md:m-auto md:flex md:justify-between md:mt-20 md:pb-20 box-content">
             <div className="md:h-cs-431 md:transform md:scale-100 md:z-50">
-              <h1 className="font-PingFangSC text-rc-red text-22 leading-7 mb-4 m-auto md:ml-0 md:text-30 w-cs-288 h-cs-56 md:w-cs-392 md:h-cs-80 md:leading-10 font-semibold mt-6 md:mt-auto">
+              <h1 className="font-PingFangSC text-rc-red text-22 leading-7 mb-4 m-auto md:ml-0 md:text-30 w-cs-288 md:w-cs-392 md:leading-10 font-semibold mt-6 md:mt-auto">
                 マイ ロイヤルカナンについて
               </h1>
               <p
@@ -74,7 +70,7 @@ function AboutMyRoyalCanin(props) {
               className="w-cs-186 h-cs-143 mb-4 m-auto md:w-cs-479 md:h-cs-334"
             />
             <div className="md:w-cs-440 md:h-full">
-              <h1 className="text-rc-red hidden md:block font-PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-30 md:leading-8 md:mt-12 mb-4">
+              <h1 className="text-rc-red hidden md:block font-PingFangSC w-cs-288 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:text-30 md:leading-8 md:mt-12 mb-4">
                 最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
               </h1>
               <p
@@ -114,7 +110,7 @@ function AboutMyRoyalCanin(props) {
               </p>
               <a
                 href="javasrcipt:;"
-                className="DINPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
+                className="font-DinPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
                 style={{ color: '#444444', display: 'inline' }}
               >
                 定期購入サービスについて詳しくはこちら。
@@ -147,7 +143,7 @@ function AboutMyRoyalCanin(props) {
               </p>
               <a
                 href="javasrcipt:;"
-                className="DINPro d7bottom-border md:w-cs-73/100 md:font-medium md:text-16 md:leading-6 "
+                className="font-DinPro d7bottom-border md:w-cs-73/100 md:font-medium md:text-16 md:leading-6 "
                 style={{ color: '#444444', display: 'inline' }}
               >
                 ポイントプログラムについて詳しくはこちら。
@@ -231,7 +227,7 @@ function AboutMyRoyalCanin(props) {
               </p>
               <a
                 href="javasrcipt:;"
-                className="DINPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
+                className="font-DinPro d7bottom-border text-14 leading-6 w-cs-85/100 md:w-cs-73/100 font-medium md:text-16"
                 style={{ color: '#444444', display: 'inline' }}
               >
                 おいしさ満足保証返金制度について詳しくはこちら。
@@ -248,11 +244,10 @@ function AboutMyRoyalCanin(props) {
               愛犬・愛猫の健康管理に役立つ情報をご提供
             </h1>
             <p
-              className="font-PingFangSC text-16 leading-6 text-center mb-4  md:mb-7 md:text-18 md:leading-7"
+              className="font-PingFangSC text-16 leading-6 text-left md:text-center mb-4  md:mb-7 md:text-18 md:leading-7"
               style={{ color: '#666666' }}
             >
               キャンペーンなどのお得な情報や、愛犬・愛猫の健康管理に役
-              <br />
               立つ情報をニュースレターで配信しています。
             </p>
           </div>

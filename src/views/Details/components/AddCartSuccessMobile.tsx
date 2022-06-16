@@ -8,9 +8,10 @@ import LazyLoad from 'react-lazyload';
 import {
   getDeviceType,
   formatMoney,
-  addToUnloginCartData,
-  addToLoginCartData
+  addToUnloginCartData
 } from '@/utils/utils';
+import { inject, observer } from 'mobx-react';
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -21,7 +22,7 @@ interface Props {
   goodsInfoFlag?: any;
   periodTypeId?: any;
   isLogin?: boolean;
-  intl?: any;
+  clinicStore?: any;
 }
 
 interface SKUProps {
@@ -38,7 +39,7 @@ const AddCartSuccessMobile = ({
   goodsInfoFlag,
   periodTypeId,
   isLogin,
-  intl
+  clinicStore
 }: Props) => {
   const History = useHistory();
   const [selectedSku, setSelectedSku] = useState<SKUProps | null>(null);
@@ -148,11 +149,22 @@ const AddCartSuccessMobile = ({
                         mixFeedingData.goodsInfoFlag = goodsInfoFlag;
                         mixFeedingData.periodTypeId = periodTypeId;
                         const param = {
-                          product: mixFeedingData,
-                          intl
+                          product: mixFeedingData
                         };
                         isLogin
-                          ? await addToLoginCartData(param)
+                          ? await AddCartItemMember({
+                              param: {
+                                goodsInfoId: mixFeedingData.product.goodsInfoId,
+                                goodsNum: mixFeedingData.product.quantity,
+                                goodsCategory: '',
+                                goodsInfoFlag:
+                                  mixFeedingData.product.goodsInfoFlag,
+                                periodTypeId:
+                                  mixFeedingData.product.periodTypeId,
+                                recommendationId: clinicStore.linkClinicId,
+                                recommendationName: clinicStore.linkClinicName
+                              }
+                            })
                           : await addToUnloginCartData(param);
                         History.push('/cart');
                       } catch {
@@ -194,4 +206,4 @@ const AddCartSuccessMobile = ({
     </>
   );
 };
-export default AddCartSuccessMobile;
+export default inject('clinicStore')(observer(AddCartSuccessMobile));

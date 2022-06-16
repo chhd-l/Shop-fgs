@@ -4,10 +4,8 @@ import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import Selection from '@/components/Selection';
-import DatePicker from 'react-datepicker';
 import {
   getDeviceType,
-  datePickerConfig,
   formatMoney,
   getZoneTime,
   formatDate,
@@ -17,6 +15,7 @@ import { getDeliveryDateAndTimeSlot } from '@/api/address';
 import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
 import PriceDetailsList from '../PriceDetailsList';
+import { DatePickerComponent } from '@/components/Common';
 
 const Unspecified = 'Unspecified';
 
@@ -253,26 +252,18 @@ const NextDelivery = ({
               <div
                 className={cn('changeDate whitespace-nowrap mr-6 text-right')}
               >
+                <span className="iconfont icondata text-cs-gray" />
                 <span
-                  className="iconfont icondata"
+                  className="text-cs-gray"
                   style={{
-                    color: '#666'
-                  }}
-                />
-                <span
-                  style={{
-                    color: '#666',
                     fontWeight: '400',
                     marginLeft: '5px',
                     borderBottom: '1px solid #666',
                     cursor: 'pointer'
                   }}
                 >
-                  <DatePicker
+                  <DatePickerComponent
                     className="receiveDate subs-receiveDate for-mobile-pad-0"
-                    placeholder="Select Date"
-                    dateFormat={datePickerConfig.format}
-                    locale={datePickerConfig.locale}
                     minDate={getMinDate(el.tradeItems[0].nextDeliveryTime)}
                     selected={
                       el.tradeItems
@@ -300,14 +291,9 @@ const NextDelivery = ({
               )}
 
               <div className="whitespace-nowrap">
-                <span
-                  className="iconfont iconskip font-bold mr-1"
-                  style={{
-                    color: '#666'
-                  }}
-                />
+                <span className="iconfont iconskip font-bold mr-1 text-cs-gray" />
                 <a
-                  className="rc-styled-link ui-text-overflow-line1 whitespace-normal break-words"
+                  className="rc-styled-link ui-text-overflow-line1 whitespace-normal break-words py-1"
                   onClick={(e) => skipNext(el)}
                 >
                   <FormattedMessage id="skip" />
@@ -320,11 +306,8 @@ const NextDelivery = ({
       {el.tradeItems &&
         el.tradeItems.map((tradeItem, index) => {
           let showDiscountPrice = !isIndv;
-          // 如果是日本 没有折扣 不显示折扣价
-          if (
-            window.__.env.REACT_APP_COUNTRY === 'jp' &&
-            el.originalPrice === el.subscribePrice
-          ) {
+          // 折扣商品如果没有折扣就不显示折扣价
+          if (el.originalPrice === el.subscribePrice) {
             showDiscountPrice = false;
           }
           return (
@@ -337,33 +320,34 @@ const NextDelivery = ({
               key={index}
             >
               <div className={`col-9 col-md-6 d-flex row align-items-center`}>
-                <LazyLoad className="col-6 col-md-3">
-                  <img
-                    src={
-                      optimizeImage({ originImageUrl: tradeItem.pic }) ||
-                      IMG_DEFAULT
-                    }
-                    alt={tradeItem.skuName}
-                  />
-                </LazyLoad>
+                <div className="col-6 col-md-3">
+                  <LazyLoad>
+                    <img
+                      src={
+                        optimizeImage({ originImageUrl: tradeItem.pic }) ||
+                        IMG_DEFAULT
+                      }
+                      alt={tradeItem.skuName}
+                    />
+                  </LazyLoad>
+                </div>
                 <div style={{ display: `${isIndv ? 'none' : 'block'}` }}>
                   <h5
-                    className="text-nowrap"
+                    className="text-nowrap text-base font-normal"
                     style={{
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       overflowWrap: 'normal',
-                      fontSize: '.875rem',
                       width: isMobile ? '100px' : 'auto'
                     }}
                   >
                     {tradeItem.skuName}
                   </h5>
                   <p
+                    className="my-2 font-normal"
                     style={{
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      marginBottom: '8px',
                       fontSize: '.875rem'
                     }}
                   >

@@ -6,36 +6,25 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
 import Help from '../SmartFeederSubscription/modules/Help';
 import recommendation2 from '@/assets/images/fr_recommendation2.png';
 import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
-import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { sitePurchase, siteMiniPurchases } from '@/api/cart';
-import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
-import cloneDeep from 'lodash/cloneDeep';
-import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
+import { addItemToBackendCart, siteMiniPurchases } from '@/api/cart';
 import Modal from './components/Modal';
 import { funcUrl } from '@/lib/url-utils';
-
 import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import transparentImg from './images/transparent.svg';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.css';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -321,7 +310,7 @@ class FelinRecommendation extends React.Component {
       this.setState({ buttonLoading: true });
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
@@ -333,9 +322,7 @@ class FelinRecommendation extends React.Component {
           this.setState({ buttonLoading: false });
         }
       }
-      await this.props.checkoutStore.updateLoginCart({
-        intl: this.props.intl
-      });
+      await this.props.checkoutStore.updateLoginCart();
       if (retPath === '/checkout') {
         retPath = await distributeLinktoPrecriberOrPaymentPage({
           configStore: this.props.configStore,
@@ -417,7 +404,6 @@ class FelinRecommendation extends React.Component {
 
   //     await checkoutStore.updateUnloginCart({
   //       cartData: cartDataCopy,
-  //       intl
   //     });
   //   }
   //   this.props.history.push(path);
@@ -450,7 +436,7 @@ class FelinRecommendation extends React.Component {
   //     // periodTypeId: details.defaultFrequencyId
   //   };
   //   try {
-  //     await sitePurchase(param);
+  //     await addItemToBackendCart(param);
   //     await checkoutStore.updateLoginCart({
   //       intl: props.intl
   //     });
@@ -522,7 +508,7 @@ class FelinRecommendation extends React.Component {
     } else {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: '',
@@ -570,14 +556,14 @@ class FelinRecommendation extends React.Component {
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
-          await sitePurchase({
+          await addItemToBackendCart({
             orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart({ intl: this.props.intl });
+          await checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -586,7 +572,7 @@ class FelinRecommendation extends React.Component {
     } else if (currentModalObj.type === 'payNow') {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
-      //     await sitePurchase({
+      //     await addItemToBackendCart({
       //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: ''
@@ -1129,19 +1115,19 @@ class FelinRecommendation extends React.Component {
                 <div className="rc-padding-y--lg--mobile rc-full-width">
                   <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                     <li className="rc-list__item">
-                      <em className="wof rc-margin-right--xs"></em>
+                      <em className="wof rc-margin-right--xs iconfont"></em>
                       Économisez 10% sur chaque commande
                     </li>
                     <li className="rc-list__item">
-                      <em className="wof rc-margin-right--xs"></em>
+                      <em className="wof rc-margin-right--xs iconfont"></em>
                       Livraison automatique selon votre calendrier
                     </li>
                     <li className="rc-list__item">
-                      <em className="wof rc-margin-right--xs"></em>
+                      <em className="wof rc-margin-right--xs iconfont"></em>
                       Livraison gratuite
                     </li>
                     <li className="rc-list__item">
-                      <em className="wof rc-margin-right--xs"></em>
+                      <em className="wof rc-margin-right--xs iconfont"></em>
                       Modifier ou annuler à tout moment
                     </li>
                   </ul>

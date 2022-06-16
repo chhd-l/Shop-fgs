@@ -45,7 +45,7 @@ import loadable from '@/lib/loadable-component';
 import SelectFilters from './modules/SelectFilters';
 import TopDesc from './modules/TopDesc';
 import cn from 'classnames';
-
+import { Canonical } from '@/components/Common';
 import './index.less';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
@@ -55,16 +55,23 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
     .filter((attr) => attr?.goodsAttributeName?.toLowerCase() == keyWords)
     .map((item) => item?.goodsAttributeValue);
+};
+
+const pillarEnum = {
+  0: 'SPT',
+  1: 'SPT',
+  2: 'BUNDLE',
+  3: 'VET',
+  4: 'GIFT'
 };
 
 function bSort(arr) {
@@ -381,7 +388,8 @@ class List extends React.Component {
       hiddenFilter: false,
       invalidPage: false, //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
       prefnParamListFromSearch: [],
-      filtersCounts: 0
+      filtersCounts: 0,
+      categoryDogType: false
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -868,7 +876,8 @@ class List extends React.Component {
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName,
-        goodsImg
+        goodsImg,
+        goodsType
       } = item;
       const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
       // const spezies = filterAttrValue(
@@ -901,7 +910,8 @@ class List extends React.Component {
         brand: 'Royal Canin',
         breed,
         sizeCategory,
-        imageURL: goodsImg
+        imageURL: goodsImg,
+        pillar: pillarEnum[goodsType] || ''
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -1091,7 +1101,8 @@ class List extends React.Component {
           .reverse();
         // set SEO
         this.setSEO({ cateIds });
-
+        console.log(search, 'search==');
+        // debugger
         // 解析prefn/prefv, 匹配filter, 设置默认选中值
         const prefnNum = (search.match(/prefn/gi) || []).length;
         for (let index = 0; index < prefnNum; index++) {
@@ -1102,6 +1113,14 @@ class List extends React.Component {
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
+          console.log(
+            res[3],
+            funcUrl({ name: `prefn${index + 1}` }),
+            fnEle,
+            tItem,
+            'tItem==='
+          );
+
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];
@@ -1164,6 +1183,9 @@ class List extends React.Component {
           targetRouter.isPeriod === 1;
         const invalidPage =
           targetRouter?.cateRouter && targetRouter.isPeriod === 0;
+        const categoryDogType = targetRouter?.cateType?.includes('dog')
+          ? true
+          : false;
         this.setState(
           {
             sortList,
@@ -1192,7 +1214,8 @@ class List extends React.Component {
             hiddenFilter,
             invalidPage,
             breadList,
-            isSpecialNeedFilter
+            isSpecialNeedFilter,
+            categoryDogType
           },
           () => {
             this.getProductList();
@@ -1674,9 +1697,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1777,7 +1799,8 @@ class List extends React.Component {
       animalType,
       hiddenFilter,
       invalidPage,
-      filtersCounts
+      filtersCounts,
+      categoryDogType
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1822,16 +1845,14 @@ class List extends React.Component {
             ecommerceEvents={eEvents}
           />
         )}
+        <Canonical
+          href={
+            this.state.canonicalforTRSpecialPageSearchFlag
+              ? canonicalLink.cur.split('?')[0].toLowerCase()
+              : canonicalLink.cur.toLowerCase()
+          }
+        />
         <Helmet>
-          <link
-            rel="canonical"
-            href={
-              this.state.canonicalforTRSpecialPageSearchFlag
-                ? canonicalLink.cur.split('?')[0]
-                : canonicalLink.cur
-            }
-          />
-          {/* <link rel="canonical" href={canonicalLink.cur} /> */}
           {canonicalLink.prev ? (
             <link rel="prev" href={canonicalLink.prev} />
           ) : null}
@@ -2071,7 +2092,7 @@ class List extends React.Component {
                               </span>
                             </div>
 
-                            <div className="col-12 col-md-4">
+                            {/* <div className="col-12 col-md-4">
                               <span
                                 style={{ position: 'relative', top: '2px' }}
                                 className="rc-select page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
@@ -2095,7 +2116,7 @@ class List extends React.Component {
                                   />
                                 )}
                               </span>
-                            </div>
+                            </div> */}
                           </div>
                         </>
                       )}
@@ -2127,7 +2148,7 @@ class List extends React.Component {
                                       <PLPCover
                                         item={item}
                                         key={item.id}
-                                        isDogPage={isDogPage}
+                                        isDogPage={categoryDogType}
                                         sourceParam={this.state.sourceParam}
                                         GAListParam={GAListParam}
                                         breadListByDeco={breadListByDeco}
@@ -2144,21 +2165,23 @@ class List extends React.Component {
                                   );
                                 })}
                           </article>
-                          <div
-                            className="grid-footer rc-full-width"
-                            style={{ marginTop: '0.5rem' }}
-                            data-tms="Pagination"
-                          >
-                            <Pagination
-                              loading={this.state.loading}
-                              defaultCurrentPage={this.state.currentPage}
-                              key={this.state.currentPage}
-                              totalPage={this.state.totalPage}
-                              onPageNumChange={this.hanldePageNumChange}
-                              prevPageLink={this.prevPageLink}
-                              nextPageLink={this.nextPageLink}
-                            />
-                          </div>
+                          {loading ? null : (
+                            <div
+                              className="grid-footer rc-full-width"
+                              style={{ marginTop: '0.5rem' }}
+                              data-tms="Pagination"
+                            >
+                              <Pagination
+                                loading={this.state.loading}
+                                defaultCurrentPage={this.state.currentPage}
+                                key={this.state.currentPage}
+                                totalPage={this.state.totalPage}
+                                onPageNumChange={this.hanldePageNumChange}
+                                prevPageLink={this.prevPageLink}
+                                nextPageLink={this.nextPageLink}
+                              />
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

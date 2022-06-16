@@ -22,7 +22,7 @@ import {
   filterOrderId
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import { batchAdd } from '@/api/payment';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
 import { getOrderList } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -33,7 +33,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
 import { seoHoc } from '@/framework/common';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -258,14 +258,12 @@ class AccountOrders extends React.Component {
       const paramList = (order.tradeItems || []).map((item) => {
         return {
           goodsInfoFlag: item.goodsInfoFlag,
-          verifyStock: false,
-          buyCount: 1,
+          goodsNum: 1,
           goodsInfoId: item.skuId,
           periodTypeId: item.periodTypeId
         };
       });
-      await batchAdd({ goodsInfos: paramList });
-      await this.props.checkoutStore.updateLoginCart({ intl: this.props.intl });
+      await AddCartItemsMember({ paramList });
       this.props.history.push('/cart');
     } catch (err) {
     } finally {

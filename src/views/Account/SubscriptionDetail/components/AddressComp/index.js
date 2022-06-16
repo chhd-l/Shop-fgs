@@ -21,11 +21,13 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { AddressPreview } from '@/components/Address';
+import { getConsigneeNameByCountry } from '@/utils/constant';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 function CardItem(props) {
   const { data } = props;
@@ -151,7 +153,7 @@ function CardItem(props) {
     );
   }
 }
-@inject('checkoutStore', 'configStore')
+@inject('checkoutStore', 'configStore', 'paymentStore')
 @observer
 /**
  * address list(delivery/billing) - member
@@ -313,6 +315,7 @@ class AddressList extends React.Component {
       let pickupAddress = find(addressList, (e) => {
         return e.receiveType == 'PICK_UP';
       });
+
       this.setState({
         defaultCity: pickupAddress ? pickupAddress.city : '',
         addressList: addressList,
@@ -616,9 +619,7 @@ class AddressList extends React.Component {
     }
     try {
       // 获取税额
-      await this.props.checkoutStore.updateLoginCart(
-        Object.assign(param, { intl: this.props.intl })
-      );
+      await this.props.checkoutStore.updateLoginCart(param);
     } catch (err) {
       console.warn(err);
     }
@@ -760,8 +761,7 @@ class AddressList extends React.Component {
       });
       let params = Object.assign({}, deliveryAddress, {
         region: deliveryAddress.province, // DuData相关参数
-        consigneeName:
-          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeName: getConsigneeNameByCountry(deliveryAddress),
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
         deliveryAddress:
@@ -1156,7 +1156,7 @@ class AddressList extends React.Component {
               >
                 {item.receiveType === 'PICK_UP' ? (
                   <button
-                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
+                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold "
                     onClick={this.addOrEditPickupAddress.bind()}
                     style={{ fontSize: '12px' }}
                   >
@@ -1454,6 +1454,10 @@ class AddressList extends React.Component {
                           updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                           deliveryOrPickUp={showDeliveryOrPickUp}
                           intlMessages={this.props.intl.messages}
+                          subscriptionDetail={
+                            this.props.paymentStore.subscriptionDetail
+                          }
+                          fromPage="subscription"
                         />
 
                         {/* 分割线 */}

@@ -12,6 +12,7 @@ import Modal from '@/components/Modal';
 import { ChangeProductContext } from '../index';
 import { SubDetailHeaderContext } from '../../SubDetailHeader';
 import ProductDailyRation from './ProductDailyRation';
+import RelateProductList from './RelateProductList';
 
 const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
@@ -172,6 +173,23 @@ const RecommendationListModal = ({ intl }) => {
     }
   };
   const currentGoodsItem = currentGoodsItems[0] || {};
+
+  const goMoreProducts = () => {
+    let anchorElement = document.getElementById(
+      'recommendation-more-products-box'
+    );
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (window.dataLayer) {
+      dataLayer?.push({
+        event: 'myAccountAction',
+        myAccountActionName: 'View more products'
+      });
+    }
+  };
+
   return (
     <div
       className={`change-product-modal ${
@@ -186,11 +204,21 @@ const RecommendationListModal = ({ intl }) => {
         close={() => {
           initMainProduct();
         }}
+        modalBodyClass="px-0"
       >
         {productDetail?.mainProduct ? (
-          <RecommendationList productDetail={productDetail} />
+          <>
+            <RecommendationList
+              productDetail={productDetail}
+              goMoreProducts={goMoreProducts}
+            />
+            <div id="recommendation-more-products-box" className="my-8">
+              <p className="bg-gray-100 h-2 w-full" />
+              <RelateProductList mainProduct={productDetail?.mainProduct} />
+            </div>
+          </>
         ) : (
-          <div className="text-center  rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
+          <div className="text-center px-2 md:px-60">
             <img
               className="m-auto"
               style={{ maxWidth: '100px' }}

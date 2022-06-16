@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import Modal from '@/components/Modal';
 import {
   productFinderDailyPortion,
-  productFinderDailyPortionRation
+  productFinderDailyPortionRation,
+  getDailyPortionLifeStage
 } from '@/api/details';
 import BreedSelect from './components/BreedSelect';
 import SingleSelect from './components/SingleSelect';
@@ -412,6 +413,10 @@ export default function DailyPortion({
   const [isPreselected, setPreselected] = useState(false);
   const [visible, setVisible] = useState(false);
   const [resultMsg, setResultMsg] = useState('');
+  const [productLifeStage, setProductLifeStage] = useState();
+  const [breedCodeParam, setBreedCodeParam] = useState('');
+  const [productIsAdult, setProductIsAdult] = useState(false);
+  const [errOperate, setErrOperate] = useState(false);
 
   /**
    * 问题的结果
@@ -429,19 +434,52 @@ export default function DailyPortion({
   const [bcs, setBcs] = useState('');
 
   useEffect(() => {
+    // ageing-12+-2561  Senior_Cat
+    // chaton-persan-2554  Kitten_Cat
+    // chiot-shih-tzu-2439  Puppy_Dog
+    let LifestagesAttr = details.goodsAttributesValueRelList
+      .filter((item) => item.goodsAttributeName === 'Lifestages')
+      ?.map((item) => item?.goodsAttributeValue);
+
+    let isAdult = LifestagesAttr?.some((item) => {
+      let bol = ['adult', 'mature', 'senior'].some((_el) =>
+        item.toLowerCase().includes(_el)
+      );
+      return bol;
+    });
+    const isPuppy = LifestagesAttr.some((el) =>
+      el.toLowerCase().includes('puppy')
+    );
+    const isKitten = LifestagesAttr.some((el) =>
+      el.toLowerCase().includes('kitten')
+    );
+    const isJunior = LifestagesAttr.some((el) =>
+      el.toLowerCase().includes('junior')
+    );
+    setProductLifeStage({
+      isPuppy,
+      isKitten,
+      isJunior
+    });
+    setProductIsAdult(isAdult);
+  }, [details]);
+
+  useEffect(() => {
     let breedBool = isMixedBreed;
     let ageBool = year * 12 + month > 0;
     let weightBool = parseFloat(weight) > 0;
-
+    let breedCodeParam = breedData?.key || '';
     if (isMixedBreed) {
       const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
       breedBool = true;
       if (isMixedBreedPossibleValues) {
         breedBool = mixedBreedPossibleValue?.value;
+        breedCodeParam = mixedBreedPossibleValue?.value;
       }
     } else {
       breedBool = !!breedData?.key;
     }
+    setBreedCodeParam(breedCodeParam);
 
     let stepOneDisabled = !(
       breedBool &&
@@ -465,6 +503,19 @@ export default function DailyPortion({
     mixedBreedPossibleValue
   ]);
 
+  // button remains inactive and an error message is displayed
+  useEffect(() => {
+    const param = {
+      breedCode: breedCodeParam,
+      genderCode: gender,
+      month: year * 12 + month
+    };
+    if (Object.keys(param).length) {
+      const bol = Object.values(param).every((el) => el);
+      bol && dailyPortionLifeStage(param);
+    }
+  }, [breedCodeParam, gender, year, month]);
+
   useEffect(() => {
     if (!speciesValue) return;
     getBreedOptions(speciesValue);
@@ -472,6 +523,24 @@ export default function DailyPortion({
 
   const showQuestion = () => {
     setShowQuestion(true);
+  };
+
+  const dailyPortionLifeStage = async (param) => {
+    const res = await getDailyPortionLifeStage(param);
+    if (res.code === 'K-000000') {
+      const resLifestage = res.context?.lifestage || '';
+      const adultPet = ['adult', 'mature', 'senior'].indexOf(resLifestage) > -1;
+      const youngPet =
+        ['puppy', 'kitten', 'junior', 'baby'].indexOf(resLifestage) > -1;
+      const youngProduct = Object.values(productLifeStage)?.some(
+        (item) => item
+      );
+      if ((youngProduct && adultPet) || (productIsAdult && youngPet)) {
+        setErrOperate(true);
+      } else {
+        setErrOperate(false);
+      }
+    }
   };
 
   const handleBreedData = (data, isMixedBreed = false) => {
@@ -713,6 +782,13 @@ export default function DailyPortion({
                   onChangeYear={handleSetYear}
                   onChangeMonth={handleSetMouth}
                 />
+                <div
+                  className={`w-full bg-red-600 text-white mt-0 md:mt-2 py-2 text-sm pl-2 ${
+                    errOperate ? '' : 'hidden'
+                  }`}
+                >
+                  <FormattedMessage id="dailyPortion.errorMessage" />
+                </div>
               </div>
             </div>
             <div className="flex flex-wrap lg:pt-6">
@@ -743,10 +819,10 @@ export default function DailyPortion({
             </div>
             <div className="py-10 text-center">
               <button
-                disabled={stepOneDisabled}
+                disabled={stepOneDisabled || errOperate}
                 className={classNames(
                   'rc-btn rc-btn--one rc-margin-right--xs--mobile',
-                  { 'rc-btn-solid-disabled': stepOneDisabled }
+                  { 'rc-btn-solid-disabled': stepOneDisabled || errOperate }
                 )}
                 onClick={() => setStep(2)}
               >

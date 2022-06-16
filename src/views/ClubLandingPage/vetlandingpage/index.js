@@ -14,7 +14,7 @@ import icon3 from '../../StaticPage/SubscriptionLanding/images/icon3.png';
 import icon4 from '../../StaticPage/SubscriptionLanding/images/icon4.png';
 import HelpComponents from '../../../components/HelpComponents/HelpComponents';
 import vetimg from './images/VET@2x.webp';
-import Canonical from '@/components/Canonical';
+import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -112,17 +112,17 @@ class VetLandingPage extends React.Component {
                             <div className="rc-padding-y--lg--mobile rc-full-width">
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item">
-                                  <em className="wof rc-margin-right--xs"></em>
+                                  <em className="wof rc-margin-right--xs iconfont"></em>
                                   Вы экономите 10% с каждого заказа
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="wof rc-margin-right--xs"></em>
+                                  <em className="wof rc-margin-right--xs iconfont"></em>
                                   Автоматическое пополнение запасов корма с
                                   бесплатной доставкой при подписке на сумму от
                                   2500 руб
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="wof rc-margin-right--xs"></em>
+                                  <em className="wof rc-margin-right--xs iconfont"></em>
                                   Вы можете изменить или отменить подписку в
                                   любое время
                                 </li>

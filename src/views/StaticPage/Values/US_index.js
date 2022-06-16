@@ -11,9 +11,8 @@ import image4 from './images/image4.jpg';
 import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
-
+import { Canonical } from '@/components/Common';
 import './index.css';
-import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
 

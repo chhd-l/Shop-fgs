@@ -34,7 +34,6 @@ export default class ProductCarousel extends Component {
           ele.technologyOrBreedsAttr || getTechnologyOrBreedsAttr(ele)
       };
     });
-
     return (
       <div className="responsive-carousel">
         {this.props.title}
@@ -47,6 +46,7 @@ export default class ProductCarousel extends Component {
                 item={{ ...item }}
                 key={index}
                 showBorder={!isMobilePhone}
+                onClick={() => this.props.onClick(item)}
                 link={{
                   pathname: item
                     ? `/${item.goodsName

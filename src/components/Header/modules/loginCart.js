@@ -44,7 +44,7 @@ class LoginCart extends React.Component {
       !sessionItemRoyal.get('recommend_product') &&
       pathname !== '/checkout'
     ) {
-      this.checkoutStore.updateLoginCart({ intl: this.props.intl });
+      this.checkoutStore.updateLoginCart();
     }
   }
 
@@ -287,10 +287,10 @@ class LoginCart extends React.Component {
                     cartData.map((item, index) => {
                       // 是否显示折扣价格
                       let showDiscountPrice = true;
-                      // 日本如果没有则扣不显示折扣价
+                      // 折扣商品如果没有折扣不显示折扣价
                       if (
-                        window.__.env.REACT_APP_COUNTRY === 'jp' &&
-                        item.originalPrice === item.subscribePrice
+                        item.goodsInfoFlag > 0 &&
+                        item.marketPrice === item.subscriptionPrice
                       ) {
                         showDiscountPrice = false;
                       }
@@ -399,7 +399,11 @@ class LoginCart extends React.Component {
                                             </span>
                                             &nbsp;
                                             <span
-                                              className="red"
+                                              className={
+                                                window.__.env
+                                                  .REACT_APP_COUNTRY !== 'jp' &&
+                                                'red'
+                                              }
                                               style={{ fontSize: '.875rem' }}
                                             >
                                               {formatMoney(

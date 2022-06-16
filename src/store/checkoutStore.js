@@ -1,5 +1,5 @@
 import { action, observable, computed, runInAction } from 'mobx';
-import { purchases, sitePurchases, siteMiniPurchases } from '@/api/cart';
+import { purchases, sitePurchases, queryBackendCart } from '@/api/cart';
 import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -11,6 +11,18 @@ import {
 } from '@/api/payment';
 import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 import { v4 as uuidv4 } from 'uuid';
+import { createIntl, createIntlCache } from 'react-intl';
+import { getDynamicLanguage } from '@/lang';
+
+let intl;
+
+async function initIntl() {
+  const lang = await getDynamicLanguage();
+  const cache = createIntlCache();
+  intl = createIntl({ locale: 'en', messages: lang }, cache); //locale and message can come from Redux or regular import
+}
+
+initIntl();
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -86,6 +98,8 @@ class CheckoutStore {
   @observable isCanUsePoint = true; //是否能使用积分
 
   @observable originTradePrice = -1; // 不包含任何服务费的总价，最初进入checkout页面的总价
+
+  @observable calculateServiceFeeLoading = false; //计算服务费的接口loading
 
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
@@ -342,6 +356,11 @@ class CheckoutStore {
   }
 
   @action.bound
+  setCalculateServiceFeeLoading(data) {
+    this.calculateServiceFeeLoading = data;
+  }
+
+  @action.bound
   async updatePromotionFiled(data, promotionCode = this.promotionCode) {
     let param = data.map((el) => {
       return {
@@ -394,7 +413,6 @@ class CheckoutStore {
     outOfstockProNames = this.outOfstockProNames,
     deletedProNames = this.deletedProNames,
     notSeableProNames = this.notSeableProNames,
-    intl = {},
     purchasesRes = {}
   } = {}) {
     const { formatMessage } = intl;
@@ -448,12 +466,12 @@ class CheckoutStore {
     taxFeeData,
     guestEmail,
     isThrowErr,
+    isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
-    intl,
     transactionId
   } = {}) {
-    console.log(data);
+    // console.log(data);
     // debugger;
     try {
       let recommend_data = null;
@@ -608,14 +626,16 @@ class CheckoutStore {
       this.notSeableProNames = tmpNotSeableProNames;
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ intl, purchasesRes });
+        await this.validCheckoutLimitRule({ purchasesRes });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: purchasesRes });
       });
     } catch (err) {
       console.log(err.message);
-      // debugger;
+      if (err.code === 'K-000071' && isThrowValidPromotionCodeErr) {
+        throw new Error(err.message);
+      }
       if (isThrowErr) {
         throw new Error(err.message);
       }
@@ -623,7 +643,8 @@ class CheckoutStore {
   }
 
   /**
-   * 1. 会员查询后台购物车，并计算价格
+   * 1. 请求接口: 查询会员后台购物车
+   * 2. 请求接口: 计算价格
    * 2. 抛出下单限制错误
    */
   @action
@@ -634,9 +655,9 @@ class CheckoutStore {
     purchaseFlag,
     taxFeeData,
     isThrowErr = false,
+    isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
-    intl,
     paymentStore
   } = {}) {
     try {
@@ -649,7 +670,7 @@ class CheckoutStore {
 
       // 获取购物车列表
       // 删除felin sku
-      let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
+      let siteMiniPurchasesRes = await queryBackendCart({ delFlag });
       siteMiniPurchasesRes.context.goodsList =
         siteMiniPurchasesRes?.context?.goodsList?.map((item) => {
           if (item.goodsInfos) {
@@ -698,6 +719,7 @@ class CheckoutStore {
         shippingFeeAddress, // DuData地址对象，俄罗斯计算运费用
         paymentCode: paymentStore?.curPayWayInfo?.code
       });
+
       // console.log('purchase api res', sitePurchasesRes);
       // debugger;
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
@@ -836,7 +858,6 @@ class CheckoutStore {
       // 抛出错误
       if (isThrowErr) {
         await this.validCheckoutLimitRule({
-          intl,
           purchasesRes: sitePurchasesRes
         });
       }
@@ -845,8 +866,11 @@ class CheckoutStore {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
-      console.log(err);
+      console.log(11111166, err);
       this.changeIsLoadingCartData(false);
+      if (err.code === 'K-000071' && isThrowValidPromotionCodeErr) {
+        throw new Error(err.message);
+      }
       if (isThrowErr) {
         throw new Error(err.message);
       }
@@ -917,11 +941,8 @@ class CheckoutStore {
     cartItemList,
     currentUnitPrice = 0,
     isMobile,
-    intl = {},
     configStore
   }) {
-    console.log(this.cartData);
-    // debugger;
     const { formatMessage } = intl;
     const {
       info: { skuLimitThreshold }
@@ -1005,7 +1026,7 @@ class CheckoutStore {
             )
           );
         }
-        await this.updateUnloginCart({ cartData: cartDataCopy, intl });
+        await this.updateUnloginCart({ cartData: cartDataCopy });
         if (!isMobile) {
           stores.headerCartStore.show();
           clearTimeout(this.timer);
@@ -1039,41 +1060,47 @@ class CheckoutStore {
     if (this.originTradePrice < 0) {
       this.originTradePrice = this.tradePrice;
     }
-    const res = await calculateServiceFeeAndLoyaltyPoints({
-      totalPrice: this.originTradePrice,
-      totalPriceHaveNotShippingFee: this.totalPrice,
-      deliveryPrice: this.deliveryPrice,
-      discountPrice: this.discountPrice,
-      taxFeePrice: this.taxFeePrice,
-      couponCodeDiscount: this.couponCodeDiscount,
-      paymentCode,
-      loyaltyPoints,
-      ownerId,
-      subscriptionFlag,
-      freeShippingDiscountPrice: this.freeShippingDiscountPrice
-    });
-    const {
-      loyaltyPointsPrice,
-      serviceFeePrice,
-      totalPrice,
-      allowed,
-      loyaltyPointsEarned,
-      loyaltyPointsMinimum,
-      loyaltyPointsMaximum
-    } = res?.context || {};
-
-    this.setEarnedPoint(loyaltyPointsEarned);
-    this.setLoyaltyPointsMinimum(loyaltyPointsMinimum);
-    this.setLoyaltyPointsMaximum(loyaltyPointsMaximum);
-    this.setIsCanUsePoint(allowed);
-
-    this.setCartPrice(
-      Object.assign({}, this.cartPrice, {
-        tradePrice: totalPrice,
+    try {
+      this.setCalculateServiceFeeLoading(true);
+      const res = await calculateServiceFeeAndLoyaltyPoints({
+        totalPrice: this.originTradePrice,
+        totalPriceHaveNotShippingFee: this.totalPrice,
+        deliveryPrice: this.deliveryPrice,
+        discountPrice: this.discountPrice,
+        taxFeePrice: this.taxFeePrice,
+        couponCodeDiscount: this.couponCodeDiscount,
+        paymentCode,
+        loyaltyPoints,
+        ownerId,
+        subscriptionFlag,
+        freeShippingDiscountPrice: this.freeShippingDiscountPrice
+      });
+      const {
+        loyaltyPointsPrice,
         serviceFeePrice,
-        loyaltyPointsPrice
-      })
-    );
+        totalPrice,
+        allowed,
+        loyaltyPointsEarned,
+        loyaltyPointsMinimum,
+        loyaltyPointsMaximum
+      } = res?.context || {};
+
+      this.setEarnedPoint(loyaltyPointsEarned);
+      this.setLoyaltyPointsMinimum(loyaltyPointsMinimum);
+      this.setLoyaltyPointsMaximum(loyaltyPointsMaximum);
+      this.setIsCanUsePoint(allowed);
+
+      this.setCartPrice(
+        Object.assign({}, this.cartPrice, {
+          tradePrice: totalPrice,
+          serviceFeePrice,
+          loyaltyPointsPrice
+        })
+      );
+      this.setCalculateServiceFeeLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /**

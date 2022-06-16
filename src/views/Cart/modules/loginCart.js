@@ -57,6 +57,10 @@ import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { PriceDetailsList } from '../components';
+import {
+  GACartRecommendedProductClick,
+  GACartButtonClick
+} from '@/utils/GA/cart';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -65,7 +69,13 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 let preventChangeSize = false; // 修改bug: 先选中数量框，再直接点击切换规则，引起的购物车数据重复
 
-@inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'clinicStore',
+  'configStore',
+  'paymentStore'
+)
 @injectIntl
 @observer
 class LoginCart extends React.Component {
@@ -114,6 +124,8 @@ class LoginCart extends React.Component {
   }
   async componentDidMount() {
     console.log('loginPage');
+    this.props.paymentStore.serCurPayWayVal(''); //为了从checout页面回到购物车页面时 清空支付方式
+    this.props.checkoutStore.setEarnedPoint(0); //为了从checout页面回到购物车页面时 清空积分
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
@@ -152,7 +164,7 @@ class LoginCart extends React.Component {
       const unloginCartData = this.checkoutStore.cartData;
       if (unloginCartData.length) {
         await mergeUnloginCartData();
-        await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
+        await this.checkoutStore.updateLoginCart();
       }
 
       GACartScreenLoad(() =>
@@ -298,8 +310,7 @@ class LoginCart extends React.Component {
     try {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
-        isThrowErr,
-        intl: this.props.intl
+        isThrowErr
       });
       callback && callback();
       this.setData();
@@ -457,7 +468,8 @@ class LoginCart extends React.Component {
       this.showErrMsg(err.message);
     }
   }
-  handleCheckout = async () => {
+  handleCheckout = async ({ needLogin = false } = {}) => {
+    GACartButtonClick('Buy Now');
     if (!this.btnStatus) {
       return false;
     }
@@ -705,7 +717,7 @@ class LoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div className="product-info__img mr-2 overflow-hidden">
+              <div className="product-info__img mr-2 overflow-hidden flex-shrink-0">
                 <LazyLoad>
                   <img
                     className="w-100"
@@ -715,7 +727,10 @@ class LoginCart extends React.Component {
                   />
                 </LazyLoad>
               </div>
-              <div className="product-info__desc relative" style={{ flex: 1 }}>
+              <div
+                className="product-info__desc relative flex-shrink-0"
+                style={{ flex: 1, width: 'calc(100% - 100px)' }}
+              >
                 <Link
                   className="ui-cursor-pointer rc-margin-top--xs inline-block mr-5 md:inline align-items-md-center flex-column flex-md-row mt-0"
                   to={`/${pitem.goodsName
@@ -727,6 +742,7 @@ class LoginCart extends React.Component {
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
                     title={pitem.goodsName}
+                    style={{ wordBreak: 'break-word' }}
                   >
                     {pitem.goodsName}
                   </h4>
@@ -960,6 +976,7 @@ class LoginCart extends React.Component {
       checkoutLoading,
       promotionCode,
       isShowValidCode,
+      validPromotionCodeErrMsg,
       mobileCartVisibleKey
     } = this.state;
     const subtractionSign = '-';
@@ -1013,6 +1030,11 @@ class LoginCart extends React.Component {
             </p>
           </div>
         </div>
+        {validPromotionCodeErrMsg ? (
+          <div className="red pl-3 pb-3 pt-2 text-sm">
+            {validPromotionCodeErrMsg}
+          </div>
+        ) : null}
         {isShowValidCode ? (
           <div className="red pl-3 pb-3 pt-2 text-sm">
             <FormattedMessage id="validPromotionCode" />
@@ -1275,7 +1297,7 @@ class LoginCart extends React.Component {
     this.setState({ checkoutLoading: false });
   }
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
@@ -1284,11 +1306,10 @@ class LoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency',
-        intl
+        subscriptionFlag: buyWay === 'frequency'
       });
     } else {
-      result = await checkoutStore.updateUnloginCart({ intl });
+      result = await checkoutStore.updateUnloginCart();
     }
     this.setState({
       discount: [],
@@ -1299,7 +1320,8 @@ class LoginCart extends React.Component {
   };
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay, intl } = this.props;
+
+    const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
     let result = {};
@@ -1310,54 +1332,69 @@ class LoginCart extends React.Component {
       lastPromotionInputValue,
       discount: []
     });
-    if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart({
-        promotionCode: lastPromotionInputValue,
-        subscriptionFlag: buyWay === 'frequency',
-        intl
-      });
-    } else {
-      result = await checkoutStore.updateUnloginCart({
-        promotionCode: lastPromotionInputValue,
-        intl
-      });
-    }
-    if (
-      result &&
-      (!result.context.promotionFlag || result.context.couponCodeFlag)
-    ) {
-      //表示输入apply promotionCode成功
-      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-      this.setState({ discount });
-      // this.props.sendPromotionCode(
-      //   this.state.promotionInputValue
-      // );
-    } else {
+    try {
+      if (loginStore.isLogin) {
+        result = await checkoutStore.updateLoginCart({
+          promotionCode: lastPromotionInputValue,
+          subscriptionFlag: buyWay === 'frequency',
+          isThrowValidPromotionCodeErr: true
+        });
+      } else {
+        result = await checkoutStore.updateUnloginCart({
+          promotionCode: lastPromotionInputValue,
+          isThrowValidPromotionCodeErr: true
+        });
+      }
+      if (
+        result &&
+        (!result.context.promotionFlag || result.context.couponCodeFlag)
+      ) {
+        //表示输入apply promotionCode成功
+        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        this.setState({ discount });
+        // this.props.sendPromotionCode(
+        //   this.state.promotionInputValue
+        // );
+      } else {
+        this.setState({
+          isShowValidCode: true
+        });
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.setState(
+            {
+              isShowValidCode: false,
+              promotionInputValue: ''
+            },
+            () => {
+              // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+              result &&
+                result.code === 'K-000000' &&
+                this.handleClickPromotionApply(true);
+            }
+          );
+        }, 4000);
+        // this.props.sendPromotionCode('');
+      }
+    } catch (err) {
       this.setState({
-        isShowValidCode: true
+        validPromotionCodeErrMsg: err.message
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState(
-          {
-            isShowValidCode: false,
-            promotionInputValue: ''
-          },
-          () => {
-            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
-            result &&
-              result.code === 'K-000000' &&
-              this.handleClickPromotionApply(true);
-          }
-        );
+        this.setState({
+          validPromotionCodeErrMsg: '',
+          promotionInputValue: ''
+        });
       }, 4000);
-      // this.props.sendPromotionCode('');
+    } finally {
+      this.setState({
+        isClickApply: false
+        // promotionInputValue: ''
+      });
     }
-    this.setState({
-      isClickApply: false
-      // promotionInputValue: ''
-    });
   };
+
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
@@ -1385,7 +1422,6 @@ class LoginCart extends React.Component {
     return (
       <div className="Carts">
         <Helmet>
-          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -1537,7 +1573,10 @@ class LoginCart extends React.Component {
             )}
           </div>
           {this.state.relatedGoodsList.length > 0 ? (
-            <ProductCarousel goodsList={this.state.relatedGoodsList} />
+            <ProductCarousel
+              goodsList={this.state.relatedGoodsList}
+              onClick={(product) => GACartRecommendedProductClick(product)}
+            />
           ) : null}
           <Footer />
         </main>

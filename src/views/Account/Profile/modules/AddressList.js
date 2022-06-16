@@ -10,8 +10,6 @@ import {
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
-import 'react-datepicker/dist/react-datepicker.css';
-// import classNames from 'classnames';
 import {
   saveAddress,
   editAddress,
@@ -30,6 +28,7 @@ import './AddressList.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 // 地址项
 function CardItem(props) {
@@ -141,6 +140,9 @@ class AddressList extends React.Component {
 
   // 获取地址列表
   getAddressList = async ({ showLoading = false } = {}) => {
+    const {
+      intl: { messages, formatMessage }
+    } = this.props;
     try {
       const { hideBillingAddr, selectedId } = this.props;
       showLoading && this.setState({ listLoading: true });
@@ -185,14 +187,22 @@ class AddressList extends React.Component {
         (item) => item.type === 'DELIVERY' && item.receiveType == 'PICK_UP'
       );
 
-      const pickUpActiveRes = await checkPickUpActive({
-        deliveryAddressId: pickupAddress[0].deliveryAddressId
-      });
-      if (!pickUpActiveRes.context.pickupPointState) {
-        this.setState({
-          errorMsg:
-            'Выбранный Вами пункт выдачи заказов закрыт. Пожалуйста, выберите другой пункт выдачи или доставку курьером'
+      if (
+        window.__.env.REACT_APP_COUNTRY == 'ru' &&
+        pickupAddress[0]?.deliveryAddressId
+      ) {
+        const pickUpActiveRes = await checkPickUpActive({
+          deliveryAddressId: pickupAddress[0].deliveryAddressId
         });
+        if (pickUpActiveRes.context.pickupPointState === false) {
+          this.setState({
+            errorMsg: this.props.intl.messages['pickUpNoActive']
+          });
+        } else {
+          this.setState({
+            errorMsg: ''
+          });
+        }
       }
     } catch (err) {
       this.showErrorMsg(err.message);
@@ -678,7 +688,9 @@ class AddressList extends React.Component {
           lastName: pickupFormData.lastName,
           consigneeNumber: pickupFormData.phoneNumber,
           consigneeName:
-            pickupFormData.firstName + ' ' + pickupFormData.lastName,
+            COUNTRY == 'jp'
+              ? pickupFormData.lastName + ' ' + pickupFormData.firstName
+              : pickupFormData.firstName + ' ' + pickupFormData.lastName,
           address1: pickupFormData.address1,
           deliveryAddress: pickupFormData.address1,
           city: pickupFormData.city,
@@ -914,6 +926,7 @@ class AddressList extends React.Component {
 
                     <HomeDeliveryOrPickUp
                       key={defaultCity}
+                      initData={this.state.pickupFormData}
                       isLogin={true}
                       defaultCity={defaultCity}
                       pageType="onlyPickup"
@@ -923,6 +936,7 @@ class AddressList extends React.Component {
                       updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                       deliveryOrPickUp={showDeliveryOrPickUp}
                       intlMessages={this.props.intl.messages}
+                      fromPage="myAccount"
                     />
 
                     {/* 分割线 */}

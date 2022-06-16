@@ -273,7 +273,8 @@ function ListItemForDefault(props) {
     link,
     showBorder,
     targetType,
-    className
+    className,
+    notUpdateRouter
   } = props;
   return item && item.productFinder ? (
     <article
@@ -442,18 +443,20 @@ function ListItemForDefault(props) {
           className="ui-cursor-pointer-pure"
           target={targetType}
           to={
-            link || {
-              pathname: item
-                ? `/${item.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${item.goodsNo}` + sourceParam
-                : '',
-              state: {
-                GAListParam,
-                historyBreads: breadListByDeco
-              }
-            }
+            notUpdateRouter
+              ? null
+              : link || {
+                  pathname: item
+                    ? `/${item.lowGoodsName
+                        .split(' ')
+                        .join('-')
+                        .replace('/', '')}-${item.goodsNo}` + sourceParam
+                    : '',
+                  state: {
+                    GAListParam,
+                    historyBreads: breadListByDeco
+                  }
+                }
           }
           onClick={props.onClick}
         >
@@ -468,6 +471,7 @@ function ListItemForDefault(props) {
                   <LazyLoad
                     style={{ width: '100%', height: '100%' }}
                     classNamePrefix="w-100 h-100 d-flex align-items-center"
+                    overflow="scroll" //在弹窗中lazyload需要加scroll才能出来图片
                   >
                     <img
                       src={
@@ -933,6 +937,7 @@ export default class PLPCover extends React.Component {
           breadListByDeco={breadListByDeco}
           target={this.props.targetType}
           link={link}
+          notUpdateRouter={this.props.notUpdateRouter}
         >
           <ListItemBody
             configStore={this.props.configStore}

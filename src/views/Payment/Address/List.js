@@ -42,6 +42,11 @@ import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 import moment from 'moment';
+import {
+  getConsigneeNameByCountry,
+  jpSetAddressFields,
+  isSaveAddressBtnDisabled
+} from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -150,7 +155,8 @@ class AddressList extends React.Component {
       validationAddress: null, // 建议地址
       jpCutOffTime: '',
       bugData: {},
-      addressConfirmState: true
+      addressConfirmState: true,
+      jpNameValid: false
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
@@ -737,12 +743,24 @@ class AddressList extends React.Component {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
     let nextConfirmPanel;
-    if (localItemRoyal.get('rc-promotionCode')) {
-      nextConfirmPanel = paymentStore?.panelStatus?.filter(
-        (item) => item.key === 'confirmation'
-      )[0];
+    const isUserGroup = sessionItemRoyal.get('rc-userGroup') ? true : false;
+    //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
+    // 如果代客下单是日本 需要推送bindPet
+    // 如果不是代客下单
+    // 代客下单
+    if (isUserGroup && localItemRoyal.get('rc-promotionCode')) {
+      // 如果是日本
+      if (COUNTRY === 'jp') {
+        nextConfirmPanel = paymentStore?.panelStatus?.filter(
+          (item) => item.key === 'bindPet'
+        )[0];
+      } else {
+        nextConfirmPanel = paymentStore?.panelStatus?.filter(
+          (item) => item.key === 'confirmation'
+        )[0];
+      }
     } else {
-      //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
+      // 正常下单
       if (COUNTRY !== 'jp') {
         nextConfirmPanel = searchNextConfirmPanel({
           list: toJS(
@@ -750,11 +768,6 @@ class AddressList extends React.Component {
           ),
           curKey: this.curPanelKey
         });
-        // // 下一个最近的未complete的panel
-        // nextConfirmPanel = searchNextConfirmPanel({
-        //   list: toJS(paymentStore.panelStatus),
-        //   curKey: this.curPanelKey
-        // });
       } else {
         // 下一个最近的未complete的panel
         nextConfirmPanel = searchNextConfirmPanel({
@@ -763,6 +776,7 @@ class AddressList extends React.Component {
         });
       }
     }
+
     if (data) {
       paymentStore.setStsToCompleted({
         key: this.curPanelKey,
@@ -875,7 +889,9 @@ class AddressList extends React.Component {
       deliveryDateId: 0,
       timeSlot: '',
       timeSlotId: 0,
-      isDefalt: false
+      isDefalt: false,
+      firstNameKatakana: '',
+      lastNameKatakana: ''
     };
     this.setState({
       typeForGA: idx > -1 ? 'Edit' : 'Add'
@@ -951,7 +967,6 @@ class AddressList extends React.Component {
           key: this.curPanelKey,
           hideOthers: this.isDeliverAddress ? true : false
         });
-        debugger;
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
@@ -970,7 +985,6 @@ class AddressList extends React.Component {
     this.setState({ bugData });
   };
   updateDeliveryAddress = async (data) => {
-    console.log(444, data);
     const { intl } = this.props;
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
@@ -992,7 +1006,7 @@ class AddressList extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } finally {
-      console.log(555, data);
+      console.log(5555, data);
       this.setState({ deliveryAddress: data });
     }
   };
@@ -1069,8 +1083,7 @@ class AddressList extends React.Component {
       // }
 
       let params = Object.assign({}, deliveryAddress, {
-        consigneeName:
-          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeName: getConsigneeNameByCountry(deliveryAddress),
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
         deliveryAddress:
@@ -1263,6 +1276,13 @@ class AddressList extends React.Component {
       });
     }, 5000);
   }
+  //不定时关闭
+  showErrMsg2(msg) {
+    this.setState({
+      saveErrorMsg: msg
+    });
+    this.scrollToTitle();
+  }
   showSuccessMsg() {
     this.setState({
       successTipVisible: true
@@ -1337,11 +1357,6 @@ class AddressList extends React.Component {
       farr.push(data.area);
     }
     return farr.join(', ');
-  };
-
-  //日本 处理要显示的字段
-  jpSetAddressFields = (data) => {
-    return [data.province, data.city, data.area, data.address1].join(', ');
   };
 
   // ************************ pick up 相关
@@ -1695,11 +1710,14 @@ class AddressList extends React.Component {
     try {
       this.setState({ loading: true });
       const res = await checkPickUpActive({ deliveryAddressId });
-      if (!res.context.pickupPointState) {
-        this.showErrMsg(
-          'Выбранный Вами пункт выдачи заказов закрыт. Пожалуйста, выберите другой пункт выдачи или доставку курьером'
-        );
+      if (res.context.pickupPointState === false) {
+        this.showErrMsg2(this.getIntlMsg('pickUpNoActive'));
+
         this.updateConfirmBtnDisabled(true);
+      } else {
+        this.setState({
+          saveErrorMsg: ''
+        });
       }
     } catch (err) {
       console.log(err);
@@ -1729,8 +1747,12 @@ class AddressList extends React.Component {
     // console.log('666 >>> 单选按钮选择 val: ', val);
     this.updateShippingMethodType(val);
 
-    if (val == 'pickup') {
-      this.doCheckPickUpActive(pickupAddress[0].deliveryAddressId);
+    if (
+      COUNTRY == 'ru' &&
+      val == 'pickup' &&
+      pickupAddress[0]?.deliveryAddressId
+    ) {
+      this.doCheckPickUpActive(pickupAddress[0]?.deliveryAddressId);
     } else {
       this.updateConfirmBtnDisabled(false);
     }
@@ -1968,7 +1990,7 @@ class AddressList extends React.Component {
         calculation: pickupCalculation,
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
-        consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
+        consigneeName: getConsigneeNameByCountry(pickupFormData),
         consigneeNumber: pickupFormData.consigneeNumber,
         address1: pickupFormData.address1,
         deliveryAddress: pickupFormData.address1,
@@ -2103,6 +2125,12 @@ class AddressList extends React.Component {
     }
   };
 
+  getJpNameValidFlag = (flag) => {
+    this.setState({
+      jpNameValid: flag
+    });
+  };
+
   render() {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
@@ -2132,7 +2160,8 @@ class AddressList extends React.Component {
       addressList,
       allAddressList,
       pickupAddress,
-      pickupEditNumber
+      pickupEditNumber,
+      jpNameValid
     } = this.state;
 
     // 地址列表
@@ -2248,6 +2277,12 @@ class AddressList extends React.Component {
               className="d-flex col-10 col-md-8 pl-1 pr-1"
               style={{ flexDirection: 'column' }}
             >
+              {COUNTRY === 'jp' && (
+                <span style={{ color: '#e2001a' }}>
+                  <FormattedMessage id="DeliveryShelter" />
+                </span>
+              )}
+
               <span>
                 {item.lastName}
                 {item.firstName}
@@ -2259,15 +2294,25 @@ class AddressList extends React.Component {
               <span>
                 {COUNTRY === 'jp' ? '〒' + item.postCode : item.postCode}
               </span>
-              <p>{this.jpSetAddressFields(item)}</p>
+              <p>{jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
               <span>
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+
                     {item.deliveryDate !== 'Unspecified' && (
                       <>
-                        <FormattedMessage id="Deliverytime" />
+                        {COUNTRY === 'jp' ? (
+                          <p style={{ color: '#e2001a' }}>
+                            <FormattedMessage id="Deliverytime" />
+                          </p>
+                        ) : (
+                          <span>
+                            <FormattedMessage id="Deliverytime" />
+                          </span>
+                        )}
+
                         {formatJPDate(item.deliveryDate)}
                       </>
                     )}
@@ -2381,6 +2426,7 @@ class AddressList extends React.Component {
                 this.state.typeForGA
               );
             }}
+            getJpNameValidFlag={this.getJpNameValidFlag}
           />
         )}
 
@@ -2412,7 +2458,11 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={isValid && formAddressValid ? false : true}
+                    disabled={isSaveAddressBtnDisabled(
+                      isValid,
+                      formAddressValid,
+                      jpNameValid
+                    )}
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -2439,7 +2489,11 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={isValid && formAddressValid ? false : true}
+                    disabled={isSaveAddressBtnDisabled(
+                      isValid,
+                      formAddressValid,
+                      jpNameValid
+                    )}
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -2538,6 +2592,7 @@ class AddressList extends React.Component {
                 onSearchSelectionError={(errorMessage) => {
                   this.props.onSearchSelectionError(errorMessage, 'Add');
                 }}
+                fromPage="checkout"
               />
             </>
           ) : null}

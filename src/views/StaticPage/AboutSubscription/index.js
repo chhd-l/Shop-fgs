@@ -5,23 +5,18 @@ import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
-
+import { Canonical } from '@/components/Common';
 import hootbg from './images/hootbg.png';
 import hootbg2 from './images/hootbg2.png';
 import Bitmap1 from './images/Bitmap1.png';
 import Bitmap2 from './images/Bitmap2.png';
 import Bitmap3 from './images/Bitmap3.png';
 
-const pageLink = window.location.href;
-
 function AboutSubscription(props) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <Helmet>
-        <link rel="canonical" href={pageLink} />
-      </Helmet>
+      <Canonical />
       <div className="aboutSubscription">
         {/* {isLoading ? <Loading bgColor={'#fff'} /> : null} */}
         <Header {...props} showMiniIcons={true} showUserIcon={true} />
@@ -60,7 +55,7 @@ function AboutSubscription(props) {
             </p>
             <div className="md:flex justify-evenly">
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="DINPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="font-DinPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
                   Point 1
                 </h1>
                 <p
@@ -71,25 +66,25 @@ function AboutSubscription(props) {
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="DINPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="font-DinPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
                   Point 2
                 </h1>
                 <p
                   className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
                 >
-                  お届け回数は、３回から設定いただけます
+                  配送頻度、次回発送日、お届け時間帯は、マイページの定期購入からいつでも変更できます
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="DINPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="font-DinPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
                   Point 3
                 </h1>
                 <p
                   className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
                 >
-                  配送頻度、お届け回数、お届け時間帯は、マイページの「購入履歴・定期購入履歴」の「履歴を確認する」ボタンからいつでも変更できます
+                  定期購入でマイロイヤルカナンのポイント2％がアップします
                 </p>
               </div>
             </div>
@@ -97,8 +92,8 @@ function AboutSubscription(props) {
               className="font-PingFangSC text-16 leading-6 md:mt-10 md:leading-7 md:text-20 text-center"
               style={{ color: '#666' }}
             >
-              必要なくなった場合は、マイページの「購入履歴・定期購入履歴」の「履歴を確認する」ボタンからいつでもキャンセル可能です。
-              5,500円（税込）以上のご注文で配送料無料です。
+              必要なくなった場合は、マイページの定期購入から、対象の定期購入の「確認・変更」ボタンをクリックし、定期購入詳細ページにていつでもキャンセル可能です。
+              5,500円（税込み）以上のご注文で配送料無料です。
             </p>
           </div>
           <div className="throughLine"></div>

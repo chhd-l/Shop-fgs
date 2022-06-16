@@ -20,13 +20,11 @@ import SearchSelection from '@/components/DqeSearchSelection';
 import {
   getDictionary,
   validData,
-  datePickerConfig,
   getZoneTime,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
   formatDate
 } from '@/utils/utils';
-import DatePicker from 'react-datepicker';
 import find from 'lodash/find';
 import Loading from '@/components/Loading';
 import {
@@ -48,19 +46,12 @@ import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
 import { format } from 'date-fns';
-import { Input } from '@/components/Common';
+import { DatePickerComponent, Input } from '@/components/Common';
+import { phoneNumberMask } from '@/utils/constant';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
-
-const sleep = (time) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-};
 
 @inject('configStore')
 @injectIntl
@@ -75,7 +66,8 @@ class Form extends React.Component {
     isLogin: false,
     updateData: () => {},
     calculateFreight: () => {},
-    getFormAddressValidFlag: () => {}
+    getFormAddressValidFlag: () => {},
+    getJpNameValidFlag: () => {}
   };
   constructor(props) {
     super(props);
@@ -148,16 +140,9 @@ class Form extends React.Component {
   }
   async componentDidMount() {
     const {
-      configStore: { localAddressForm }
+      configStore: { localAddressForm },
+      initData = {}
     } = this.props;
-    let timer = setInterval(() => {
-      let datePickerDom = document.querySelector('.receiveDate');
-      if (datePickerDom) {
-        datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
-        clearInterval(timer);
-      }
-    }, 3000);
-    const { initData = {} } = this.props;
 
     //日本
     if (COUNTRY === 'jp') {
@@ -242,6 +227,7 @@ class Form extends React.Component {
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
     const { apiType } = this.state;
+
     let res = null;
     let addls = null;
     try {
@@ -357,10 +343,10 @@ class Form extends React.Component {
 
           if (obj.deliveryDate == v.date) {
             obj.deliveryDateId = dateStr;
-          } else if (obj.deliveryDate == '') {
+          } else if (obj.deliveryDate == '' && COUNTRY == 'jp') {
             obj.deliveryDate = 'Unspecified';
             obj.deliveryDateId = 'Unspecified';
-          } else if (isBelongDelievryDate() == false) {
+          } else if (isBelongDelievryDate() == false && COUNTRY == 'jp') {
             obj.deliveryDate = 'Unspecified';
             obj.deliveryDateId = 'Unspecified';
             obj.timeSlotId = 'Unspecified';
@@ -536,16 +522,8 @@ class Form extends React.Component {
     };
     IMask(element, maskOptions);
 
-    if (
-      COUNTRY == 'ru' &&
-      (this.state.caninForm.phoneNumber == '' ||
-        this.state.caninForm.phoneNumber == null)
-    ) {
-      const { caninForm } = this.state;
-      let newForm = Object.assign({}, caninForm, {
-        phoneNumber: '+7(___)___-__-__'
-      });
-      this.setState({ caninForm: newForm });
+    if (COUNTRY == 'ru') {
+      this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
     }
   };
   // 1、获取 session 存储的 address form 数据并处理
@@ -832,6 +810,15 @@ class Form extends React.Component {
             }
           }
         );
+      }
+
+      if (COUNTRY == 'jp') {
+        item.fieldKey == 'firstNameKatakana' &&
+          this.jpNameKatakanaValid(item.fieldKey, cfdata.firstNameKatakana);
+        setTimeout(() => {
+          item.fieldKey == 'lastNameKatakana' &&
+            this.jpNameKatakanaValid(item.fieldKey, cfdata.lastNameKatakana);
+        }, 100);
       }
 
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
@@ -1144,7 +1131,7 @@ class Form extends React.Component {
         no: c.no
       };
     });
-    if (key == 'state') {
+    if (key == 'state' && COUNTRY != 'jp') {
       tmp.unshift({ value: '', name: 'State' });
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
@@ -1158,7 +1145,7 @@ class Form extends React.Component {
     //   });
     // }
 
-    if (key == 'timeSlot') {
+    if (key == 'timeSlot' && COUNTRY == 'jp') {
       //日本.俄罗斯timeSlot才有Unspecified
       tmp.unshift({
         value: 'Unspecified',
@@ -1246,6 +1233,43 @@ class Form extends React.Component {
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
+
+  jpNameKatakanaValid = (name, value) => {
+    if (COUNTRY !== 'jp') return;
+    const { errMsgObj } = this.state;
+    if (['firstNameKatakana', 'lastNameKatakana'].indexOf(name) > -1) {
+      const jpNameReg = /^(?=.*?[\u30A1-\u30FC])[\u30A1-\u30FC\s]*$/;
+      const jpNameValid = jpNameReg.test(value);
+      if (jpNameValid) {
+        this.setState(
+          {
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [name]: ''
+            })
+          },
+          () => {
+            const { firstNameKatakana, lastNameKatakana } = errMsgObj;
+            if (!firstNameKatakana && !lastNameKatakana)
+              this.props.getJpNameValidFlag(true);
+          }
+        );
+      } else {
+        this.setState(
+          {
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [name]: this.getIntlMsg('registerIllegalSymbol')
+            })
+          },
+          () => {
+            const { firstNameKatakana, lastNameKatakana } = errMsgObj;
+            if (firstNameKatakana || lastNameKatakana)
+              this.props.getJpNameValidFlag(false);
+          }
+        );
+      }
+    }
+  };
+
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
     const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
@@ -1253,8 +1277,8 @@ class Form extends React.Component {
     if (!caninForm?.formRuleRu?.length) {
       return;
     }
-
     let targetRule = null;
+    this.jpNameKatakanaValid(tname, tvalue);
 
     if (isDeliveryDateAndTimeSlot) {
       targetRule = caninForm?.formRuleRu.filter((e) => e.key === tname);
@@ -1884,12 +1908,9 @@ class Form extends React.Component {
               <FormattedMessage id="account.birthDate" />
             </label>
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-              <DatePicker
+              <DatePickerComponent
                 className="receiveDate birthDateShipping"
                 style={{ padding: '.95rem 0' }}
-                placeholder={datePickerConfig.format}
-                dateFormat={datePickerConfig.format}
-                locale={datePickerConfig.locale}
                 maxDate={new Date()}
                 selected={
                   caninForm.birthdate ? getZoneTime(caninForm.birthdate) : ''
@@ -1984,7 +2005,6 @@ class Form extends React.Component {
                     item.inputSearchBoxFlag == 1
                       ? this.citySearchSelectiontJSX(item)
                       : null}
-
                     {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
                     {item.inputDropDownBoxFlag == 0 &&
                     item.inputFreeTextFlag == 1 &&

@@ -7,7 +7,9 @@ const Input = ({
   maxLength = 50,
   name,
   valid = true,
+  highLightSuccess = false,
   onChange,
+  onInput,
   onBlur,
   value,
   label,
@@ -16,6 +18,7 @@ const Input = ({
   toolTip,
   rightOperateBoxJSX,
   className,
+  isWarning,
   ...rest
 }) => {
   return (
@@ -26,18 +29,24 @@ const Input = ({
       )}
     >
       <div
-        className={cn('rc-input rc-input--full-width relative', {
-          'rc-input--error': !valid
-        })}
+        className={cn(
+          'rc-input rc-input--full-width relative rc-input-overwrite',
+          {
+            // 'rc-input--error': !valid,
+            'rc-input--success': valid && highLightSuccess,
+            'rc-input--error': isWarning
+          }
+        )}
         data-rc-feature-forms-setup="true"
       >
         <input
-          className="rc-input__control-overwrite"
+          className={cn('rc-input__control-overwrite')}
           id={id}
           type={type}
           maxLength={maxLength}
           name={name}
           onChange={onChange}
+          onInput={onInput}
           onBlur={onBlur}
           value={value}
           {...rest}
@@ -46,7 +55,9 @@ const Input = ({
           <span className="rc-input__label-text-overwrite">{label}</span>
         </label>
         {rightOperateBoxJSX ? (
-          <div className="absolute right-0 bottom-0">{rightOperateBoxJSX}</div>
+          <div className="absolute right-0 bottom-0 z-10">
+            {rightOperateBoxJSX}
+          </div>
         ) : null}
       </div>
       <div className="invalid-feedback">{inValidLabel}</div>

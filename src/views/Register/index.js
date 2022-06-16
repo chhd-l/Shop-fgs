@@ -11,7 +11,8 @@ import stores from '@/store';
 import {
   mergeUnloginCartData,
   getOktaCallBackUrl,
-  bindSubmitParam
+  bindSubmitParam,
+  getDeviceType
 } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -25,12 +26,13 @@ import { Input } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
-// import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import NlConsentAdditionalText from '@/components/Consent/ConsentAdditionalText/nlConsentText';
 import './components/notification.less';
 
 // 日本logo
 import jpLogo from '@/assets/images/register/jp_logo.svg';
-
+const isMobilePhone = getDeviceType() === 'H5';
+console.log(isMobilePhone, 'isMobilePhone');
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
@@ -61,6 +63,12 @@ class Register extends Component {
       nameValid: true,
       emailValid: true,
       passwordValid: true,
+
+      formWarning: {
+        name: false,
+        email: false,
+        password: false
+      },
 
       registerForm: {
         name: '',
@@ -152,11 +160,17 @@ class Register extends Component {
     });
     try {
       const result = await getStoreOpenConsentList({});
-      const optioalList = result.context.optionalList.map((item) => {
+      let _optionalList = result.context.optionalList;
+      if (window.__.env.REACT_APP_COUNTRY === 'nl') {
+        _optionalList = result.context.optionalList.filter(
+          (item) => item.consentDesc !== 'MARS-PETCARE_NL_GLOBAL_B2C_DATALAKE'
+        );
+      }
+      const optioalList = _optionalList.map((item) => {
         return {
           id: item.id,
           consentTitle:
-            window.__.env.REACT_APP_COUNTRY === 'uk'
+            ['uk', 'nl'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
               ? item.consentRegisterTitle || item.consentTitle
               : item.consentTitle,
           isChecked: false,
@@ -192,7 +206,7 @@ class Register extends Component {
 
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
-      if (window.__.env.REACT_APP_COUNTRY === 'uk') {
+      if (['uk', 'nl'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
         list = [...optioalList, ...requiredList]; //uk的排序特殊化
       }
       this.setState({
@@ -254,61 +268,75 @@ class Register extends Component {
     const symbolReg2 = /^\-+$/;
     const deIllegalSymbol =
       symbolReg1.test(value.trim()) || symbolReg2.test(value.trim());
+    // jp katakana verification
+    let jpNameValid = true;
+    if (name === 'phoneticLastName' || name === 'phoneticFirstName') {
+      const jpNameReg = /^(?=.*?[\u30A1-\u30FC])[\u30A1-\u30FC\s]*$/;
+      jpNameValid = jpNameReg.test(value.trim());
+      console.log(jpNameValid, 'jpjpjp');
+    }
+
+    let valid;
     switch (name) {
       case 'password':
         const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
           this.state;
-        const passwordValid =
+        valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
-          passwordValid,
+          passwordValid: valid,
           passwordMessage: value.trim()
             ? this.props.intl.messages.registerPasswordFormat
             : this.props.intl.messages.registerFillIn
         });
         break;
       case 'name':
+        valid = !!value.trim();
         this.setState({
-          nameValid: !!value.trim()
+          nameValid: valid
         });
         break;
       case 'firstName':
+        valid = !!value.trim() && !deIllegalSymbol;
         this.setState({
-          firstNameValid: !!value.trim() && !deIllegalSymbol,
+          firstNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'lastName':
+        valid = !!value.trim() && !deIllegalSymbol;
         this.setState({
-          lastNameValid: !!value.trim() && !deIllegalSymbol,
+          lastNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticFirstName':
-        console.log('phoneticFirstNameValid');
+        valid = !!value.trim() && !deIllegalSymbol && jpNameValid;
         this.setState({
-          phoneticFirstNameValid: !!value.trim() && !deIllegalSymbol,
+          phoneticFirstNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticLastName':
-        console.log('phoneticLastNameValid');
+        valid = !!value.trim() && !deIllegalSymbol && jpNameValid;
         this.setState({
-          phoneticLastNameValid: !!value.trim() && !deIllegalSymbol,
+          phoneticLastNameValid: valid,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'email':
+        valid = EMAIL_REGEXP.test(value);
         this.setState({
-          emailValid: EMAIL_REGEXP.test(value),
+          emailValid: valid,
           emailMessage: value
             ? this.props.intl.messages.registerEmailFormate
             : this.props.intl.messages.registerFillIn
         });
         break;
-      default:
-        break;
     }
+    this.setState({
+      formWarning: Object.assign({}, this.state.formWarning, { [name]: !valid })
+    });
   }
 
   registerChange = (e) => {
@@ -431,7 +459,7 @@ class Register extends Component {
             localItemRoyal.set('rc-register', true);
             if (checkoutStore.cartData.length) {
               await mergeUnloginCartData();
-              await checkoutStore.updateLoginCart({ intl: this.props.intl });
+              await checkoutStore.updateLoginCart();
             }
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
@@ -572,7 +600,7 @@ class Register extends Component {
       errorMessage,
       passwordInputType,
       regError,
-      regErrorMessage
+      formWarning
     } = this.state;
     const allValid =
       (window.__.env.REACT_APP_COUNTRY !== 'de'
@@ -661,15 +689,18 @@ class Register extends Component {
                     <FormattedMessage
                       id="jp.regErrorMessage"
                       values={{
-                        val: (
-                          <a
-                            className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
-                            href="https://shopsit.royalcanin.com/jp/help"
-                          >
-                            {<FormattedMessage id="jp.reghelp" />}
-                          </a>
-                        )
+                        val: ''
                       }}
+                      // values={{
+                      //   val: (
+                      //     <a
+                      //       className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                      //       href="https://shopsit.royalcanin.com/jp/help"
+                      //     >
+                      //       {<FormattedMessage id="jp.reghelp" />}
+                      //     </a>
+                      //   )
+                      // }}
                     />
                   }
                 </span>
@@ -709,7 +740,8 @@ class Register extends Component {
                       window.__.env.REACT_APP_HOMEPAGE
                     )
                   }
-                  className="rc-styled-link"
+                  className="jp-reg-to-login-btn"
+                  style={{ color: '#C03344', fontSize: '1rem' }}
                 >
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>
@@ -798,6 +830,7 @@ class Register extends Component {
                     type="text"
                     maxLength="50"
                     name="phoneticLastName"
+                    isWarning={!phoneticLastNameValid}
                     valid={phoneticLastNameValid}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
@@ -827,6 +860,7 @@ class Register extends Component {
                     valid={phoneticFirstNameValid}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
+                    isWarning={!phoneticFirstNameValid}
                     value={registerForm.phoneticFirstName}
                     label={<FormattedMessage id="phoneticFirstName" />}
                     rightOperateBoxJSX={
@@ -853,14 +887,19 @@ class Register extends Component {
                     maxLength="90"
                     name="email"
                     valid={emailValid}
+                    isWarning={formWarning.email}
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
                     value={registerForm.email}
                     label={<FormattedMessage id="jp.email" />}
                     rightOperateBoxJSX={
-                      emailValid ? null : (
-                        <ChaChaIcon onClick={() => this.deleteInput('email')} />
-                      )
+                      formWarning.email ? (
+                        <>
+                          <ChaChaIcon
+                            onClick={() => this.deleteInput('email')}
+                          />
+                        </>
+                      ) : null
                     }
                     inValidLabel={emailMessage}
                   />
@@ -873,6 +912,7 @@ class Register extends Component {
                     minLength="8"
                     name="password"
                     valid={passwordValid}
+                    isWarning={formWarning.password}
                     onChange={this.registerChange}
                     onFocus={this.inputFocus}
                     onBlur={this.inputBlur}
@@ -881,11 +921,11 @@ class Register extends Component {
                     inValidLabel={passwordMessage}
                     rightOperateBoxJSX={
                       <>
-                        {passwordValid ? null : (
+                        {formWarning.password ? (
                           <ChaChaIcon
                             onClick={() => this.deleteInput('password')}
                           />
-                        )}
+                        ) : null}
                         <span
                           style={{ color: '#666' }}
                           className={cn(
@@ -1002,28 +1042,6 @@ class Register extends Component {
                   />
                   {/* 下方条框勾选 */}
                   <div id="wrap">
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <div
-                        className="footer-checkbox-title rc-text--left"
-                        style={{ zoom: this.state.fontZoom }}
-                      >
-                        <p>
-                          We’d like to keep you and your pet up to date with
-                          exciting promotions and new product developments from{' '}
-                          <a
-                            href="https://www.mars.com/made-by-mars/petcare"
-                            target="_blank"
-                          >
-                            Mars Petcare and its affiliates
-                          </a>
-                          .
-                        </p>
-                        <p>
-                          I am over 16 years old, and would like to receive
-                          these from:
-                        </p>
-                      </div>
-                    ) : null}
                     <Consent
                       url={url}
                       list={this.state.list}
@@ -1035,40 +1053,6 @@ class Register extends Component {
                       key={'required'}
                       pageType="register"
                     />
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <div
-                        className="footer-checkbox-title rc-text--left"
-                        style={{ zoom: this.state.fontZoom }}
-                      >
-                        <p>
-                          I understand that I may change these preferences at
-                          any time by updating my preferences in my account or
-                          by clicking the unsubscribe link in any communication
-                          I receive.
-                        </p>
-                        <p>
-                          From time to time, we may use your data for research
-                          to enhance our product and service offerings. You can
-                          find out how{' '}
-                          <a
-                            href="https://www.mars.com/made-by-mars/petcare"
-                            target="_blank"
-                          >
-                            Mars Petcare and its affiliates
-                          </a>{' '}
-                          collects and processes your data, contact us with
-                          privacy questions, and exercise your personal data
-                          rights via the{' '}
-                          <a
-                            href="https://www.mars.com/privacy-policy"
-                            target="_blank"
-                          >
-                            Mars Privacy Statement
-                          </a>
-                          .
-                        </p>
-                      </div>
-                    ) : null}
                   </div>
                   {/* 注册按钮上的警示文字 */}
                   <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
@@ -1078,7 +1062,7 @@ class Register extends Component {
                     >
                       *
                     </span>
-                    <FormattedMessage id="jp.registerMandatory" />
+                    <FormattedMessage id="registerMandatory" />
                   </p>
                   {this.state.showValidErrorMsg ? (
                     <aside
@@ -1172,11 +1156,11 @@ class Register extends Component {
                               <FormattedMessage id="registerErrorMessage" />
                             )}
                             <strong>
+                              9
                               <Link
                                 to="/help"
                                 className="rc-text-colour--brand1"
                               >
-                                {' '}
                                 <FormattedMessage id="contactUs" />
                               </Link>
                             </strong>
@@ -1260,17 +1244,18 @@ class Register extends Component {
                                   name="name"
                                   id="registerName"
                                   valid={nameValid}
+                                  isWarning={formWarning.name}
                                   autocomplete="off"
                                   onChange={this.registerChange}
                                   onBlur={this.inputBlur}
                                   value={registerForm.name}
                                   label={<FormattedMessage id="registerName" />}
                                   rightOperateBoxJSX={
-                                    nameValid ? null : (
+                                    formWarning.name ? (
                                       <ChaChaIcon
                                         onClick={() => this.deleteInput('name')}
                                       />
-                                    )
+                                    ) : null
                                   }
                                   inValidLabel={
                                     <FormattedMessage id="registerFillIn" />
@@ -1349,16 +1334,19 @@ class Register extends Component {
                               maxLength="90"
                               name="email"
                               valid={emailValid}
+                              isWarning={formWarning.email}
                               onChange={this.registerChange}
                               onBlur={this.inputBlur}
                               value={registerForm.email}
                               label={<FormattedMessage id="registerEmail" />}
                               rightOperateBoxJSX={
-                                emailValid ? null : (
-                                  <ChaChaIcon
-                                    onClick={() => this.deleteInput('email')}
-                                  />
-                                )
+                                formWarning.email ? (
+                                  <>
+                                    <ChaChaIcon
+                                      onClick={() => this.deleteInput('email')}
+                                    />
+                                  </>
+                                ) : null
                               }
                               inValidLabel={emailMessage}
                             />
@@ -1533,6 +1521,9 @@ class Register extends Component {
                                   </p>
                                 </div>
                               ) : null}
+                              {window.__.env.REACT_APP_COUNTRY === 'nl' ? (
+                                <NlConsentAdditionalText textPosition="top" />
+                              ) : null}
                               <Consent
                                 url={url}
                                 list={this.state.list}
@@ -1578,6 +1569,9 @@ class Register extends Component {
                                     .
                                   </p>
                                 </div>
+                              ) : null}
+                              {window.__.env.REACT_APP_COUNTRY === 'nl' ? (
+                                <NlConsentAdditionalText textPosition="bottom" />
                               ) : null}
                             </div>
                           </div>

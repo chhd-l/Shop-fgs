@@ -215,7 +215,7 @@ const ShowUsePoint = () => {
   return (
     <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
       <LazyLoad>
-        <img src={LOGO_POINT} className="w-5 ml-8 mr-2" />
+        <img src={LOGO_POINT} className="w-5 ml-8 mr-8" />
       </LazyLoad>
       <span className="font-medium">
         <FormattedMessage id="usePoints" />

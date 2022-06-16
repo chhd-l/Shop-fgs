@@ -357,3 +357,59 @@ export const PRESONAL_INFO_RULE = [
 ];
 
 export const PDP_Regex = /^(?!.*(\/).*\1).+[-].*[0-9]{1,}.*$/;
+
+//ConsigneeName显示顺序
+export const getConsigneeNameByCountry = (data) => {
+  let res = '';
+  switch (window.__.env.REACT_APP_COUNTRY) {
+    case 'jp':
+      res = data.lastName + ' ' + data.firstName;
+      break;
+    default:
+      res = data.firstName + ' ' + data.lastName;
+      break;
+  }
+  return res;
+};
+
+//俄罗斯电话号码格式
+export const phoneNumberMask = (Form) => {
+  const { phoneNumber } = Form;
+  let newForm = {};
+  if (phoneNumber == null || phoneNumber == '') {
+    newForm = Object.assign({}, Form, {
+      phoneNumber: '+7(___)___-__-__'
+    });
+  }
+  return newForm;
+};
+
+//地址保存按钮是否disabled
+export const isSaveAddressBtnDisabled = (
+  isValid,
+  formAddressValid,
+  jpNameValid
+) => {
+  let res = false;
+  switch (window.__.env.REACT_APP_COUNTRY) {
+    case 'jp':
+      res = isValid && formAddressValid && jpNameValid ? false : true;
+      break;
+    default:
+      res = isValid && formAddressValid ? false : true;
+      break;
+  }
+  return res;
+};
+
+//日本 处理要显示的字段
+export const jpSetAddressFields = ({ province, city, area, address1 }) => {
+  return [province, city, area, address1]
+    .filter((item) => item && item.trim())
+    .join(', ');
+};
+
+//null变为空
+export const nullToEmpty = (data) => {
+  return data == null ? '' : data;
+};

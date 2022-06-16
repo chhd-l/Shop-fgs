@@ -21,8 +21,10 @@ import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
+import { phoneNumberMask } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 @inject('loginStore')
 @injectIntl
@@ -165,6 +167,12 @@ class PaymentEditForm extends React.Component {
       mask: phoneReg
     };
     let pval = IMask(element, maskOptions);
+
+    if (COUNTRY == 'ru') {
+      this.setState({
+        creditCardInfoForm: phoneNumberMask(this.state.creditCardInfoForm)
+      });
+    }
   };
   componentDidMount() {
     //查询国家
@@ -202,6 +210,7 @@ class PaymentEditForm extends React.Component {
     const target = e?.target;
     const value = target?.type === 'checkbox' ? target?.checked : target?.value;
     const name = target?.name;
+    console.log(name);
     const { creditCardInfoForm } = this.state;
     if (name === 'cardNumber') {
       let beforeValue = value.substr(0, value.length - 1);
@@ -403,7 +412,7 @@ class PaymentEditForm extends React.Component {
       });
       this.setState({ isValid: true });
     } catch (err) {
-      console.log(err);
+      console.log(123, err);
       this.setState({ isValid: false });
     }
   }
@@ -1031,22 +1040,16 @@ class PaymentEditForm extends React.Component {
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
-                        data-js-validate=""
-                        data-js-warning-message="*Phone Number isn’t valid"
                       >
+                        {/* todo qhx*/}
                         <input
                           type="text"
                           className="rc-input__control input__phoneField shippingPhoneNumber"
                           id="paymentPhoneNumber"
-                          min-lenght="18"
-                          max-length="18"
-                          data-phonelength="18"
-                          // data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                          // data-js-pattern="(^\d{10}$)"
-                          data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.phoneNumber}
                           onChange={this.cardInfoInputChange}
-                          onBlur={this.inputBlur}
+                          //onBlur={this.inputBlur}
+                          onBlur={this.cardInfoInputChange}
                           name="phoneNumber"
                           maxLength="2147483647"
                         />

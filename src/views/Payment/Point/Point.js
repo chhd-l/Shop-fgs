@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
+import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import InputCircle from '@/components/InputCircle';
 import PointForm from '@/components/PointForm';
@@ -9,9 +10,14 @@ import {
   USEPOINT
 } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 import './Point.less';
+import {
+  openPromotionBox,
+  disabledPromotionBox
+} from '@/views/Payment/modules/utils';
 
 const Point = ({ checkoutStore, loginStore }) => {
-  const { setSelectDiscountWay, setEarnedPoint } = checkoutStore;
+  const { setSelectDiscountWay, setEarnedPoint, calculateServiceFeeLoading } =
+    checkoutStore;
 
   const data = [
     {
@@ -26,28 +32,11 @@ const Point = ({ checkoutStore, loginStore }) => {
   useEffect(() => {
     //初始化折扣方式为未使用积分
     setSelectDiscountWay(NOTUSEPOINT);
-
-    // setTimeout(() => {
-    //   //获取当前积分
-    //   setCurrentHoldingPoint(10872);
-    //   //能挣得的积分
-    //   setEarnedPoint(250);
-    // }, 2000);
   }, []);
 
   const FormType = {
     notUsePoint: null,
     usePoint: <PointForm />
-  };
-
-  const openPromotionBox = () => {
-    document.getElementById('id-promotionCode').removeAttribute('disabled');
-    document.getElementById('promotionApply').removeAttribute('disabled');
-  };
-
-  const disabledPromotionBox = () => {
-    document.getElementById('id-promotionCode').setAttribute('disabled', true);
-    document.getElementById('promotionApply').setAttribute('disabled', true);
   };
 
   const getId = (id) => {
@@ -73,21 +62,23 @@ const Point = ({ checkoutStore, loginStore }) => {
   };
 
   return (
-    <div className="pointContainer">
-      <div className="title text-rc-red mb-5">
-        <span>
-          <FormattedMessage id="payment.points" />
-        </span>
-        <span>
-          <FormattedMessage id="payment.coupons" />
-        </span>
-        <span>
-          <FormattedMessage id="payment.tickets" />
-        </span>
+    <>
+      <div className="pointContainer">
+        <div className="title text-rc-red mb-5">
+          <span>
+            <FormattedMessage id="payment.points" />
+          </span>
+          {/* <span>
+            <FormattedMessage id="payment.coupons" />
+          </span>
+          <span>
+            <FormattedMessage id="payment.tickets" />
+          </span> */}
+        </div>
+        <InputCircle data={data} getId={getId} />
+        {FormType[id]}
       </div>
-      <InputCircle data={data} getId={getId} />
-      {FormType[id]}
-    </div>
+    </>
   );
 };
 

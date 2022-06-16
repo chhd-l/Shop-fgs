@@ -7,11 +7,11 @@ import { AddressForm } from '@/components/Address';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { validData, handleDateForIos } from '@/utils/utils';
 import { updateCustomerBaseInfo, getCustomerInfo } from '@/api/user';
-import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { format } from 'date-fns';
+import { isSaveAddressBtnDisabled, nullToEmpty } from '@/utils/constant';
 @injectIntl
 @inject('loginStore')
 @observer
@@ -55,13 +55,13 @@ class PersonalDataEditForm extends React.Component {
       isValid: false,
       errMsgObj: {},
       formAddressValid: false,
+      jpNameValid: false,
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
@@ -365,6 +365,19 @@ class PersonalDataEditForm extends React.Component {
     );
   };
 
+  getJpNameValidFlag = (flag) => {
+    this.setState(
+      {
+        jpNameValid: flag
+      },
+      () => {
+        if (flag) {
+          this.validFormData();
+        }
+      }
+    );
+  };
+
   render() {
     const {
       editFormVisible,
@@ -376,7 +389,8 @@ class PersonalDataEditForm extends React.Component {
       errMsgObj,
       validationLoading,
       validationModalVisible,
-      selectValidationOption
+      selectValidationOption,
+      jpNameValid
     } = this.state;
     const { data } = this.props;
     const curPageAtCover = !editFormVisible;
@@ -465,6 +479,7 @@ class PersonalDataEditForm extends React.Component {
 
             {/* preview form */}
             {/* {JSON.stringify(data)} */}
+            {console.log(123, data)}
             {data ? (
               <div
                 className={`row userProfileInfo text-break ${
@@ -503,7 +518,12 @@ class PersonalDataEditForm extends React.Component {
                     val:
                       window.__.env.REACT_APP_COUNTRY === 'us'
                         ? null
-                        : data.address1
+                        : nullToEmpty(data.province) +
+                          ' ' +
+                          nullToEmpty(data.city) +
+                          ' ' +
+                          nullToEmpty(data.address1)
+                    //: data.address1
                   }
                 ].map((item, i) => (
                   <React.Fragment key={i}>
@@ -527,6 +547,7 @@ class PersonalDataEditForm extends React.Component {
                   personalData={true}
                   updateData={this.handleEditFormChange}
                   getFormAddressValidFlag={this.getFormAddressValidFlag}
+                  getJpNameValidFlag={this.getJpNameValidFlag}
                 />
               )}
 
@@ -552,7 +573,11 @@ class PersonalDataEditForm extends React.Component {
                   })}
                   name="personalInformation"
                   type="submit"
-                  disabled={isValid && formAddressValid ? false : true}
+                  disabled={isSaveAddressBtnDisabled(
+                    isValid,
+                    formAddressValid,
+                    jpNameValid
+                  )}
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />

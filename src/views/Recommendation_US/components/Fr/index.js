@@ -76,19 +76,19 @@ const FrSPT = (props) => {
             <div className="rc-padding-y--lg--mobile rc-full-width">
               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                 <li className="rc-list__item">
-                  <em className="wof rc-margin-right--xs"></em>
+                  <em className="wof rc-margin-right--xs iconfont"></em>
                   Économisez 10% sur chaque commande
                 </li>
                 <li className="rc-list__item">
-                  <em className="wof rc-margin-right--xs"></em>
+                  <em className="wof rc-margin-right--xs iconfont"></em>
                   Livraison automatique selon votre calendrier
                 </li>
                 <li className="rc-list__item">
-                  <em className="wof rc-margin-right--xs"></em>
+                  <em className="wof rc-margin-right--xs iconfont"></em>
                   Livraison gratuite
                 </li>
                 <li className="rc-list__item">
-                  <em className="wof rc-margin-right--xs"></em>
+                  <em className="wof rc-margin-right--xs iconfont"></em>
                   Modifier ou annuler à tout moment
                 </li>
               </ul>

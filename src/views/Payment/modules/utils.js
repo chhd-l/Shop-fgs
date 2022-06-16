@@ -105,3 +105,13 @@ export function handleRecoProductParamByItem({
     periodTypeId: ele.periodTypeId
   };
 }
+
+export const openPromotionBox = () => {
+  document.getElementById('id-promotionCode').removeAttribute('disabled');
+  document.getElementById('promotionApply').removeAttribute('disabled');
+};
+
+export const disabledPromotionBox = () => {
+  document.getElementById('id-promotionCode').setAttribute('disabled', true);
+  document.getElementById('promotionApply').setAttribute('disabled', true);
+};

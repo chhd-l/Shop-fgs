@@ -29,9 +29,12 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
       setCountryList(res || []);
     });
     getWays().then((res) => {
-      setSupportPaymentMethods(
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
-      );
+      // ideal支付只能在下单的时候添加卡
+      const tempArr =
+        res?.context?.payPspItemVOList[0]?.name === 'iDeal'
+          ? res?.context?.payPspItemVOList[1]?.payPspItemCardTypeVOList
+          : res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      setSupportPaymentMethods(tempArr);
     });
   }, []);
 
@@ -107,14 +110,22 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
                     {/* delivery date */}
                     {newDeliveryDate && (
                       <p className="mb-0 od_mb_deliveryDate">
-                        {newDeliveryDate}
+                        {newDeliveryDate === 'Unspecified' ? (
+                          <FormattedMessage id="Unspecified" />
+                        ) : (
+                          newDeliveryDate
+                        )}
                       </p>
                     )}
 
                     {/* time slot */}
                     {details.consignee.timeSlot && (
                       <p className="mb-0 od_mb_timeSlot">
-                        {details.consignee.timeSlot}
+                        {details.consignee.timeSlot == 'Unspecified' ? (
+                          <FormattedMessage id="Unspecified" />
+                        ) : (
+                          details.consignee.timeSlot
+                        )}
                       </p>
                     )}
 
@@ -166,42 +177,69 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
               </div>
             ) : null}
             {payRecord && payRecord.lastFourDigits ? (
-              <PaymentMethodContainer>
-                <div className="medium mb-2">
-                  <LazyLoad className="inline">
-                    <img
-                      alt="card background"
-                      className="d-inline-block mr-1 w-1/5"
-                      src={getCardImg({
-                        supportPaymentMethods: supportPaymentMethods,
-                        currentVendor: payRecord.paymentVendor
-                      })}
-                    />
-                  </LazyLoad>
-                  {payRecord.lastFourDigits ? (
-                    <span className="medium">
-                      ********
-                      {payRecord.lastFourDigits}
-                    </span>
-                  ) : null}
-                </div>
-
-                {payRecord.holderName ? (
-                  <p className="mb-0">{payRecord.holderName}</p>
-                ) : null}
-
-                {/* 分期费用明细 */}
-                {0 && details.tradePrice.installmentPrice ? (
-                  <p>
-                    {formatMoney(details.tradePrice.totalPrice)} (
-                    {details.tradePrice.installmentPrice.installmentNumber} *{' '}
-                    {formatMoney(
-                      details.tradePrice.installmentPrice.installmentPrice
+              payRecord?.paymentItem?.toLowerCase() === 'adyen_ideal' ? (
+                <PaymentMethodContainer>
+                  <div className="flex items-center mt-8">
+                    <div className="medium mb-2">
+                      <LazyLoad className="inline">
+                        <img
+                          alt="card background"
+                          className="d-inline-block mr-1 w-3/5"
+                          src={
+                            'https://fgs-cdn.azureedge.net/cdn/img/payment/ideal-logo.svg'
+                          }
+                        />
+                      </LazyLoad>
+                    </div>
+                    {payRecord?.singlePurchaseCardInfo && (
+                      <p>
+                        **** ****
+                        {payRecord?.singlePurchaseCardInfo?.substr(
+                          payRecord?.singlePurchaseCardInfo?.length - 2,
+                          2
+                        )}
+                      </p>
                     )}
-                    )
-                  </p>
-                ) : null}
-              </PaymentMethodContainer>
+                  </div>
+                </PaymentMethodContainer>
+              ) : (
+                <PaymentMethodContainer>
+                  <div className="medium mb-2">
+                    <LazyLoad className="inline">
+                      <img
+                        alt="card background"
+                        className="d-inline-block mr-1 w-1/5"
+                        src={getCardImg({
+                          supportPaymentMethods: supportPaymentMethods,
+                          currentVendor: payRecord.paymentVendor
+                        })}
+                      />
+                    </LazyLoad>
+                    {payRecord.lastFourDigits ? (
+                      <span className="medium">
+                        ********
+                        {payRecord.lastFourDigits}
+                      </span>
+                    ) : null}
+                  </div>
+
+                  {payRecord.holderName ? (
+                    <p className="mb-0">{payRecord.holderName}</p>
+                  ) : null}
+
+                  {/* 分期费用明细 */}
+                  {0 && details.tradePrice.installmentPrice ? (
+                    <p>
+                      {formatMoney(details.tradePrice.totalPrice)} (
+                      {details.tradePrice.installmentPrice.installmentNumber} *{' '}
+                      {formatMoney(
+                        details.tradePrice.installmentPrice.installmentPrice
+                      )}
+                      )
+                    </p>
+                  ) : null}
+                </PaymentMethodContainer>
+              )
             ) : payRecord?.paymentItem?.toLowerCase() === 'adyen_moto' ? (
               <PaymentMethodContainer>
                 <div className="medium mb-2">

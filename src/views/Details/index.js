@@ -35,8 +35,7 @@ import {
   getClubFlag,
   handleRecommendation,
   isShowMixFeeding,
-  addToUnloginCartData,
-  addToLoginCartData
+  addToUnloginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { decryptString } from '@/lib/aes-utils';
@@ -48,14 +47,13 @@ import {
   getDetailsBySpuNo,
   getMixFeeding
 } from '@/api/details';
-import { sitePurchase } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 import { tempHubFrRedirect } from '@/redirect/utils';
 import svg from './details.svg';
 import { QuantityPicker } from '@/components/Product';
 import Help from './components/Help';
-
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import './index.css';
 import './index.less';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
@@ -246,6 +244,16 @@ class Details extends React.Component {
     );
   }
 
+  get skuOffShelves() {
+    // addedFlag 0:Off shelves 1:On shelves
+    let addedFlag = 1;
+    const { sizeList } = this.state.details;
+    if (sizeList?.length) {
+      addedFlag = sizeList.filter((el) => el.selected)?.[0]?.addedFlag;
+    }
+    return addedFlag;
+  }
+
   get isNullGoodsInfos() {
     const { details } = this.state;
 
@@ -429,8 +437,6 @@ class Details extends React.Component {
           })
         });
       }
-
-      console.log(this.state.details, selectedSpecItem, 'details???');
     });
 
     // bundle商品的ga初始化填充
@@ -454,7 +460,6 @@ class Details extends React.Component {
       clinicStore,
       selectPrice
     };
-
     // cc.js加载
     this.loadWidgetIdBtn(barcode);
 
@@ -772,7 +777,6 @@ class Details extends React.Component {
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    console.log('retailer config:', buyFromRetailerConfig);
     const widgetId =
       buyFromRetailerConfig.retailerEnable &&
       buyFromRetailerConfig.type === 'API'
@@ -884,8 +888,7 @@ class Details extends React.Component {
       if (Object.keys(this.state.requestJson).length > 0) {
         param = { ...param, ...this.state.requestJson };
       }
-      await sitePurchase(param);
-      await checkoutStore.updateLoginCart({ intl });
+      await AddCartItemMember({ param });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
         headerCartStore.show();
@@ -905,9 +908,6 @@ class Details extends React.Component {
       const { checkoutStore } = this.props;
       const { currentUnitPrice, quantity, form, details, questionParams } =
         this.state;
-
-      console.log({ details });
-      // debugger;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1040,6 +1040,7 @@ class Details extends React.Component {
   };
 
   handleAddMixFeeding = async () => {
+    const { clinicStore } = this.props;
     const { mixFeeding, form, details } = this.state;
 
     let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
@@ -1050,11 +1051,20 @@ class Details extends React.Component {
         quantity: 1,
         periodTypeId,
         goodsInfoFlag
-      }),
-      intl: this.props.intl
+      })
     };
     this.isLogin
-      ? await addToLoginCartData(params)
+      ? await AddCartItemMember({
+          param: {
+            goodsInfoId: params.product.goodsInfoId,
+            goodsNum: params.product.quantity,
+            goodsCategory: '',
+            goodsInfoFlag: params.product.goodsInfoFlag,
+            periodTypeId: params.product.periodTypeId,
+            recommendationId: clinicStore.linkClinicId,
+            recommendationName: clinicStore.linkClinicName
+          }
+        })
       : await addToUnloginCartData(params);
 
     this.setState({
@@ -1120,7 +1130,6 @@ class Details extends React.Component {
       return bol;
     });
 
-    console.log(isAdult, sptGoods, LifestagesAttr, 'isAdult_spt');
     /**
      *  是否显示计算工具
      *  1、dailyPortion show/hide
@@ -1196,7 +1205,7 @@ class Details extends React.Component {
           updatedPriceOrCode={this.updatedPriceOrCode}
           defaultSkuId={this.state.defaultSkuId}
         />
-        <div className="Quantity">
+        <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
           <span className="amount">
             <FormattedMessage id="amount" />:
           </span>
@@ -1211,7 +1220,7 @@ class Details extends React.Component {
               className="rc-quantity"
               initQuantity={parseInt(quantity)}
               min={quantityMinLimit}
-              max={skuLimitThreshold.skuMaxNum}
+              max={skuLimitThreshold?.skuMaxNum}
               updateQuantity={(val) => {
                 this.setState({ quantity: val }, () =>
                   this.updateInstockStatus()
@@ -1224,7 +1233,7 @@ class Details extends React.Component {
     );
   };
 
-  ButtonGroupDom = (showRetailerBtn) => {
+  ButtonGroupDom = (showRetailerBtn, showAddToCartBtn) => {
     const {
       addToCartLoading,
       form,
@@ -1265,6 +1274,7 @@ class Details extends React.Component {
         isUrl={isUrl}
         retailerUrl={retailerUrl}
         versionType={versionB}
+        showAddToCartBtn={showAddToCartBtn}
       />
     );
   };
@@ -1336,6 +1346,7 @@ class Details extends React.Component {
     const retailerUrl = buyFromRetailerConfig.retailerEnable
       ? buyFromRetailerConfig.url
       : '';
+
     return (
       <div id="Details">
         <GA_Comp props={this.props} details={details} />
@@ -1394,7 +1405,7 @@ class Details extends React.Component {
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
-                    <div className="rc-layout-container rc-six-column">
+                    <div className="rc-layout-container rc-six-column items-start">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         {loading ? (
                           <Skeleton />
@@ -1508,8 +1519,8 @@ class Details extends React.Component {
                         <div
                           className={`wrap-short-des ${
                             !isMobile &&
-                            (versionB
-                              ? 'col-md-10 offset-sm-2'
+                            (versionB || !this.skuOffShelves
+                              ? 'col-md-12'
                               : !vet
                               ? 'col-md-7'
                               : '')
@@ -1528,22 +1539,26 @@ class Details extends React.Component {
                                 replyNum={replyNum}
                                 instockStatus={instockStatus}
                                 vet={vet}
+                                skuOffShelves={this.skuOffShelves}
                               />
                               {!vet ? (
                                 <>
                                   {!isMobile ? this.specAndQuantityDom() : null}
-                                  {versionB && (
-                                    <PurchaseMethodB
-                                      form={form}
-                                      fromPrice={fromPrice}
-                                      isMobile={isMobile}
-                                      specAndQuantityDom={
-                                        this.specAndQuantityDom
-                                      }
-                                      isNullGoodsInfos={this.isNullGoodsInfos}
-                                    />
-                                  )}
-                                  {details.promotions &&
+                                  {versionB ? (
+                                    <>
+                                      <PurchaseMethodB
+                                        form={form}
+                                        fromPrice={fromPrice}
+                                        isMobile={isMobile}
+                                        specAndQuantityDom={
+                                          this.specAndQuantityDom
+                                        }
+                                        isNullGoodsInfos={this.isNullGoodsInfos}
+                                      />
+                                    </>
+                                  ) : null}
+                                  {PC &&
+                                  details.promotions &&
                                   details.promotions.includes('club') &&
                                   !window.__.env
                                     .REACT_APP_CLOSE_PRODUCT_FINDER ? (
@@ -1576,7 +1591,9 @@ class Details extends React.Component {
                                 ) : (
                                   <div
                                     className={classNames({
-                                      hidden: this.isNullGoodsInfos,
+                                      hidden:
+                                        this.isNullGoodsInfos ||
+                                        !this.skuOffShelves,
                                       'w-full': isMobile,
                                       'col-md-5': !isMobile
                                     })}
@@ -1623,13 +1640,15 @@ class Details extends React.Component {
                               className={classNames({
                                 hidden: this.isNullGoodsInfos,
                                 'w-full': isMobile,
-                                'col-md-5': !isMobile
+                                'col-md-5': !isMobile && this.skuOffShelves
                               })}
                             >
                               {isMobile ? this.specAndQuantityDom() : null}
                               <div
                                 className={`${
-                                  currentUnitPrice ? '' : 'hidden'
+                                  currentUnitPrice && this.skuOffShelves
+                                    ? ''
+                                    : 'hidden'
                                 }`}
                               >
                                 <SingleBuyMethod
@@ -1710,7 +1729,13 @@ class Details extends React.Component {
                               </div>
 
                               {PC && this.retailerBtnStatus ? (
-                                <div className="flex justify-content-center mt-5">
+                                <div
+                                  className={`flex justify-content-center mt-5 ${
+                                    !this.skuOffShelves
+                                      ? 'absolute left-8 -bottom-12'
+                                      : ''
+                                  }`}
+                                >
                                   <BuyFromRetailerBtn
                                     // ccidBtnDisplay={ccidBtnDisplay}
                                     barcode={barcode}
@@ -1734,6 +1759,9 @@ class Details extends React.Component {
                                   setState={this.setState.bind(this)}
                                 />
                               ) : null}
+                              {isMobile && !this.skuOffShelves
+                                ? this.ButtonGroupDom(false, false)
+                                : null}
                             </div>
                           ))
                         )}
