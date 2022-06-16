@@ -904,12 +904,18 @@ const App = () => {
                 <Route
                   path="/adoptant/:id"
                   exact
-                  render={(props) => (
-                    <DedicatedLandingPage
-                      key={props.match.params.id}
-                      {...props}
-                    />
-                  )}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return (
+                        <DedicatedLandingPage
+                          key={props.match.params.id}
+                          {...props}
+                        />
+                      );
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/general-conditions"
