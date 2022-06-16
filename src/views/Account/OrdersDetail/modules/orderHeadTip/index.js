@@ -56,7 +56,7 @@ const renderHeadTip = ({
   const handleClickPayNow = () => {
     const order = details;
     setPayNowLoading(true);
-    const tradeItems = details.tradeItems.map((ele) => {
+    const tradeItems = details.tradeItems?.map((ele) => {
       return {
         goodsInfoImg: ele.pic,
         goodsName: ele.spuName,

@@ -70,6 +70,13 @@ const loyaltyProgramme = {
   rightTopIcon: <span className="iconfont iconLogoff" />
 };
 
+const points = {
+  iconSrc: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/points.svg`,
+  titleLangKey: 'account.pointsTitle',
+  textLangKey: 'account.pointsTip',
+  link: '/account/loyalty'
+};
+
 const itemList = (function () {
   const defaultItemList = [
     information,
@@ -77,6 +84,7 @@ const itemList = (function () {
     window.__.env.REACT_APP_COUNTRY === 'fr' ? appointments : '',
     orders,
     subscription,
+    window.__.env.REACT_APP_COUNTRY === 'jp' ? points : '',
     faqs,
     Boolean(window.__.env.LOYALTY_PROGRAMME_LINK) ? loyaltyProgramme : ''
   ].filter((c) => c);

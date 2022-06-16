@@ -141,7 +141,7 @@ class AboutUs extends React.Component {
                               <p>
                                 <FormattedMessage id="aboutUs.ourValuesDetail" />
                               </p>
-                              {Country.toLowerCase() === 'mx' ? (
+                              {Country.toLowerCase() == 'mx' ? (
                                 <a
                                   className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
                                   href="https://www.royalcanin.com/mx/about-us/our-values"

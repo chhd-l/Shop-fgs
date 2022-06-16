@@ -1,8 +1,7 @@
 import { action, observable, computed, toJS } from 'mobx';
 import { getConfig } from '@/api';
 import { fetchAddressDisplaySetting } from '@/api/address';
-import { getPaymentMethodV2 } from '@/api/payment';
-import flatten from 'lodash/flatten';
+import { getWays } from '@/api/payment';
 import {
   PAYMENTAUTHORITY_ENUM,
   ENTERPRICETYPE_ENUM,
@@ -169,18 +168,17 @@ class ConfigStore {
       return pmlogos;
     }
     const {
-      context: {
-        codPaymentMethodList,
-        offlinePaymentMethodList,
-        onlinePaymentMethodList
-      }
-    } = await getPaymentMethodV2();
-    const ret = flatten([
-      codPaymentMethodList,
-      offlinePaymentMethodList,
-      onlinePaymentMethodList
-    ])
-      .filter((f) => f?.isOpen)
+      context: { payPspItemVOList }
+    } = await getWays();
+    const ret = (payPspItemVOList || [])
+      .reduce((prev, cur) => {
+        let tmp = [];
+        if (cur.isOpen && cur.isDisplay) {
+          tmp = tmp.concat(cur.payPspItemCardTypeVOList);
+        }
+        let ret = prev.concat(tmp);
+        return ret;
+      }, [])
       .map((f) => ({ imgUrl: f?.imgUrl }));
 
     this.updateInfo({ paymentMethodList: ret });

@@ -242,16 +242,6 @@ class SubscriptionDetail extends React.Component {
     };
     if (this.state.addressType === 'delivery') {
       param.deliveryAddressId = el.deliveryAddressId;
-      let checkSubAddressPickPointParams = Object.assign({}, param, {
-        paymentId: subDetail?.paymentId
-      });
-      checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
-        .then()
-        .catch((err) => {
-          this.showTempolineError(err.message);
-          this.getDetail();
-          return;
-        });
       if (isBillSame) {
         param.billingAddressId = el.deliveryAddressId;
       }
