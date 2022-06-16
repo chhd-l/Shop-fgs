@@ -60,7 +60,7 @@ const AutoshipItem = ({ subItem, history }) => {
               <span
                 className="text-xs inline-block align-middle ml-2.5"
                 style={{
-                  width: isMobile ? 'auto' : '200px'
+                  width: isMobile ? 'auto' : '180px'
                 }}
               >
                 <p
