@@ -601,6 +601,7 @@ class Details extends React.Component {
               goodsId: goodsRes.goodsId,
               minMarketPrice: goodsRes.minMarketPrice,
               details: Object.assign(this.state.details, {
+                goods: goodsRes,
                 promotions: goods?.promotions?.toLowerCase(),
                 taggingForTextAtPDP: taggingList.filter(
                   (e) => e.taggingType === 'Text' && e.showPage?.includes('PDP')
@@ -662,20 +663,16 @@ class Details extends React.Component {
           images = res.context.goodsInfos;
           this.setState(
             {
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  promotions: res.context.goods?.promotions?.toLowerCase(),
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs,
-                  goodsAttributesValueRelList:
-                    res.context.goodsAttributesValueRelList
-                }
-              ),
+              details: Object.assign({}, this.state.details, goodsRes, {
+                goods: goodsRes,
+                promotions: goodsRes?.promotions?.toLowerCase(),
+                sizeList,
+                goodsInfos: res.context.goodsInfos,
+                goodsSpecDetails: res.context.goodsSpecDetails,
+                goodsSpecs: res.context.goodsSpecs,
+                goodsAttributesValueRelList:
+                  res.context.goodsAttributesValueRelList
+              }),
               images: cloneDeep(images)
             },
             async () => {
@@ -713,8 +710,9 @@ class Details extends React.Component {
           let images = [];
           images = res.context.goodsInfos;
           this.setState({
-            details: Object.assign({}, this.state.details, res.context.goods, {
-              promotions: res.context.goods?.promotions?.toLowerCase(),
+            details: Object.assign({}, this.state.details, goodsRes, {
+              goods: goodsRes,
+              promotions: goodsRes?.promotions?.toLowerCase(),
               sizeList,
               goodsInfos: res.context.goodsInfos,
               goodsSpecDetails: res.context.goodsSpecDetails,

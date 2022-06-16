@@ -958,12 +958,12 @@ class CheckoutStore {
           const selectedGoodsInfo =
             find(cartItem.sizeList, (s) => s.selected) || cartItem.goodsInfo;
           cartItem.goodsInfoId = selectedGoodsInfo.goodsInfoId;
+          cartItem = Object.assign({}, cartItem, selectedGoodsInfo); //把选中的规则，平铺到了最外层吗，同会员购物车数据结构
           const historyItemIdx = findIndex(
             cartDataCopy,
             (c) =>
               c.goodsId === cartItem.goodsId &&
-              find(c.sizeList, (s) => s.selected).goodsInfoId ===
-                selectedGoodsInfo.goodsInfoId
+              selectedGoodsInfo.goodsInfoId === selectedGoodsInfo.goodsInfoId
           );
           const historyItem = cartDataCopy[historyItemIdx];
           // 如果之前该商品(同spu 同sku)加入过购物车，则需取出其数量，进行累加
