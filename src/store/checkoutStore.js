@@ -963,7 +963,8 @@ class CheckoutStore {
             cartDataCopy,
             (c) =>
               c.goodsId === cartItem.goodsId &&
-              selectedGoodsInfo.goodsInfoId === selectedGoodsInfo.goodsInfoId
+              find(c.sizeList, (s) => s.selected).goodsInfoId ===
+                selectedGoodsInfo.goodsInfoId
           );
           const historyItem = cartDataCopy[historyItemIdx];
           // 如果之前该商品(同spu 同sku)加入过购物车，则需取出其数量，进行累加
