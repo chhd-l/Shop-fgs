@@ -165,6 +165,7 @@ const CartDEBreeder = ({
             goodsInfoId: item.goodsInfo.goodsInfoId
           });
           item.selected = true;
+          item.addedFlag = 1;
           item.quantity = 1;
           item.goodsInfoFlag = 0;
           item.goodsName = item.goods.goodsName;
