@@ -434,6 +434,7 @@ class AccountOrders extends React.Component {
                               details={details}
                               props={this.props}
                             />
+
                             <div className="col-12 table-body rounded md:mt-3 mb-2 px-0">
                               <OrderAllProduct details={details} />
                               {details ? (
