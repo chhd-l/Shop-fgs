@@ -35,8 +35,7 @@ import {
   getClubFlag,
   handleRecommendation,
   isShowMixFeeding,
-  addToUnloginCartData,
-  addToLoginCartData
+  addToUnloginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { decryptString } from '@/lib/aes-utils';
@@ -48,14 +47,13 @@ import {
   getDetailsBySpuNo,
   getMixFeeding
 } from '@/api/details';
-import { addItemToBackendCart } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 import { tempHubFrRedirect } from '@/redirect/utils';
 import svg from './details.svg';
 import { QuantityPicker } from '@/components/Product';
 import Help from './components/Help';
-
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import './index.css';
 import './index.less';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
@@ -890,8 +888,7 @@ class Details extends React.Component {
       if (Object.keys(this.state.requestJson).length > 0) {
         param = { ...param, ...this.state.requestJson };
       }
-      await addItemToBackendCart(param); // 加入后端购物车
-      await checkoutStore.updateLoginCart();
+      await AddCartItemMember({ param });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
         headerCartStore.show();
@@ -1043,6 +1040,7 @@ class Details extends React.Component {
   };
 
   handleAddMixFeeding = async () => {
+    const { clinicStore } = this.props;
     const { mixFeeding, form, details } = this.state;
 
     let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
@@ -1056,7 +1054,17 @@ class Details extends React.Component {
       })
     };
     this.isLogin
-      ? await addToLoginCartData(params)
+      ? await AddCartItemMember({
+          param: {
+            goodsInfoId: params.product.goodsInfoId,
+            goodsNum: params.product.quantity,
+            goodsCategory: '',
+            goodsInfoFlag: params.product.goodsInfoFlag,
+            periodTypeId: params.product.periodTypeId,
+            recommendationId: clinicStore.linkClinicId,
+            recommendationName: clinicStore.linkClinicName
+          }
+        })
       : await addToUnloginCartData(params);
 
     this.setState({

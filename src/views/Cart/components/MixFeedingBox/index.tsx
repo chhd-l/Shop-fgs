@@ -7,10 +7,10 @@ import LazyLoad from 'react-lazyload';
 import {
   getDeviceType,
   formatMoney,
-  addToUnloginCartData,
-  addToLoginCartData
+  addToUnloginCartData
 } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -25,6 +25,7 @@ interface Props {
   configStore: {
     info?: any;
   };
+  clinicStore?: any;
 }
 
 interface SKUProps {
@@ -43,7 +44,8 @@ const MixFeedingBox = function ({
   intl,
   configStore: {
     info: { skuLimitThreshold }
-  }
+  },
+  clinicStore
 }: Props) {
   const History = useHistory();
   const [selectedSku, setSelectedSku] = useState<SKUProps | null>(null);
@@ -304,7 +306,17 @@ const MixFeedingBox = function ({
                         product: copyData
                       };
                       isLogin
-                        ? await addToLoginCartData(param)
+                        ? await AddCartItemMember({
+                            param: {
+                              goodsInfoId: copyData.goodsInfoId,
+                              goodsNum: copyData.quantity,
+                              goodsCategory: '',
+                              goodsInfoFlag: copyData.goodsInfoFlag,
+                              periodTypeId: copyData.periodTypeId,
+                              recommendationId: clinicStore.linkClinicId,
+                              recommendationName: clinicStore.linkClinicName
+                            }
+                          })
                         : await addToUnloginCartData(param);
                       update();
                     }}
@@ -322,4 +334,4 @@ const MixFeedingBox = function ({
 };
 
 // export default MixFeedingBox;
-export default inject('configStore')(observer(MixFeedingBox));
+export default inject('configStore', 'clinicStore')(observer(MixFeedingBox));

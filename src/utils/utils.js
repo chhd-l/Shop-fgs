@@ -1152,50 +1152,6 @@ export async function addToUnloginCartData({ product }) {
   // history.push(path);
 }
 
-export async function addToLoginCartData({ product }) {
-  // let {
-  //   productList,
-  //   outOfStockProducts,
-  //   inStockProducts,
-  //   modalList
-  // } = this.state;
-  // console.log(outOfStockProducts, inStockProducts, '...1')
-  // return
-
-  // for (let i = 0; i < productList.length; i++) {
-  //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-  //     outOfStockProducts.push(productList[i])
-  //     this.setState({ buttonLoading: false });
-  //     continue
-  //   }else {
-  //     inStockProducts.push(productList[i])
-  //   }
-  // }
-  // if (outOfStockProducts.length > 0) {
-  //   // this.setState({ modalShow: true, currentModalObj: modalList[0] });
-  // } else {
-  // this.setState({ buttonLoading: true });
-  // for (let i = 0; i < inStockProducts.length; i++) {
-  try {
-    await addItemToBackendCart({
-      goodsInfoId: product.goodsInfoId,
-      goodsNum: product.quantity,
-      goodsCategory: '',
-      goodsInfoFlag: product.goodsInfoFlag,
-      periodTypeId: product.periodTypeId,
-      recommendationId: clinicStore.linkClinicId,
-      recommendationName: clinicStore.linkClinicName
-    });
-    await checkoutStore.updateLoginCart();
-  } catch (e) {
-    console.log('hahaha1111', e);
-    // this.setState({ buttonLoading: false });
-  }
-  // }
-  // this.props.history.push('/cart');
-  // }
-}
-
 export function isShowMixFeeding() {
   return false;
   // return window.__.env.REACT_APP_COUNTRY === 'ru';

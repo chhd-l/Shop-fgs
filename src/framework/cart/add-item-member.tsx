@@ -17,7 +17,12 @@ interface SITEPURCHASE_PARAM {
   recommendationId?: string; //the prescriber id that binded on the product
   recommendationName?: string; //the prescriber name that binded on the product
   recommendationInfos?: string;
-  goodsCategory?: string;
+  goodsCategory?: string; //shelter or breeder product param
+  utmSource?: string; //shelter or breeder product param
+  utmMedium?: string; //shelter or breeder product param
+  utmCampaign?: string; //shelter or breeder product param
+  prefixFn?: string; //shelter or breeder product param
+  prefixBreed?: string; //shelter or breeder product param
 }
 
 /**
