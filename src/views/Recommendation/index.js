@@ -30,7 +30,6 @@ import { seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { addItemToBackendCart } from '@/api/cart';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
@@ -39,7 +38,7 @@ import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
-
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
 import './index.less';
 import { Canonical } from '@/components/Common';
 
@@ -217,22 +216,20 @@ class Help extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
       this.setState({ buttonLoading: true });
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
+
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((item) =>
+          Object.assign({
+            goodsInfoId: item.goodsInfo.goodsInfoId,
+            goodsNum: item.recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
             //推荐链接购买商品，推荐者信息跟着商品走
             recommendationId: this.props.clinicStore.linkClinicId,
             recommendationName: this.props.clinicStore.linkClinicName
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+          })
+        )
+      });
       this.props.history.push('/cart');
     }
   }
@@ -367,19 +364,6 @@ class Help extends React.Component {
       return false;
     } else {
       //游客直接购买调用sitePurchase加入后台购物车会报K-000002的错误
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: '',
-      //       goodsInfoFlag: 0
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
       if (loginStore.isLogin) {
       } else {
         inStockProducts.forEach((el) => {
@@ -413,34 +397,17 @@ class Help extends React.Component {
       this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 0
-          });
-          await checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((item) => ({
+          goodsInfoId: item.goodsInfo.goodsInfoId,
+          goodsNum: item.recommendationNumber,
+          goodsCategory: '',
+          goodsInfoFlag: 0
+        }))
+      });
+
       history.push('/cart');
     } else if (currentModalObj.type === 'payNow') {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: ''
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
-
       inStockProducts.forEach((el) => {
         el.goodsInfo.buyCount = el.recommendationNumber;
         return el.goodsInfo;

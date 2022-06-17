@@ -14,16 +14,15 @@ import kittencute from './img/kittencute.png';
 import kittenimgone from './img/kittenimgone.png';
 import kittenimgtwo from './img/kittenimgtwo.png';
 import { getOtherSpecies, getSpecies } from '@/utils/GA';
-
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Help from './modules/help';
 import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
-import { addItemToBackendCart } from '@/api/cart';
 import './index.css';
 import { Canonical } from '@/components/Common';
+import cn from 'classnames';
 
 const localItemRoyal = window.__.localItemRoyal;
-
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const kittyData = [
@@ -91,6 +90,7 @@ class DedicatedLandingPage extends React.Component {
     ]);
     let productList = [res[0]?.context, res[1]?.context];
     console.info(' productList[selectLine]', productList);
+    debugger;
     this.handleGoodsGA(productList);
     // dataLayer.push({
     //   products: productList.map((el) => handleGoodsGA(el))
@@ -221,24 +221,26 @@ class DedicatedLandingPage extends React.Component {
     if (choosedProduct.length > 0) {
       try {
         await this.props.checkoutStore.setPromotionCode(promotionCode);
-        await addItemToBackendCart({
-          goodsInfoId: choosedProduct[0].goodsInfoId,
-          goodsNum: 1,
-          goodsCategory: '',
-          goodsInfoFlag: 0,
-          recommendationId:
-            this.props.clinicStore.linkClinicRecommendationInfos
-              ?.recommendationId || this.props.clinicStore.linkClinicId,
-          recommendationInfos:
-            this.props.clinicStore.linkClinicRecommendationInfos,
-          recommendationName:
-            this.props.clinicStore.linkClinicRecommendationInfos
-              ?.recommendationName || this.props.clinicStore.linkClinicName
+        await AddCartItemMember({
+          param: {
+            goodsInfoId: choosedProduct[0].goodsInfoId,
+            goodsNum: 1,
+            goodsCategory: '',
+            goodsInfoFlag: 0,
+            recommendationId:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
+            recommendationInfos:
+              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName
+          }
         });
-        await this.props.checkoutStore.updateLoginCart();
-        this.setState({ buttonLoading: false, showKitten: false });
+        this.setState({ showKitten: false });
         this.props.history.push('/cart');
       } catch (e) {
+      } finally {
         this.setState({ buttonLoading: false });
       }
     } else {
@@ -338,7 +340,7 @@ class DedicatedLandingPage extends React.Component {
     return (
       <div>
         <div
-          className={'modal'}
+          className={cn({ modal: showKitten })}
           style={
             showKitten
               ? {

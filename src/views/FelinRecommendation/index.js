@@ -16,7 +16,7 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { addItemToBackendCart, siteMiniPurchases } from '@/api/cart';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
 import Modal from './components/Modal';
 import { funcUrl } from '@/lib/url-utils';
 import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
@@ -289,9 +289,8 @@ class FelinRecommendation extends React.Component {
   }
   async hanldeLoginAddToCart({ url }) {
     let retPath = url;
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
-    const { checkoutStore, loginStore, history, clinicStore } = this.props;
+    let { outOfStockProducts, inStockProducts, modalList } = this.state;
+    const { checkoutStore, loginStore, clinicStore } = this.props;
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
 
@@ -308,21 +307,18 @@ class FelinRecommendation extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
       this.setState({ buttonLoading: true });
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            orderSource: 'L_ATELIER_FELIN',
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 0,
-            recommendationId: 'L’ Atelier Félin'
-          });
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
-      await this.props.checkoutStore.updateLoginCart();
+
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((r) => ({
+          orderSource: 'L_ATELIER_FELIN',
+          goodsInfoId: r.goodsInfo.goodsInfoId,
+          goodsNum: r.recommendationNumber,
+          goodsCategory: '',
+          goodsInfoFlag: 0,
+          recommendationId: 'L’ Atelier Félin'
+        }))
+      });
+
       if (retPath === '/checkout') {
         retPath = await distributeLinktoPrecriberOrPaymentPage({
           configStore: this.props.configStore,
@@ -423,28 +419,7 @@ class FelinRecommendation extends React.Component {
       });
     }, 5000);
   };
-  //  hanldeLoginAddToCart = async (details) => {
-  //   let param = {
-  //     goodsInfoId: details.goodsInfo.goodsInfoId,
-  //     goodsNum: 1,
-  //     recommendationId: shelter.value,
-  //     recommendationName: shelter.name,
-  //     currentUnitPrice: details.goodsInfo?.marketPrice,
-  //     goodsInfoFlag: 0,
-  //     periodTypeId: null
-  //     // goodsInfoFlag: details.goodsInfoFlag,
-  //     // periodTypeId: details.defaultFrequencyId
-  //   };
-  //   try {
-  //     await addItemToBackendCart(param);
-  //     await checkoutStore.updateLoginCart({
-  //       intl: props.intl
-  //     });
-  //     props.history.push('/cart');
-  //   } catch (err) {
-  //     setBtnLoading(false);
-  //   }
-  // };
+
   hanldeUnloginAddToCart = async ({ productList: products, url = '/cart' }) => {
     const { intl, checkoutStore, clinicStore, history, loginStore } =
       this.props;
@@ -506,19 +481,6 @@ class FelinRecommendation extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[1] });
       return false;
     } else {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: '',
-      //       goodsInfoFlag: 0
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
       await this.props.checkoutStore.setPromotionCode(this.state.couponCode);
 
       this.setState({ buttonLoading: true });
@@ -530,7 +492,6 @@ class FelinRecommendation extends React.Component {
             return el.goodsInfo;
           });
         }
-
         if (loginStore.isLogin) {
           await this.hanldeLoginAddToCart({
             url: '/checkout'
@@ -554,34 +515,18 @@ class FelinRecommendation extends React.Component {
       this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            orderSource: 'L_ATELIER_FELIN',
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 0
-          });
-          await checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((r) => ({
+          orderSource: 'L_ATELIER_FELIN',
+          goodsInfoId: r.goodsInfo.goodsInfoId,
+          goodsNum: r.recommendationNumber,
+          goodsCategory: '',
+          goodsInfoFlag: 0
+        }))
+      });
+
       history.push('/cart');
     } else if (currentModalObj.type === 'payNow') {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: ''
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
       const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
         checkoutStore,

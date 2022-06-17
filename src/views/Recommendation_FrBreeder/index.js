@@ -21,7 +21,6 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import { addItemToBackendCart } from '@/api/cart';
 import Modal from './components/Modal';
 import {
   distributeLinktoPrecriberOrPaymentPage,
@@ -36,6 +35,7 @@ import {
 } from '@/utils/GA';
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
 import { Canonical } from '@/components/Common';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -521,28 +521,48 @@ class Recommendation extends React.Component {
         );
       }
       this.setState({ buttonLoading: true });
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 2,
-            periodTypeId: inStockProducts[i].defaultFrequencyId,
-            recommendationId:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
-            recommendationName:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationName || this.props.clinicStore.linkClinicName
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((item) => ({
+          goodsInfoId: item.goodsInfo.goodsInfoId,
+          goodsNum: item.recommendationNumber,
+          goodsCategory: '',
+          goodsInfoFlag: 2,
+          periodTypeId: item.defaultFrequencyId,
+          recommendationId:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationId || this.props.clinicStore.linkClinicId,
+          recommendationInfos:
+            this.props.clinicStore.linkClinicRecommendationInfos,
+          recommendationName:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationName || this.props.clinicStore.linkClinicName
+        }))
+      });
+
+      // for (let i = 0; i < inStockProducts.length; i++) {
+      //   try {
+      //     AddCartItemMember({
+      //       param: {
+      //         goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+      //         goodsNum: inStockProducts[i].recommendationNumber,
+      //         goodsCategory: '',
+      //         goodsInfoFlag: 2,
+      //         periodTypeId: inStockProducts[i].defaultFrequencyId,
+      //         recommendationId:
+      //           this.props.clinicStore.linkClinicRecommendationInfos
+      //             ?.recommendationId || this.props.clinicStore.linkClinicId,
+      //         recommendationInfos:
+      //           this.props.clinicStore.linkClinicRecommendationInfos,
+      //         recommendationName:
+      //           this.props.clinicStore.linkClinicRecommendationInfos
+      //             ?.recommendationName || this.props.clinicStore.linkClinicName
+      //       }
+      //     });
+      //   } catch (e) {
+      //     this.setState({ buttonLoading: false });
+      //   }
+      // }
       this.props.history.push('/cart');
     }
   }
@@ -674,34 +694,18 @@ class Recommendation extends React.Component {
       this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            periodTypeId: inStockProducts[i].defaultFrequencyId,
-            goodsCategory: '',
-            goodsInfoFlag: 2
-          });
-          await checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((item) => ({
+          goodsInfoId: item.goodsInfo.goodsInfoId,
+          goodsNum: item.recommendationNumber,
+          periodTypeId: item.defaultFrequencyId,
+          goodsCategory: '',
+          goodsInfoFlag: 2
+        }))
+      });
+
       history.push('/cart');
     } else if (currentModalObj.type === 'payNow') {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: ''
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
       inStockProducts.forEach((el) => {
         el.goodsInfo.buyCount = el.recommendationNumber;
         return el.goodsInfo;

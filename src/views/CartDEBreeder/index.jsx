@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { funcUrl } from '@/lib/url-utils';
 import { inject, observer } from 'mobx-react';
 import { getRecommendation } from '@/api/recommendation';
-import { addItemToBackendCart, valetGuestMiniCars } from '@/api/cart';
 import { injectIntl } from 'react-intl-phraseapp';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+
 const localItemRoyal = window.__.localItemRoyal;
+
 const CartDEBreeder = ({
   loginStore,
   clinicStore,
@@ -28,18 +30,16 @@ const CartDEBreeder = ({
       clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
       clinicStore.setLinkClinicId(customerId);
       if (loginStore.isLogin) {
-        for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {
-          await addItemToBackendCart({
-            goodsInfoId: recommendationGoodsInfoRels[i].goodsInfo.goodsInfoId,
-            goodsNum: recommendationGoodsInfoRels[i].recommendationNumber,
+        await AddCartItemsMember({
+          paramList: recommendationGoodsInfoRels.map((r) => ({
+            goodsInfoId: r.goodsInfo.goodsInfoId,
+            goodsNum: r.recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
             recommenderId: customerId,
             clinicId: customerId
-          });
-
-          await checkoutStore.updateLoginCart();
-        }
+          }))
+        });
       } else {
         const getDetail = ({
           goodsInfos,
