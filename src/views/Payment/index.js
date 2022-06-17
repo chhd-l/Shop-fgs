@@ -2485,7 +2485,7 @@ class Payment extends React.Component {
       });
     }
     // 德国推荐商品
-    if (localItemRoyal.get('isDERecommendation') === 'true') {
+    if (localItemRoyal.get('deRecommendationGoodsId')) {
       if (this.isLogin) {
         param.tradeItems = loginCartData.map((ele) => {
           const recoProductParam = handleRecoProductParamByItem({

@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { funcUrl } from '@/lib/url-utils';
 import { inject, observer } from 'mobx-react';
 import { getRecommendation } from '@/api/recommendation';
+import intersection from 'lodash/intersection';
 import { addItemToBackendCart, valetGuestMiniCars } from '@/api/cart';
 import { injectIntl } from 'react-intl-phraseapp';
+import { toJS } from 'mobx';
 const localItemRoyal = window.__.localItemRoyal;
 const CartDEBreeder = ({
   loginStore,
@@ -16,12 +18,36 @@ const CartDEBreeder = ({
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
   useEffect(() => {
     const req = async () => {
-      localItemRoyal.set('isDERecommendation', 'true');
+      const deRecommendationGoodsId = localItemRoyal.get(
+        'deRecommendationGoodsId'
+      );
+      if (deRecommendationGoodsId) {
+        let cardGoodIds = [];
+        if (loginStore.isLogin) {
+          cardGoodIds = checkoutStore.loginCartData.map(
+            (goodsInfo) => goodsInfo.goodsId
+          );
+        } else {
+          cardGoodIds = checkoutStore.cartData.map(
+            (goodsInfo) => goodsInfo.goodsInfo.goodsId
+          );
+        }
+        const recommendationGoodIds = deRecommendationGoodsId;
+        // if cardGoodIds intersection with recommendationGoodIds is empty, then get recommendation
+        if (intersection(cardGoodIds, recommendationGoodIds).length > 0) {
+          setLoadingRecommendation(false);
+          return;
+        }
+      }
       const products = funcUrl({ name: 'products' });
       const customerId = funcUrl({ name: 'customerId' });
       const res = await getRecommendation(products, customerId);
       const recommendationGoodsInfoRels =
         res.context.recommendationGoodsInfoRels;
+      localItemRoyal.set(
+        'deRecommendationGoodsId',
+        recommendationGoodsInfoRels.map((goodsInfo) => goodsInfo.goods.goodsId)
+      );
       let recommendationInfos = {
         recommenderId: customerId
       };
