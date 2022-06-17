@@ -133,10 +133,9 @@ const OrderAllProduct = ({ details }) => {
                     item.subscriptionStatus ? (
                       judgeIsIndividual(item) ? (
                         ''
-                      ) : window.__.env.REACT_APP_COUNTRY === 'jp' &&
-                        item.subscriptionPrice === item.originalPrice ? (
+                      ) : item.subscriptionPrice === item.originalPrice ? (
                         <span className="ml-2">
-                          {/* 日本的订阅折扣价和原价一样特别显示 */}
+                          {/* 订阅折扣价和原价一样时，不展示划线价 */}
                           {formatMoney(item.originalPrice)}
                         </span>
                       ) : (
@@ -174,10 +173,9 @@ const OrderAllProduct = ({ details }) => {
                 {details.subscriptionResponseVO && item.subscriptionStatus ? (
                   judgeIsIndividual(item) ? (
                     ''
-                  ) : window.__.env.REACT_APP_COUNTRY === 'jp' &&
-                    item.subscriptionPrice === item.originalPrice ? (
+                  ) : item.subscriptionPrice === item.originalPrice ? (
                     <span className="ml-2">
-                      {/* 日本的订阅折扣价和原价一样特别显示 */}
+                      {/* 订阅折扣价和原价一样时，不展示划线价 */}
                       {formatMoney(item.originalPrice)}
                     </span>
                   ) : (
