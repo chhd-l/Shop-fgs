@@ -49,15 +49,12 @@ const CartDEBreeder = ({
           goodsInfoId
         }) => {
           let choosedSpecsArr = [];
-          let sizeList = [];
-          if (true) {
-            // 通过sku查询
-            let specsItem = goodsInfos.filter(
-              (item) => item.goodsInfoNo == goodsInfoNo
-            );
-            choosedSpecsArr =
-              specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-          }
+          // 通过sku查询
+          let specsItem = goodsInfos.filter(
+            (item) => item.goodsInfoNo == goodsInfoNo
+          );
+          choosedSpecsArr =
+            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
 
           // 组装购物车的前端数据结构与规格的层级关系
           if (goodsSpecDetails) {
@@ -165,6 +162,8 @@ const CartDEBreeder = ({
             goodsInfoId: item.goodsInfo.goodsInfoId
           });
           item.selected = true;
+          item.goodsImg = item.goods.goodsImg;
+          item.addedFlag = 1;
           item.quantity = 1;
           item.goodsInfoFlag = 0;
           item.goodsName = item.goods.goodsName;
