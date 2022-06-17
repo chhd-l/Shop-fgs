@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import cn from 'classnames';
-import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import InputCircle from '@/components/InputCircle';
 import PointForm from '@/components/PointForm';
@@ -15,9 +13,8 @@ import {
   disabledPromotionBox
 } from '@/views/Payment/modules/utils';
 
-const Point = ({ checkoutStore, loginStore }) => {
-  const { setSelectDiscountWay, setEarnedPoint, calculateServiceFeeLoading } =
-    checkoutStore;
+const Point = ({ checkoutStore }) => {
+  const { setSelectDiscountWay } = checkoutStore;
 
   const data = [
     {
