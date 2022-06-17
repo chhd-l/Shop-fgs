@@ -17,45 +17,83 @@ class RequestInvoices extends React.Component {
           <h1>
             <FormattedMessage id="requestInvoices.title" />
           </h1>
-          <p classname="textIndex">
+          <p>
+            Si desea solicitar facturas electrónicas, le pedimos por favor envíe
+            la siguiente información al:
+          </p>
+          <p>
+            correo electrónico <strong>contacto.mex@royalcanin.com</strong> con
+            el siguiente formato en el asunto del correo:
+          </p>
+          <br />
+          <p>
+            Solicitar factura_tu nombre_ Fecha de aplicación(Día,Mes,Año)
+            <br />
+            <strong>Ejemplo: </strong> Solicitar factura_Hugo Reyes_21072020).
+          </p>
+          <br />
+          {/* <p classname="textIndex">
             La facturación automática está en preparación. Por ahora, si desea
             solicitar facturas electrónicas, envíe la siguiente información a la
             dirección de correo electrónico ‘contacto.mex@royalcanin.com’ con el
             título de correo electrónico de ‘Solicitar factura_tu nombre_ Fecha
             de aplicación’ (por ejemplo, Solicitar factura_Calvin_21072020).{' '}
-          </p>
+          </p> */}
           <p>Información requerida para la facturación:</p>
-          <ol>
-            <li> Nombre, Razón o Denominación Social</li>
-            <li>RFC</li>
+          <ol style={{ paddingLeft: '25px' }}>
             <li>
-              Direccion fiscal (incluyendo Calle, Numero (#), Colonia,
-              Delegacion/municipio, Estado, C.P.)
+              <span style={{ paddingRight: '15px' }}>-</span>Nombre, Razón o
+              Denominación Social
             </li>
             <li>
-              Uso del Tipo de CFDI (seleccione entre las siguientes dos
-              opciones)
-              <ol>
-                <li>G01 Adquision de Mercancia</li>
+              <span style={{ paddingRight: '15px' }}>-</span>RFC
+            </li>
+            <li>
+              <span style={{ paddingRight: '15px' }}>-</span>Dirección fiscal
+              (Calle, Número int/ext, Colonia, Delegación o Municipio, Estado y
+              Código postal)
+            </li>
+            <li>
+              <span style={{ paddingRight: '15px' }}>-</span>Uso del tipo de
+              CFDI (indicando una de las opciones)
+              <ul style={{ paddingLeft: '55px' }}>
+                <li>G01 Adquisición de Mercancías</li>
                 <li>G03 Gastos Generales</li>
-              </ol>
+              </ul>
             </li>
             <li>
-              Forma de pago (seleccione entre las siguientes dos opciones)
-              <ol>
-                <li> Contado (si se paga con OXXO)</li>
-                <li>Tarjeta de crédito / debito</li>
-              </ol>
+              <span style={{ paddingRight: '15px' }}>-</span>Forma de Pago
+              (indicando una de las opciones)
+              <ul style={{ paddingLeft: '55px' }}>
+                <li>Contado (Pagos en OXXO)</li>
+                <li>Tarjeta de crédito o débito</li>
+              </ul>
             </li>
             <li>
-              Número de pedido (consulte el correo electrónico de confirmación
-              de su pedido)
+              <span style={{ paddingRight: '15px' }}>-</span>Número de pedido
+              (Puede encontrarlo en su correo de confirmación de pedido)
             </li>
-            <li>Valor total del pedido / valor de la factura</li>
-            <li> Dirección de correo electrónico para recibir facturas</li>
+            <li>
+              <span style={{ paddingRight: '15px' }}>-</span>Valor total del
+              pedido o valor de la factura
+            </li>
+            <li>
+              <span style={{ paddingRight: '15px' }}>-</span>Dirección de correo
+              electrónico para recibir facturas
+            </li>
           </ol>
-
+          <br />
           <p>
+            Por lo general, el proceso de facturación puede demorar hasta 1
+            semana, la factura se enviará a la dirección que dejó en el correo
+            electrónico de solicitud de factura.
+          </p>
+          <br />
+          <p>
+            Ante cualquier inquietud, comuníquese con por favor al correo:
+            contacto.mex@royalcanin.com
+          </p>
+          {/* <p>
             Tenga en cuenta que, por lo general, el proceso de facturación
             demorará hasta 1 semana y la factura se enviará a la dirección que
             dejó en el correo electrónico de solicitud de factura. Por lo tanto,
@@ -66,7 +104,7 @@ class RequestInvoices extends React.Component {
           <p>
             Ante cualquier inquietud, comuníquese con
             ‘contacto.mex@royalcanin.com’. Gracias.
-          </p>
+          </p> */}
         </div>
         <Footer />
       </div>
