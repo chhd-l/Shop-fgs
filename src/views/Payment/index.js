@@ -547,6 +547,13 @@ class Payment extends React.Component {
       () => {
         if (this.props.checkoutStore.inputPointOk) {
           setTimeout(() => {
+            if (
+              this.props.checkoutStore.inputPoint <
+                this.props.checkoutStore.loyaltyPointsMinimum ||
+              this.props.checkoutStore.inputPoint >
+                this.props.checkoutStore.loyaltyPointsMaximum
+            )
+              return;
             this.confirmCalculateServiceFeeAndLoyaltyPoints(
               Number(this.props.checkoutStore.inputPoint)
             );
