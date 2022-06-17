@@ -4431,10 +4431,18 @@ class Payment extends React.Component {
                 className="rc-icon rc-up rc-iconography"
                 style={{ transform: 'scale(.7)' }}
               />
-              <span>
+              <span
+                className={`${
+                  COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
+                }`}
+              >
                 <FormattedMessage id="payment.yourOrder" />
               </span>
-              <span className="grand-total-sum">
+              <span
+                className={`grand-total-sum ${
+                  COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
+                }`}
+              >
                 {formatMoney(this.tradePrice)}
               </span>
             </div>
