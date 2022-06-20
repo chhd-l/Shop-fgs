@@ -66,15 +66,8 @@ const Adoptions = (props) => {
   useEffect(() => {
     getShelters();
     getGoodsInfos();
-    addShelterId();
   }, []);
-  const addShelterId = async () => {
-    const res = await saveShelterId({
-      shelterId: sessionItemRoyal.get('handled-shelter'),
-      customerId: loginStore.userInfo.customerId || ''
-    });
-    console.log(res, 'rerere');
-  };
+
   const getShelters = async () => {
     const res = await getShelterList({ prescriberType: ['Shelter'] });
     let list = res.context
@@ -304,7 +297,20 @@ const Adoptions = (props) => {
   const handleSelectChange = (data) => {
     setShelter(data);
     sessionItemRoyal.set('handled-shelter', data.value);
+    addShelterId(data.value);
   };
+
+  // PO bind shelterId, country:us
+  const addShelterId = async (shelterId) => {
+    const customerId = loginStore.userInfo.customerId || '';
+    if (customerId) {
+      await saveShelterId({
+        shelterId,
+        customerId
+      });
+    }
+  };
+
   const GAShelterLPdropdownClick = () => {
     dataLayer.push({
       event: 'shelterLPdropdownClick'
