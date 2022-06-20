@@ -229,8 +229,8 @@ class DedicatedLandingPage extends React.Component {
           recommendationId:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationId || this.props.clinicStore.linkClinicId,
-          recommendationInfos:
-            this.props.clinicStore.linkClinicRecommendationInfos,
+          recommendationInfos: this.props.clinicStore
+            .linkClinicRecommendationInfos,
           recommendationName:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -254,12 +254,21 @@ class DedicatedLandingPage extends React.Component {
   async hanldeUnloginAddToCart(choosedProduct, unProductList) {
     let { promotionCode } = this.state;
     await this.props.checkoutStore.setPromotionCode(promotionCode);
-
+    const { goodsInfos } = unProductList;
     let specList = unProductList.goodsSpecs;
     let specDetailList = unProductList.goodsSpecDetails;
     if (specList) {
-      specList.map((sItem) => {
+      specList.map((sItem, index) => {
         sItem.chidren = specDetailList.filter((sdItem, i) => {
+          if (index === 0) {
+            let filterproducts = goodsInfos.filter((goodEl) =>
+              goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+            );
+            sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
+            sdItem.isEmpty = filterproducts.every((item) => item.stock === 0);
+            sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0;
+            sdItem.isDisabled = sdItem.isEmpty || sdItem.isUnitPriceZero;
+          }
           return sdItem.specId === sItem.specId;
         });
         sItem.chidren.map((child) => {
@@ -285,8 +294,8 @@ class DedicatedLandingPage extends React.Component {
         currentUnitPrice: choosedProduct?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
-        recommendationInfos:
-          this.props.clinicStore.linkClinicRecommendationInfos,
+        recommendationInfos: this.props.clinicStore
+          .linkClinicRecommendationInfos,
         recommendationId:
           this.props.clinicStore.linkClinicRecommendationInfos
             ?.recommendationId || this.props.clinicStore.linkClinicId,
