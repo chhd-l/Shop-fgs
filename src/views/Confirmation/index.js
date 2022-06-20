@@ -119,7 +119,7 @@ class Confirmation extends React.Component {
   }
   async componentDidMount() {
     // 删除德国推荐标识
-    sessionItemRoyal.remove('isDERecommendation');
+    sessionItemRoyal.remove('deRecommendationGoodsId');
     sessionItemRoyal.set('refresh-confirm-page', true);
     const { subOrderNumberList } = this.state;
     setTimeout(() => {

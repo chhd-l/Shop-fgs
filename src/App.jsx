@@ -445,6 +445,13 @@ const App = () => {
               <RouteFilterHook />
               <Switch>
                 <Route exact path={'/'} component={Home} />
+                <Route
+                  exact
+                  path={'/home'}
+                  render={(props) => (
+                    <Redirect to={{ pathname: '/' }} {...props} />
+                  )}
+                />
                 <Route exact path={'/demo'} component={demo} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
                 {window.__.env.REACT_APP_COUNTRY === 'jp' && (

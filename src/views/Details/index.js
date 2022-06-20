@@ -1494,10 +1494,12 @@ class Details extends React.Component {
                                     </>
                                   ) : null}
                                   {PC &&
-                                  details.promotions &&
-                                  details.promotions.includes('club') &&
-                                  !window.__.env
-                                    .REACT_APP_CLOSE_PRODUCT_FINDER ? (
+                                  ((details.promotions &&
+                                    details.promotions.includes('club') &&
+                                    !window.__.env
+                                      .REACT_APP_CLOSE_PRODUCT_FINDER) ||
+                                    window.__.env
+                                      .REACT_APP_PDP_SHOW_PRODUCT_FINDER) ? (
                                     <Ration
                                       goodsNo={details.goodsNo}
                                       setState={this.setState.bind(this)}
@@ -1687,9 +1689,12 @@ class Details extends React.Component {
                                 checkOutErrMsg={checkOutErrMsg}
                               />
                               {isMobile &&
-                              details.promotions &&
-                              details.promotions.includes('club') &&
-                              !window.__.env.REACT_APP_CLOSE_PRODUCT_FINDER ? (
+                              ((details.promotions &&
+                                details.promotions.includes('club') &&
+                                !window.__.env
+                                  .REACT_APP_CLOSE_PRODUCT_FINDER) ||
+                                window.__.env
+                                  .REACT_APP_PDP_SHOW_PRODUCT_FINDER) ? (
                                 <Ration
                                   goodsNo={details.goodsNo}
                                   setState={this.setState.bind(this)}

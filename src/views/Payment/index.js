@@ -547,6 +547,13 @@ class Payment extends React.Component {
       () => {
         if (this.props.checkoutStore.inputPointOk) {
           setTimeout(() => {
+            if (
+              this.props.checkoutStore.inputPoint <
+                this.props.checkoutStore.loyaltyPointsMinimum ||
+              this.props.checkoutStore.inputPoint >
+                this.props.checkoutStore.loyaltyPointsMaximum
+            )
+              return;
             this.confirmCalculateServiceFeeAndLoyaltyPoints(
               Number(this.props.checkoutStore.inputPoint)
             );
@@ -2485,7 +2492,7 @@ class Payment extends React.Component {
       });
     }
     // 德国推荐商品
-    if (localItemRoyal.get('isDERecommendation') === 'true') {
+    if (localItemRoyal.get('deRecommendationGoodsId')) {
       if (this.isLogin) {
         param.tradeItems = loginCartData.map((ele) => {
           const recoProductParam = handleRecoProductParamByItem({
@@ -4431,10 +4438,18 @@ class Payment extends React.Component {
                 className="rc-icon rc-up rc-iconography"
                 style={{ transform: 'scale(.7)' }}
               />
-              <span>
+              <span
+                className={`${
+                  COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
+                }`}
+              >
                 <FormattedMessage id="payment.yourOrder" />
               </span>
-              <span className="grand-total-sum">
+              <span
+                className={`grand-total-sum ${
+                  COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
+                }`}
+              >
                 {formatMoney(this.tradePrice)}
               </span>
             </div>
