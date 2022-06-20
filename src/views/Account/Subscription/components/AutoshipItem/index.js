@@ -101,7 +101,7 @@ const AutoshipItem = ({ subItem, history }) => {
             <p
               className="truncate"
               style={{
-                width: isMobile ? '120px' : 'calc(100% - 10px)'
+                width: isMobile ? '80%' : 'calc(100% - 10px)'
               }}
             >
               <FormattedMessage id="autoShipStarted2" />
@@ -134,7 +134,7 @@ const AutoshipItem = ({ subItem, history }) => {
         </div>
         <div className="col-span-4 md:col-span-2 text-center">
           <button
-            className="rc-btn rc-btn--two rc-btn--sm truncate"
+            className="rc-btn rc-btn--two rc-btn--sm truncate md:w-11/12"
             // style={{ width: '130px' }}
             onClick={() => {
               localItemRoyal.set('subDetail', subItem);
@@ -142,9 +142,9 @@ const AutoshipItem = ({ subItem, history }) => {
                 `/account/subscription/order/detail/${subItem.subscribeId}`
               );
             }}
-            style={{
-              width: '90%'
-            }}
+            // style={{
+            //   width: '90%'
+            // }}
           >
             {subItem.subscribeStatus === '0' ||
             subItem.subscribeStatus === '1' ? (
