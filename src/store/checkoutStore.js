@@ -959,6 +959,7 @@ class CheckoutStore {
         const selectedGoodsInfo =
           find(cartItem.sizeList, (s) => s.selected) || cartItem.goodsInfo;
         cartItem.goodsInfoId = selectedGoodsInfo.goodsInfoId;
+        delete selectedGoodsInfo.goods; // 删除selectedGoodsInfo的goods属性，否则goods会被覆盖
         cartItem = Object.assign({}, cartItem, selectedGoodsInfo); //把选中的规则，平铺到了最外层吗，同会员购物车数据结构
         // 当前需要加入的产品，是否存在于原购物车中，goodsId-spu goodsInfoId-sku
         const historyItemIdx = findIndex(
@@ -977,6 +978,7 @@ class CheckoutStore {
         cartItem = Object.assign(cartItem, {
           currentAmount: currentUnitPrice * cartItem.quantity
         });
+        cartItem = Object.assign({}, cartItem, { buyCount: cartItem.quantity });
         // 如果之前该商品(同spu 同sku)加入过购物车，删除原有位置数据，并向最前边插入
         // 否则，在最前边插入
         if (historyItemIdx > -1) {

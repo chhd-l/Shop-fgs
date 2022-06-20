@@ -33,6 +33,7 @@ import {
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
 import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -398,7 +399,6 @@ class Recommendation extends React.Component {
       });
   }
 
-  componentWillUnmount() {}
   get addCartBtnStatus() {
     return this.state.inStockProducts.length > 0;
   }
@@ -507,7 +507,6 @@ class Recommendation extends React.Component {
       GABigBreederAddToCar(products);
       this.setState({ buttonLoading: true });
       await this.props.checkoutStore.hanldeUnloginAddToCart({
-        valid: this.addCartBtnStatus,
         cartItemList: products.map((p) => {
           return Object.assign(
             p,
@@ -674,9 +673,6 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
-    if (this.state.inStockProducts.length < 1) {
-      return;
-    }
     GABreederRecoSeeInCart();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
@@ -811,11 +807,10 @@ class Recommendation extends React.Component {
         </p>
         <p className="mb-8">
           <button
-            className={`rc-btn rc-btn--one ${
-              this.state.buttonLoading ? 'ui-btn-loading' : ''
-            } ${
-              this.state.inStockProducts.length ? '' : 'rc-btn-solid-disabled'
-            }`}
+            className={cn(`rc-btn rc-btn--one`, {
+              'ui-btn-loading': this.state.buttonLoading
+            })}
+            disabled={!this.addCartBtnStatus}
             onClick={() => {
               if (this.props.loginStore.isLogin) {
                 this.hanldeLoginAddToCart();
@@ -939,9 +934,10 @@ class Recommendation extends React.Component {
                     </strong>
                   </p>
                   <button
-                    className={`rc-btn rc-btn--one mt-6 ${
-                      this.state.buttonLoading ? 'ui-btn-loading' : ''
-                    } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                    className={cn(`rc-btn rc-btn--one mt-6`, {
+                      'ui-btn-loading': this.state.buttonLoading
+                    })}
+                    disabled={!this.addCartBtnStatus}
                     onClick={this.addCart}
                   >
                     <FormattedMessage id="recommendation.welcomeBtn" />
@@ -1010,13 +1006,12 @@ class Recommendation extends React.Component {
                   </div> */}
                   <p>
                     <button
-                      className={`rc-btn rc-btn--one click-and-show-promotioncode ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${this.state.buttonLoading ? 'ui-btn-loading' : ''} ${
-                        this.state.inStockProducts.length
-                          ? ''
-                          : 'rc-btn-solid-disabled'
-                      } ${checkPromotionCodeAndCopy ? 'show' : 'hide'}`}
+                      className={cn(
+                        `rc-btn rc-btn--one click-and-show-promotioncode`,
+                        { 'ui-btn-loading': this.state.buttonLoading },
+                        checkPromotionCodeAndCopy ? 'show' : 'hide'
+                      )}
+                      disabled={!this.addCartBtnStatus}
                       style={{ width: viewShoppingCartWidth + 'px' }}
                       onClick={this.addCart}
                     >
@@ -1052,6 +1047,7 @@ class Recommendation extends React.Component {
         <Fr
           configStore={this.props.configStore}
           addCart={this.addCart}
+          addCartBtnStatus={this.addCartBtnStatus}
           inStockProducts={this.state.inStockProducts}
           buttonLoading={this.state.buttonLoading}
           isSPT={this.state.isSPT}
@@ -1359,15 +1355,13 @@ class Recommendation extends React.Component {
 
                               <p className="flex justify-center mb-0 md:mb-6 mt-6">
                                 <button
-                                  className={`rc-btn rc-btn--one rc-btn--sm ${
-                                    this.state.buttonLoading
-                                      ? 'ui-btn-loading'
-                                      : ''
-                                  } ${
-                                    this.addCartBtnStatus
-                                      ? ''
-                                      : 'rc-btn-solid-disabled'
-                                  }`}
+                                  className={cn(
+                                    `rc-btn rc-btn--one rc-btn--sm`,
+                                    {
+                                      'ui-btn-loading': this.state.buttonLoading
+                                    }
+                                  )}
+                                  disabled={!this.addCartBtnStatus}
                                   onClick={this.addCart}
                                 >
                                   {isFr && !isSPT ? (

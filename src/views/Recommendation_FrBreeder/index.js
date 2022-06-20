@@ -36,6 +36,7 @@ import {
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
 import { Canonical } from '@/components/Common';
 import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -434,7 +435,6 @@ class Recommendation extends React.Component {
       });
   }
 
-  componentWillUnmount() {}
   get addCartBtnStatus() {
     return this.state.inStockProducts.length > 0;
   }
@@ -572,7 +572,6 @@ class Recommendation extends React.Component {
     GABigBreederAddToCar(products);
     this.setState({ buttonLoading: true });
     await this.props.checkoutStore.hanldeUnloginAddToCart({
-      valid: this.addCartBtnStatus,
       cartItemList: products.map((p) => {
         return Object.assign(
           p,
@@ -639,7 +638,7 @@ class Recommendation extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
-    const { checkoutStore, loginStore, history, clinicStore } = this.props;
+    const { loginStore } = this.props;
     if (needLogin) {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
@@ -865,24 +864,8 @@ class Recommendation extends React.Component {
         path: this.props.location.pathname
       }
     };
-    const createMarkup = (text) => ({ __html: text });
-    // const { details, images } = this.state
-    console.log('productList', this.state.productList);
-    let {
-      productList,
-      activeIndex,
-      currentModalObj,
-      isMobile,
-      promotionCode,
-      promotionCodeText,
-      isSPT
-    } = this.state;
-    let MaxLinePrice,
-      MinLinePrice,
-      MaxMarketPrice,
-      MinMarketPrice,
-      MaxSubPrice,
-      MinSubPrice;
+    let { productList, activeIndex, currentModalObj, isSPT } = this.state;
+    let MaxMarketPrice, MinMarketPrice;
     if (productList.length) {
       // MaxLinePrice = Math.max.apply(
       //   null,
@@ -1072,11 +1055,16 @@ class Recommendation extends React.Component {
                         <button
                           onClick={this.addCart}
                           style={{ width: '284px' }}
-                          className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up
-                        ${this.state.buttonLoading ? 'ui-btn-loading' : ''}
-              ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                          className={cn(
+                            `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`,
+                            {
+                              'ui-btn-loading': this.state.buttonLoading
+                              // 'rc-btn-solid-disabled': !this.addCartBtnStatus
+                            }
+                          )}
+                          disabled={!this.addCartBtnStatus}
                         >
-                          <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                          <span className="fa rc-icon rc-cart--xs rc-brand3 opacity-100" />
                           <span className="default-txt">
                             <FormattedMessage id="details.addToCart" />
                           </span>
@@ -1136,9 +1124,14 @@ class Recommendation extends React.Component {
                     <div className="md:hidden add-cart-for-mobile">
                       <button
                         onClick={this.addCart}
-                        className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile
-                     ${this.state.buttonLoading ? 'ui-btn-loading' : ''}
-              ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                        className={cn(
+                          `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`,
+                          {
+                            'ui-btn-loading': this.state.buttonLoading
+                            // 'rc-btn-solid-disabled': !this.addCartBtnStatus
+                          }
+                        )}
+                        disabled={!this.addCartBtnStatus}
                       >
                         <span className="fa rc-icon rc-cart--xs rc-brand3" />
                         <span className="default-txt">

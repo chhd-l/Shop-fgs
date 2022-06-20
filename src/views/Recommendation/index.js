@@ -216,7 +216,6 @@ class Help extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
       this.setState({ buttonLoading: true });
-
       await AddCartItemsMember({
         paramList: inStockProducts.map((item) =>
           Object.assign({
@@ -234,86 +233,27 @@ class Help extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ productList: products, url: path }) {
-    const {
-      checkoutStore,
-      clinicStore,
-      loginStore,
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
+    const { checkoutStore, clinicStore, loginStore } = this.props;
     let retPath = path;
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i];
-
-      let quantityNew = product.recommendationNumber;
-      let tmpData = Object.assign({}, product.goodsInfo.goods, {
-        quantity: quantityNew
-      });
-      let cartDataCopy = cloneDeep(
-        toJS(this.props.checkoutStore.cartData).filter((el) => el)
-      );
-
-      let flag = true;
-      if (cartDataCopy && cartDataCopy.length) {
-        const historyItem = find(
-          cartDataCopy,
-          (c) =>
-            c.goodsId === product.goodsInfo.goodsId &&
-            product.goodsInfo.goodsInfoId ===
-              c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-        );
-        // console.log(historyItem, 'historyItem');
-        if (historyItem) {
-          flag = false;
-          quantityNew += historyItem.quantity;
-          if (quantityNew > 30) {
-            this.setState({ addToCartLoading: false });
-            return;
+    await this.props.checkoutStore.hanldeUnloginAddToCart({
+      cartItemList: products.map((p) => {
+        return Object.assign(
+          p,
+          { ...p.goods, ...p.goodsInfo.goods },
+          {
+            selected: true,
+            quantity: p.recommendationNumber,
+            currentUnitPrice: p.goodsInfo.marketPrice,
+            goodsInfoFlag: 0,
+            periodTypeId: null,
+            //推荐链接购买商品，推荐者信息跟着商品走
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationName: this.props.clinicStore.linkClinicName
           }
-          tmpData = Object.assign(tmpData, { quantity: quantityNew });
-        }
-      }
-
-      const idx = findIndex(
-        cartDataCopy,
-        (c) =>
-          c.goodsId === product.goodsInfo.goodsId &&
-          product.goodsInfo.goodsInfoId ===
-            find(c.sizeList, (s) => s.selected).goodsInfoId
-      );
-      tmpData = Object.assign(tmpData, {
-        currentAmount: product.goodsInfo.marketPrice * quantityNew,
-        selected: true,
-        quantity: quantityNew,
-        goodsInfoFlag: 0,
-        periodTypeId: null,
-        //推荐链接购买商品，推荐者信息跟着商品走
-        recommendationId: this.props.clinicStore.linkClinicId,
-        recommendationName: this.props.clinicStore.linkClinicName
-      });
-      // console.log(idx, 'idx');
-      if (idx > -1) {
-        cartDataCopy.splice(idx, 1, tmpData);
-      } else {
-        if (cartDataCopy.length >= skuLimitThreshold.skuItemMaxNum) {
-          this.setState({
-            checkOutErrMsg: (
-              <FormattedMessage
-                id="cart.errorMaxCate"
-                values={{ val: skuLimitThreshold.skuItemMaxNum }}
-              />
-            )
-          });
-          return;
-        }
-        cartDataCopy.push(tmpData);
-      }
-      // console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy
-      });
-    }
+        );
+      }),
+      ...this.props
+    });
 
     if (retPath === '/checkout') {
       retPath = await distributeLinktoPrecriberOrPaymentPage({

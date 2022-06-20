@@ -198,7 +198,6 @@ const Adoptions = (props) => {
     });
     try {
       await checkoutStore.hanldeUnloginAddToCart({
-        valid: true,
         cartItemList: cartItem,
         configStore,
         ...props

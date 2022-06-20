@@ -421,28 +421,25 @@ class FelinRecommendation extends React.Component {
   };
 
   hanldeUnloginAddToCart = async ({ productList: products, url = '/cart' }) => {
-    const { intl, checkoutStore, clinicStore, history, loginStore } =
-      this.props;
+    const { checkoutStore, clinicStore, loginStore } = this.props;
     let retPath = url;
-    let cartItems = products.map((product) => {
-      return Object.assign({}, product, product.goodsInfo, {
-        selected: true,
-        currentAmount:
-          product.goodsInfo.marketPrice * product.recommendationNumber,
-        quantity: product.recommendationNumber,
-        currentUnitPrice: product.goodsInfo?.marketPrice,
-        goodsInfoFlag: 0,
-        recommendationId: 'L’ Atelier Félin',
-        periodTypeId: null,
-        orderSource: 'L_ATELIER_FELIN'
-        // goodsInfoFlag: product.goodsInfoFlag,
-        // periodTypeId: product.defaultFrequencyId,
-      });
-    });
     try {
       await checkoutStore.hanldeUnloginAddToCart({
-        cartItemList: cartItems,
-        valid: true,
+        cartItemList: products.map((product) => {
+          return Object.assign({}, product, product.goodsInfo, {
+            selected: true,
+            currentAmount:
+              product.goodsInfo.marketPrice * product.recommendationNumber,
+            quantity: product.recommendationNumber,
+            currentUnitPrice: product.goodsInfo?.marketPrice,
+            goodsInfoFlag: 0,
+            recommendationId: 'L’ Atelier Félin',
+            periodTypeId: null,
+            orderSource: 'L_ATELIER_FELIN'
+            // goodsInfoFlag: product.goodsInfoFlag,
+            // periodTypeId: product.defaultFrequencyId,
+          });
+        }),
         ...this.props
       });
       if (retPath === '/checkout') {
@@ -454,7 +451,6 @@ class FelinRecommendation extends React.Component {
         });
       }
       this.props.history.push(retPath);
-      // history.push('/cart');
     } catch (err) {
       console.info('err', err);
       this.setState({ buttonLoading: false });

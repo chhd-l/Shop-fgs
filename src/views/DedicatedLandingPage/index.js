@@ -276,42 +276,41 @@ class DedicatedLandingPage extends React.Component {
       });
     }
 
-    let cartItem = Object.assign(
-      {},
-      { ...unProductList, ...unProductList.goods },
-      {
-        selected: true,
-        sizeList: unProductList.goodsInfos,
-        goodsInfo: { ...choosedProduct },
-        quantity: 1,
-        currentUnitPrice: choosedProduct?.marketPrice,
-        goodsInfoFlag: 0,
-        periodTypeId: null,
-        recommendationInfos:
-          this.props.clinicStore.linkClinicRecommendationInfos,
-        recommendationId:
-          this.props.clinicStore.linkClinicRecommendationInfos
-            ?.recommendationId || this.props.clinicStore.linkClinicId,
-        recommendationName:
-          this.props.clinicStore.linkClinicRecommendationInfos
-            ?.recommendationName || this.props.clinicStore.linkClinicName,
-        taggingForTextAtCart: (unProductList.taggingList || []).filter(
-          (e) =>
-            e.taggingType === 'Text' &&
-            e.showPage?.includes('Shopping cart page')
-        )[0],
-        taggingForImageAtCart: (unProductList.taggingList || []).filter(
-          (e) =>
-            e.taggingType === 'Image' &&
-            e.showPage?.includes('Shopping cart page')
-        )[0],
-        goodsSpecs: specList
-      }
-    );
-    console.log(cartItem);
     await this.props.checkoutStore.hanldeUnloginAddToCart({
-      valid: this.addCartBtnStatus,
-      cartItemList: [cartItem],
+      cartItemList: [
+        Object.assign(
+          {},
+          { ...unProductList, ...unProductList.goods },
+          {
+            selected: true,
+            sizeList: unProductList.goodsInfos,
+            goodsInfo: { ...choosedProduct },
+            quantity: 1,
+            currentUnitPrice: choosedProduct?.marketPrice,
+            goodsInfoFlag: 0,
+            periodTypeId: null,
+            recommendationInfos:
+              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationId:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName,
+            taggingForTextAtCart: (unProductList.taggingList || []).filter(
+              (e) =>
+                e.taggingType === 'Text' &&
+                e.showPage?.includes('Shopping cart page')
+            )[0],
+            taggingForImageAtCart: (unProductList.taggingList || []).filter(
+              (e) =>
+                e.taggingType === 'Image' &&
+                e.showPage?.includes('Shopping cart page')
+            )[0],
+            goodsSpecs: specList
+          }
+        )
+      ],
       ...this.props
     });
 
@@ -320,7 +319,7 @@ class DedicatedLandingPage extends React.Component {
   }
 
   render() {
-    const { history, match, location } = this.props;
+    const { location } = this.props;
 
     const event = {
       page: {

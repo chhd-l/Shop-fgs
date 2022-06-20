@@ -2323,33 +2323,21 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      let addPramas;
-      let orderSource;
-      if (sessionItemRoyal.get('recommend_product')) {
-        // 线下店orderSource埋点L_ATELIER_FELIN
-        let orderSource = sessionItemRoyal.get('orderSource');
-        addPramas = this.state.recommend_data.map((ele) => {
-          return {
-            goodsNum: ele.buyCount,
-            goodsInfoId: sessionItemRoyal.get('appointment-no')
-              ? ele.goodsInfoId
-              : find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
-          };
-        });
-        if (orderSource) {
-          orderSource = orderSource;
-        }
-      } else {
-        addPramas = cartData.map((ele) => {
-          return {
-            goodsNum: ele.quantity,
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
-          };
-        });
-      }
+      let addPramas = (
+        sessionItemRoyal.get('recommend_product')
+          ? this.state.recommend_data
+          : cartData
+      ).map((ele) => ({
+        goodsNum: ele.buyCount,
+        goodsInfoId: ele.goodsInfoId
+      }));
       await AddCartItemsMember({
         paramList: addPramas,
-        orderSource,
+        orderSource:
+          sessionItemRoyal.get('recommend_product') &&
+          sessionItemRoyal.get('orderSource')
+            ? sessionItemRoyal.get('orderSource')
+            : '',
         doUpdateCart: false
       });
     } catch (err) {
@@ -2515,8 +2503,8 @@ class Payment extends React.Component {
             ...this.props
           });
           return Object.assign(recoProductParam, {
-            num: ele.quantity,
-            skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+            num: ele.buyCount,
+            skuId: ele.goodsInfoId,
             goodsInfoFlag: ele.goodsInfoFlag,
             referenceObject: 'vet',
             recommendationId:
@@ -2560,8 +2548,8 @@ class Payment extends React.Component {
           ...this.props
         });
         return Object.assign(recoProductParam, {
-          num: ele.quantity,
-          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          num: ele.buyCount,
+          skuId: ele.goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });

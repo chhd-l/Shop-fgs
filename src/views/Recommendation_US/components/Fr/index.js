@@ -8,6 +8,7 @@ import helpImg from '@/assets/images/slider-img-help.jpg';
 import recommendation2 from '@/assets/images/fr_recommendation2.png';
 import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
+import cn from 'classnames';
 
 const isMobile = getDeviceType() === 'H5';
 const FrDefault = (props) => {
@@ -94,11 +95,10 @@ const FrSPT = (props) => {
               </ul>
               <p style={{ marginTop: '30px', marginBottom: '30px' }}>
                 <button
-                  className={`rc-btn rc-btn--one ${
-                    props.buttonLoading ? 'ui-btn-loading' : ''
-                  } ${
-                    props.inStockProducts.length ? '' : 'rc-btn-solid-disabled'
-                  }`}
+                  className={cn(`rc-btn rc-btn--one`, {
+                    'ui-btn-loading': props.buttonLoading
+                  })}
+                  disabled={!props.addCartBtnStatus}
                   onClick={props.addCart}
                 >
                   {/* <FormattedMessage id="recommendation.viewInCart" /> */}
@@ -199,10 +199,11 @@ const FrSPT = (props) => {
 
         <p className="flex justify-center mt-8 mb-0 md:mb-8">
           <button
-            className={`rc-btn rc-btn--one ${
-              props.buttonLoading ? 'ui-btn-loading' : ''
-            } ${props.inStockProducts.length ? '' : 'rc-btn-solid-disabled'}`}
+            className={cn(`rc-btn rc-btn--one`, {
+              'ui-btn-loading': props.buttonLoading
+            })}
             onClick={props.addCart}
+            disabled={!props.addCartBtnStatus}
           >
             {/* <FormattedMessage id="recommendation.viewInCart" /> */}
             Commencez maintenant
@@ -355,9 +356,10 @@ const FrSPT = (props) => {
         </p>
         <p className="mt-4 mb-8">
           <button
-            className={`rc-btn rc-btn--one ${
-              props.buttonLoading ? 'ui-btn-loading' : ''
-            } ${props.inStockProducts.length ? '' : 'rc-btn-solid-disabled'}`}
+            className={cn(`rc-btn rc-btn--one`, {
+              'ui-btn-loading': props.buttonLoading
+            })}
+            disabled={!props.addCartBtnStatus}
             onClick={props.addCart}
           >
             {/* <FormattedMessage id="recommendation.viewInCart"/> */}
@@ -406,6 +408,7 @@ const Fr = (props) => {
           addCart={props.addCart}
           inStockProducts={props.inStockProducts}
           buttonLoading={props.buttonLoading}
+          addCartBtnStatus={props.addCartBtnStatus}
         />
       ) : (
         <FrDefault PuppyJPG={PuppyJPG} />

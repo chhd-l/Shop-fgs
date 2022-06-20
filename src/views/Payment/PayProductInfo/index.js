@@ -142,20 +142,16 @@ class PayProductInfo extends React.Component {
   GAGetProductUnlogin(productList) {
     let product = [];
     for (let item of productList) {
-      let cur_selected_size =
-        item.sizeList?.filter((item2) => {
-          return item2.selected == true;
-        }) || [];
-      let variant = cur_selected_size[0]?.specText;
-      let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
+      let variant = item?.specText;
+      let goodsInfoNo = item?.goodsInfoNo;
       let productItem = {
-        brand: item.brandName || 'ROYAL CANIN',
-        category: item.goodsCateName,
+        brand: (item.goods && item.goods.brandName) || 'ROYAL CANIN',
+        category: item?.goods?.goodsCateName,
         club: 'no',
-        id: item.goodsNo,
-        name: item.goodsName,
+        id: (item.goods && item.goods.goodsNo) || '',
+        name: (item.goods && item.goods.goodsName) || '',
         price: item.minMarketPrice,
-        quantity: item.quantity,
+        quantity: item.buyCount,
         recommendation: 'self-selected',
         type: 'one-time',
         variant: parseInt(variant),
@@ -324,7 +320,6 @@ class PayProductInfo extends React.Component {
   }
   getProducts(plist) {
     const List = plist.map((el, i) => {
-      let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
       return (
         <div className="product-summary__products__item" key={i}>
           <div className="product-line-item">
@@ -333,10 +328,7 @@ class PayProductInfo extends React.Component {
                 <LazyLoad>
                   <img
                     className="product-image"
-                    src={
-                      find(el.sizeList, (s) => s.selected).goodsInfoImg ||
-                      IMG_DEFAULT
-                    }
+                    src={el.goodsInfoImg || el.goodsImg || IMG_DEFAULT}
                     alt="product image"
                   />
                 </LazyLoad>
@@ -367,21 +359,15 @@ class PayProductInfo extends React.Component {
                       <FormattedMessage
                         id="quantityText"
                         values={{
-                          specText: selectedSizeItem.specText || '',
-                          buyCount: el.quantity
+                          specText: el.specText || '',
+                          buyCount: el.buyCount
                         }}
                       />
                     </p>
                   </div>
                 </div>
                 <div className="line-item-total-price justify-content-end pull-right">
-                  <div>
-                    {formatMoney(
-                      el.sizeList.filter((el) => el.selected)[0][
-                        'marketPrice'
-                      ] * el.quantity
-                    )}
-                  </div>
+                  <div>{formatMoney(el.marketPrice * el.buyCount)}</div>
                 </div>
               </div>
             </div>
@@ -402,7 +388,7 @@ class PayProductInfo extends React.Component {
         ?.toLowerCase()
         .split(' ')
         .join('-')
-        .replace('/', '')}-${item?.goodsNo}`
+        .replace('/', '')}-${item?.goods?.goodsNo}`
     );
   }
   getProductsForLogin(plist) {
@@ -483,7 +469,7 @@ class PayProductInfo extends React.Component {
               <div className="item-image">
                 <img
                   className="product-image"
-                  src={el.goodsInfoImg || IMG_DEFAULT}
+                  src={el.goodsInfoImg || el.goodsImg || IMG_DEFAULT}
                   alt="product image"
                 />
               </div>
@@ -725,10 +711,6 @@ class PayProductInfo extends React.Component {
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
-    let quantityKeyName = 'quantity';
-    if (this.isLogin || this.props.data.length) {
-      quantityKeyName = 'buyCount';
-    }
     return (
       <div
         className="product-summary__itemnbr border-bottom d-flex align-items-center justify-content-between md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3"
@@ -744,7 +726,7 @@ class PayProductInfo extends React.Component {
                   productList[0]?.goodsInfoFlag === 3
                     ? 1
                     : productList.reduce(
-                        (total, item) => total + item[quantityKeyName],
+                        (total, item) => total + item.buyCount,
                         0
                       )
               }}
@@ -757,7 +739,7 @@ class PayProductInfo extends React.Component {
                   productList[0]?.goodsInfoFlag === 3 || isFromFelin
                     ? 1
                     : productList.reduce(
-                        (total, item) => total + item[quantityKeyName],
+                        (total, item) => total + item.buyCount,
                         0
                       )
               }}

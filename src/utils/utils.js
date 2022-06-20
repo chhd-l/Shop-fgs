@@ -170,8 +170,8 @@ export async function mergeUnloginCartData() {
   let params = {
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
-        goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-        goodsNum: ele.quantity,
+        goodsInfoId: ele.goodsInfoId,
+        goodsNum: ele.buyCount,
         goodsInfoFlag: ele.goodsInfoFlag,
         periodTypeId: ele.periodTypeId,
         invalid: false,
@@ -1111,57 +1111,12 @@ export function handleRecommendation(product) {
 }
 
 export async function addToUnloginCartData({ product }) {
-  // let quantityNew = product.recommendationNumber;
-  let quantityNew = product.quantity;
-  let tmpData = Object.assign(product, {
-    quantity: quantityNew
-  });
-  let cartDataCopy = cloneDeep(toJS(checkoutStore.cartData).filter((el) => el));
-
-  let flag = true;
-  if (cartDataCopy && cartDataCopy.length) {
-    const historyItem = find(
-      cartDataCopy,
-      (c) =>
-        c.goodsId === product.goodsId &&
-        product.goodsInfoId ===
-          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-    );
-    if (historyItem) {
-      flag = false;
-      quantityNew += historyItem.quantity;
-      if (quantityNew > 30) {
-        this.setState({ addToCartLoading: false });
-        return;
-      }
-      tmpData = Object.assign(tmpData, { quantity: quantityNew });
-    }
-  }
-
-  const idx = findIndex(
-    cartDataCopy,
-    (c) =>
-      c.goodsId === product.goodsId &&
-      product.goodsInfoId === find(c.sizeList, (s) => s.selected).goodsInfoId
-  );
-  tmpData = Object.assign(tmpData, {
-    currentAmount: product.marketPrice * quantityNew,
+  let cartItem = Object.assign(product, {
     selected: true,
-    quantity: quantityNew,
-    // goodsInfoFlag: 0,
-    // periodTypeId: null,
     recommendationId: clinicStore.linkClinicId,
     recommendationName: clinicStore.linkClinicName
   });
-  if (idx > -1) {
-    cartDataCopy.splice(idx, 1, tmpData);
-  } else {
-    cartDataCopy.push(tmpData);
-  }
-  await checkoutStore.updateUnloginCart({
-    cartData: cartDataCopy
-  });
-  // history.push(path);
+  checkoutStore.hanldeUnloginAddToCart({ cartItemList: [cartItem] });
 }
 
 export function isShowMixFeeding() {

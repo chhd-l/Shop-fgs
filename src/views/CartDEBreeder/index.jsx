@@ -16,6 +16,7 @@ const CartDEBreeder = ({
   clinicStore,
   checkoutStore,
   intl,
+  configStore,
   ...restProps
 }) => {
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
@@ -188,16 +189,17 @@ const CartDEBreeder = ({
             goodsInfoNo: item.goodsInfo.goodsInfoNo,
             goodsInfoId: item.goodsInfo.goodsInfoId
           });
-          item.selected = true;
-          item.goodsImg = item.goods.goodsImg;
-          item.addedFlag = 1;
-          item.quantity = 1;
-          item.goodsInfoFlag = 0;
-          item.goodsName = item.goods.goodsName;
           return item;
         });
-        await checkoutStore.updateUnloginCart({
-          cartData: goodsList
+        await checkoutStore.hanldeUnloginAddToCart({
+          cartItemList: goodsList.map((item) =>
+            Object.assign({}, item, item.goods, {
+              selected: true,
+              quantity: 1,
+              goodsInfoFlag: 0
+            })
+          ),
+          configStore
         });
       }
       setLoadingRecommendation(false);
@@ -209,5 +211,10 @@ const CartDEBreeder = ({
   return <Cart {...restProps} />;
 };
 export default injectIntl(
-  inject('loginStore', 'checkoutStore', 'clinicStore')(observer(CartDEBreeder))
+  inject(
+    'loginStore',
+    'checkoutStore',
+    'clinicStore',
+    'configStore'
+  )(observer(CartDEBreeder))
 );
