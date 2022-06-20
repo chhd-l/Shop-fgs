@@ -41,7 +41,7 @@ const AutoshipItem = ({ subItem, history }) => {
           {(subItem.goodsInfo || []).map((item, i) => (
             <div
               className="flex"
-              style={{ margin: '.625rem .01rem .625rem .01rem' }}
+              style={{ margin: '.625rem .01rem .625rem .01rem', width: '100%' }}
               key={i}
             >
               <img
@@ -58,9 +58,9 @@ const AutoshipItem = ({ subItem, history }) => {
                 title={item.goodsName}
               />
               <span
-                className="text-xs inline-block align-middle ml-2.5"
+                className="text-xs inline-block align-middle ml-2.5 md:w3/5 lg:w-85/100 xl:w-full"
                 style={{
-                  width: isMobile ? 'auto' : '180px'
+                  width: isMobile ? 'auto' : 'calc(100% - 6.7rem)'
                 }}
               >
                 <p
@@ -94,11 +94,14 @@ const AutoshipItem = ({ subItem, history }) => {
             }}
             alt="auttoship icon"
           />
-          <span className="ml-2.5 align-middle text-base inline-block">
+          <span
+            className="ml-2.5 align-middle text-base inline-block"
+            style={{ width: 'calc(100% - 50px)' }}
+          >
             <p
               className="truncate"
               style={{
-                width: isMobile ? '120px' : 'auto'
+                width: isMobile ? '120px' : 'calc(100% - 10px)'
               }}
             >
               <FormattedMessage id="autoShipStarted2" />
@@ -108,25 +111,28 @@ const AutoshipItem = ({ subItem, history }) => {
             </p>
           </span>
         </div>
-        <div className="col-span-4 md:col-span-1 ml-3 status">
+        <div
+          className="col-span-4 md:col-span-2 ml-3 status"
+          style={{ position: 'relative', paddingLeft: '0.9375rem' }}
+        >
           {subItem.subscribeStatus === '0' ? (
-            <div className="ui-text-overflow-line1 subscription_status_active">
+            <div className="ui-text-overflow-line1 subscription_status_active w-full lg:w-4/5 xl:w-full">
               <em className="greenCircle" />
               <FormattedMessage id="active" />
             </div>
           ) : subItem.subscribeStatus === '1' ? (
-            <div className="ui-text-overflow-line1 subscription_status_paused">
+            <div className="ui-text-overflow-line1 subscription_status_paused w-full lg:w-4/5 xl:w-full">
               <em className="yellowCircle" />
               <FormattedMessage id="paused" />
             </div>
           ) : (
-            <div className="ui-text-overflow-line1 subscription_status_inactive">
+            <div className="ui-text-overflow-line1 subscription_status_inactive w-full lg:w-4/5 xl:w-full">
               <em className="yellowCircle" />
               <FormattedMessage id="inactive" />
             </div>
           )}
         </div>
-        <div className="col-span-4 md:col-span-2 text-center ml-3">
+        <div className="col-span-4 md:col-span-2 text-center">
           <button
             className="rc-btn rc-btn--two rc-btn--sm truncate"
             // style={{ width: '130px' }}
@@ -135,6 +141,9 @@ const AutoshipItem = ({ subItem, history }) => {
               history.push(
                 `/account/subscription/order/detail/${subItem.subscribeId}`
               );
+            }}
+            style={{
+              width: '90%'
             }}
           >
             {subItem.subscribeStatus === '0' ||
