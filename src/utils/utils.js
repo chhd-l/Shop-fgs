@@ -1,6 +1,7 @@
 import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase, addItemToBackendCart } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
+import intersection from 'lodash/intersection';
 import { getDict, getAppointDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
 import { getRation as getRation_api } from '@/api/pet';
@@ -558,9 +559,20 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   const needPrescriber =
     productData.filter((el) => el.prescriberFlag).length > 0;
   // 德国不显示prescriber信息
-  if (localItemRoyal.get('isDERecommendation') === 'true') {
-    localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
-    return '/checkout';
+  if (localItemRoyal.get('deRecommendationGoodsId')) {
+    let cardGoodIds = [];
+    if (isLogin) {
+      cardGoodIds = loginCartData.map((goodsInfo) => goodsInfo.goodsId);
+    } else {
+      cardGoodIds = cartData.map((goodsInfo) => goodsInfo.goodsInfo.goodsId);
+    }
+    const recommendationGoodIds = localItemRoyal.get('deRecommendationGoodsId');
+    // if recommendationGoods has same goodsId with cartGoods, then checkOutNeedShowPrescriber is false
+
+    if (intersection(cardGoodIds, recommendationGoodIds).length > 0) {
+      localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
+      return '/checkout';
+    }
   }
   if (!needPrescriber) {
     //如果商品全都是SPT或者都不need prescriber,直接进入checkout页面并且不显示prescriber信息

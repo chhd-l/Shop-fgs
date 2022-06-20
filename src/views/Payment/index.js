@@ -547,6 +547,13 @@ class Payment extends React.Component {
       () => {
         if (this.props.checkoutStore.inputPointOk) {
           setTimeout(() => {
+            if (
+              this.props.checkoutStore.inputPoint <
+                this.props.checkoutStore.loyaltyPointsMinimum ||
+              this.props.checkoutStore.inputPoint >
+                this.props.checkoutStore.loyaltyPointsMaximum
+            )
+              return;
             this.confirmCalculateServiceFeeAndLoyaltyPoints(
               Number(this.props.checkoutStore.inputPoint)
             );
@@ -2485,7 +2492,7 @@ class Payment extends React.Component {
       });
     }
     // 德国推荐商品
-    if (localItemRoyal.get('isDERecommendation') === 'true') {
+    if (localItemRoyal.get('deRecommendationGoodsId')) {
       if (this.isLogin) {
         param.tradeItems = loginCartData.map((ele) => {
           const recoProductParam = handleRecoProductParamByItem({

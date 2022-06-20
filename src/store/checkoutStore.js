@@ -384,6 +384,7 @@ class CheckoutStore {
     this.setPromotionCode(newPromotionCode);
 
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
+
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       taxFeePrice: purchasesRes.taxFeePrice,
@@ -793,6 +794,7 @@ class CheckoutStore {
       let params = {
         totalPrice: sitePurchasesRes.totalPrice,
         taxFeePrice: sitePurchasesRes.taxFeePrice,
+        couponCodeDiscount: sitePurchasesRes.couponCodeDiscount,
         freeShippingFlag: sitePurchasesRes.freeShippingFlag,
         freeShippingDiscountPrice: sitePurchasesRes.freeShippingDiscountPrice,
         tradePrice: sitePurchasesRes.tradePrice,
