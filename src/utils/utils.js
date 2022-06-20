@@ -560,11 +560,15 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     productData.filter((el) => el.prescriberFlag).length > 0;
   // 德国不显示prescriber信息
   if (localItemRoyal.get('deRecommendationGoodsId')) {
-    const cardGoodIds = cartData.map(
-      (goodsInfo) => goodsInfo.goodsInfo.goodsId
-    );
+    let cardGoodIds = [];
+    if (isLogin) {
+      cardGoodIds = loginCartData.map((goodsInfo) => goodsInfo.goodsId);
+    } else {
+      cardGoodIds = cartData.map((goodsInfo) => goodsInfo.goodsInfo.goodsId);
+    }
     const recommendationGoodIds = localItemRoyal.get('deRecommendationGoodsId');
     // if recommendationGoods has same goodsId with cartGoods, then checkOutNeedShowPrescriber is false
+
     if (intersection(cardGoodIds, recommendationGoodIds).length > 0) {
       localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
       return '/checkout';
