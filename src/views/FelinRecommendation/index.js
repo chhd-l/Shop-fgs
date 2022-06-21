@@ -16,7 +16,10 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import {
+  AddItemsMember as AddCartItemsMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 import Modal from './components/Modal';
 import { funcUrl } from '@/lib/url-utils';
 import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
@@ -316,7 +319,8 @@ class FelinRecommendation extends React.Component {
           goodsCategory: '',
           goodsInfoFlag: 0,
           recommendationId: 'L’ Atelier Félin'
-        }))
+        })),
+        showPCMiniCartPop: false
       });
 
       if (retPath === '/checkout') {
@@ -373,7 +377,6 @@ class FelinRecommendation extends React.Component {
   //           find(c.sizeList, (s) => s.selected).goodsInfoId
   //     );
   //     tmpData = Object.assign(tmpData, {
-  //       currentAmount: product.goodsInfo.marketPrice * quantityNew,
   //       selected: true,
   //       quantity: quantityNew,
   //       goodsInfoFlag: 0,
@@ -424,12 +427,10 @@ class FelinRecommendation extends React.Component {
     const { checkoutStore, clinicStore, loginStore } = this.props;
     let retPath = url;
     try {
-      await checkoutStore.hanldeUnloginAddToCart({
+      await AddCartItemsVisitor({
         cartItemList: products.map((product) => {
           return Object.assign({}, product, product.goodsInfo, {
             selected: true,
-            currentAmount:
-              product.goodsInfo.marketPrice * product.recommendationNumber,
             quantity: product.recommendationNumber,
             currentUnitPrice: product.goodsInfo?.marketPrice,
             goodsInfoFlag: 0,
@@ -440,7 +441,7 @@ class FelinRecommendation extends React.Component {
             // periodTypeId: product.defaultFrequencyId,
           });
         }),
-        ...this.props
+        showPCMiniCartPop: false
       });
       if (retPath === '/checkout') {
         retPath = await distributeLinktoPrecriberOrPaymentPage({
@@ -518,7 +519,8 @@ class FelinRecommendation extends React.Component {
           goodsNum: r.recommendationNumber,
           goodsCategory: '',
           goodsInfoFlag: 0
-        }))
+        })),
+        showPCMiniCartPop: false
       });
 
       history.push('/cart');

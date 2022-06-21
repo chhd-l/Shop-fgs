@@ -1,10 +1,16 @@
 import { batchAdd } from '@/api/cart';
 import stores from '@/store';
+import { getDeviceType } from '@/utils/utils';
+
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+
+let timer: any;
 
 interface Props {
   paramList: SITEPURCHASE_PARAM[];
   orderSource?: string;
   doUpdateCart?: boolean; //whethe to update local cart data
+  showPCMiniCartPop?: boolean; //Show PC mini cart at the top right-hand corner, when add products to cart successfully
 }
 
 interface SITEPURCHASE_PARAM {
@@ -28,7 +34,8 @@ interface SITEPURCHASE_PARAM {
 const addItems = async ({
   paramList,
   orderSource,
-  doUpdateCart = true
+  doUpdateCart = true,
+  showPCMiniCartPop = true
 }: Props) => {
   try {
     await batchAdd({
@@ -38,6 +45,13 @@ const addItems = async ({
       orderSource
     }); // add product to backend cart data
     if (doUpdateCart) await stores.checkoutStore.updateLoginCart();
+    if (showPCMiniCartPop && !isMobile) {
+      stores.headerCartStore.show();
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        stores.headerCartStore.hide();
+      }, 4000);
+    }
   } catch (err) {
     throw new Error((err as any).message);
   }

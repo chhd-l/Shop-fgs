@@ -4,7 +4,10 @@ import { funcUrl } from '@/lib/url-utils';
 import { inject, observer } from 'mobx-react';
 import { getRecommendation } from '@/api/recommendation';
 import { injectIntl } from 'react-intl-phraseapp';
-import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import {
+  AddItemsMember as AddCartItemsMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 import intersection from 'lodash/intersection';
 import { addItemToBackendCart, valetGuestMiniCars } from '@/api/cart';
 import { toJS } from 'mobx';
@@ -66,7 +69,8 @@ const CartDEBreeder = ({
             goodsInfoFlag: 0,
             recommenderId: customerId,
             clinicId: customerId
-          }))
+          })),
+          showPCMiniCartPop: false
         });
       } else {
         const getDetail = ({
@@ -191,7 +195,7 @@ const CartDEBreeder = ({
           });
           return item;
         });
-        await checkoutStore.hanldeUnloginAddToCart({
+        await AddCartItemsVisitor({
           cartItemList: goodsList.map((item) =>
             Object.assign({}, item, item.goods, {
               selected: true,
@@ -199,7 +203,7 @@ const CartDEBreeder = ({
               goodsInfoFlag: 0
             })
           ),
-          configStore
+          showPCMiniCartPop: false
         });
       }
       setLoadingRecommendation(false);
