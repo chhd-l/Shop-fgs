@@ -37,7 +37,7 @@ class VisitorAddress extends React.Component {
     titleVisible: true,
     deliveryOrPickUp: 0,
     showConfirmBtn: true,
-    isValidationModal: true, // 是坦显示验话弹框
+    isValidationModal: true, // 是否显示验证弹框
     updateFormValidStatus: () => {},
     updateValidationStaus: () => {},
     setPaymentToCompleted: () => {},
@@ -51,13 +51,13 @@ class VisitorAddress extends React.Component {
       confirmBtnDisabled: false,
       deliveryOrPickUpFlag: false,
       selectDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
-      pickupFormData: [], // pickup 表坕数杮
-      pickupEditNumber: 0, // pickup 编辑次数，用来判断当剝是坦编辑过
+      pickupFormData: [], // pickup 表单数据
+      pickupEditNumber: 0, // pickup 编辑次数，用来判断当前是否编辑过
       pickupAddress: [],
 
       visitorData: null,
       form: this.props.initData,
-      unConfirmedForm: '', //未确认时 但验话戝功时的表坕数杮
+      unConfirmedForm: '', //未确认时 但验证成功时的表单数据
       validationAddress: {
         suggestionAddress: null,
         address1: null,
@@ -85,10 +85,10 @@ class VisitorAddress extends React.Component {
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
     });
-    // 设置home delivery状思
+    // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   }
-  //props坑生坘化时触坑
+  //props发生变化时触发
   componentWillReceiveProps(props) {
     // console.log(props);
   }
@@ -105,16 +105,16 @@ class VisitorAddress extends React.Component {
   validData = async ({ data }) => {
     const { intl } = this.props;
     try {
-      // 如果有返回违费数杮，则计算违费折扣并显示
+      // 如果有返回运费数据，则计算运费折扣并显示
       if (data?.calculationStatus) {
         this.props.updateData(data);
       }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
-      await validData({ rule: data.formRule, data, intl }); // 数杮验话
+      await validData({ rule: data.formRule, data, intl }); // 数据验证
       this.setState({ isValid: true, unConfirmedForm: data }, () => {
-        // console.log('--------- ★★★★★★ VisitorAddress 验话通过');
+        // console.log('--------- ★★★★★★ VisitorAddress 验证通过');
         this.props.updateFormValidStatus(this.state.isValid);
       });
       this.props.updateData(data);
@@ -125,7 +125,7 @@ class VisitorAddress extends React.Component {
       });
     }
   };
-  // 接收form表坕输入
+  // 接收form表单输入
   updateDeliveryAddress = (data) => {
     this.setState(
       {
@@ -136,11 +136,11 @@ class VisitorAddress extends React.Component {
       }
     );
   };
-  // 计算违费
+  // 计算运费
   calculateFreight = (data) => {
     this.props.calculateFreight(data);
   };
-  // 判断 delivery date和time slot是坦过期
+  // 判断 delivery date和time slot是否过期
   deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
 
@@ -152,11 +152,11 @@ class VisitorAddress extends React.Component {
     // 20210616
     let dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
 
-    // 根杮 address 坖到 DuData返回的provinceId
+    // 根据 address 取到 DuData返回的provinceId
     let dudata = await getAddressBykeyWord({ keyword: data.address1 });
     if (dudata?.context && dudata?.context?.addressList.length > 0) {
       let addls = dudata.context.addressList[0];
-      // 冝根杮 provinceId 获坖到 cutOffTime
+      // 再根据 provinceId 获取到 cutOffTime
       let vdres = await getDeliveryDateAndTimeSlot({
         cityNo: addls?.provinceId
       });
@@ -168,20 +168,20 @@ class VisitorAddress extends React.Component {
       let todayHour = lsfm[0];
       let todayMinutes = lsfm[1];
 
-      // 当天16点剝下坕，明天酝逝；过了16点，坎天酝逝。
-      // 判断当剝时间段，如果是当天过了16点杝示針新选择。
+      // 当天16点前下单，明天配送；过了16点，后天配送。
+      // 判断当前时间段，如果是当天过了16点提示重新选择。
 
       // 已过期（俄罗斯时间）
       let errMsg = this.props.intlMessages['payment.reselectTimeSlot'];
-      // 当天或者当天之剝的时间算已过期时间
+      // 当天或者当天之前的时间算已过期时间
       if (today >= dldate) {
         console.log('666  ----->  今天或者更早');
         this.showErrMsg(errMsg);
         flag = false;
       } else {
         // 其他时间
-        // 明天酝逝的情况（当剝下坕时间没有超过 16 点）
-        // 如果选择的时间是明天，判断当剝时间是坦超过16点，并且判断选择的结束时间
+        // 明天配送的情况（当前下单时间没有超过 16 点）
+        // 如果选择的时间是明天，判断当前时间是否超过16点，并且判断选择的结束时间
         let nowTime = Number(todayHour + '' + todayMinutes);
         console.log('666  ----->  nowTime: ', nowTime);
         let ctt = cutOffTime.split(':');
@@ -193,7 +193,7 @@ class VisitorAddress extends React.Component {
           this.showErrMsg(errMsg);
           flag = false;
         }
-        // 坎天酝逝的情况（当剝下坕时间超过 16 点）
+        // 后天配送的情况（当前下单时间超过 16 点）
       }
     } else {
       flag = false;
@@ -212,14 +212,14 @@ class VisitorAddress extends React.Component {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(unConfirmedForm);
       this.setState({ btnConfirmLoading: false });
-      // 判断 deliveryDate 是坦过期
+      // 判断 deliveryDate 是否过期
       if (!yesOrNot) {
         return;
       }
     }
-    // qhx 坪有在确认坎扝赋值给form字段
+    // qhx 只有在确认后才赋值给form字段
     this.setState({ form: unConfirmedForm });
-    // 地址验话 visitorValidationModalVisible - 控制是坦查询数杮
+    // 地址验证 visitorValidationModalVisible - 控制是否查询数据
     if (isValidationModal) {
       this.setState({
         visitorValidationLoading: true
@@ -231,14 +231,14 @@ class VisitorAddress extends React.Component {
         this.props.updateValidationStaus(false);
       }, 800);
     }
-    // 是坦地址验话
+    // 是否地址验证
     const addressValidationFlag =
       localItemRoyal.get('rc-address-validation-flag') || null;
     if (this.props.type !== 'delivery' && addressValidationFlag) {
       throw new Error('This Error No Display');
     }
   };
-  // 俄罗斯地址校验flag，控制按钮是坦坯用
+  // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
     const { visitorData } = this.state;
     this.setState(
@@ -257,7 +257,7 @@ class VisitorAddress extends React.Component {
       key: this.curPanelKey,
       hideOthers: true
     });
-    // 设置home delivery状思
+    // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   };
 
@@ -267,22 +267,22 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption: e.target.value
     });
   };
-  // 获坖地址验话查询到的数杮
+  // 获取地址验证查询到的数据
   getVisitorValidationData = async (data) => {
     this.setState({
       visitorValidationLoading: false
     });
     if (data && data != null) {
-      // 获坖并设置地址校验返回的数杮
+      // 获取并设置地址校验返回的数据
       this.setState({
         validationAddress: data
       });
     } else {
-      // 丝校验地址，进入下一步
+      // 不校验地址，进入下一步
       this.showNextPanel();
     }
   };
-  // 确认选择地址,切杢到下一个最近的未complete的panel
+  // 确认选择地址,切换到下一个最近的未complete的panel
   confirmVisitorValidationAddress() {
     const { form, selectVisitorValidationOption, validationAddress } =
       this.state;
@@ -301,7 +301,7 @@ class VisitorAddress extends React.Component {
         ? validationAddress.provinceId
         : form.provinceId;
 
-      // 地址校验返回坂数
+      // 地址校验返回参数
       form.validationResult = validationAddress.validationResult;
       theform = Object.assign({}, form);
     } else {
@@ -312,7 +312,7 @@ class VisitorAddress extends React.Component {
         form: Object.assign({}, theform)
       },
       () => {
-        // payment 时杝交 billing address
+        // payment 时提交 billing address
         if (this.props.isDeliveryOrBilling == 'billing') {
           // billing
           this.props.setPaymentToCompleted(this.props.isDeliveryOrBilling);
@@ -378,10 +378,10 @@ class VisitorAddress extends React.Component {
       }
     );
   };
-  // 針置坂数，在Payment确认地址时调用
+  // 重置参数，在Payment确认地址时调用
   resetVisitorAddressState() {
     const { form } = this.state;
-    // console.log('666 ------ 針置坂数，在Payment确认地址时调用 form: ',form);
+    // console.log('666 ------ 重置参数，在Payment确认地址时调用 form: ',form);
     this.setState({
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
@@ -391,7 +391,7 @@ class VisitorAddress extends React.Component {
   }
 
   // ************ pick up 相关
-  // 设置home delivery状思
+  // 设置home delivery状态
   setRuDeliveryOrPickUp() {
     let deliveryOrPickUp = 0;
     let btndisabled = false;
@@ -410,43 +410,15 @@ class VisitorAddress extends React.Component {
       confirmBtnDisabled: btndisabled
     });
   }
-  // 修改按钮状思
+  // 修改按钮状态
   updateConfirmBtnDisabled = (flag) => {
     // console.log('666 flag: ', flag);
     this.setState({
       confirmBtnDisabled: flag
     });
   };
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<AUTO GENERATED BY CONFLICT EXTENSION<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< master
-  titleJSX = ({ redColor = false } = {}) => {
-    return this.props.type === 'delivery' ? (
-      <>
-      <span>
-        <i
-          className={`rc-icon rc-indoors--xs rc-margin-right--xs ${
-            redColor ? 'rc-brand1' : 'rc-iconography'
-          }`}
-        />{' '}
-        <span>
-          <FormattedMessage id="payment.deliveryTitle" />
-        </span>
-        </span>
-      </>
-    ) : (
-      <>
-      <span>
-        <i
-          className={`rc-icon rc-news--xs ${
-            redColor ? 'rc-brand1' : 'rc-iconography'
-          }`}
-        />{' '}
-        <span>
-          <FormattedMessage id="payment.billTitle" />
-        </span>
-        </span>
-      </>
-====================================AUTO GENERATED BY CONFLICT EXTENSION====================================
-  // 更新 selectDeliveryOrPickUp
+
+  // 更新selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
     this.setState(
       {
@@ -455,7 +427,6 @@ class VisitorAddress extends React.Component {
       () => {
         this.props.paymentUpdateDeliveryOrPickup(num);
       }
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>AUTO GENERATED BY CONFLICT EXTENSION>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> feature_0523_sprint12
     );
   };
   // 更新 pickup编辑次数
@@ -465,7 +436,7 @@ class VisitorAddress extends React.Component {
       pickupEditNumber: num
     });
   };
-  // 更新pickup数杮
+  // 更新pickup数据
   updatePickupData = (data) => {
     this.setState({
       pickupFormData: data
@@ -497,10 +468,10 @@ class VisitorAddress extends React.Component {
         comment: pickupFormData.comment,
         pickupPrice: pickupFormData?.pickupPrice,
         pickupDescription: pickupFormData?.pickupDescription,
-        paymentMethods: pickupFormData?.paymentMethods, // 支付方弝
-        pickupCode: pickupFormData?.pickupCode, // 快递公坸code
-        pickupName: pickupFormData?.pickupName, // 快递公坸
-        workTime: pickupFormData.workTime, // 快递公坸上睭时间
+        paymentMethods: pickupFormData?.paymentMethods, // 支付方式
+        pickupCode: pickupFormData?.pickupCode, // 快递公司code
+        pickupName: pickupFormData?.pickupName, // 快递公司
+        workTime: pickupFormData.workTime, // 快递公司上班时间
         receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
         deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP
         type: 'DELIVERY',
@@ -525,7 +496,7 @@ class VisitorAddress extends React.Component {
           // console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
           // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
 
-          // pickup 相关信杯传到 Payment
+          // pickup 相关信息传到 Payment
           deliveryAdd['pickup'] = pickupFormData.pickup;
 
           this.props.updateValidationStaus(true);
