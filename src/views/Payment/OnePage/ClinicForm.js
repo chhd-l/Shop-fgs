@@ -286,7 +286,7 @@ class ClinicForm extends React.Component {
     return (
       <>
         {this.checkoutWithClinic
-          ? prescriberSelectTyped == 'PRESCRIBER_MAP'
+          ? prescriberSelectTyped === 'PRESCRIBER_MAP'
             ? defaultJSX
             : searchJSX
           : null}
