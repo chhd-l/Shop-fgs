@@ -292,6 +292,8 @@ class ClinicForm extends React.Component {
           : null}
       </>
     );
+
+    // console.log(11)
   }
 }
 
