@@ -1,242 +1,243 @@
 export default {
   data: {
-    "MenuItems": [
+    MenuItems: [
       {
-        "Icon": "bag",
-        "Link": {
-          "Url": "https://stage-sitecorerc-cd.mars.com/fr/where-to-buy",
-          "Text": "Où acheter"
+        Icon: 'bag',
+        Link: {
+          Url: 'https://stage-sitecorerc-cd.mars.com/fr/where-to-buy',
+          Text: 'Où acheter'
         },
-        "Type": "MenuItem"
+        Type: 'MenuItem'
       },
       {
-        "Icon": "user",
-        "Link": {
-          "Url": "https://mon.royalcanin.fr/connexion/",
-          "Text": "Mon Royal Canin"
+        Icon: 'user',
+        Link: {
+          Url: 'https://mon.royalcanin.fr/connexion/',
+          Text: 'Mon Royal Canin'
         },
-        "Type": "MenuItem"
+        Type: 'MenuItem'
       }
     ],
-    "MenuInfoItems": [
+    MenuInfoItems: [
       {
-        "Title": "Nous contacter",
-        "Content": "Du lundi auuuu vendredi de 8 h 30 à 19 h et le samedi de 9 h à 13 h. Les appels sont gratuits depuis un poste fixe.",
-        "Image": {
-          "Url": "",
-          "AltText": ""
+        Title: 'Nous contacter',
+        Content:
+          'Du lundi auuuu vendredi de 8 h 30 à 19 h et le samedi de 9 h à 13 h. Les appels sont gratuits depuis un poste fixe.',
+        Image: {
+          Url: '',
+          AltText: ''
         },
-        "Type": "MenuInfoItem"
+        Type: 'MenuInfoItem'
       }
     ],
-    "MenuGroups": [
+    MenuGroups: [
       {
-        "Link": {
-          "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats",
-          "Text": "chats"
+        Link: {
+          Url: 'https://stage-sitecorerc-cd.mars.com/fr/cats',
+          Text: 'chats'
         },
-        "MenuItems": [
+        MenuItems: [
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/products",
-              "Text": "Aliments"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/cats/products',
+              Text: 'Aliments'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/breeds",
-              "Text": "Races"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/cats/breeds',
+              Text: 'Races'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/thinking-of-getting-a-cat",
-              "Text": "Vous envisagez d'adopter un chat"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/cats/thinking-of-getting-a-cat',
+              Text: "Vous envisagez d'adopter un chat"
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/kitten",
-              "Text": "Kitten"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/cats/kitten',
+              Text: 'Kitten'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/health-and-wellbeing",
-              "Text": "Santé et bien-être"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/cats/health-and-wellbeing',
+              Text: 'Santé et bien-être'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "",
-              "Text": "Promotions Chat"
+            Icon: '',
+            Link: {
+              Url: '',
+              Text: 'Promotions Chat'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           }
         ],
-        "Type": "MenuGroup"
+        Type: 'MenuGroup'
       },
       {
-        "Link": {
-          "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs",
-          "Text": "Chiens"
+        Link: {
+          Url: 'https://stage-sitecorerc-cd.mars.com/fr/dogs',
+          Text: 'Chiens'
         },
-        "MenuItems": [
+        MenuItems: [
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/products",
-              "Text": "Aliments"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/dogs/products',
+              Text: 'Aliments'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/breeds",
-              "Text": "Races"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/dogs/breeds',
+              Text: 'Races'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/thinking-of-getting-a-dog",
-              "Text": "Vous envisagez d'adopter un chien"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/dogs/thinking-of-getting-a-dog',
+              Text: "Vous envisagez d'adopter un chien"
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/puppy",
-              "Text": "Chiot"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/dogs/puppy',
+              Text: 'Chiot'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/health-and-wellbeing",
-              "Text": "Santé et bien-être"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/dogs/health-and-wellbeing',
+              Text: 'Santé et bien-être'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "bag",
-            "Link": {
-              "Url": "",
-              "Text": "Promotions Chien"
+            Icon: 'bag',
+            Link: {
+              Url: '',
+              Text: 'Promotions Chien'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           }
         ],
-        "Type": "MenuGroup"
+        Type: 'MenuGroup'
       },
       {
-        "Link": {
-          "Url": "https://stage-sitecorerc-cd.mars.com/fr/tailored-nutrition",
-          "Text": "Alimentation sur mesure"
+        Link: {
+          Url: 'https://stage-sitecorerc-cd.mars.com/fr/tailored-nutrition',
+          Text: 'Alimentation sur mesure'
         },
-        "MenuItems": [],
-        "Type": "MenuGroup"
+        MenuItems: [],
+        Type: 'MenuGroup'
       },
       {
-        "Link": {
-          "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us",
-          "Text": "À propos de nous"
+        Link: {
+          Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us',
+          Text: 'À propos de nous'
         },
-        "MenuItems": [
+        MenuItems: [
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/our-history",
-              "Text": "Notre histoire"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/our-history',
+              Text: 'Notre histoire'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/our-values",
-              "Text": "Nos valeurs"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/our-values',
+              Text: 'Nos valeurs'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/sustainability",
-              "Text": "Développement durable"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/sustainability',
+              Text: 'Développement durable'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/quality-and-food-safety",
-              "Text": "Qualité et sécurité alimentaire"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/quality-and-food-safety',
+              Text: 'Qualité et sécurité alimentaire'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/informations-consommateurs",
-              "Text": "Informations consommateurs"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/informations-consommateurs',
+              Text: 'Informations consommateurs'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/news",
-              "Text": "Actualités"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/news',
+              Text: 'Actualités'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "bag",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/espace-partenaire",
-              "Text": "Espace Partenaire"
+            Icon: 'bag',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/espace-partenaire',
+              Text: 'Espace Partenaire'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           },
           {
-            "Icon": "",
-            "Link": {
-              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/faqs",
-              "Text": "FAQ"
+            Icon: '',
+            Link: {
+              Url: 'https://stage-sitecorerc-cd.mars.com/fr/about-us/faqs',
+              Text: 'FAQ'
             },
-            "Type": "MenuItem"
+            Type: 'MenuItem'
           }
         ],
-        "Type": "MenuGroup"
+        Type: 'MenuGroup'
       }
     ],
-    "LocalMarketSettings": {
-      "ContactUsUrl": {
-        "Url": "https://stage-sitecorerc-cd.mars.com/fr/contact-us",
-        "Text": "Nous contacter"
+    LocalMarketSettings: {
+      ContactUsUrl: {
+        Url: 'https://stage-sitecorerc-cd.mars.com/fr/contact-us',
+        Text: 'Nous contacter'
       },
-      "EnableWeChat": false,
-      "WeChatQrCode": {
-        "Url": null,
-        "AltText": ""
+      EnableWeChat: false,
+      WeChatQrCode: {
+        Url: null,
+        AltText: ''
       },
-      "ContactPhone": "+33 4 66 73 03 00"
+      ContactPhone: '+33 4 66 73 03 00'
     }
   }
 };

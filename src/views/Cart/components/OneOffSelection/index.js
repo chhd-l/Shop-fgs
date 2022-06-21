@@ -29,13 +29,8 @@ const OneOffSelection = function (props) {
           className="price singlePrice text-nowrap qhx"
           style={{ fontSize: '1.375rem' }}
         >
-          {console.log(999, pitem)}
-          {!isLogin
-            ? formatMoney(
-                pitem.quantity *
-                  pitem.sizeList.filter((el) => el.selected)[0].salePrice
-              )
-            : formatMoney(pitem.buyCount * pitem.salePrice)}
+          {/* {console.log(999, pitem)} */}
+          {formatMoney(pitem.buyCount * pitem.salePrice)}
         </div>
       </div>
     </div>

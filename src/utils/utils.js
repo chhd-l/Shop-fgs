@@ -1,6 +1,7 @@
 import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase, addItemToBackendCart } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
+import intersection from 'lodash/intersection';
 import { getDict, getAppointDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
 import { getRation as getRation_api } from '@/api/pet';
@@ -169,8 +170,8 @@ export async function mergeUnloginCartData() {
   let params = {
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
-        goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-        goodsNum: ele.quantity,
+        goodsInfoId: ele.goodsInfoId,
+        goodsNum: ele.buyCount,
         goodsInfoFlag: ele.goodsInfoFlag,
         periodTypeId: ele.periodTypeId,
         invalid: false,
@@ -558,9 +559,20 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   const needPrescriber =
     productData.filter((el) => el.prescriberFlag).length > 0;
   // 德国不显示prescriber信息
-  if (localItemRoyal.get('isDERecommendation') === 'true') {
-    localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
-    return '/checkout';
+  if (localItemRoyal.get('deRecommendationGoodsId')) {
+    let cardGoodIds = [];
+    if (isLogin) {
+      cardGoodIds = loginCartData.map((goodsInfo) => goodsInfo.goodsId);
+    } else {
+      cardGoodIds = cartData.map((goodsInfo) => goodsInfo.goodsInfo.goodsId);
+    }
+    const recommendationGoodIds = localItemRoyal.get('deRecommendationGoodsId');
+    // if recommendationGoods has same goodsId with cartGoods, then checkOutNeedShowPrescriber is false
+
+    if (intersection(cardGoodIds, recommendationGoodIds).length > 0) {
+      localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
+      return '/checkout';
+    }
   }
   if (!needPrescriber) {
     //如果商品全都是SPT或者都不need prescriber,直接进入checkout页面并且不显示prescriber信息
@@ -1099,57 +1111,12 @@ export function handleRecommendation(product) {
 }
 
 export async function addToUnloginCartData({ product }) {
-  // let quantityNew = product.recommendationNumber;
-  let quantityNew = product.quantity;
-  let tmpData = Object.assign(product, {
-    quantity: quantityNew
-  });
-  let cartDataCopy = cloneDeep(toJS(checkoutStore.cartData).filter((el) => el));
-
-  let flag = true;
-  if (cartDataCopy && cartDataCopy.length) {
-    const historyItem = find(
-      cartDataCopy,
-      (c) =>
-        c.goodsId === product.goodsId &&
-        product.goodsInfoId ===
-          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-    );
-    if (historyItem) {
-      flag = false;
-      quantityNew += historyItem.quantity;
-      if (quantityNew > 30) {
-        this.setState({ addToCartLoading: false });
-        return;
-      }
-      tmpData = Object.assign(tmpData, { quantity: quantityNew });
-    }
-  }
-
-  const idx = findIndex(
-    cartDataCopy,
-    (c) =>
-      c.goodsId === product.goodsId &&
-      product.goodsInfoId === find(c.sizeList, (s) => s.selected).goodsInfoId
-  );
-  tmpData = Object.assign(tmpData, {
-    currentAmount: product.marketPrice * quantityNew,
+  let cartItem = Object.assign(product, {
     selected: true,
-    quantity: quantityNew,
-    // goodsInfoFlag: 0,
-    // periodTypeId: null,
     recommendationId: clinicStore.linkClinicId,
     recommendationName: clinicStore.linkClinicName
   });
-  if (idx > -1) {
-    cartDataCopy.splice(idx, 1, tmpData);
-  } else {
-    cartDataCopy.push(tmpData);
-  }
-  await checkoutStore.updateUnloginCart({
-    cartData: cartDataCopy
-  });
-  // history.push(path);
+  checkoutStore.hanldeUnloginAddToCart({ cartItemList: [cartItem] });
 }
 
 export function isShowMixFeeding() {

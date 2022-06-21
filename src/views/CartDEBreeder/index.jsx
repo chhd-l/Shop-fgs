@@ -3,43 +3,71 @@ import React, { useEffect, useState } from 'react';
 import { funcUrl } from '@/lib/url-utils';
 import { inject, observer } from 'mobx-react';
 import { getRecommendation } from '@/api/recommendation';
-import { addItemToBackendCart, valetGuestMiniCars } from '@/api/cart';
 import { injectIntl } from 'react-intl-phraseapp';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import intersection from 'lodash/intersection';
+import { addItemToBackendCart, valetGuestMiniCars } from '@/api/cart';
+import { toJS } from 'mobx';
+
 const localItemRoyal = window.__.localItemRoyal;
+
 const CartDEBreeder = ({
   loginStore,
   clinicStore,
   checkoutStore,
   intl,
+  configStore,
   ...restProps
 }) => {
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
   useEffect(() => {
     const req = async () => {
-      localItemRoyal.set('isDERecommendation', 'true');
+      const deRecommendationGoodsId = localItemRoyal.get(
+        'deRecommendationGoodsId'
+      );
+      if (deRecommendationGoodsId) {
+        let cardGoodIds = [];
+        if (loginStore.isLogin) {
+          cardGoodIds = checkoutStore.loginCartData.map(
+            (goodsInfo) => goodsInfo.goodsId
+          );
+        } else {
+          cardGoodIds = checkoutStore.cartData.map(
+            (goodsInfo) => goodsInfo.goodsInfo.goodsId
+          );
+        }
+        const recommendationGoodIds = deRecommendationGoodsId;
+        // if cardGoodIds intersection with recommendationGoodIds is empty, then get recommendation
+        if (intersection(cardGoodIds, recommendationGoodIds).length > 0) {
+          setLoadingRecommendation(false);
+          return;
+        }
+      }
       const products = funcUrl({ name: 'products' });
       const customerId = funcUrl({ name: 'customerId' });
       const res = await getRecommendation(products, customerId);
       const recommendationGoodsInfoRels =
         res.context.recommendationGoodsInfoRels;
+      localItemRoyal.set(
+        'deRecommendationGoodsId',
+        recommendationGoodsInfoRels.map((goodsInfo) => goodsInfo.goods.goodsId)
+      );
       let recommendationInfos = {
         recommenderId: customerId
       };
       clinicStore.setLinkClinicRecommendationInfos(recommendationInfos);
       clinicStore.setLinkClinicId(customerId);
       if (loginStore.isLogin) {
-        for (let i = 0; i < recommendationGoodsInfoRels.length; i++) {
-          await addItemToBackendCart({
-            goodsInfoId: recommendationGoodsInfoRels[i].goodsInfo.goodsInfoId,
-            goodsNum: recommendationGoodsInfoRels[i].recommendationNumber,
+        await AddCartItemsMember({
+          paramList: recommendationGoodsInfoRels.map((r) => ({
+            goodsInfoId: r.goodsInfo.goodsInfoId,
+            goodsNum: r.recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
             recommenderId: customerId,
             clinicId: customerId
-          });
-
-          await checkoutStore.updateLoginCart();
-        }
+          }))
+        });
       } else {
         const getDetail = ({
           goodsInfos,
@@ -49,15 +77,12 @@ const CartDEBreeder = ({
           goodsInfoId
         }) => {
           let choosedSpecsArr = [];
-          let sizeList = [];
-          if (true) {
-            // 通过sku查询
-            let specsItem = goodsInfos.filter(
-              (item) => item.goodsInfoNo == goodsInfoNo
-            );
-            choosedSpecsArr =
-              specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-          }
+          // 通过sku查询
+          let specsItem = goodsInfos.filter(
+            (item) => item.goodsInfoNo == goodsInfoNo
+          );
+          choosedSpecsArr =
+            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
 
           // 组装购物车的前端数据结构与规格的层级关系
           if (goodsSpecDetails) {
@@ -164,14 +189,17 @@ const CartDEBreeder = ({
             goodsInfoNo: item.goodsInfo.goodsInfoNo,
             goodsInfoId: item.goodsInfo.goodsInfoId
           });
-          item.selected = true;
-          item.quantity = 1;
-          item.goodsInfoFlag = 0;
-          item.goodsName = item.goods.goodsName;
           return item;
         });
-        await checkoutStore.updateUnloginCart({
-          cartData: goodsList
+        await checkoutStore.hanldeUnloginAddToCart({
+          cartItemList: goodsList.map((item) =>
+            Object.assign({}, item, item.goods, {
+              selected: true,
+              quantity: 1,
+              goodsInfoFlag: 0
+            })
+          ),
+          configStore
         });
       }
       setLoadingRecommendation(false);
@@ -183,5 +211,10 @@ const CartDEBreeder = ({
   return <Cart {...restProps} />;
 };
 export default injectIntl(
-  inject('loginStore', 'checkoutStore', 'clinicStore')(observer(CartDEBreeder))
+  inject(
+    'loginStore',
+    'checkoutStore',
+    'clinicStore',
+    'configStore'
+  )(observer(CartDEBreeder))
 );

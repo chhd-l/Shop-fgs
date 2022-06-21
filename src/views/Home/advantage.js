@@ -113,7 +113,7 @@ export function JpAdvantage({ intl }) {
               </div>
               <h3 class="rc-large-body text-center">
                 <b>
-                  <FormattedMessage id="home.convenientTitle" />​
+                  <FormattedMessage id="home.convenientTitle" />
                 </b>
               </h3>
             </div>
@@ -122,7 +122,7 @@ export function JpAdvantage({ intl }) {
                 <dt>
                   <img
                     src={optimizeImage({
-                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon1.png`,
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon01.png`,
                       width: 100
                     })}
                     width="100"
@@ -140,7 +140,7 @@ export function JpAdvantage({ intl }) {
                 <dt>
                   <img
                     src={optimizeImage({
-                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon2.png`,
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon02.png`,
                       width: 100
                     })}
                     width="100"
@@ -158,7 +158,7 @@ export function JpAdvantage({ intl }) {
                 <dt>
                   <img
                     src={optimizeImage({
-                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon3.png`,
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon03.png`,
                       width: 100
                     })}
                     width="100"
@@ -176,7 +176,7 @@ export function JpAdvantage({ intl }) {
                 <dt>
                   <img
                     src={optimizeImage({
-                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon4.png`,
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon04.png`,
                       width: 100
                     })}
                     width="100"
@@ -194,7 +194,7 @@ export function JpAdvantage({ intl }) {
                 <dt>
                   <img
                     src={optimizeImage({
-                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon5.png`,
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/jp_icon05.png`,
                       width: 100
                     })}
                     width="100"

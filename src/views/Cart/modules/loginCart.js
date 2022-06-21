@@ -61,12 +61,12 @@ import {
   GACartRecommendedProductClick,
   GACartButtonClick
 } from '@/utils/GA/cart';
+import cn from 'classnames';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
-const pageLink = window.location.href;
 let preventChangeSize = false; // 修改bug: 先选中数量框，再直接点击切换规则，引起的购物车数据重复
 
 @inject(
@@ -205,7 +205,6 @@ class LoginCart extends React.Component {
       console.log(666);
     }
   }
-  componentWillUnmount() {}
   get loginCartData() {
     return this.props.checkoutStore.loginCartData.filter(
       (el) => !el.isNotShowCart
@@ -258,6 +257,18 @@ class LoginCart extends React.Component {
   get promotionDiscount() {
     return this.props.checkoutStore.promotionDiscount;
   }
+  get promotionVOList() {
+    return this.props.checkoutStore.promotionVOList;
+  }
+  get computedList() {
+    return this.state.frequencyList.map((ele) => {
+      delete ele.value;
+      return {
+        value: ele.id,
+        ...ele
+      };
+    });
+  }
   // 可购买状态
   get btnStatus() {
     const { productList } = this.state;
@@ -280,18 +291,7 @@ class LoginCart extends React.Component {
     });
     return numFlag;
   }
-  get promotionVOList() {
-    return this.props.checkoutStore.promotionVOList;
-  }
-  get computedList() {
-    return this.state.frequencyList.map((ele) => {
-      delete ele.value;
-      return {
-        value: ele.id,
-        ...ele
-      };
-    });
-  }
+
   getGoodsIdArr = () => {
     let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
     getGoodsRelationBatch({ goodsIds: goodsIdArr }).then((res) => {
@@ -630,12 +630,6 @@ class LoginCart extends React.Component {
             <div data-attr="size" className="swatch">
               <div className="cart-and-ipay">
                 <div className="rc-swatch __select-size">
-                  {/* <div className="rc-swatch__item selected">
-              <span>
-                {find(pitem.sizeList, s => s.selected).specText}
-                <em></em>
-              </span>
-            </div> */}
                   {pitem.goodsSpecs &&
                     pitem.goodsSpecs.map((sItem, i) => (
                       <div key={i} className="overflow-hidden">
@@ -676,6 +670,7 @@ class LoginCart extends React.Component {
   getProducts(plist) {
     const { intl } = this.props;
     const { mixFeedings } = this.state;
+
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -772,12 +767,12 @@ class LoginCart extends React.Component {
                         style={{ margin: '.5rem 0 -.4rem' }}
                       >
                         <label
-                          className={[
+                          className={cn(
                             'availability',
                             pitem.addedFlag && pitem.buyCount <= pitem.stock
                               ? 'instock'
                               : 'outofstock'
-                          ].join(' ')}
+                          )}
                         >
                           <span className="title-select">
                             {/* <FormattedMessage id="details.availability" /> : */}
@@ -785,20 +780,21 @@ class LoginCart extends React.Component {
                         </label>
                         <span className="availability-msg inline-block">
                           <div
-                            className={[
+                            className={cn(
                               pitem.addedFlag && pitem.buyCount <= pitem.stock
                                 ? ''
                                 : 'out-stock'
-                            ].join(' ')}
-                          >
-                            {pitem.addedFlag &&
-                            pitem.buyCount <= pitem.stock ? (
-                              <FormattedMessage id="details.inStock" />
-                            ) : pitem.addedFlag ? (
-                              <FormattedMessage id="details.outStock" />
-                            ) : (
-                              <FormattedMessage id="details.OffShelves" />
                             )}
+                          >
+                            <FormattedMessage
+                              id={
+                                pitem.addedFlag && pitem.quantity <= pitem.stock
+                                  ? 'details.inStock'
+                                  : pitem.addedFlag
+                                  ? 'details.outStock'
+                                  : 'details.OffShelves'
+                              }
+                            />
                           </div>
                         </span>
                       </div>

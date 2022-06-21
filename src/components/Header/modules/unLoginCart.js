@@ -1,18 +1,11 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-//import LoginButton from '@/components/LoginButton';
-import {
-  formatMoney,
-  distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType,
-  optimizeImage
-} from '@/utils/utils';
+import { formatMoney, getDeviceType, optimizeImage } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 import './index.css';
-import { FOOD_DISPENSER_PIC } from '@/utils/constant';
+import { FOOD_DISPENSER_PIC, IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import GiftList from './GiftList.tsx';
@@ -53,7 +46,7 @@ class UnloginCart extends React.Component {
   get totalNum() {
     return (
       this.selectedCartData.reduce((pre, cur) => {
-        return Number(pre) + Number(cur.quantity);
+        return Number(pre) + Number(cur.buyCount);
       }, 0) +
       this.giftList
         .filter((item) => !item?.isHidden)
@@ -323,9 +316,6 @@ class UnloginCart extends React.Component {
                     let discountPrice = (
                       <div className="line-item-total-price justify-content-end pull-right priceBox">
                         <div className="price relative">
-                          <div className="strike-through non-adjusted-price">
-                            null
-                          </div>
                           <b
                             className="pricing line-item-total-price-amount light"
                             style={{
@@ -333,15 +323,9 @@ class UnloginCart extends React.Component {
                               textDecoration: item.goodsInfoFlag
                                 ? 'line-through'
                                 : ''
-                              // textDecoration: 'line-through'
                             }}
                           >
-                            {formatMoney(
-                              (item.sizeList.filter((s) => s.selected)[0] &&
-                                item.sizeList.filter((s) => s.selected)[0]
-                                  .currentAmount) ||
-                                0
-                            )}
+                            {formatMoney(item.salePrice * item.buyCount)}
                           </b>
                         </div>
                       </div>
@@ -350,9 +334,6 @@ class UnloginCart extends React.Component {
                     let originalPrice = (
                       <div className="line-item-total-price justify-content-end pull-right priceBox">
                         <div className="item-total-07984de212e393df75a36856b6 price relative">
-                          <div className="strike-through non-adjusted-price">
-                            null
-                          </div>
                           <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
                             <span
                               className="iconfont font-weight-bold green"
@@ -369,8 +350,7 @@ class UnloginCart extends React.Component {
                               style={{ fontSize: '.875rem' }}
                             >
                               {formatMoney(
-                                item.sizeList.filter((el) => el.selected)[0]
-                                  .subscriptionPrice * item.quantity
+                                item.subscriptionPrice * item.buyCount
                               )}
                             </span>
                           </b>
@@ -378,13 +358,9 @@ class UnloginCart extends React.Component {
                       </div>
                     );
                     // 折扣商品如果没有折扣不显示折扣价
-                    const goodsDetailInfo = item.sizeList.filter(
-                      (el) => el.selected
-                    )[0];
                     if (
                       item.goodsInfoFlag > 0 &&
-                      goodsDetailInfo.salePrice ===
-                        goodsDetailInfo.subscriptionPrice
+                      item.salePrice === item.subscriptionPrice
                     ) {
                       discountPrice = null;
                     }
@@ -398,12 +374,15 @@ class UnloginCart extends React.Component {
                                 <LazyLoad>
                                   <img
                                     className="product-image"
-                                    src={optimizeImage({
-                                      originImageUrl: find(
-                                        item.sizeList,
-                                        (s) => s.selected
-                                      ).goodsInfoImg
-                                    })}
+                                    src={
+                                      optimizeImage({
+                                        originImageUrl: item.goodsInfoImg
+                                      }) ||
+                                      optimizeImage({
+                                        originImageUrl: item.goodsImg
+                                      }) ||
+                                      IMG_DEFAULT
+                                    }
                                     alt={item.goodsName}
                                     title={item.goodsName}
                                   />
@@ -427,12 +406,8 @@ class UnloginCart extends React.Component {
                                         <FormattedMessage
                                           id="minicart.quantityText"
                                           values={{
-                                            specText:
-                                              find(
-                                                item.sizeList,
-                                                (s) => s.selected
-                                              ).specText || '',
-                                            buyCount: item.quantity
+                                            specText: item.specText || '',
+                                            buyCount: item.buyCount
                                           }}
                                         />
                                       </p>

@@ -21,8 +21,8 @@ function addOktaTokenField(param) {
   let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
   if (tokenObj.accessToken) {
     param.token = 'Bearer ' + tokenObj.accessToken.accessToken;
-  }else {
-    param.token = 'Bearer '
+  } else {
+    param.token = 'Bearer ';
   }
   return param;
 }

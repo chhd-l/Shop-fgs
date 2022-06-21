@@ -445,6 +445,13 @@ const App = () => {
               <RouteFilterHook />
               <Switch>
                 <Route exact path={'/'} component={Home} />
+                <Route
+                  exact
+                  path={'/home'}
+                  render={(props) => (
+                    <Redirect to={{ pathname: '/' }} {...props} />
+                  )}
+                />
                 <Route exact path={'/demo'} component={demo} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
                 {window.__.env.REACT_APP_COUNTRY === 'jp' && (
@@ -477,6 +484,7 @@ const App = () => {
                   path={'/implicit/login'}
                   render={() => <ImplicitLogin />}
                 />
+                {/* indv recommendation page */}
                 <Route
                   exact
                   path="/precise-cat-nutrition-recommendation"
@@ -547,6 +555,7 @@ const App = () => {
                 {/* //77777 */}
                 <Route exact path="/sevenPay" component={sevenPay} />
                 {/*<Route exact path="/sevenPayResult" component={sevenPayResult} />*/}
+                {/* indv landing page */}
                 <Route
                   exact
                   path="/precise-cat-nutrition"

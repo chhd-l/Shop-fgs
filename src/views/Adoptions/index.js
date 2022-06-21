@@ -11,7 +11,6 @@ import './index.less';
 import { injectIntl } from 'react-intl-phraseapp';
 import UsAndRu from '../Recommendation_US/components/UsAndRu';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { addItemToBackendCart } from '@/api/cart';
 import { GARecommendationProduct } from '@/utils/GA';
 import { useSeo } from '@/framework/common';
 import stores from '@/store';
@@ -19,6 +18,7 @@ import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
 import { Canonical } from '@/components/Common';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
 
 let goodsInfoNosObj = {
   'goodsNo-541425': ['Kitten <br/> (3-12 months)'],
@@ -198,7 +198,6 @@ const Adoptions = (props) => {
     });
     try {
       await checkoutStore.hanldeUnloginAddToCart({
-        valid: true,
         cartItemList: cartItem,
         configStore,
         ...props
@@ -209,23 +208,19 @@ const Adoptions = (props) => {
     }
   };
   const hanldeLoginAddToCart = async (details) => {
-    for (let detail of details) {
-      let param = {
-        goodsInfoId: detail.goodsInfo.goodsInfoId,
-        goodsNum: 1,
-        recommendationId: shelter.value,
-        recommendationName: shelter.name,
-        currentUnitPrice: detail.goodsInfo?.marketPrice,
-        goodsInfoFlag: 0,
-        periodTypeId: null
-        // goodsInfoFlag: detail.goodsInfoFlag,
-        // periodTypeId: detail.defaultFrequencyId
-      };
-      await addItemToBackendCart(param);
-    }
-
     try {
-      await checkoutStore.updateLoginCart();
+      await AddCartItemsMember({
+        paramList: details.map((detail) => ({
+          goodsInfoId: detail.goodsInfo.goodsInfoId,
+          goodsNum: 1,
+          recommendationId: shelter.value,
+          recommendationName: shelter.name,
+          goodsInfoFlag: 0,
+          periodTypeId: null
+          // goodsInfoFlag: detail.goodsInfoFlag,
+          // periodTypeId: detail.defaultFrequencyId
+        }))
+      });
       props.history.push('/cart');
     } catch (err) {
       setBtnLoading(false);

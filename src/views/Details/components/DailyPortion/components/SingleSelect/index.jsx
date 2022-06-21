@@ -1,34 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
 
-
-export default function RadioButton(
-  {
-    label='',
-    options=[],
-    value='',
-    type='petActivityCode', // 区别处理
-    ...rest
-  }
-  ) {
-  const [selectValue, setSelectValue] = useState('')
+export default function RadioButton({
+  label = '',
+  options = [],
+  value = '',
+  type = 'petActivityCode', // 区别处理
+  ...rest
+}) {
+  const [selectValue, setSelectValue] = useState('');
 
   const { onChange } = rest;
 
   const handleRadio = (key) => {
     if (!onChange) return;
-    onChange(key)
-  }
+    onChange(key);
+  };
 
-  useEffect(()=>{
-    setSelectValue(value)
-  }, [value])
+  useEffect(() => {
+    setSelectValue(value);
+  }, [value]);
 
   return (
     <div>
-      <div className="question-title">
-        {label}
-      </div>
+      <div className="question-title">{label}</div>
       <div className="radio-group">
         {options.map((item) => (
           <label
@@ -39,24 +34,23 @@ export default function RadioButton(
             style={{
               // minHeight: 44,
               minHeight: type === 'petActivityCode' ? 76 : 44,
-              flexDirection:
-                type === 'petActivityCode' ? 'column' : 'row'
+              flexDirection: type === 'petActivityCode' ? 'column' : 'row'
             }}
             onClick={() => {
-              handleRadio(item.key)
+              handleRadio(item.key);
             }}
           >
             {/*特定在选择性别时有icon*/}
             {item.key === 'female' ? (
               <span style={{ paddingRight: 5 }}>
-                <i className="iconfont iconfemale1"/>
+                <i className="iconfont iconfemale1" />
               </span>
             ) : (
               ''
             )}
             {item.key === 'male' ? (
               <span style={{ paddingRight: 5 }}>
-                <i className="iconfont iconmale2"/>
+                <i className="iconfont iconmale2" />
               </span>
             ) : (
               ''

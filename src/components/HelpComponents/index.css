@@ -1,8 +1,8 @@
-@media(max-width: 639.98px) {
+@media (max-width: 639.98px) {
   .ui-pop .img-container {
     width: 80%;
   }
-  .mobilehelp{
+  .mobilehelp {
     display: flex;
     flex-direction: column;
   }

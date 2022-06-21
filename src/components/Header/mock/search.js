@@ -5,26 +5,22 @@ export default async function querySearch() {
         {
           Title: 'A guide to changing your dogs food',
           Description: null,
-          Url:
-            'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/a-guide-to-changing-your-dogs-food'
+          Url: 'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/a-guide-to-changing-your-dogs-food'
         },
         {
           Title: 'Reduce the risk of separation anxiety in dogs after lockdown',
           Description: null,
-          Url:
-            'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/reduce-the-risk-of-separation-anxiety-in-dogs-after-lockdown'
+          Url: 'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/reduce-the-risk-of-separation-anxiety-in-dogs-after-lockdown'
         },
         {
           Title: 'Les soins de fin de vie de votre chien',
           Description: null,
-          Url:
-            'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/your-dogs-end-of-life-care'
+          Url: 'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/your-dogs-end-of-life-care'
         },
         {
           Title: 'Incontinence urinaire chez le chien',
           Description: null,
-          Url:
-            'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/urinary-incontinence-in-dogs'
+          Url: 'https://www.royalcanin.com/fr/dogs/health-and-wellbeing/urinary-incontinence-in-dogs'
         }
       ],
       FeaturedItems: [

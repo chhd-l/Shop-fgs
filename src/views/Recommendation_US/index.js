@@ -19,7 +19,6 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import { addItemToBackendCart } from '@/api/cart';
 import Modal from './components/Modal';
 import {
   distributeLinktoPrecriberOrPaymentPage,
@@ -33,6 +32,8 @@ import {
 } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -398,7 +399,6 @@ class Recommendation extends React.Component {
       });
   }
 
-  componentWillUnmount() {}
   get addCartBtnStatus() {
     return this.state.inStockProducts.length > 0;
   }
@@ -460,53 +460,44 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
-    GABigBreederAddToCar(productList);
-    // console.log(outOfStockProducts, inStockProducts, '...1')
-    // return
-
-    // for (let i = 0; i < productList.length; i++) {
-    //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-    //     outOfStockProducts.push(productList[i])
-    //     this.setState({ buttonLoading: false });
-    //     continue
-    //   }else {
-    //     inStockProducts.push(productList[i])
-    //   }
-    // }
-    if (outOfStockProducts.length > 0) {
-      this.setState({ modalShow: true, currentModalObj: modalList[0] });
-    } else {
-      if ((isFr && !this.state.isSPT) || isRu) {
-        // 是fr breeder的特殊code，需要主动默认填充
-        await this.props.checkoutStore.setPromotionCode(
-          this.state.promotionCodeText
-        );
-      }
-      this.setState({ buttonLoading: true });
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 0,
-            recommendationId:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
-            recommendationName:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationName || this.props.clinicStore.linkClinicName
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
+    try {
+      let { productList, outOfStockProducts, inStockProducts, modalList } =
+        this.state;
+      GABigBreederAddToCar(productList);
+      if (outOfStockProducts.length > 0) {
+        this.setState({ modalShow: true, currentModalObj: modalList[0] });
+      } else {
+        if ((isFr && !this.state.isSPT) || isRu) {
+          // 是fr breeder的特殊code，需要主动默认填充
+          await this.props.checkoutStore.setPromotionCode(
+            this.state.promotionCodeText
+          );
         }
+        this.setState({ buttonLoading: true });
+
+        await AddCartItemsMember({
+          paramList: inStockProducts.map((item) =>
+            Object.assign({
+              goodsInfoId: item.goodsInfo.goodsInfoId,
+              goodsNum: item.recommendationNumber,
+              goodsCategory: '',
+              goodsInfoFlag: 0,
+              recommendationId:
+                this.props.clinicStore.linkClinicRecommendationInfos
+                  ?.recommendationId || this.props.clinicStore.linkClinicId,
+              recommendationInfos:
+                this.props.clinicStore.linkClinicRecommendationInfos,
+              recommendationName:
+                this.props.clinicStore.linkClinicRecommendationInfos
+                  ?.recommendationName || this.props.clinicStore.linkClinicName
+            })
+          )
+        });
+        this.props.history.push('/cart');
       }
-      this.props.history.push('/cart');
+    } catch (err) {
+    } finally {
+      this.setState({ buttonLoading: false });
     }
   }
   async hanldeUnloginAddToCart(products, path) {
@@ -516,7 +507,6 @@ class Recommendation extends React.Component {
       GABigBreederAddToCar(products);
       this.setState({ buttonLoading: true });
       await this.props.checkoutStore.hanldeUnloginAddToCart({
-        valid: this.addCartBtnStatus,
         cartItemList: products.map((p) => {
           return Object.assign(
             p,
@@ -616,19 +606,6 @@ class Recommendation extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[1] });
       return false;
     } else {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: '',
-      //       goodsInfoFlag: 0
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
       // 会员跳转/cart；游客跳转/checkout, 并缓存cartData数据
       if (loginStore.isLogin) {
         await this.hanldeLoginAddToCart();
@@ -666,34 +643,18 @@ class Recommendation extends React.Component {
       this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((item) =>
+          Object.assign({
+            goodsInfoId: item.goodsInfo.goodsInfoId,
+            goodsNum: item.recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0
-          });
-          await checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+          })
+        )
+      });
       history.push('/cart');
     } else if (currentModalObj.type === 'payNow') {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: ''
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
-
       inStockProducts.forEach((el) => {
         el.goodsInfo.buyCount = el.recommendationNumber;
         return el.goodsInfo;
@@ -712,9 +673,6 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
-    if (this.state.inStockProducts.length < 1) {
-      return;
-    }
     GABreederRecoSeeInCart();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
@@ -849,11 +807,10 @@ class Recommendation extends React.Component {
         </p>
         <p className="mb-8">
           <button
-            className={`rc-btn rc-btn--one ${
-              this.state.buttonLoading ? 'ui-btn-loading' : ''
-            } ${
-              this.state.inStockProducts.length ? '' : 'rc-btn-solid-disabled'
-            }`}
+            className={cn(`rc-btn rc-btn--one`, {
+              'ui-btn-loading': this.state.buttonLoading
+            })}
+            disabled={!this.addCartBtnStatus}
             onClick={() => {
               if (this.props.loginStore.isLogin) {
                 this.hanldeLoginAddToCart();
@@ -972,14 +929,15 @@ class Recommendation extends React.Component {
               {(isRu || isUs) && (
                 <>
                   <p>
-                    <strong style={{ color: '#E2001A' }}>
+                    <strong className="text-rc-red">
                       <FormattedMessage id="recommendation.firstOrderDiscount" />
                     </strong>
                   </p>
                   <button
-                    className={`rc-btn rc-btn--one mt-6 ${
-                      this.state.buttonLoading ? 'ui-btn-loading' : ''
-                    } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                    className={cn(`rc-btn rc-btn--one mt-6`, {
+                      'ui-btn-loading': this.state.buttonLoading
+                    })}
+                    disabled={!this.addCartBtnStatus}
                     onClick={this.addCart}
                   >
                     <FormattedMessage id="recommendation.welcomeBtn" />
@@ -1048,13 +1006,12 @@ class Recommendation extends React.Component {
                   </div> */}
                   <p>
                     <button
-                      className={`rc-btn rc-btn--one click-and-show-promotioncode ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${this.state.buttonLoading ? 'ui-btn-loading' : ''} ${
-                        this.state.inStockProducts.length
-                          ? ''
-                          : 'rc-btn-solid-disabled'
-                      } ${checkPromotionCodeAndCopy ? 'show' : 'hide'}`}
+                      className={cn(
+                        `rc-btn rc-btn--one click-and-show-promotioncode`,
+                        { 'ui-btn-loading': this.state.buttonLoading },
+                        checkPromotionCodeAndCopy ? 'show' : 'hide'
+                      )}
+                      disabled={!this.addCartBtnStatus}
                       style={{ width: viewShoppingCartWidth + 'px' }}
                       onClick={this.addCart}
                     >
@@ -1090,6 +1047,7 @@ class Recommendation extends React.Component {
         <Fr
           configStore={this.props.configStore}
           addCart={this.addCart}
+          addCartBtnStatus={this.addCartBtnStatus}
           inStockProducts={this.state.inStockProducts}
           buttonLoading={this.state.buttonLoading}
           isSPT={this.state.isSPT}
@@ -1397,15 +1355,13 @@ class Recommendation extends React.Component {
 
                               <p className="flex justify-center mb-0 md:mb-6 mt-6">
                                 <button
-                                  className={`rc-btn rc-btn--one rc-btn--sm ${
-                                    this.state.buttonLoading
-                                      ? 'ui-btn-loading'
-                                      : ''
-                                  } ${
-                                    this.addCartBtnStatus
-                                      ? ''
-                                      : 'rc-btn-solid-disabled'
-                                  }`}
+                                  className={cn(
+                                    `rc-btn rc-btn--one rc-btn--sm`,
+                                    {
+                                      'ui-btn-loading': this.state.buttonLoading
+                                    }
+                                  )}
+                                  disabled={!this.addCartBtnStatus}
                                   onClick={this.addCart}
                                 >
                                   {isFr && !isSPT ? (

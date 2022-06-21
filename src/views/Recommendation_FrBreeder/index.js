@@ -21,7 +21,6 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import { addItemToBackendCart } from '@/api/cart';
 import Modal from './components/Modal';
 import {
   distributeLinktoPrecriberOrPaymentPage,
@@ -36,6 +35,8 @@ import {
 } from '@/utils/GA';
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
 import { Canonical } from '@/components/Common';
+import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -434,7 +435,6 @@ class Recommendation extends React.Component {
       });
   }
 
-  componentWillUnmount() {}
   get addCartBtnStatus() {
     return this.state.inStockProducts.length > 0;
   }
@@ -521,28 +521,48 @@ class Recommendation extends React.Component {
         );
       }
       this.setState({ buttonLoading: true });
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 2,
-            periodTypeId: inStockProducts[i].defaultFrequencyId,
-            recommendationId:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
-            recommendationName:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationName || this.props.clinicStore.linkClinicName
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((item) => ({
+          goodsInfoId: item.goodsInfo.goodsInfoId,
+          goodsNum: item.recommendationNumber,
+          goodsCategory: '',
+          goodsInfoFlag: 2,
+          periodTypeId: item.defaultFrequencyId,
+          recommendationId:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationId || this.props.clinicStore.linkClinicId,
+          recommendationInfos:
+            this.props.clinicStore.linkClinicRecommendationInfos,
+          recommendationName:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationName || this.props.clinicStore.linkClinicName
+        }))
+      });
+
+      // for (let i = 0; i < inStockProducts.length; i++) {
+      //   try {
+      //     AddCartItemMember({
+      //       param: {
+      //         goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+      //         goodsNum: inStockProducts[i].recommendationNumber,
+      //         goodsCategory: '',
+      //         goodsInfoFlag: 2,
+      //         periodTypeId: inStockProducts[i].defaultFrequencyId,
+      //         recommendationId:
+      //           this.props.clinicStore.linkClinicRecommendationInfos
+      //             ?.recommendationId || this.props.clinicStore.linkClinicId,
+      //         recommendationInfos:
+      //           this.props.clinicStore.linkClinicRecommendationInfos,
+      //         recommendationName:
+      //           this.props.clinicStore.linkClinicRecommendationInfos
+      //             ?.recommendationName || this.props.clinicStore.linkClinicName
+      //       }
+      //     });
+      //   } catch (e) {
+      //     this.setState({ buttonLoading: false });
+      //   }
+      // }
       this.props.history.push('/cart');
     }
   }
@@ -552,7 +572,6 @@ class Recommendation extends React.Component {
     GABigBreederAddToCar(products);
     this.setState({ buttonLoading: true });
     await this.props.checkoutStore.hanldeUnloginAddToCart({
-      valid: this.addCartBtnStatus,
       cartItemList: products.map((p) => {
         return Object.assign(
           p,
@@ -619,7 +638,7 @@ class Recommendation extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
-    const { checkoutStore, loginStore, history, clinicStore } = this.props;
+    const { loginStore } = this.props;
     if (needLogin) {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
@@ -674,34 +693,18 @@ class Recommendation extends React.Component {
       this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await addItemToBackendCart({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            periodTypeId: inStockProducts[i].defaultFrequencyId,
-            goodsCategory: '',
-            goodsInfoFlag: 2
-          });
-          await checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+      await AddCartItemsMember({
+        paramList: inStockProducts.map((item) => ({
+          goodsInfoId: item.goodsInfo.goodsInfoId,
+          goodsNum: item.recommendationNumber,
+          periodTypeId: item.defaultFrequencyId,
+          goodsCategory: '',
+          goodsInfoFlag: 2
+        }))
+      });
+
       history.push('/cart');
     } else if (currentModalObj.type === 'payNow') {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await addItemToBackendCart({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: ''
-      //     });
-      //     await checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
       inStockProducts.forEach((el) => {
         el.goodsInfo.buyCount = el.recommendationNumber;
         return el.goodsInfo;
@@ -861,24 +864,8 @@ class Recommendation extends React.Component {
         path: this.props.location.pathname
       }
     };
-    const createMarkup = (text) => ({ __html: text });
-    // const { details, images } = this.state
-    console.log('productList', this.state.productList);
-    let {
-      productList,
-      activeIndex,
-      currentModalObj,
-      isMobile,
-      promotionCode,
-      promotionCodeText,
-      isSPT
-    } = this.state;
-    let MaxLinePrice,
-      MinLinePrice,
-      MaxMarketPrice,
-      MinMarketPrice,
-      MaxSubPrice,
-      MinSubPrice;
+    let { productList, activeIndex, currentModalObj, isSPT } = this.state;
+    let MaxMarketPrice, MinMarketPrice;
     if (productList.length) {
       // MaxLinePrice = Math.max.apply(
       //   null,
@@ -1068,11 +1055,16 @@ class Recommendation extends React.Component {
                         <button
                           onClick={this.addCart}
                           style={{ width: '284px' }}
-                          className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up
-                        ${this.state.buttonLoading ? 'ui-btn-loading' : ''}
-              ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                          className={cn(
+                            `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`,
+                            {
+                              'ui-btn-loading': this.state.buttonLoading
+                              // 'rc-btn-solid-disabled': !this.addCartBtnStatus
+                            }
+                          )}
+                          disabled={!this.addCartBtnStatus}
                         >
-                          <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                          <span className="fa rc-icon rc-cart--xs rc-brand3 opacity-100" />
                           <span className="default-txt">
                             <FormattedMessage id="details.addToCart" />
                           </span>
@@ -1132,9 +1124,14 @@ class Recommendation extends React.Component {
                     <div className="md:hidden add-cart-for-mobile">
                       <button
                         onClick={this.addCart}
-                        className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile
-                     ${this.state.buttonLoading ? 'ui-btn-loading' : ''}
-              ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                        className={cn(
+                          `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`,
+                          {
+                            'ui-btn-loading': this.state.buttonLoading
+                            // 'rc-btn-solid-disabled': !this.addCartBtnStatus
+                          }
+                        )}
+                        disabled={!this.addCartBtnStatus}
                       >
                         <span className="fa rc-icon rc-cart--xs rc-brand3" />
                         <span className="default-txt">

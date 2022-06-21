@@ -133,13 +133,14 @@ const RelateProductList = ({ mainProduct }) => {
   }, []);
 
   useEffect(() => {
-    if (!resetList&&
+    if (
+      !resetList &&
       (defaultFilterSearchForm?.attrList?.length > 0 ||
-      defaultFilterSearchForm?.filterList?.length > 0)
+        defaultFilterSearchForm?.filterList?.length > 0)
     ) {
       getProductLists();
     }
-  }, [resetList,defaultFilterSearchForm]);
+  }, [resetList, defaultFilterSearchForm]);
 
   useEffect(() => {
     if (

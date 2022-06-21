@@ -374,7 +374,7 @@ class PreciseCatNutrition extends React.Component {
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo rc-margin-right--xs iconfont"></em>
                                   </div>
                                   <div>
                                     <strong>
@@ -384,7 +384,7 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo rc-margin-right--xs iconfont"></em>
                                   </div>
                                   <div>
                                     <strong>
@@ -394,7 +394,7 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo rc-margin-right--xs iconfont"></em>
                                   </div>
                                   <div>
                                     <strong>
@@ -404,7 +404,7 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo rc-margin-right--xs iconfont"></em>
                                   </div>
                                   <div>
                                     <strong>
