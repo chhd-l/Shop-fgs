@@ -53,7 +53,7 @@ const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
 
-@inject('configStore')
+@inject('configStore', 'loginStore')
 @injectIntl
 @observer
 class Form extends React.Component {
@@ -69,6 +69,9 @@ class Form extends React.Component {
     getFormAddressValidFlag: () => {},
     getJpNameValidFlag: () => {}
   };
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -522,7 +525,7 @@ class Form extends React.Component {
     };
     IMask(element, maskOptions);
 
-    if (COUNTRY == 'ru') {
+    if (COUNTRY == 'ru' && this.isLogin) {
       this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
     }
   };
