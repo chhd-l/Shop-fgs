@@ -550,7 +550,7 @@ class PayProductInfo extends React.Component {
                         )}
                       </p>
                       {el.goodsInfoFlag ? (
-                        <p className="mb-0">
+                        <p className="mb-0 ">
                           <FormattedMessage id="subscription.frequencyDelivery" />
                           <FormattedMessage id="subscription.deliveryEvery" />{' '}
                           <FrequencyMatch currentId={el.periodTypeId} />
