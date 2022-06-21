@@ -417,7 +417,8 @@ class VisitorAddress extends React.Component {
       confirmBtnDisabled: flag
     });
   };
-  // 更新 selectDeliveryOrPickUp
+
+  // 更新selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
     this.setState(
       {
