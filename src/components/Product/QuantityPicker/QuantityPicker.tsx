@@ -4,12 +4,13 @@ import cn from 'classnames';
 
 interface Props {
   initQuantity: number;
-  updateQuantity: any;
-  min: number;
-  max: number;
-  showError: any;
-  className: string;
+  updateQuantity?: any;
+  min?: number;
+  max?: number;
+  showError?: any;
+  className?: string;
   initRestTotalLimitConf?: any;
+  disabled?: boolean;
 }
 
 let timer = null;
@@ -23,15 +24,17 @@ let timer = null;
  * @param showError - 报错提示回调
  * @param className - className
  * @param initRestTotalLimitConf - 剩余数量限制，一般用于购物车总数量限制剩余值
+ * @param disabled - 是否禁用
  */
 const QuantityPicker = ({
   initQuantity,
   updateQuantity,
   min = 1,
-  max,
+  max = 1,
   showError,
   className,
-  initRestTotalLimitConf
+  initRestTotalLimitConf,
+  disabled = false
 }: Props) => {
   const [quantity, setQuantity] = useState<number | string>(initQuantity);
   const [restTotalLimitConf, setRestTotalLimitConf] = useState(
@@ -47,6 +50,7 @@ const QuantityPicker = ({
   }, [initQuantity]);
 
   const subQuantity = () => {
+    if (!disabled) return false;
     setErrorMsg('');
     setQuantity(quantity === min ? min : Number(quantity) - 1);
 
@@ -55,6 +59,7 @@ const QuantityPicker = ({
     }
   };
   const addQuantity = () => {
+    if (!disabled) return false;
     setErrorMsg('');
     const tmpMax = restTotalLimitConf?.num
       ? Math.min(max, restTotalLimitConf.num)
@@ -153,7 +158,7 @@ const QuantityPicker = ({
           className={cn(
             'rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus',
             {
-              'rc-btn-disabled': !subBtnStatus
+              'rc-btn-disabled': !subBtnStatus || disabled
             }
           )}
           onClick={subQuantity}
@@ -166,11 +171,12 @@ const QuantityPicker = ({
           onChange={handleAmountChange}
           onBlur={handleAmountChange}
           type="number"
+          disabled={disabled}
         />
         <span
           className={cn(
             'rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus',
-            { 'rc-btn-disabled': !addBtnStatus }
+            { 'rc-btn-disabled': !addBtnStatus || disabled }
           )}
           data-quantity-error-msg="Вы не можете заказать больше 10"
           onClick={addQuantity}
