@@ -56,7 +56,7 @@ class PayProductInfo extends React.Component {
     isGuestCart: false,
     isCheckOut: false,
     deliveryAddress: [],
-    welcomeBoxChange: () => {}, //welcomeBoxValue值改坘事件
+    welcomeBoxChange: () => {}, //welcomeBoxValue值改变事件
     confirmCalculateServiceFeeAndLoyaltyPoints: () => {}
   };
   constructor(props) {
@@ -64,14 +64,14 @@ class PayProductInfo extends React.Component {
     this.state = {
       productList: [],
       needHideProductList: props.needHideProductList,
-      discount: [], //促销砝的折扣信杯汇总
-      promotionInputValue: this.props.checkoutStore.promotionCode || '', //输入的促销砝
-      lastPromotionInputValue: '', //上一次输入的促销砝
-      isClickApply: false, //是坦点击apply按钮
-      isShowValidCode: false, //是坦显示无效promotionCode
+      discount: [], //促销码的折扣信息汇总
+      promotionInputValue: this.props.checkoutStore.promotionCode || '', //输入的促销码
+      lastPromotionInputValue: '', //上一次输入的促销码
+      isClickApply: false, //是否点击apply按钮
+      isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
-      isFirstOrder: false, //是坦是首坕
-      isStudentPurchase: false //是坦填写了学生购student promotion 50% discount
+      isFirstOrder: false, //是否是首单
+      isStudentPurchase: false //是否填写了学生购student promotion 50% discount
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -91,7 +91,7 @@ class PayProductInfo extends React.Component {
     ) {
       productList = nextProps.data;
       let list = cloneDeep(productList);
-      // 有产哝的时候扝去展示产哝列表，兼容chekcout page获坖产哝（比如felin appointNo）ga执行
+      // 有产品的时候才去展示产品列表，兼容chekcout page获取产品（比如felin appointNo）ga执行
       if (list?.length) {
         !isHubGA && this.GACheck(list);
         isHubGA && this.GAInitialProductArray(list);
@@ -103,7 +103,7 @@ class PayProductInfo extends React.Component {
       );
     }
   }
-  //会员 GA需覝的product信杯
+  //会员 GA需要的product信息
   GAGetProductLogin(productList) {
     let product = [];
     for (let item of productList) {
@@ -121,7 +121,7 @@ class PayProductInfo extends React.Component {
         sku: (item.goodsInfos && item.goodsInfos[0].goodsInfoNo) || ''
       };
       if (isFromFelin) {
-        // felin特殊处睆
+        // felin特殊处理
         productItem.range = 'Booking';
         productItem.name = "L'Atelier Félin booking";
         productItem.mainItemCode = "L'Atelier Félin booking";
@@ -130,7 +130,7 @@ class PayProductInfo extends React.Component {
     }
     return product;
   }
-  //游客 GA需覝的product信杯
+  //游客 GA需要的product信息
   GAGetProductUnlogin(productList) {
     let product = [];
     for (let item of productList) {
@@ -150,7 +150,7 @@ class PayProductInfo extends React.Component {
         sku: goodsInfoNo
       };
       if (isFromFelin) {
-        // felin特殊处睆
+        // felin特殊处理
         productItem.range = 'Booking';
         productItem.name = "L'Atelier Félin booking";
         productItem.mainItemCode = "L'Atelier Félin booking";
@@ -162,13 +162,13 @@ class PayProductInfo extends React.Component {
 
   //Hub-GA checkout页面初始化
   GAInitialProductArray(productList) {
-    if (this.props.currentPage != 'checkout') return; //坪兝许checkout页面扝调用
+    if (this.props.currentPage != 'checkout') return; //只允许checkout页面才调用
     let type = '';
     if (isFromFelin) {
       type = 'felin';
     }
     if (!isGACheckoutLock) {
-      //防止針夝调用
+      //防止重复调用
       isGACheckoutLock = true;
       let params = {
         productList,
@@ -192,7 +192,7 @@ class PayProductInfo extends React.Component {
       dataLayer[0] &&
       dataLayer[0].checkout
     ) {
-      //防止針夝调用
+      //防止重复调用
       isGACheckoutLock = true;
       let product = this.isLogin
         ? this.GAGetProductLogin(productList)
@@ -220,7 +220,7 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
-    //监坬Point组件选择积分的时候触坑删除coupon
+    //监听Point组件选择积分的时候触发删除coupon
     reaction(
       () => this.props.checkoutStore.selectDiscountWay,
       () => {
@@ -231,7 +231,7 @@ class PayProductInfo extends React.Component {
     );
     //
     if (this.isLogin) {
-      //判断该会员是坦是第一次下坕
+      //判断该会员是否是第一次下单
       isFirstOrder().then((res) => {
         if (res.context == 0) {
           this.setState({ isFirstOrder: true });
@@ -244,7 +244,7 @@ class PayProductInfo extends React.Component {
     if (this.props.data.length) {
       productList = this.props.data;
       if (isFromFelin) {
-        // felin是异步请求的数杮，这里坕独处睆
+        // felin是异步请求的数据，这里单独处理
         !isHubGA && this.GACheck(productList);
         isHubGA && this.GAInitialProductArray(productList);
       }
@@ -390,14 +390,14 @@ class PayProductInfo extends React.Component {
       let recommendateInfo = JSON.parse(paramsString);
       IndvPetInfo = recommendateInfo.customerPetsVo;
     }
-    // 线下店数針展示和正常浝程有区别（没区别）
+    // 线下店数量展示和正常流程有区别（没区别）
     let orderSource = sessionItemRoyal.get('orderSource') && false;
 
     const List = plist.map((el, i) => {
-      // 是坦是订阅产哝
+      // 是否是订阅产品
       const isSubscription = this.isSubscription(el);
       const renderAutoshipSavedtipContent = () => {
-        // 如果丝是订阅状思 或者是订阅状思并且是日本并且价格一致丝显示
+        // 如果不是订阅状态 或者是订阅状态并且是日本并且价格一致不显示
         if (
           !isSubscription ||
           (window.__.env.REACT_APP_COUNTRY === 'jp' &&
@@ -428,7 +428,7 @@ class PayProductInfo extends React.Component {
         );
       };
       const renderPriceContent = () => {
-        // 如果丝是订阅状思 或者是订阅状思并且是日本并且价格一致丝显示
+        // 如果不是订阅状态 或者是订阅状态并且是日本并且价格一致不显示
         let topContent =
           !isSubscription ||
           (window.__.env.REACT_APP_COUNTRY === 'jp' &&
@@ -550,23 +550,11 @@ class PayProductInfo extends React.Component {
                         )}
                       </p>
                       {el.goodsInfoFlag ? (
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<AUTO GENERATED BY CONFLICT EXTENSION<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< master
-                      <>
-                      <span>
-                        <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {matchNamefromDict(
-                          this.state.frequencyList,
-                          el.periodTypeId
-                        )}{' '}
-                      </span>
-                      </>
-====================================AUTO GENERATED BY CONFLICT EXTENSION====================================
-                        <p className="mb-0">
+                        <p className="mb-0 ">
                           <FormattedMessage id="subscription.frequencyDelivery" />
                           <FormattedMessage id="subscription.deliveryEvery" />{' '}
                           <FrequencyMatch currentId={el.periodTypeId} />
                         </p>
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>AUTO GENERATED BY CONFLICT EXTENSION>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> feature_0523_sprint12
                       ) : null}
                     </div>
                   ) : null}
@@ -593,7 +581,7 @@ class PayProductInfo extends React.Component {
         isShowValidCode: false,
         lastPromotionInputValue: this.state.promotionInputValue
       });
-      // 确认 promotionCode 坎使用之剝的坂数查询一靝 purchase 接坣
+      // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
       let purchasesPara =
         localItemRoyal.get('rc-payment-purchases-param') || {};
       purchasesPara.promotionCode = this.state.promotionInputValue;
@@ -621,8 +609,8 @@ class PayProductInfo extends React.Component {
       console.log(result);
 
       if (!result?.context?.promotionFlag || result?.context?.couponCodeFlag) {
-        //表示输入apply promotionCode戝功
-        discount.splice(0, 1, 1); //(起始佝置,替杢个数,杒入元素)
+        //表示输入apply promotionCode成功
+        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
         this.setState({ discount });
         this.props.sendPromotionCode(this.state.promotionInputValue);
         this.setState({
@@ -681,7 +669,7 @@ class PayProductInfo extends React.Component {
       let result = {};
       await checkoutStore.removePromotionCode();
       await checkoutStore.removeCouponCode();
-      // 删除掉之坎 promotionCode 坎冝使用之剝的坂数查询一靝 purchase接坣
+      // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
       let purchasesPara =
         localItemRoyal.get('rc-payment-purchases-param') || {};
       purchasesPara.promotionCode = '';
@@ -748,7 +736,7 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {/*goodsInfoFlag为3的时候是indv需覝隝藝edit按钮*/}
+        {/*goodsInfoFlag为3的时候是indv需要隐藏edit按钮*/}
         {!localItemRoyal.get('rc-iframe-from-storepotal') &&
         this.props.operateBtnVisible &&
         productList[0]?.goodsInfoFlag != 3 &&
@@ -761,7 +749,7 @@ class PayProductInfo extends React.Component {
           </Link>
         ) : null}
 
-        {/* from-frlin的时候需覝将edit杢戝re-book按钮 */}
+        {/* from-frlin的时候需要将edit换成re-book按钮 */}
         {isFromFelin ? (
           <Link
             to="/felin"
@@ -805,7 +793,7 @@ class PayProductInfo extends React.Component {
               {this.giftList.map((el, i) => (
                 <GiftList {...this.props} pitem={el} key={i} />
               ))}
-              {/*新增First Order Welcome Box:1〝会员 2〝首坕 3〝未填写学生购student promotion 50% discount*/}
+              {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
               this.isLogin &&
               isFirstOrder &&
@@ -1001,7 +989,7 @@ class PayProductInfo extends React.Component {
         style={{ ...style }}
         id="J_sidecart_container"
       >
-        {/* 法国环境丝加固定定佝 */}
+        {/* 法国环境不加固定定位 */}
         {this.sideCart({
           className: 'hidden rc-md-up',
           style: {
