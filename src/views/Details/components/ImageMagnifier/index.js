@@ -369,7 +369,7 @@ class ImageMagnifier extends Component {
       imgAlt,
       direction
     } = this.props;
-    // console.log(spuImages, this.state.minImg, 'spuImages');
+    // console.log(spuImages, this.state.minImg, 'spuImages' );
     if (window.__.env.REACT_APP_COUNTRY !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
