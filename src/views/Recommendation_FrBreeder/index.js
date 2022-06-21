@@ -35,7 +35,10 @@ import {
 } from '@/utils/GA';
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
 import { Canonical } from '@/components/Common';
-import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import {
+  AddItemsMember as AddCartItemsMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -537,7 +540,8 @@ class Recommendation extends React.Component {
           recommendationName:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
-        }))
+        })),
+        showPCMiniCartPop: false
       });
 
       // for (let i = 0; i < inStockProducts.length; i++) {
@@ -571,7 +575,7 @@ class Recommendation extends React.Component {
     let retPath = path;
     GABigBreederAddToCar(products);
     this.setState({ buttonLoading: true });
-    await this.props.checkoutStore.hanldeUnloginAddToCart({
+    await AddCartItemsVisitor({
       cartItemList: products.map((p) => {
         return Object.assign(
           p,
@@ -603,7 +607,7 @@ class Recommendation extends React.Component {
           }
         );
       }),
-      ...this.props
+      showPCMiniCartPop: false
     });
     if ((isFr && !this.state.isSPT) || isRu) {
       // 是fr breeder的特殊code，需要主动默认填充
@@ -700,7 +704,8 @@ class Recommendation extends React.Component {
           periodTypeId: item.defaultFrequencyId,
           goodsCategory: '',
           goodsInfoFlag: 2
-        }))
+        })),
+        showPCMiniCartPop: false
       });
 
       history.push('/cart');
