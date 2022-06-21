@@ -4,13 +4,12 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import LazyLoad from 'react-lazyload';
-import {
-  getDeviceType,
-  formatMoney,
-  addToUnloginCartData
-} from '@/utils/utils';
+import { getDeviceType, formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
-import { AddItemMember as AddCartItemMember } from '@/framework/cart';
+import {
+  AddItemMember as AddCartItemMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -259,6 +258,7 @@ const MixFeedingBox = function ({
                       <div className="rc-margin-bottom--xs">
                         <FormattedMessage id="quantity" />:{' '}
                       </div>
+                      {/* todo 需改为使用QuantityPicker组件 */}
                       <div className="rc-quantity d-flex">
                         <span
                           className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
@@ -301,10 +301,6 @@ const MixFeedingBox = function ({
                       copyData.goodsInfoFlag = goodsInfoFlag;
                       copyData.periodTypeId = periodTypeId;
                       copyData.quantity = quantity;
-                      console.log('copyData', copyData);
-                      const param = {
-                        product: copyData
-                      };
                       isLogin
                         ? await AddCartItemMember({
                             param: {
@@ -315,9 +311,19 @@ const MixFeedingBox = function ({
                               periodTypeId: copyData.periodTypeId,
                               recommendationId: clinicStore.linkClinicId,
                               recommendationName: clinicStore.linkClinicName
-                            }
+                            },
+                            showPCMiniCartPop: false
                           })
-                        : await addToUnloginCartData(param);
+                        : await AddCartItemsVisitor({
+                            cartItemList: [
+                              Object.assign(copyData, {
+                                selected: true,
+                                recommendationId: clinicStore.linkClinicId,
+                                recommendationName: clinicStore.linkClinicName
+                              })
+                            ],
+                            showPCMiniCartPop: false
+                          });
                       update();
                     }}
                   >

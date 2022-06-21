@@ -56,6 +56,7 @@ import {
   GACartRecommendedProductClick
 } from '@/utils/GA/cart';
 import cn from 'classnames';
+import { AddItemsVisitor as AddCartItemsVisitor } from '@/framework/cart';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
@@ -243,14 +244,14 @@ class UnLoginCart extends React.Component {
         return item;
       });
 
-      await checkoutStore.hanldeUnloginAddToCart({
+      await AddCartItemsVisitor({
         cartItemList: goodsList.map((item) =>
           Object.assign({}, item, item.goods, {
             selected: true,
             quantity: item.buyCount
           })
         ),
-        ...this.props
+        showPCMiniCartPop: false
       });
     }
 

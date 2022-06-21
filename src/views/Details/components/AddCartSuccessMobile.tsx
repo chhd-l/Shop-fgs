@@ -5,13 +5,12 @@ import { Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import cn from 'classnames';
 import LazyLoad from 'react-lazyload';
-import {
-  getDeviceType,
-  formatMoney,
-  addToUnloginCartData
-} from '@/utils/utils';
+import { getDeviceType, formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
-import { AddItemMember as AddCartItemMember } from '@/framework/cart';
+import {
+  AddItemMember as AddCartItemMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -163,9 +162,19 @@ const AddCartSuccessMobile = ({
                                   mixFeedingData.product.periodTypeId,
                                 recommendationId: clinicStore.linkClinicId,
                                 recommendationName: clinicStore.linkClinicName
-                              }
+                              },
+                              showPCMiniCartPop: false
                             })
-                          : await addToUnloginCartData(param);
+                          : await AddCartItemsVisitor({
+                              cartItemList: [
+                                Object.assign(mixFeedingData, {
+                                  selected: true,
+                                  recommendationId: clinicStore.linkClinicId,
+                                  recommendationName: clinicStore.linkClinicName
+                                })
+                              ],
+                              showPCMiniCartPop: false
+                            });
                         History.push('/cart');
                       } catch {
                         setLoading(false);

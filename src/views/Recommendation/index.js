@@ -38,7 +38,10 @@ import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
-import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import {
+  AddItemsMember as AddCartItemsMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 import './index.less';
 import { Canonical } from '@/components/Common';
 
@@ -227,7 +230,8 @@ class Help extends React.Component {
             recommendationId: this.props.clinicStore.linkClinicId,
             recommendationName: this.props.clinicStore.linkClinicName
           })
-        )
+        ),
+        showPCMiniCartPop: false
       });
       this.props.history.push('/cart');
     }
@@ -235,7 +239,7 @@ class Help extends React.Component {
   async hanldeUnloginAddToCart({ productList: products, url: path }) {
     const { checkoutStore, clinicStore, loginStore } = this.props;
     let retPath = path;
-    await this.props.checkoutStore.hanldeUnloginAddToCart({
+    await AddCartItemsVisitor({
       cartItemList: products.map((p) => {
         return Object.assign(
           p,
@@ -252,7 +256,7 @@ class Help extends React.Component {
           }
         );
       }),
-      ...this.props
+      showPCMiniCartPop: false
     });
 
     if (retPath === '/checkout') {
@@ -343,7 +347,8 @@ class Help extends React.Component {
           goodsNum: item.recommendationNumber,
           goodsCategory: '',
           goodsInfoFlag: 0
-        }))
+        })),
+        showPCMiniCartPop: false
       });
 
       history.push('/cart');

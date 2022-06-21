@@ -4,10 +4,14 @@ import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getDeviceType } from '@/utils/utils';
+import { QuantityPicker } from '@/components/Product';
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const GiftList = ({ pitem }: { pitem: any }) => {
-  const listJsx = pitem?.isHidden?<></>:(
+  const listJsx = pitem?.isHidden ? (
+    <></>
+  ) : (
     <div className="product-info">
       <div
         className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile
@@ -117,16 +121,10 @@ const GiftList = ({ pitem }: { pitem: any }) => {
                     <div>
                       <FormattedMessage id="quantity" />:{' '}
                     </div>
-                    <div className="rc-quantity d-flex rc-content-v-middle">
-                      <input
-                        className="rc-quantity__input"
-                        value={pitem.buyCount}
-                        min="1"
-                        max="10"
-                        disabled
-                        name="buyCount"
-                      />
-                    </div>
+                    <QuantityPicker
+                      initQuantity={pitem.buyCount}
+                      disabled={true}
+                    />
                   </div>
                 </div>
               </div>
@@ -147,7 +145,7 @@ const GiftList = ({ pitem }: { pitem: any }) => {
       </div>
     </div>
   );
-  return listJsx
+  return listJsx;
 };
 
 export default GiftList;
