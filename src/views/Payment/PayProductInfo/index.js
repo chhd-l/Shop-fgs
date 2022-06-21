@@ -408,11 +408,9 @@ class PayProductInfo extends React.Component {
         return (
           <div>
             <span
-              className="iconfont font-weight-bold green"
+              className="iconfont font-weight-bold iconrefresh green"
               style={{ fontSize: '.8em' }}
-            >
-              &#xe675;
-            </span>
+            />
             <FormattedMessage
               id="cart.autoshipSavedtip"
               values={{
