@@ -715,7 +715,7 @@ class Register extends Component {
             ) : null}
             {/* logo下标题 */}
             <div className="text-center logo-bottom-title">
-              <p>{<FormattedMessage id="jp.regtitle" />}</p>
+              {/* <p>{<FormattedMessage id="jp.regtitle" />}</p>
               <p>{<FormattedMessage id="jp.regTitleTwo" />}</p>
               <p>
                 <span>
@@ -732,7 +732,7 @@ class Register extends Component {
                 </span>
                 <span>{<FormattedMessage id="jp.regTitleSeven" />}</span>
               </p>
-              <h3>{<FormattedMessage id="jp.regTitleEight" />}</h3>
+              <h3>{<FormattedMessage id="jp.regTitleEight" />}</h3> */}
               <p className="text-center align-bottom gologin">
                 <a
                   onClick={() =>
@@ -741,7 +741,7 @@ class Register extends Component {
                     )
                   }
                   className="jp-reg-to-login-btn"
-                  style={{ color: '#C03344', fontSize: '1rem' }}
+                  style={{ color: '#e60012', fontSize: '1.875rem' }}
                 >
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>

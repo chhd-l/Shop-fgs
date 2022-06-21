@@ -1110,15 +1110,6 @@ export function handleRecommendation(product) {
   return Object.assign({}, product.goodsInfo.goods, product.goodsInfo);
 }
 
-export async function addToUnloginCartData({ product }) {
-  let cartItem = Object.assign(product, {
-    selected: true,
-    recommendationId: clinicStore.linkClinicId,
-    recommendationName: clinicStore.linkClinicName
-  });
-  checkoutStore.hanldeUnloginAddToCart({ cartItemList: [cartItem] });
-}
-
 export function isShowMixFeeding() {
   return false;
   // return window.__.env.REACT_APP_COUNTRY === 'ru';

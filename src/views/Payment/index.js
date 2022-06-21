@@ -2338,7 +2338,8 @@ class Payment extends React.Component {
           sessionItemRoyal.get('orderSource')
             ? sessionItemRoyal.get('orderSource')
             : '',
-        doUpdateCart: false
+        doUpdateCart: false,
+        showPCMiniCartPop: false
       });
     } catch (err) {
       console.warn(err);

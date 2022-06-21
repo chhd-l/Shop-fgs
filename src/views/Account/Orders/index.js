@@ -263,7 +263,7 @@ class AccountOrders extends React.Component {
           periodTypeId: item.periodTypeId
         };
       });
-      await AddCartItemsMember({ paramList });
+      await AddCartItemsMember({ paramList, showPCMiniCartPop: false });
       this.props.history.push('/cart');
     } catch (err) {
     } finally {

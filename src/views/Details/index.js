@@ -34,8 +34,7 @@ import {
   isCountriesContainer,
   getClubFlag,
   handleRecommendation,
-  isShowMixFeeding,
-  addToUnloginCartData
+  isShowMixFeeding
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { decryptString } from '@/lib/aes-utils';
@@ -53,7 +52,10 @@ import { tempHubFrRedirect } from '@/redirect/utils';
 import svg from './details.svg';
 import { QuantityPicker } from '@/components/Product';
 import Help from './components/Help';
-import { AddItemMember as AddCartItemMember } from '@/framework/cart';
+import {
+  AddItemMember as AddCartItemMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 import './index.css';
 import './index.less';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
@@ -848,9 +850,7 @@ class Details extends React.Component {
   }
   async hanldeLoginAddToCart(type) {
     try {
-      const { checkoutStore, intl, headerCartStore } = this.props;
       const { quantity, form, details, questionParams } = this.state;
-      // const { formatMessage } = intl;
 
       hubGAAToCar(quantity, form);
 
@@ -884,12 +884,6 @@ class Details extends React.Component {
       }
       await AddCartItemMember({ param });
       this.setState({ modalMobileCartSuccessVisible: true });
-      if (!isMobile) {
-        headerCartStore.show();
-        setTimeout(() => {
-          headerCartStore.hide();
-        }, 4000);
-      }
     } catch (err) {
       this.showCheckoutErrMsg(err.message);
     } finally {
@@ -900,8 +894,7 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const { quantity, form, details, questionParams } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -912,16 +905,13 @@ class Details extends React.Component {
         recommendationId: this.props.clinicStore.linkClinicId,
         recommendationName: this.props.clinicStore.linkClinicName
       });
+      // tododo 测试requestJson
       //requestJson是shelter和breeder产品的参数，有就加上
       if (Object.keys(this.state.requestJson).length > 0) {
         cartItem = { ...cartItem, ...this.state.requestJson };
       }
-      await checkoutStore.hanldeUnloginAddToCart({
-        cartItemList: [cartItem],
-        currentUnitPrice,
-        isMobile,
-        ...this.props
-      });
+      // tododo
+      await AddCartItemsVisitor({ cartItemList: [cartItem] });
       this.setState({ modalMobileCartSuccessVisible: true });
     } catch (err) {
       this.showCheckoutErrMsg(err.message);
@@ -999,9 +989,19 @@ class Details extends React.Component {
             periodTypeId: params.product.periodTypeId,
             recommendationId: clinicStore.linkClinicId,
             recommendationName: clinicStore.linkClinicName
-          }
+          },
+          showPCMiniCartPop: false
         })
-      : await addToUnloginCartData(params);
+      : await AddCartItemsVisitor({
+          cartItemList: [
+            Object.assign(params.product, {
+              selected: true,
+              recommendationId: clinicStore.linkClinicId,
+              recommendationName: clinicStore.linkClinicName
+            })
+          ],
+          showPCMiniCartPop: false
+        });
 
     this.setState({
       mixFeedingBtnLoading: false

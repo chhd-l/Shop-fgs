@@ -1,9 +1,15 @@
 import { addItemToBackendCart } from '@/api/cart';
 import stores from '@/store';
+import { getDeviceType } from '@/utils/utils';
+
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+
+let timer: any;
 
 interface Props {
   param: SITEPURCHASE_PARAM;
   updateLoginCartParam?: any;
+  showPCMiniCartPop?: boolean; //Show PC mini cart at the top right-hand corner, when add products to cart successfully
 }
 
 interface SITEPURCHASE_PARAM {
@@ -29,10 +35,21 @@ interface SITEPURCHASE_PARAM {
  * 单个商品加入购物车
  * @param param0
  */
-const addItem = async ({ param, updateLoginCartParam = {} }: Props) => {
+const addItem = async ({
+  param,
+  updateLoginCartParam = {},
+  showPCMiniCartPop = true
+}: Props) => {
   try {
     await addItemToBackendCart(param); // add product to backend cart data
     await stores.checkoutStore.updateLoginCart(updateLoginCartParam);
+    if (showPCMiniCartPop && !isMobile) {
+      stores.headerCartStore.show();
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        stores.headerCartStore.hide();
+      }, 4000);
+    }
   } catch (err) {
     throw new Error((err as any).message);
   }

@@ -14,7 +14,10 @@ import kittencute from './img/kittencute.png';
 import kittenimgone from './img/kittenimgone.png';
 import kittenimgtwo from './img/kittenimgtwo.png';
 import { getOtherSpecies, getSpecies } from '@/utils/GA';
-import { AddItemMember as AddCartItemMember } from '@/framework/cart';
+import {
+  AddItemMember as AddCartItemMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Help from './modules/help';
 import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
@@ -235,7 +238,8 @@ class DedicatedLandingPage extends React.Component {
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
-          }
+          },
+          showPCMiniCartPop: false
         });
         this.setState({ showKitten: false });
         this.props.history.push('/cart');
@@ -276,7 +280,7 @@ class DedicatedLandingPage extends React.Component {
       });
     }
 
-    await this.props.checkoutStore.hanldeUnloginAddToCart({
+    await AddCartItemsVisitor({
       cartItemList: [
         Object.assign(
           {},
@@ -311,7 +315,7 @@ class DedicatedLandingPage extends React.Component {
           }
         )
       ],
-      ...this.props
+      showPCMiniCartPop: false
     });
 
     this.setState({ buttonLoading: false, showKitten: false });
