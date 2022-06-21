@@ -18,7 +18,10 @@ import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
 import { Canonical } from '@/components/Common';
-import { AddItemsMember as AddCartItemsMember } from '@/framework/cart';
+import {
+  AddItemsMember as AddCartItemsMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 
 let goodsInfoNosObj = {
   'goodsNo-541425': ['Kitten <br/> (3-12 months)'],
@@ -45,8 +48,7 @@ let fakeBundle = [
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const Adoptions = (props) => {
-  const { loginStore, paymentStore, checkoutStore, configStore } =
-    useLocalStore(() => stores);
+  const { loginStore, paymentStore, configStore } = useLocalStore(() => stores);
 
   const [seoConfig] = useSeo('adoptions page');
   const [btnLoading, setBtnLoading] = useState(false);
@@ -183,25 +185,24 @@ const Adoptions = (props) => {
     goodsRes.goodsInfoFlag = goodsInfoFlag;
   };
   const hanldeUnloginAddToCart = async (products) => {
-    let cartItem = products.map((product) => {
-      return Object.assign({}, product, product.goodsInfo, {
-        selected: true,
-        quantity: 1,
-        currentUnitPrice: product.goodsInfo?.marketPrice,
-        goodsInfoFlag: 0,
-        periodTypeId: null,
-        // goodsInfoFlag: product.goodsInfoFlag,
-        // periodTypeId: product.defaultFrequencyId,
-        recommendationId: shelter.value,
-        recommendationName: shelter.name
-      });
-    });
     try {
-      await checkoutStore.hanldeUnloginAddToCart({
-        cartItemList: cartItem,
-        configStore,
-        ...props
+      await AddCartItemsVisitor({
+        cartItemList: products.map((product) => {
+          return Object.assign({}, product, product.goodsInfo, {
+            selected: true,
+            quantity: 1,
+            currentUnitPrice: product.goodsInfo?.marketPrice,
+            goodsInfoFlag: 0,
+            periodTypeId: null,
+            // goodsInfoFlag: product.goodsInfoFlag,
+            // periodTypeId: product.defaultFrequencyId,
+            recommendationId: shelter.value,
+            recommendationName: shelter.name
+          });
+        }),
+        showPCMiniCartPop: false
       });
+
       props.history.push('/cart');
     } catch (err) {
       setBtnLoading(false);
@@ -219,7 +220,8 @@ const Adoptions = (props) => {
           periodTypeId: null
           // goodsInfoFlag: detail.goodsInfoFlag,
           // periodTypeId: detail.defaultFrequencyId
-        }))
+        })),
+        showPCMiniCartPop: false
       });
       props.history.push('/cart');
     } catch (err) {

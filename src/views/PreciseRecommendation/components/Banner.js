@@ -5,7 +5,10 @@ import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import cloneDeep from 'lodash/cloneDeep';
 import stores from '@/store';
-import { AddItemMember as AddCartItemMember } from '@/framework/cart';
+import {
+  AddItemMember as AddCartItemMember,
+  AddItemsVisitor as AddCartItemsVisitor
+} from '@/framework/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
@@ -181,9 +184,9 @@ const Banner = ({
       sizeListItem.selected = true;
       cartItem.sizeList = [sizeListItem];
 
-      await checkoutStore.hanldeUnloginAddToCart({
+      await AddCartItemsVisitor({
         cartItemList: [cartItem],
-        ...restProps
+        showPCMiniCartPop: false
       });
       localItemRoyal.set('okta-redirectUrl', 'checkout');
     } catch (err) {
@@ -218,7 +221,8 @@ const Banner = ({
       setLoading(true);
       await AddCartItemMember({
         param: params,
-        updateLoginCartParam: { delFlag: 1 }
+        updateLoginCartParam: { delFlag: 1 },
+        showPCMiniCartPop: false
       });
       history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({

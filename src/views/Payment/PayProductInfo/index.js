@@ -81,14 +81,6 @@ class PayProductInfo extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  get totalCount() {
-    return formatMoney(
-      this.state.productList.reduce(
-        (total, item) => total + item.currentAmount,
-        0
-      )
-    );
-  }
   UNSAFE_componentWillReceiveProps(nextProps) {
     let productList;
     if (
