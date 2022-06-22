@@ -35,6 +35,8 @@ if (window.__.env.REACT_APP_HUB) {
 
 //412385 KARTE block snippet
 if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+  console.log('builder.js ------------------------------');
+
   loadJS({
     url: 'https://cdn-blocks.karte.io/6e599016c95925f7ed35876da4e220b9/builder.js'
   });
