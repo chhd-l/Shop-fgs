@@ -33,7 +33,8 @@ import {
   loadJS,
   filterObjectValue,
   stgShowAuth,
-  optimizeImage
+  optimizeImage,
+  sleep
 } from '@/utils/utils';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
@@ -1485,7 +1486,7 @@ class List extends React.Component {
         break;
       }
     }
-
+    searchForm.maxMarketPrice = this.props?.configStore?.maxGoodsPrice;
     let params = {
       cateType,
       storeId: window.__.env.REACT_APP_STOREID,
