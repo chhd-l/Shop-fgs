@@ -22,6 +22,7 @@ import {
   AddItemsMember as AddCartItemsMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
+import cn from 'classnames';
 
 let goodsInfoNosObj = {
   'goodsNo-541425': ['Kitten <br/> (3-12 months)'],
@@ -89,6 +90,7 @@ const Adoptions = (props) => {
       console.info('....');
       return;
     }
+    setBtnLoading(true);
     let details = [];
     // 获取detail
     let ids = product.goodsInfo.goodsInfoId.split('-');
@@ -99,7 +101,6 @@ const Adoptions = (props) => {
       }
     }
     // details = Object.assign({},details,details.goodsInfo)
-    setBtnLoading(true);
 
     if (loginStore.isLogin) {
       hanldeLoginAddToCart(details);
@@ -188,6 +189,7 @@ const Adoptions = (props) => {
     try {
       await AddCartItemsVisitor({
         cartItemList: products.map((product) => {
+          delete product.goodsInfo.goods;
           return Object.assign({}, product, product.goodsInfo, {
             selected: true,
             quantity: 1,
@@ -413,8 +415,8 @@ const Adoptions = (props) => {
             shelter.
           </div>
           <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
-            {goodsList.map((item) => (
-              <div className="rc-grid padding-x--md-forh5">
+            {goodsList.map((item, i) => (
+              <div className="rc-grid padding-x--md-forh5" key={i}>
                 <article className="rc-card rc-card--a rc-padding-top--xs">
                   <div style={{ height: '18rem' }}>
                     <picture
@@ -442,7 +444,7 @@ const Adoptions = (props) => {
                       dangerouslySetInnerHTML={{
                         __html: item.goodsNameStr
                       }}
-                    ></div>
+                    />
                     <p
                       style={{ height: '40px', marginBottom: '0.5rem' }}
                       className="flex items-center justify-center"
@@ -451,14 +453,10 @@ const Adoptions = (props) => {
                     </p>
                     <button
                       onClick={() => addCart(item)}
-                      className={`rc-btn rc-btn--two ${
-                        btnLoading ? 'ui-btn-loading' : ''
-                      }
-                      ${
-                        item.goodsInfo.stock > 0 && shelter.value
-                          ? ''
-                          : 'rc-btn-disabled'
-                      }`}
+                      className={cn(`rc-btn rc-btn--two`, {
+                        'ui-btn-loading ui-btn-loading-border-red': btnLoading
+                      })}
+                      disabled={item.goodsInfo.stock <= 0 || !shelter.value}
                       style={{ fontSize: '1rem' }}
                     >
                       Add to cart

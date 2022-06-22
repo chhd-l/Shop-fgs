@@ -185,19 +185,19 @@ const UsAndRu = (props) => {
             </h2>
           </div>
           <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle for-icon-size">
-            {howImageArr.map((item) => (
-              <div className="rc-grid">
+            {howImageArr.map((item, i) => (
+              <div className="rc-grid" key={i}>
                 <div>
                   <h3 className="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs">
                     <strong>{item.title}</strong>
                   </h3>
-                  <lazyload>
+                  <LazyLoad>
                     <img
                       className="mx-auto rc-margin-bottom--xs"
                       src={item.img}
                       alt="recommendation image"
                     />
-                  </lazyload>
+                  </LazyLoad>
                   <div
                     dangerouslySetInnerHTML={{ __html: item.des }}
                     className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"
@@ -252,8 +252,8 @@ const UsAndRu = (props) => {
               <div className="rc-max-width--md rc-padding-x--lg">
                 <div className="rc-video-wrapper dog-video">
                   <iframe
-                    allowfullscreen=""
-                    frameborder="0"
+                    allowFullScreen=""
+                    frameBorder="0"
                     id="video-dog"
                     className="optanon-category-4 "
                     src="https://www.youtube.com/embed/ICmjePIyMkI"

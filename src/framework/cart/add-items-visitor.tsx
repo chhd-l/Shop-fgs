@@ -53,7 +53,13 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
         find(cartItem.sizeList, (s: any) => s.selected) || cartItem.goodsInfo;
       debugger;
       cartItem.goodsInfoId = selectedGoodsInfo.goodsInfoId;
-      delete selectedGoodsInfo.goods; // 删除selectedGoodsInfo的goods属性，否则goods会被覆盖
+      // 删除selectedGoodsInfo的相关属性，否则最外层相关值会被覆盖
+      delete selectedGoodsInfo.goods;
+      delete selectedGoodsInfo.questionParams;
+      delete selectedGoodsInfo.recommendationId;
+      delete selectedGoodsInfo.recommendationName;
+      delete selectedGoodsInfo.referenceData;
+      delete selectedGoodsInfo.referenceObject;
       cartItem = Object.assign({}, cartItem, selectedGoodsInfo); //把选中的规则，平铺到了最外层吗，同会员购物车数据结构
       // 当前需要加入的产品，是否存在于原购物车中，goodsId-spu goodsInfoId-sku
       const historyItemIdx = findIndex(
