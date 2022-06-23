@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProductCarousel from '@/components/ProductCarousel';
+import { ProductCarousel } from '@/components/Product';
 import { getGoodsRelation } from '@/api/details';
 import {GAPdpRecommendedProductClick} from '../../GA';
 
