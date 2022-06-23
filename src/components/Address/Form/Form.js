@@ -514,7 +514,19 @@ class Form extends React.Component {
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       case 'jp':
-        phoneReg = /^[0]\d{0,10}$/;
+        //phoneReg = /^[0]\d{0,10}$/;
+        phoneReg = [
+          {
+            mask: 'Y0000000000',
+            lazy: true,
+            blocks: {
+              Y: {
+                mask: IMask.MaskedEnum,
+                enum: ['0']
+              }
+            }
+          }
+        ];
         break;
       default:
         phoneReg = [{ mask: '00000000000' }];
