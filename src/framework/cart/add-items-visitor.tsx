@@ -60,6 +60,7 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
       delete selectedGoodsInfo.recommendationName;
       delete selectedGoodsInfo.referenceData;
       delete selectedGoodsInfo.referenceObject;
+      delete selectedGoodsInfo.recommendationInfos;
       cartItem = Object.assign({}, cartItem, selectedGoodsInfo); //把选中的规则，平铺到了最外层吗，同会员购物车数据结构
       // 当前需要加入的产品，是否存在于原购物车中，goodsId-spu goodsInfoId-sku
       const historyItemIdx = findIndex(

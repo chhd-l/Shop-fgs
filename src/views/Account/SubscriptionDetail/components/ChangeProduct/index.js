@@ -16,12 +16,8 @@ export const ChangeProductContext = createContext();
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const {
-    setState,
-    subDetail,
-    isShowClub,
-    triggerShowChangeProduct
-  } = SubDetailHeaderValue;
+  const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
+    SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
@@ -38,10 +34,8 @@ const ChangeProduct = () => {
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
   const [details, setDetails] = useState({});
   const [renderDetailAgin, setRenderDetailAgin] = useState(true);
-  const [
-    recommendationVisibleLoading,
-    setRecommendationVisibleLoading
-  ] = useState(true);
+  const [recommendationVisibleLoading, setRecommendationVisibleLoading] =
+    useState(true);
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',

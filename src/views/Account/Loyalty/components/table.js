@@ -83,7 +83,7 @@ const Table = ({ data }) => {
           >
             <div className="mb-2">
               <div className="title">
-                <FormattedMessage id="Execution time" />
+                <FormattedMessage id="account.loyalty.executionTime" />
               </div>
               <div className="content">
                 {format(new Date(item.activationDate), 'yyyy-MM-dd hh:mm:ss')}
@@ -91,19 +91,19 @@ const Table = ({ data }) => {
             </div>
             <div className="mb-2">
               <div className="title">
-                <FormattedMessage id="Event" />
+                <FormattedMessage id="account.loyalty.event" />
               </div>
               <div className="content">{item.type}</div>
             </div>
             <div className="mb-2">
               <div className="title">
-                <FormattedMessage id="Point transactions" />
+                <FormattedMessage id="account.loyalty.pointTransactions" />
               </div>
               <div className="content">{item.value}</div>
             </div>
             <div className="mb-2">
               <div className="title">
-                <FormattedMessage id="Remark" />
+                <FormattedMessage id="account.loyalty.remark" />
               </div>
               <div className="content">{item.description}</div>
             </div>
@@ -117,25 +117,25 @@ const Table = ({ data }) => {
         <div className="mobile-table border border-gray-300 p-5 pb-0 mb-4">
           <div className="mb-2">
             <div className="title">
-              <FormattedMessage id="Execution time" />
+              <FormattedMessage id="account.loyalty.executionTime" />
             </div>
             <div className="content">-</div>
           </div>
           <div className="mb-2">
             <div className="title">
-              <FormattedMessage id="Event" />
+              <FormattedMessage id="account.loyalty.event" />
             </div>
             <div className="content">-</div>
           </div>
           <div className="mb-2">
             <div className="title">
-              <FormattedMessage id="Point transactions" />
+              <FormattedMessage id="account.loyalty.pointTransactions" />
             </div>
             <div className="content">-</div>
           </div>
           <div className="mb-2">
             <div className="title">
-              <FormattedMessage id="Remark" />
+              <FormattedMessage id="account.loyalty.remark" />
             </div>
             <div className="content">-</div>
           </div>

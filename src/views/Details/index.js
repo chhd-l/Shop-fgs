@@ -70,8 +70,7 @@ import {
   hubGAProductDetailPageView,
   hubGAAToCar,
   HubGaPdpBuyFromRetailer,
-  GAPdpSizeChange,
-  pushPurchaseGA
+  GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
@@ -88,7 +87,11 @@ const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 const Jp = window.__.env.REACT_APP_COUNTRY === 'jp';
-
+const purchaseType = {
+  0: 'Single purchase',
+  1: 'Autoship',
+  2: 'Club'
+};
 @inject(
   'checkoutStore',
   'loginStore',
@@ -217,14 +220,8 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -568,8 +565,11 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '', goodsNo = '' } =
-                mixFeeding?.goods || {};
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -668,16 +668,20 @@ class Details extends React.Component {
           images = res.context.goodsInfos;
           this.setState(
             {
-              details: Object.assign({}, this.state.details, goodsRes, {
-                goods: goodsRes,
-                promotions: goodsRes?.promotions?.toLowerCase(),
-                sizeList,
-                goodsInfos: res.context.goodsInfos,
-                goodsSpecDetails: res.context.goodsSpecDetails,
-                goodsSpecs: res.context.goodsSpecs,
-                goodsAttributesValueRelList:
-                  res.context.goodsAttributesValueRelList
-              }),
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:
+                    res.context.goodsAttributesValueRelList
+                }
+              ),
               images: cloneDeep(images)
             },
             async () => {
@@ -715,9 +719,8 @@ class Details extends React.Component {
           let images = [];
           images = res.context.goodsInfos;
           this.setState({
-            details: Object.assign({}, this.state.details, goodsRes, {
-              goods: goodsRes,
-              promotions: goodsRes?.promotions?.toLowerCase(),
+            details: Object.assign({}, this.state.details, res.context.goods, {
+              promotions: res.context.goods?.promotions?.toLowerCase(),
               sizeList,
               goodsInfos: res.context.goodsInfos,
               goodsSpecDetails: res.context.goodsSpecDetails,
@@ -843,6 +846,7 @@ class Details extends React.Component {
   };
   async hanldeAddToCart() {
     try {
+      if (!this.btnStatus) return false;
       this.setState({ checkOutErrMsg: '' });
       await this.showPrescriberCodeBeforeAddCart();
       if (!this.state.showPrescriberCodeModal) {
@@ -900,7 +904,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { quantity, form, details, questionParams } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -926,6 +931,16 @@ class Details extends React.Component {
     }
   }
 
+  pushPurchase(type) {
+    window.dataLayer &&
+      window.dataLayer.push({
+        event: `pdpPurchaseTypeChange`,
+        pdpPurchaseTypeChange: {
+          newItem: purchaseType[type]
+        }
+      });
+  }
+
   handleInputChange(e) {
     let { form } = this.state;
     form.buyWay = parseInt(e.currentTarget.value);
@@ -935,7 +950,7 @@ class Details extends React.Component {
     let { form } = this.state;
     form.buyWay = parseInt(buyType);
     this.setState({ form });
-    pushPurchaseGA(buyType);
+    this.pushPurchase(buyType);
   }
   showCheckoutErrMsg(msg) {
     this.setState({
@@ -954,12 +969,59 @@ class Details extends React.Component {
       });
     }
   }
+  formatUnit(baseSpecLabel) {
+    let res = baseSpecLabel.slice(String(parseFloat(baseSpecLabel)).length);
+    if (isNaN(parseFloat(res))) {
+      return res;
+    } else {
+      return this.formatUnit(res);
+    }
+  }
+  //加入购物车，埋点
+  GAAddToCar(num, item) {
+    let cur_selected_size = item.sizeList.filter((item2) => {
+      return item2.selected == true;
+    });
+    let variant = cur_selected_size[0]?.specText;
+    let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
+    let { form } = this.state;
+    window?.dataLayer?.push({
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+      ecommerce: {
+        add: {
+          products: [
+            {
+              name: item.goodsName,
+              id: item.goodsNo,
+              club: 'no',
+              type:
+                { 0: 'one-time', 1: 'subscription', 2: 'club' }[form.buyWay] ||
+                '',
+              price:
+                {
+                  0: cur_selected_size[0]?.marketPrice,
+                  1: cur_selected_size[0]?.subscriptionPrice
+                }[form.buyWay] || 0,
+              brand: item.brandName || 'Royal Canin',
+              category: item.goodsCateName,
+              variant: parseInt(variant),
+              quantity: num,
+              recommendation: 'self-selected',
+              sku: goodsInfoNo
+            }
+          ]
+        }
+      }
+    });
+  }
 
   handleBuyFromRetailer = () => {
     HubGaPdpBuyFromRetailer();
   };
 
   addMixFeedingToCart = async () => {
+    const btnStatus = this.btnStatus;
+    if (!btnStatus) return;
     this.setState({
       mixFeedingBtnLoading: true
     });

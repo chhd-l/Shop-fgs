@@ -17,21 +17,21 @@ interface Props {
   disabledGoodsInfoIds?: string[];
   onIsSpecAvailable?: Function;
   canSelectedWhenAllSpecDisabled?: boolean; //是否规格禁用了，仍然可以被选中，eg:规格被禁用了，一般情况不默认选中了；然而，PDP，即使规格被禁用了，仍需被选中，原因是需要返回对应的price信息，以便页面展示用
-  canSelectedOutOfStock?:boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
-  instockStatus?:boolean;
+  canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
+  instockStatus?: boolean;
 }
 
 const HandledSpec = ({
   renderAgin,
   details,
   updatedSku,
-  updatedPriceOrCode = () => {},
+  updatedPriceOrCode = () => { },
   defaultSkuId,
   disabledGoodsInfoIds = [],
-  onIsSpecAvailable = () => {},
+  onIsSpecAvailable = () => { },
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
-  instockStatus=true,
+  instockStatus = true,
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
     details;
@@ -101,7 +101,7 @@ const HandledSpec = ({
       if (
         unique(item.mockSpecDetailIds).sort().join(',') ===
         idArr.sort().join(',')
-      ) {debugger
+      ) {
         item.selected = true;
         handledValues.currentUnitPrice = item.salePrice;
         handledValues.currentLinePrice = item.linePrice;
@@ -109,7 +109,7 @@ const HandledSpec = ({
         handledValues.currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
         handledValues.stock = item.stock;
         handledValues.skuPromotions = item.promotions;
-      } else {debugger
+      } else {
         item.selected = false;
       }
 
@@ -260,10 +260,11 @@ const HandledSpec = ({
             // de设置最小的
             sItem.chidren[0].selected = true;
           } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isDisabled) {
-            sItem.chidren[1].selected = true;debugger
+            sItem.chidren[1].selected = true; debugger
           } else {
             for (let i = 0; i < sItem.chidren.length; i++) {
-              if (!sItem.chidren[i].isDisabled) {debugger
+              if (!sItem.chidren[i].isDisabled) {
+                debugger
                 sItem.chidren[i].selected = true;
                 break;
               }
@@ -272,7 +273,8 @@ const HandledSpec = ({
             if (
               sItem.chidren.filter((el: any) => el.selected).length === 0 &&
               sItem.chidren.length
-            ) {debugger
+            ) {
+              debugger
               // 取第一个规格
               if (canSelectedWhenAllSpecDisabled) {
                 sItem.chidren[0].selected = true;
@@ -291,11 +293,12 @@ const HandledSpec = ({
         return sItem;
       });
       onIsSpecAvailable(!isAllSpecDisabled);
-    } else {debugger
+    } else {
+      debugger
       goodsInfos[0].selected = true;
     }
     setSizeList(goodsInfos);
-    console.log(111111,goodsInfos)
+    console.log(111111, goodsInfos)
   }, [details.goodsNo, renderAgin]);
 
   useEffect(() => {
@@ -340,8 +343,8 @@ const HandledSpec = ({
                 >
                   <span
                     style={{
-                      backgroundColor: sdItem.isDisabled  && !sdItem.canSelectedOutOfStock? '#ccc' : '#fff',
-                      cursor: sdItem.isDisabled  && !sdItem.canSelectedOutOfStock ? 'not-allowed' : 'pointer'
+                      backgroundColor: sdItem.isDisabled && !sdItem.canSelectedOutOfStock ? '#ccc' : '#fff',
+                      cursor: sdItem.isDisabled && !sdItem.canSelectedOutOfStock ? 'not-allowed' : 'pointer'
                     }}
                   >
                     {/* {parseFloat(sdItem.detailName)}{' '} */}
@@ -351,7 +354,7 @@ const HandledSpec = ({
               ))}
             </div>
           </div>
-        {canSelectedOutOfStock? <div><InstockStatusComp status={instockStatus}/></div>:null}
+          {canSelectedOutOfStock ? <div><InstockStatusComp status={instockStatus} /></div> : null}
         </div>
       ))}
     </div>

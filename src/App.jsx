@@ -484,7 +484,6 @@ const App = () => {
                   path={'/implicit/login'}
                   render={() => <ImplicitLogin />}
                 />
-                {/* indv recommendation page */}
                 <Route
                   exact
                   path="/precise-cat-nutrition-recommendation"
@@ -555,7 +554,6 @@ const App = () => {
                 {/* //77777 */}
                 <Route exact path="/sevenPay" component={sevenPay} />
                 {/*<Route exact path="/sevenPayResult" component={sevenPayResult} />*/}
-                {/* indv landing page */}
                 <Route
                   exact
                   path="/precise-cat-nutrition"

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import cn from 'classnames';
 import './index.less';
 
 interface Props {
@@ -88,10 +87,9 @@ const MixFeedingBanner = ({
         </p>
       </div>
       <button
-        className={cn(`ml-9 rc-btn rc-btn--two rc-btn--sm`, {
-          'ui-btn-loading': mixFeedingBtnLoading
-        })}
-        disabled={!btnStatus}
+        className={`ml-9 rc-btn rc-btn--two rc-btn--sm ${
+          btnStatus ? '' : 'rc-btn-solid-disabled'
+        } ${mixFeedingBtnLoading ? 'ui-btn-loading' : ''}`}
         onClick={addMixFeedingToCart}
       >
         Добавить комплект в корзину

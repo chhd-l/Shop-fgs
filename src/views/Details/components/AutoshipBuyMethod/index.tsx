@@ -36,7 +36,7 @@ const AutoshipBuyMethod = ({
   const discountAmountUnit = formatMoney(discountAmount);
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     e.persist();
-    // console.log('e4334', e);
+    console.log('e', e);
     changeMethod();
   };
   return (

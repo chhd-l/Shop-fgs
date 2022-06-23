@@ -26,6 +26,7 @@ import { Input } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
+import { saveShelterId } from '@/api/recommendation';
 import NlConsentAdditionalText from '@/components/Consent/ConsentAdditionalText/nlConsentText';
 import './components/notification.less';
 
@@ -461,6 +462,17 @@ class Register extends Component {
               await mergeUnloginCartData();
               await checkoutStore.updateLoginCart();
             }
+
+            // PO bind shelterId, country:us
+            const shelterId = sessionItemRoyal.get('handled-shelter') || '';
+            const customerId = res.context?.customerId || '';
+            if (shelterId) {
+              await saveShelterId({
+                shelterId,
+                customerId
+              });
+            }
+
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
               'okta-session-token',

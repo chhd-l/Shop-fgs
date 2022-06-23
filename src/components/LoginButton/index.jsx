@@ -17,6 +17,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
+import { saveShelterId } from '@/api/recommendation';
 import { userBindConsent } from '@/api/consent';
 // import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
@@ -121,13 +122,13 @@ const LoginButton = (props) => {
                     });
                   // GA 登陆成功埋点 end
                   let userinfo = res.context.customerDetail;
+                  let customerId = res.context.customerId;
                   loginStore.changeLoginModal(false);
                   loginStore.changeIsLogin(true);
 
                   localItemRoyal.set('rc-token', res.context.token);
-                  //debugger;
                   let customerInfoRes = await getCustomerInfo({
-                    customerId: res.context.customerId
+                    customerId
                   });
                   userinfo.defaultClinics =
                     customerInfoRes.context.defaultClinics;
@@ -142,6 +143,16 @@ const LoginButton = (props) => {
                     await checkoutStore.updateLoginCart({
                       delFlag: 1
                     }); // indv登录的时候需要查询到相应的数据
+                  }
+
+                  // PO bind shelterId, country:us
+                  const shelterId =
+                    sessionItemRoyal.get('handled-shelter') || '';
+                  if (shelterId) {
+                    await saveShelterId({
+                      shelterId,
+                      customerId
+                    });
                   }
 
                   setIsGetUserInfoDown(true);

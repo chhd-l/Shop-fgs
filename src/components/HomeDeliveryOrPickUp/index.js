@@ -348,9 +348,13 @@ class HomeDeliveryOrPickUp extends React.Component {
             return el.sizeList;
           });
           cartData?.forEach((e) => {
-            goodsInfoDetails.push({
-              goodsInfoId: e.goodsInfoId,
-              quantity: e.buyCount
+            e.sizeList.map((sl) => {
+              if (sl.selected) {
+                goodsInfoDetails.push({
+                  goodsInfoId: sl.goodsInfoId,
+                  quantity: e.quantity
+                });
+              }
             });
           });
         }

@@ -520,7 +520,19 @@ class Form extends React.Component {
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       case 'jp':
-        phoneReg = /^[0]\d{0,10}$/;
+        //phoneReg = /^[0]\d{0,10}$/;
+        phoneReg = [
+          {
+            mask: 'Y0000000000',
+            lazy: true,
+            blocks: {
+              Y: {
+                mask: IMask.MaskedEnum,
+                enum: ['0']
+              }
+            }
+          }
+        ];
         break;
       default:
         phoneReg = [{ mask: '00000000000' }];
@@ -531,9 +543,9 @@ class Form extends React.Component {
     };
     IMask(element, maskOptions);
 
-    if (COUNTRY == 'ru' && this.isLogin) {
-      this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
-    }
+    // if (COUNTRY == 'ru' && this.isLogin) {
+    //   this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
+    // }
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
@@ -740,10 +752,12 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (COUNTRY == 'fr') {
             // 法国
-            regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'uk') {
             // 英国
-            regExp = /^\(\+[4][4]\)[\s](([0][0-9][0-9])|[0-9][0-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[4][4]\)[\s](([0][0-9][0-9])|[0-9][0-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -752,10 +766,12 @@ class Form extends React.Component {
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{4}$/;
           } else if (COUNTRY == 'ru') {
             // 俄罗斯
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp =
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (COUNTRY == 'tr') {
             // 土耳其
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp =
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else if (COUNTRY == 'jp') {
             regExp = /^[0]\d{9,10}$/;
           } else {
@@ -1634,11 +1650,8 @@ class Form extends React.Component {
             // 自动填充
             if (apiType === 'DADATA') {
               res = await getAddressBykeyWord({ keyword: inputVal });
-              robj = (
-                (res?.context && res?.context?.addressList) ||
-                []
-              ).map((ele) =>
-                Object.assign(ele, { name: ele.unrestrictedValue })
+              robj = ((res?.context && res?.context?.addressList) || []).map(
+                (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
               // inputVal = inputVal.replace(/\|/g, '，');
