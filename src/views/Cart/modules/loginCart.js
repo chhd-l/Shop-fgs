@@ -45,7 +45,6 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
 import { v4 as uuidv4 } from 'uuid';
-import ProductCarousel from '@/components/ProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
@@ -55,7 +54,7 @@ import CartSurvey from '../components/CartSurvey';
 import { getMixFeedings } from '@/api/details';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
-import { QuantityPicker } from '@/components/Product';
+import { QuantityPicker, ProductCarousel } from '@/components/Product';
 import { PriceDetailsList } from '../components';
 import {
   GACartRecommendedProductClick,

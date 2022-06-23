@@ -41,7 +41,7 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
-import ProductCarousel from '@/components/ProductCarousel';
+import { QuantityPicker, ProductCarousel } from '@/components/Product';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
@@ -49,7 +49,6 @@ import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
-import { QuantityPicker } from '@/components/Product';
 import { PriceDetailsList } from '../components';
 import {
   GACartButtonClick,
@@ -127,7 +126,7 @@ class UnLoginCart extends React.Component {
         let choosedSpecsArr = [];
         let sizeList = [];
         if (true) {
-          // 通过sku查询
+          // 通过sku查询，默认选中此sku
           let specsItem = goodsInfos.filter(
             (item) => item.goodsInfoNo == goodsInfoNo
           );
