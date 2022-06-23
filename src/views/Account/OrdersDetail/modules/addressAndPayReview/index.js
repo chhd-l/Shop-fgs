@@ -292,6 +292,18 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
                 </div>
               </PaymentMethodContainer>
             ) : null}
+            {details.paymentItem === 'cod' ? (
+              <PaymentMethodContainer>
+                <div className="flex items-center">
+                  <LazyLoad>
+                    <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                  </LazyLoad>
+                  <span>
+                    <FormattedMessage id="cashOnDelivery" />
+                  </span>
+                </div>
+              </PaymentMethodContainer>
+            ) : null}
           </div>
         </div>
       ) : details?.appointNo ? (
