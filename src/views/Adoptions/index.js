@@ -15,7 +15,7 @@ import { addItemToBackendCart } from '@/api/cart';
 import { GARecommendationProduct } from '@/utils/GA';
 import { useSeo } from '@/framework/common';
 import stores from '@/store';
-import { getShelterList } from '@/api/recommendation';
+import { getShelterList, saveShelterId } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
 import { Canonical } from '@/components/Common';
@@ -45,8 +45,12 @@ let fakeBundle = [
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const Adoptions = (props) => {
-  const { loginStore, paymentStore, checkoutStore, configStore } =
-    useLocalStore(() => stores);
+  const {
+    loginStore,
+    paymentStore,
+    checkoutStore,
+    configStore
+  } = useLocalStore(() => stores);
 
   const [seoConfig] = useSeo('adoptions page');
   const [btnLoading, setBtnLoading] = useState(false);
@@ -63,6 +67,7 @@ const Adoptions = (props) => {
     getShelters();
     getGoodsInfos();
   }, []);
+
   const getShelters = async () => {
     const res = await getShelterList({ prescriberType: ['Shelter'] });
     let list = res.context
@@ -292,7 +297,20 @@ const Adoptions = (props) => {
   const handleSelectChange = (data) => {
     setShelter(data);
     sessionItemRoyal.set('handled-shelter', data.value);
+    addShelterId(data.value);
   };
+
+  // PO bind shelterId, country:us
+  const addShelterId = async (shelterId) => {
+    const customerId = loginStore?.userInfo?.customerId || '';
+    if (customerId) {
+      await saveShelterId({
+        shelterId,
+        customerId
+      });
+    }
+  };
+
   const GAShelterLPdropdownClick = () => {
     dataLayer.push({
       event: 'shelterLPdropdownClick'
