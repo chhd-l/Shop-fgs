@@ -510,7 +510,7 @@ class Recommendation extends React.Component {
       let retPath = path;
       GABigBreederAddToCar(products);
       this.setState({ buttonLoading: true });
-      await AddCartItemsVisitor.hanldeUnloginAddToCart({
+      await AddCartItemsVisitor({
         cartItemList: products.map((p) => {
           return Object.assign(
             p,

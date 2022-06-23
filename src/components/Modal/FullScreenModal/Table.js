@@ -40,7 +40,13 @@ export default function Table(props) {
             {productList.map((el, i) => {
               return (
                 <tr className="rc-table__row" key={i}>
-                  <td className="rc-table__td">{el.goodsInfoNo}</td>
+                  <td className="rc-table__td">
+                    {isLogin
+                      ? el.goodsInfoNo
+                      : el.sizeList.filter((el) => el.selected)[0][
+                          'goodsInfoNo'
+                        ]}
+                  </td>
                   <td className="rc-table__td">{el.goodsName}</td>
                   <td className="rc-table__td">
                     {isLogin
@@ -51,7 +57,9 @@ export default function Table(props) {
                           ]
                         )}
                   </td>
-                  <td className="rc-table__td">{el.buyCount + '.00'}</td>
+                  <td className="rc-table__td">
+                    {isLogin ? el.buyCount + '.00' : el.quantity + '.00'}
+                  </td>
                   <td className="rc-table__td">
                     {isLogin
                       ? formatMoney(el.salePrice * el.buyCount)

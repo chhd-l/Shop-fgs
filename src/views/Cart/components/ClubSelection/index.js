@@ -5,7 +5,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection';
 
 const ClubSelection = function (props) {
-  // useEffect(() => {}, []);
+  useEffect(() => {}, []);
   const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
     props;
   return (
@@ -73,14 +73,23 @@ const ClubSelection = function (props) {
             style={{
               fontSize: '.9375rem',
               textDecoration: 'line-through',
-              display: isGift ? 'none' : 'initial'
+              display: `${isGift ? 'none' : 'initial'}`
             }}
           >
-            {formatMoney(pitem.buyCount * pitem.salePrice)}
-          </div>
-          <div className="text-rc-red">
             {!isLogin
-              ? formatMoney(pitem.buyCount * pitem.subscriptionPrice)
+              ? formatMoney(
+                  pitem.quantity *
+                    pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                )
+              : formatMoney(pitem.buyCount * pitem.salePrice)}
+          </div>
+          <div style={{ color: '#ec001a' }}>
+            {!isLogin
+              ? formatMoney(
+                  pitem.quantity *
+                    pitem.sizeList.filter((el) => el.selected)[0]
+                      .subscriptionPrice
+                )
               : formatMoney(
                   isGift
                     ? pitem.buyCount * pitem.settingPrice

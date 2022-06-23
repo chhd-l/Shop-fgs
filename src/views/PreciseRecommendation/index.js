@@ -301,7 +301,7 @@ class PreciseRecommendation extends React.Component {
                                   <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                     <li className="rc-list__item pl-0 flex">
                                       <div>
-                                        <em className="bingo rc-margin-right--xs mr-3 iconfont"></em>
+                                        <em className="bingo rc-margin-right--xs mr-3"></em>
                                       </div>
                                       <div className="font-weight-normal">
                                         <FormattedMessage id="preciseNutrition.Below.list1" />
@@ -309,7 +309,7 @@ class PreciseRecommendation extends React.Component {
                                     </li>
                                     <li className="rc-list__item pl-0 flex">
                                       <div>
-                                        <em className="bingo rc-margin-right--xs mr-3 iconfont"></em>
+                                        <em className="bingo rc-margin-right--xs mr-3"></em>
                                       </div>
                                       <div className="font-weight-normal">
                                         <FormattedMessage id="preciseNutrition.Below.list2" />
@@ -317,7 +317,7 @@ class PreciseRecommendation extends React.Component {
                                     </li>
                                     <li className="rc-list__item pl-0 flex">
                                       <div>
-                                        <em className="bingo rc-margin-right--xs mr-3 iconfont"></em>
+                                        <em className="bingo rc-margin-right--xs mr-3"></em>
                                       </div>
                                       <div className="font-weight-normal">
                                         <FormattedMessage id="preciseNutrition.Below.list3" />
@@ -325,7 +325,7 @@ class PreciseRecommendation extends React.Component {
                                     </li>
                                     <li className="rc-list__item pl-0 flex">
                                       <div>
-                                        <em className="bingo rc-margin-right--xs mr-3 iconfont"></em>
+                                        <em className="bingo rc-margin-right--xs mr-3"></em>
                                       </div>
                                       <div className="font-weight-normal">
                                         <FormattedMessage id="preciseNutrition.Below.list4" />

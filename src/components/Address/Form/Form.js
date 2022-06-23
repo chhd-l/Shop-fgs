@@ -520,7 +520,19 @@ class Form extends React.Component {
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       case 'jp':
-        phoneReg = /^[0]\d{0,10}$/;
+        //phoneReg = /^[0]\d{0,10}$/;
+        phoneReg = [
+          {
+            mask: 'Y0000000000',
+            lazy: true,
+            blocks: {
+              Y: {
+                mask: IMask.MaskedEnum,
+                enum: ['0']
+              }
+            }
+          }
+        ];
         break;
       default:
         phoneReg = [{ mask: '00000000000' }];
@@ -531,9 +543,9 @@ class Form extends React.Component {
     };
     IMask(element, maskOptions);
 
-    if (COUNTRY == 'ru' && this.isLogin) {
-      this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
-    }
+    // if (COUNTRY == 'ru' && this.isLogin) {
+    //   this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
+    // }
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {

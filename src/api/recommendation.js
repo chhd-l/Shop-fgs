@@ -68,3 +68,11 @@ export function getRecommendation(products, customerId) {
     method: 'get'
   });
 }
+
+export function saveShelterId(data) {
+  return axios({
+    url: '/customerDetail/updateShelterId',
+    method: 'post',
+    data
+  });
+}
