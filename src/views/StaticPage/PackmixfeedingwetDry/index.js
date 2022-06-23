@@ -11,11 +11,10 @@ import image4D from './images/4D.png';
 import image4E from './images/4E.png';
 import imagecat from './images/cat-autoship.png';
 import imagedog from './images/dog-autoship.png';
-
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { list1, list2 } from './goods';
-import ProductCarousel from '@/components/ProductCarousel';
+import { ProductCarousel } from '@/components/Product';
 
 import './index.css';
 

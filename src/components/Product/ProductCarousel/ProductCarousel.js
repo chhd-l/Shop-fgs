@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType } from '@/utils/utils';
-import PLPCover from '@/components/PLPCover';
+import PLPCover from '../PLPCover';
 import { settings } from './config';
 import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
 
@@ -12,7 +12,7 @@ const isMobilePhone = getDeviceType() === 'H5';
 import './index.less';
 
 /**
- * 产品轮播组件
+ * 产品轮播组件，一般用于关联产品轮播展示
  * {Array} - goodsList 产品列表
  */
 export default class ProductCarousel extends Component {

@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import ProductCarousel from '@/components/ProductCarousel';
+import { ProductCarousel } from '@/components/Product';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { list1 } from './goods';

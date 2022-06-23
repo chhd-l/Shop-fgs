@@ -5,6 +5,7 @@ import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import './css/HubSalesCategory.less';
 import { optimizeImage } from '@/utils/utils';
+import { categorySetting } from './utils';
 
 export default class HubSalesCategory extends Component {
   static defaultProps = {
@@ -86,7 +87,11 @@ export default class HubSalesCategory extends Component {
             </p>
           </div>
           <div className="rc-layout-container rc-two-column">
-            <div className="rc-column rc-padding-x--sm">
+            <div
+              className={`cat rc-column rc-padding-x--sm order-${categorySetting(
+                'cat'
+              )}`}
+            >
               <div className="header-title">
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.cat" />
@@ -145,7 +150,11 @@ export default class HubSalesCategory extends Component {
                 )}
               </div>
             </div>
-            <div className="rc-column rc-padding-x--sm">
+            <div
+              className={`dog rc-column rc-padding-x--sm order-${categorySetting(
+                'dog'
+              )}`}
+            >
               <div className="header-title">
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.dog" />
