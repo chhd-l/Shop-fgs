@@ -288,6 +288,16 @@ const UserPaymentInfo = ({
                         </span>
                       </div>
                     ) : null}
+                    {currentCardInfo.pspName === 'cod' ? (
+                      <div className="flex items-center mt-4">
+                        <LazyLoad>
+                          <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                        </LazyLoad>
+                        <span>
+                          <FormattedMessage id="cashOnDelivery" />
+                        </span>
+                      </div>
+                    ) : null}
                     {currentCardInfo?.paymentItem?.toLowerCase() ===
                     'adyen_paypal' ? (
                       <div className="flex flex-col mt-4">
