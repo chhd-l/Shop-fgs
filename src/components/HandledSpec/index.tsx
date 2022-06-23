@@ -4,6 +4,7 @@ import { unique } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types';
 import Selection from '@/components/Selection/index.js';
+import InstockStatusComp from '@/components/InstockStatusComp';
 import { GAPdpSizeChange } from '../../views/Details/GA';
 import cn from 'classnames';
 
@@ -16,6 +17,8 @@ interface Props {
   disabledGoodsInfoIds?: string[];
   onIsSpecAvailable?: Function;
   canSelectedWhenAllSpecDisabled?: boolean; //是否规格禁用了，仍然可以被选中，eg:规格被禁用了，一般情况不默认选中了；然而，PDP，即使规格被禁用了，仍需被选中，原因是需要返回对应的price信息，以便页面展示用
+  canSelectedOutOfStock?:boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
+  instockStatus?:boolean;
 }
 
 const HandledSpec = ({
@@ -26,7 +29,9 @@ const HandledSpec = ({
   defaultSkuId,
   disabledGoodsInfoIds = [],
   onIsSpecAvailable = () => {},
-  canSelectedWhenAllSpecDisabled = false
+  canSelectedWhenAllSpecDisabled = false,
+  canSelectedOutOfStock = false,
+  instockStatus=true,
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
     details;
@@ -210,6 +215,8 @@ const HandledSpec = ({
               sdItem.isEmpty ||
               sdItem.isUnitPriceZero ||
               disabledGoodsInfoIds.includes(filterproducts[0]?.goodsInfoId);
+            sdItem.canSelectedOutOfStock = sdItem.isEmpty && canSelectedOutOfStock
+            // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
           }
           return sdItem.specId === sItem.specId;
         });
@@ -321,10 +328,10 @@ const HandledSpec = ({
                   key={i}
                   className={cn(`rc-swatch__item ddd`, {
                     selected: sdItem.selected,
-                    outOfStock: sdItem.isDisabled
+                    outOfStock: sdItem.isDisabled && !sdItem.canSelectedOutOfStock,
                   })}
                   onClick={() => {
-                    if (sdItem.isDisabled || sdItem.selected) {
+                    if ((sdItem.isDisabled && !sdItem.canSelectedOutOfStock) || sdItem.selected) {
                       return false;
                     } else {
                       handleChooseSize(sItem.specId, sdItem.specDetailId);
@@ -333,8 +340,8 @@ const HandledSpec = ({
                 >
                   <span
                     style={{
-                      backgroundColor: sdItem.isDisabled ? '#ccc' : '#fff',
-                      cursor: sdItem.isDisabled ? 'not-allowed' : 'pointer'
+                      backgroundColor: sdItem.isDisabled  && !sdItem.canSelectedOutOfStock? '#ccc' : '#fff',
+                      cursor: sdItem.isDisabled  && !sdItem.canSelectedOutOfStock ? 'not-allowed' : 'pointer'
                     }}
                   >
                     {/* {parseFloat(sdItem.detailName)}{' '} */}
@@ -344,6 +351,7 @@ const HandledSpec = ({
               ))}
             </div>
           </div>
+        {canSelectedOutOfStock? <div><InstockStatusComp status={instockStatus}/></div>:null}
         </div>
       ))}
     </div>
