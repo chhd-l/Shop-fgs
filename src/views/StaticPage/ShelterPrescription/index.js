@@ -10,7 +10,7 @@ import catAndPhone from './images/catAndPhone.png';
 import mockData from './mock.json';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
-import ProductCarousel from '@/components/ProductCarousel';
+import { ProductCarousel } from '@/components/Product';
 import Help from '../../SmartFeederSubscription/modules/Help';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';

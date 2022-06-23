@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Skeleton from 'react-skeleton-loader';
-import PLPCover from '@/components/PLPCover';
+import { PLPCover } from '@/components/Product';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getList } from '@/api/list';

@@ -21,10 +21,10 @@ import {
 } from '@/utils/utils';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
-import ProductCarousel from '@/components/ProductCarousel';
 import { findPetProductForClub } from '@/api/subscription';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
+import { ProductCarousel } from '@/components/Product';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

@@ -5,7 +5,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
-import ProductCarousel from '@/components/ProductCarousel';
+import { ProductCarousel } from '@/components/Product';
 import { list1, list2, list3, list4 } from './goods';
 import { Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';

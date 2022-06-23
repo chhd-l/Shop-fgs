@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import PLPCover from '@/components/PLPCover';
+import { PLPCover } from '@/components/Product';
 import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
