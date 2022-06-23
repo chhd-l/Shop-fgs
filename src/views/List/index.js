@@ -1594,11 +1594,13 @@ class List extends React.Component {
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
                 position: (esGoodsPage.number + 1) * (i + 1),
-                url: g.lowGoodsName
-                  ? `${urlPrefix}/${g.lowGoodsName
+                url: g?.lowGoodsName
+                  ? `${urlPrefix}/${g?.lowGoodsName
                       .split(' ')
                       .join('-')
-                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                      .replace('/', '')}-${g?.goodsNo}${
+                      this.state?.sourceParam
+                    }`
                   : ''
               }))
             }),
