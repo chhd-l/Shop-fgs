@@ -217,8 +217,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -525,19 +531,19 @@ class Details extends React.Component {
           return;
         }
         // 获取club与autoship字典
-        if (res && res.context && goodsRes) {
+        if (res && contextResult && goodsRes) {
           this.setState({
-            productRate: res.context.avgEvaluate
+            productRate: contextResult.avgEvaluate
           });
         }
         if (backgroundSpace) {
           this.setState({
-            backgroundSpaces: res.context.goods.cateId
+            backgroundSpaces: contextResult.goods.cateId
           });
         }
 
         const technologyList = (
-          res.context?.goodsAttributesValueRelList || []
+          contextResult?.goodsAttributesValueRelList || []
         ).filter((el) => el.goodsAttributeName?.toLowerCase() === 'technology');
         const dryOrWetObj =
           technologyList.filter((el) =>
@@ -548,8 +554,10 @@ class Details extends React.Component {
           valueEn: dryOrWetObj.goodsAttributeValueEn
         };
 
+        // 若接口返回了goods，否则直接抛出错误
         if (goodsRes) {
-          const { goods = {}, images } = res.context;
+          const { goods = {}, images } = contextResult;
+          // 处理mix feeding
           if (isShowMixFeeding()) {
             getMixFeeding(goods?.goodsId).then((res) => {
               let mixFeeding = handleRecommendation(
@@ -560,11 +568,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -584,7 +589,7 @@ class Details extends React.Component {
             });
           }
 
-          const taggingList = (res.context?.taggingList || []).filter(
+          const taggingList = (contextResult?.taggingList || []).filter(
             (t) => t.displayStatus
           );
           let pageLink = window.location.href.split('-');
@@ -600,6 +605,7 @@ class Details extends React.Component {
               goodsId: goodsRes.goodsId,
               minMarketPrice: goodsRes.minMarketPrice,
               details: Object.assign(this.state.details, {
+                isSkuNoQuery: contextResult.isSkuNoQuery,
                 goods: goodsRes,
                 promotions: goods?.promotions?.toLowerCase(),
                 taggingForTextAtPDP: taggingList.filter(
@@ -655,9 +661,9 @@ class Details extends React.Component {
           throw new Error();
         }
         let sizeList = [];
-        let goodsInfos = res.context.goodsInfos || [];
 
-        if (res && res.context && res.context.goodsSpecDetails) {
+        // 若接口返回了goodsSpecDetails
+        if (res && contextResult && contextResult.goodsSpecDetails) {
           let images = [];
           images = res.context.goodsInfos;
           this.setState(

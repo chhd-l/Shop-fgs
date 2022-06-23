@@ -50,6 +50,7 @@ const HandledSpec = ({
     updatedPriceOrCode({ barcode, selectPrice });
   };
 
+  // tododo 这个方法干嘛的
   const matchGoods = () => {
     // let {
     //   specList,
@@ -82,7 +83,7 @@ const HandledSpec = ({
     });
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
-    //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
+    // marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     // currentUnitPrice = goodsInfos?.[0]?.marketPrice;
     sizeList.map((item, i) => {
       let specTextArr = [];
@@ -100,7 +101,7 @@ const HandledSpec = ({
       if (
         unique(item.mockSpecDetailIds).sort().join(',') ===
         idArr.sort().join(',')
-      ) {
+      ) {debugger
         item.selected = true;
         handledValues.currentUnitPrice = item.salePrice;
         handledValues.currentLinePrice = item.linePrice;
@@ -108,7 +109,7 @@ const HandledSpec = ({
         handledValues.currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
         handledValues.stock = item.stock;
         handledValues.skuPromotions = item.promotions;
-      } else {
+      } else {debugger
         item.selected = false;
       }
 
@@ -171,8 +172,9 @@ const HandledSpec = ({
   useEffect(() => {
     let choosedSpecsArr: any[] = [];
     let sizeList = [];
+    // tododo 通过sku查询报错了
+    // 通过sku查询，默认选中此sku
     if (isSkuNoQuery) {
-      // 通过sku查询
       let specsItem = goodsInfos.filter(
         (item: any) => item.goodsInfoNo == goodsNo
       );
@@ -180,8 +182,9 @@ const HandledSpec = ({
       choosedSpecsArr =
         specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
     }
+    // tododo 链接上带skuId参数，好像没有这样的链接
+    // 通过sku查询，默认选中此sku
     if (defaultSkuId) {
-      // 通过sku查询
       let specsItem = goodsInfos.filter(
         (item: any) => item.goodsInfoId == defaultSkuId
       );
@@ -189,15 +192,18 @@ const HandledSpec = ({
       choosedSpecsArr =
         specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
     }
+
     // 组装购物车的前端数据结构与规格的层级关系
     if (goodsSpecDetails) {
       // 是否有规格可用
       let isAllSpecDisabled = true;
       goodsSpecs.map((sItem: any, index: any) => {
         // 该层判断是为了去判断sku是否存在
+        // children为每个规格类别下的详细规则value，比如重量下的1kg、2kg集合
         sItem.chidren = goodsSpecDetails.filter((sdItem: any, i: number) => {
+          // tododo 为什么只第一个？？
           if (index === 0) {
-            let filterproducts = goodsInfos.filter((goodEl: any) =>
+            const filterproducts = goodsInfos.filter((goodEl: any) =>
               goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
             );
             sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
@@ -225,6 +231,8 @@ const HandledSpec = ({
             }
           }
         }
+
+        // tododo isSelected没看到设置的地方？？
         const isSelectedDefaultSkuItem = sItem.chidren.findIndex(
           (_item) =>
             _item.isSelected && (canSelectedWhenAllSpecDisabled || !_item.isDisabled)
@@ -252,10 +260,10 @@ const HandledSpec = ({
             // de设置最小的
             sItem.chidren[0].selected = true;
           } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isDisabled) {
-            sItem.chidren[1].selected = true;
+            sItem.chidren[1].selected = true;debugger
           } else {
             for (let i = 0; i < sItem.chidren.length; i++) {
-              if (!sItem.chidren[i].isDisabled) {
+              if (!sItem.chidren[i].isDisabled) {debugger
                 sItem.chidren[i].selected = true;
                 break;
               }
@@ -264,7 +272,7 @@ const HandledSpec = ({
             if (
               sItem.chidren.filter((el: any) => el.selected).length === 0 &&
               sItem.chidren.length
-            ) {
+            ) {debugger
               // 取第一个规格
               if (canSelectedWhenAllSpecDisabled) {
                 sItem.chidren[0].selected = true;
@@ -283,11 +291,13 @@ const HandledSpec = ({
         return sItem;
       });
       onIsSpecAvailable(!isAllSpecDisabled);
-    } else {
+    } else {debugger
       goodsInfos[0].selected = true;
     }
     setSizeList(goodsInfos);
+    console.log(111111,goodsInfos)
   }, [details.goodsNo, renderAgin]);
+
   useEffect(() => {
     (async () => {
       if (sizeList?.length) {
@@ -316,7 +326,7 @@ const HandledSpec = ({
               {sItem.chidren?.map((sdItem: any, i: number) => (
                 <div
                   key={i}
-                  className={cn(`rc-swatch__item`, {
+                  className={cn(`rc-swatch__item ddd`, {
                     selected: sdItem.selected,
                     outOfStock: sdItem.isDisabled && !sdItem.canSelectedOutOfStock,
                   })}

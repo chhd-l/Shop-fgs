@@ -21,10 +21,10 @@ import {
 } from '@/utils/utils';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
-import ProductCarousel from '@/components/ProductCarousel';
 import { findPetProductForClub } from '@/api/subscription';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
+import { ProductCarousel } from '@/components/Product';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -361,8 +361,13 @@ class PetForm extends React.Component {
         filters: ''
       }
     };
-    const { currentPet, selectedSizeObj, isMobile, isCat, petList } =
-      this.state;
+    const {
+      currentPet,
+      selectedSizeObj,
+      isMobile,
+      isCat,
+      petList
+    } = this.state;
     let isChoosePetType = isCat !== null;
     const isPrescriptiongGate = this.props.location.search
       .substring(1)

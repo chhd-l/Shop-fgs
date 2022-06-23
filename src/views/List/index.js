@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import PLPCover from '@/components/PLPCover';
+import { PLPCover } from '@/components/Product';
 import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -48,6 +48,7 @@ import TopDesc from './modules/TopDesc';
 import cn from 'classnames';
 import { Canonical } from '@/components/Common';
 import './index.less';
+import { getConfig } from '@/api';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
 const isHub = window.__.env.REACT_APP_HUB;
@@ -56,11 +57,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1486,7 +1486,6 @@ class List extends React.Component {
         break;
       }
     }
-    searchForm.maxMarketPrice = this.props?.configStore?.maxGoodsPrice;
     let params = {
       cateType,
       storeId: window.__.env.REACT_APP_STOREID,
@@ -1518,7 +1517,22 @@ class List extends React.Component {
         ]
       });
     }
+    if (searchForm.maxMarketPrice === null) {
+      getConfig()
+        .then((res) => {
+          console.log('res', res);
+          this.MygetList(
+            { ...params, maxMarketPrice: res?.context?.maxGoodsPrice },
+            type
+          );
+        })
+        .catch((err) => console.log(err));
+    } else {
+      this.MygetList(params, type);
+    }
+  }
 
+  MygetList(params, type) {
     getList(params)
       .then((res) => {
         const esGoodsStoreGoodsFilterVOList = this.handledAttributeDetailNameEn(
@@ -1572,7 +1586,6 @@ class List extends React.Component {
           ) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1580,11 +1593,11 @@ class List extends React.Component {
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
                 position: (esGoodsPage.number + 1) * (i + 1),
-                url: g.lowGoodsName
-                  ? `${urlPrefix}/${g.lowGoodsName
+                url: g?.lowGoodsName
+                  ? `${urlPrefix}/${g?.lowGoodsName
                       .split(' ')
                       .join('-')
-                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                      .replace('/', '')}-${g?.goodsNo}${this.state.sourceParam}`
                   : ''
               }))
             }),
@@ -1699,9 +1712,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {

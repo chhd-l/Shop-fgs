@@ -36,4 +36,43 @@ const salesCategoryFilterRule2 = (item, type) => {
   return defaultRule();
 };
 
-export { salesCategoryFilterRule, salesCategoryFilterRule2 };
+//猫狗category的顺序配置
+const categorySetting = (cate) => {
+  const setting1 = {
+    cat: 'first',
+    dog: 'last'
+  };
+  const setting2 = {
+    cat: 'last',
+    dog: 'first'
+  };
+  const defaultSetting = (cate) => {
+    return setting1[cate];
+  };
+
+  const newSetting =
+    {
+      ru: () => {
+        return setting2[cate];
+      },
+      mx: () => {
+        return setting2[cate];
+      },
+      de: () => {
+        return setting2[cate];
+      },
+      ca: () => {
+        return setting2[cate];
+      },
+      jp: () => {
+        return setting2[cate];
+      },
+      nl: () => {
+        return setting2[cate];
+      }
+    }[window.__.env.REACT_APP_COUNTRY] || defaultSetting;
+
+  return newSetting(cate);
+};
+
+export { salesCategoryFilterRule, salesCategoryFilterRule2, categorySetting };
