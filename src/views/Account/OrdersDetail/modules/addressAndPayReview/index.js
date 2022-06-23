@@ -294,7 +294,7 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
             ) : null}
             {details.paymentItem === 'cod' ? (
               <PaymentMethodContainer>
-                <div className="flex items-center">
+                <div className="flex items-center pt-4">
                   <LazyLoad>
                     <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
                   </LazyLoad>
