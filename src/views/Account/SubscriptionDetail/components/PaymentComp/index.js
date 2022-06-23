@@ -50,7 +50,7 @@ function CardItem(props) {
       </div>
       <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
-          {data.cardType === 'cod_japan' ? (
+          {data.cardType === 'cod_japan' || data.cardType === 'cod' ? (
             <>
               <div
                 className={`col-4 d-flex flex-column justify-content-center`}
@@ -285,14 +285,26 @@ class PaymentComp extends React.Component {
       ret.forEach((el) => {
         el.canOperated = true;
       });
-      if (payWayNameArr.find((p) => p.code === 'cod_japan')) {
-        ret = ret.concat({
-          cardType: 'cod_japan',
-          paymentVendor: 'cod_japan',
-          payPspItemEnum: 'JAPAN_COD',
-          pspName: 'JAPAN_COD',
-          canOperated: false
-        });
+      if (
+        payWayNameArr.find((p) => p.code === 'cod_japan' || p.code === 'cod')
+      ) {
+        if (payWayNameArr.find((p) => p.code === 'cod')) {
+          ret = ret.concat({
+            cardType: 'cod',
+            paymentVendor: 'cod',
+            payPspItemEnum: 'COD',
+            pspName: 'cod',
+            canOperated: false
+          });
+        } else {
+          ret = ret.concat({
+            cardType: 'cod_japan',
+            paymentVendor: 'cod_japan',
+            payPspItemEnum: 'JAPAN_COD',
+            pspName: 'JAPAN_COD',
+            canOperated: false
+          });
+        }
       }
       // 处理moto支付不显示支付卡片信息
       if (

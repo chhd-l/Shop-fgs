@@ -565,6 +565,8 @@ class SubscriptionDetail extends React.Component {
           currentCardInfo:
             subDetail.paymentMethod === 'JAPAN_COD'
               ? { pspName: 'JAPAN_COD' }
+              : subDetail.paymentMethod === 'PAYU_RUSSIA_COD'
+              ? { pspName: 'cod' }
               : subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
