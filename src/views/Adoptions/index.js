@@ -302,7 +302,7 @@ const Adoptions = (props) => {
 
   // PO bind shelterId, country:us
   const addShelterId = async (shelterId) => {
-    const customerId = loginStore.userInfo.customerId || '';
+    const customerId = loginStore?.userInfo?.customerId || '';
     if (customerId) {
       await saveShelterId({
         shelterId,
