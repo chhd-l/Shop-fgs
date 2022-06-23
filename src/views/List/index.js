@@ -1031,7 +1031,7 @@ class List extends React.Component {
             ) ||
             tempArr.includes(pathname.replace(/\/$/, '')) ||
             tempArr.filter((item) => {
-              if (item) {
+              if (item && item != '?') {
                 return item?.includes(pathname.replace(/\/$/, ''));
               }
             }).length > 0
