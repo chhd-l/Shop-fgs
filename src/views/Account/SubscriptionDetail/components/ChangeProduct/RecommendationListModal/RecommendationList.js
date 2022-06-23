@@ -9,6 +9,8 @@ import { getClubLogo, formatMoney } from '@/utils/utils';
 import ProductDailyRation from './ProductDailyRation';
 import { ChangeProductContext } from '../index';
 import { SubDetailHeaderContext } from '../../SubDetailHeader';
+import InstockStatusComp from '@/components/InstockStatusComp';
+
 const RecommendationList = ({ productDetail, goMoreProducts }) => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
@@ -18,6 +20,12 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
     productDetail.otherProducts.length > 0
       ? productDetail.otherProducts.length * 280
       : 280;
+
+  const mainProductStock = productDetail.mainProduct?.goodsInfos?.some(
+    (el) => el.stock
+  );
+  console.log(productDetail, mainProductStock, 'productDetail');
+
   return (
     <>
       <ErrorMessage msg={errMsg} />
@@ -94,6 +102,9 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
                       {formatMoney(productDetail.mainProduct?.fromPrice)}
                     </span>
                   )}
+                </div>
+                <div className="text-center mt-3">
+                  <InstockStatusComp status={mainProductStock} />
                 </div>
                 <div className="d-flex justify-content-center mt-3 testtest">
                   <span
@@ -202,6 +213,11 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
                           {formatMoney(ele?.fromPrice)}
                         </span>
                       )}
+                    </div>
+                    <div className="text-center mt-2">
+                      <InstockStatusComp
+                        status={ele?.goodsInfos?.some((el) => el.stock)}
+                      />
                     </div>
                     <div className="d-flex justify-content-center mt-3">
                       <span
