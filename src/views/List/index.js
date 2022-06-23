@@ -48,6 +48,7 @@ import TopDesc from './modules/TopDesc';
 import cn from 'classnames';
 import { Canonical } from '@/components/Common';
 import './index.less';
+import { getConfig } from '@/api';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
 const isHub = window.__.env.REACT_APP_HUB;
@@ -1486,7 +1487,6 @@ class List extends React.Component {
         break;
       }
     }
-    searchForm.maxMarketPrice = this.props?.configStore?.maxGoodsPrice;
     let params = {
       cateType,
       storeId: window.__.env.REACT_APP_STOREID,
@@ -1518,7 +1518,22 @@ class List extends React.Component {
         ]
       });
     }
+    if (searchForm.maxMarketPrice === null) {
+      getConfig()
+        .then((res) => {
+          console.log('res', res);
+          this.MygetList(
+            { ...params, maxMarketPrice: res?.context?.maxGoodsPrice },
+            type
+          );
+        })
+        .catch((err) => console.log(err));
+    } else {
+      this.MygetList(params, type);
+    }
+  }
 
+  MygetList(params, type) {
     getList(params)
       .then((res) => {
         const esGoodsStoreGoodsFilterVOList = this.handledAttributeDetailNameEn(
@@ -1572,7 +1587,6 @@ class List extends React.Component {
           ) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1580,11 +1594,11 @@ class List extends React.Component {
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
                 position: (esGoodsPage.number + 1) * (i + 1),
-                url: g.lowGoodsName
-                  ? `${urlPrefix}/${g.lowGoodsName
+                url: g?.lowGoodsName
+                  ? `${urlPrefix}/${g?.lowGoodsName
                       .split(' ')
                       .join('-')
-                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                      .replace('/', '')}-${g?.goodsNo}${this.state.sourceParam}`
                   : ''
               }))
             }),
