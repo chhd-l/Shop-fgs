@@ -47,6 +47,7 @@ import TopDesc from './modules/TopDesc';
 import cn from 'classnames';
 import { Canonical } from '@/components/Common';
 import './index.less';
+import { getConfig } from '@/api';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
 const isHub = window.__.env.REACT_APP_HUB;
@@ -1027,7 +1028,13 @@ class List extends React.Component {
           return (
             tempArr.includes(
               decodeURIComponent(pathname.replace(/\/$/, '') + search)
-            ) || tempArr.includes(pathname.replace(/\/$/, ''))
+            ) ||
+            tempArr.includes(pathname.replace(/\/$/, '')) ||
+            tempArr.filter((item) => {
+              if (item) {
+                return item?.includes(pathname.replace(/\/$/, ''));
+              }
+            }).length > 0
           );
         })[0];
 
