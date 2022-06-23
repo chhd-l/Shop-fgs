@@ -1,13 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-
+import './index.less'
 interface Props {
   status: Boolean;
 }
 
 const InstockStatusComp = ({ status }: Props) => {
   return (
-    <div className="stock__wrapper">
+    <div className="stock__wrapper stock__wrapper_comp">
       <div className="stock">
         {status ? (
           <>
