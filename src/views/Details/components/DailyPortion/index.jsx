@@ -17,6 +17,11 @@ import BcsSelect from './components/BcsSelect';
 import DailyPortion_icon_text from '@/assets/images/dailyPortion/dailyPortion_icon.png';
 import { optimizeImage } from '@/utils/utils';
 import './index.less';
+import {
+  GAForDailyPortionToolScreenBCS,
+  GAForDailyPortionToolScreenPetInfo,
+  GAForDailyPortionToolScreenResults
+} from '@/utils/GA/dailyPortionTool';
 
 /**
  * questionDisplayType / name
@@ -344,6 +349,7 @@ const questionList = [
     },
     possibleValues: [
       {
+        // "Low"
         key: 3,
         label: <FormattedMessage id={'dailyPortion.bcs.underweight'} />,
         description: (
@@ -351,6 +357,7 @@ const questionList = [
         )
       },
       {
+        //  "Medium"
         key: 5,
         label: <FormattedMessage id={'dailyPortion.bcs.Ideal'} />,
         description: (
@@ -358,6 +365,7 @@ const questionList = [
         )
       },
       {
+        // "High"
         key: 7,
         label: <FormattedMessage id={'dailyPortion.bcs.Overweight'} />,
         description: (
@@ -523,8 +531,12 @@ export default function DailyPortion({
 
   const showQuestion = () => {
     setShowQuestion(true);
+    GAForDailyPortionToolScreenPetInfo();
   };
-
+  const handleToStep2 = () => {
+    setStep(2);
+    GAForDailyPortionToolScreenBCS();
+  };
   const dailyPortionLifeStage = async (param) => {
     const res = await getDailyPortionLifeStage(param);
     if (res.code === 'K-000000') {
@@ -654,6 +666,13 @@ export default function DailyPortion({
             quantityPerDay: res?.context?.quantityPerDay ?? 0,
             unit: res?.context?.unit ?? ''
           });
+          const gaParams = {
+            month,
+            year,
+            quantityPerDay: res?.context?.quantityPerDay,
+            ...param
+          };
+          GAForDailyPortionToolScreenResults(gaParams);
           setStep(3);
           break;
         case 'K-000089':
@@ -824,7 +843,7 @@ export default function DailyPortion({
                   'rc-btn rc-btn--one rc-margin-right--xs--mobile',
                   { 'rc-btn-solid-disabled': stepOneDisabled || errOperate }
                 )}
-                onClick={() => setStep(2)}
+                onClick={handleToStep2}
               >
                 <FormattedMessage id="continue" />
               </button>
