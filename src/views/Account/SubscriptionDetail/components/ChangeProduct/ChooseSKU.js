@@ -8,6 +8,7 @@ import {
 } from '@/api/subscription';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
 import { formatMoney, getDeviceType } from '@/utils/utils';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import find from 'lodash/find';
 import { ChangeProductContext } from './index';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
@@ -223,25 +224,27 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     }, 1000);
   };
   let seleced = quantity < stock && skuPromotions == 'club';
-
+  console.log(details, 'details==');
   return (
     <React.Fragment>
       <ErrorMessage msg={errorMsgSureChange} />
       <div className="d-flex md:justify-between md:items-center">
         <div className="d-flex flex-col md:flex-row w-full md:w-auto items-center">
-          <div className="d-flex rc-margin-right--xs items-center">
+          <div className="flex flex-col">
+            <div
+              className="text-base font-medium mb-2"
+              style={{ maxWidth: '200px' }}
+            >
+              {details.goodsName}
+            </div>
             <img
               src={details.goodsImg}
-              style={{ height: '4rem' }}
+              className="h-24 object-contain w-auto"
               alt={details.goodsName}
             />
-            <div className="rc-margin-left--xs" style={{ maxWidth: '200px' }}>
-              <div>{details.goodsName}</div>
-              {/* <div>{details.goodsSubtitle}</div> */}
-            </div>
           </div>
-          <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
-            <div className="text-left ml-1 font_size12 pad_b_5">
+          <div className="line-item-quantity text-lg-center mx-6">
+            <div className="text-left mb-2">
               <FormattedMessage id="amount" />:
             </div>
             <div className="d-flex rc-align-children--space-between">
@@ -268,8 +271,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               </strong>
             </div>
           </div>
-          <div className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs -mb-5 md:-mb-0 md:max-w-xs">
-            <div className="specAndQuantity rc-margin-bottom--xs ">
+          <div className="cart-and-ipay -mb-5 md:-mb-0 md:max-w-xs">
+            <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6">
               {details.goodsInfos && (
                 <HandledSpec
                   renderAgin={renderDetailAgin}
@@ -282,20 +285,22 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                   }}
                   setState={setState}
                   updatedSku={matchGoods}
+                  canSelectedOutOfStock={true}
+                  instockStatus={seleced}
                 />
               )}
             </div>
           </div>
           <p
-            className={cn(`frequency rc-margin-right--xs rc-margin-left--xs`, {
+            className={cn(`frequency subscription-detail-frequency px-8`, {
               'subscriptionDetail-choose-frequency': isMobile
             })}
           >
             {skuPromotions != 0 && (
               <FrequencySelection
-                childrenGridCls={['col-span-6', 'col-span-6']}
                 frequencyType={skuPromotions}
                 currentFrequencyId={form.frequencyId}
+                className=""
                 handleConfirm={handleSelectedItemChange}
               />
             )}
@@ -304,6 +309,12 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         <strong className="rc-md-up" style={{ marginTop: '20px' }}>
           = {formatMoney(currentSubscriptionPrice * quantity)}
         </strong>
+      </div>
+      <div className="text-right mb-4">
+        <span className="text-base font-normal">
+          <FormattedMessage id="subscription.backToStockInfo" />
+        </span>
+        <input className="ml-4 border-b-2 border-gray-500 w-80 pl-2 pb-1 text-gray-600 font-light text-base" />
       </div>
       <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0">
         <span

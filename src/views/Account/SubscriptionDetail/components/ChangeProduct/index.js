@@ -222,7 +222,7 @@ const ChangeProduct = () => {
               <p className="recommendatio-wrap-title">
                 <FormattedMessage id="subscriptionDetail.newProduct" />
               </p>
-              <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
+              <div className="rc-outline-light px-6 py-4 recommendatio-wrap-content">
                 <ChooseSKU />
               </div>
             </div>

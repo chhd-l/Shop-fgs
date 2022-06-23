@@ -361,8 +361,13 @@ class PetForm extends React.Component {
         filters: ''
       }
     };
-    const { currentPet, selectedSizeObj, isMobile, isCat, petList } =
-      this.state;
+    const {
+      currentPet,
+      selectedSizeObj,
+      isMobile,
+      isCat,
+      petList
+    } = this.state;
     let isChoosePetType = isCat !== null;
     const isPrescriptiongGate = this.props.location.search
       .substring(1)
