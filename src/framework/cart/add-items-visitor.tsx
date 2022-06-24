@@ -32,6 +32,7 @@ interface CART_ITEM_TYPE {
   goodsInfoId: string; //被选中的规格sku id
   quantity: number; //操作的数量
   goodsInfoFlag: any; //操作的购买方式
+  goods: any; //产品基础信息
 }
 
 const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
@@ -61,7 +62,10 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
       delete selectedGoodsInfo.referenceData;
       delete selectedGoodsInfo.referenceObject;
       delete selectedGoodsInfo.recommendationInfos;
-      cartItem = Object.assign({}, cartItem, selectedGoodsInfo); //把选中的规则，平铺到了最外层吗，同会员购物车数据结构
+      
+      // 把选中的规则，平铺到了最外层，同会员购物车数据结构; 把goods对象平铺到最外层，同会员购物车数据结构
+      cartItem = Object.assign({}, cartItem, cartItem.goods, selectedGoodsInfo);
+      
       // 当前需要加入的产品，是否存在于原购物车中，goodsId-spu goodsInfoId-sku
       const historyItemIdx = findIndex(
         cartDataCopy,

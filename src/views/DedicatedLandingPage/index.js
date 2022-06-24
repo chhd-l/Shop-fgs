@@ -24,6 +24,7 @@ import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
 import './index.css';
 import { Canonical } from '@/components/Common';
 import cn from 'classnames';
+import { handleSizeList } from '@/framework/product';
 
 const localItemRoyal = window.__.localItemRoyal;
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -260,37 +261,26 @@ class DedicatedLandingPage extends React.Component {
   async hanldeUnloginAddToCart(choosedProduct, unProductList) {
     let { promotionCode } = this.state;
     await this.props.checkoutStore.setPromotionCode(promotionCode);
-
-    let specList = unProductList.goodsSpecs;
-    let specDetailList = unProductList.goodsSpecDetails;
-    if (specList) {
-      specList.map((sItem) => {
-        sItem.chidren = specDetailList.filter((sdItem, i) => {
-          return sdItem.specId === sItem.specId;
-        });
-        sItem.chidren.map((child) => {
-          if (
-            choosedProduct?.mockSpecDetailIds.indexOf(child.specDetailId) > -1
-          ) {
-            child.selected = true;
-          }
-          return child;
-        });
-        return sItem;
-      });
-    }
+    unProductList.goodsInfos = unProductList.goodsInfos.map((g) => {
+      g.selected = g.goodsInfoId === choosedProduct.goodsInfoId;
+      return g;
+    });
+    unProductList.sizeList = handleSizeList({
+      goodsInfos: unProductList.goodsInfos,
+      goodsSpecDetails: unProductList.goodsSpecDetails,
+      goodsSpecs: unProductList.goodsSpecs,
+      defaultSkuId: choosedProduct.goodsInfoId
+    });
 
     await AddCartItemsVisitor({
       cartItemList: [
         Object.assign(
           {},
-          { ...unProductList, ...unProductList.goods },
+          { ...unProductList },
           {
             selected: true,
-            sizeList: unProductList.goodsInfos,
             goodsInfo: { ...choosedProduct },
             quantity: 1,
-            currentUnitPrice: choosedProduct?.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
             recommendationInfos:
@@ -310,8 +300,7 @@ class DedicatedLandingPage extends React.Component {
               (e) =>
                 e.taggingType === 'Image' &&
                 e.showPage?.includes('Shopping cart page')
-            )[0],
-            goodsSpecs: specList
+            )[0]
           }
         )
       ],

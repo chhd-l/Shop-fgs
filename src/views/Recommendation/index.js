@@ -243,11 +243,10 @@ class Help extends React.Component {
       cartItemList: products.map((p) => {
         return Object.assign(
           p,
-          { ...p.goods, ...p.goodsInfo.goods },
+          { ...p.goods },
           {
             selected: true,
             quantity: p.recommendationNumber,
-            currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
             //推荐链接购买商品，推荐者信息跟着商品走
