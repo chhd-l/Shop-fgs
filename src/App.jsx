@@ -206,6 +206,9 @@ const Tailorednutrition = loadable(() =>
 const US_Tailorednutrition = loadable(() =>
   import('@/views/StaticPage/Tailorednutrition/US_index')
 );
+const FR_Tailorednutrition = loadable(() =>
+  import('@/views/StaticPage/Tailorednutrition/FR_index')
+);
 const OnlineStore = loadable(() => import('@/views/StaticPage/OnlineStore'));
 // import OnlineStore from '@/views/StaticPage/OnlineStore';
 const QualitySafety = loadable(() =>
@@ -1035,6 +1038,7 @@ const App = () => {
                       case 'uk':
                         return <US_Tailorednutrition {...props} />;
                       case 'mx':
+                        return <FR_Tailorednutrition {...props} />;
                       case 'fr':
                         return <Tailorednutrition {...props} />;
                       default:
