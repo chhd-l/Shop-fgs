@@ -318,7 +318,7 @@ class PetForm extends React.Component {
     }
   };
   petTypeChange(isCat) {
-    debugger;
+    // debugger;
     this.setState({
       isCat
     });
