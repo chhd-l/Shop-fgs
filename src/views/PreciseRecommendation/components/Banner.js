@@ -199,9 +199,6 @@ const Banner = ({
       console.info('err');
       return;
     }
-    if (!addCartBtnStatus) {
-      return;
-    }
     let petInfo = Object.assign({}, customerPetsVo, {
       petType: 'cat'
     });
@@ -408,9 +405,9 @@ const Banner = ({
                                 <button
                                   onClick={handleBuyNow}
                                   className={cn(`rc-btn rc-btn--one`, {
-                                    'ui-btn-loading': loading,
-                                    'rc-btn-solid-disabled': !addCartBtnStatus
+                                    'ui-btn-loading': loading
                                   })}
+                                  disabled={!addCartBtnStatus}
                                   style={{ width: '300px', padding: '10px' }}
                                 >
                                   <FormattedMessage id="preciseNutrition.banner.button" />
@@ -574,10 +571,10 @@ const Banner = ({
             <button
               style={{ width: 160 }}
               onClick={handleBuyNow}
-              className={`rc-btn rc-btn--one
-          ${loading ? 'ui-btn-loading' : ''} ${
-                addCartBtnStatus ? '' : 'rc-btn-solid-disabled'
-              }`}
+              className={cn(`rc-btn rc-btn--one`, {
+                'ui-btn-loading': loading
+              })}
+              disabled={!addCartBtnStatus}
             >
               <FormattedMessage id="preciseNutrition.banner.button" />
             </button>

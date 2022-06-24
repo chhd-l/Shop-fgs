@@ -14,7 +14,10 @@ import { ChangeProductContext } from './index';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { inject, observer } from 'mobx-react';
 import { QuantityPicker } from '@/components/Product';
+import stores from '@/store';
 import cn from 'classnames';
+
+const loginStore = stores.loginStore;
 
 const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -27,6 +30,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(null);
   const [isSpecAvailable, setIsSpecAvailable] = useState(false);
+  const [userEmail, setUserEmail] = useState(loginStore?.userInfo?.email || '');
+  const [correctEmail, setCorrectEmail] = useState(true);
+  const [alreadyNotice, setAlreadyNotice] = useState(false);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
@@ -53,8 +59,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
-    useState(null);
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
+    null
+  );
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
@@ -223,7 +230,29 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
       setErrorMsgSureChange('');
     }, 1000);
   };
+
+  const handleEmailChange = (e) => {
+    const emailVal = e.target.value;
+    const emailVerify = EMAIL_REGEXP.test(emailVal);
+    console.log(emailVal, emailVerify, 'vvv');
+    if (emailVerify !== correctEmail) setCorrectEmail(emailVerify);
+    setUserEmail(emailVal);
+  };
+
+  const handleNotifyMe = () => {
+    console.log(454545);
+    //api request
+    if (true) {
+      setAlreadyNotice(true);
+    }
+  };
+
+  const handleModifyEmail = () => {
+    setAlreadyNotice(false);
+  };
+
   let seleced = quantity < stock && skuPromotions == 'club';
+  let outOfStockStatus = quantity > stock;
   console.log(details, 'details==');
   return (
     <React.Fragment>
@@ -310,12 +339,57 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           = {formatMoney(currentSubscriptionPrice * quantity)}
         </strong>
       </div>
-      <div className="text-right mb-4">
-        <span className="text-base font-normal">
-          <FormattedMessage id="subscription.backToStockInfo" />
-        </span>
-        <input className="ml-4 border-b-2 border-gray-500 w-80 pl-2 pb-1 text-gray-600 font-light text-base" />
-      </div>
+      {outOfStockStatus ? (
+        <div className=" mb-6 flex justify-end items-end">
+          <span className="text-base font-normal">
+            <FormattedMessage
+              id={
+                alreadyNotice
+                  ? 'subscription.backToStockInfoActivated'
+                  : 'subscription.backToStockInfo'
+              }
+            />
+          </span>
+          <div
+            className={`${
+              correctEmail ? 'correct-format-input-box' : 'active-input-box'
+            }`}
+          >
+            <input
+              className={`email-input ml-4 pl-2  font-light text-base ${
+                alreadyNotice ? '' : 'border-b-2 pb-1 w-80'
+              }`}
+              onChange={handleEmailChange}
+              maxLength="50"
+              value={userEmail}
+            />
+            {correctEmail ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 absolute right-1 top-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            ) : null}
+          </div>
+          {alreadyNotice ? (
+            <button
+              className="rc-btn rc-btn--two rc-btn--sm ml-6"
+              onClick={handleModifyEmail}
+            >
+              <FormattedMessage id="modifyEmail" />
+            </button>
+          ) : null}
+        </div>
+      ) : null}
       <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0">
         <span
           className={cn(`text-plain rc-styled-link my-2 md:my-0`, {
@@ -344,7 +418,17 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           >
             <FormattedMessage id="subscription.productDetails" />
           </button>
-          {isNotInactive && (
+          {outOfStockStatus ? (
+            <button
+              className={cn(`rc-btn rc-btn--one rc-btn--sm`, {
+                'rc-btn-solid-disabled': !correctEmail || alreadyNotice
+              })}
+              disabled={!correctEmail || alreadyNotice}
+              onClick={handleNotifyMe}
+            >
+              <FormattedMessage id="notifyMe" />
+            </button>
+          ) : isNotInactive ? (
             <button
               onClick={() => changePets(seleced)}
               className={cn(`rc-btn rc-btn--one rc-btn--sm`, {
@@ -355,7 +439,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             >
               <FormattedMessage id="subscription.changeNow" />
             </button>
-          )}
+          ) : null}
         </div>
       </div>
     </React.Fragment>

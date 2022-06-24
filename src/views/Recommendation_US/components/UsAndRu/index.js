@@ -3,6 +3,7 @@ import LazyLoad from 'react-lazyload';
 import Help from '../../../SmartFeederSubscription/modules/Help';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import usDog from '../../images/2usChange.jpg';
+import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const howImageArr = [
@@ -149,9 +150,10 @@ const UsAndRu = (props) => {
                 <FormattedMessage id="recommendation.plusContent" />
               </p>
               <button
-                className={`rc-btn rc-btn--two rc-margin-top--sm ${
-                  props.buttonLoading ? 'ui-btn-loading' : ''
-                } ${props.addCartBtnStatus ? '' : 'rc-btn-disabled'}`}
+                className={cn(`rc-btn rc-btn--two rc-margin-top--sm`, {
+                  'ui-btn-loading': props.buttonLoading
+                })}
+                disabled={!props.addCartBtnStatus}
                 onClick={props.addCart}
               >
                 <FormattedMessage id="recommendation.plusBtn" />
@@ -236,10 +238,12 @@ const UsAndRu = (props) => {
             </div>
             <p>
               <button
-                className={`rc-btn rc-btn--one rc-margin-y--xs mr-auto ml-auto ${
-                  props.buttonLoading ? 'ui-btn-loading' : ''
-                } ${props.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                className={cn(
+                  `rc-btn rc-btn--one rc-margin-y--xs mr-auto ml-auto`,
+                  { 'ui-btn-loading': props.buttonLoading }
+                )}
                 onClick={props.addCart}
+                disabled={!props.addCartBtnStatus}
               >
                 Place order
               </button>

@@ -1,6 +1,12 @@
 import { loadJS, filterObjectValue } from '@/utils/utils';
 import { getSpecies } from '@/utils/GA';
 
+const purchaseType = {
+  0: 'Single purchase',
+  1: 'Autoship',
+  2: 'Club'
+};
+
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
     .filter((attr) => attr?.goodsAttributeName?.toLowerCase() == keyWords)
@@ -232,11 +238,22 @@ const GAPdpRecommendedProductClick = (el) => {
   }
 };
 
+const pushPurchaseGA = (type) => {
+  window.dataLayer &&
+    window.dataLayer.push({
+      event: `pdpPurchaseTypeChange`,
+      pdpPurchaseTypeChange: {
+        newItem: purchaseType[type]
+      }
+    });
+};
+
 export {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
   hubGAAToCar,
   HubGaPdpBuyFromRetailer,
   GAPdpSizeChange,
-  GAPdpRecommendedProductClick
+  GAPdpRecommendedProductClick,
+  pushPurchaseGA
 };
