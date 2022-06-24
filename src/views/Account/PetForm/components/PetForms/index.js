@@ -154,8 +154,17 @@ const PetForms = ({
       let lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
       let activityOptions = await getDictionary({ type: 'Activity' });
       // 'specialNeeds'
+      const country = window.__.env.REACT_APP_COUNTRY;
+      let type;
+      switch (country) {
+        case 'jp':
+          type = isCat ? 'specialNeeds_cat' : 'specialNeeds_dog';
+          break;
+        default:
+          type = 'specialNeeds';
+      }
       let specialNeedsOptions = await getDictionary({
-        type: isCat ? 'specialNeeds_cat' : 'specialNeeds_dog'
+        type
       }); //为了暂时解决fr的字典问题，后期字典应该还会调整，每个国家这里的字典都有区别
       lifestyleOptions.map((el) => {
         el.value = el.valueEn;
@@ -166,7 +175,6 @@ const PetForms = ({
       specialNeedsOptions.map((el) => {
         el.value = el.valueEn;
       });
-      debugger;
       setLifestyleOptions(lifestyleOptions);
       setActivityOptions(activityOptions);
       setSpecialNeedsOptions(specialNeedsOptions);
