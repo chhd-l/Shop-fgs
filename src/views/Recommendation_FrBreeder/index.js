@@ -579,11 +579,10 @@ class Recommendation extends React.Component {
       cartItemList: products.map((p) => {
         return Object.assign(
           p,
-          { ...p.goods, ...p.goodsInfo.goods },
+          { ...p.goodsInfo.goods },
           {
             selected: true,
             quantity: p.recommendationNumber,
-            currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: p.goodsInfoFlag,
             periodTypeId: p.defaultFrequencyId,
             recommendationInfos:

@@ -230,15 +230,11 @@ export const GAInitUnLogin = ({
     const calculatedWeeks = getComputedWeeks(frequencyList);
     const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
     for (let [index, item] of mapProductList) {
-      let cur_selected_size =
-        item.sizeList?.filter((item2) => {
-          return item2.selected == true;
-        }) || [];
-      let variant = cur_selected_size[0]?.specText;
-      let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
+      let variant = item?.specText;
+      let goodsInfoNo = item?.goodsInfoNo;
       let price = item.goodsInfoFlag
-        ? cur_selected_size[0]?.subscriptionPrice
-        : cur_selected_size[0]?.marketPrice;
+        ? item.subscriptionPrice
+        : item.marketPrice;
       let subscriptionFrequency = item.form
         ? calculatedWeeks[item.form.frequencyId]
         : '';

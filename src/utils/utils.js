@@ -179,7 +179,7 @@ export async function mergeUnloginCartData() {
         recommendationId: ele.recommendationId,
         recommendationName: ele.recommendationName,
         goodsCategory: ele.goodsCategory,
-        petsId: find(ele.sizeList, (s) => s.selected).petsId,
+        petsId: ele.petsId,
         questionParams: ele.questionParams
       };
     })

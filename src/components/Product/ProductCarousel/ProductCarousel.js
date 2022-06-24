@@ -23,7 +23,8 @@ export default class ProductCarousel extends Component {
       <h2 className="related-prodout-title">
         <FormattedMessage id="recommandedForyou" />
       </h2>
-    )
+    ),
+    onClick: () => {}
   };
   render() {
     const { goodsList } = this.props;

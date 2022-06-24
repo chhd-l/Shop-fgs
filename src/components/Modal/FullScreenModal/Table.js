@@ -42,24 +42,10 @@ export default function Table(props) {
                 <tr className="rc-table__row" key={i}>
                   <td className="rc-table__td">{el.goodsInfoNo}</td>
                   <td className="rc-table__td">{el.goodsName}</td>
-                  <td className="rc-table__td">
-                    {isLogin
-                      ? formatMoney(el.salePrice)
-                      : formatMoney(
-                          el.sizeList.filter((el) => el.selected)[0][
-                            'marketPrice'
-                          ]
-                        )}
-                  </td>
+                  <td className="rc-table__td">{formatMoney(el.salePrice)}</td>
                   <td className="rc-table__td">{el.buyCount + '.00'}</td>
                   <td className="rc-table__td">
-                    {isLogin
-                      ? formatMoney(el.salePrice * el.buyCount)
-                      : formatMoney(
-                          el.sizeList.filter((el) => el.selected)[0][
-                            'marketPrice'
-                          ] * el.quantity
-                        )}
+                    {formatMoney(el.salePrice * el.buyCount)}
                   </td>
                 </tr>
               );

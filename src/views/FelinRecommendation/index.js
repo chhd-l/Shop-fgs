@@ -432,7 +432,6 @@ class FelinRecommendation extends React.Component {
           return Object.assign({}, product, product.goodsInfo, {
             selected: true,
             quantity: product.recommendationNumber,
-            currentUnitPrice: product.goodsInfo?.marketPrice,
             goodsInfoFlag: 0,
             recommendationId: 'L’ Atelier Félin',
             periodTypeId: null,

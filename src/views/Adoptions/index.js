@@ -23,6 +23,7 @@ import {
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
 import cn from 'classnames';
+import { handleSizeList } from '@/framework/product';
 
 let goodsInfoNosObj = {
   'goodsNo-541425': ['Kitten <br/> (3-12 months)'],
@@ -98,7 +99,7 @@ const Adoptions = (props) => {
     let ids = product.goodsInfo.goodsInfoId.split('-');
     for (let id of ids) {
       let res = await getDetail(id);
-      if (res.goodsInfo.stock > 0) {
+      if (res.sizeList.find((s) => s.selected).stock > 0) {
         details.push(res);
       }
     }
@@ -117,50 +118,31 @@ const Adoptions = (props) => {
       requestName(goodsInfoId),
       getFrequencyDict()
     ]);
-    let salePrice = goodsRes.context.goodsInfos.find(
+    const ret = goodsRes.context;
+    let salePrice = ret.goodsInfos.find(
       (el) => el.goodsInfoId == goodsInfoId
     )?.marketPrice;
 
-    let specText = goodsRes.context.goodsInfos.find(
+    let specText = ret.goodsInfos.find(
       (el) => el.goodsInfoId == goodsInfoId
     )?.packSize;
-    let res = Object.assign({}, goodsRes.context, {
+    let res = Object.assign({}, ret, {
       goodsInfoId,
       salePrice,
       specText
     });
     GARecommendationProduct([res], 3, frequencyDictRes);
-    res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
-    // handleFrequencyIdDefault(res, frequencyDictRes);
-    res.sizeList = res.goodsInfos.map((g) => {
-      g = Object.assign({}, g, { selected: false });
-      if (g.goodsInfoId === goodsInfoId) {
-        g.selected = true;
-      }
+    ret.goodsInfos = ret.goodsInfos.map((g) => {
+      g.selected = g.goodsInfoId === goodsInfoId;
       return g;
     });
-    let specList = res.goodsSpecs;
-    let specDetailList = res.goodsSpecDetails;
-    if (specList) {
-      specList.map((sItem) => {
-        sItem.chidren = specDetailList.filter((sdItem, i) => {
-          return sdItem.specId === sItem.specId;
-        });
-        sItem.chidren.map((child) => {
-          if (
-            res.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
-          ) {
-            child.selected = true;
-          }
-          return child;
-        });
-        return sItem;
-      });
-    }
-    //res.goodsSpecDetails = res.goodsSpecDetails;
-    res.goodsSpecs = specList;
-    details = Object.assign({}, res, res.goods, res.goodsInfo?.goods);
-    return details;
+    ret.sizeList = handleSizeList({
+      goodsInfos: ret.goodsInfos,
+      goodsSpecDetails: ret.goodsSpecDetails,
+      goodsSpecs: ret.goodsSpecs,
+      defaultSkuId: goodsInfoId
+    });
+    return ret;
   };
   const handleFrequencyIdDefault = (goodsRes, frequencyList) => {
     let autoshipDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 1);
@@ -191,11 +173,10 @@ const Adoptions = (props) => {
     try {
       await AddCartItemsVisitor({
         cartItemList: products.map((product) => {
-          delete product.goodsInfo.goods;
-          return Object.assign({}, product, product.goodsInfo, {
+          // delete product.goodsInfo.goods;
+          return Object.assign({}, product, {
             selected: true,
             quantity: 1,
-            currentUnitPrice: product.goodsInfo?.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
             // goodsInfoFlag: product.goodsInfoFlag,
@@ -209,6 +190,7 @@ const Adoptions = (props) => {
 
       props.history.push('/cart');
     } catch (err) {
+      console.log('hanldeUnloginAddToCart error', err);
       setBtnLoading(false);
     }
   };
@@ -216,7 +198,7 @@ const Adoptions = (props) => {
     try {
       await AddCartItemsMember({
         paramList: details.map((detail) => ({
-          goodsInfoId: detail.goodsInfo.goodsInfoId,
+          goodsInfoId: detail.sizeList.find((s) => s.selected).goodsInfoId,
           goodsNum: 1,
           recommendationId: shelter.value,
           recommendationName: shelter.name,

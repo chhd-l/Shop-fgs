@@ -1,12 +1,11 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { unique } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types';
-import Selection from '@/components/Selection/index.js';
 import InstockStatusComp from '@/components/InstockStatusComp';
 import { GAPdpSizeChange } from '../../views/Details/GA';
 import cn from 'classnames';
+import { handleSizeList } from '@/framework/product';
 
 interface Props {
   renderAgin?: boolean;
@@ -19,38 +18,40 @@ interface Props {
   canSelectedWhenAllSpecDisabled?: boolean; //是否规格禁用了，仍然可以被选中，eg:规格被禁用了，一般情况不默认选中了；然而，PDP，即使规格被禁用了，仍需被选中，原因是需要返回对应的price信息，以便页面展示用
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   instockStatus?: boolean;
+  defaultSkuNo?: string;
 }
 
 const HandledSpec = ({
   renderAgin,
   details,
   updatedSku,
-  updatedPriceOrCode = () => { },
+  updatedPriceOrCode = () => {},
   defaultSkuId,
   disabledGoodsInfoIds = [],
-  onIsSpecAvailable = () => { },
+  onIsSpecAvailable = () => {},
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   instockStatus = true,
+  defaultSkuNo
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
     details;
-  const [sizeList, setSizeList] = useState([]);
+  const [sizeList, setSizeList] = useState<any[]>([]);
 
   const getPriceOrCode = () => {
     const selectSpecDetailId = goodsSpecs.map((item: any) =>
       item.chidren.find((good: any) => good.selected)
     )?.[0]?.specDetailId;
-    const selectSkuDetail = goodsInfos.find(
-      (item: any) => item.mockSpecDetailIds.includes(selectSpecDetailId)
+    const selectSkuDetail = goodsInfos.find((item: any) =>
+      item.mockSpecDetailIds.includes(selectSpecDetailId)
     );
-    const goodsInfoBarcode = selectSkuDetail?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode
-    const selectPrice = selectSkuDetail?.marketPrice
+    const goodsInfoBarcode =
+      selectSkuDetail?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+    const selectPrice = selectSkuDetail?.marketPrice;
     const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12';
     updatedPriceOrCode({ barcode, selectPrice });
   };
 
-  // tododo 这个方法干嘛的
   const matchGoods = () => {
     // let {
     //   specList,
@@ -85,7 +86,7 @@ const HandledSpec = ({
     idArr = selectedArr.map((el) => el.specDetailId);
     // marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     // currentUnitPrice = goodsInfos?.[0]?.marketPrice;
-    sizeList.map((item, i) => {
+    sizeList.map((item: any) => {
       let specTextArr = [];
       for (let specItem of goodsSpecs) {
         for (let specDetailItem of specItem.chidren) {
@@ -162,143 +163,26 @@ const HandledSpec = ({
     const specDetailId = goodsSpecs.map((item: any) =>
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.specDetailId;
-    const barcode = goodsInfos.find(
-      (item: any) => item.mockSpecDetailIds.includes(specDetailId)
+    const barcode = goodsInfos.find((item: any) =>
+      item.mockSpecDetailIds.includes(specDetailId)
     )?.goodsInfoBarcode;
     updatedPriceOrCode({ barcode, clickEvent: true });
     matchGoods();
   };
 
   useEffect(() => {
-    let choosedSpecsArr: any[] = [];
-    let sizeList = [];
-    // tododo 通过sku查询报错了
-    // 通过sku查询，默认选中此sku
-    if (isSkuNoQuery) {
-      let specsItem = goodsInfos.filter(
-        (item: any) => item.goodsInfoNo == goodsNo
-      );
-
-      choosedSpecsArr =
-        specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-    }
-    // tododo 链接上带skuId参数，好像没有这样的链接
-    // 通过sku查询，默认选中此sku
-    if (defaultSkuId) {
-      let specsItem = goodsInfos.filter(
-        (item: any) => item.goodsInfoId == defaultSkuId
-      );
-
-      choosedSpecsArr =
-        specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-    }
-
-    // 组装购物车的前端数据结构与规格的层级关系
-    if (goodsSpecDetails) {
-      // 是否有规格可用
-      let isAllSpecDisabled = true;
-      goodsSpecs.map((sItem: any, index: any) => {
-        // 该层判断是为了去判断sku是否存在
-        // children为每个规格类别下的详细规则value，比如重量下的1kg、2kg集合
-        sItem.chidren = goodsSpecDetails.filter((sdItem: any, i: number) => {
-          // tododo 为什么只第一个？？
-          if (index === 0) {
-            const filterproducts = goodsInfos.filter((goodEl: any) =>
-              goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-            );
-            sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
-            sdItem.isEmpty = filterproducts.every(
-              (item: any) => item.stock === 0
-            );
-            sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0;
-            sdItem.isDisabled =
-              sdItem.isEmpty ||
-              sdItem.isUnitPriceZero ||
-              disabledGoodsInfoIds.includes(filterproducts[0]?.goodsInfoId);
-            sdItem.canSelectedOutOfStock = sdItem.isEmpty && canSelectedOutOfStock
-            // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-          }
-          return sdItem.specId === sItem.specId;
-        });
-        let defaultSelcetdSku = -1;
-        if (choosedSpecsArr.length) {
-          for (let i = 0; i < choosedSpecsArr.length; i++) {
-            let specDetailIndex = sItem.chidren.findIndex(
-              (el) => el.specDetailId === choosedSpecsArr[i]
-            );
-            if (specDetailIndex > -1) {
-              defaultSelcetdSku = specDetailIndex;
-            }
-          }
-        }
-
-        // tododo isSelected没看到设置的地方？？
-        const isSelectedDefaultSkuItem = sItem.chidren.findIndex(
-          (_item) =>
-            _item.isSelected && (canSelectedWhenAllSpecDisabled || !_item.isDisabled)
-        );
-        // 所有规格都不可用，一旦有可用的，则置为false
-        if (sItem.chidren.some((_item) => !_item.isDisabled)) {
-          isAllSpecDisabled = false;
-        }
-
-        if (defaultSelcetdSku > -1) {
-          // 默认选择该sku
-          if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-            // 如果是sku进来的，需要默认当前sku被选择
-            sItem.chidren[defaultSelcetdSku].selected = true;
-          }
-        } else if (isSelectedDefaultSkuItem > -1) {
-          // sprint6添加的需求，在storePortal设置了defaultSku那么该sku被选中.
-          sItem.chidren[isSelectedDefaultSkuItem].selected = true;
-        } else {
-          if (
-            window.__.env.REACT_APP_COUNTRY === 'de' &&
-            sItem.chidren.length &&
-            !sItem.chidren[0].isEmpty
-          ) {
-            // de设置最小的
-            sItem.chidren[0].selected = true;
-          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isDisabled) {
-            sItem.chidren[1].selected = true; debugger
-          } else {
-            for (let i = 0; i < sItem.chidren.length; i++) {
-              if (!sItem.chidren[i].isDisabled) {
-                debugger
-                sItem.chidren[i].selected = true;
-                break;
-              }
-            }
-            // 如果所有sku都没有库存时
-            if (
-              sItem.chidren.filter((el: any) => el.selected).length === 0 &&
-              sItem.chidren.length
-            ) {
-              debugger
-              // 取第一个规格
-              if (canSelectedWhenAllSpecDisabled) {
-                sItem.chidren[0].selected = true;
-              } else {
-                // 取第一个可用规格
-                const targetItem = sItem.chidren.filter(
-                  (el) => !el.isDisabled
-                )[0];
-                if (targetItem) {
-                  targetItem.selected = true;
-                }
-              }
-            }
-          }
-        }
-        return sItem;
-      });
-      onIsSpecAvailable(!isAllSpecDisabled);
-    } else {
-      debugger
-      goodsInfos[0].selected = true;
-    }
-    setSizeList(goodsInfos);
-    console.log(111111, goodsInfos)
+    const handledGoodsInfos = handleSizeList({
+      defaultSkuNo: isSkuNoQuery && defaultSkuNo ? defaultSkuNo : '',
+      defaultSkuId,
+      goodsInfos,
+      goodsSpecDetails,
+      goodsSpecs,
+      disabledGoodsInfoIds,
+      onIsSpecAvailable,
+      canSelectedWhenAllSpecDisabled,
+      canSelectedOutOfStock
+    });
+    setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
 
   useEffect(() => {
@@ -329,12 +213,16 @@ const HandledSpec = ({
               {sItem.chidren?.map((sdItem: any, i: number) => (
                 <div
                   key={i}
-                  className={cn(`rc-swatch__item ddd`, {
+                  className={cn(`rc-swatch__item`, {
                     selected: sdItem.selected,
-                    outOfStock: sdItem.isDisabled && !sdItem.canSelectedOutOfStock,
+                    outOfStock:
+                      sdItem.isDisabled && !sdItem.canSelectedOutOfStock
                   })}
                   onClick={() => {
-                    if ((sdItem.isDisabled && !sdItem.canSelectedOutOfStock) || sdItem.selected) {
+                    if (
+                      (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||
+                      sdItem.selected
+                    ) {
                       return false;
                     } else {
                       handleChooseSize(sItem.specId, sdItem.specDetailId);
@@ -343,8 +231,14 @@ const HandledSpec = ({
                 >
                   <span
                     style={{
-                      backgroundColor: sdItem.isDisabled && !sdItem.canSelectedOutOfStock ? '#ccc' : '#fff',
-                      cursor: sdItem.isDisabled && !sdItem.canSelectedOutOfStock ? 'not-allowed' : 'pointer'
+                      backgroundColor:
+                        sdItem.isDisabled && !sdItem.canSelectedOutOfStock
+                          ? '#ccc'
+                          : '#fff',
+                      cursor:
+                        sdItem.isDisabled && !sdItem.canSelectedOutOfStock
+                          ? 'not-allowed'
+                          : 'pointer'
                     }}
                   >
                     {/* {parseFloat(sdItem.detailName)}{' '} */}
@@ -354,7 +248,11 @@ const HandledSpec = ({
               ))}
             </div>
           </div>
-          {canSelectedOutOfStock ? <div><InstockStatusComp status={instockStatus} /></div> : null}
+          {canSelectedOutOfStock ? (
+            <div>
+              <InstockStatusComp status={instockStatus} />
+            </div>
+          ) : null}
         </div>
       ))}
     </div>
