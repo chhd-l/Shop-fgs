@@ -146,14 +146,14 @@ const LoginButton = (props) => {
                   }
 
                   // PO bind shelterId, country:us
-                  const shelterId =
-                    sessionItemRoyal.get('handled-shelter') || '';
-                  if (shelterId) {
-                    await saveShelterId({
-                      shelterId,
-                      customerId
-                    });
-                  }
+                  // const shelterId =
+                  //   sessionItemRoyal.get('handled-shelter') || '';
+                  // if (shelterId) {
+                  //   await saveShelterId({
+                  //     shelterId,
+                  //     customerId
+                  //   });
+                  // }
 
                   setIsGetUserInfoDown(true);
                 })

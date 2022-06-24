@@ -13,6 +13,7 @@ import UsAndRu from '../Recommendation_US/components/UsAndRu';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { addItemToBackendCart } from '@/api/cart';
 import { GARecommendationProduct } from '@/utils/GA';
+import { toJS } from 'mobx';
 import { useSeo } from '@/framework/common';
 import stores from '@/store';
 import { getShelterList, saveShelterId } from '@/api/recommendation';
@@ -188,6 +189,16 @@ const Adoptions = (props) => {
     goodsRes.goodsInfoFlag = goodsInfoFlag;
   };
   const hanldeUnloginAddToCart = async (products) => {
+    // unLogin all shelterId update to the latest
+    let unLoginCartData = toJS(checkoutStore.cartData);
+    if (unLoginCartData.length) {
+      unLoginCartData.forEach((item) => {
+        if (item.prefixFn === 'shelter-page') {
+          item.recommendationId = shelter.value;
+        }
+      });
+    }
+    checkoutStore.setCartData(unLoginCartData);
     let cartItem = products.map((product) => {
       return Object.assign({}, product, product.goodsInfo, {
         selected: true,
@@ -198,7 +209,8 @@ const Adoptions = (props) => {
         // goodsInfoFlag: product.goodsInfoFlag,
         // periodTypeId: product.defaultFrequencyId,
         recommendationId: shelter.value,
-        recommendationName: shelter.name
+        recommendationName: shelter.name,
+        prefixFn: 'shelter-page'
       });
     });
     try {
@@ -222,7 +234,8 @@ const Adoptions = (props) => {
         recommendationName: shelter.name,
         currentUnitPrice: detail.goodsInfo?.marketPrice,
         goodsInfoFlag: 0,
-        periodTypeId: null
+        periodTypeId: null,
+        prefixFn: 'shelter-page' //src: this page (adoptions)
         // goodsInfoFlag: detail.goodsInfoFlag,
         // periodTypeId: detail.defaultFrequencyId
       };
@@ -297,19 +310,19 @@ const Adoptions = (props) => {
   const handleSelectChange = (data) => {
     setShelter(data);
     sessionItemRoyal.set('handled-shelter', data.value);
-    addShelterId(data.value);
+    // addShelterId(data.value);
   };
 
   // PO bind shelterId, country:us
-  const addShelterId = async (shelterId) => {
-    const customerId = loginStore?.userInfo?.customerId || '';
-    if (customerId) {
-      await saveShelterId({
-        shelterId,
-        customerId
-      });
-    }
-  };
+  // const addShelterId = async (shelterId) => {
+  //   const customerId = loginStore?.userInfo?.customerId || '';
+  //   if (customerId) {
+  //     await saveShelterId({
+  //       shelterId,
+  //       customerId
+  //     });
+  //   }
+  // };
 
   const GAShelterLPdropdownClick = () => {
     dataLayer.push({

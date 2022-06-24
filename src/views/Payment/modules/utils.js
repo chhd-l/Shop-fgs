@@ -80,13 +80,14 @@ export function handleRecoProductParamByItem({
   const curPetInfo = petList.find(
     (p) => p.petsId === petSelectedIds[auditProductIdx]
   );
+  let _prefixFn = ele.prefixFn === 'shelter-page' ? '' : ele.prefixFn;
 
   return {
     //shelter和breeder产品参数 start
     utmSource: ele.utmSource || '',
     utmMedium: ele.utmMedium || '',
     utmCampaign: ele.utmCampaign || '',
-    prefixFn: ele.prefixFn || '',
+    prefixFn: _prefixFn || '',
     prefixBreed: ele.prefixBreed || '',
     //shelter和breeder产品参数 end
     referenceObject,

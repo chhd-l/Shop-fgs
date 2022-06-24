@@ -360,8 +360,9 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   handelQrcodeModalClose = async () => {
     try {
@@ -401,10 +402,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -415,10 +415,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -2491,6 +2490,26 @@ class Payment extends React.Component {
         expirationDate: payosdata.expiration_date
       });
     }
+
+    //from adoptions page,shelter-landingPage
+    const shelterLandingPageData = loginCartData.filter(
+      (el) => el.prefixFn === 'shelter-page'
+    );
+    if (shelterLandingPageData.length) {
+      // shelterLandingPageData.forEach(el => el.addCartTime = Math.round(new Date(el.createTime)))
+      // shelterLandingPageData.sort((a, b) => a.addCartTime - b.addCartTime)
+      const clinicsId = shelterLandingPageData?.[0]?.recommendationId || '';
+      console.log(
+        clinicsId,
+        shelterLandingPageData,
+        shelterLandingPageData?.[0],
+        'recoProductParam-prefixFn:shelter-page'
+      );
+      param = Object.assign(param, {
+        clinicsId
+      });
+    }
+
     // 德国推荐商品
     if (localItemRoyal.get('deRecommendationGoodsId')) {
       if (this.isLogin) {
@@ -3246,10 +3265,9 @@ class Payment extends React.Component {
     // cyber游客绑卡
     const unLoginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3261,10 +3279,9 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
