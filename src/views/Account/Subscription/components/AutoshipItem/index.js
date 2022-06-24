@@ -112,7 +112,7 @@ const AutoshipItem = ({ subItem, history }) => {
           </span>
         </div>
         <div
-          className="col-span-4 md:col-span-2 ml-3 status"
+          className="col-span-6 md:col-span-2 ml-3 status"
           style={{ position: 'relative', paddingLeft: '0.9375rem' }}
         >
           {subItem.subscribeStatus === '0' ? (
@@ -132,7 +132,7 @@ const AutoshipItem = ({ subItem, history }) => {
             </div>
           )}
         </div>
-        <div className="col-span-4 md:col-span-2 text-center">
+        <div className="col-span-6 md:col-span-2 text-center">
           <button
             className="rc-btn rc-btn--two rc-btn--sm truncate md:w-11/12"
             // style={{ width: '130px' }}
