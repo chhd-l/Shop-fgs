@@ -45,6 +45,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const deviceType = getDeviceType();
+const country = window.__.env.REACT_APP_COUNTRY;
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
@@ -167,7 +168,9 @@ class ClubLandingPageNew extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-          <BannerTip />
+          <BannerTip
+            showbtn={['fr'].includes(country) ? 'club-subscription' : ''}
+          />
 
           <LongBanner />
 

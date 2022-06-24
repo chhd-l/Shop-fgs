@@ -21,7 +21,7 @@ function Container({ children }) {
   );
 }
 
-const bannerTips = () => {
+const bannerTips = (props) => {
   const [marketingBannerCfg, setMarketingBannerCfg] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +30,8 @@ const bannerTips = () => {
     };
     fetchData();
   }, []);
-
+  // club-subscription 页面不需要展示btn
+  const isShowBtn = props.showbtn ? false : true;
   return (
     <div
       // id="bannerTip"
@@ -55,7 +56,7 @@ const bannerTips = () => {
                     }}
                   />
 
-                  {marketingBannerCfg?.buttonStatus ? (
+                  {marketingBannerCfg?.buttonStatus && isShowBtn ? (
                     <DistributeLinkOrATag
                       url={marketingBannerCfg?.buttonHyperlink}
                       className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
