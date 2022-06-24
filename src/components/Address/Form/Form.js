@@ -1447,7 +1447,7 @@ class Form extends React.Component {
         caninForm.street = data.street;
         caninForm.house = data.house;
         caninForm.housing = data.block;
-        if (data.entrance != '' && data.flat != '') {
+        if (data.entrance != null && data.flat != null) {
           //Datata返回数据为空，就不去把空值赋值给caniform
           caninForm.entrance = data.entrance;
           caninForm.apartment = data.flat;
