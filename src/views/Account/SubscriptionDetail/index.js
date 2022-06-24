@@ -273,6 +273,10 @@ class SubscriptionDetail extends React.Component {
       })
       .catch((err) => {
         this.setState({ loading: false });
+        // 俄罗斯体重限制提示
+        if (err.code === 'K-050330') {
+          this.showTempolineError(err.message);
+        }
       });
     if (this.state.addressType === 'delivery') {
       this.setState({
@@ -798,6 +802,7 @@ class SubscriptionDetail extends React.Component {
         slotTimeChanged: false
       });
     } catch (err) {
+      debugger;
       if (err.code === 'K-050330') {
         // 修改数量，失败时，需重新查询接口
         this.showTempolineError(err.message);
