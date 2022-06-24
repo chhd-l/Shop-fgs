@@ -25,13 +25,12 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
         specText: el.specText
       }))
     : cartData.map((el) => {
-        const selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
         return {
           ...el,
-          goodsInfoImg: selectedSizeItem.goodsInfoImg,
+          goodsInfoImg: el.goodsInfoImg,
           petName: el?.petForm?.petName,
           buyCount: el.quantity,
-          specText: selectedSizeItem.specText || ''
+          specText: el.specText || ''
         };
       });
 

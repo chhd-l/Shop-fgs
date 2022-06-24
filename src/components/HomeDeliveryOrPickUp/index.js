@@ -1,7 +1,7 @@
 /*********
  *
  * File Name: Pick Up
- * Create Time: ‎2021-‎6-1
+ * Create Time: 2021-6-1
  * Author: kzeng@deloitte.com.cn
  * Version: V1.0
  *
@@ -348,13 +348,9 @@ class HomeDeliveryOrPickUp extends React.Component {
             return el.sizeList;
           });
           cartData?.forEach((e) => {
-            e.sizeList.map((sl) => {
-              if (sl.selected) {
-                goodsInfoDetails.push({
-                  goodsInfoId: sl.goodsInfoId,
-                  quantity: e.quantity
-                });
-              }
+            goodsInfoDetails.push({
+              goodsInfoId: e.goodsInfoId,
+              quantity: e.buyCount
             });
           });
         }
@@ -990,10 +986,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             {/* 城市搜索 end */}
 
             {/*
-                要显示选择 homeDelivery or pickup 的场景：
-                  1、游客
-                  2、会员：地址列表为空
-            */}
+                 要显示选择 homeDelivery or pickup 的场景：
+                   1、游客
+                   2、会员：地址列表为空
+             */}
             {pageType != 'onlyPickup' &&
             !allAddressList.length &&
             selectedItem?.homeAndPickup.length > 0

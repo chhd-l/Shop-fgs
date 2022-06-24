@@ -338,10 +338,6 @@ class LoginCart extends React.Component {
                                     </div>
                                     <div className="line-item-total-price justify-content-end pull-right priceBox">
                                       <div className="price relative">
-                                        <div className="strike-through non-adjusted-price">
-                                          null
-                                        </div>
-
                                         {showDiscountPrice && (
                                           <b
                                             className="pricing line-item-total-price-amount light"
@@ -387,9 +383,6 @@ class LoginCart extends React.Component {
                                       </div>
                                       <div className="line-item-total-price justify-content-end pull-right priceBox">
                                         <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                          <div className="strike-through non-adjusted-price">
-                                            null
-                                          </div>
                                           <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
                                             <span
                                               className="iconfont font-weight-bold green"

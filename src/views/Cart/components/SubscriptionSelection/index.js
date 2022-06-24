@@ -25,20 +25,12 @@ const SubscriptionSelection = function (props) {
         }}
         className="line-through"
       >
-        {!isLogin
-          ? formatMoney(
-              pitem.quantity *
-                pitem.sizeList.filter((el) => el.selected)[0].salePrice
-            )
-          : formatMoney(pitem.buyCount * pitem.salePrice)}
+        {formatMoney(pitem.buyCount * pitem.salePrice)}
       </div>
 
       <div style={{ color: '#ec001a' }}>
         {!isLogin
-          ? formatMoney(
-              pitem.quantity *
-                pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
-            )
+          ? formatMoney(pitem.buyCount * pitem.subscriptionPrice)
           : formatMoney(
               isGift
                 ? pitem.buyCount * pitem.settingPrice
@@ -58,18 +50,10 @@ const SubscriptionSelection = function (props) {
         values={{
           val: (
             <span className="product-pricing__card__head__price red rc-padding-y--none medium">
-              {!isLogin
-                ? formatMoney(
-                    pitem.quantity *
-                      pitem.sizeList.filter((el) => el.selected)[0].salePrice -
-                      pitem.quantity *
-                        pitem.sizeList.filter((el) => el.selected)[0]
-                          .subscriptionPrice
-                  )
-                : formatMoney(
-                    pitem.buyCount * pitem.salePrice -
-                      pitem.buyCount * pitem.subscriptionPrice
-                  )}
+              {formatMoney(
+                pitem.buyCount * pitem.salePrice -
+                  pitem.buyCount * pitem.subscriptionPrice
+              )}
             </span>
           )
         }}
@@ -85,11 +69,7 @@ const SubscriptionSelection = function (props) {
       <div className="price text-nowrap flex flex-col justify-end">
         <div>
           {!isLogin
-            ? formatMoney(
-                pitem.quantity *
-                  pitem.sizeList.filter((el) => el.selected)[0]
-                    .subscriptionPrice
-              )
+            ? formatMoney(pitem.buyCount * pitem.subscriptionPrice)
             : formatMoney(
                 isGift
                   ? pitem.buyCount * pitem.settingPrice

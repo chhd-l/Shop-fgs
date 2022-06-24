@@ -170,8 +170,8 @@ export async function mergeUnloginCartData() {
   let params = {
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
-        goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-        goodsNum: ele.quantity,
+        goodsInfoId: ele.goodsInfoId,
+        goodsNum: ele.buyCount,
         goodsInfoFlag: ele.goodsInfoFlag,
         periodTypeId: ele.periodTypeId,
         invalid: false,
