@@ -167,7 +167,7 @@ class ClubLandingPageNew extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-          <BannerTip />
+          <BannerTip showbtn={'club-subscription'} />
 
           <LongBanner />
 
