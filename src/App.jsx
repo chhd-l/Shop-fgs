@@ -217,6 +217,9 @@ const QualitySafety = loadable(() =>
 const US_QualitySafety = loadable(() =>
   import('@/views/StaticPage/QualitySafety/US_index')
 );
+const MX_QualitySafety = loadable(() =>
+  import('@/views/StaticPage/QualitySafety/MX_index')
+);
 const AboutUs = loadable(() => import('@/views/StaticPage/AboutUs'));
 const AboutUsDe = loadable(() => import('@/views/StaticPage/AboutUs/de-index'));
 const AboutMyRoyalCanin = loadable(() =>
@@ -1063,12 +1066,24 @@ const App = () => {
                 <Route
                   path="/Quality-safety"
                   exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY == 'us' ||
-                    window.__.env.REACT_APP_COUNTRY == 'uk'
-                      ? US_QualitySafety
-                      : QualitySafety
-                  }
+                  // component={
+                  //   window.__.env.REACT_APP_COUNTRY == 'us' ||
+                  //   window.__.env.REACT_APP_COUNTRY == 'uk'
+                  //     ? US_QualitySafety
+                  //     : QualitySafety
+                  // }
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'us':
+                        return <US_QualitySafety {...props} />;
+                      case 'uk':
+                        return <US_QualitySafety {...props} />;
+                      case 'mx':
+                        return <MX_QualitySafety {...props} />;
+                      default:
+                        return <QualitySafety {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/shipmentConditions"
