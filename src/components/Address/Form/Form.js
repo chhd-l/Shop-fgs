@@ -520,19 +520,19 @@ class Form extends React.Component {
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       case 'jp':
-        //phoneReg = /^[0]\d{0,10}$/;
-        phoneReg = [
-          {
-            mask: 'Y0000000000',
-            lazy: true,
-            blocks: {
-              Y: {
-                mask: IMask.MaskedEnum,
-                enum: ['0']
-              }
-            }
-          }
-        ];
+        phoneReg = /^[0]\d{0,10}$/;
+        // phoneReg = [
+        //   {
+        //     mask: 'Y0000000000',
+        //     lazy: true,
+        //     blocks: {
+        //       Y: {
+        //         mask: IMask.MaskedEnum,
+        //         enum: ['0']
+        //       }
+        //     }
+        //   }
+        // ];
         break;
       default:
         phoneReg = [{ mask: '00000000000' }];
@@ -1453,8 +1453,11 @@ class Form extends React.Component {
         caninForm.street = data.street;
         caninForm.house = data.house;
         caninForm.housing = data.block;
-        caninForm.entrance = data.entrance;
-        caninForm.apartment = data.flat;
+        if (data.entrance != null && data.flat != null) {
+          //Datata返回数据为空，就不去把空值赋值给caniform
+          caninForm.entrance = data.entrance;
+          caninForm.apartment = data.flat;
+        }
 
         // 这里的Id都是DuData返回的字符串
         caninForm.provinceIdStr = data.provinceId;

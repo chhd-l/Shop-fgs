@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { PLPCover } from '@/components/Product';
+import PLPCover from '@/components/PLPCover';
 import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -33,8 +33,7 @@ import {
   loadJS,
   filterObjectValue,
   stgShowAuth,
-  optimizeImage,
-  sleep
+  optimizeImage
 } from '@/utils/utils';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
@@ -1083,7 +1082,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          this.props.history.push('/404');
+          // this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =
@@ -1493,6 +1492,7 @@ class List extends React.Component {
         break;
       }
     }
+
     let params = {
       cateType,
       storeId: window.__.env.REACT_APP_STOREID,
@@ -1593,6 +1593,7 @@ class List extends React.Component {
           ) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
+
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1604,7 +1605,9 @@ class List extends React.Component {
                   ? `${urlPrefix}/${g?.lowGoodsName
                       .split(' ')
                       .join('-')
-                      .replace('/', '')}-${g?.goodsNo}${this.state.sourceParam}`
+                      .replace('/', '')}-${g?.goodsNo}${
+                      this.state?.sourceParam
+                    }`
                   : ''
               }))
             }),
