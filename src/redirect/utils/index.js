@@ -2,7 +2,7 @@ import RedirectUrlJSON_fr from '../fr';
 import RedirectUrlJSON_ru from '../ru';
 import RedirectUrlJSON_tr from '../tr';
 import fgsJSON_fr from '../fr/fgs';
-import tempHubFrRedirect from '../fr/temp_hub';
+import canonicalRedirection from '../canonical';
 
 let New_RedirectUrlJSON_fr = { ...RedirectUrlJSON_fr };
 
@@ -43,4 +43,7 @@ const redirectFun = () => {
   return RedirectUrlObj;
 };
 
-export { redirectFun, tempHubFrRedirect };
+const canonicalRedirect =
+  canonicalRedirection[window.__.env.REACT_APP_COUNTRY] || [];
+
+export { redirectFun, canonicalRedirect };

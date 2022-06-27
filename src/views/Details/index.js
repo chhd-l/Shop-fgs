@@ -48,7 +48,7 @@ import {
 } from '@/api/details';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
-import { tempHubFrRedirect } from '@/redirect/utils';
+import { canonicalRedirect } from '@/redirect/utils';
 import svg from './details.svg';
 import { QuantityPicker } from '@/components/Product';
 import Help from './components/Help';
@@ -279,7 +279,7 @@ class Details extends React.Component {
     const {
       location: { pathname }
     } = this.props;
-    const redirectUrl = (tempHubFrRedirect?.RECORDS || []).filter(
+    const redirectUrl = canonicalRedirect.filter(
       (t) => decodeURIComponent(t.shortUrl) === decodeURIComponent(pathname)
     )[0]?.redirectUrl;
     if (redirectUrl) {
