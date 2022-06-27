@@ -134,7 +134,7 @@ const DeliveryList = ({
                 <CompletedDelivery
                   subDetail={subDetail}
                   el={el}
-                  isActive={isActive}
+                  isActive={true}
                   i={i}
                   key={i}
                   intl={intl}
