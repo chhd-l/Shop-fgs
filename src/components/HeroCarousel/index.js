@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { stgShowAuth, optimizeImage, getDeviceType } from '@/utils/utils';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const country = window.__.env.REACT_APP_COUNTRY;
 
 function ATagContainer({
   children,
@@ -195,12 +196,20 @@ class HeroCarousel extends React.Component {
             )}
           </div>
           <div className="hero-carousel__slide__content">
-            <div className="rc-gamma inherit-fontsize">
+            <div
+              className={`${
+                ['mx'].includes(country) ? 'mx-carouselInfo1' : 'rc-gamma'
+              } inherit-fontsize`}
+            >
               <div style={{ lineHeight: 1.2 }}>
                 <FormattedMessage id="header.carouselInfo1" />
               </div>
             </div>
-            <div className="rc-body inherit-fontsize">
+            <div
+              className={`rc-body inherit-fontsize ${
+                ['mx'].includes(country) ? 'mx-carouselInfo2' : ''
+              }`}
+            >
               <FormattedMessage id="header.carouselInfo2" />
             </div>
             <div className="hero-carousel__slide__content__btn text-center">
