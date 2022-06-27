@@ -238,14 +238,14 @@ export default {
       shortUrl: '/labrador-retriever-adulte-st%C3%A9rilis%C3%A9-3996',
       redirectUrl: '/labrador-retriever-adulte-st%C3%A9rilis%C3%A9-BC01'
     },
-    {
-      shortUrl: '/maxi-dermacomfort-2444',
-      redirectUrl: '/maxi-dermacomfort-BC02'
-    },
-    {
-      shortUrl: '/maxi-digestive-care-3055',
-      redirectUrl: '/maxi-digestive-care-BC03'
-    },
+    // {
+    //   shortUrl: '/maxi-dermacomfort-2444',
+    //   redirectUrl: '/maxi-dermacomfort-BC02'
+    // },
+    // {
+    //   shortUrl: '/maxi-digestive-care-3055',
+    //   redirectUrl: '/maxi-digestive-care-BC03'
+    // },
 
     {
       shortUrl: '/maxi-light-weight-care-2446',
@@ -254,55 +254,55 @@ export default {
 
     { shortUrl: '/maxi-relax-care-1226', redirectUrl: '/maxi-relax-care-BC05' },
 
-    { shortUrl: '/maxi-sterilised-3035', redirectUrl: '/maxi-sterilised-BC06' },
+    // { shortUrl: '/maxi-sterilised-3035', redirectUrl: '/maxi-sterilised-BC06' },
 
-    {
-      shortUrl: '/medium-dermacomfort-2442',
-      redirectUrl: '/medium-dermacomfort-BC07'
-    },
+    // {
+    //   shortUrl: '/medium-dermacomfort-2442',
+    //   redirectUrl: '/medium-dermacomfort-BC07'
+    // },
 
-    {
-      shortUrl: '/medium-digestive-care-3016',
-      redirectUrl: '/medium-digestive-care-BC08'
-    },
+    // {
+    //   shortUrl: '/medium-digestive-care-3016',
+    //   redirectUrl: '/medium-digestive-care-BC08'
+    // },
 
-    {
-      shortUrl: '/medium-light-weight-care-3021',
-      redirectUrl: '/medium-light-weight-care-BC09'
-    },
+    // {
+    //   shortUrl: '/medium-light-weight-care-3021',
+    //   redirectUrl: '/medium-light-weight-care-BC09'
+    // },
 
     {
       shortUrl: '/medium-relax-care-1225',
       redirectUrl: '/medium-relax-care-BC10'
     },
 
-    {
-      shortUrl: '/medium-sterilised-3034',
-      redirectUrl: '/medium-sterilised-BC11'
-    },
+    // {
+    //   shortUrl: '/medium-sterilised-3034',
+    //   redirectUrl: '/medium-sterilised-BC11'
+    // },
 
-    { shortUrl: '/mini-coat-care-1220', redirectUrl: '/mini-coat-care-BC12' },
+    // { shortUrl: '/mini-coat-care-1220', redirectUrl: '/mini-coat-care-BC12' },
 
-    {
-      shortUrl: '/mini-dermacomfort-2441',
-      redirectUrl: '/mini-dermacomfort-BC13'
-    },
+    // {
+    //   shortUrl: '/mini-dermacomfort-2441',
+    //   redirectUrl: '/mini-dermacomfort-BC13'
+    // },
 
-    {
-      shortUrl: '/mini-digestive-care-2447',
-      redirectUrl: '/mini-digestive-care-BC14'
-    },
+    // {
+    //   shortUrl: '/mini-digestive-care-2447',
+    //   redirectUrl: '/mini-digestive-care-BC14'
+    // },
 
-    { shortUrl: '/mini-exigent-1006', redirectUrl: '/mini-exigent-BC15' },
+    // { shortUrl: '/mini-exigent-1006', redirectUrl: '/mini-exigent-BC15' },
 
-    {
-      shortUrl: '/mini-light-weight-care-3018',
-      redirectUrl: '/mini-light-weight-care-BC16'
-    },
+    // {
+    //   shortUrl: '/mini-light-weight-care-3018',
+    //   redirectUrl: '/mini-light-weight-care-BC16'
+    // },
 
-    { shortUrl: '/mini-relax-care-1224', redirectUrl: '/mini-relax-care-BC17' },
+    // { shortUrl: '/mini-relax-care-1224', redirectUrl: '/mini-relax-care-BC17' },
 
-    { shortUrl: '/mini-sterilised-3185', redirectUrl: '/mini-sterilised-BC18' },
+    // { shortUrl: '/mini-sterilised-3185', redirectUrl: '/mini-sterilised-BC18' },
     {
       shortUrl: '/starter-mother-&-babydog-mini-2990',
       redirectUrl: '/starter-mother-&-babydog-mini-BM01'
@@ -310,6 +310,10 @@ export default {
     {
       shortUrl: '/mini-puppy-3000',
       redirectUrl: '/mini-puppy-BM02'
+    },
+    {
+      shortUrl: '/labrador-retriever-adulte-st%C3%A9rilis%C3%A9-BC01',
+      redirectUrl: '/labrador-retriever-adulte-sterilise-3996'
     }
   ]
 };
