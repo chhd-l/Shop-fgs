@@ -32,6 +32,7 @@ const Loyalty = (props) => {
   };
 
   const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
+  const [stageName, setStageName] = useState('');
 
   const [pageNum, setPageNum] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -49,6 +50,7 @@ const Loyalty = (props) => {
     ownerTotalPoints({ customerId })
       .then((res) => {
         setMyLoyaltyPoints(res.context.totalPoints);
+        setStageName(res.context.stageName);
       })
       .catch((err) => {
         console.log(err.message);
@@ -100,7 +102,8 @@ const Loyalty = (props) => {
                       <FormattedMessage id="account.loyalty.myStage" />
                     </div>
                     <div className="content">
-                      <FormattedMessage id="account.loyalty.bronze" />
+                      {/* <FormattedMessage id="account.loyalty.bronze" /> */}
+                      {stageName}
                     </div>
                   </div>
                   <div className="flex flex-column points">
