@@ -151,12 +151,10 @@ const Banner = ({
     try {
       let cartItem = Object.assign(
         goodsInfo,
-        { ...goodsInfo.goods },
         { goodsInfo: goodsInfo.goods },
         {
           selected: true,
           quantity: goodsInfo.buyCount,
-          currentUnitPrice: goodsInfo.marketPrice,
           goodsInfoFlag: 3,
           isNotShowCart: 1, //加入购物车 但是在header不显示
           questionParams: JSON.stringify(petInfo),

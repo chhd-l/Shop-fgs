@@ -491,7 +491,7 @@ class CheckoutStore {
         .filter((ele) => ele.selected)
         .map((ele) => {
           return {
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+            goodsInfoId: ele.goodsInfoId,
             goodsNum: ele.quantity,
             invalid: false,
             goodsInfoFlag: ele.goodsInfoFlag
@@ -580,16 +580,10 @@ class CheckoutStore {
       let tmpNotSeableProNames = [];
 
       Array.from(data, (item) => {
-        item.sizeList.map((el) => {
-          el.goodsInfoImg = el.goodsInfoImg || item.goodsImg;
-          return el;
-        });
-        const selectedSize = find(item.sizeList, (s) => s.selected);
         const tmpSkuObj = find(
           purchasesRes.goodsInfos,
           (l) =>
-            l.goodsId === item.goodsId &&
-            l.goodsInfoId === selectedSize.goodsInfoId
+            l.goodsId === item.goodsId && l.goodsInfoId === item.goodsInfoId
         );
         const tmpSpuObj = find(
           purchasesRes.goodses,
@@ -597,7 +591,7 @@ class CheckoutStore {
         );
         if (tmpSkuObj) {
           item.addedFlag = tmpSkuObj.addedFlag;
-          selectedSize.stock = tmpSkuObj.stock;
+          item.stock = tmpSkuObj.stock;
           item.saleableFlag = tmpSpuObj.saleableFlag;
           const tmpName = [tmpSkuObj.goodsInfoName, tmpSkuObj.specText]
             .filter((e) => e)
@@ -609,7 +603,7 @@ class CheckoutStore {
           if (tmpSkuObj.delFlag) {
             tmpDeletedProNames.push(tmpName);
           }
-          if (item.quantity > selectedSize.stock) {
+          if (item.quantity > item.stock) {
             tmpOutOfstockProNames.push(tmpName);
           }
           if (!item.saleableFlag) {

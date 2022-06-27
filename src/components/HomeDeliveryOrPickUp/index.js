@@ -333,27 +333,14 @@ class HomeDeliveryOrPickUp extends React.Component {
       let goodsInfoDetails = [];
 
       if (this.props.cartData.length > 0 && fromPage === 'checkout') {
-        //支付页面 计算的购物车里面商品的数据
+        // 支付页面 计算的购物车里面商品的数据
         // 取到购物车里面的 goodsInfoId、购买的sku数量
-        if (isLogin) {
-          let cartData = this.props.cartData?.filter((el) => el.goodsInfoId);
-          cartData?.forEach((e) => {
-            goodsInfoDetails.push({
-              goodsInfoId: e.goodsInfoId,
-              quantity: e.buyCount
-            });
+        cartData?.forEach((e) => {
+          goodsInfoDetails.push({
+            goodsInfoId: e.goodsInfoId,
+            quantity: e.buyCount
           });
-        } else {
-          let cartData = this.props.cartData?.filter((el) => {
-            return el.sizeList;
-          });
-          cartData?.forEach((e) => {
-            goodsInfoDetails.push({
-              goodsInfoId: e.goodsInfoId,
-              quantity: e.buyCount
-            });
-          });
-        }
+        });
       } else if (subscriptionDetail.length > 0 && fromPage === 'subscription') {
         //myaccout subscription页面 计算订阅商品里面的数据
         subscriptionDetail?.forEach((item) => {

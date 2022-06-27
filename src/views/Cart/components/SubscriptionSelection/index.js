@@ -8,12 +8,6 @@ import { toJS } from 'mobx';
 const SubscriptionSelection = function (props) {
   const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
     props;
-  console.log(
-    'toJSasasa',
-    pitem?.sizeList?.filter((el) => el.selected)[0]?.promotions,
-    pitem.form.frequencyId,
-    toJS(pitem)
-  );
 
   // 价格有关的内容
   let priceContent = (

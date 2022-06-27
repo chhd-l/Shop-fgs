@@ -908,12 +908,10 @@ class Details extends React.Component {
         recommendationId: this.props.clinicStore.linkClinicId,
         recommendationName: this.props.clinicStore.linkClinicName
       });
-      // tododo 测试requestJson
       //requestJson是shelter和breeder产品的参数，有就加上
       if (Object.keys(this.state.requestJson).length > 0) {
         cartItem = { ...cartItem, ...this.state.requestJson };
       }
-      // tododo
       await AddCartItemsVisitor({ cartItemList: [cartItem] });
       this.setState({ modalMobileCartSuccessVisible: true });
     } catch (err) {
@@ -1143,6 +1141,7 @@ class Details extends React.Component {
           updatedSku={this.matchGoods.bind(this)}
           updatedPriceOrCode={this.updatedPriceOrCode}
           defaultSkuId={this.state.defaultSkuId}
+          defaultSkuNo={this.state.goodsNo}
         />
         <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
           <span className="amount">
