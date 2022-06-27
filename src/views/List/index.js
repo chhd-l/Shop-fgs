@@ -49,6 +49,7 @@ import cn from 'classnames';
 import { Canonical } from '@/components/Common';
 import './index.less';
 import { getConfig } from '@/api';
+import { canonicalRedirect } from '@/redirect/utils';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
 const isHub = window.__.env.REACT_APP_HUB;
@@ -608,7 +609,12 @@ class List extends React.Component {
       : '';
 
     function h(curSearch) {
-      return `${window.location.origin}${window.location.pathname}${
+      const pathname = window.location.pathname;
+      const redirectUrl =
+        canonicalRedirect.filter(
+          (t) => decodeURIComponent(t.shortUrl) === decodeURIComponent(pathname)
+        )[0]?.redirectUrl || pathname;
+      return `${window.location.origin}${redirectUrl}${
         curSearch ? `?${curSearch}` : ''
       }`;
     }
