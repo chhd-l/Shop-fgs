@@ -58,9 +58,9 @@ const AutoshipItem = ({ subItem, history }) => {
                 title={item.goodsName}
               />
               <span
-                className="text-xs inline-block align-middle ml-2.5 md:w3/5 lg:w-85/100 xl:w-full"
+                className="text-xs inline-block align-middle ml-2.5"
                 style={{
-                  width: isMobile ? 'auto' : 'calc(100% - 6.7rem)'
+                  width: 'calc(100% - 70px)'
                 }}
               >
                 <p
@@ -112,7 +112,7 @@ const AutoshipItem = ({ subItem, history }) => {
           </span>
         </div>
         <div
-          className="col-span-4 md:col-span-2 ml-3 status"
+          className="col-span-6 md:col-span-2 ml-3 status"
           style={{ position: 'relative', paddingLeft: '0.9375rem' }}
         >
           {subItem.subscribeStatus === '0' ? (
@@ -132,7 +132,7 @@ const AutoshipItem = ({ subItem, history }) => {
             </div>
           )}
         </div>
-        <div className="col-span-4 md:col-span-2 text-center">
+        <div className="col-span-6 md:col-span-2 text-center">
           <button
             className="rc-btn rc-btn--two rc-btn--sm truncate md:w-11/12"
             // style={{ width: '130px' }}
