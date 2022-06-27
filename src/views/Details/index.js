@@ -517,13 +517,13 @@ class Details extends React.Component {
         const goodsRes = res?.context?.goods;
         const backgroundSpace = res.context?.goods?.cateId;
         const contextResult = res.context;
-        this.setState({
-          fromPrice: contextResult.fromPrice
-        });
         if (!contextResult) {
           this.setState({ showErrorTip: true });
           return;
         }
+        this.setState({
+          fromPrice: contextResult?.fromPrice
+        });
         // 获取club与autoship字典
         if (res && contextResult && goodsRes) {
           this.setState({
