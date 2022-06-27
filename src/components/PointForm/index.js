@@ -49,6 +49,10 @@ const PointForm = ({ checkoutStore, loginStore }) => {
     );
   };
 
+  const submitEvent = () => {
+    return false;
+  };
+
   useEffect(() => {
     //获取当前积分
     ownerTotalPoints({ customerId })
@@ -100,7 +104,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
         <FormattedMessage id="payment.currentHoldingPoints" />
         <span>{CurrentHoldingPoint} pt</span>
       </div>
-      <form className="form">
+      <form className="form" onSubmit={() => submitEvent()}>
         <label>
           <FormattedMessage id="payment.pointsToUse" />
         </label>
