@@ -1146,9 +1146,13 @@ class Details extends React.Component {
             updatedPriceOrCode={this.updatedPriceOrCode}
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
-            onClickSku={() =>
-              this.setState({ OssReceiveBackNotificationContentVisible: true })
-            }
+            onClickSku={() => {
+              if (!this.state.instockStatus) {
+                this.setState({
+                  OssReceiveBackNotificationContentVisible: true
+                });
+              }
+            }}
             canSelectedOutOfStock
           />
           {isMobile && (
