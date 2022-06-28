@@ -2480,6 +2480,26 @@ class Payment extends React.Component {
         expirationDate: payosdata.expiration_date
       });
     }
+
+    //from adoptions page,shelter-landingPage
+    const shelterLandingPageData = loginCartData.filter(
+      (el) => el.prefixFn === 'shelter-page'
+    );
+    if (shelterLandingPageData.length) {
+      // shelterLandingPageData.forEach(el => el.addCartTime = Math.round(new Date(el.createTime)))
+      // shelterLandingPageData.sort((a, b) => a.addCartTime - b.addCartTime)
+      const clinicsId = shelterLandingPageData?.[0]?.recommendationId || '';
+      console.log(
+        clinicsId,
+        shelterLandingPageData,
+        shelterLandingPageData?.[0],
+        'recoProductParam-prefixFn:shelter-page'
+      );
+      param = Object.assign(param, {
+        clinicsId
+      });
+    }
+
     // 德国推荐商品
     if (localItemRoyal.get('deRecommendationGoodsId')) {
       if (this.isLogin) {
