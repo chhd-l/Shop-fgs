@@ -485,24 +485,26 @@ class PetForm extends React.Component {
                   </LazyLoad>
                 </div>
               </div>
-              <PetForms
-                petList={petList}
-                paramsId={this.props.match.params.id || ''}
-                oldCurrentPet={this.state.oldCurrentPet}
-                currentPetParam={this.state.currentPetParam}
-                selectedSizeObj={selectedSizeObj}
-                selectedSpecialNeeds={this.state.selectedSpecialNeeds}
-                loading={this.state.loading}
-                history={this.props.history}
-                subList={this.state.subList}
-                location={this.props.location}
-                sizeOptions={this.sizeOptions}
-                isCat={isCat}
-                errorMsg={this.state.errorMsg}
-                showErrorMsg={this.showErrorMsg.bind(this)}
-                setState={this.setState.bind(this)}
-                isPrescriptiongGate={isPrescriptiongGate}
-              />
+              {isChoosePetType && (
+                <PetForms
+                  petList={petList}
+                  paramsId={this.props.match.params.id || ''}
+                  oldCurrentPet={this.state.oldCurrentPet}
+                  currentPetParam={this.state.currentPetParam}
+                  selectedSizeObj={selectedSizeObj}
+                  selectedSpecialNeeds={this.state.selectedSpecialNeeds}
+                  loading={this.state.loading}
+                  history={this.props.history}
+                  subList={this.state.subList}
+                  location={this.props.location}
+                  sizeOptions={this.sizeOptions}
+                  isCat={isCat}
+                  errorMsg={this.state.errorMsg}
+                  showErrorMsg={this.showErrorMsg.bind(this)}
+                  setState={this.setState.bind(this)}
+                  isPrescriptiongGate={isPrescriptiongGate}
+                />
+              )}
             </div>
             {/* 土耳其、俄罗斯club绑定订阅,不是indv的时候才能绑定 */}
             {currentPet.petsId &&
