@@ -12,7 +12,8 @@ const api = {
   querySurveyContent: '/survey/active', //us 获取问卷调查内容
   recordSurveyReview: '/survey/views', //统计survey 1 review
   valetGuestMiniCars: `/site/${window.__.env.REACT_APP_STOREID}`,
-  batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add` // 批量加入后台购物车
+  batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add`, // 批量加入后台购物车
+  stockNoticeModify: `/stockNotice/modify` // 批量加入后台购物车
 };
 
 export default api;
@@ -174,6 +175,14 @@ export function valetGuestOrderPaymentResponse(guestId) {
 export function batchAdd(parameter) {
   return axios({
     url: api.batchAdd,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function stockNoticeModify(parameter) {
+  return axios({
+    url: api.stockNoticeModify,
     method: 'post',
     data: parameter
   });

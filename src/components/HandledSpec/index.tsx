@@ -10,6 +10,7 @@ interface Props {
   renderAgin?: boolean;
   details: any;
   updatedSku: Function;
+  onClickSku: () => void;
   updatedPriceOrCode: Function;
   defaultSkuId: string;
   disabledGoodsInfoIds?: string[];
@@ -27,6 +28,7 @@ const HandledSpec = ({
   defaultSkuId,
   disabledGoodsInfoIds = [],
   onIsSpecAvailable = () => {},
+  onClickSku,
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo
@@ -216,6 +218,7 @@ const HandledSpec = ({
                       sdItem.isDisabled && !sdItem.canSelectedOutOfStock
                   })}
                   onClick={() => {
+                    onClickSku();
                     if (
                       (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||
                       sdItem.selected

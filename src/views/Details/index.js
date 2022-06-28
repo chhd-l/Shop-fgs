@@ -77,6 +77,7 @@ import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Mo
 import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 import cloneDeep from 'lodash/cloneDeep';
 import PurchaseMethodB from './components/PurchaseMethodB';
+import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotificationContent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -173,7 +174,8 @@ class Details extends React.Component {
       mixFeedingBtnLoading: false,
       hiddenMixFeedingBanner: false,
       fromPrice: '',
-      versionB: false
+      versionB: false,
+      OssReceiveBackNotificationContentVisible: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -1134,41 +1136,61 @@ class Details extends React.Component {
     } = this.props;
     const { details, quantity, quantityMinLimit, stock } = this.state;
     return (
-      <div className="specAndQuantity rc-margin-bottom--xs ">
-        <HandledSpec
-          canSelectedWhenAllSpecDisabled={true}
-          details={details}
-          setState={this.setState.bind(this)}
-          updatedSku={this.matchGoods.bind(this)}
-          updatedPriceOrCode={this.updatedPriceOrCode}
-          defaultSkuId={this.state.defaultSkuId}
-          defaultSkuNo={this.state.goodsNo}
-        />
-        <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
-          <span className="amount">
-            <FormattedMessage id="amount" />:
-          </span>
-          <div className="quantity d-flex justify-content-between align-items-center">
-            <input
-              type="hidden"
-              id="invalid-quantity"
-              value="Пожалуйста, введите правильный номер."
+      <>
+        <div className="specAndQuantity rc-margin-bottom--xs ">
+          <HandledSpec
+            canSelectedWhenAllSpecDisabled={true}
+            details={details}
+            setState={this.setState.bind(this)}
+            updatedSku={this.matchGoods.bind(this)}
+            updatedPriceOrCode={this.updatedPriceOrCode}
+            defaultSkuId={this.state.defaultSkuId}
+            defaultSkuNo={this.state.goodsNo}
+            onClickSku={() =>
+              this.setState({ OssReceiveBackNotificationContentVisible: true })
+            }
+            canSelectedOutOfStock
+          />
+          {isMobile && (
+            <OssReceiveBackNotificationContent
+              userInfo={this.props.loginStore.userInfo}
+              details={details}
+              visible={this.state.OssReceiveBackNotificationContentVisible}
             />
+          )}
+          <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
+            <span className="amount">
+              <FormattedMessage id="amount" />:
+            </span>
+            <div className="quantity d-flex justify-content-between align-items-center">
+              <input
+                type="hidden"
+                id="invalid-quantity"
+                value="Пожалуйста, введите правильный номер."
+              />
 
-            <QuantityPicker
-              className="rc-quantity"
-              initQuantity={parseInt(quantity)}
-              min={quantityMinLimit}
-              max={skuLimitThreshold?.skuMaxNum}
-              updateQuantity={(val) => {
-                this.setState({ quantity: val }, () =>
-                  this.updateInstockStatus()
-                );
-              }}
-            />
+              <QuantityPicker
+                className="rc-quantity"
+                initQuantity={parseInt(quantity)}
+                min={quantityMinLimit}
+                max={skuLimitThreshold?.skuMaxNum}
+                updateQuantity={(val) => {
+                  this.setState({ quantity: val }, () =>
+                    this.updateInstockStatus()
+                  );
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div>
+        {!isMobile && (
+          <OssReceiveBackNotificationContent
+            userInfo={this.props.loginStore.userInfo}
+            details={details}
+            visible={this.state.OssReceiveBackNotificationContentVisible}
+          />
+        )}
+      </>
     );
   };
 
