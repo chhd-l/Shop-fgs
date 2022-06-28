@@ -175,7 +175,7 @@ class Details extends React.Component {
       hiddenMixFeedingBanner: false,
       fromPrice: '',
       versionB: false,
-      OssReceiveBackNotificationContentVisible: false
+      ossReceiveBackNotificationContentVisible: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -1149,7 +1149,7 @@ class Details extends React.Component {
             onClickSku={() => {
               if (!this.state.instockStatus) {
                 this.setState({
-                  OssReceiveBackNotificationContentVisible: true
+                  ossReceiveBackNotificationContentVisible: true
                 });
               }
             }}
@@ -1159,7 +1159,7 @@ class Details extends React.Component {
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
-              visible={this.state.OssReceiveBackNotificationContentVisible}
+              visible={this.state.ossReceiveBackNotificationContentVisible}
             />
           )}
           <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
@@ -1191,7 +1191,7 @@ class Details extends React.Component {
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
-            visible={this.state.OssReceiveBackNotificationContentVisible}
+            visible={this.state.ossReceiveBackNotificationContentVisible}
           />
         )}
       </>
