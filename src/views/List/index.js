@@ -1025,19 +1025,33 @@ class List extends React.Component {
           ...(res[0] || []),
           ...(res[1]?.navigationResponseList || [])
         ];
-        // console.log('666 >>> res: ',res);
-        const targetRouter = routers.filter((r) => {
-          const tempArr = [
-            r.cateRouter,
-            r.navigationLink,
-            `${r.navigationLink}?${r.keywords}`
-          ];
-          return (
-            tempArr.includes(
-              decodeURIComponent(pathname.replace(/\/$/, '') + search)
-            ) || tempArr.includes(pathname.replace(/\/$/, ''))
-          );
-        })[0];
+        // 强匹配接口里的router, 优先匹配pathname+search(除p分页参数), 其次匹配pathname
+        const targetRouter =
+          routers.filter((r) => {
+            const tempArr = [
+              r.cateRouter,
+              r.navigationLink,
+              `${r.navigationLink}?${r.keywords}`
+            ];
+            const searchExceptPage = removeArgFromUrl({
+              search: search.substr(1),
+              name: 'p'
+            });
+            return tempArr.includes(
+              decodeURIComponent(
+                pathname.replace(/\/$/, '') +
+                  (searchExceptPage ? `?${searchExceptPage}` : '')
+              )
+            );
+          })[0] ||
+          routers.filter((r) => {
+            const tempArr = [
+              r.cateRouter,
+              r.navigationLink,
+              `${r.navigationLink}?${r.keywords}`
+            ];
+            return tempArr.includes(pathname.replace(/\/$/, ''));
+          })[0];
 
         let sortParam = null;
         let cateIds = [];
