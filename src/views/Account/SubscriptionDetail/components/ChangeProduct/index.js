@@ -10,18 +10,29 @@ import Modal from '@/components/Modal';
 import ChooseSKU from './ChooseSKU';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { getFrequencyDict } from '@/utils/utils';
+import { EMAIL_REGEXP } from '@/utils/constant';
+import cn from 'classnames';
 
 export const ChangeProductContext = createContext();
+const loginStore = stores.loginStore;
 
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
-    SubDetailHeaderValue;
+  const {
+    setState,
+    subDetail,
+    isShowClub,
+    triggerShowChangeProduct
+  } = SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
   const [frequencyList, setFrequencyList] = useState([]);
+  const [alreadyNotice, setAlreadyNotice] = useState(false);
+  const [correctEmail, setCorrectEmail] = useState(true);
+  const [userEmail, setUserEmail] = useState(loginStore?.userInfo?.email || '');
+
   const showModal = (num) => {
     let newArr = [false, false, false];
     //如果不传数字，默认全部关闭
@@ -34,8 +45,10 @@ const ChangeProduct = () => {
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
   const [details, setDetails] = useState({});
   const [renderDetailAgin, setRenderDetailAgin] = useState(true);
-  const [recommendationVisibleLoading, setRecommendationVisibleLoading] =
-    useState(true);
+  const [
+    recommendationVisibleLoading,
+    setRecommendationVisibleLoading
+  ] = useState(true);
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',
@@ -156,6 +169,123 @@ const ChangeProduct = () => {
     errMsg,
     setErrMsg
   };
+
+  const handleEmailChange = (e) => {
+    const emailVal = e.target.value;
+    const emailVerify = EMAIL_REGEXP.test(emailVal);
+    if (emailVerify !== correctEmail) setCorrectEmail(emailVerify);
+    setUserEmail(emailVal);
+  };
+
+  const handleModifyEmail = () => {
+    setAlreadyNotice(false);
+  };
+
+  const handleNotifyMe = () => {
+    console.log(454545);
+    //api request
+    if (true) {
+      setAlreadyNotice(true);
+    }
+  };
+
+  const modalFooterContent = () => {
+    const productStock = goodsDetails?.goodsInfos?.some((el) => el.stock);
+
+    return (
+      <div className="">
+        {!productStock ? (
+          <div className=" mb-6 flex flex-col items-center md:items-start">
+            <div className="text-base font-normal mb-2">
+              <FormattedMessage
+                id={
+                  alreadyNotice
+                    ? 'subscription.backToStockInfoActivated'
+                    : 'subscription.backToStockInfo'
+                }
+              />
+            </div>
+            <div className="flex items-center flex-col md:flex-row">
+              <div
+                className={`${
+                  correctEmail
+                    ? 'correct-format-input-box mb-3 md:mb-0'
+                    : 'active-input-box mb-3 md:mb-0'
+                }`}
+              >
+                <input
+                  className={`email-input pl-2  font-light text-base ${
+                    alreadyNotice ? '' : 'border-b-2 pb-1 w-80'
+                  }`}
+                  onChange={handleEmailChange}
+                  maxLength="50"
+                  value={userEmail}
+                />
+                {correctEmail ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 absolute right-1 top-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                ) : null}
+              </div>
+              {!productStock && !alreadyNotice ? (
+                <button
+                  className={cn(`rc-btn rc-btn--one rc-btn--sm md:ml-4 ml-0`, {
+                    'rc-btn-solid-disabled': !correctEmail || alreadyNotice
+                  })}
+                  disabled={!correctEmail || alreadyNotice}
+                  onClick={handleNotifyMe}
+                >
+                  <FormattedMessage id="notifyMe" />
+                </button>
+              ) : null}
+              {alreadyNotice ? (
+                <button
+                  className="rc-btn rc-btn--two rc-btn--sm ml-6"
+                  onClick={handleModifyEmail}
+                >
+                  <FormattedMessage id="modifyEmail" />
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+        <div className="text-center">
+          <button
+            id="modalFooterCancel"
+            type="button"
+            className="btn btn-outline-primary rc-btn--sm mr-6"
+            data-dismiss="modal"
+            onClick={() => showModal(0)}
+          >
+            <FormattedMessage id="subscription.seeOtherRecommendation" />
+          </button>
+          {productStock && (
+            <button
+              id="modalFooterConfirm"
+              type="button"
+              className={`btn btn-primary rc-btn--sm`}
+              data-dismiss="modal"
+              onClick={() => showModal(2)}
+            >
+              <FormattedMessage id="subscription.chooseThisProduct" />
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <ChangeProductContext.Provider value={propsObj}>
@@ -164,23 +294,25 @@ const ChangeProduct = () => {
           <Modal
             headerVisible={true}
             footerVisible={true}
+            // cancelBtnVisible={false}
             visible={showModalArr[1]}
-            cancelBtnText={
-              <FormattedMessage id="subscription.seeOtherRecommendation" />
-            }
-            confirmBtnText={
-              <FormattedMessage id="subscription.chooseThisProduct" />
-            }
+            // cancelBtnText={
+            //   <FormattedMessage id="subscription.seeOtherRecommendation" />
+            // }
+            // confirmBtnText={
+            //   <FormattedMessage id="subscription.chooseThisProduct" />
+            // }
             modalTitle={''}
             cancel={() => {
               showModal(0);
             }}
-            hanldeClickConfirm={() => {
-              showModal(2);
-            }}
+            // hanldeClickConfirm={() => {
+            //   showModal(2);
+            // }}
             close={() => {
               initMainProduct();
             }}
+            footerContentChildren={modalFooterContent()}
           >
             <GoodsDetails />
           </Modal>
@@ -222,7 +354,7 @@ const ChangeProduct = () => {
               <p className="recommendatio-wrap-title">
                 <FormattedMessage id="subscriptionDetail.newProduct" />
               </p>
-              <div className="rc-outline-light px-6 py-4 recommendatio-wrap-content">
+              <div className="rc-outline-light px-3 md:px-6 py-2 md:py-4 recommendatio-wrap-content">
                 <ChooseSKU />
               </div>
             </div>

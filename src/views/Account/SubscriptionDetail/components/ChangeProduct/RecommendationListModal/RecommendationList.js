@@ -104,7 +104,10 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
                   )}
                 </div>
                 <div className="text-center mt-3">
-                  <InstockStatusComp status={mainProductStock} />
+                  <InstockStatusComp
+                    status={mainProductStock}
+                    className="subscription-stock"
+                  />
                 </div>
                 <div className="d-flex justify-content-center mt-3 testtest">
                   <span
@@ -217,6 +220,7 @@ const RecommendationList = ({ productDetail, goMoreProducts }) => {
                     <div className="text-center mt-2">
                       <InstockStatusComp
                         status={ele?.goodsInfos?.some((el) => el.stock)}
+                        className="subscription-stock"
                       />
                     </div>
                     <div className="d-flex justify-content-center mt-3">

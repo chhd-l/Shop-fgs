@@ -3,11 +3,12 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less'
 interface Props {
   status: Boolean;
+  className?: string;
 }
 
-const InstockStatusComp = ({ status }: Props) => {
+const InstockStatusComp = ({ status,className }: Props) => {
   return (
-    <div className="stock__wrapper stock__wrapper_comp">
+    <div className={`stock__wrapper stock__wrapper_comp ${className}`}>
       <div className="stock">
         {status ? (
           <>

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { unique } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types';
-import { GAPdpSizeChange } from '../../views/Details/GA';
 import cn from 'classnames';
+import Selection from '@/components/Selection';
 import { handleSizeList } from '@/framework/product';
+import './index.less'
 
 interface Props {
   renderAgin?: boolean;
   details: any;
   updatedSku: Function;
-  updatedPriceOrCode: Function;
   defaultSkuId: string;
   disabledGoodsInfoIds?: string[];
   onIsSpecAvailable?: Function;
@@ -19,11 +18,10 @@ interface Props {
   defaultSkuNo?: string;
 }
 
-const HandledSpec = ({
+const HandledSpecSelect = ({
   renderAgin,
   details,
   updatedSku,
-  updatedPriceOrCode = () => {},
   defaultSkuId,
   disabledGoodsInfoIds = [],
   onIsSpecAvailable = () => {},
@@ -31,36 +29,11 @@ const HandledSpec = ({
   canSelectedOutOfStock = false,
   defaultSkuNo
 }: Props) => {
-  const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
+  const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } =
     details;
   const [sizeList, setSizeList] = useState<any[]>([]);
 
-  const getPriceOrCode = () => {
-    const selectSpecDetailId = goodsSpecs.map((item: any) =>
-      item.chidren.find((good: any) => good.selected)
-    )?.[0]?.specDetailId;
-    const selectSkuDetail = goodsInfos.find((item: any) =>
-      item.mockSpecDetailIds.includes(selectSpecDetailId)
-    );
-    const goodsInfoBarcode =
-      selectSkuDetail?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-    const selectPrice = selectSkuDetail?.marketPrice;
-    const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12';
-    updatedPriceOrCode({ barcode, selectPrice });
-  };
-
   const matchGoods = () => {
-    // let {
-    //   specList,
-    //   details,
-    //   currentUnitPrice,
-    //   currentLinePrice,
-    //   currentSubscriptionPrice,
-    //   currentSubscriptionStatus,
-    //   stock,
-    //   form,
-    //   defaultPurchaseType
-    // } = this.state;
     let handledValues = {
       currentUnitPrice: 0,
       currentLinePrice: 0,
@@ -113,13 +86,6 @@ const HandledSpec = ({
 
       return item;
     });
-    // defaultPurchaseType === 1 ||
-    // sessionItemRoyal.get('pf-result') ||
-    // localStorage.getItem('pfls')
-    //   ? skuPromotions == 'club'
-    //     ? (form.buyWay = 2)
-    //     : (form.buyWay = 1)
-    //   : (form.buyWay = 0);
     updatedSku(handledValues, sizeList);
   };
   const bundleMatchGoods = () => {
@@ -153,17 +119,6 @@ const HandledSpec = ({
         }
         return item;
       });
-    const goodSize = goodsSpecs.map((item: any) =>
-      item.chidren.find((good: any) => good.specDetailId === sdId)
-    )?.[0]?.detailName;
-    GAPdpSizeChange(goodSize);
-    const specDetailId = goodsSpecs.map((item: any) =>
-      item.chidren.find((good: any) => good.specDetailId === sdId)
-    )?.[0]?.specDetailId;
-    const barcode = goodsInfos.find((item: any) =>
-      item.mockSpecDetailIds.includes(specDetailId)
-    )?.goodsInfoBarcode;
-    updatedPriceOrCode({ barcode, clickEvent: true });
     matchGoods();
   };
 
@@ -179,6 +134,10 @@ const HandledSpec = ({
       canSelectedWhenAllSpecDisabled,
       canSelectedOutOfStock
     });
+    goodsSpecs.forEach((el:any) => el.chidren.forEach((it:any) => {
+      it.value = it.detailName
+      it.name = it.detailName
+    }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
 
@@ -188,21 +147,46 @@ const HandledSpec = ({
         // goodsSpecDetails可能是数组可能是null
         if (goodsSpecDetails?.length) {
           await matchGoods();
-          getPriceOrCode();
         } else {
           bundleMatchGoods();
         }
       }
     })();
   }, [sizeList]);
+
+  
+
+  const selectStock = (sItem: any) => {
+    const v = sItem?.chidren?.filter((el: any) => el.selected)?.[0]?.value
+
+    const selectChange =(el:any) =>{
+      console.log(el,sItem,'elelelele')
+      handleChooseSize(sItem.specId, el.specDetailId);
+    }
+    return (
+      <Selection
+        optionList={sItem.chidren}
+        key={sItem.specName}
+      selectedItemData={{
+        value: v
+      }}
+      selectedItemChange={selectChange}
+      />
+    )
+
+  }
+
+  // console.log(goodsSpecs.map((s:any) =>s.chidren.map((el:any)=> el.selected?el.value:'')),'goodsSpecs==')
   return (
-    <div className="spec">
+    <div className="spec select-spec-wrap">
       {goodsSpecs?.map((sItem: any, i: number) => (
         <div id="choose-select" className="spec-choose-select" key={i}>
           <div className="rc-margin-bottom--xs">
             <FormattedMessage id={sItem?.specName} />:
           </div>
-          <div data-attr="size">
+{selectStock(sItem)}
+
+          {/* <div data-attr="size">
             <div
               className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
               id="id-single-select-size"
@@ -238,16 +222,15 @@ const HandledSpec = ({
                           : 'pointer'
                     }}
                   >
-                    {/* {parseFloat(sdItem.detailName)}{' '} */}
                     {sdItem.detailName}
                   </span>
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       ))}
     </div>
   );
 };
-export default HandledSpec;
+export default HandledSpecSelect;

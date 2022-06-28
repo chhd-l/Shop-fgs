@@ -83,44 +83,55 @@ export default class Modal extends React.Component {
               </div>
               {this.props.footerVisible && (
                 <div className="modal-footer">
-                  {this.props.cancelBtnVisible &&
-                  !this.props.cancelBtnIsLink ? (
-                    <button
-                      id="modalFooterCancel"
-                      type="button"
-                      className="btn btn-outline-primary"
-                      data-dismiss="modal"
-                      onClick={() =>
-                        this.props.cancel ? this.props.cancel() : this.close()
-                      }
-                    >
-                      {this.props.cancelBtnText}
-                    </button>
-                  ) : null}
-                  {this.props.cancelBtnVisible && this.props.cancelBtnIsLink ? (
-                    <a
-                      id="modalFooterCancel"
-                      type="button"
-                      className="rc-styled-link"
-                      data-dismiss="modal"
-                      onClick={() =>
-                        this.props.cancel ? this.props.cancel() : this.close()
-                      }
-                    >
-                      {this.props.cancelBtnText}
-                    </a>
-                  ) : null}
-                  <button
-                    id="modalFooterConfirm"
-                    type="button"
-                    className={`btn btn-primary cart-delete-confirmation-btn ${
-                      this.props.confirmLoading ? 'ui-btn-loading' : ''
-                    }`}
-                    data-dismiss="modal"
-                    onClick={() => this.hanldeClickConfirm()}
-                  >
-                    {this.props.confirmBtnText}
-                  </button>
+                  {this.props.footerContentChildren ? (
+                    this.props.footerContentChildren
+                  ) : (
+                    <>
+                      {this.props.cancelBtnVisible &&
+                      !this.props.cancelBtnIsLink ? (
+                        <button
+                          id="modalFooterCancel"
+                          type="button"
+                          className="btn btn-outline-primary"
+                          data-dismiss="modal"
+                          onClick={() =>
+                            this.props.cancel
+                              ? this.props.cancel()
+                              : this.close()
+                          }
+                        >
+                          {this.props.cancelBtnText}
+                        </button>
+                      ) : null}
+                      {this.props.cancelBtnVisible &&
+                      this.props.cancelBtnIsLink ? (
+                        <a
+                          id="modalFooterCancel"
+                          type="button"
+                          className="rc-styled-link"
+                          data-dismiss="modal"
+                          onClick={() =>
+                            this.props.cancel
+                              ? this.props.cancel()
+                              : this.close()
+                          }
+                        >
+                          {this.props.cancelBtnText}
+                        </a>
+                      ) : null}
+                      <button
+                        id="modalFooterConfirm"
+                        type="button"
+                        className={`btn btn-primary cart-delete-confirmation-btn ${
+                          this.props.confirmLoading ? 'ui-btn-loading' : ''
+                        }`}
+                        data-dismiss="modal"
+                        onClick={() => this.hanldeClickConfirm()}
+                      >
+                        {this.props.confirmBtnText}
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>
