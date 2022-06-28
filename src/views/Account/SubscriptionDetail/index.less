@@ -17,8 +17,9 @@
     .choices__inner {
       padding-top: 10px;
       padding-bottom: 0;
-      border-bottom: 1px solid #212529;
+      border-bottom: 1px solid #808285;
       min-height: 30px;
+      border-radius: 0;
     }
   }
 
@@ -528,4 +529,14 @@
     .email-input {
       border-color: #008900;
     }
+}
+
+.subscription-stock {
+  .availability.outofstock .title-select:before {
+    background: #C03344;
+  }
+
+  .stock .availability-msg div.out-stock {
+    color: #C03344 ;
+  }
 }

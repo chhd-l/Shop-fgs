@@ -1035,13 +1035,7 @@ class List extends React.Component {
           return (
             tempArr.includes(
               decodeURIComponent(pathname.replace(/\/$/, '') + search)
-            ) ||
-            tempArr.includes(pathname.replace(/\/$/, '')) ||
-            tempArr.filter((item) => {
-              if (item && item != '?') {
-                return item?.includes(pathname.replace(/\/$/, ''));
-              }
-            }).length > 0
+            ) || tempArr.includes(pathname.replace(/\/$/, ''))
           );
         })[0];
 
@@ -1089,7 +1083,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          // this.props.history.push('/404');
+          this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =

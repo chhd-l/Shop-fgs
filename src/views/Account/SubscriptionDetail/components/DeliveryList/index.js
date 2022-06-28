@@ -99,7 +99,16 @@ const DeliveryList = ({
             )}
           </span>
         </div>
-        <div className="rc-tabs tabs-detail" style={{ marginTop: '40px' }}>
+        <div className="flex justify-end" style={{ minHeight: 40 }}>
+          {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+            <div>
+              こちらから次回出荷予定日と配送希望時間帯を選択いただけます。
+              <br />
+              ※配送希望日ではございませんので、ご注意ください。
+            </div>
+          )}
+        </div>
+        <div className="rc-tabs tabs-detail">
           {activeTabIdx === 0 &&
             subDetail.noStartTradeList &&
             subDetail.noStartTradeList

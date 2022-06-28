@@ -7,6 +7,8 @@ import {
   checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
+import HandledSpecSelect from '../HandledSpecSelect';
+import InstockStatusComp from '@/components/InstockStatusComp';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import find from 'lodash/find';
@@ -234,7 +236,6 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   const handleEmailChange = (e) => {
     const emailVal = e.target.value;
     const emailVerify = EMAIL_REGEXP.test(emailVal);
-    console.log(emailVal, emailVerify, 'vvv');
     if (emailVerify !== correctEmail) setCorrectEmail(emailVerify);
     setUserEmail(emailVal);
   };
@@ -253,77 +254,108 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
 
   let seleced = quantity < stock && skuPromotions == 'club';
   let outOfStockStatus = quantity > stock;
-  console.log(details, 'details==');
   return (
     <React.Fragment>
       <ErrorMessage msg={errorMsgSureChange} />
       <div className="d-flex md:justify-between md:items-center">
         <div className="d-flex flex-col md:flex-row w-full md:w-auto items-center">
-          <div className="flex flex-col">
-            <div
-              className="text-base font-medium mb-2"
-              style={{ maxWidth: '200px' }}
-            >
-              {details.goodsName}
+          <div className="flex items-center">
+            <div className="flex flex-col">
+              <div
+                className="text-base font-medium mb-2"
+                style={{ maxWidth: '210px' }}
+              >
+                {details.goodsName}
+              </div>
+              <img
+                src={details.goodsImg}
+                className="h-24 object-contain w-auto"
+                alt={details.goodsName}
+              />
             </div>
-            <img
-              src={details.goodsImg}
-              className="h-24 object-contain w-auto"
-              alt={details.goodsName}
-            />
-          </div>
-          <div className="line-item-quantity text-lg-center mx-6">
-            <div className="text-left mb-2">
-              <FormattedMessage id="amount" />:
-            </div>
-            <div className="d-flex rc-align-children--space-between">
-              <div className="Quantity">
-                <div className="quantity d-flex justify-content-between align-items-center">
-                  <input
-                    type="hidden"
-                    id="invalid-quantity"
-                    value="Пожалуйста, введите правильный номер."
-                    name="invalid-quantity"
-                  />
-                  <QuantityPicker
-                    min={quantityMinLimit}
-                    max={skuLimitThreshold?.skuMaxNum}
-                    initQuantity={quantity}
-                    updateQuantity={(val) => {
-                      setQuantity(val);
-                    }}
-                  />
+            <div className="line-item-quantity text-lg-center ml-2 md:mx-6">
+              <div className="text-left mb-2">
+                <FormattedMessage id="amount" />:
+              </div>
+              <div className="d-flex rc-align-children--space-between">
+                <div className="Quantity">
+                  <div className="quantity d-flex justify-content-between align-items-center">
+                    <input
+                      type="hidden"
+                      id="invalid-quantity"
+                      value="Пожалуйста, введите правильный номер."
+                      name="invalid-quantity"
+                    />
+                    <QuantityPicker
+                      min={quantityMinLimit}
+                      max={skuLimitThreshold?.skuMaxNum}
+                      initQuantity={quantity}
+                      updateQuantity={(val) => {
+                        setQuantity(val);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-              <strong className="rc-md-down">
-                = {formatMoney(currentSubscriptionPrice * quantity)}
-              </strong>
             </div>
           </div>
-          <div className="cart-and-ipay -mb-5 md:-mb-0 md:max-w-xs">
+          <div className="cart-and-ipay md:max-w-xs w-full md:w-auto">
             <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6">
               {details.goodsInfos && (
-                <HandledSpec
-                  renderAgin={renderDetailAgin}
-                  details={details}
-                  disabledGoodsInfoIds={subDetail.goodsInfo.map(
-                    (g) => g.goodsInfoVO.goodsInfoId
-                  )}
-                  onIsSpecAvailable={(status) => {
-                    setIsSpecAvailable(status);
-                  }}
-                  setState={setState}
-                  updatedSku={matchGoods}
-                  canSelectedOutOfStock={true}
-                  instockStatus={seleced}
-                />
+                <>
+                  <div className="rc-md-up">
+                    <HandledSpec
+                      renderAgin={renderDetailAgin}
+                      details={details}
+                      disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                        (g) => g.goodsInfoVO.goodsInfoId
+                      )}
+                      onIsSpecAvailable={(status) => {
+                        setIsSpecAvailable(status);
+                      }}
+                      setState={setState}
+                      updatedSku={matchGoods}
+                      canSelectedOutOfStock={true}
+                      canSelectedWhenAllSpecDisabled={true}
+                    />
+                    <InstockStatusComp
+                      status={seleced}
+                      className="subscription-stock"
+                    />
+                  </div>
+                  <div className="rc-md-down relative">
+                    <HandledSpecSelect
+                      renderAgin={renderDetailAgin}
+                      details={details}
+                      disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                        (g) => g.goodsInfoVO.goodsInfoId
+                      )}
+                      onIsSpecAvailable={(status) => {
+                        setIsSpecAvailable(status);
+                      }}
+                      setState={setState}
+                      updatedSku={matchGoods}
+                      canSelectedOutOfStock={true}
+                      canSelectedWhenAllSpecDisabled={true}
+                    />
+                    <div className="absolute bottom-4 right-12">
+                      <InstockStatusComp
+                        status={seleced}
+                        className="subscription-stock"
+                      />
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </div>
           <p
-            className={cn(`frequency subscription-detail-frequency px-8`, {
-              'subscriptionDetail-choose-frequency': isMobile
-            })}
+            className={cn(
+              `frequency subscription-detail-frequency md:px-8 w-full md:w-auto mt-5 md:mt-0`,
+              {
+                'subscriptionDetail-choose-frequency': isMobile
+              }
+            )}
           >
             {skuPromotions != 0 && (
               <FrequencySelection
@@ -334,13 +366,16 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               />
             )}
           </p>
+          <strong
+            className="w-full  md:w-auto mt-6"
+            style={{ marginTop: '20px' }}
+          >
+            = {formatMoney(currentSubscriptionPrice * quantity)}
+          </strong>
         </div>
-        <strong className="rc-md-up" style={{ marginTop: '20px' }}>
-          = {formatMoney(currentSubscriptionPrice * quantity)}
-        </strong>
       </div>
       {outOfStockStatus ? (
-        <div className=" mb-6 flex justify-end items-end">
+        <div className="mb-6 mt-5 md:mt-0 flex flex-col items-center md:justify-end md:items-end md:flex-row">
           <span className="text-base font-normal">
             <FormattedMessage
               id={
@@ -352,12 +387,14 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           </span>
           <div
             className={`${
-              correctEmail ? 'correct-format-input-box' : 'active-input-box'
+              correctEmail
+                ? 'correct-format-input-box mt-3 md:mt-0'
+                : 'active-input-box mt-3 md:mt-0'
             }`}
           >
             <input
-              className={`email-input ml-4 pl-2  font-light text-base ${
-                alreadyNotice ? '' : 'border-b-2 pb-1 w-80'
+              className={`email-input md:ml-4 pl-2  font-light text-base ${
+                alreadyNotice ? '' : 'border-b-2 pb-1 md:w-80 w-full'
               }`}
               onChange={handleEmailChange}
               maxLength="50"
@@ -382,7 +419,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           </div>
           {alreadyNotice ? (
             <button
-              className="rc-btn rc-btn--two rc-btn--sm ml-6"
+              className="rc-btn rc-btn--two rc-btn--sm md:ml-6 mt-3 md:mt-0"
               onClick={handleModifyEmail}
             >
               <FormattedMessage id="modifyEmail" />
@@ -390,9 +427,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           ) : null}
         </div>
       ) : null}
-      <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0">
+      <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row">
         <span
-          className={cn(`text-plain rc-styled-link my-2 md:my-0`, {
+          className={cn(`text-plain rc-styled-link my-2 md:my-0 mt-5 md:mt-0`, {
             'ui-btn-loading': productListLoading
           })}
           onClick={() => {
@@ -411,16 +448,16 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         >
           <FormattedMessage id="subscription.seeOtherRecommendation" />
         </span>
-        <div className="for-mobile-colum d-flex">
+        <div className="for-mobile-colum d-flex for-mobile-colum d-flex flex-col-reverse md:flex-row">
           <button
             onClick={() => showProdutctDetail(0)}
-            className="rc-btn rc-btn--two rc-btn--sm"
+            className="rc-btn rc-btn--two rc-btn--sm mr-0"
           >
             <FormattedMessage id="subscription.productDetails" />
           </button>
-          {outOfStockStatus ? (
+          {outOfStockStatus && !alreadyNotice ? (
             <button
-              className={cn(`rc-btn rc-btn--one rc-btn--sm`, {
+              className={cn(`rc-btn rc-btn--one rc-btn--sm  mr-0`, {
                 'rc-btn-solid-disabled': !correctEmail || alreadyNotice
               })}
               disabled={!correctEmail || alreadyNotice}
@@ -428,10 +465,10 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             >
               <FormattedMessage id="notifyMe" />
             </button>
-          ) : isNotInactive ? (
+          ) : isNotInactive && !alreadyNotice ? (
             <button
               onClick={() => changePets(seleced)}
-              className={cn(`rc-btn rc-btn--one rc-btn--sm`, {
+              className={cn(`rc-btn rc-btn--one rc-btn--sm mr-0`, {
                 'rc-btn-solid-disabled': !seleced,
                 'ui-btn-loading': changeNowLoading
               })}

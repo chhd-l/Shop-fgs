@@ -2,10 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import { getClubLogo } from '@/utils/utils';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { ChangeProductContext } from './index';
+import InstockStatusComp from '@/components/InstockStatusComp';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
+
 const GoodsDetails = () => {
   const ChangeProductValue = useContext(ChangeProductContext);
   const { details, goodsDetails } = ChangeProductValue;
+  const productStock = details?.goodsInfos?.some((el) => el.stock);
   return (
     <div
       className="margin12 product_detail rc-padding-x--md"
@@ -35,13 +38,14 @@ const GoodsDetails = () => {
             {/* <div className="sub_title">{details.goodsSubtitle}</div> */}
             <div>
               <div className="block">
-                <p
-                  className="content rc-scroll--x"
-                  style={{ marginBottom: '4rem' }}
-                >
+                <p className="content rc-scroll--x mb-3">
                   {details.goodsSubtitle}
                 </p>
               </div>
+              <InstockStatusComp
+                status={productStock}
+                className="subscription-stock"
+              />
             </div>
           </div>
         </div>
