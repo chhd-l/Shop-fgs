@@ -1028,13 +1028,7 @@ class List extends React.Component {
           return (
             tempArr.includes(
               decodeURIComponent(pathname.replace(/\/$/, '') + search)
-            ) ||
-            tempArr.includes(pathname.replace(/\/$/, '')) ||
-            tempArr.filter((item) => {
-              if (item && item != '?') {
-                return item?.includes(pathname.replace(/\/$/, ''));
-              }
-            }).length > 0
+            ) || tempArr.includes(pathname.replace(/\/$/, ''))
           );
         })[0];
 
