@@ -492,7 +492,7 @@ class CheckoutStore {
         .map((ele) => {
           return {
             goodsInfoId: ele.goodsInfoId,
-            goodsNum: ele.quantity,
+            goodsNum: ele.buyCount || ele.quantity,
             invalid: false,
             goodsInfoFlag: ele.goodsInfoFlag
           };
@@ -603,7 +603,7 @@ class CheckoutStore {
           if (tmpSkuObj.delFlag) {
             tmpDeletedProNames.push(tmpName);
           }
-          if (item.quantity > item.stock) {
+          if (item.buyCount > item.stock) {
             tmpOutOfstockProNames.push(tmpName);
           }
           if (!item.saleableFlag) {

@@ -16,24 +16,13 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
   const { isShowBindPet, cartData, loginCartData } = checkoutStore;
   const { bindPetPanelStatus, setPetSelectedIds } = paymentStore;
   usePetLists({ loginStore, paymentStore });
-  const computedAuditData = isLogin
-    ? loginCartData.map((el) => ({
-        ...el,
-        goodsInfoImg: el.goodsInfoImg,
-        petName: el.petName,
-        buyCount: el.buyCount,
-        specText: el.specText
-      }))
-    : cartData.map((el) => {
-        return {
-          ...el,
-          goodsInfoImg: el.goodsInfoImg,
-          petName: el?.petForm?.petName,
-          buyCount: el.quantity,
-          specText: el.specText || ''
-        };
-      });
-
+  const computedAuditData = (isLogin ? loginCartData : cartData).map((el) => ({
+    ...el,
+    goodsInfoImg: el.goodsInfoImg,
+    petName: el.petName,
+    buyCount: el.buyCount,
+    specText: el.specText
+  }));
   useEffect(() => {
     const tmpArr = new Array(computedAuditData.length);
     tmpArr.fill(-1);

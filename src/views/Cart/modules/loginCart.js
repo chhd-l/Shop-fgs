@@ -588,7 +588,7 @@ class LoginCart extends React.Component {
                   productList
                     .filter((p) => p.goodsId !== pitem.goodsId)
                     .reduce((pre, cur) => {
-                      return Number(pre) + Number(cur.quantity);
+                      return Number(pre) + Number(cur.buyCount);
                     }, 0),
                 errorMsg: (
                   <FormattedMessage
@@ -787,7 +787,7 @@ class LoginCart extends React.Component {
                           >
                             <FormattedMessage
                               id={
-                                pitem.addedFlag && pitem.quantity <= pitem.stock
+                                pitem.addedFlag && pitem.buyCount <= pitem.stock
                                   ? 'details.inStock'
                                   : pitem.addedFlag
                                   ? 'details.outStock'
