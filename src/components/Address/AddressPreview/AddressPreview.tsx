@@ -212,12 +212,12 @@ const AddressPreview = ({
               )}
 
               {/* delivery date */}
-              {newDeliveryDate && (
+              {newDeliveryDate && newDeliveryDate != 'Unspecified' && (
                 <p className="preview_delivery_date ru2">{newDeliveryDate}</p>
               )}
 
               {/* time slot */}
-              {timeSlot && <p className="preview_time_slot">{timeSlot}</p>}
+              {timeSlot && timeSlot!='Unspecified' && <p className="preview_time_slot">{timeSlot}</p>}
             </>
           ) : window.__.env.REACT_APP_COUNTRY === 'jp' ? (
             <>

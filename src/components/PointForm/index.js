@@ -100,7 +100,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
         <FormattedMessage id="payment.currentHoldingPoints" />
         <span>{CurrentHoldingPoint} pt</span>
       </div>
-      <form className="form">
+      <div className="form">
         <label>
           <FormattedMessage id="payment.pointsToUse" />
         </label>
@@ -116,7 +116,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
           onChange={(e) => setInputPoint(e.target.value)}
         />
         <span className="pl-2 text-16">pt</span>
-      </form>
+      </div>
       <span className={cn(inputPointErr ? 'text-12 text-red-600' : 'hidden')}>
         {errMsg}
       </span>

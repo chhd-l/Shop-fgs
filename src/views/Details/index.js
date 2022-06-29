@@ -77,6 +77,7 @@ import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Mo
 import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 import cloneDeep from 'lodash/cloneDeep';
 import PurchaseMethodB from './components/PurchaseMethodB';
+import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotificationContent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -173,7 +174,8 @@ class Details extends React.Component {
       mixFeedingBtnLoading: false,
       hiddenMixFeedingBanner: false,
       fromPrice: '',
-      versionB: false
+      versionB: false,
+      ossReceiveBackNotificationContentVisible: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -897,7 +899,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { quantity, form, details, questionParams } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1133,41 +1136,71 @@ class Details extends React.Component {
     } = this.props;
     const { details, quantity, quantityMinLimit, stock } = this.state;
     return (
-      <div className="specAndQuantity rc-margin-bottom--xs ">
-        <HandledSpec
-          canSelectedWhenAllSpecDisabled={true}
-          details={details}
-          setState={this.setState.bind(this)}
-          updatedSku={this.matchGoods.bind(this)}
-          updatedPriceOrCode={this.updatedPriceOrCode}
-          defaultSkuId={this.state.defaultSkuId}
-          defaultSkuNo={this.state.goodsNo}
-        />
-        <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
-          <span className="amount">
-            <FormattedMessage id="amount" />:
-          </span>
-          <div className="quantity d-flex justify-content-between align-items-center">
-            <input
-              type="hidden"
-              id="invalid-quantity"
-              value="Пожалуйста, введите правильный номер."
+      <>
+        <div className="specAndQuantity rc-margin-bottom--xs ">
+          <HandledSpec
+            canSelectedWhenAllSpecDisabled={true}
+            details={details}
+            setState={this.setState.bind(this)}
+            updatedSku={this.matchGoods.bind(this)}
+            updatedPriceOrCode={this.updatedPriceOrCode}
+            defaultSkuId={this.state.defaultSkuId}
+            defaultSkuNo={this.state.goodsNo}
+            onClickSku={() => {
+              setTimeout(() => {
+                if (!this.state.instockStatus) {
+                  this.setState({
+                    ossReceiveBackNotificationContentVisible: true
+                  });
+                } else {
+                  this.setState({
+                    ossReceiveBackNotificationContentVisible: false
+                  });
+                }
+              }, 0);
+            }}
+            canSelectedOutOfStock
+          />
+          {isMobile && (
+            <OssReceiveBackNotificationContent
+              userInfo={this.props.loginStore.userInfo}
+              details={details}
+              visible={this.state.ossReceiveBackNotificationContentVisible}
             />
+          )}
+          <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
+            <span className="amount">
+              <FormattedMessage id="amount" />:
+            </span>
+            <div className="quantity d-flex justify-content-between align-items-center">
+              <input
+                type="hidden"
+                id="invalid-quantity"
+                value="Пожалуйста, введите правильный номер."
+              />
 
-            <QuantityPicker
-              className="rc-quantity"
-              initQuantity={parseInt(quantity)}
-              min={quantityMinLimit}
-              max={skuLimitThreshold?.skuMaxNum}
-              updateQuantity={(val) => {
-                this.setState({ quantity: val }, () =>
-                  this.updateInstockStatus()
-                );
-              }}
-            />
+              <QuantityPicker
+                className="rc-quantity"
+                initQuantity={parseInt(quantity)}
+                min={quantityMinLimit}
+                max={skuLimitThreshold?.skuMaxNum}
+                updateQuantity={(val) => {
+                  this.setState({ quantity: val }, () =>
+                    this.updateInstockStatus()
+                  );
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div>
+        {!isMobile && (
+          <OssReceiveBackNotificationContent
+            userInfo={this.props.loginStore.userInfo}
+            details={details}
+            visible={this.state.ossReceiveBackNotificationContentVisible}
+          />
+        )}
+      </>
     );
   };
 
@@ -1270,7 +1303,7 @@ class Details extends React.Component {
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
     const goodHeading = `<${headingTag || 'h1'}
-        class="rc-gamma ui-text-overflow-line2 text-break"
+        class="rc-gamma text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;

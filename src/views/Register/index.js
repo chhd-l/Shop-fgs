@@ -466,12 +466,12 @@ class Register extends Component {
             // PO bind shelterId, country:us
             const shelterId = sessionItemRoyal.get('handled-shelter') || '';
             const customerId = res.context?.customerId || '';
-            if (shelterId) {
-              await saveShelterId({
-                shelterId,
-                customerId
-              });
-            }
+            // if (shelterId) {
+            //   await saveShelterId({
+            //     shelterId,
+            //     customerId
+            //   });
+            // }
 
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
