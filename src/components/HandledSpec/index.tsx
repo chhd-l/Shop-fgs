@@ -10,7 +10,7 @@ interface Props {
   renderAgin?: boolean;
   details: any;
   updatedSku: Function;
-  onClickSku: () => void;
+  onClickSku?: () => void;
   updatedPriceOrCode: Function;
   defaultSkuId: string;
   disabledGoodsInfoIds?: string[];
@@ -28,7 +28,7 @@ const HandledSpec = ({
   defaultSkuId,
   disabledGoodsInfoIds = [],
   onIsSpecAvailable = () => {},
-  onClickSku,
+  onClickSku = () => {},
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo
@@ -144,7 +144,7 @@ const HandledSpec = ({
     updatedSku(handledValues, sizeList);
   };
 
-  const handleChooseSize = (sId: any, sdId: any) => {
+  const handleChooseSize = async(sId: any, sdId: any) => {
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -165,8 +165,8 @@ const HandledSpec = ({
     const barcode = goodsInfos.find((item: any) =>
       item.mockSpecDetailIds.includes(specDetailId)
     )?.goodsInfoBarcode;
+    await matchGoods();
     updatedPriceOrCode({ barcode, clickEvent: true });
-    matchGoods();
   };
 
   useEffect(() => {

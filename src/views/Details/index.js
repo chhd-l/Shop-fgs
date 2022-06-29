@@ -1147,11 +1147,17 @@ class Details extends React.Component {
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
             onClickSku={() => {
-              if (!this.state.instockStatus) {
-                this.setState({
-                  ossReceiveBackNotificationContentVisible: true
-                });
-              }
+              setTimeout(() => {
+                if (!this.state.instockStatus) {
+                  this.setState({
+                    ossReceiveBackNotificationContentVisible: true
+                  });
+                } else {
+                  this.setState({
+                    ossReceiveBackNotificationContentVisible: false
+                  });
+                }
+              }, 0);
             }}
             canSelectedOutOfStock
           />
