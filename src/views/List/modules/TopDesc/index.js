@@ -8,17 +8,17 @@ const TopDesc = ({ text }) => {
     setFold(e.target.checked);
   };
   return (
-    <div class="top-desc-wrap">
+    <div className="top-desc-wrap">
       <input
         id="exp1"
-        class="exp"
+        className="exp"
         type="checkbox"
         onClick={handleFold}
         checked={fold}
         name="fold"
       />
-      <div class="desc-text">
-        <label class="fold-btn" for="exp1">
+      <div className="desc-text">
+        <label className={`fold-btn ${fold ? 'is-exp' : ''}`} for="exp1">
           {fold ? (
             <FormattedMessage id="plp.reduce" />
           ) : (
