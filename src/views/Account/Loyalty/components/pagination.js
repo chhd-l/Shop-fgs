@@ -35,7 +35,14 @@ const Pagination = ({ pageNum, totalPage, sendPageNumber }) => {
   return (
     <>
       <nav class="rc-pagination">
-        <div class="rc-pagination__form" className="flex">
+        <div
+          class="rc-pagination__form"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
           <button
             class={cn(
               'rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography',
@@ -43,7 +50,14 @@ const Pagination = ({ pageNum, totalPage, sendPageNumber }) => {
             )}
             onClick={prevPageEvent}
           ></button>
-          <div class="rc-pagination__steps">
+          <div
+            class="rc-pagination__steps"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
             <input
               type="number"
               class="rc-pagination__step rc-pagination__step--current"
