@@ -93,7 +93,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
       };
       const res = await queryStockNotice(params);
       if (res.code === 'K-000000') {
-        setAlreadyNotice(res.context?.stockNotice);
+        const { stockNotice, email } = res.context;
+        setAlreadyNotice(stockNotice);
+        setUserEmail(email);
       }
     }
   };
@@ -427,18 +429,19 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             />
           </span>
           <div
-            className={`${
+            className={`md:ml-4 ${
               correctEmail
                 ? 'correct-format-input-box mt-3 md:mt-0'
                 : 'active-input-box mt-3 md:mt-0'
             }`}
           >
             <input
-              className={`email-input md:ml-4 pl-2  font-light text-base ${
-                alreadyNotice ? '' : 'border-b-2 pb-1 md:w-80 w-full'
+              className={`email-input font-light text-base ${
+                alreadyNotice ? ' w-60' : 'border-b-2 pb-1 md:w-80'
               }`}
               onChange={handleEmailChange}
               maxLength="50"
+              disabled={alreadyNotice}
               value={userEmail}
             />
             {correctEmail ? (

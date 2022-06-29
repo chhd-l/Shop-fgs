@@ -132,7 +132,9 @@ const ChangeProduct = () => {
       };
       const res = await queryStockNotice(params);
       if (res.code === 'K-000000') {
-        setAlreadyNotice(res.context?.stockNotice);
+        const { stockNotice, email } = res.context;
+        setAlreadyNotice(stockNotice);
+        setUserEmail(email);
       }
     }
   };
@@ -223,7 +225,7 @@ const ChangeProduct = () => {
     console.log(param, 'pa');
     const res = await stockNoticeModify(param);
     console.log(res, 'resres==');
-    if (true) {
+    if (res.code === 'K-000000') {
       setAlreadyNotice(true);
     }
   };
@@ -254,11 +256,12 @@ const ChangeProduct = () => {
               >
                 <input
                   className={`email-input pl-2  font-light text-base ${
-                    alreadyNotice ? '' : 'border-b-2 pb-1 w-80'
+                    alreadyNotice ? 'w-60' : 'border-b-2 pb-1 w-80'
                   }`}
                   onChange={handleEmailChange}
                   maxLength="50"
                   value={userEmail}
+                  disabled={alreadyNotice}
                 />
                 {correctEmail ? (
                   <svg
