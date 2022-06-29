@@ -1878,6 +1878,7 @@ class List extends React.Component {
               ? canonicalLink.cur.split('?')[0].toLowerCase()
               : canonicalLink.cur.toLowerCase()
           }
+          pageType={'PLP'}
         />
         <Helmet>
           {canonicalLink.prev ? (

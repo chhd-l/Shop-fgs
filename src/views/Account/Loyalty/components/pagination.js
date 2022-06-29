@@ -35,7 +35,7 @@ const Pagination = ({ pageNum, totalPage, sendPageNumber }) => {
   return (
     <>
       <nav class="rc-pagination">
-        <div class="rc-pagination__form">
+        <div class="rc-pagination__form" className="flex">
           <button
             class={cn(
               'rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography',
