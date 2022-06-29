@@ -6,6 +6,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { formatDate } from '@/utils/utils';
 import { OrderAllProduct } from '@/views/Account/OrdersDetail/modules';
+import { Button } from '@/components/Common';
 
 export default class Modal extends React.Component {
   static defaultProps = {
@@ -104,14 +105,13 @@ export default class Modal extends React.Component {
                     <span className="mx-2 mb-2">
                       {this.props.middleSpanText}
                     </span>
-                    <button
-                      className={`rc-btn rc-btn--one mb-2 ${
-                        this.props.cancelJpOrderLoading ? 'ui-btn-loading' : ''
-                      }`}
+                    <Button
+                      loading={this.props.cancelJpOrderLoading}
+                      className="mb-2"
                       onClick={this.handleClickConfirm}
                     >
                       {this.props.confirmBtnText}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

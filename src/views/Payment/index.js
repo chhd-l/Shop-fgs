@@ -107,7 +107,7 @@ import {
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import {
   USEPOINT,
   NOTUSEPOINT
@@ -360,9 +360,8 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   handelQrcodeModalClose = async () => {
     try {
@@ -402,9 +401,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -415,9 +415,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -3265,9 +3266,10 @@ class Payment extends React.Component {
     // cyber游客绑卡
     const unLoginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3279,9 +3281,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3617,15 +3620,14 @@ class Payment extends React.Component {
     const payConfirmBtn = ({ disabled, loading = false } = {}) => {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
-          <button
-            className={`rc_btn_payment_confirm rc-btn rc-btn--one ${
-              loading ? 'ui-btn-loading' : ''
-            }`}
+          <Button
             disabled={disabled}
+            loading={loading}
+            className="rc_btn_payment_confirm"
             onClick={this.clickConfirmPaymentPanel}
           >
             <FormattedMessage id="NextToPlaceAnOrder" />
-          </button>
+          </Button>
         </div>
       );
     };
@@ -4296,7 +4298,7 @@ class Payment extends React.Component {
           <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
             {/*<Progress type="payment" />*/}
             {/*checkout页面所有国家都不用流程图*/}
-            <div className="rc-padding--sm rc-padding-top--none">
+            <div className="rc-padding--sm rc-padding-top--none11 px-4 md:p-8">
               <div className="title">
                 <h4 className="text-2xl">
                   <FormattedMessage id="payment.checkout" />

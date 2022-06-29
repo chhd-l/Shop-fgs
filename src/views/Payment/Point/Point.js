@@ -61,7 +61,7 @@ const Point = ({ checkoutStore }) => {
   return (
     <>
       <div className="pointContainer">
-        <div className="title text-rc-red mb-5">
+        <div className="title text-rc-red mb-3 mt-2">
           <span>
             <FormattedMessage id="payment.points" />
           </span>
