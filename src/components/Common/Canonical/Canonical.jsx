@@ -20,7 +20,10 @@ const Canonical = (props) => {
           return (
             <link
               rel="alternate"
-              href={ret.replace('ru', item.countryName)}
+              href={ret.replace(
+                `${window.__.env.REACT_APP_COUNTRY}`,
+                item.countryName
+              )}
               hreflang={item.langLocale}
             />
           );
