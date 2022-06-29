@@ -40,6 +40,7 @@ const getSubscriptionAttr = (goodsInfoFlag) => {
 };
 
 export const getOtherSpecies = (item, attribute) => {
+  if (!item) return [];
   const { goodsAttributesValueRelVOList, goodsAttributesValueRelList } = item;
   return (goodsAttributesValueRelVOList || goodsAttributesValueRelList || [])
     .filter(
@@ -274,7 +275,7 @@ export const GAInitUnLogin = ({
         technology: technology, //'Dry', 'Wet', 'Pack'
         brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
         size: variant || '', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-        quantity: item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
+        quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
         subscriptionFrequency:
           item.goodsInfoFlag > 0 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
         recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
