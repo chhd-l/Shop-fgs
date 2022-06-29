@@ -27,13 +27,15 @@ const OssReceiveBackNotificationContent = ({
     setEmail(value);
   };
   const handleSubmit = async () => {
-    // EMAIL_REGEXP.test(e.target.value);
+    if (!email || !EMAIL_REGEXP.test(email)) {
+      return;
+    }
     const { customerId } = userInfo;
     const { goodsInfos, goodsId } = details;
     // filter goodsInfoIds out of stock
     const goodsInfoIds = goodsInfos
       .filter((goodsInfo: any) => goodsInfo.stock === 0)
-      .map((goodsInfo: any) => goodsInfo.goodsId);
+      .map((goodsInfo: any) => goodsInfo.goodsInfoId);
 
     const fromAddress = goodsInfos.length === goodsInfoIds.length ? '1' : '2';
     const params = {
