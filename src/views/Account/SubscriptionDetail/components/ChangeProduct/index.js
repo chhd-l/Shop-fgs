@@ -6,6 +6,7 @@ import Skeleton from 'react-skeleton-loader';
 import RecommendationListModal from './RecommendationListModal';
 import GoodsDetails from './GoodsDetails';
 import { getDetailsBySpuNo } from '@/api/details';
+import { stockNoticeModify, queryStockNotice } from '@/api/subscription';
 import Modal from '@/components/Modal';
 import ChooseSKU from './ChooseSKU';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
@@ -112,6 +113,30 @@ const ChangeProduct = () => {
     setRenderDetailAgin(!renderDetailAgin); // box和弹窗goodsno一致的时候，规格筛选不能重新渲染，强制变化后渲染
   }, [goodsDetails]); // 获取详情数据后重置
 
+  useEffect(() => {
+    if (showModalArr[1] && details) {
+      checkGoodsNotice(details);
+    }
+  }, [showModalArr, details]);
+
+  // check whether the current spu stock out notice has been alerted
+  const checkGoodsNotice = async (details) => {
+    const productStock = details?.goodsInfos?.some((el) => el.stock);
+    const goodsId = details.goodsId || '';
+    if (!productStock && goodsId) {
+      const params = {
+        customerId: loginStore?.userInfo?.customerId || '',
+        goodsId: details.goodsId,
+        storeId: window.__.env.REACT_APP_STOREID,
+        fromAddress: '1'
+      };
+      const res = await queryStockNotice(params);
+      if (res.code === 'K-000000') {
+        setAlreadyNotice(res.context?.stockNotice);
+      }
+    }
+  };
+
   const queryProductDetails = async ({ id, cb, mainProductDetails }) => {
     if (mainProductDetails) {
       productDetailsInit(mainProductDetails, cb);
@@ -181,9 +206,23 @@ const ChangeProduct = () => {
     setAlreadyNotice(false);
   };
 
-  const handleNotifyMe = () => {
-    console.log(454545);
-    //api request
+  const handleNotifyMe = async () => {
+    let subscribeId = subDetail.subscribeId;
+    const { goods = {}, goodsInfos = [] } = goodsDetails;
+    const goodsInfoIds = goodsInfos?.map((el) => el.goodsInfoId);
+    console.log(goodsInfoIds, 'goodsInfoIds==');
+    // modify & add is same
+    const param = {
+      customerId: loginStore?.userInfo?.customerId || '',
+      email: userEmail,
+      goodsInfoIds,
+      goodsId: goods.goodsId || '',
+      fromAddress: '1', //1:spu out of stock
+      subscribeId
+    };
+    console.log(param, 'pa');
+    const res = await stockNoticeModify(param);
+    console.log(res, 'resres==');
     if (true) {
       setAlreadyNotice(true);
     }
@@ -195,7 +234,7 @@ const ChangeProduct = () => {
     return (
       <div className="">
         {!productStock ? (
-          <div className=" mb-6 flex flex-col items-center md:items-start">
+          <div className=" mb-4 flex flex-col items-center md:items-start">
             <div className="text-base font-normal mb-2">
               <FormattedMessage
                 id={
