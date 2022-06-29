@@ -17,7 +17,13 @@ const Canonical = (props) => {
     if (['PLP', 'PDP'].includes(pageType)) {
       if (['ru', 'tr', 'fr', 'uk'].includes(window.__.env.REACT_APP_COUNTRY)) {
         return categoryAndProductNeedArr.map((item) => {
-          return <link rel="alternate" href={ret} hreflang={item.langLocale} />;
+          return (
+            <link
+              rel="alternate"
+              href={ret.replace('ru', item.countryName)}
+              hreflang={item.langLocale}
+            />
+          );
         });
       } else {
         return (
