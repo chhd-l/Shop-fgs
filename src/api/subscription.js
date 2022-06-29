@@ -155,3 +155,21 @@ export function DeleteItem(Id, parma) {
     data: parma
   });
 }
+
+// Record out of stock notification mailbox, update out of stock notification mailbox
+export function stockNoticeModify(params) {
+  return axios({
+    url: `/stockNotice/modify`,
+    method: 'post',
+    data: params
+  });
+}
+
+// Check the out of stock notification mailbox
+export function queryStockNotice(params) {
+  return axios({
+    url: `/stockNotice/query`,
+    method: 'post',
+    data: params
+  });
+}
