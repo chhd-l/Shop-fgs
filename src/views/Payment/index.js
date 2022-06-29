@@ -3610,7 +3610,7 @@ class Payment extends React.Component {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
           <button
-            className={`rc_btn_payment_confirm rc-btn rc-btn--one ${
+            className={`rc_btn_payment_confirm rc-btn rc-btn--one flex items-center justify-between ${
               loading ? 'ui-btn-loading' : ''
             }`}
             disabled={disabled}
