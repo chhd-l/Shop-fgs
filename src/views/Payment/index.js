@@ -107,7 +107,7 @@ import {
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import {
   USEPOINT,
   NOTUSEPOINT
@@ -3609,7 +3609,15 @@ class Payment extends React.Component {
     const payConfirmBtn = ({ disabled, loading = false } = {}) => {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
-          <button
+          <Button
+            disabled={disabled}
+            loading={loading}
+            className="rc_btn_payment_confirm"
+            onClick={this.clickConfirmPaymentPanel}
+          >
+            <FormattedMessage id="NextToPlaceAnOrder" />
+          </Button>
+          {/* <button
             className={`rc_btn_payment_confirm rc-btn rc-btn--one flex items-center justify-between ${
               loading ? 'ui-btn-loading' : ''
             }`}
@@ -3617,7 +3625,7 @@ class Payment extends React.Component {
             onClick={this.clickConfirmPaymentPanel}
           >
             <FormattedMessage id="NextToPlaceAnOrder" />
-          </button>
+          </button> */}
         </div>
       );
     };
