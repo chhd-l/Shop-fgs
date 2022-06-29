@@ -12,6 +12,7 @@ import { injectIntl } from 'react-intl-phraseapp';
 import UsAndRu from '../Recommendation_US/components/UsAndRu';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { GARecommendationProduct } from '@/utils/GA';
+import { toJS } from 'mobx';
 import { useSeo } from '@/framework/common';
 import stores from '@/store';
 import { getShelterList, saveShelterId } from '@/api/recommendation';
@@ -182,7 +183,8 @@ const Adoptions = (props) => {
             // goodsInfoFlag: product.goodsInfoFlag,
             // periodTypeId: product.defaultFrequencyId,
             recommendationId: shelter.value,
-            recommendationName: shelter.name
+            recommendationName: shelter.name,
+            prefixFn: 'shelter-page'
           });
         }),
         showPCMiniCartPop: false
@@ -203,9 +205,8 @@ const Adoptions = (props) => {
           recommendationId: shelter.value,
           recommendationName: shelter.name,
           goodsInfoFlag: 0,
-          periodTypeId: null
-          // goodsInfoFlag: detail.goodsInfoFlag,
-          // periodTypeId: detail.defaultFrequencyId
+          periodTypeId: null,
+          prefixFn: 'shelter-page'
         })),
         showPCMiniCartPop: false
       });
@@ -275,19 +276,19 @@ const Adoptions = (props) => {
   const handleSelectChange = (data) => {
     setShelter(data);
     sessionItemRoyal.set('handled-shelter', data.value);
-    addShelterId(data.value);
+    // addShelterId(data.value);
   };
 
   // PO bind shelterId, country:us
-  const addShelterId = async (shelterId) => {
-    const customerId = loginStore?.userInfo?.customerId || '';
-    if (customerId) {
-      await saveShelterId({
-        shelterId,
-        customerId
-      });
-    }
-  };
+  // const addShelterId = async (shelterId) => {
+  //   const customerId = loginStore?.userInfo?.customerId || '';
+  //   if (customerId) {
+  //     await saveShelterId({
+  //       shelterId,
+  //       customerId
+  //     });
+  //   }
+  // };
 
   const GAShelterLPdropdownClick = () => {
     dataLayer.push({

@@ -4,6 +4,7 @@ import NavItem from './NavItemForHub';
 import PromotionPanel from '../hub/PromotionPanel';
 import LazyLoad from 'react-lazyload';
 import cn from 'classnames';
+const country = window.__.env.REACT_APP_COUNTRY;
 
 /**
  * 渲染二级菜单
@@ -191,7 +192,11 @@ export default class DropDownMenuForHub extends React.Component {
             )}
             {cItem.Type === 'ImageMenuItem' && (
               <div className="dropdown-nav__ad__card">
-                <div className="pl-10">
+                <div
+                  className={`pl-10 ${
+                    ['fr'].includes(country) ? 'flex justify-end' : ''
+                  }`}
+                >
                   <img
                     // className="w-full"
                     src={cItem?.Image?.Url}
@@ -278,7 +283,11 @@ export default class DropDownMenuForHub extends React.Component {
             )}
             {cItem.Type === 'ImageMenuItem' && (
               <div className="dropdown-nav__ad__card">
-                <div className="pl-10">
+                <div
+                  className={`pl-10 ${
+                    ['fr'].includes(country) ? 'flex justify-end' : ''
+                  }`}
+                >
                   <img
                     // className="w-full"
                     src={cItem?.Image?.Url}
@@ -294,7 +303,7 @@ export default class DropDownMenuForHub extends React.Component {
     return (
       <div
         className={cn(
-          'dropdown-nav d-flex  justify-between items-center1 bg-white pt-411 pb-411 border-top1',
+          'dropdown-nav d-flex justify-between items-center1 bg-white pt-411 pb-411 border-top1',
           {
             show: activeTopParentId === item.id,
             'px-0 pb-0': item.Type === 'DetailedMenuGroup'
@@ -311,7 +320,12 @@ export default class DropDownMenuForHub extends React.Component {
             {list.value.length > 0
               ? list.type === 'MenuItem'
                 ? list.value.map((l, idx) => (
-                    <div className="pl-411 pr-4 nav-column" key={idx}>
+                    <div
+                      className={`pl-411 pr-4 ${
+                        ['fr'].includes(country) ? '' : 'nav-column'
+                      }`}
+                      key={idx}
+                    >
                       {l.map((cItem) => (
                         <a
                           href={cItem.Link.Url}

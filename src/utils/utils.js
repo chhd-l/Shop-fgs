@@ -179,8 +179,9 @@ export async function mergeUnloginCartData() {
         recommendationId: ele.recommendationId,
         recommendationName: ele.recommendationName,
         goodsCategory: ele.goodsCategory,
-        petsId: ele.petsId,
-        questionParams: ele.questionParams
+        petsId: find(ele.sizeList, (s) => s.selected).petsId,
+        questionParams: ele.questionParams,
+        prefixFn: ele.prefixFn === 'shelter-page' ? ele.prefixFn : ''
       };
     })
   };

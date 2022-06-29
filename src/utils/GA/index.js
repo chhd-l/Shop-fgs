@@ -591,6 +591,11 @@ export const orderConfirmationPushEvent = (details) => {
   const clinic = details.tradeItems.some((item) => item.recommendationId);
   if (!isHubGA) return;
   const GA_product = localItemRoyal.get('rc-ga-product');
+  //The problem with quality zero, we don't push it when we limit it to zero
+  let allHasQuantity = GA_product?.products?.every?.((el) => el.quantity);
+  if (!allHasQuantity) {
+    return;
+  }
   let shippingMode = 'Standard Delivery';
   switch (window.__.env.REACT_APP_COUNTRY) {
     case 'ru':
