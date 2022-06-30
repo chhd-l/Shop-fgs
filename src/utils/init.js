@@ -36,7 +36,7 @@ if (window.__.env.REACT_APP_HUB) {
 //412385 KARTE block snippet
 if (window.__.env.REACT_APP_COUNTRY === 'jp') {
   loadJS({
-    // url: 'https://cdn-blocks.karte.io/6e599016c95925f7ed35876da4e220b9/builder.js'
-    url: 'https://cdn-blocks.karte.io/3a741ab65bf6f686bbdac8d4f399e72b/builder.js'
+    url: 'https://cdn-blocks.karte.io/6e599016c95925f7ed35876da4e220b9/builder.js'
+    // url: 'https://cdn-blocks.karte.io/3a741ab65bf6f686bbdac8d4f399e72b/builder.js'
   });
 }
