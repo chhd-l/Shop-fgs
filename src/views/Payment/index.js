@@ -107,7 +107,7 @@ import {
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import {
   USEPOINT,
   NOTUSEPOINT
@@ -3609,15 +3609,14 @@ class Payment extends React.Component {
     const payConfirmBtn = ({ disabled, loading = false } = {}) => {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
-          <button
-            className={`rc_btn_payment_confirm rc-btn rc-btn--one ${
-              loading ? 'ui-btn-loading' : ''
-            }`}
+          <Button
             disabled={disabled}
+            loading={loading}
+            className="rc_btn_payment_confirm"
             onClick={this.clickConfirmPaymentPanel}
           >
             <FormattedMessage id="NextToPlaceAnOrder" />
-          </button>
+          </Button>
         </div>
       );
     };
@@ -4288,7 +4287,7 @@ class Payment extends React.Component {
           <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
             {/*<Progress type="payment" />*/}
             {/*checkout页面所有国家都不用流程图*/}
-            <div className="rc-padding--sm rc-padding-top--none">
+            <div className="rc-padding--sm rc-padding-top--none11 px-4 md:p-8">
               <div className="title">
                 <h4 className="text-2xl">
                   <FormattedMessage id="payment.checkout" />

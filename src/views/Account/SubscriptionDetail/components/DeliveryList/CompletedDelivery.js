@@ -207,62 +207,60 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                 paddingRight: '60px'
               }}
             >
-              <div className="rc-column p-0 w-100 flex flex-row">
-                {el.tradeItems &&
-                  el.tradeItems.map((tradeItem, index) => {
-                    if (index < 2) {
-                      return (
-                        <>
-                          <LazyLoad style={{ margin: '0 .625rem' }}>
-                            <img
-                              style={{
-                                width: '70px'
-                                // margin: '0 .625rem'
-                              }}
-                              src={optimizeImage({
-                                originImageUrl: tradeItem.pic
-                              })}
-                              alt={tradeItem.skuName}
-                            />
-                          </LazyLoad>
-                          <div
+              <div className="rc-column p-0 w-100 flex items-center">
+                {(el.tradeItems || []).map((tradeItem, index) => {
+                  if (index < 2) {
+                    return (
+                      <>
+                        <LazyLoad style={{ margin: '0 .625rem' }}>
+                          <img
                             style={{
-                              width: isMobile ? '120px' : 'auto',
-                              paddingTop: '30px',
-                              overflow: 'hidden'
+                              width: '70px'
+                              // margin: '0 .625rem'
                             }}
-                          >
-                            {!isIndv ? (
-                              <>
-                                <h5
-                                  title={tradeItem.skuName}
-                                  style={{
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    overflowWrap: 'normal',
-                                    fontSize: '.875rem',
-                                    whiteSpace: 'nowrap'
-                                  }}
-                                >
-                                  {tradeItem.skuName}
-                                </h5>
-                                <p
-                                  style={{
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    marginBottom: '8px',
-                                    fontSize: '.875rem'
-                                  }}
-                                >
-                                  {tradeItem.specDetails} x {tradeItem.num}
-                                </p>
-                              </>
-                            ) : null}
-                          </div>
-                        </>
-                      );
-                    }
-                  })}
+                            src={optimizeImage({
+                              originImageUrl: tradeItem.pic
+                            })}
+                            alt={tradeItem.skuName}
+                          />
+                        </LazyLoad>
+                        <div
+                          style={{
+                            width: 'calc(100% - 70px)',
+                            overflow: 'hidden'
+                          }}
+                        >
+                          {!isIndv ? (
+                            <>
+                              <h5
+                                title={tradeItem.skuName}
+                                style={{
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  overflowWrap: 'normal',
+                                  fontSize: '.875rem',
+                                  whiteSpace: 'nowrap'
+                                }}
+                              >
+                                {tradeItem.skuName}
+                              </h5>
+                              <p
+                                style={{
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  marginBottom: '8px',
+                                  fontSize: '.875rem'
+                                }}
+                              >
+                                {tradeItem.specDetails} x {tradeItem.num}
+                              </p>
+                            </>
+                          ) : null}
+                        </div>
+                      </>
+                    );
+                  }
+                })}
                 {el.tradeItems && el.tradeItems.length > 2 && (
                   <div
                     style={{

@@ -4,7 +4,9 @@ import FrequencySelection from '@/components/FrequencySelection';
 import { ErrorMessage } from '@/components/Message';
 import {
   changeSubscriptionGoods,
-  checkSubscriptionAddressPickPoint
+  checkSubscriptionAddressPickPoint,
+  stockNoticeModify,
+  queryStockNotice
 } from '@/api/subscription';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
 import HandledSpecSelect from '../HandledSpecSelect';
@@ -61,9 +63,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
-    null
-  );
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
+    useState(null);
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
@@ -75,7 +76,35 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
 
   useEffect(() => {
     setSkuPromotions(0);
+    checkStockNotice(details);
   }, [details?.goodsInfos]);
+
+  // check whether the current stock out notice has been alerted
+  const checkStockNotice = async (details) => {
+    const selectedSku = details?.sizeList?.filter((el) => el.selected)?.[0];
+    if (selectedSku?.goodsInfoId && !selectedSku?.stock) {
+      const params = {
+        customerId: loginStore?.userInfo?.customerId || '',
+        goodsId: details.goodsId || '',
+        goodsInfoId: selectedSku?.goodsInfoId || '',
+        storeId: window.__.env.REACT_APP_STOREID,
+        fromAddress: '2' //2 sku out of stock
+      };
+      const res = await queryStockNotice(params);
+      if (res.code === 'K-000000') {
+        const { stockNotice, email } = res.context;
+        setAlreadyNotice(stockNotice);
+        setUserEmail(email);
+      }
+    }
+  };
+
+  const updatedPriceOrCode = ({ clickEvent }) => {
+    if (clickEvent) {
+      checkStockNotice(details);
+    }
+  };
+
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const matchGoods = (data, sizeList) => {
     let newDetails = Object.assign(details, {
@@ -97,6 +126,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentSubscriptionStatus(data.currentSubscriptionStatus);
     setDetails(newDetails);
   };
+
   const changePets = (selected) => {
     if (!selected) {
       return;
@@ -240,10 +270,21 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setUserEmail(emailVal);
   };
 
-  const handleNotifyMe = () => {
-    console.log(454545);
-    //api request
-    if (true) {
+  const handleNotifyMe = async () => {
+    let subscribeId = subDetail.subscribeId;
+    const { goodsId = '', sizeList } = details;
+    const goodsInfoId = sizeList?.filter((el) => el.selected)?.[0]?.goodsInfoId;
+    // modify & add is same
+    const param = {
+      customerId: loginStore?.userInfo?.customerId || '',
+      email: userEmail,
+      goodsInfoIds: [goodsInfoId],
+      goodsId,
+      fromAddress: '2',
+      subscribeId
+    };
+    const res = await stockNoticeModify(param);
+    if (res.code === 'K-000000') {
       setAlreadyNotice(true);
     }
   };
@@ -317,6 +358,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                       updatedSku={matchGoods}
                       canSelectedOutOfStock={true}
                       canSelectedWhenAllSpecDisabled={true}
+                      updatedPriceOrCode={updatedPriceOrCode}
                     />
                     <InstockStatusComp
                       status={seleced}
@@ -386,18 +428,19 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             />
           </span>
           <div
-            className={`${
+            className={`md:ml-4 ${
               correctEmail
                 ? 'correct-format-input-box mt-3 md:mt-0'
                 : 'active-input-box mt-3 md:mt-0'
             }`}
           >
             <input
-              className={`email-input md:ml-4 pl-2  font-light text-base ${
-                alreadyNotice ? '' : 'border-b-2 pb-1 md:w-80 w-full'
+              className={`email-input font-light text-base ${
+                alreadyNotice ? ' w-60' : 'border-b-2 pb-1 md:w-80'
               }`}
               onChange={handleEmailChange}
               maxLength="50"
+              disabled={alreadyNotice}
               value={userEmail}
             />
             {correctEmail ? (

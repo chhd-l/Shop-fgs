@@ -2,21 +2,63 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
+const categoryAndProductNeedArr = [
+  { countryName: 'ru', langLocale: 'ru-RU' },
+  { countryName: 'tr', langLocale: 'tr-TR' },
+  { countryName: 'fr', langLocale: 'fr-FR' },
+  { countryName: 'uk', langLocale: 'en-GB' }
+];
 
-const Canonical = ({ href }) => {
+const Canonical = (props) => {
+  const { href, pageType } = props;
   const ret = href || pageLink;
-  return (
-    <Helmet>
-      <link rel="canonical" href={ret} />
-      {['ru', 'tr', 'fr', 'uk', 'se'].includes(
-        window.__.env.REACT_APP_COUNTRY
-      ) ? (
+  //372676 [CORE][SEO] Cross-referencing hreflang tags between category and product pages
+  const getLinkTag = () => {
+    if (['PLP', 'PDP'].includes(pageType)) {
+      if (['ru', 'tr', 'fr', 'uk'].includes(window.__.env.REACT_APP_COUNTRY)) {
+        return categoryAndProductNeedArr.map((item) => {
+          return (
+            <link
+              rel="alternate"
+              href={ret.replace(
+                `${window.__.env.REACT_APP_COUNTRY}`,
+                item.countryName
+              )}
+              hreflang={item.langLocale}
+            />
+          );
+        });
+      } else {
+        return (
+          <link
+            rel="alternate"
+            href={ret}
+            hreflang={window.__.env.REACT_APP_LANG_LOCALE}
+          />
+        );
+      }
+    } else {
+      return (
         <link
           rel="alternate"
           href={ret}
           hreflang={window.__.env.REACT_APP_LANG_LOCALE}
         />
-      ) : null}
+      );
+    }
+  };
+
+  return (
+    <Helmet>
+      <link rel="canonical" href={ret} />
+      {['ru', 'tr', 'fr', 'uk', 'se'].includes(window.__.env.REACT_APP_COUNTRY)
+        ? getLinkTag()
+        : // <link
+          //   rel="alternate"
+          //   href={ret}
+          //   hreflang={window.__.env.REACT_APP_LANG_LOCALE}
+          // />
+          null}
       {/* // x-default hreflang tags should be updated on all D2C pages for all markets. */}
       {['ru', 'tr', 'fr', 'uk', 'se'].includes(
         window.__.env.REACT_APP_COUNTRY

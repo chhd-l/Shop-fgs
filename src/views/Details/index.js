@@ -1303,7 +1303,7 @@ class Details extends React.Component {
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
     const goodHeading = `<${headingTag || 'h1'}
-        class="rc-gamma text-break"
+        class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;

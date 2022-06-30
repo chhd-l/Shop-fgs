@@ -6,6 +6,7 @@ import Skeleton from 'react-skeleton-loader';
 import RecommendationListModal from './RecommendationListModal';
 import GoodsDetails from './GoodsDetails';
 import { getDetailsBySpuNo } from '@/api/details';
+import { stockNoticeModify, queryStockNotice } from '@/api/subscription';
 import Modal from '@/components/Modal';
 import ChooseSKU from './ChooseSKU';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
@@ -19,12 +20,8 @@ const loginStore = stores.loginStore;
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const {
-    setState,
-    subDetail,
-    isShowClub,
-    triggerShowChangeProduct
-  } = SubDetailHeaderValue;
+  const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
+    SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
@@ -45,10 +42,8 @@ const ChangeProduct = () => {
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
   const [details, setDetails] = useState({});
   const [renderDetailAgin, setRenderDetailAgin] = useState(true);
-  const [
-    recommendationVisibleLoading,
-    setRecommendationVisibleLoading
-  ] = useState(true);
+  const [recommendationVisibleLoading, setRecommendationVisibleLoading] =
+    useState(true);
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',
@@ -111,6 +106,32 @@ const ChangeProduct = () => {
   useEffect(() => {
     setRenderDetailAgin(!renderDetailAgin); // box和弹窗goodsno一致的时候，规格筛选不能重新渲染，强制变化后渲染
   }, [goodsDetails]); // 获取详情数据后重置
+
+  useEffect(() => {
+    if (showModalArr[1] && details) {
+      checkGoodsNotice(details);
+    }
+  }, [showModalArr, details]);
+
+  // check whether the current spu stock out notice has been alerted
+  const checkGoodsNotice = async (details) => {
+    const productStock = details?.goodsInfos?.some((el) => el.stock);
+    const goodsId = details.goodsId || '';
+    if (!productStock && goodsId) {
+      const params = {
+        customerId: loginStore?.userInfo?.customerId || '',
+        goodsId: details.goodsId,
+        storeId: window.__.env.REACT_APP_STOREID,
+        fromAddress: '1'
+      };
+      const res = await queryStockNotice(params);
+      if (res.code === 'K-000000') {
+        const { stockNotice, email } = res.context;
+        setAlreadyNotice(stockNotice);
+        setUserEmail(email);
+      }
+    }
+  };
 
   const queryProductDetails = async ({ id, cb, mainProductDetails }) => {
     if (mainProductDetails) {
@@ -181,10 +202,24 @@ const ChangeProduct = () => {
     setAlreadyNotice(false);
   };
 
-  const handleNotifyMe = () => {
-    console.log(454545);
-    //api request
-    if (true) {
+  const handleNotifyMe = async () => {
+    let subscribeId = subDetail.subscribeId;
+    const { goods = {}, goodsInfos = [] } = goodsDetails;
+    const goodsInfoIds = goodsInfos?.map((el) => el.goodsInfoId);
+    console.log(goodsInfoIds, 'goodsInfoIds==');
+    // modify & add is same
+    const param = {
+      customerId: loginStore?.userInfo?.customerId || '',
+      email: userEmail,
+      goodsInfoIds,
+      goodsId: goods.goodsId || '',
+      fromAddress: '1', //1:spu out of stock
+      subscribeId
+    };
+    console.log(param, 'pa');
+    const res = await stockNoticeModify(param);
+    console.log(res, 'resres==');
+    if (res.code === 'K-000000') {
       setAlreadyNotice(true);
     }
   };
@@ -195,7 +230,7 @@ const ChangeProduct = () => {
     return (
       <div className="">
         {!productStock ? (
-          <div className=" mb-6 flex flex-col items-center md:items-start">
+          <div className=" mb-4 flex flex-col items-center md:items-start">
             <div className="text-base font-normal mb-2">
               <FormattedMessage
                 id={
@@ -215,11 +250,12 @@ const ChangeProduct = () => {
               >
                 <input
                   className={`email-input pl-2  font-light text-base ${
-                    alreadyNotice ? '' : 'border-b-2 pb-1 w-80'
+                    alreadyNotice ? 'w-60' : 'border-b-2 pb-1 w-80'
                   }`}
                   onChange={handleEmailChange}
                   maxLength="50"
                   value={userEmail}
+                  disabled={alreadyNotice}
                 />
                 {correctEmail ? (
                   <svg
