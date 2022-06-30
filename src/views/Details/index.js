@@ -62,7 +62,7 @@ import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import AdvantageTips from './components/AdvantageTips';
 import Advantage from './components/Advantage';
 import Ration from './components/Ration/index.tsx';
-import GA_Comp from './components/GA_Comp/index.tsx';
+import GA_Comp from './components/GA_CompGA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 import {
@@ -401,6 +401,7 @@ class Details extends React.Component {
   };
 
   matchGoods(data, sizeList) {
+    console.log('datddddddddddddddddddda', this.state.details, data, sizeList);
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
     let {
@@ -1127,8 +1128,21 @@ class Details extends React.Component {
       </div>
     );
   };
-
-  specAndQuantityDom = () => {
+  handleClickSku = () => {
+    if (!this.isLogin) return;
+    setTimeout(() => {
+      if (!this.state.instockStatus) {
+        this.setState({
+          ossReceiveBackNotificationContentVisible: true
+        });
+      } else {
+        this.setState({
+          ossReceiveBackNotificationContentVisible: false
+        });
+      }
+    }, 0);
+  };
+  specAndQuantityDom = (selectedSpecItem) => {
     const {
       configStore: {
         info: { skuLimitThreshold }
@@ -1146,25 +1160,14 @@ class Details extends React.Component {
             updatedPriceOrCode={this.updatedPriceOrCode}
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
-            onClickSku={() => {
-              setTimeout(() => {
-                if (!this.state.instockStatus) {
-                  this.setState({
-                    ossReceiveBackNotificationContentVisible: true
-                  });
-                } else {
-                  this.setState({
-                    ossReceiveBackNotificationContentVisible: false
-                  });
-                }
-              }, 0);
-            }}
+            onClickSku={this.handleClickSku}
             canSelectedOutOfStock
           />
-          {isMobile && (
+          {isMobile && this.isLogin && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
+              selectedSpecItem={selectedSpecItem}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
           )}
@@ -1193,10 +1196,11 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {!isMobile && (
+        {!isMobile && this.isLogin && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
+            selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
         )}
@@ -1514,7 +1518,9 @@ class Details extends React.Component {
                               />
                               {!vet ? (
                                 <>
-                                  {!isMobile ? this.specAndQuantityDom() : null}
+                                  {!isMobile
+                                    ? this.specAndQuantityDom(selectedSpecItem)
+                                    : null}
                                   {versionB ? (
                                     <>
                                       <PurchaseMethodB
