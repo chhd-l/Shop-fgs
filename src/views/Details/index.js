@@ -401,6 +401,7 @@ class Details extends React.Component {
   };
 
   matchGoods(data, sizeList) {
+    console.log('datddddddddddddddddddda', this.state.details, data, sizeList);
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
     let {
@@ -1127,8 +1128,21 @@ class Details extends React.Component {
       </div>
     );
   };
-
-  specAndQuantityDom = () => {
+  handleClickSku = () => {
+    if (!this.isLogin) return;
+    setTimeout(() => {
+      if (!this.state.instockStatus) {
+        this.setState({
+          ossReceiveBackNotificationContentVisible: true
+        });
+      } else {
+        this.setState({
+          ossReceiveBackNotificationContentVisible: false
+        });
+      }
+    }, 0);
+  };
+  specAndQuantityDom = (selectedSpecItem) => {
     const {
       configStore: {
         info: { skuLimitThreshold }
@@ -1146,25 +1160,14 @@ class Details extends React.Component {
             updatedPriceOrCode={this.updatedPriceOrCode}
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
-            onClickSku={() => {
-              setTimeout(() => {
-                if (!this.state.instockStatus) {
-                  this.setState({
-                    ossReceiveBackNotificationContentVisible: true
-                  });
-                } else {
-                  this.setState({
-                    ossReceiveBackNotificationContentVisible: false
-                  });
-                }
-              }, 0);
-            }}
+            onClickSku={this.handleClickSku}
             canSelectedOutOfStock
           />
-          {isMobile && (
+          {isMobile && this.isLogin && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
+              selectedSpecItem={selectedSpecItem}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
           )}
@@ -1193,10 +1196,11 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {!isMobile && (
+        {!isMobile && this.isLogin && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
+            selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
         )}
@@ -1514,15 +1518,19 @@ class Details extends React.Component {
                               />
                               {!vet ? (
                                 <>
-                                  {!isMobile ? this.specAndQuantityDom() : null}
+                                  {!isMobile
+                                    ? this.specAndQuantityDom(selectedSpecItem)
+                                    : null}
                                   {versionB ? (
                                     <>
                                       <PurchaseMethodB
                                         form={form}
                                         fromPrice={fromPrice}
                                         isMobile={isMobile}
-                                        specAndQuantityDom={
-                                          this.specAndQuantityDom
+                                        specAndQuantityDom={() =>
+                                          this.specAndQuantityDom(
+                                            selectedSpecItem
+                                          )
                                         }
                                         isNullGoodsInfos={this.isNullGoodsInfos}
                                       />
@@ -1616,7 +1624,9 @@ class Details extends React.Component {
                                 'col-md-5': !isMobile && this.skuOffShelves
                               })}
                             >
-                              {isMobile ? this.specAndQuantityDom() : null}
+                              {isMobile
+                                ? this.specAndQuantityDom(selectedSpecItem)
+                                : null}
                               <div
                                 className={`${
                                   currentUnitPrice && this.skuOffShelves
