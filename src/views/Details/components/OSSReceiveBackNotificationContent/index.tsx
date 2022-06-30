@@ -20,12 +20,17 @@ const OssReceiveBackNotificationContent = ({
   selectedSpecItem,
   userInfo
 }: OssReceiveBackNotificationContentProps) => {
+  console.log(
+    selectedSpecItem,
+    'selectedSpecItemselectedSpecItemselectedSpecItem'
+  );
+
   const { customerId } = userInfo;
   const { goodsId } = details;
   const [email, setEmail] = useState<string>();
   const [isEdited, setIsEdited] = useState(false);
   useEffect(() => {
-    if (!visible || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
+    if (!selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
     async function req() {
       setIsEdited(false);
@@ -87,7 +92,24 @@ const OssReceiveBackNotificationContent = ({
       <div className="mt-3 justify-between flex flex-col md:flex-row">
         {isEdited ? (
           <>
-            <span className="rc-text-colour--success">{email}</span>
+            <span className="rc-text-colour--success">
+              {email}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="ml-2 h-5 w-5 inline-block"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </span>
+
             <button
               className="rc-btn rc-btn--two rc-btn--sm h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={() => setIsEdited(false)}

@@ -1527,8 +1527,10 @@ class Details extends React.Component {
                                         form={form}
                                         fromPrice={fromPrice}
                                         isMobile={isMobile}
-                                        specAndQuantityDom={
-                                          this.specAndQuantityDom
+                                        specAndQuantityDom={() =>
+                                          this.specAndQuantityDom(
+                                            selectedSpecItem
+                                          )
                                         }
                                         isNullGoodsInfos={this.isNullGoodsInfos}
                                       />
@@ -1622,7 +1624,9 @@ class Details extends React.Component {
                                 'col-md-5': !isMobile && this.skuOffShelves
                               })}
                             >
-                              {isMobile ? this.specAndQuantityDom() : null}
+                              {isMobile
+                                ? this.specAndQuantityDom(selectedSpecItem)
+                                : null}
                               <div
                                 className={`${
                                   currentUnitPrice && this.skuOffShelves
