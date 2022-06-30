@@ -47,28 +47,28 @@ const categorySetting = (cate) => {
     dog: 'first'
   };
   const defaultSetting = (cate) => {
-    return setting1[cate];
+    return setting2[cate];
   };
 
   const newSetting =
     {
       ru: () => {
-        return setting2[cate];
+        return setting1[cate];
       },
       mx: () => {
-        return setting2[cate];
+        return setting1[cate];
       },
       de: () => {
-        return setting2[cate];
+        return setting1[cate];
       },
       ca: () => {
-        return setting2[cate];
+        return setting1[cate];
       },
       jp: () => {
-        return setting2[cate];
+        return setting1[cate];
       },
       nl: () => {
-        return setting2[cate];
+        return setting1[cate];
       }
     }[window.__.env.REACT_APP_COUNTRY] || defaultSetting;
 

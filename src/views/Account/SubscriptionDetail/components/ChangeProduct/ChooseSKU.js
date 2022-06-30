@@ -63,9 +63,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
-    null
-  );
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
+    useState(null);
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
