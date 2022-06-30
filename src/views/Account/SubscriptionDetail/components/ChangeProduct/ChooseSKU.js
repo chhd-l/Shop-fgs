@@ -95,7 +95,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
       if (res.code === 'K-000000') {
         const { stockNotice, email } = res.context;
         setAlreadyNotice(stockNotice);
-        setUserEmail(email);
+        email && setUserEmail(email);
       }
     }
   };
