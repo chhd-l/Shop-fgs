@@ -366,7 +366,7 @@ class AdyenCreditCardForm extends React.Component {
           <div className="text-right">
             <a
               href="javascript:;"
-              className="rc-styled-link"
+              className="rc-styled-link pt-1"
               onClick={this.handleClickCancel}
             >
               <FormattedMessage id="BacktoSavedPayments" />

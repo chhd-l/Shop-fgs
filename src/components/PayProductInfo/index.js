@@ -356,7 +356,7 @@ class PayProductInfo extends React.Component {
         <div className="product-summary__recap mt-0 mb-0  111">
           {details ? (
             <>
-              <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between">
+              <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between px-5 py-3 font-normal">
                 <span>
                   <FormattedMessage
                     id="payment.totalProduct"
@@ -401,7 +401,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
+              <div className="product-summary__total grand-total row leading-lines checkout--padding border-top px-5 py-3 font-normal">
                 <div className="col-6 start-lines">
                   <span>
                     <FormattedMessage id="totalIncluIVA" />
@@ -414,7 +414,7 @@ class PayProductInfo extends React.Component {
                 </div>
               </div>
               {this.earnedPoint > 0 && (
-                <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
+                <div className="product-summary__total grand-total row leading-lines checkout--padding border-top px-5 py-3 font-normal">
                   <div className="col-6 start-lines">
                     <span>
                       <FormattedMessage id="payment.earnedPoint" />

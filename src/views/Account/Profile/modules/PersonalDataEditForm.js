@@ -12,6 +12,8 @@ import { withOktaAuth } from '@okta/okta-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { format } from 'date-fns';
 import { isSaveAddressBtnDisabled, nullToEmpty } from '@/utils/constant';
+import { Button } from '@/components/Common';
+
 @injectIntl
 @inject('loginStore')
 @observer
@@ -567,10 +569,9 @@ class PersonalDataEditForm extends React.Component {
                 &nbsp;
                 <FormattedMessage id="or" />
                 &nbsp;
-                <button
-                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
-                    'ui-btn-loading': this.state.loading
-                  })}
+                <Button
+                  loading={this.state.loading}
+                  className="submitBtn"
                   name="personalInformation"
                   type="submit"
                   disabled={isSaveAddressBtnDisabled(
@@ -581,7 +582,7 @@ class PersonalDataEditForm extends React.Component {
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>
