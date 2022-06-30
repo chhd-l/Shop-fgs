@@ -128,7 +128,7 @@ const ChangeProduct = () => {
       if (res.code === 'K-000000') {
         const { stockNotice, email } = res.context;
         setAlreadyNotice(stockNotice);
-        setUserEmail(email);
+        email && setUserEmail(email);
       }
     }
   };
@@ -160,10 +160,12 @@ const ChangeProduct = () => {
       });
   };
   const initMainProduct = () => {
+    console.log(333);
     queryProductDetails({ mainProductDetails }); // 需要重置顶部推荐框
     showModal(); // 关闭所有弹窗
   };
   const showProdutctDetail = (id) => {
+    console.log(444);
     queryProductDetails({
       id,
       cb: () => {
@@ -206,7 +208,6 @@ const ChangeProduct = () => {
     let subscribeId = subDetail.subscribeId;
     const { goods = {}, goodsInfos = [] } = goodsDetails;
     const goodsInfoIds = goodsInfos?.map((el) => el.goodsInfoId);
-    console.log(goodsInfoIds, 'goodsInfoIds==');
     // modify & add is same
     const param = {
       customerId: loginStore?.userInfo?.customerId || '',
@@ -216,9 +217,7 @@ const ChangeProduct = () => {
       fromAddress: '1', //1:spu out of stock
       subscribeId
     };
-    console.log(param, 'pa');
     const res = await stockNoticeModify(param);
-    console.log(res, 'resres==');
     if (res.code === 'K-000000') {
       setAlreadyNotice(true);
     }
