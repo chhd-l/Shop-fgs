@@ -20,12 +20,8 @@ const loginStore = stores.loginStore;
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const {
-    setState,
-    subDetail,
-    isShowClub,
-    triggerShowChangeProduct
-  } = SubDetailHeaderValue;
+  const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
+    SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
@@ -46,10 +42,8 @@ const ChangeProduct = () => {
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
   const [details, setDetails] = useState({});
   const [renderDetailAgin, setRenderDetailAgin] = useState(true);
-  const [
-    recommendationVisibleLoading,
-    setRecommendationVisibleLoading
-  ] = useState(true);
+  const [recommendationVisibleLoading, setRecommendationVisibleLoading] =
+    useState(true);
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',
@@ -134,7 +128,7 @@ const ChangeProduct = () => {
       if (res.code === 'K-000000') {
         const { stockNotice, email } = res.context;
         setAlreadyNotice(stockNotice);
-        setUserEmail(email);
+        email && setUserEmail(email);
       }
     }
   };
@@ -166,10 +160,12 @@ const ChangeProduct = () => {
       });
   };
   const initMainProduct = () => {
+    console.log(333);
     queryProductDetails({ mainProductDetails }); // 需要重置顶部推荐框
     showModal(); // 关闭所有弹窗
   };
   const showProdutctDetail = (id) => {
+    console.log(444);
     queryProductDetails({
       id,
       cb: () => {
@@ -212,7 +208,6 @@ const ChangeProduct = () => {
     let subscribeId = subDetail.subscribeId;
     const { goods = {}, goodsInfos = [] } = goodsDetails;
     const goodsInfoIds = goodsInfos?.map((el) => el.goodsInfoId);
-    console.log(goodsInfoIds, 'goodsInfoIds==');
     // modify & add is same
     const param = {
       customerId: loginStore?.userInfo?.customerId || '',
@@ -222,9 +217,7 @@ const ChangeProduct = () => {
       fromAddress: '1', //1:spu out of stock
       subscribeId
     };
-    console.log(param, 'pa');
     const res = await stockNoticeModify(param);
-    console.log(res, 'resres==');
     if (res.code === 'K-000000') {
       setAlreadyNotice(true);
     }

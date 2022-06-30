@@ -63,9 +63,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
-    null
-  );
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
+    useState(null);
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
@@ -95,7 +94,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
       if (res.code === 'K-000000') {
         const { stockNotice, email } = res.context;
         setAlreadyNotice(stockNotice);
-        setUserEmail(email);
+        email && setUserEmail(email);
       }
     }
   };
