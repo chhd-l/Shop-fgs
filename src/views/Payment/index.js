@@ -3617,15 +3617,6 @@ class Payment extends React.Component {
           >
             <FormattedMessage id="NextToPlaceAnOrder" />
           </Button>
-          {/* <button
-            className={`rc_btn_payment_confirm rc-btn rc-btn--one flex items-center justify-between ${
-              loading ? 'ui-btn-loading' : ''
-            }`}
-            disabled={disabled}
-            onClick={this.clickConfirmPaymentPanel}
-          >
-            <FormattedMessage id="NextToPlaceAnOrder" />
-          </button> */}
         </div>
       );
     };
@@ -4296,7 +4287,7 @@ class Payment extends React.Component {
           <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
             {/*<Progress type="payment" />*/}
             {/*checkout页面所有国家都不用流程图*/}
-            <div className="rc-padding--sm rc-padding-top--none">
+            <div className="rc-padding--sm rc-padding-top--none11 px-4 md:p-8">
               <div className="title">
                 <h4 className="text-2xl">
                   <FormattedMessage id="payment.checkout" />
