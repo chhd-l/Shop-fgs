@@ -120,7 +120,7 @@ const LoginButton = (props) => {
                     });
                   // GA 登陆成功埋点 end
                   let userinfo = res.context.customerDetail;
-                  let customerId = res.context.customerId;
+                  let customerId = res.context?.customerId;
                   loginStore.changeLoginModal(false);
                   loginStore.changeIsLogin(true);
 
