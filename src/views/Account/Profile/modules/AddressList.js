@@ -24,6 +24,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { AddressPreview } from '@/components/Address';
+import { Button } from '@/components/Common';
 import './AddressList.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -515,10 +516,9 @@ class AddressList extends React.Component {
                 {isMobile && item.receiveType === 'PICK_UP' ? (
                   <>
                     {/* 编辑按钮 */}
-                    <button
-                      className={`rc-btn rc-btn--sm rc-btn--two font-weight-bold ${
-                        isMobile ? 'mb-3' : ''
-                      }`}
+                    <Button
+                      size="small"
+                      className={`font-weight-bold mb-3 md:mb-0`}
                       onClick={this.handleEditAddress.bind(this, item)}
                       style={{ fontSize: '12px' }}
                     >
@@ -527,7 +527,7 @@ class AddressList extends React.Component {
                       ) : (
                         <FormattedMessage id="edit" />
                       )}
-                    </button>
+                    </Button>
 
                     {/* 删除按钮 */}
                     <span
@@ -584,8 +584,9 @@ class AddressList extends React.Component {
                     </span>
 
                     {/* 编辑按钮 */}
-                    <button
-                      className={`rc-btn rc-btn--sm rc-btn--two font-weight-bold`}
+                    <Button
+                      size="small"
+                      className={`font-weight-bold`}
                       onClick={this.handleEditAddress.bind(this, item)}
                       style={{ fontSize: '12px' }}
                     >
@@ -594,7 +595,7 @@ class AddressList extends React.Component {
                       ) : (
                         <FormattedMessage id="edit" />
                       )}
-                    </button>
+                    </Button>
                   </>
                 )}
               </div>
@@ -950,16 +951,16 @@ class AddressList extends React.Component {
                       >
                         <FormattedMessage id="cancel" />
                       </span>
-                      <button
-                        className={`rc-btn rc-btn--one editAddress ${
-                          saveBtnLoading ? 'ui-btn-loading' : ''
-                        }`}
-                        type="submit"
+                      <Button
+                        type="primary"
+                        className={`editAddress`}
+                        loading={saveBtnLoading}
+                        htmlType="submit"
                         disabled={confirmBtnDisabled}
                         onClick={this.clickConfirmPickup}
                       >
                         <FormattedMessage id="save" />
-                      </button>
+                      </Button>
                     </div>
                   </>
                 )}

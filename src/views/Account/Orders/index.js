@@ -33,7 +33,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -320,19 +320,19 @@ class AccountOrders extends React.Component {
               onTimeEnd={this.handlePayNowTimeEnd.bind(this, order)}
             />
             <br />
-            <button
-              className={`rc-btn rc-btn--one ord-list-operation-btn ${
-                order.payNowLoading ? 'ui-btn-loading' : ''
-              }`}
+            <Button
+              type="primay"
+              className={`ord-list-operation-btn`}
+              loading={order.payNowLoading}
               onClick={this.handleClickPayNow.bind(this, order)}
             >
               <FormattedMessage id="order.payNow" />
-            </button>
+            </Button>
           </>
         ) : null}
         {/*普通产品评论*/}
         {order.canReview ? (
-          <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
+          <Button size="small" className="ord-list-operation-btn">
             <FormattedMessage id="writeReview">
               {(txt) => (
                 <Link
@@ -345,11 +345,15 @@ class AccountOrders extends React.Component {
                 </Link>
               )}
             </FormattedMessage>
-          </button>
+          </Button>
         ) : null}
         {/*服务类产品评论*/}
         {order.canReviewService ? (
-          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order">
+          <Button
+            type="primary"
+            size="small"
+            className="ord-list-operation-btn felin-order"
+          >
             <FormattedMessage id="writeReview">
               {(txt) => (
                 <Link
@@ -362,22 +366,20 @@ class AccountOrders extends React.Component {
                 </Link>
               )}
             </FormattedMessage>
-          </button>
+          </Button>
         ) : null}
         {order.canRePurchase ? (
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
-              order.addToCartLoading
-                ? 'ui-btn-loading ui-btn-loading-border-red'
-                : ''
-            }`}
+          <Button
+            size="small"
+            className={`rePurchase-btn ord-list-operation-btn`}
+            loading={order.addToCartLoading}
             onClick={this.rePurchase.bind(this, order)}
           >
             <FormattedMessage id="rePurchase" />
-          </button>
+          </Button>
         ) : null}
         {order.canViewTrackInfo ? (
-          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
+          <Button type="primay" size="small" className="ord-list-operation-btn">
             <FormattedMessage id="trackDelivery">
               {(txt) => (
                 <>
@@ -420,7 +422,7 @@ class AccountOrders extends React.Component {
                 </>
               )}
             </FormattedMessage>
-          </button>
+          </Button>
         ) : null}
       </>
     );

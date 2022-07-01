@@ -23,7 +23,7 @@ import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import { findPetProductForClub } from '@/api/subscription';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import { ProductCarousel } from '@/components/Product';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -433,22 +433,25 @@ class PetForm extends React.Component {
                       <FormattedMessage id="Your Pet is a…" />
                     </p>
                     <div>
-                      <button
-                        className="rc-btn rc-btn--sm rc-btn--one mr-5"
+                      <Button
+                        type="primary"
+                        size="small"
+                        className="mr-5"
                         onClick={() => {
                           this.petTypeChange(false);
                         }}
                       >
                         <FormattedMessage id="Dog" />
-                      </button>
-                      <button
-                        className="rc-btn rc-btn--sm rc-btn--one"
+                      </Button>
+                      <Button
+                        type="primary"
+                        size="small"
                         onClick={() => {
                           this.petTypeChange(true);
                         }}
                       >
                         <FormattedMessage id="Cat" />
-                      </button>
+                      </Button>
                     </div>
                     {/* 日本需要 */}
                     <div>

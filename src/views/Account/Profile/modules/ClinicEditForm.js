@@ -7,6 +7,7 @@ import { getPrescriberByKeyWord, getPrescriberByCode } from '@/api/clinic';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
+import { Button } from '@/components/Common';
 
 @inject('configStore', 'clinicStore')
 @injectIntl
@@ -322,17 +323,17 @@ class ClinicEditForm extends React.Component {
                 &nbsp;
                 <FormattedMessage id="or" />
                 &nbsp;
-                <button
-                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
-                    'ui-btn-loading': this.state.loading
-                  })}
+                <Button
+                  type="primary"
+                  className={classNames('submitBtn')}
+                  loading={this.state.loading}
                   name="contactPreference"
-                  type="submit"
+                  htmlType="submit"
                   disabled={!this.state.isValid}
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>

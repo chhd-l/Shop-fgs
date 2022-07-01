@@ -20,6 +20,7 @@ import { inject, observer } from 'mobx-react';
 import { QuantityPicker } from '@/components/Product';
 import stores from '@/store';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 const loginStore = stores.loginStore;
 
@@ -461,12 +462,13 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             ) : null}
           </div>
           {alreadyNotice ? (
-            <button
-              className="rc-btn rc-btn--two rc-btn--sm md:ml-6 mt-3 md:mt-0"
+            <Button
+              size="small"
+              className="md:ml-6 mt-3 md:mt-0"
               onClick={handleModifyEmail}
             >
               <FormattedMessage id="modifyEmail" />
-            </button>
+            </Button>
           ) : null}
         </div>
       ) : null}
@@ -492,33 +494,28 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           <FormattedMessage id="subscription.seeOtherRecommendation" />
         </span>
         <div className="for-mobile-colum d-flex for-mobile-colum d-flex flex-col-reverse md:flex-row">
-          <button
-            onClick={() => showProdutctDetail(0)}
-            className="rc-btn rc-btn--two rc-btn--sm mr-0"
-          >
+          <Button onClick={() => showProdutctDetail(0)} size="small">
             <FormattedMessage id="subscription.productDetails" />
-          </button>
+          </Button>
           {outOfStockStatus && !alreadyNotice ? (
-            <button
-              className={cn(`rc-btn rc-btn--one rc-btn--sm  mr-0`, {
-                'rc-btn-solid-disabled': !correctEmail || alreadyNotice
-              })}
+            <Button
+              size="small"
+              type="primary"
               disabled={!correctEmail || alreadyNotice}
               onClick={handleNotifyMe}
             >
               <FormattedMessage id="notifyMe" />
-            </button>
+            </Button>
           ) : isNotInactive && !alreadyNotice ? (
-            <button
+            <Button
+              size="small"
+              type="primary"
               onClick={() => changePets(seleced)}
-              className={cn(`rc-btn rc-btn--one rc-btn--sm mr-0`, {
-                'rc-btn-solid-disabled': !seleced,
-                'ui-btn-loading': changeNowLoading
-              })}
-              disabled={!isSpecAvailable}
+              loading={changeNowLoading}
+              disabled={!isSpecAvailable || !seleced}
             >
               <FormattedMessage id="subscription.changeNow" />
-            </button>
+            </Button>
           ) : null}
         </div>
       </div>

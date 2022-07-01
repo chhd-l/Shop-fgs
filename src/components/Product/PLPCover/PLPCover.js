@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { inject } from 'mobx-react';
-import Rate from '@/components/Rate';
+import { Button } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
@@ -59,12 +59,12 @@ function ListItemH5ForGlobalStyle(props) {
                   href="/product-finder"
                   to="/product-finder"
                 >
-                  <button
-                    className="rc-btn rc-btn--two margin-top-mobile-20"
+                  <Button
+                    className="margin-top-mobile-20"
                     style={{ marginTop: '1.1875rem' }}
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
-                  </button>
+                  </Button>
                 </DistributeHubLinkOrATag>
               </div>
               <picture className="rc-card__image" style={{ flex: 1 }}>
@@ -313,12 +313,9 @@ function ListItemForDefault(props) {
                   href="/product-finder"
                   to="/product-finder"
                 >
-                  <button
-                    className="rc-btn rc-btn--two "
-                    style={{ marginTop: '1.1875rem' }}
-                  >
+                  <Button style={{ marginTop: '1.1875rem' }}>
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
-                  </button>
+                  </Button>
                 </DistributeHubLinkOrATag>
               </div>
             </div>

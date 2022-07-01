@@ -26,7 +26,7 @@ import {
 } from '@/utils/utils';
 import { format } from 'date-fns';
 import { ErrorMessage } from '@/components/Message';
-import { DatePickerComponent } from '@/components/Common';
+import { DatePickerComponent, Button } from '@/components/Common';
 
 const purebredOpitons = [
   {
@@ -1005,12 +1005,9 @@ const PetForms = ({
           <div className="form-group col-lg-12 pull-left required">
             {isMobile ? (
               <p style={{ textAlign: 'center' }}>
-                <button
-                  className="rc-btn rc-btn--one"
-                  onClick={() => savePet()}
-                >
+                <Button type="primary" onClick={() => savePet()}>
                   <FormattedMessage id="saveChange" />
-                </button>
+                </Button>
                 <br />
                 {/* sourceType为1 和 individual的时候都是individual的，不能删除宠物*/}
                 {paramsId &&
@@ -1064,12 +1061,9 @@ const PetForms = ({
                       <span className="md:mr-2">&nbsp;or&nbsp;</span>
                     </>
                   )}
-                <button
-                  className="rc-btn rc-btn--one"
-                  onClick={() => savePet()}
-                >
+                <Button type="primary" onClick={() => savePet()}>
                   <FormattedMessage id="saveChange" />
-                </button>
+                </Button>
               </p>
             )}
           </div>
@@ -1089,16 +1083,17 @@ const PetForms = ({
             <div>{deleteWarningMessage}</div>
           </p>
           <p>
-            <button
+            <Button
               onClick={() => {
                 handleDelPets(true);
               }}
-              className={`rc-btn rc-btn--one rc-btn--sm text-plain ${
-                loading ? 'ui-btn-loading' : ''
-              }`}
+              type="primary"
+              size="small"
+              loading={loading}
+              className={`text-plain`}
             >
               <FormattedMessage id="pet.deletePet" />
-            </button>
+            </Button>
           </p>
         </div>
       </Modal>
@@ -1120,15 +1115,16 @@ const PetForms = ({
             <FormattedMessage id="petSaveTips2" />
           </p>
           <p>
-            <button
+            <Button
               onClick={() => {
                 GAForSeeRecommendationBtn();
                 gotoNext('updateLifeStage', true);
               }}
-              className="rc-btn rc-btn--one rc-btn--sm"
+              type="primary"
+              size="small"
             >
               <FormattedMessage id="See recommendation" />
-            </button>
+            </Button>
           </p>
         </div>
       </Modal>

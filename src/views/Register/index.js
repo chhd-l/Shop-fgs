@@ -22,7 +22,7 @@ import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 import cn from 'classnames';
-import { Input } from '@/components/Common';
+import { Input, Button } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
@@ -101,8 +101,6 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    console.log(2222, '我们的注册页面');
-    console.log('window', window.__.env);
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
       window.location.search.indexOf('&token') >= 0;
@@ -1088,16 +1086,17 @@ class Register extends Component {
                   ) : null}
                   {/* 注册按钮 */}
                   <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
-                    <button
+                    <Button
+                      type="primary"
                       id="registerSubmitBtn"
-                      type="button"
+                      htmlType="button"
                       value="Créer votre compte Royal Canin"
-                      className="rc-btn rc-btn--one rc-self-v-middle--mobile"
+                      className="rc-self-v-middle--mobile"
                       disabled={jpRegisterDisabled}
                       onClick={() => this.register()}
                     >
                       <FormattedMessage id="jp.registerCreateYourAccout" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -1607,16 +1606,17 @@ class Register extends Component {
                             </aside>
                           ) : null}
                           <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
-                            <button
+                            <Button
+                              type="primary"
                               id="registerSubmitBtn"
-                              type="button"
+                              htmlType="button"
                               value="Créer votre compte Royal Canin"
-                              className="rc-btn rc-btn--one rc-self-v-middle--mobile"
+                              className="rc-self-v-middle--mobile"
                               disabled={registerDisabled}
                               onClick={() => this.register()}
                             >
                               <FormattedMessage id="registerCreateYourAccout" />
-                            </button>
+                            </Button>
                           </div>
                           <div className="rc-meta rc-margin-top--sm rc-text--left">
                             <p>

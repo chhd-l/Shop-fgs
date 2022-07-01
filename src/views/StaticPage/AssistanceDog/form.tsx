@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input } from '@/components/Common';
+import { Input, Button } from '@/components/Common';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import cn from 'classnames';
 import { EMAIL_REGEXP } from '@/utils/constant';
@@ -162,7 +162,7 @@ const Form = ({ intl }: Props) => {
       setSubmitMsg((cur) =>
         Object.assign({}, cur, {
           success:
-            'Merci ! Nous avons bien reçu votre demande, nous vous recontacterons dans un délai de 48h maximum jours ouvrés ! Si besoin de remplir le formulaire de nouveau, rechargez la page s\'il vous plaît.'
+            "Merci ! Nous avons bien reçu votre demande, nous vous recontacterons dans un délai de 48h maximum jours ouvrés ! Si besoin de remplir le formulaire de nouveau, rechargez la page s'il vous plaît."
         })
       );
       setFormDisabled((cur) =>
@@ -177,7 +177,9 @@ const Form = ({ intl }: Props) => {
       );
       setSubmitBtnValid(false);
     } catch (err) {
-      setSubmitMsg((cur) => Object.assign({}, cur, { error: (err as any).message }));
+      setSubmitMsg((cur) =>
+        Object.assign({}, cur, { error: (err as any).message })
+      );
       setTimeout(() => {
         setSubmitMsg((cur) =>
           Object.assign({}, cur, { error: '', success: '' })
@@ -443,15 +445,15 @@ const Form = ({ intl }: Props) => {
         />
       </div>
       <div className="col-span-12 text-center">
-        <button
-          className={cn('rc-btn rc-btn--one mb-4', {
-            'ui-btn-loading': submitBtnLoading
-          })}
+        <Button
+          type="primary"
+          className={cn('mb-4')}
+          loading={submitBtnLoading}
           disabled={!submitBtnValid}
           onClick={onSubmit}
         >
           Contactez-nous
-        </button>
+        </Button>
       </div>
       <div className="col-span-12 text-sm">
         Les données personnelles soumises via ce formulaire ne seront conservées

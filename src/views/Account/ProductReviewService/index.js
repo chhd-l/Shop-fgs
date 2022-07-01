@@ -14,7 +14,7 @@ import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 import Skeleton from 'react-skeleton-loader';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 @injectIntl
 @seoHoc()
@@ -433,14 +433,14 @@ class ProductReview extends React.Component {
                     </div>
                     {this.state.productList.length > 0 ? (
                       <div className="rc-padding-top--sm">
-                        <button
-                          className="rc-btn rc-btn--sm rc-btn--two"
+                        <Button
+                          size="small"
                           name="contactPreference"
                           type="submit"
                           onClick={this.handleSubmit}
                         >
                           <FormattedMessage id="submit" />
-                        </button>
+                        </Button>
                       </div>
                     ) : null}
                   </div>

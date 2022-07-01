@@ -443,6 +443,11 @@ export function getParentNodesByChild({ data: arr1, id, matchIdName }) {
 export async function setSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
+  // 如果页面调用了这个方法，就需要移除html里默认的字段
+  document.getElementsByTagName('meta')[(name = 'description')] &&
+    document.getElementsByTagName('meta')[(name = 'description')].remove();
+  document.getElementsByTagName('meta')[(name = 'keywords')] &&
+    document.getElementsByTagName('meta')[(name = 'keywords')].remove();
   let goodsSeo = {},
     cateSeo = {},
     pageSeo = {},
