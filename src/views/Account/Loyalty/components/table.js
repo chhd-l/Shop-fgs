@@ -40,10 +40,11 @@ const Table = ({ data }) => {
                   return (
                     <tr className="rc-table__row" key={index}>
                       <td className="rc-table__td">
-                        {format(
-                          new Date(item.activationDate),
-                          'yyyy-MM-dd hh:mm:ss'
-                        )}
+                        {typeof item.activationDate == 'string' &&
+                          format(
+                            new Date(item.activationDate),
+                            'yyyy-MM-dd hh:mm:ss'
+                          )}
                       </td>
                       <td className="rc-table__td">{item.type}</td>
                       <td className="rc-table__td">{item.value}</td>
