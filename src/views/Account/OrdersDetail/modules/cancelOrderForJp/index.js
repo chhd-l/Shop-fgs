@@ -7,6 +7,7 @@ import {
 } from '@/views/Account/OrdersDetail/modules';
 import { cancelOrderForJapan } from '@/api/order';
 import Modal from '@/components/Modal';
+import { Button } from '@/components/Common';
 
 const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
   const [cancelJpOrderModalVisible, setCancelJpOrderModalVisible] =
@@ -57,11 +58,11 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
             <span className="mx-2 mt-2">
               <FormattedMessage id="or" />
             </span>
-            <button className="rc-btn rc-btn--one mt-2">
+            <Button type="primary" className="mt-2">
               <Link className="text-white" to={`/account/orders`}>
                 <FormattedMessage id="Back to orders" />
               </Link>
-            </button>
+            </Button>
           </div>
         </div>
       ) : null}

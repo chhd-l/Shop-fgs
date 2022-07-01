@@ -14,6 +14,7 @@ import { getClubLogo } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -181,8 +182,8 @@ const IndvItem = ({ subItem, history, intl }) => {
         {/* <Link to={`/account/subscription/order/detail/${subItem.subscribeId}`}>
           <FormattedMessage id="Manage" />
         </Link> */}
-        <button
-          className="rc-btn rc-btn--two rc-btn--sm"
+        <Button
+          size="small"
           style={{
             width: '130px',
             textOverflow: 'ellipsis',
@@ -201,7 +202,7 @@ const IndvItem = ({ subItem, history, intl }) => {
           ) : (
             <FormattedMessage id="subscription.viewDetails" />
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

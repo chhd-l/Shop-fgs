@@ -11,7 +11,7 @@ import pic3 from './images/pic-03.jpg';
 import pic4 from './images/pic-04.jpg';
 import pic5 from './images/pic-05.jpg';
 import pic6 from './images/pic-06.jpg';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const HrLine = () => (
   <hr
@@ -142,8 +142,7 @@ const Decouverteroyalcanin = (props) => {
               store.
             </p>
             <p className="rc-padding-top--md rc-padding-bottom--xs">
-              <button
-                className="rc-btn rc-btn--two"
+              <Button
                 onClick={() =>
                   redirectLink(
                     'https://www.google.com/maps/place/%C3%80+la+d%C3%A9couverte+de+Royal+Canin/@48.8640126,2.362786,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640501!4d2.3648312'
@@ -151,7 +150,7 @@ const Decouverteroyalcanin = (props) => {
                 }
               >
                 Nous rendre visite
-              </button>
+              </Button>
             </p>
             <p>
               Ouverture le 24 Janvier 2022
@@ -207,8 +206,7 @@ const Decouverteroyalcanin = (props) => {
                 extérieur, des rencontres pilotées par des experts et bien plus
                 encore.
               </p>
-              <button
-                className="rc-btn rc-btn--two"
+              <Button
                 onClick={() =>
                   redirectLink(
                     'https://www.eventbrite.com/cc/incroyables-experts-85279?utm-campaign=social&utm-content=creatorshare&utm-medium=discovery&utm-term=odclsxcollection&utm-source=cp&aff=escb'
@@ -216,7 +214,7 @@ const Decouverteroyalcanin = (props) => {
                 }
               >
                 Réservez vite
-              </button>
+              </Button>
             </div>
           </div>
           <div className="rc-column">
@@ -251,8 +249,7 @@ const Decouverteroyalcanin = (props) => {
                 Offrez vous une séance photo avec un photographe professionnel
                 pour immortaliser votre relation avec votre animal.
               </p>
-              <button
-                className="rc-btn rc-btn--two"
+              <Button
                 onClick={() =>
                   redirectLink(
                     'https://www.eventbrite.com/cc/incroyables-moments-85499?utm-campaign=social&utm-content=creatorshare&utm-medium=discovery&utm-term=odclsxcollection&utm-source=cp&aff=escb'
@@ -260,7 +257,7 @@ const Decouverteroyalcanin = (props) => {
                 }
               >
                 Inscrivez-vous{' '}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -271,8 +268,8 @@ const Decouverteroyalcanin = (props) => {
             <h2 className="xs:text-xl lg:text-3xl rc-padding-top--xs rc-padding-bottom--sm text-rc-red">
               Venez à la découverte de Royal Canin
             </h2>
-            <button
-              className="rc-btn rc-btn--two rc-margin-bottom--xs"
+            <Button
+              className="rc-margin-bottom--xs"
               onClick={() =>
                 redirectLink(
                   'https://www.google.com/maps/place/%C3%80+la+d%C3%A9couverte+de+Royal+Canin/@48.8640126,2.362786,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640501!4d2.3648312'
@@ -280,7 +277,7 @@ const Decouverteroyalcanin = (props) => {
               }
             >
               Où nous trouver
-            </button>
+            </Button>
             {/* <h4
               style={{ color: '#E2001A' }}
               className="xs:text-base lg:text-xl rc-padding-y--xs"

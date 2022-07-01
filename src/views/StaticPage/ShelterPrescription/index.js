@@ -13,7 +13,7 @@ import './index.less';
 import { ProductCarousel } from '@/components/Product';
 import Help from '../../SmartFeederSubscription/modules/Help';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('clinicStore')
@@ -126,12 +126,13 @@ class ShelterPrescription extends React.Component {
                       </div>
                     </div>
                     <div className="text-center">
-                      <button
+                      <Button
                         onClick={() => this.toScroll('selectProduct')}
-                        className="rc-btn rc-btn--one gtm-content-block-btn "
+                        className="gtm-content-block-btn"
+                        type="primary"
                       >
                         Shop Recommended Formulas
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -159,9 +160,9 @@ class ShelterPrescription extends React.Component {
                     </p>
                     <p>
                       <Link to="/subscription-landing">
-                        <button className="rc-btn rc-btn--two gtm-content-block-btn ">
+                        <Button className="gtm-content-block-btn ">
                           JOIN THE CLUB
-                        </button>
+                        </Button>
                       </Link>
                     </p>
                   </div>

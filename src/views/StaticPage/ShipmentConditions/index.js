@@ -15,7 +15,7 @@ import image5 from './images/image5.jpeg';
 import image6 from './images/image6.jpeg';
 import image7 from './images/image7.jpeg';
 import LazyLoad from 'react-lazyload';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -329,15 +329,15 @@ class Help extends React.Component {
                     Наши эксперты здесь, чтобы помочь Вам!
                   </span>
                   <br />
-                  <button
-                    className="rc-btn rc-btn--one"
+                  <Button
+                    type="primary"
                     style={{ marginTop: '1.25rem' }}
                     onClick={() => {
                       this.props.history.push('/help');
                     }}
                   >
                     Связаться с нами
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

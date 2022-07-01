@@ -7,6 +7,7 @@ import { DivWrapper } from './style';
 import Form from './form';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
+import { Button } from '@/components/Common';
 
 // @ts-ignore
 @injectIntl
@@ -183,14 +184,15 @@ class AssistanceDog extends React.Component {
             <p className="text-rc-red font-DinPro text-2xl font-normal">
               Découvrez l’aliment adapté aux besoins précis de votre animal
             </p>
-            <button
-              className="rc-btn rc-btn--one mt-6"
+            <Button
+              type="primary"
+              className="mt-6"
               onClick={() => {
                 scrollIntoView(document.querySelector(`#registerForm`));
               }}
             >
               Contactez-nous
-            </button>
+            </Button>
           </div>
           <p className="md:w-1/2 mx-auto text-center py-10 font-DinPro text-lg px-5 md:px-0">
             *Contactez-nous du lundi au vendredi de 8h30 à 19h et le samedi de

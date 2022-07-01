@@ -24,6 +24,7 @@ import {
   dimensionsByPackage
 } from '@/api/payment';
 import IMask from 'imask';
+import { Button } from '@/components/Common';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -1075,18 +1076,16 @@ class HomeDeliveryOrPickUp extends React.Component {
                 <div className="panel_worktime">{pickupForm.workTime}</div>
               </div>
               <div className="info_btn_box">
-                <button
-                  className="rc-btn rc-btn--sm rc-btn--two mr-0"
+                <Button
+                  className="mr-0"
+                  size="small"
                   onClick={this.showPickupDetailDialog}
                 >
                   <FormattedMessage id="payment.moreDetails" />
-                </button>
-                <button
-                  className="rc-btn rc-btn--sm rc-btn--one"
-                  onClick={this.editPickup}
-                >
+                </Button>
+                <Button type="primary" size="small" onClick={this.editPickup}>
                   <FormattedMessage id="edit" />
-                </button>
+                </Button>
               </div>
             </div>
           ) : null}

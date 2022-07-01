@@ -106,6 +106,7 @@ export default class Modal extends React.Component {
                       {this.props.middleSpanText}
                     </span>
                     <Button
+                      type="primary"
                       loading={this.props.cancelJpOrderLoading}
                       className="mb-2"
                       onClick={this.handleClickConfirm}

@@ -10,6 +10,7 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/Common';
 
 //felin订单操作按钮显示
 const renderOperationBtns = (details) => {
@@ -17,7 +18,7 @@ const renderOperationBtns = (details) => {
     <>
       {/*服务类产品评论*/}
       {details?.canReviewService ? (
-        <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
+        <Button type="primary" size="small" className="ord-list-operation-btn">
           <FormattedMessage id="writeReview">
             {(txt) => (
               <Link
@@ -30,7 +31,7 @@ const renderOperationBtns = (details) => {
               </Link>
             )}
           </FormattedMessage>
-        </button>
+        </Button>
       ) : null}
     </>
   );

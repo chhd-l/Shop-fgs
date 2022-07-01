@@ -31,7 +31,7 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import {
   AddItemsMember as AddCartItemsMember,
   AddItemsVisitor as AddCartItemsVisitor
@@ -810,10 +810,9 @@ class Recommendation extends React.Component {
           animal.
         </p>
         <p className="mb-8">
-          <button
-            className={cn(`rc-btn rc-btn--one`, {
-              'ui-btn-loading': this.state.buttonLoading
-            })}
+          <Button
+            type="primary"
+            loading={this.state.buttonLoading}
             disabled={!this.addCartBtnStatus}
             onClick={() => {
               if (this.props.loginStore.isLogin) {
@@ -825,7 +824,7 @@ class Recommendation extends React.Component {
           >
             {/* <FormattedMessage id="recommendation.viewInCart" /> */}
             Voir le panier
-          </button>
+          </Button>
         </p>
       </section>
     </div>
@@ -937,16 +936,16 @@ class Recommendation extends React.Component {
                       <FormattedMessage id="recommendation.firstOrderDiscount" />
                     </strong>
                   </p>
-                  <button
-                    className={cn(`rc-btn rc-btn--one mt-6`, {
-                      'ui-btn-loading': this.state.buttonLoading
-                    })}
+                  <Button
+                    type="primary"
+                    className={cn(`mt-6`)}
+                    loading={this.state.buttonLoading}
                     disabled={!this.addCartBtnStatus}
                     onClick={this.addCart}
                   >
                     <FormattedMessage id="recommendation.welcomeBtn" />
                     {/* Voir le panier */}
-                  </button>
+                  </Button>
                 </>
               )}
 
@@ -971,16 +970,16 @@ class Recommendation extends React.Component {
               {isFr && promotionCodeText && (
                 <>
                   <p className="copied-box">
-                    <button
+                    <Button
                       id="btnCopyPromotionCode"
                       // title=""
                       // data-tooltip-placement="top"
                       // data-tooltip="top-tooltip"
-                      className={`rc-btn   ${
-                        checkPromotionCodeAndCopy
-                          ? 'rc-btn--two'
-                          : ' rc-btn--one click-and-show-promotioncode'
-                      }`}
+                      type={checkPromotionCodeAndCopy ? '' : 'primary'}
+                      className={cn({
+                        'click-and-show-promotioncode':
+                          !checkPromotionCodeAndCopy
+                      })}
                       onClick={(e) => {
                         this.checkPromotionCode(e);
                       }}
@@ -990,7 +989,7 @@ class Recommendation extends React.Component {
                       ) : (
                         <FormattedMessage id="recommendation.copyPromotionCodeText" />
                       )}
-                    </button>
+                    </Button>
                     {/* <div
                       className={`copied-tips rc-padding-x--xs rc-padding-y--xs ${
                         this.state.showCoiedTips ? '' : 'hide'
@@ -1009,18 +1008,19 @@ class Recommendation extends React.Component {
                     <FormattedMessage id="recommendation.copyTips" />
                   </div> */}
                   <p>
-                    <button
+                    <Button
+                      type="primary"
                       className={cn(
-                        `rc-btn rc-btn--one click-and-show-promotioncode`,
-                        { 'ui-btn-loading': this.state.buttonLoading },
+                        `click-and-show-promotioncode`,
                         checkPromotionCodeAndCopy ? 'show' : 'hide'
                       )}
+                      loading={this.state.buttonLoading}
                       disabled={!this.addCartBtnStatus}
                       style={{ width: viewShoppingCartWidth + 'px' }}
                       onClick={this.addCart}
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
-                    </button>
+                    </Button>
                   </p>
                 </>
               )}
@@ -1358,13 +1358,10 @@ class Recommendation extends React.Component {
                               </strong>
 
                               <p className="flex justify-center mb-0 md:mb-6 mt-6">
-                                <button
-                                  className={cn(
-                                    `rc-btn rc-btn--one rc-btn--sm`,
-                                    {
-                                      'ui-btn-loading': this.state.buttonLoading
-                                    }
-                                  )}
+                                <Button
+                                  type="primary"
+                                  size="small"
+                                  loading={this.state.buttonLoading}
                                   disabled={!this.addCartBtnStatus}
                                   onClick={this.addCart}
                                 >
@@ -1373,7 +1370,7 @@ class Recommendation extends React.Component {
                                   ) : (
                                     <FormattedMessage id="recommendation.viewInCart" />
                                   )}
-                                </button>
+                                </Button>
                               </p>
 
                               {isRu && promotionCode ? (

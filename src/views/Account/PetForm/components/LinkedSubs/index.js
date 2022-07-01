@@ -13,6 +13,7 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import FrequencyMatch from '@/components/FrequencyMatch';
+import { Button } from '@/components/Common';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -186,10 +187,10 @@ const LinkedSubs = (props) => {
                     style={{ textAlign: 'center' }}
                   >
                     {!subItem.petsId ? (
-                      <button
-                        className={`rc-btn rc-btn--two rc-btn--sm text-plain ${
-                          btnLoading ? 'ui-btn-loading' : ''
-                        }`}
+                      <Button
+                        size="small"
+                        className={`text-plain`}
+                        loading={btnLoading}
                         onClick={() => {
                           if (btnLoading) {
                             return;
@@ -226,7 +227,7 @@ const LinkedSubs = (props) => {
                         }}
                       >
                         <FormattedMessage id="Link" />
-                      </button>
+                      </Button>
                     ) : (
                       <a
                         className={`rc-styled-link text-plain ${

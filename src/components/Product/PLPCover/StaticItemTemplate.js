@@ -1,5 +1,6 @@
 import React from 'react';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { Button } from '@/components/Common';
 
 export function StaticItemTemplateH5ForGlobalStyle({
   title,
@@ -30,12 +31,12 @@ export function StaticItemTemplateH5ForGlobalStyle({
                   {description}
                 </div>
                 <DistributeHubLinkOrATag href={link} to={link}>
-                  <button
-                    className="rc-btn rc-btn--two margin-top-mobile-20"
+                  <Button
+                    className="margin-top-mobile-20"
                     style={{ marginTop: '1.1875rem' }}
                   >
                     {buttonText}
-                  </button>
+                  </Button>
                 </DistributeHubLinkOrATag>
               </div>
               <picture className="rc-card__image" style={{ flex: 1 }}>
@@ -84,12 +85,9 @@ export function StaticItemTemplate({
               </div>
               <div style={{ margin: '0 auto' }}>
                 <DistributeHubLinkOrATag href={link} to={link}>
-                  <button
-                    className="rc-btn rc-btn--two "
-                    style={{ marginTop: '1.1875rem' }}
-                  >
+                  <Button style={{ marginTop: '1.1875rem' }}>
                     {buttonText}
-                  </button>
+                  </Button>
                 </DistributeHubLinkOrATag>
               </div>
             </div>

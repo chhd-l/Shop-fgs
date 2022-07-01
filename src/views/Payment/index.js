@@ -3610,6 +3610,7 @@ class Payment extends React.Component {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
           <Button
+            type="primary"
             disabled={disabled}
             loading={loading}
             className="rc_btn_payment_confirm"

@@ -9,6 +9,7 @@ import { myAccountActionPushEvent } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
@@ -537,16 +538,16 @@ class CommunicationDataEditForm extends React.Component {
                 &nbsp;
                 <FormattedMessage id="or" />
                 &nbsp;
-                <button
-                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
-                    'ui-btn-loading': this.state.saveLoading
-                  })}
+                <Button
+                  type="primary"
+                  className={classNames('submitBtn')}
                   name="contactPreference"
-                  type="submit"
+                  loading={this.state.saveLoading}
+                  htmlType="submit"
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>
