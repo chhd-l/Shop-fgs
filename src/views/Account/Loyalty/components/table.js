@@ -40,11 +40,12 @@ const Table = ({ data }) => {
                   return (
                     <tr className="rc-table__row" key={index}>
                       <td className="rc-table__td">
-                        {typeof item.activationDate == 'string' &&
+                        {/* {typeof item.activationDate == 'string' &&
                           format(
                             new Date(item.activationDate),
                             'yyyy-MM-dd hh:mm:ss'
-                          )}
+                          )} */}
+                        {item.activationDate}
                       </td>
                       <td className="rc-table__td">{item.type}</td>
                       <td className="rc-table__td">{item.value}</td>
@@ -87,7 +88,8 @@ const Table = ({ data }) => {
                 <FormattedMessage id="account.loyalty.executionTime" />
               </div>
               <div className="content">
-                {format(new Date(item.activationDate), 'yyyy/MM/dd hh:mm:ss')}
+                {/* {format(new Date(item.activationDate), 'yyyy/MM/dd hh:mm:ss')} */}
+                {item.activationDate}
               </div>
             </div>
             <div className="mb-2">
