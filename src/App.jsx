@@ -62,18 +62,19 @@ const PreciseCatNutrition = loadable(() =>
 );
 const CartDEBreeder = loadable(() => import('@/views/CartDEBreeder'));
 import { funcUrl } from './lib/url-utils';
-import LogRocket from 'logrocket';
+// import LogRocket from 'logrocket';
 
-LogRocket.init('kvnk0e/shop-lki8n', {
-  dom: {
-    baseHref: '	https://fgs-cdn.azureedge.net/'
-  }
-});
+// LogRocket.init('kvnk0e/shop-lki8n', {
+//   dom: {
+//     baseHref: '	https://fgs-cdn.azureedge.net/'
+//   }
+// });
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
 const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
+const CartInStock = loadable(() => import('@/views/CartInStock'));
 const Payment = loadable(() => import('@/views/Payment'));
 const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
@@ -508,6 +509,9 @@ const App = () => {
                   sensitive
                   path="/cart"
                   render={(props) => {
+                    if (props.location.search.includes('skuId')) {
+                      return <CartInStock {...props} />;
+                    }
                     return <Cart {...props} />;
                   }}
                 />

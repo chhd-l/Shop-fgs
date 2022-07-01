@@ -280,7 +280,7 @@ class Pet extends React.Component {
                               />
                               <div className="operation weightTracker-wrap">
                                 <Link
-                                  className="edit rc-styled-link"
+                                  className="edit rc-styled-link overflow-visible"
                                   to={'/account/pets/petForm/' + el.petsId}
                                 >
                                   <FormattedMessage id="edit" />
