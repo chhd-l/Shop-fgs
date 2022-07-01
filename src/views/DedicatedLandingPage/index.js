@@ -22,7 +22,7 @@ import BreadCrumbs from '../../components/BreadCrumbs';
 import Help from './modules/help';
 import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
 import './index.css';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import cn from 'classnames';
 import { handleSizeList } from '@/framework/product';
 
@@ -394,8 +394,9 @@ class DedicatedLandingPage extends React.Component {
                               </li>
                             </ul>
                             <div className=" rc-btn-group m-0 rc-column rc-padding-x--none kittycenter">
-                              <button
-                                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                              <Button
+                                type="primary"
+                                className="rc-margin-bottom--xs"
                                 style={{
                                   paddingLeft: '80px',
                                   paddingRight: '80px'
@@ -408,7 +409,7 @@ class DedicatedLandingPage extends React.Component {
                                 }}
                               >
                                 J’en profite
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -518,16 +519,14 @@ class DedicatedLandingPage extends React.Component {
                   }}
                   className="text-center"
                 >
-                  <button
-                    className={`rc-btn rc-btn--one ${
-                      this.state.buttonLoading ? 'ui-btn-loading' : ''
-                    }  ${
-                      this.state.selectLine > 1 ? 'rc-btn-solid-disabled' : ''
-                    }`}
+                  <Button
+                    type="primary"
+                    loading={this.state.buttonLoading}
+                    disabled={this.state.selectLine > 1}
                     onClick={this.addCart}
                   >
                     Ajouter et voir mon panier
-                  </button>
+                  </Button>
                 </div>
               </article>
             </div>
@@ -630,16 +629,14 @@ class DedicatedLandingPage extends React.Component {
                     }}
                     className="text-center"
                   >
-                    <button
-                      className={`rc-btn rc-btn--one ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      }  ${
-                        this.state.selectLine > 1 ? 'rc-btn-solid-disabled' : ''
-                      }`}
+                    <Button
+                      type="primary"
+                      loading={this.state.buttonLoading}
+                      disabled={this.state.selectLine > 1}
                       onClick={this.addCart}
                     >
                       Ajouter et voir mon panier
-                    </button>
+                    </Button>
                   </div>
                 </article>
               </div>

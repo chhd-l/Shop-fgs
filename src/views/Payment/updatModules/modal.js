@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.less';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import { Button } from '@/components/Common';
 
 class MyModal extends React.Component {
   constructor(props) {
@@ -99,7 +100,7 @@ class MyModal extends React.Component {
             </div>
           ) : null}
           <div className="text-center">
-            <button
+            <Button
               onClick={() => handleUpdate(this.state.params)}
               disabled={
                 !this.state.params.firstName ||
@@ -108,14 +109,15 @@ class MyModal extends React.Component {
                 !this.state.params.phone ||
                 !this.state.emailShow
               }
-              className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+              type="primary"
+              className="rc-margin-bottom--xs"
               style={{
                 width: '16.875rem',
                 marginTop: '1.25rem'
               }}
             >
               Confirm
-            </button>
+            </Button>
           </div>
         </div>
       </div>

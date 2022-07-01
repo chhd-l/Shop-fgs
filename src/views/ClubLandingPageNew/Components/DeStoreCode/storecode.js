@@ -1,6 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import line from '../../deimage/Line@4x.png';
+import { Button } from '@/components/Common';
 
 const StoreCode = () => {
   return (
@@ -46,12 +47,9 @@ const StoreCode = () => {
                         name="email"
                       />
                     </span>
-                    <button
-                      className="rc-btn rc-btn--one"
-                      style={{ marginTop: '3vh' }}
-                    >
+                    <Button type="primary" style={{ marginTop: '3vh' }}>
                       Code speichern
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <div

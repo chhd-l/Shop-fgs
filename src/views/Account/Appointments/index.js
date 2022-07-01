@@ -20,7 +20,7 @@ import './index.less';
 import { getAppointList } from '@/api/appointment';
 import { funcUrl } from '@/lib/url-utils';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 @inject('checkoutStore')
 @injectIntl
@@ -225,12 +225,10 @@ class AccountOrders extends React.Component {
                             <p className="mb-2">
                               <FormattedMessage id="account.appointment.tips" />
                             </p>
-                            <Link
-                              href=""
-                              to="/felin"
-                              className="rc-btn rc-btn--one"
-                            >
-                              <FormattedMessage id="account.appointment.btns" />
+                            <Link to="/felin">
+                              <Button type="primary">
+                                <FormattedMessage id="account.appointment.btns" />
+                              </Button>
                             </Link>
                           </div>
                         </div>

@@ -8,6 +8,7 @@ import { getPrescriberByCode } from '@/api/clinic';
 import { searchNextConfirmPanel } from '../modules/utils';
 import PropTypes from 'prop-types';
 import ClinicPanelContainer from './ClinicPanelContainer';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -269,13 +270,14 @@ class ClinicForm extends React.Component {
                 </span>
               </div>
               <div className="d-flex justify-content-end mt-3 rc_btn_clinic_form">
-                <button
-                  className="rc-btn rc-btn--one rc-btn--sm"
+                <Button
+                  type="primary"
+                  size="small"
                   onClick={this.handleClickConfirm}
                   disabled={!this.state.form.clinicName}
                 >
                   <FormattedMessage id="clinic.confirm" />
-                </button>
+                </Button>
               </div>
             </div>
           ) : null}

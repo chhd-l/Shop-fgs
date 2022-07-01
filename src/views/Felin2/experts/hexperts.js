@@ -25,7 +25,7 @@ import { injectIntl } from 'react-intl-phraseapp';
 import { postcustomerUpdate } from '../../../api/felin';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { funcUrl } from '@/lib/url-utils';
-import Modal from '@/components/Modal';
+import { Modal, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -669,15 +669,16 @@ class Hcexperts extends React.Component {
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div className="txt-centr">
-            <button
+            <Button
               onClick={this.handleOneShow}
-              className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+              type="primary"
+              className="rc-margin-bottom--xs"
               style={{
                 width: '16.875rem'
               }}
             >
               Commencer
-            </button>
+            </Button>
           </div>
         ) : (
           <ul className="number-ul">
@@ -888,16 +889,17 @@ class Hcexperts extends React.Component {
               />
             </div>
             <div className="txt-centr">
-              <button
+              <Button
+                type="primary"
                 disabled={this.state.votre.heure === ''}
                 onClick={this.handleGoto}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-margin-bottom--xs"
                 style={{
                   width: '8.875rem'
                 }}
               >
                 Confirmer
-              </button>
+              </Button>
               <br />
               <span
                 onClick={this.handleReturnThree}
@@ -927,7 +929,6 @@ class Hcexperts extends React.Component {
                   localItemRoyal.set('okta-redirectUrl', '/checkout');
                 }}
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
-                intl={intl}
                 btnStyle={{
                   width: '16.875rem'
                 }}
@@ -935,7 +936,7 @@ class Hcexperts extends React.Component {
                 Connexion
               </LoginButton>
               <br />
-              <button
+              <Button
                 onClick={() => {
                   if (+window.__.env.REACT_APP_CUSTOM_REGISTER) {
                     localItemRoyal.set(
@@ -951,13 +952,14 @@ class Hcexperts extends React.Component {
                       );
                   }
                 }}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                type="primary"
+                className="rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}
               >
                 Créer un compte
-              </button>
+              </Button>
               <br />
               <span
                 onClick={this.handleLogin}

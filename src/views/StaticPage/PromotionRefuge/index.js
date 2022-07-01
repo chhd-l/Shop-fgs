@@ -9,6 +9,7 @@ import { ProductCarousel } from '@/components/Product';
 import { list1, list2, list3, list4 } from './goods';
 import { Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { Button } from '@/components/Common';
 
 class PromotionRefuge extends React.Component {
   render(h) {
@@ -100,11 +101,15 @@ class PromotionRefuge extends React.Component {
                               </span>
                             </p>
                             <Link
-                              className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
                               to="/subscription-landing"
                               title="En savoir plus"
                             >
-                              En savoir plus
+                              <Button
+                                type="primary"
+                                className="gtm-content-block-btn js-hnc-try-the-club"
+                              >
+                                En savoir plus
+                              </Button>
                             </Link>
                           </div>
                         </div>

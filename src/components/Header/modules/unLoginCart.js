@@ -9,6 +9,7 @@ import { FOOD_DISPENSER_PIC, IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import GiftList from './GiftList.tsx';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -244,11 +245,10 @@ class UnloginCart extends React.Component {
                 </div>
                 {/* 操作按钮组 start */}
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                  <Link
-                    to="/cart"
-                    className="rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn"
-                  >
-                    <FormattedMessage id="minicart.seemycart" />
+                  <Link to="/cart">
+                    <Button type="primary" size="small" className="w-100">
+                      <FormattedMessage id="minicart.seemycart" />
+                    </Button>
                   </Link>
                   {/* <LoginButton
                     beforeLoginCallback={async () => {
@@ -264,7 +264,6 @@ class UnloginCart extends React.Component {
                     btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
-                    intl={intl}
                   >
                     <FormattedMessage id="minicart.checkout" />
                   </LoginButton> */}

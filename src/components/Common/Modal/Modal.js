@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import FullScreenModal from './FullScreenModal';
+import { Button } from '@/components/Common';
 
 export default class Modal extends React.Component {
   static defaultProps = {
@@ -15,7 +16,8 @@ export default class Modal extends React.Component {
     footerVisible: true,
     cancelBtnIsLink: false,
     cancel: null,
-    modalClass: ''
+    modalClass: '',
+    hanldeClickConfirm: () => {}
   };
   close() {
     this.props.close();
@@ -50,15 +52,12 @@ export default class Modal extends React.Component {
             role="document"
             style={{ top: '50%', transform: 'translateY(-50%)' }}
           >
-            <div
-              className="modal-content mt-0"
-              style={{ position: 'relative' }}
-            >
+            <div className="modal-content mt-0 relative">
               {this.props.headerVisible && (
                 <div className="modal-header delete-confirmation-header">
-                  <h1 className="modal-title" id="removeProductLineItemModal">
+                  <h2 className="modal-title" id="removeProductLineItemModal">
                     {this.props.modalTitle}
-                  </h1>
+                  </h2>
                   <button
                     type="button"
                     className="close"
@@ -89,10 +88,9 @@ export default class Modal extends React.Component {
                     <>
                       {this.props.cancelBtnVisible &&
                       !this.props.cancelBtnIsLink ? (
-                        <button
+                        <Button
                           id="modalFooterCancel"
-                          type="button"
-                          className="btn btn-outline-primary"
+                          htmlType="button"
                           data-dismiss="modal"
                           onClick={() =>
                             this.props.cancel
@@ -101,7 +99,7 @@ export default class Modal extends React.Component {
                           }
                         >
                           {this.props.cancelBtnText}
-                        </button>
+                        </Button>
                       ) : null}
                       {this.props.cancelBtnVisible &&
                       this.props.cancelBtnIsLink ? (
@@ -119,17 +117,17 @@ export default class Modal extends React.Component {
                           {this.props.cancelBtnText}
                         </a>
                       ) : null}
-                      <button
+                      <Button
+                        type="primary"
                         id="modalFooterConfirm"
-                        type="button"
-                        className={`btn btn-primary cart-delete-confirmation-btn ${
-                          this.props.confirmLoading ? 'ui-btn-loading' : ''
-                        }`}
+                        htmlType="button"
+                        className={`cart-delete-confirmation-btn`}
+                        loading={this.props.confirmLoading}
                         data-dismiss="modal"
                         onClick={() => this.hanldeClickConfirm()}
                       >
                         {this.props.confirmBtnText}
-                      </button>
+                      </Button>
                     </>
                   )}
                 </div>

@@ -12,12 +12,11 @@ import Help from './Help';
 import { formatMoney, getRation } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { seoHoc } from '@/framework/common';
-
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import LazyLoad from 'react-lazyload';
 import { clubSubscriptionSavePets } from '@/api/pet';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -132,8 +131,10 @@ function QListAndPetJSX(props) {
             </p>
             <div className="text-center pb-4">
               {props.isLogin ? (
-                <Link className="rc-btn rc-btn--one mb-3" to="/account/pets">
-                  <FormattedMessage id="productFinder.createMyPetProfile" />
+                <Link to="/account/pets">
+                  <Button type="primary" className="mb-3">
+                    <FormattedMessage id="productFinder.createMyPetProfile" />
+                  </Button>
                 </Link>
               ) : (
                 <LoginButton
@@ -141,7 +142,6 @@ function QListAndPetJSX(props) {
                     localItemRoyal.set('okta-redirectUrl', '/account/pets');
                   }}
                   btnClass="rc-btn rc-btn--one mb-3"
-                  intl={intl}
                 >
                   <FormattedMessage id="productFinder.createMyPetProfile" />
                 </LoginButton>
@@ -525,9 +525,10 @@ class ProductFinderResult extends React.Component {
                             .replace('/', '')}-${
                             productDetail.mainProduct.spuCode
                           }`}
-                          className="rc-btn rc-btn--one rc-btn--sm"
                         >
-                          <FormattedMessage id="seeTheProduct" />
+                          <Button type="primary" size="small">
+                            <FormattedMessage id="seeTheProduct" />
+                          </Button>
                         </Link>
                       </div>
                     </div>
@@ -617,9 +618,10 @@ class ProductFinderResult extends React.Component {
                                 .split(' ')
                                 .join('-')
                                 .replace('/', '')}-${ele.spuCode}`}
-                              className="rc-btn rc-btn--one rc-btn--sm"
                             >
-                              <FormattedMessage id="seeTheProduct" />
+                              <Button type="primary" size="small">
+                                <FormattedMessage id="seeTheProduct" />
+                              </Button>
                             </Link>
                           </div>
                         </div>

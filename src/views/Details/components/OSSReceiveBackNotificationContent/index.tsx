@@ -9,6 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
 import { Details, SelectedSpecItem, UserInfo } from './typing';
+import { Button } from '@/components/Common';
+
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
   details: Details;
@@ -56,11 +58,6 @@ const OssReceiveBackNotificationContent = ({
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
-
-    // filter goodsInfoIds out of stock
-    // const goodsInfoIds = goodsInfos
-    //   .filter((goodsInfo: any) => goodsInfo.stock === 0)
-    //   .map((goodsInfo: any) => goodsInfo.goodsInfoId);
     const detailName = details.goodsSpecDetails.find(
       (goods: any) => goods.isSelected
     )?.detailName;
@@ -136,12 +133,14 @@ const OssReceiveBackNotificationContent = ({
                 <span className="rc-input__label-text"></span>
               </label>
             </span>
-            <button
-              className="rc-btn rc-btn--one rc-btn--sm h-8 px-5 py-0 w-36 mt-4 md:mt-0"
+            <Button
+              type="primary"
+              size="small"
+              className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={handleSubmit}
             >
               <FormattedMessage id="notifyMe" />
-            </button>
+            </Button>
           </>
         )}
       </div>

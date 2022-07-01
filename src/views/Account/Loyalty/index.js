@@ -37,8 +37,10 @@ const Loyalty = (props) => {
   const [pageNum, setPageNum] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
-  const limit = isMobile ? 5 : 10; //每页的数据总量
-
+  let limit = isMobile ? 5 : 10; //每页的数据总量
+  if (['jp'].includes(window.__.env.REACT_APP_COUNTRY)) {
+    limit = 10;
+  }
   const [data, setData] = useState([]);
 
   const sendPageNumber = (pageNumber) => {

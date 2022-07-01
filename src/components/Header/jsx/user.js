@@ -90,7 +90,6 @@ const UserJSX = (props) => {
                   <div className="login-style">
                     <LoginButton
                       btnStyle={{ width: '11rem', margin: '2rem 0' }}
-                      intl={intl}
                     />
                     <div>
                       <FormattedMessage id="account.notRegistred" />

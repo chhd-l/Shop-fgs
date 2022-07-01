@@ -8,6 +8,7 @@ import joinusnewtr from './image/joinusnewrighttr.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { Button } from '@/components/Common';
 
 const JoinTodayNew = () => {
   return (
@@ -74,7 +75,7 @@ const JoinTodayNew = () => {
                           href={'/product-finder'}
                           ariaLabel="Links to product finder"
                         >
-                          <button
+                          <Button
                             onClick={() => {
                               window.__.env.REACT_APP_COUNTRY == 'ru' &&
                                 window?.dataLayer?.push({
@@ -83,14 +84,14 @@ const JoinTodayNew = () => {
                                     'Choose a diet - Middle'
                                 });
                             }}
-                            className="rc-btn rc-btn--one"
+                            type="primary"
                             style={{
                               paddingLeft: '90px',
                               paddingRight: '90px'
                             }}
                           >
                             <FormattedMessage id="ClubLP.NewJoinUs.button" />
-                          </button>
+                          </Button>
                         </DistributeHubLinkOrATag>
                       </div>
                     </div>

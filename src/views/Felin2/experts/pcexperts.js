@@ -32,7 +32,7 @@ import { postcustomerUpdate } from '@/api/felin';
 import { injectIntl } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { funcUrl } from '@/lib/url-utils';
-import Modal from '@/components/Modal';
+import { Modal, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -691,16 +691,17 @@ class Pcexperts extends React.Component {
         {this.state.isShow ? (
           <div>
             <div className="txt-centr">
-              <button
+              <Button
+                type="primary"
                 onClick={this.handleOneShow}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-margin-bottom--xs"
                 style={{
                   width: '13.875rem',
                   fontSize: '1rem'
                 }}
               >
                 Commencer
-              </button>
+              </Button>
             </div>
           </div>
         ) : null}
@@ -803,20 +804,21 @@ class Pcexperts extends React.Component {
                 Retour à l'étape précédente
               </span>
               {this.state.params.expertTypeId ? (
-                <button
+                <Button
                   disabled={
                     this.state.params.apptTypeId == null ||
                     this.state.params.expertTypeId === null
                   }
                   onClick={this.handleGotoThree}
-                  className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                  type="primary"
+                  className="rc-margin-bottom--xs"
                   style={{
                     width: '13.875rem',
                     fontSize: '0.75rem'
                   }}
                 >
                   Confirmer
-                </button>
+                </Button>
               ) : null}
             </div>
           </div>
@@ -919,17 +921,18 @@ class Pcexperts extends React.Component {
               >
                 Retour à l'étape précédente
               </span>
-              <button
+              <Button
                 disabled={this.state.params.minutes == null}
                 onClick={this.handleGotoFour}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                type="primary"
+                className="rc-margin-bottom--xs"
                 style={{
                   width: '13.875rem',
                   fontSize: '0.75rem'
                 }}
               >
                 Confirmer
-              </button>
+              </Button>
             </div>
           </div>
         ) : null}
@@ -966,17 +969,18 @@ class Pcexperts extends React.Component {
               >
                 Retour à l'étape précédente
               </span>
-              <button
+              <Button
                 disabled={this.state.votre.heure === ''}
                 onClick={this.handleGoto}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                type="primary"
+                className="rc-margin-bottom--xs"
                 style={{
                   width: '13.875rem',
                   fontSize: '0.75rem'
                 }}
               >
                 Confirmer
-              </button>
+              </Button>
             </div>
           </div>
         ) : null}
@@ -998,7 +1002,6 @@ class Pcexperts extends React.Component {
                   localItemRoyal.set('okta-redirectUrl', '/checkout');
                 }}
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
-                intl={intl}
                 btnStyle={{
                   width: '13.875rem',
                   fontSize: '0.75rem'
@@ -1007,7 +1010,7 @@ class Pcexperts extends React.Component {
                 Connexion
               </LoginButton>
               <br />
-              <button
+              <Button
                 onClick={() => {
                   if (+window.__.env.REACT_APP_CUSTOM_REGISTER) {
                     localItemRoyal.set(
@@ -1023,14 +1026,15 @@ class Pcexperts extends React.Component {
                       );
                   }
                 }}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                type="primary"
+                className="rc-margin-bottom--xs"
                 style={{
                   width: '13.875rem',
                   fontSize: '0.75rem'
                 }}
               >
                 Créer un compte
-              </button>
+              </Button>
               <br />
               <span
                 onClick={this.handleLogin}

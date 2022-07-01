@@ -24,7 +24,7 @@ import { Helmet } from 'react-helmet';
 import { funcUrl } from '@/lib/url-utils';
 import { redirectHoc, seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
-import { Canonical } from '@/components/Common';
+import { Button, Canonical } from '@/components/Common';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -126,11 +126,15 @@ function HealthNutrition() {
                           </Link>
                           <Link
                             to="/dogs"
-                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                             data-gtm='{"title":"Royal Canin specific dog food for every breed","img":"[object Object]"}'
                             title="SHOP DOG"
                           >
-                            SHOP DOG
+                            <Button
+                              type="primary"
+                              className="rc-margin-y--xs gtm-mini-carousel-btn"
+                            >
+                              SHOP DOG
+                            </Button>
                           </Link>
                         </div>
                         <Link to="/dogs" title="SHOP DOG">
@@ -193,11 +197,15 @@ function HealthNutrition() {
                           </Link>
                           <Link
                             to="/cats"
-                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                             data-gtm='{"title":"Royal Canin specific cat food for every breed","img":"[object Object]"}'
                             title="SHOP CAT"
                           >
-                            SHOP CAT
+                            <Button
+                              type="primary"
+                              className="rc-margin-y--xs gtm-mini-carousel-btn"
+                            >
+                              SHOP CAT
+                            </Button>
                           </Link>
                         </div>
                         <Link to="/cats" title="SHOP CAT">

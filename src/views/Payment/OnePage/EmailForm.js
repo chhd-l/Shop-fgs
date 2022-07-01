@@ -6,6 +6,7 @@ import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
 import { PanelContainer } from '../Common';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -146,13 +147,14 @@ class EmailForm extends React.Component {
               </div>
 
               <div className="d-flex justify-content-end mt-3 rc_btn_email_form">
-                <button
-                  className="rc-btn rc-btn--one rc-btn--sm"
+                <Button
+                  type="primary"
+                  size="small"
                   onClick={this.handleClickConfirm}
                   disabled={!isValid}
                 >
                   <FormattedMessage id="clinic.confirm2" />
-                </button>
+                </Button>
               </div>
             </div>
           ) : null}
