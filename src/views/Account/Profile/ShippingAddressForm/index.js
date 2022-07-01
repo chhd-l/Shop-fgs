@@ -19,7 +19,7 @@ import { validData, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import { getConsigneeNameByCountry } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -507,23 +507,18 @@ class ShippingAddressFrom extends React.Component {
                   &nbsp;
                   <FormattedMessage id="or" />
                   &nbsp;
-                  <button
-                    className={classNames(
-                      'rc-btn',
-                      'rc-btn--one',
-                      'editAddress',
-                      {
-                        'ui-btn-loading': this.state.saveLoading
-                      }
-                    )}
+                  <Button
+                    type="primary"
+                    className={classNames('editAddress')}
+                    loading={this.state.saveLoading}
                     data-sav="false"
                     name="contactInformation"
-                    type="submit"
+                    htmlType="submit"
                     disabled={isValid && formAddressValid ? false : true}
                     onClick={this.handleSave}
                   >
                     <FormattedMessage id="saveAddress" />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </>

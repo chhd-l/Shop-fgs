@@ -9,6 +9,7 @@ import LazyLoad from 'react-lazyload';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import getPaymentConf from '@/lib/get-payment-conf';
 import packageTranslations from './translations';
+import { Button } from '@/components/Common';
 
 let adyenFormData = {};
 
@@ -346,18 +347,18 @@ class AdyenCreditCardForm extends React.Component {
                 </span>
               )}
               {showSaveBtn && (
-                <button
-                  className={`rc-btn rc-btn--one submitBtn editAddress ${
-                    saveLoading ? 'ui-btn-loading' : ''
-                  }`}
+                <Button
+                  className={`submitBtn editAddress`}
+                  loading={saveLoading}
                   data-sav="false"
                   name="contactInformation"
-                  type="submit"
+                  type="primary"
+                  htmlType="submit"
                   disabled={!isValid}
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
-                </button>
+                </Button>
               )}
             </div>
           ) : null}

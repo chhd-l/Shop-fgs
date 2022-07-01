@@ -10,6 +10,7 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -133,8 +134,9 @@ const AutoshipItem = ({ subItem, history }) => {
           )}
         </div>
         <div className="col-span-6 md:col-span-2 text-center">
-          <button
-            className="rc-btn rc-btn--two rc-btn--sm truncate md:w-11/12"
+          <Button
+            size="small"
+            className="truncate md:w-11/12"
             // style={{ width: '130px' }}
             onClick={() => {
               localItemRoyal.set('subDetail', subItem);
@@ -152,7 +154,7 @@ const AutoshipItem = ({ subItem, history }) => {
             ) : (
               <FormattedMessage id="subscription.viewDetails" />
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

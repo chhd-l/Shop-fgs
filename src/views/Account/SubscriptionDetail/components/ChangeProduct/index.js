@@ -13,6 +13,7 @@ import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { getFrequencyDict } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 export const ChangeProductContext = createContext();
 const loginStore = stores.loginStore;
@@ -274,23 +275,24 @@ const ChangeProduct = () => {
                 ) : null}
               </div>
               {!productStock && !alreadyNotice ? (
-                <button
-                  className={cn(`rc-btn rc-btn--one rc-btn--sm md:ml-4 ml-0`, {
-                    'rc-btn-solid-disabled': !correctEmail || alreadyNotice
-                  })}
+                <Button
+                  type="primary"
+                  size="small"
+                  className={cn(`md:ml-4 ml-0`)}
                   disabled={!correctEmail || alreadyNotice}
                   onClick={handleNotifyMe}
                 >
                   <FormattedMessage id="notifyMe" />
-                </button>
+                </Button>
               ) : null}
               {alreadyNotice ? (
-                <button
-                  className="rc-btn rc-btn--two rc-btn--sm ml-6"
+                <Button
+                  size="small"
+                  className="ml-6"
                   onClick={handleModifyEmail}
                 >
                   <FormattedMessage id="modifyEmail" />
-                </button>
+                </Button>
               ) : null}
             </div>
           </div>

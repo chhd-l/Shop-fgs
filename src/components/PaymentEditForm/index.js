@@ -22,6 +22,7 @@ import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
 import { phoneNumberMask } from '@/utils/constant';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -1088,28 +1089,27 @@ class PaymentEditForm extends React.Component {
               </div>
               <div className="row">
                 <div className="col-12 col-md-6 mt-2">
-                  <button
+                  <Button
                     onClick={this.handleCancel}
-                    className="btn btn-block btn-outline-primary"
-                    style={{ maxWidth: '12.6rem' }}
+                    style={{ wdth: '12.6rem' }}
                   >
                     <FormattedMessage id="cancel" />
-                  </button>
+                  </Button>
                 </div>
                 <div className="col-12 col-md-6 mt-2">
-                  <button
-                    className={`rc-btn rc-btn--one submitBtn editAddress w-100 ${
-                      saveLoading ? 'ui-btn-loading' : ''
-                    }`}
+                  <Button
+                    type="primary"
+                    className={`submitBtn editAddress w-100`}
+                    loading={saveLoading}
                     style={{ maxWidth: '12.6rem' }}
                     data-sav="false"
                     name="contactInformation"
-                    type="submit"
+                    htmlType="submit"
                     disabled={!this.state.isValid}
                     onClick={this.handleSave}
                   >
                     <FormattedMessage id="save" />
-                  </button>
+                  </Button>
                 </div>
               </div>
               {/* 俄罗斯3ds卡 绑定需要展示扣钱提示 */}
@@ -1240,27 +1240,21 @@ class PaymentEditForm extends React.Component {
             {/* 取消 确认 按钮 */}
             <div className="row" style={{ marginTop: '1.25rem' }}>
               <div className="col-sm-3">
-                <button
-                  className="rc-btn rc-btn--two"
-                  style={{ width: '200px' }}
-                  onClick={this.handleCancel}
-                >
+                <Button style={{ width: '200px' }} onClick={this.handleCancel}>
                   Cancel
-                </button>
+                </Button>
               </div>
               <div className="col-sm-3"></div>
               <div className="col-sm-3">
-                <button
-                  //className="rc-btn rc-btn--one"
-                  className={`rc-btn rc-btn--one ${
-                    this.state.cyberBtnLoading ? 'ui-btn-loading' : ''
-                  }`}
+                <Button
+                  type="primary"
                   style={{ width: '200px' }}
+                  loading={this.state.cyberBtnLoading}
                   onClick={this.handleCyberSave}
                   disabled={this.isAllFinish() ? false : true}
                 >
                   Save
-                </button>
+                </Button>
               </div>
               <div className="col-sm-3"></div>
             </div>

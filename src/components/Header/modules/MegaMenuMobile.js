@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Help from '../modules/Help';
 import NavItem from '../modules/NavItem';
 import LazyLoad from 'react-lazyload';
+import { Button } from '@/components/Common';
 
 function SecondItemContainer(props) {
   const { item } = props;
@@ -166,9 +167,9 @@ class MegaMenuMobile extends React.Component {
                   <p>{item.navigationDesc}</p>
                 </div>
                 <Link to="/product-finder" data-tab-init="true">
-                  <button className="rc-btn rc-btn--one" data-tab-init="true">
+                  <Button type="primary" data-tab-init="true">
                     <FormattedMessage id="findTheRightDiet" />
-                  </button>
+                  </Button>
                 </Link>
               </div>
               <div className="mt-auto">

@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useSeo } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const HrLine = () => (
   <hr
@@ -153,8 +153,8 @@ const Decouverteroyalcanin = (props) => {
               <h2 className="xs:text-xl lg:text-3xl rc-padding-top--xs rc-padding-bottom--sm text-rc-red">
                 Venez découvrir l'Exposition Instinct
               </h2>
-              <button
-                className="rc-btn rc-btn--two rc-margin-bottom--xs"
+              <Button
+                className="rc-margin-bottom--xs"
                 onClick={() =>
                   redirectLink(
                     'https://www.google.com/maps/place/%C3%80+la+d%C3%A9couverte+de+Royal+Canin/@48.8640126,2.362786,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640501!4d2.3648312'
@@ -162,7 +162,7 @@ const Decouverteroyalcanin = (props) => {
                 }
               >
                 Où nous trouver
-              </button>
+              </Button>
               {/* <h4
               style={{ color: '#E2001A' }}
               className="xs:text-base lg:text-xl rc-padding-y--xs"

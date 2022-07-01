@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { addressValidation, queryOpenedApi } from '@/api/address';
 import find from 'lodash/find';
+import { Button } from '@/components/Common';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -300,14 +301,14 @@ class ValidationAddressModal extends React.Component {
                     </div>
                   </div>
                   <div className="sav-buttons-div text-center rc-padding-top--lg--mobile rc-padding-top--sm">
-                    <button
-                      className={`rc-btn rc-btn--one confirmAddress ${
-                        this.props.btnLoading ? 'ui-btn-loading' : ''
-                      }`}
+                    <Button
+                      type="primary"
+                      className={`confirmAddress`}
+                      loading={this.props.btnLoading}
                       onClick={(e) => this.hanldeClickConfirm(e)}
                     >
                       Confirm
-                    </button>
+                    </Button>
                   </div>
                   <input
                     type="hidden"

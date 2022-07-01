@@ -10,7 +10,7 @@ import { validData } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 @seoHoc('Contact Us Page')
 class ContactUs extends Component {
@@ -407,26 +407,22 @@ class ContactUs extends Component {
 
   submitBtn = () => {
     return (
-      <button
+      <Button
         onClick={this.submitEvent}
-        className="rc-btn rc-btn--one"
+        type="primary"
         name="send"
         style={{ width: '200px' }}
       >
         Submit
-      </button>
+      </Button>
     );
   };
 
   disabledBtn = () => {
     return (
-      <button
-        className="rc-btn rc-btn--one"
-        disabled
-        style={{ width: '200px' }}
-      >
+      <Button type="primary" disabled={true} style={{ width: '200px' }}>
         Submit
-      </button>
+      </Button>
     );
   };
 

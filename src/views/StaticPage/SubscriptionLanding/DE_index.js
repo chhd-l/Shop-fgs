@@ -9,18 +9,13 @@ import { Link } from 'react-router-dom';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
-import autoship from './images/autoship.png';
-import icon1 from './images/icon1.png';
-import icon2 from './images/icon2.png';
-import icon3 from './images/icon3.png';
-import icon4 from './images/icon4.png';
 import { inject, observer } from 'mobx-react';
 import { seoHoc } from '@/framework/common';
 import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 @inject('configStore')
 @injectIntl
@@ -68,14 +63,14 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         {/* <div className="d-block d-md-none rc-text--center">
                           <Link to="/cats">
-                            <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                            <Button type="primary" className="rc-margin-right--xs rc-margin-bottom--xs">
                               <FormattedMessage id="subscription.list.btn1" />
-                            </button>
+                            </Button>
                           </Link>
                           <Link to="/dogs">
-                            <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
+                            <Button type="primary" className="rc-margin-bottom--xs">
                               <FormattedMessage id="subscription.list.btn2" />
-                            </button>
+                            </Button>
                           </Link>
                         </div> */}
                       </div>
@@ -103,14 +98,20 @@ class SubscriptionLanding extends React.Component {
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
-                                <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                                <Button
+                                  type="primary"
+                                  className="rc-margin-right--xs rc-margin-bottom--xs"
+                                >
                                   <FormattedMessage id="subscription.list.btn1" />
-                                </button>
+                                </Button>
                               </Link>
                               <Link to="/dogs">
-                                <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
+                                <Button
+                                  type="primary"
+                                  className="rc-margin-bottom--xs"
+                                >
                                   <FormattedMessage id="subscription.list.btn2" />
-                                </button>
+                                </Button>
                               </Link>
                             </div>
                           </div>

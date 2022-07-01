@@ -45,7 +45,7 @@ import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
 import { SuccessMessage, ErrorMessage } from '@/components/Message';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -1168,12 +1168,9 @@ class SubscriptionDetail extends React.Component {
                 cancel
               </a>
               <span style={{ padding: '0 1rem' }}>or</span>
-              <button
-                className="rc-btn rc-btn--one"
-                onClick={this.hanldeClickSubmit}
-              >
+              <Button type="primary" onClick={this.hanldeClickSubmit}>
                 confoirm
-              </button>
+              </Button>
             </div>
             <Footer />
           </main>

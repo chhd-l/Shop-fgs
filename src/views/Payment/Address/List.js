@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
@@ -41,7 +41,7 @@ import './list.less';
 import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
-import moment from 'moment';
+import { Button } from '@/components/Common';
 import {
   getConsigneeNameByCountry,
   jpSetAddressFields,
@@ -2816,12 +2816,10 @@ class AddressList extends React.Component {
                             )}
 
                             {/* 确认地址按钮 */}
-                            <button
-                              className={`rc-btn rc-btn--one rc_btn_homedelivery_confirm ${
-                                this.state.btnConfirmLoading
-                                  ? 'ui-btn-loading'
-                                  : ''
-                              }`}
+                            <Button
+                              type="primary"
+                              className={`rc_btn_homedelivery_confirm`}
+                              loading={this.state.btnConfirmLoading}
                               disabled={confirmBtnDisabled}
                               onClick={
                                 shippingMethodType === 'pickup'
@@ -2830,7 +2828,7 @@ class AddressList extends React.Component {
                               }
                             >
                               <FormattedMessage id="yes2" />
-                            </button>
+                            </Button>
                           </div>
                         )}
                       </>
