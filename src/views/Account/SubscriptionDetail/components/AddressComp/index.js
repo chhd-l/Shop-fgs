@@ -22,6 +22,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { AddressPreview } from '@/components/Address';
 import { getConsigneeNameByCountry } from '@/utils/constant';
+import { Button } from '@/components/Common';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1155,21 +1156,23 @@ class AddressList extends React.Component {
                 }}
               >
                 {item.receiveType === 'PICK_UP' ? (
-                  <button
-                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold "
+                  <Button
+                    size="small"
+                    className="font-weight-bold"
                     onClick={this.addOrEditPickupAddress.bind()}
                     style={{ fontSize: '12px' }}
                   >
                     <FormattedMessage id="payment.changePickup" />
-                  </button>
+                  </Button>
                 ) : (
-                  <button
-                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
+                  <Button
+                    size="small"
+                    className="font-weight-bold"
                     onClick={this.addOrEditAddress.bind(this, i)}
                     style={{ fontSize: '12px' }}
                   >
                     <FormattedMessage id="edit" />
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
@@ -1471,16 +1474,16 @@ class AddressList extends React.Component {
                           >
                             <FormattedMessage id="cancel" />
                           </span>
-                          <button
-                            className={`rc-btn rc-btn--one editAddress ${
-                              saveBtnLoading ? 'ui-btn-loading' : ''
-                            }`}
-                            type="submit"
+                          <Button
+                            type="primary"
+                            className={`editAddress`}
+                            loading={saveBtnLoading}
+                            htmlType="submit"
                             disabled={confirmBtnDisabled}
                             onClick={this.clickConfirmPickup}
                           >
                             <FormattedMessage id="save" />
-                          </button>
+                          </Button>
                         </div>
                       </>
                     ) : null}
@@ -1629,17 +1632,18 @@ class AddressList extends React.Component {
                           &nbsp;
                           <FormattedMessage id="or" />
                           &nbsp;
-                          <button
-                            className="rc-btn rc-btn--one submitBtn"
+                          <Button
+                            type="primary"
+                            className="submitBtn"
                             name="contactPreference"
-                            type="submit"
+                            htmlType="submit"
                             disabled={
                               isValid && formAddressValid ? false : true
                             }
                             onClick={() => this.handleSave()}
                           >
                             <FormattedMessage id="save" />
-                          </button>
+                          </Button>
                         </div>
                       </>
                     }

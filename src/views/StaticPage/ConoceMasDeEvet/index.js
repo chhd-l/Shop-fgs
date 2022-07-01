@@ -6,7 +6,7 @@ import { customerInfoSave } from '@/api/staticPageApi';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 import { LOGO_PRIMARY } from '@/utils/constant';
 
 @seoHoc()
@@ -227,12 +227,7 @@ class Landing extends Component {
 
                   {/* go to shop按钮 */}
                   <div style={{ textAlign: 'center', marginTop: '30px' }}>
-                    <button
-                      className="rc-btn rc-btn--two"
-                      onClick={this.submitEvent}
-                    >
-                      Enviar
-                    </button>
+                    <Button onClick={this.submitEvent}>Enviar</Button>
                   </div>
                 </div>
               </div>

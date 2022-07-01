@@ -6,6 +6,7 @@ import NavItem from './NavItem';
 import LazyLoad from 'react-lazyload';
 import { optimizeImage } from '@/utils/utils';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 /**
  * 渲染二级菜单
@@ -211,8 +212,8 @@ export default class DropDownMenu extends React.Component {
                   <p>{descObj.text}</p>
                 </div>
                 <Link to="/product-finder">
-                  <button
-                    className="rc-btn rc-btn--one"
+                  <Button
+                    type="primary"
                     onClick={() =>
                       this.GAClickMenu({
                         category: 'banner',
@@ -223,7 +224,7 @@ export default class DropDownMenu extends React.Component {
                     }
                   >
                     <FormattedMessage id="findTheRightDiet" />
-                  </button>
+                  </Button>
                 </Link>
               </div>
               <div className="mt-auto">

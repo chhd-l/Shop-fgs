@@ -426,7 +426,7 @@ class PersonalDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
                   name="personalInformation"
@@ -570,15 +570,16 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="or" />
                 &nbsp;
                 <Button
+                  type="primary"
                   loading={this.state.loading}
                   className="submitBtn"
                   name="personalInformation"
-                  type="submit"
                   disabled={isSaveAddressBtnDisabled(
                     isValid,
                     formAddressValid,
                     jpNameValid
                   )}
+                  htmlType="submit"
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />

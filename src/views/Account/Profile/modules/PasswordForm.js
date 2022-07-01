@@ -2,6 +2,7 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Loading from '@/components/Loading';
 import { modifyPassword } from '@/api/login';
+import { Button } from '@/components/Common';
 
 class PasswordForm extends React.Component {
   constructor(props) {
@@ -186,14 +187,15 @@ class PasswordForm extends React.Component {
               &nbsp;
               <FormattedMessage id="or" />
               &nbsp;
-              <button
-                className="rc-btn rc-btn--one submitBtn"
+              <Button
+                type="primary"
+                className="submitBtn"
                 name="contactPreference"
-                type="submit"
+                htmlType="submit"
                 onClick={() => this.handleSave()}
               >
                 <FormattedMessage id="save" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>

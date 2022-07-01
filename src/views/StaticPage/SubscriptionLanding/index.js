@@ -16,7 +16,7 @@ import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 @inject('configStore')
 @injectIntl
@@ -62,14 +62,20 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <div className="d-block d-md-none rc-text--center">
                           <Link to="/cats">
-                            <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                            <Button
+                              type="primary"
+                              className="rc-margin-right--xs rc-margin-bottom--xs"
+                            >
                               Voir les formules pour chat
-                            </button>
+                            </Button>
                           </Link>
                           <Link to="/dogs">
-                            <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
+                            <Button
+                              type="primary"
+                              className="rc-margin-bottom--xs"
+                            >
                               Voir les formules pour chien
-                            </button>
+                            </Button>
                           </Link>
                         </div>
                       </div>
@@ -97,14 +103,20 @@ class SubscriptionLanding extends React.Component {
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
-                                <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                                <Button
+                                  type="primary"
+                                  className="rc-margin-right--xs rc-margin-bottom--xs"
+                                >
                                   <FormattedMessage id="subscription.list.btn1" />
-                                </button>
+                                </Button>
                               </Link>
                               <Link to="/dogs">
-                                <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
+                                <Button
+                                  type="primary"
+                                  className="rc-margin-bottom--xs"
+                                >
                                   <FormattedMessage id="subscription.list.btn2" />
-                                </button>
+                                </Button>
                               </Link>
                             </div>
                           </div>

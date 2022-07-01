@@ -4,6 +4,7 @@ import Help from '../../../SmartFeederSubscription/modules/Help';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import usDog from '../../images/2usChange.jpg';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const howImageArr = [
@@ -149,15 +150,14 @@ const UsAndRu = (props) => {
               <p style={{ color: 'rgb(23, 43, 77)' }}>
                 <FormattedMessage id="recommendation.plusContent" />
               </p>
-              <button
-                className={cn(`rc-btn rc-btn--two rc-margin-top--sm`, {
-                  'ui-btn-loading': props.buttonLoading
-                })}
+              <Button
+                className={cn(`rc-margin-top--sm`)}
+                loading={props.buttonLoading}
                 disabled={!props.addCartBtnStatus}
                 onClick={props.addCart}
               >
                 <FormattedMessage id="recommendation.plusBtn" />
-              </button>
+              </Button>
             </div>
           </div>
           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
@@ -237,16 +237,15 @@ const UsAndRu = (props) => {
               </p>
             </div>
             <p>
-              <button
-                className={cn(
-                  `rc-btn rc-btn--one rc-margin-y--xs mr-auto ml-auto`,
-                  { 'ui-btn-loading': props.buttonLoading }
-                )}
+              <Button
+                type="primary"
+                className={cn(`rc-margin-y--xs mr-auto ml-auto`)}
+                loading={props.buttonLoading}
                 onClick={props.addCart}
                 disabled={!props.addCartBtnStatus}
               >
                 Place order
-              </button>
+              </Button>
             </p>
             <div className="experience-component experience-assets-youtubeVideo">
               <div className="rc-max-width--md rc-padding-x--lg">

@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { Button } from '@/components/Common';
 
 export default class Modal extends React.Component {
   static defaultProps = {
@@ -65,12 +66,9 @@ export default class Modal extends React.Component {
               <div className="modal-footer p-0">
                 <div className="w-full flex flex-row-reverse p-4">
                   <div className="flex items-center">
-                    <button
-                      className="rc-btn rc-btn--one"
-                      onClick={this.handleClickConfirm}
-                    >
+                    <Button type="primary" onClick={this.handleClickConfirm}>
                       {this.props.confirmBtnText}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

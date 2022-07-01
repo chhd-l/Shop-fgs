@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { withRouter } from 'react-router-dom';
+import { Button } from '@/components/Common';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -115,20 +116,22 @@ class MapFlag extends React.Component {
               <FormattedMessage id='clinic.cancel' ></FormattedMessage>
             </button> */}
                 {this.props.mode === 'confirm' && (
-                  <button
-                    className="rc-btn rc-btn--one rc-btn--sm"
+                  <Button
+                    type="primary"
+                    size="small"
                     onClick={() => this.handleConfirm(this.props.obj)}
                   >
                     <FormattedMessage id="clinic.confirm" />
-                  </button>
+                  </Button>
                 )}
                 {this.props.mode === 'navigate' && (
-                  <button
-                    className="rc-btn rc-btn--one rc-btn--sm"
+                  <Button
+                    type="primary"
+                    size="small"
                     onClick={() => this.handleNavigate(this.props.obj)}
                   >
                     <FormattedMessage id="clinic.navigate" />
-                  </button>
+                  </Button>
                 )}
                 <button
                   type="button"

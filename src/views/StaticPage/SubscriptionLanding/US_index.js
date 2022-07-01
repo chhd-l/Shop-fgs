@@ -20,7 +20,7 @@ import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { LOGO_CLUB, LOGO } from '@/utils/constant';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 @inject('configStore')
 @seoHoc('Subscription Page')
@@ -92,16 +92,19 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <div className="rc-btn-group d-block d-md-none rc-text--center">
                           <Link to="/cats">
-                            <button className="rc-btn rc-btn--one rc-margin-right--xs mb-2 md:mb-0">
+                            <Button
+                              type="primary"
+                              className="rc-margin-right--xs mb-2 md:mb-0"
+                            >
                               {/*Shop Cat Formulas*/}
                               <FormattedMessage id="SubscriptionLanding.catFormulas" />
-                            </button>
+                            </Button>
                           </Link>
                           <Link to="/dogs">
-                            <button className="rc-btn rc-btn--one mb-2 md:mb-0">
+                            <Button type="primary" className="mb-2 md:mb-0">
                               {/*Shop Dog Formulas*/}
                               <FormattedMessage id="SubscriptionLanding.dogFormulas" />
-                            </button>
+                            </Button>
                           </Link>
                         </div>
                       </div>
@@ -136,16 +139,19 @@ class SubscriptionLanding extends React.Component {
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats/retail-products">
-                                <button className="rc-btn rc-btn--one rc-margin-right--xs">
+                                <Button
+                                  type="primary"
+                                  className="rc-margin-right--xs"
+                                >
                                   {/*Shop Cat Formulas*/}
                                   <FormattedMessage id="SubscriptionLanding.catFormulas" />
-                                </button>
+                                </Button>
                               </Link>
                               <Link to="/dogs/retail-products">
-                                <button className="rc-btn rc-btn--one">
+                                <Button type="primary">
                                   {/*Shop Dog Formulas*/}
                                   <FormattedMessage id="SubscriptionLanding.dogFormulas" />
-                                </button>
+                                </Button>
                               </Link>
                             </div>
                           </div>
@@ -302,10 +308,10 @@ class SubscriptionLanding extends React.Component {
                               href="/product-finder"
                               to="/product-finder"
                             >
-                              <button className="rc-btn rc-btn--one mb-2 md:mb-0">
+                              <Button type="primary" className="mb-2 md:mb-0">
                                 {/*Shop Dog Formulas*/}
                                 <FormattedMessage id="SubscriptionLanding.BothFormulas" />
-                              </button>
+                              </Button>
                             </DistributeHubLinkOrATag>
                             {/*<Link*/}
                             {/*  className="rc-btn rc-btn--sm rc-btn--two"*/}

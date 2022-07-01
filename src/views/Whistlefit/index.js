@@ -28,7 +28,7 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import { getDeviceType } from '@/utils/utils';
 import HeroCarousel from './components/carousel/index2';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 //import HeroCarousel from '@/components/HeroCarousel';
 
 const PAGE_NUM = '121313';
@@ -247,8 +247,9 @@ class Whistlefit extends React.Component {
                             disponibilité du produit
                           </div>
                           <div className="md:mb-0">
-                            <button
-                              className="rc-btn rc-btn--one text-14 md:text-16"
+                            <Button
+                              type="primary"
+                              className="text-14 md:text-16"
                               onClick={() =>
                                 this.scrollToInputEmail(
                                   1,
@@ -257,7 +258,7 @@ class Whistlefit extends React.Component {
                               }
                             >
                               Je veux être informé
-                            </button>
+                            </Button>
                           </div>
                         </div>
                       </div>
@@ -347,14 +348,15 @@ class Whistlefit extends React.Component {
                         </div>
                       </div>
                       <div className="w-full flex justify-center my-8 md:my-10">
-                        <button
-                          className="rc-btn rc-btn--one text-14 md:text-16"
+                        <Button
+                          type="primary"
+                          className="text-14 md:text-16"
                           onClick={() =>
                             this.scrollToInputEmail(2, 'Je veux être informé ')
                           }
                         >
                           Je veux être informé
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -420,14 +422,15 @@ class Whistlefit extends React.Component {
                       })}
                     </div>
                     <div className="w-full flex justify-center my-8 md:my-10">
-                      <button
-                        className="rc-btn rc-btn--one text-14 md:text-16"
+                      <Button
+                        type="primary"
+                        className="text-14 md:text-16"
                         onClick={() =>
                           this.scrollToInputEmail(3, 'Je veux être informé ')
                         }
                       >
                         Je veux être informé
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -458,14 +461,15 @@ class Whistlefit extends React.Component {
                       <HeroCarousel history={history} />
                     </div>
                     <div className="pb-4 md:pb-0 w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
-                      <button
-                        className="rc-btn rc-btn--one text-14 md:text-16"
+                      <Button
+                        type="primary"
+                        className="text-14 md:text-16"
                         onClick={() =>
                           this.scrollToInputEmail(4, 'Je veux être informé ')
                         }
                       >
                         Je veux être informé
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -575,10 +579,10 @@ class Whistlefit extends React.Component {
                         this.state.isSaveSuccess ? 'hidden' : ''
                       }`}
                     >
-                      <button
-                        className={`rc-btn rc-btn--one text-14 md:text-sm ${
-                          this.state.isRegisterLoading ? 'ui-btn-loading' : ''
-                        }`}
+                      <Button
+                        type="primary"
+                        className={`text-14 md:text-sm`}
+                        loading={this.state.isRegisterLoading}
                         onClick={this.register}
                         disabled={
                           !(
@@ -592,7 +596,7 @@ class Whistlefit extends React.Component {
                         }}
                       >
                         Je suis intéressé et veux être informé !
-                      </button>
+                      </Button>
                     </div>
                     <div
                       className={`${

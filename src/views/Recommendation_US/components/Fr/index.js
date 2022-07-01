@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { getDeviceType } from '@/utils/utils';
@@ -9,6 +9,7 @@ import recommendation2 from '@/assets/images/fr_recommendation2.png';
 import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 const isMobile = getDeviceType() === 'H5';
 const FrDefault = (props) => {
@@ -94,16 +95,15 @@ const FrSPT = (props) => {
                 </li>
               </ul>
               <p style={{ marginTop: '30px', marginBottom: '30px' }}>
-                <button
-                  className={cn(`rc-btn rc-btn--one`, {
-                    'ui-btn-loading': props.buttonLoading
-                  })}
+                <Button
+                  type="primary"
+                  loading={props.buttonLoading}
                   disabled={!props.addCartBtnStatus}
                   onClick={props.addCart}
                 >
                   {/* <FormattedMessage id="recommendation.viewInCart" /> */}
                   S'inscrire
-                </button>
+                </Button>
               </p>
               {/* <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
@@ -198,16 +198,15 @@ const FrSPT = (props) => {
         </div>
 
         <p className="flex justify-center mt-8 mb-0 md:mb-8">
-          <button
-            className={cn(`rc-btn rc-btn--one`, {
-              'ui-btn-loading': props.buttonLoading
-            })}
+          <Button
+            type="primary"
+            loading={props.buttonLoading}
             onClick={props.addCart}
             disabled={!props.addCartBtnStatus}
           >
             {/* <FormattedMessage id="recommendation.viewInCart" /> */}
             Commencez maintenant
-          </button>
+          </Button>
         </p>
       </div>
       <div className="help-page mb-0 md:mb-4">
@@ -355,16 +354,15 @@ const FrSPT = (props) => {
           <FormattedMessage id="recommendation.fourContent" />
         </p>
         <p className="mt-4 mb-8">
-          <button
-            className={cn(`rc-btn rc-btn--one`, {
-              'ui-btn-loading': props.buttonLoading
-            })}
+          <Button
+            type="primary"
+            loading={props.buttonLoading}
             disabled={!props.addCartBtnStatus}
             onClick={props.addCart}
           >
             {/* <FormattedMessage id="recommendation.viewInCart"/> */}
             Commander
-          </button>
+          </Button>
         </p>
         <div className="experience-component experience-assets-youtubeVideo">
           <div className="rc-max-width--md rc-padding-x--lg">
