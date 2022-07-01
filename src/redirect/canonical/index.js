@@ -314,50 +314,6 @@ export default {
     {
       shortUrl: '/labrador-retriever-adulte-st%C3%A9rilis%C3%A9-BC01',
       redirectUrl: '/labrador-retriever-adulte-sterilise-3996'
-    },
-    {
-      shortUrl: '/kitten-en-gelée-x24-ou-x48-BD28',
-      redirectUrl: '/kitten-en-gelee-x24-ou-x48-BD28'
-    },
-    {
-      shortUrl: '/sensory™-multi-pack-sauce-BD57',
-      redirectUrl: '/sensory-multi-pack-sauce-BD57'
-    },
-    {
-      shortUrl: '/british-shorthair-bouchées-spécial-x24-ou-x48-BD40',
-      redirectUrl: '/british-shorthair-bouchées-special-x24-ou-x48-BD40'
-    },
-    {
-      shortUrl: '/sensory™-feel-gelée-BD56',
-      redirectUrl: '/sensory-feel-gelee-BD56'
-    },
-    {
-      shortUrl: '/sensory™-feel-sauce-BD55',
-      redirectUrl: '/sensory-feel-sauce-BD55'
-    },
-    {
-      shortUrl: '/persan-bouchées-spécial-x24-ou-x48-BD38',
-      redirectUrl: '/persan-bouchees-special-x24-ou-x48-BD38'
-    },
-    {
-      shortUrl: '/maine-coon-bouchées-spécial-x24-ou-x48-BD39',
-      redirectUrl: '/maine-coon-bouchées-special-x24-ou-x48-BD39'
-    },
-    {
-      shortUrl: '/sensory™-smell-sauce-BD51',
-      redirectUrl: '/sensory-smell-sauce-BD51'
-    },
-    {
-      shortUrl: '/sensory™-taste-sauce-BD53',
-      redirectUrl: '/sensory-taste-sauce-BD53'
-    },
-    {
-      shortUrl: '/sensory™-taste-gelée-BD54',
-      redirectUrl: '/sensory-taste-gelee-BD54'
-    },
-    {
-      shortUrl: '/sensory™-smell-gelée-BD52',
-      redirectUrl: '/sensory-smell-gelee-BD52'
     }
   ],
   se: [

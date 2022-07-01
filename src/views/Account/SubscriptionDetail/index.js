@@ -16,7 +16,9 @@ import SubGoodsInfos from './components/SubGoodsInfos';
 import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
 import DeliveryList from './components/DeliveryList';
+import { getDetailsBySpuNo } from '@/api/details';
 import Loading from '@/components/Loading';
+import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import { getDeliveryDateAndTimeSlot, checkPickUpActive } from '@/api/address';
 
 import {
@@ -50,7 +52,7 @@ import { Canonical } from '@/components/Common';
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
-@inject('configStore', 'paymentStore')
+@inject('configStore', 'paymentStore', 'loginStore')
 @injectIntl
 @seoHoc('Subscription Page')
 @observer
@@ -583,6 +585,8 @@ class SubscriptionDetail extends React.Component {
           isNotInactive: subDetail.subscribeStatus !== 'INACTIVE' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
+          this.fromEmailGoToCart(this.state.isNotInactive);
+
           if (!this.state.subDetail.petsLifeStageFlag) {
             this.setState({
               triggerShowChangeProduct: Object.assign(
@@ -604,6 +608,50 @@ class SubscriptionDetail extends React.Component {
       this.showErrMsg(err.message || err);
     } finally {
       this.setState({ loading: false });
+    }
+  };
+
+  // subscribeStatus =2，from email, go to cart
+  fromEmailGoToCart = async (isNotInactive) => {
+    const search = this.props.history.location?.search || '';
+    const fromEmail = search.includes('src=email');
+    const sku = funcUrl({ name: 'sku' });
+    const isLogin = this.props.loginStore.isLogin;
+    if (isNotInactive && fromEmail && isLogin && sku) {
+      this.setState({ loadingPage: true });
+      try {
+        const { context = {} } = await getDetailsBySpuNo(sku);
+        const defaultClubFrequency =
+          this.props?.configStore?.info?.storeVO
+            ?.defaultSubscriptionClubFrequencyId || '';
+        const goodsInfoId = context?.goodsInfos?.filter(
+          (item) => item.goodsInfoNo === sku
+        )?.[0]?.goodsInfoId;
+        const periodTypeId =
+          context?.goods?.defaultFrequencyId || defaultClubFrequency;
+        let param = {
+          goodsInfoId,
+          goodsNum: 1,
+          goodsInfoFlag: 2,
+          periodTypeId
+        };
+        this.addSubscriptionProductToCart(param);
+      } catch (err) {
+        this.setState({ loadingPage: true });
+      }
+    }
+  };
+
+  addSubscriptionProductToCart = async (param) => {
+    try {
+      if (param.goodsInfoId) {
+        await AddCartItemMember({ param });
+        this.props.history.push('/cart');
+      }
+    } catch (err) {
+      console.log(err, 'error');
+    } finally {
+      this.setState({ loadingPage: false });
     }
   };
 
