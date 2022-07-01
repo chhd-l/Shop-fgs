@@ -39,7 +39,7 @@ import frhowitworknewmobile1 from './Components/HowItWorksNew/image/frhowitworkn
 import frhowitworknewmobile2 from './Components/HowItWorksNew/image/frhowitworknewmobile2.png';
 import frhowitworknewmobile3 from './Components/HowItWorksNew/image/frhowitworknewmobile3.png';
 import frhowitworknewmobile4 from './Components/HowItWorksNew/image/frhowitworknewmobile4.png';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -244,7 +244,8 @@ class ClubLandingPageNew extends React.Component {
                               data-tms-ruproductfinderlandingpage="1"
                               ariaLabel="Links to product finder"
                             >
-                              <button
+                              <Button
+                                type="primary"
                                 onClick={() => {
                                   window.__.env.REACT_APP_COUNTRY == 'ru' &&
                                     window?.dataLayer?.push({
@@ -253,7 +254,7 @@ class ClubLandingPageNew extends React.Component {
                                         'Choose a diet - Top'
                                     });
                                 }}
-                                className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs"
+                                className="rc-margin-right--xs rc-margin-bottom--xs"
                                 style={
                                   window.__.env.REACT_APP_COUNTRY === 'fr'
                                     ? {
@@ -269,7 +270,7 @@ class ClubLandingPageNew extends React.Component {
                                     isMobile ? { val: <br /> } : { val: null }
                                   }
                                 />
-                              </button>
+                              </Button>
                             </DistributeHubLinkOrATag>
                           </div>
                         </div>

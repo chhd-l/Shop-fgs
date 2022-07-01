@@ -12,6 +12,7 @@ import { getDictionary } from '@/utils/utils';
 import bg1 from '@/assets/images/login-bg3.jpg';
 import bg2 from '@/assets/images/register-bg1.jpg';
 import LazyLoad from 'react-lazyload';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -512,13 +513,13 @@ class Login extends React.Component {
                           className="rc-column"
                           style={{ textAlign: 'center' }}
                         >
-                          <button
-                            className="rc-btn rc-btn--one"
-                            style={{ width: '100%' }}
+                          <Button
+                            type="primary"
+                            className="w-full"
                             onClick={() => this.loginClick()}
                           >
                             <FormattedMessage id="login" />
-                          </button>
+                          </Button>
                         </div>
                         <div
                           className="rc-column"
@@ -915,13 +916,13 @@ class Login extends React.Component {
                   className="rc-layout-container rc-two-column buttonGroup"
                 >
                   <div className="rc-column" style={{ textAlign: 'center' }}>
-                    <button
-                      className="rc-btn rc-btn--one"
-                      style={{ width: '100%' }}
+                    <Button
+                      type="primary"
+                      className="w-full"
                       onClick={() => this.register()}
                     >
                       <FormattedMessage id="createAnAccount" />
-                    </button>
+                    </Button>
                   </div>
                   <div className="rc-column" style={{ textAlign: 'center' }}>
                     <button
@@ -985,15 +986,15 @@ class Login extends React.Component {
                     />
                     <div style={{ width: '100%', marginTop: '100px' }}>
                       <p style={{ textAlign: 'center' }}>
-                        <button
-                          className="rc-btn rc-btn--one"
+                        <Button
+                          type="primary"
                           style={{ width: '70%' }}
                           onClick={() => {
                             this.setState({ type: 'login' });
                           }}
                         >
                           <FormattedMessage id="submit" />
-                        </button>
+                        </Button>
                       </p>
                       <p style={{ textAlign: 'center' }}>
                         <button

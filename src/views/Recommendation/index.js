@@ -30,12 +30,7 @@ import { seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
-import cloneDeep from 'lodash/cloneDeep';
-import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
-import Modal from './components/Modal';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import {
@@ -43,7 +38,7 @@ import {
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
 import './index.less';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button, Modal } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -372,7 +367,7 @@ class Help extends React.Component {
     }
   }
   render(h) {
-    const { loginStore, intl, configStore } = this.props;
+    const { loginStore, configStore } = this.props;
     const event = {
       page: {
         type: 'Content',
@@ -388,7 +383,7 @@ class Help extends React.Component {
       activeIndex,
       prescriberInfo,
       currentModalObj,
-      isMobile
+      needLogin
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -445,17 +440,46 @@ class Help extends React.Component {
         <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
-          key="1"
-          needLogin={this.state.needLogin}
           visible={this.state.modalShow}
-          confirmLoading={this.state.submitLoading}
           modalTitle={currentModalObj.title}
-          confirmBtnText={<FormattedMessage id="yes" />}
-          cancelBtnVisible={<FormattedMessage id="cancel" />}
           close={() => {
             this.setState({ modalShow: false });
           }}
-          hanldeClickConfirm={() => this.hanldeClickSubmit()}
+          footerContentChildren={
+            <>
+              <Button
+                id="modalFooterCancel"
+                htmlType="button"
+                data-dismiss="modal"
+                onClick={() => {
+                  this.setState({ modalShow: false });
+                }}
+              >
+                <FormattedMessage id="cancel" />
+              </Button>
+              {this.props.loginStore.isLogin || !needLogin ? (
+                <Button
+                  type="primary"
+                  id="modalFooterConfirm"
+                  htmlType="button"
+                  className={`cart-delete-confirmation-btn`}
+                  loading={this.state.submitLoading}
+                  data-dismiss="modal"
+                  onClick={() => this.hanldeClickSubmit()}
+                >
+                  <FormattedMessage id="yes" />
+                </Button>
+              ) : (
+                <LoginButton
+                  beforeLoginCallback={() => {
+                    localItemRoyal.set('okta-redirectUrl', '/prescription');
+                  }}
+                >
+                  <FormattedMessage id="yes" />
+                </LoginButton>
+              )}
+            </>
+          }
         >
           <span>{currentModalObj.content}</span>
         </Modal>
@@ -485,14 +509,10 @@ class Help extends React.Component {
               <FormattedMessage id="recommendation.firstContent" />
             </p>
             <p>
-              <button
-                className={`rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  this.state.inStockProducts.length
-                    ? ''
-                    : 'rc-btn-solid-disabled'
-                }`}
+              <Button
+                type="primary"
+                loading={this.state.buttonLoading}
+                disabled={!this.state.inStockProducts.length}
                 onClick={() => {
                   if (loginStore.isLogin) {
                     this.hanldeLoginAddToCart();
@@ -505,7 +525,7 @@ class Help extends React.Component {
                 }}
               >
                 <FormattedMessage id="recommendation.viewInCart" />
-              </button>
+              </Button>
             </p>
           </section>
 
@@ -658,8 +678,6 @@ class Help extends React.Component {
                         )}
 
                         <p className="product-pricing__card__head see-detail-btn">
-                          {/* <button className="rc-btn rc-btn--two" onClick={() => { history.push('/details/' + productList[activeIndex].goodsInfo.goodsInfoId); }}
-                              > */}
                           <Link
                             className="rc-btn rc-btn--two"
                             to={`/${productList[
@@ -787,15 +805,14 @@ class Help extends React.Component {
                         }}
                       >
                         {loginStore.isLogin ? (
-                          <button
+                          <Button
                             ref="loginButton"
-                            className={`rc-btn rc-btn--one ${
-                              this.state.buttonLoading ? 'ui-btn-loading' : ''
-                            }`}
+                            type="primary"
+                            loading={this.state.buttonLoading}
                             onClick={() => this.buyNow()}
                           >
                             <FormattedMessage id="recommendation.buyNow" />
-                          </button>
+                          </Button>
                         ) : (
                           <LoginButton
                             beforeLoginCallback={async () => this.buyNow(true)}
@@ -806,7 +823,6 @@ class Help extends React.Component {
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
-                            intl={intl}
                           >
                             <FormattedMessage id="checkout" />
                           </LoginButton>
@@ -972,15 +988,14 @@ class Help extends React.Component {
                           style={{ display: 'block', width: '100%' }}
                         >
                           {loginStore.isLogin ? (
-                            <button
+                            <Button
                               ref="loginButton"
-                              className={`rc-btn rc-btn--one ${
-                                this.state.buttonLoading ? 'ui-btn-loading' : ''
-                              }`}
+                              type="primary"
+                              loading={this.state.buttonLoading}
                               onClick={() => this.buyNow()}
                             >
                               <FormattedMessage id="recommendation.buyNow" />
-                            </button>
+                            </Button>
                           ) : (
                             <LoginButton
                               beforeLoginCallback={async () =>
@@ -993,7 +1008,6 @@ class Help extends React.Component {
                                   ? ''
                                   : 'rc-btn-solid-disabled'
                               }`}
-                              intl={intl}
                             >
                               <FormattedMessage id="checkout" />
                             </LoginButton>
@@ -1089,7 +1103,6 @@ class Help extends React.Component {
                 <p>
                   <FormattedMessage id="recommendation.secContent" />
                 </p>
-                {/* <button className="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button> */}
               </div>
             </div>
             <div className="rc-column">

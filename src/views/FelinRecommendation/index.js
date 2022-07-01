@@ -27,7 +27,7 @@ import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.css';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -649,18 +649,15 @@ class FelinRecommendation extends React.Component {
                 votre animal.
               </p>
               <p>
-                <button
-                  className={`3444 rc-btn rc-btn--one ${
-                    this.state.buttonLoading ? 'ui-btn-loading' : ''
-                  } ${
-                    this.state.inStockProducts.length
-                      ? ''
-                      : 'rc-btn-solid-disabled'
-                  }`}
+                <Button
+                  type="primary"
+                  className={`3444`}
+                  disabled={!this.state.inStockProducts.length}
+                  loading={this.state.buttonLoading}
                   onClick={this.buyNow}
                 >
                   <FormattedMessage id="checkout" />
-                </button>
+                </Button>
               </p>
             </section>
           </div>
@@ -1074,14 +1071,10 @@ class FelinRecommendation extends React.Component {
                     </li>
                   </ul>
                   <p style={{ marginTop: '30px', marginBottom: '30px' }}>
-                    <button
-                      className={`1111 rc-btn rc-btn--one ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${
-                        this.state.inStockProducts.length
-                          ? ''
-                          : 'rc-btn-solid-disabled'
-                      }`}
+                    <Button
+                      className={`1111`}
+                      disabled={!this.state.inStockProducts.length}
+                      loading={this.state.buttonLoading}
                       onClick={this.buyNow}
 
                       // onClick={() => {
@@ -1094,7 +1087,7 @@ class FelinRecommendation extends React.Component {
                     >
                       {/* <FormattedMessage id="recommendation.viewInCart" /> */}
                       S'inscrire
-                    </button>
+                    </Button>
                   </p>
                   {/* <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
@@ -1195,27 +1188,15 @@ class FelinRecommendation extends React.Component {
                 marginBottom: isMobile ? '0' : '70px'
               }}
             >
-              <button
-                className={`222 rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  this.state.inStockProducts.length
-                    ? ''
-                    : 'rc-btn-solid-disabled'
-                }`}
+              <Button
+                className={`222`}
+                disabled={!this.state.inStockProducts.length}
+                loading={this.state.buttonLoading}
                 onClick={this.buyNow}
-
-                // onClick={() => {
-                //   if (loginStore.isLogin) {
-                //     this.hanldeLoginAddToCart();
-                //   } else {
-                //     this.hanldeUnloginAddToCart(productList, '/cart');
-                //   }
-                // }}
               >
                 {/* <FormattedMessage id="recommendation.viewInCart" /> */}
                 Commencez maintenant
-              </button>
+              </Button>
             </p>
           </div>
           <div className="help-container 1111">
@@ -1367,27 +1348,15 @@ class FelinRecommendation extends React.Component {
               </p>
             </div>
             <p>
-              <button
-                className={`333 rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  this.state.inStockProducts.length
-                    ? ''
-                    : 'rc-btn-solid-disabled'
-                }`}
+              <Button
+                className={`333`}
+                disabled={!this.state.inStockProducts.length}
+                loading={this.state.buttonLoading}
                 onClick={this.buyNow}
-
-                // onClick={() => {
-                //   if (loginStore.isLogin) {
-                //     this.hanldeLoginAddToCart();
-                //   } else {
-                //     this.hanldeUnloginAddToCart(productList, '/cart');
-                //   }
-                // }}
               >
                 {/* <FormattedMessage id="recommendation.viewInCart"/> */}
                 Commander
-              </button>
+              </Button>
             </p>
             <div className="experience-component experience-assets-youtubeVideo">
               <div className="rc-max-width--md rc-padding-x--lg">

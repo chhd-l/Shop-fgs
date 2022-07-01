@@ -5,6 +5,7 @@ import { myAccountActionPushEvent, GAForChangeProductBtn } from '@/utils/GA';
 import { getDeviceType } from '@/utils/utils';
 import { startSubscription, pauseSubscription } from '@/api/subscription';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 const ButtonBox = () => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -136,14 +137,14 @@ const ButtonBox = () => {
             <FormattedMessage id="subscription.cancelAll" />
           </a>
         </div>
-        <button
-          className={cn(`rc-btn rc-btn--one md:mx-4 mt-2 w-full md:w-auto`, {
-            'rc-btn-solid-disabled': !isDataChange
-          })}
+        <Button
+          type="primary"
+          className={cn(`md:mx-4 mt-2 w-full md:w-auto`)}
+          disabled={!isDataChange}
           onClick={() => handleSaveChange(subDetail)}
         >
           <FormattedMessage id="saveChange" />
-        </button>
+        </Button>
       </p>
     </div>
   );

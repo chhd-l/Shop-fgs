@@ -8,6 +8,7 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -132,11 +133,13 @@ class CadeauCoussinChat extends React.Component {
                                   </li>
                                 </ul>
                                 <div className="textcenter--mobile">
-                                  <Link
-                                    to="/cats"
-                                    className="rc-btn rc-btn--one rc-margin-top--xs "
-                                  >
-                                    J'en profite
+                                  <Link to="/cats">
+                                    <Button
+                                      type="primary"
+                                      className="rc-margin-top--xs "
+                                    >
+                                      J'en profite
+                                    </Button>
                                   </Link>
                                 </div>
                               </div>

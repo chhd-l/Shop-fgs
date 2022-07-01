@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import classNames from 'classnames';
-import Modal from '@/components/Modal';
 import {
   productFinderDailyPortion,
   productFinderDailyPortionRation,
@@ -22,6 +21,7 @@ import {
   GAForDailyPortionToolScreenPetInfo,
   GAForDailyPortionToolScreenResults
 } from '@/utils/GA/dailyPortionTool';
+import { Button, Modal } from '@/components/Common';
 
 /**
  * questionDisplayType / name
@@ -837,16 +837,14 @@ export default function DailyPortion({
               </div>
             </div>
             <div className="py-10 text-center">
-              <button
+              <Button
+                type="primary"
                 disabled={stepOneDisabled || errOperate}
-                className={classNames(
-                  'rc-btn rc-btn--one rc-margin-right--xs--mobile',
-                  { 'rc-btn-solid-disabled': stepOneDisabled || errOperate }
-                )}
+                className={classNames('rc-margin-right--xs--mobile')}
                 onClick={handleToStep2}
               >
                 <FormattedMessage id="continue" />
-              </button>
+              </Button>
             </div>
           </div>
         );
@@ -863,18 +861,16 @@ export default function DailyPortion({
             />
             <div className="py-6 lg:py-10 text-center">
               <div className="pb-6">
-                <button
+                <Button
                   style={{ minWidth: '200px' }}
                   disabled={!bcs}
                   onClick={() => getResult()}
-                  className={classNames(
-                    'rc-btn rc-btn--one rc-margin-right--xs--mobile',
-                    { 'rc-btn-solid-disabled': !bcs },
-                    { 'ui-btn-loading': loading }
-                  )}
+                  type="primary"
+                  loading={loading}
+                  className={classNames('rc-margin-right--xs--mobile')}
                 >
                   <FormattedMessage id="dailyPortion.calculatePortion" />
-                </button>
+                </Button>
               </div>
               <div>
                 <button
@@ -999,19 +995,16 @@ export default function DailyPortion({
             <FormattedMessage id="dailyPortion.title" />
           </p>
           <div className="flex justify-center lg:justify-start">
-            <button
+            <Button
+              type="primary"
               disabled={isCalculateDisabled}
               onClick={showQuestion}
-              className={classNames(
-                'rc-btn rc-btn--one rc-margin-right--xs--mobile',
-                { 'rc-btn-solid-disabled': isCalculateDisabled },
-                {
-                  hidden: isShowQuestion
-                }
-              )}
+              className={classNames('rc-margin-right--xs--mobile', {
+                hidden: isShowQuestion
+              })}
             >
               <FormattedMessage id="dailyPortion.calculatePortion" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>

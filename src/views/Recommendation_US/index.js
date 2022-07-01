@@ -19,7 +19,6 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import Modal from './components/Modal';
 import {
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
@@ -31,11 +30,12 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-import { Canonical, Button } from '@/components/Common';
+import { Canonical, Button, Modal } from '@/components/Common';
 import {
   AddItemsMember as AddCartItemsMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
+import LoginButton from '@/components/LoginButton';
 import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -1078,7 +1078,8 @@ class Recommendation extends React.Component {
       isMobile,
       promotionCode,
       promotionCodeText,
-      isSPT
+      isSPT,
+      needLogin
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -1140,17 +1141,46 @@ class Recommendation extends React.Component {
         <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
-          key="1"
-          needLogin={this.state.needLogin}
           visible={this.state.modalShow}
-          confirmLoading={this.state.submitLoading}
           modalTitle={currentModalObj.title}
-          confirmBtnText={<FormattedMessage id="yes" />}
-          cancelBtnVisible={<FormattedMessage id="cancel" />}
           close={() => {
             this.setState({ modalShow: false });
           }}
-          hanldeClickConfirm={() => this.hanldeClickSubmit()}
+          footerContentChildren={
+            <>
+              <Button
+                id="modalFooterCancel"
+                htmlType="button"
+                data-dismiss="modal"
+                onClick={() => {
+                  this.setState({ modalShow: false });
+                }}
+              >
+                <FormattedMessage id="cancel" />
+              </Button>
+              {this.props.loginStore.isLogin || !needLogin ? (
+                <Button
+                  type="primary"
+                  id="modalFooterConfirm"
+                  htmlType="button"
+                  className={`cart-delete-confirmation-btn`}
+                  loading={this.state.submitLoading}
+                  data-dismiss="modal"
+                  onClick={() => this.hanldeClickSubmit()}
+                >
+                  <FormattedMessage id="yes" />
+                </Button>
+              ) : (
+                <LoginButton
+                  beforeLoginCallback={() => {
+                    localItemRoyal.set('okta-redirectUrl', '/prescription');
+                  }}
+                >
+                  <FormattedMessage id="yes" />
+                </LoginButton>
+              )}
+            </>
+          }
         >
           <span>{currentModalObj.content}</span>
         </Modal>

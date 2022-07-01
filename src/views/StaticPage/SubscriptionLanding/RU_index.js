@@ -16,7 +16,7 @@ import { seoHoc } from '@/framework/common';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -80,13 +80,17 @@ class Help extends React.Component {
                   <em className="rc-icon rc-rate-fill--xs rc-brand1"></em><FormattedMessage id="subscriptionLanding.description4"/>
                 </div> */}
                 <div style={{ marginTop: '1.25rem' }}>
-                  <Link className="rc-btn rc-btn--one" to="/cats">
-                    <FormattedMessage id="subscriptionLanding.catButton" />
+                  <Link to="/cats">
+                    <Button type="primary">
+                      <FormattedMessage id="subscriptionLanding.catButton" />
+                    </Button>
                   </Link>
                 </div>
                 <div style={{ marginTop: '1.25rem' }}>
-                  <Link className="rc-btn rc-btn--one" to="/dogs">
-                    <FormattedMessage id="subscriptionLanding.dogButton" />
+                  <Link to="/dogs">
+                    <Button type="primary">
+                      <FormattedMessage id="subscriptionLanding.dogButton" />
+                    </Button>
                   </Link>
                 </div>
               </div>

@@ -8,11 +8,11 @@ import { useHistory } from 'react-router-dom';
 import RecommendationList from './RecommendationList';
 import { findPetProductForClub } from '@/api/subscription';
 import { getRation, getClubLogo, formatMoney } from '@/utils/utils';
-import Modal from '@/components/Modal';
 import { ChangeProductContext } from '../index';
 import { SubDetailHeaderContext } from '../../SubDetailHeader';
 import ProductDailyRation from './ProductDailyRation';
 import RelateProductList from './RelateProductList';
+import { Modal, Button } from '@/components/Common';
 
 const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
@@ -357,15 +357,17 @@ const RecommendationListModal = ({ intl }) => {
                 {/* Create your pet profile */}
               </a>
             </div>
-            <button
-              class="text-sm mt-6 rc-btn rc-btn--one rc-btn--sm"
+            <Button
+              type="primary"
+              size="small"
+              class="text-sm mt-6"
               onClick={() => {
                 showModal();
               }}
             >
               <FormattedMessage id="subscription.noMoreRecommendation.backBtn" />
               {/* Back to my subscription */}
-            </button>
+            </Button>
           </div>
         )}
       </Modal>
