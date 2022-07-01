@@ -21,7 +21,6 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import Modal from './components/Modal';
 import {
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
@@ -34,11 +33,12 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button, Modal } from '@/components/Common';
 import {
   AddItemsMember as AddCartItemsMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
+import LoginButton from '@/components/LoginButton';
 import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -868,7 +868,8 @@ class Recommendation extends React.Component {
         path: this.props.location.pathname
       }
     };
-    let { productList, activeIndex, currentModalObj, isSPT } = this.state;
+    let { productList, activeIndex, currentModalObj, isSPT, needLogin } =
+      this.state;
     let MaxMarketPrice, MinMarketPrice;
     if (productList.length) {
       // MaxLinePrice = Math.max.apply(
@@ -931,17 +932,46 @@ class Recommendation extends React.Component {
         <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
-          key="1"
-          needLogin={this.state.needLogin}
           visible={this.state.modalShow}
-          confirmLoading={this.state.submitLoading}
           modalTitle={currentModalObj.title}
-          confirmBtnText={<FormattedMessage id="yes" />}
-          cancelBtnVisible={<FormattedMessage id="cancel" />}
           close={() => {
             this.setState({ modalShow: false });
           }}
-          hanldeClickConfirm={() => this.hanldeClickSubmit()}
+          footerContentChildren={
+            <>
+              <Button
+                id="modalFooterCancel"
+                htmlType="button"
+                data-dismiss="modal"
+                onClick={() => {
+                  this.setState({ modalShow: false });
+                }}
+              >
+                <FormattedMessage id="cancel" />
+              </Button>
+              {this.props.loginStore.isLogin || !needLogin ? (
+                <Button
+                  type="primary"
+                  id="modalFooterConfirm"
+                  htmlType="button"
+                  className={`cart-delete-confirmation-btn`}
+                  loading={this.state.submitLoading}
+                  data-dismiss="modal"
+                  onClick={() => this.hanldeClickSubmit()}
+                >
+                  <FormattedMessage id="yes" />
+                </Button>
+              ) : (
+                <LoginButton
+                  beforeLoginCallback={() => {
+                    localItemRoyal.set('okta-redirectUrl', '/prescription');
+                  }}
+                >
+                  <FormattedMessage id="yes" />
+                </LoginButton>
+              )}
+            </>
+          }
         >
           <span>{currentModalObj.content}</span>
         </Modal>
@@ -1056,23 +1086,21 @@ class Recommendation extends React.Component {
                           {formatMoney(details.goodsInfo.marketPrice)}
                         </div>
                         {/* <button>Ajouter au panier</button> */}
-                        <button
+                        <Button
                           onClick={this.addCart}
                           style={{ width: '284px' }}
+                          type="primary"
                           className={cn(
-                            `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`,
-                            {
-                              'ui-btn-loading': this.state.buttonLoading
-                              // 'rc-btn-solid-disabled': !this.addCartBtnStatus
-                            }
+                            `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile md-up`
                           )}
+                          loading={this.state.buttonLoading}
                           disabled={!this.addCartBtnStatus}
                         >
                           <span className="fa rc-icon rc-cart--xs rc-brand3 opacity-100" />
                           <span className="default-txt">
                             <FormattedMessage id="details.addToCart" />
                           </span>
-                        </button>
+                        </Button>
                         <p className=" md-up">
                           Livraison en 3 jours ouvrés offerte
                         </p>
@@ -1126,22 +1154,19 @@ class Recommendation extends React.Component {
                       </div>
                     </div>
                     <div className="md:hidden add-cart-for-mobile">
-                      <button
+                      <Button
                         onClick={this.addCart}
                         className={cn(
-                          `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`,
-                          {
-                            'ui-btn-loading': this.state.buttonLoading
-                            // 'rc-btn-solid-disabled': !this.addCartBtnStatus
-                          }
+                          `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile`
                         )}
+                        loading={this.state.buttonLoading}
                         disabled={!this.addCartBtnStatus}
                       >
                         <span className="fa rc-icon rc-cart--xs rc-brand3" />
                         <span className="default-txt">
                           <FormattedMessage id="details.addToCart" />
                         </span>
-                      </button>
+                      </Button>
                       <p>Livraison en 3 jours ouvrés offerte</p>
                     </div>
                   </>

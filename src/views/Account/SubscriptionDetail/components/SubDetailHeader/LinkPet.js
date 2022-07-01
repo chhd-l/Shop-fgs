@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { useLocalStore } from 'mobx-react';
-import Modal from '@/components/Modal';
+import { Modal } from '@/components/Common';
 import stores from '@/store';
 import { Link } from 'react-router-dom';
 import { ErrorMessage } from '@/components/Message';

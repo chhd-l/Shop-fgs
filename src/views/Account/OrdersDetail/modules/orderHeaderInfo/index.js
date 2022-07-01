@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { filterOrderId } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import { cancelOrder, returnFindByTid } from '@/api/order';
-import Modal from '@/components/Modal';
+import { Modal, Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -174,7 +174,7 @@ const renderOperationBtns = (details) => {
     <>
       {/*服务类产品评论*/}
       {details?.canReviewService ? (
-        <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
+        <Button type="primary" size="small" className="ord-list-operation-btn">
           <FormattedMessage id="writeReview">
             {(txt) => (
               <Link
@@ -187,7 +187,7 @@ const renderOperationBtns = (details) => {
               </Link>
             )}
           </FormattedMessage>
-        </button>
+        </Button>
       ) : null}
     </>
   );

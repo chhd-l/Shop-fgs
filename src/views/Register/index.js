@@ -17,12 +17,11 @@ import {
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { userBindConsent } from '@/api/consent';
-import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 import cn from 'classnames';
-import { Input, Button } from '@/components/Common';
+import { Input, Button, Modal } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';

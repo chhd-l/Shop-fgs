@@ -7,7 +7,8 @@ import { getRecommendationInfo } from '@/api/productFinder';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
-import { getDeviceType } from '../../utils/utils';
+import { getDeviceType } from '@/utils/utils';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -327,8 +328,9 @@ function AboutPet() {
             />
             <div className="button-box">
               <div>
-                <button
-                  className="rc-btn rc-btn--one question-button"
+                <Button
+                  type="primary"
+                  className="question-button"
                   onClick={(e) => {
                     e.preventDefault();
                     goNext();
@@ -336,7 +338,7 @@ function AboutPet() {
                   disabled={canNext}
                 >
                   <FormattedMessage id="next" />
-                </button>
+                </Button>
               </div>
               {step > 1 ? (
                 <div

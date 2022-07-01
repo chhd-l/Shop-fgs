@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
-import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -15,6 +14,7 @@ import AppointmentInfo from './modules/AppointmentInfo';
 import { getWays } from '@/api/payment';
 import { getMemberAppointDetail, cancelAppointByNo } from '@/api/appointment';
 import { formatDate, handleAppointmentDict } from '@/utils/utils';
+import { Modal } from '@/components/Common';
 
 function HeadTip(props) {
   return (

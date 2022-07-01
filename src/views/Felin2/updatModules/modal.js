@@ -4,6 +4,7 @@ import yes from '../image/yes.png';
 import no from '../image/no.png';
 import { Link } from 'react-router-dom';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import { Button } from '@/components/Common';
 
 class MyModal extends React.Component {
   constructor(props) {
@@ -117,7 +118,7 @@ class MyModal extends React.Component {
           </span>
         </div>
         <div className="text-center">
-          <button
+          <Button
             onClick={() => handleUpdate(this.state.params)}
             disabled={
               !this.state.visible ||
@@ -127,14 +128,15 @@ class MyModal extends React.Component {
               !this.state.params.phone ||
               !this.state.emailShow
             }
-            className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+            type="primary"
+            className="rc-margin-bottom--xs"
             style={{
               width: '16.875rem',
               marginTop: '1.25rem'
             }}
           >
             Confirmer
-          </button>
+          </Button>
         </div>
       </div>
     );

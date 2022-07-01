@@ -2,14 +2,15 @@ import React from 'react';
 import cn from 'classnames';
 
 interface Props {
-  type?: string; // 空时，为线性；primary时，为实心
+  type?: 'primary'; // 空时，为线性；primary时，为实心
   size?: string; // 空，或small
   loading?: boolean;
   className?: string;
   disabled?: boolean;
   htmlType?: 'submit' | 'reset' | 'button';
   children?: any;
-  onClick?: any
+  onClick?: any;
+  style?: any;
 }
 
 /**

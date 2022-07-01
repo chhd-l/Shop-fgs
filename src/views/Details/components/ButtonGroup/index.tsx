@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import BuyFromRetailerBtn from '../BuyFromRetailerBtn';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 interface Props {
   addToCartLoading: boolean;
@@ -52,15 +53,13 @@ const ButtonGroup = ({
             'mt-4': !versionType
           })}
         >
-          <button
+          <Button
             style={{ padding: '2px 30px' }}
+            type="primary"
             className={cn(
-              `add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`,
-              {
-                'ui-btn-loading': addToCartLoading
-                // 'rc-btn-solid-disabled': !btnStatus
-              }
+              `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile`
             )}
+            loading={addToCartLoading}
             disabled={!btnStatus}
             onClick={handleAddToCart}
           >
@@ -74,7 +73,7 @@ const ButtonGroup = ({
                 }`}
               />
             </span>
-          </button>
+          </Button>
           {isShowRetailerBtn ? (
             <>
               &nbsp;&nbsp;
@@ -99,14 +98,12 @@ const ButtonGroup = ({
       >
         <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
           {!vet && showAddToCartBtn ? (
-            <button
+            <Button
+              type="primary"
               className={cn(
-                `rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`,
-                {
-                  'ui-btn-loading': addToCartLoading
-                  // 'rc-btn-solid-disabled': !btnStatus
-                }
+                `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile`
               )}
+              loading={addToCartLoading}
               disabled={!btnStatus}
               onClick={handleAddToCart}
             >
@@ -120,7 +117,7 @@ const ButtonGroup = ({
                   <FormattedMessage id="details.addToCart" />
                 )}
               </span>
-            </button>
+            </Button>
           ) : null}
           {isShowRetailerBtn ? (
             <BuyFromRetailerBtn

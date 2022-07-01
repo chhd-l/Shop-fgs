@@ -19,9 +19,8 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
-import Modal from '@/components/Modal';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Modal } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 

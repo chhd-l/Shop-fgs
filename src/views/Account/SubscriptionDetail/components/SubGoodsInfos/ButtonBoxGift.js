@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
 import { getRemainings } from '@/api/dispenser';
 import { myAccountActionPushEvent } from '@/utils/GA';
-import { getDeviceType } from '../../../../../utils/utils';
+import { getDeviceType } from '@/utils/utils';
+import { Button } from '@/components/Common';
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const ButtonBoxGift = () => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
@@ -48,10 +46,10 @@ const ButtonBoxGift = () => {
         className="rc-column subdeatial-button-mobile-save rc-md-down"
         style={{ textAlign: 'right' }}
       >
-        <button
-          className={`rc-btn rc-btn--one ${
-            isDataChange ? '' : 'rc-btn-solid-disabled'
-          } ${isDataChange && productListLoading ? 'ui-btn-loading' : ''} `}
+        <Button
+          type="primary"
+          loading={isDataChange && productListLoading}
+          disabled={!isDataChange}
           style={{
             marginTop: isMobile ? '.625rem' : '0',
             marginRight: '1rem'
@@ -59,7 +57,7 @@ const ButtonBoxGift = () => {
           onClick={() => handleSaveChange(subDetail)}
         >
           <FormattedMessage id="saveChange" />
-        </button>
+        </Button>
       </div>
 
       <div className="rc-column d-flex">
@@ -118,10 +116,10 @@ const ButtonBoxGift = () => {
         className="rc-column subdeatial-button-mobile-save rc-md-up"
         style={{ textAlign: 'right' }}
       >
-        <button
-          className={`rc-btn rc-btn--one ${
-            isDataChange ? '' : 'rc-btn-solid-disabled'
-          }  ${isDataChange && productListLoading ? 'ui-btn-loading' : ''}`}
+        <Button
+          type="primary"
+          loading={isDataChange && productListLoading}
+          disabled={!isDataChange}
           style={{
             marginTop: isMobile ? '.625rem' : '0',
             marginRight: '1rem'
@@ -129,7 +127,7 @@ const ButtonBoxGift = () => {
           onClick={() => handleSaveChange(subDetail)}
         >
           <FormattedMessage id="saveChange" />
-        </button>
+        </Button>
       </div>
     </div>
   );

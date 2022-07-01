@@ -14,7 +14,6 @@ import Dog from '@/assets/images/dog.png';
 import InputBox from '../FormItem/InputBox';
 import RadioBox from '../FormItem/RadioBox';
 import UploadImg from '../ImgUpload';
-import Modal from '@/components/Modal';
 import { getDict } from '@/api/dict';
 import { changeSubscriptionDetailPets } from '@/api/subscription';
 import { addPet, delPets, editPets } from '@/api/pet';
@@ -26,7 +25,7 @@ import {
 } from '@/utils/utils';
 import { format } from 'date-fns';
 import { ErrorMessage } from '@/components/Message';
-import { DatePickerComponent, Button } from '@/components/Common';
+import { DatePickerComponent, Button, Modal } from '@/components/Common';
 
 const purebredOpitons = [
   {

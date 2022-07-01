@@ -11,7 +11,8 @@ import './index.css';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @injectIntl
 @seoHoc('About Us Page')
@@ -142,19 +143,25 @@ class AboutUs extends React.Component {
                                 <FormattedMessage id="aboutUs.ourValuesDetail" />
                               </p>
                               {Country.toLowerCase() == 'mx' ? (
-                                <a
-                                  className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                  href="https://www.royalcanin.com/mx/about-us/our-values"
-                                >
-                                  <FormattedMessage id="aboutUs.ourValuesBtn" />
+                                <a href="https://www.royalcanin.com/mx/about-us/our-values">
+                                  <Button
+                                    type="primary"
+                                    className="gtm-content-block-btn js-hnc-try-the-club"
+                                  >
+                                    <FormattedMessage id="aboutUs.ourValuesBtn" />
+                                  </Button>
                                 </a>
                               ) : (
                                 <Link
-                                  className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
                                   to="/Tailorednutrition"
                                   title="En savoir plus"
                                 >
-                                  <FormattedMessage id="aboutUs.ourValuesBtn" />
+                                  <Button
+                                    type="primary"
+                                    className="gtm-content-block-btn js-hnc-try-the-club"
+                                  >
+                                    <FormattedMessage id="aboutUs.ourValuesBtn" />
+                                  </Button>
                                 </Link>
                               )}
                             </div>
@@ -186,12 +193,13 @@ class AboutUs extends React.Component {
                               <p>
                                 <FormattedMessage id="aboutUs.FoodQualityandSafetyDetail" />
                               </p>
-                              <Link
-                                className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                to="/Quality-safety"
-                                title="En savoir plus"
-                              >
-                                <FormattedMessage id="aboutUs.foodQualityAndSafetyBtn" />
+                              <Link to="/Quality-safety" title="En savoir plus">
+                                <Button
+                                  type="primary"
+                                  className="gtm-content-block-btn js-hnc-try-the-club"
+                                >
+                                  <FormattedMessage id="aboutUs.foodQualityAndSafetyBtn" />
+                                </Button>
                               </Link>
                             </div>
                           </div>
