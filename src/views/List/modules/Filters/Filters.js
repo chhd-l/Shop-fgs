@@ -6,6 +6,7 @@ import PriceSlider from '@/components/PriceSlider';
 import { removeArgFromUrl } from '@/lib/url-utils';
 import '@/assets/css/search.css';
 import './index.less';
+import { Button } from '@/components/Common';
 
 class Filter extends React.Component {
   static defaultProps = {
@@ -518,14 +519,15 @@ class Filter extends React.Component {
               <FormattedMessage id="list.clearFilters" />
             </button>
             {filterList.length ? (
-              <button
-                className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+              <Button
+                type="primary"
+                className={`rc-margin-right--xs--mobile`}
                 onClick={this.handleFilterApplyBtn}
               >
                 <span>
                   <FormattedMessage id="list.applyFilters" />
                 </span>
-              </button>
+              </Button>
             ) : null}
           </div>
         ) : null}

@@ -33,15 +33,6 @@ const PetItem = ({ item, className, idx }) => {
       <div className="ml-20 md:ml-5">
         <FormattedMessage id="payment.selectPetProfile" />
         <PetListSelection idx={idx} />
-        {/* <button
-          className="rc-btn rc-btn--sm rc-btn--one"
-          onClick={() => {
-            setPetModalVisible(true);
-            setCurrentProIndex(i);
-          }}
-        >
-          Select a pet
-        </button> */}
       </div>
     </div>
   );

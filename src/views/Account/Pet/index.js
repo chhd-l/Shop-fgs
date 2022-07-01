@@ -19,7 +19,7 @@ import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
 import cn from 'classnames';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 @injectIntl
 @inject('loginStore')
@@ -177,11 +177,10 @@ class Pet extends React.Component {
                             </p>
                           </div>
                           <div className="rc-margin-top--xs text-center md:text-left">
-                            <Link
-                              className="rc-btn rc-btn--one"
-                              to="/account/pets/petForm"
-                            >
-                              <FormattedMessage id="account.addPet" />
+                            <Link to="/account/pets/petForm">
+                              <Button type="primary">
+                                <FormattedMessage id="account.addPet" />
+                              </Button>
                             </Link>
                           </div>
                         </div>

@@ -2451,10 +2451,11 @@ class AddressList extends React.Component {
                       <FormattedMessage id="or" />{' '}
                     </>
                   ) : null}
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
+                  <Button
+                    type="primary"
+                    className="submitBtn"
                     name="contactPreference"
-                    type="submit"
+                    htmlType="submit"
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
@@ -2465,7 +2466,7 @@ class AddressList extends React.Component {
                     )}
                   >
                     <FormattedMessage id="save" />
-                  </button>
+                  </Button>
                 </div>
 
                 <div className="rc-md-down rc-full-width text-right">
@@ -2482,10 +2483,11 @@ class AddressList extends React.Component {
                     </>
                   )}
 
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
+                  <Button
+                    type="primary"
+                    className="submitBtn"
                     name="contactPreference"
-                    type="submit"
+                    htmlType="submit"
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
@@ -2496,7 +2498,7 @@ class AddressList extends React.Component {
                     )}
                   >
                     <FormattedMessage id="save" />
-                  </button>
+                  </Button>
                 </div>
               </>
             ) : null}

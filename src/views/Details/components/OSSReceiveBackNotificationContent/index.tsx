@@ -8,6 +8,8 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
+import { Button } from '@/components/Common';
+
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
   details: any;
@@ -132,12 +134,14 @@ const OssReceiveBackNotificationContent = ({
                 <span className="rc-input__label-text"></span>
               </label>
             </span>
-            <button
-              className="rc-btn rc-btn--one rc-btn--sm h-8 px-5 py-0 w-36 mt-4 md:mt-0"
+            <Button
+              type="primary"
+              size="small"
+              className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={handleSubmit}
             >
               <FormattedMessage id="notifyMe" />
-            </button>
+            </Button>
           </>
         )}
       </div>

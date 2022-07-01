@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import Modal from '@/components/Modal';
+import { Modal, Button } from '@/components/Common';
 import Skeleton from 'react-skeleton-loader';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import ProgressWithTooptip from '@/components/ProgressWithTooptip';
@@ -12,7 +12,6 @@ import SearchAnswer from './SearchAnswer';
 import TextAnswer from './TextAnswer';
 import { query, edit, matchProducts } from '@/api/productFinder';
 import { clubSubscriptionSavePets } from '@/api/pet';
-
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import veterinaryImg from '@/assets/images/veterinary.png';
@@ -727,13 +726,14 @@ class Question extends React.Component {
                 {questionType ? (
                   <div className="row text-center md:text-left">
                     <div className="col-12 col-md-5">
-                      <button
-                        className="rc-btn rc-btn--one rc-btn--sm"
+                      <Button
                         disabled={!this.state.valid}
                         onClick={this.handleClickNext}
+                        type="primary"
+                        size="small"
                       >
                         <FormattedMessage id="next" />
-                      </button>
+                      </Button>
                     </div>
                     <div className="col-12 col-md-7 mt-2 mb-4 md:mt-0 md:mb-0">
                       <div className="position-relative inlineblock">
@@ -813,7 +813,6 @@ class Question extends React.Component {
                 </p>
                 <div className="rc-btn-group mb-3">
                   <Link
-                    className="rc-btn rc-btn--one"
                     to={
                       type === 'dog'
                         ? '/dog-range/canine-care-nutrition'
@@ -822,14 +821,16 @@ class Question extends React.Component {
                     target="_blank"
                     rel="nofollow"
                   >
-                    <FormattedMessage id="aboutUs.learnMore" />
-                    {Boolean(
-                      window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                    ) && (
-                      <span className="warning_blank">
-                        <FormattedMessage id="opensANewWindow" />
-                      </span>
-                    )}
+                    <Button type="primary">
+                      <FormattedMessage id="aboutUs.learnMore" />
+                      {Boolean(
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                      ) && (
+                        <span className="warning_blank">
+                          <FormattedMessage id="opensANewWindow" />
+                        </span>
+                      )}
+                    </Button>
                   </Link>
                   <Link
                     className="rc-btn rc-btn--two"

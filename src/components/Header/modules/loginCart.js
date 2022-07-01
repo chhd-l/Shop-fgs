@@ -15,6 +15,7 @@ import './index.css';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import GiftList from './GiftList.tsx';
 import LazyLoad from 'react-lazyload';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -245,11 +246,10 @@ class LoginCart extends React.Component {
                 </div>
                 {/* 操作按钮组 */}
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                  <Link
-                    to="/cart"
-                    className="rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn text-white checkout-btn"
-                  >
-                    <FormattedMessage id="minicart.seemycart" />
+                  <Link to="/cart">
+                    <Button type="primary" size="small" className="w-100">
+                      <FormattedMessage id="minicart.seemycart" />
+                    </Button>
                   </Link>
                   {/* <a
                     onClick={this.handleCheckout}

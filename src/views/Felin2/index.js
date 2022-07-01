@@ -20,7 +20,7 @@ import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 
@@ -266,19 +266,21 @@ class Felin extends React.Component {
                 L’ Atelier Félin vous accueille à Paris et en ligne pour vous
                 conseiller et répondre à vos questions sur votre chat.
               </div>
-              <button
+              <Button
+                type="primary"
                 onClick={this.gotoAddPc}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs pc-block"
+                className="rc-margin-bottom--xs pc-block"
                 style={{
                   width: '13.875rem',
                   fontSize: '0.75rem'
                 }}
               >
                 Prendre un rendez-vous
-              </button>
-              <button
+              </Button>
+              <Button
+                type="primary"
                 onClick={this.gotoAddH}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs h-block"
+                className="rc-margin-bottom--xs h-block"
                 style={{
                   width: '9.875rem',
                   fontSize: '0.75rem',
@@ -286,7 +288,7 @@ class Felin extends React.Component {
                 }}
               >
                 Prendre un rendez-vous
-              </button>
+              </Button>
               {/* <div className="text">
                 Profitez de 15min gratuites avec un expert
               </div> */}

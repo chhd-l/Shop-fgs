@@ -15,6 +15,7 @@ import initLocation from '../PrescriptionNavigate/location';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import YandexMap from '@/components/YandexMap';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -530,13 +531,15 @@ class Prescription extends React.Component {
                           </div>
 
                           <div style={{ height: '3rem' }}>
-                            <button
+                            <Button
                               id="clinicBtnConfirm"
-                              className="rc-btn rc-btn--sm rc-btn--one card-btn"
+                              type="primary"
+                              size="small"
+                              className="card-btn"
                               onClick={() => this.handleConfirm(item)}
                             >
                               <FormattedMessage id="clinic.confirm" />
-                            </button>
+                            </Button>
                           </div>
                         </div>
                       </article>

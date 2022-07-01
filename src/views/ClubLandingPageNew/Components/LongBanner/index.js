@@ -12,6 +12,7 @@ import Bitmapru from './image/Bitmapru.webp';
 import CLUBmobbackgroundru from './image/CLUBmobbackgroundru@4x.jpg';
 import { getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Button } from '@/components/Common';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -136,7 +137,7 @@ const LongBanner = () => {
                     href={'/product-finder'}
                     ariaLabel="Links to product finder"
                   >
-                    <button
+                    <Button
                       onClick={() => {
                         window.__.env.REACT_APP_COUNTRY == 'ru' &&
                           window?.dataLayer?.push({
@@ -149,10 +150,10 @@ const LongBanner = () => {
                         paddingLeft: '80px',
                         paddingRight: '80px'
                       }}
-                      className="rc-btn rc-btn--one "
+                      type="primary"
                     >
                       <FormattedMessage id="ClubLP.LongBanner.button" />
-                    </button>
+                    </Button>
                   </DistributeHubLinkOrATag>
                   <p
                     style={{

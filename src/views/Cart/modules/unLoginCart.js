@@ -28,7 +28,6 @@ import { getGoodsRelationBatch, valetGuestMiniCars } from '@/api/cart';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
-import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
@@ -56,6 +55,7 @@ import {
 import cn from 'classnames';
 import { AddItemsVisitor as AddCartItemsVisitor } from '@/framework/cart';
 import { handleSizeList } from '@/framework/product';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -934,7 +934,7 @@ class UnLoginCart extends React.Component {
     });
   };
   getCheckotBtn = () => {
-    const { intl, configStore } = this.props;
+    const { configStore } = this.props;
     const { paymentAuthority } = configStore;
     const { checkoutLoading, mobileCartVisibleKey } = this.state;
     return (
@@ -951,19 +951,19 @@ class UnLoginCart extends React.Component {
               }}
               btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
                 checkoutLoading ? 'ui-btn-loading' : ''
-              } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
-              intl={intl}
+              } rc-btn rc-btn--one rc-btn--lg btn-block checkout-btn cart__checkout-btn rc-full-width`}
             >
               <FormattedMessage id="checkout" />
             </LoginButton>
           ) : (
-            <div
-              className={`${
-                this.btnStatus ? '' : 'rc-btn-solid-disabled'
-              } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled`}
+            <Button
+              type="primary"
+              size="small"
+              disabled={!this.btnStatus}
+              className={`btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled`}
             >
               <FormattedMessage id="checkout" />
-            </div>
+            </Button>
           )}
         </div>
         <div className="rc-padding-y--xs rc-column">

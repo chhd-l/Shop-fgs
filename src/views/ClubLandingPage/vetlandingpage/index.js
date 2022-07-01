@@ -14,7 +14,7 @@ import icon3 from '../../StaticPage/SubscriptionLanding/images/icon3.png';
 import icon4 from '../../StaticPage/SubscriptionLanding/images/icon4.png';
 import HelpComponents from '../../../components/HelpComponents/HelpComponents';
 import vetimg from './images/VET@2x.webp';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -131,14 +131,20 @@ class VetLandingPage extends React.Component {
                               <br />
                               <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
                                 <Link to="/cats/vet-products">
-                                  <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                                  <Button
+                                    type="primary"
+                                    className="rc-margin-right--xs rc-margin-bottom--xs"
+                                  >
                                     Корм для Кошек
-                                  </button>
+                                  </Button>
                                 </Link>
                                 <Link to="/dogs/vet-products">
-                                  <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
+                                  <Button
+                                    type="primary"
+                                    className="rc-margin-bottom--xs"
+                                  >
                                     Корм для Собак
-                                  </button>
+                                  </Button>
                                 </Link>
                               </div>
                             </div>

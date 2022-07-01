@@ -248,9 +248,10 @@ class SubscriptionLanding extends React.Component {
                             <DistributeHubLinkOrATag
                               href="/product-finder"
                               to="/product-finder"
-                              className="rc-btn rc-btn--one"
                             >
-                              <FormattedMessage id="header.toBegin" />
+                              <Button type="primary">
+                                <FormattedMessage id="header.toBegin" />
+                              </Button>
                             </DistributeHubLinkOrATag>
                             {/* <Link className="rc-btn rc-btn--sm rc-btn--two"
                                to="/cats"><FormattedMessage id="account.cat" /></Link>

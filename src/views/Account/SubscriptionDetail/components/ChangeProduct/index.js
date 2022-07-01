@@ -7,13 +7,12 @@ import RecommendationListModal from './RecommendationListModal';
 import GoodsDetails from './GoodsDetails';
 import { getDetailsBySpuNo } from '@/api/details';
 import { stockNoticeModify, queryStockNotice } from '@/api/subscription';
-import Modal from '@/components/Modal';
 import ChooseSKU from './ChooseSKU';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { getFrequencyDict } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import cn from 'classnames';
-import { Button } from '@/components/Common';
+import { Button, Modal } from '@/components/Common';
 
 export const ChangeProductContext = createContext();
 const loginStore = stores.loginStore;

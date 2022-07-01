@@ -8,6 +8,7 @@ import { usePetLists } from '@/framework/pet';
 import { PanelContainer } from '../Common';
 import { toJS } from 'mobx';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
+import { Button } from '@/components/Common';
 
 const curKey = 'bindPet';
 
@@ -110,15 +111,16 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
                 />
               ))}
               <div className="flex justify-end mb-6">
-                <button
-                  className="rc-btn rc-btn--one submitBtn"
+                <Button
+                  type="primary"
+                  className="submitBtn"
                   name="petSelectSubmit"
-                  type="submit"
+                  htmlType="submit"
                   onClick={handleClickConfirm}
                   // disabled={isValid && formAddressValid ? false : true}
                 >
                   <FormattedMessage id="save" />
-                </button>
+                </Button>
               </div>
             </div>
           </PanelContainer>
