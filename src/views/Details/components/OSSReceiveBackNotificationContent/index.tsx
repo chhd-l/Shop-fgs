@@ -8,11 +8,12 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
+import { Details, SelectedSpecItem, UserInfo } from './typing';
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
-  details: any;
-  userInfo: any;
-  selectedSpecItem: any;
+  details: Details;
+  userInfo: UserInfo;
+  selectedSpecItem: SelectedSpecItem;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -20,11 +21,6 @@ const OssReceiveBackNotificationContent = ({
   selectedSpecItem,
   userInfo
 }: OssReceiveBackNotificationContentProps) => {
-  console.log(
-    selectedSpecItem,
-    'selectedSpecItemselectedSpecItemselectedSpecItem'
-  );
-
   const { customerId } = userInfo;
   const { goodsId } = details;
   const [email, setEmail] = useState<string>();
@@ -65,12 +61,20 @@ const OssReceiveBackNotificationContent = ({
     // const goodsInfoIds = goodsInfos
     //   .filter((goodsInfo: any) => goodsInfo.stock === 0)
     //   .map((goodsInfo: any) => goodsInfo.goodsInfoId);
-
+    const detailName = details.goodsSpecDetails.find(
+      (goods: any) => goods.isSelected
+    )?.detailName;
+    const goodsInfoId = selectedSpecItem.goodsInfoId;
     const params = {
       email,
       customerId,
       goodsId,
-      goodsInfoId: [selectedSpecItem.goodsInfoId],
+      stockNoticeGoodsInfoVOS: [
+        {
+          goodsInfoId,
+          detailName
+        }
+      ],
       fromAddress: '2'
     };
     await stockNoticeModify(params);
