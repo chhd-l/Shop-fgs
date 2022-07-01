@@ -39,12 +39,12 @@ const salesCategoryFilterRule2 = (item, type) => {
 //猫狗category的顺序配置
 const categorySetting = (cate) => {
   const setting1 = {
-    cat: 'first',
-    dog: 'last'
+    cat: '1',
+    dog: '2'
   };
   const setting2 = {
-    cat: 'last',
-    dog: 'first'
+    cat: '2',
+    dog: '1'
   };
   const defaultSetting = (cate) => {
     return setting2[cate];
