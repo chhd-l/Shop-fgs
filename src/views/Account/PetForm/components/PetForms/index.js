@@ -163,15 +163,35 @@ const PetForms = ({
         default:
           type = 'specialNeeds';
       }
-      let specialNeedsOptions = await getDictionary({
-        type
-      }); //为了暂时解决fr的字典问题，后期字典应该还会调整，每个国家这里的字典都有区别
-      lifestyleOptions.map((el) => {
-        el.value = el.valueEn;
-      });
-      activityOptions.map((el) => {
-        el.value = el.valueEn.toLowerCase();
-      });
+      let specialNeedsOptions = await getDictionary({ type }); //为了暂时解决fr的字典问题，后期字典应该还会调整，每个国家这里的字典都有区别
+      if (['se'].includes(country)) {
+        lifestyleOptions.map((el) => {
+          el.value = el.valueEn;
+        });
+        lifestyleOptions.map((item) => {
+          item.name =
+            item.name.slice(0, 1).toUpperCase() +
+            item.name.slice(1).toLowerCase();
+        });
+        activityOptions.map((el) => {
+          el.value = el.valueEn.toLowerCase();
+        });
+        activityOptions.map((item) => {
+          item.name =
+            item.name.slice(0, 1).toUpperCase() +
+            item.name.slice(1).toLowerCase();
+        });
+        console.log('lifestyleOptions', lifestyleOptions);
+        // .map((item) => { return { ...item, name: item?.name.toUpperCase() } })
+      } else {
+        lifestyleOptions.map((el) => {
+          el.value = el.valueEn;
+        });
+        activityOptions.map((el) => {
+          el.value = el.valueEn.toLowerCase();
+        });
+      }
+
       specialNeedsOptions.map((el) => {
         el.value = el.valueEn;
       });
@@ -289,11 +309,21 @@ const PetForms = ({
   };
   const weightChange = (e) => {
     let measure = '';
-    let valueArr = e.target.value.split('.');
+    let valueArr = '';
+    if (['se'].includes(window.__.env.REACT_APP_COUNTRY)) {
+      valueArr = e.target.value.split(',');
+    } else {
+      valueArr = e.target.value.split('.');
+    }
+
     if (valueArr.length > 1) {
       valueArr[1] = valueArr[1].slice(0, 2);
     }
-    measure = valueArr.join('.');
+    if (['se'].includes(window.__.env.REACT_APP_COUNTRY)) {
+      measure = valueArr.join(',');
+    } else {
+      measure = valueArr.join('.');
+    }
     let newWeightObj = Object.assign({}, petForm.weightObj, {
       measure
     });
@@ -449,9 +479,22 @@ const PetForms = ({
           return;
         }
       }
-      if (petForm.weightObj && Number(petForm.weightObj.measure) <= 0) {
-        showErrorMsg(intl.messages.petWeightVerify);
-        return;
+      if (['se'].includes(window.__.env.REACT_APP_COUNTRY)) {
+        const isstr = /^(\d+[,])*(\d+)$/.test(petForm.weightObj.measure);
+        console.log('isstr', isstr);
+        if (petForm.weightObj && !isstr) {
+          showErrorMsg(intl.messages.petWeightVerify);
+          return;
+        } else {
+          petForm.weightObj.measure = petForm.weightObj.measure
+            .split(',')
+            .join('.');
+        }
+      } else {
+        if (petForm.weightObj && Number(petForm.weightObj.measure) <= 0) {
+          showErrorMsg(intl.messages.petWeightVerify);
+          return;
+        }
       }
     }
 
@@ -851,18 +894,36 @@ const PetForms = ({
                   input-setup="true"
                   style={{ display: 'inline-block' }}
                 >
-                  <input
-                    type="number"
-                    className="rc-input__control"
-                    name="weight"
-                    required=""
-                    aria-required="true"
-                    style={{ padding: '.5rem 0', height: '49px' }}
-                    value={petForm.weightObj?.measure}
-                    onChange={weightChange}
-                    maxLength="50"
-                    autoComplete="address-line"
-                  />
+                  {['se'].includes(window.__.env.REACT_APP_COUNTRY) ? (
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      name="weight"
+                      required=""
+                      aria-required="true"
+                      style={{ padding: '.5rem 0', height: '49px' }}
+                      value={`${petForm.weightObj?.measure}`
+                        .split('.')
+                        .join(',')}
+                      onChange={weightChange}
+                      maxLength="50"
+                      autoComplete="address-line"
+                    />
+                  ) : (
+                    <input
+                      type="number"
+                      className="rc-input__control"
+                      name="weight"
+                      required=""
+                      aria-required="true"
+                      style={{ padding: '.5rem 0', height: '49px' }}
+                      value={petForm.weightObj?.measure}
+                      onChange={weightChange}
+                      maxLength="50"
+                      autoComplete="address-line"
+                    />
+                  )}
+
                   <label
                     className="rc-input__label border-for-weight"
                     htmlFor="weight"
