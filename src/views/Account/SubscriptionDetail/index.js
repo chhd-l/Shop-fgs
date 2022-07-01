@@ -38,7 +38,6 @@ import {
   updateNextDeliveryTime,
   checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
-import Modal from '@/components/Modal';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
@@ -47,7 +46,7 @@ import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
 import { SuccessMessage, ErrorMessage } from '@/components/Message';
-import { Canonical, Button } from '@/components/Common';
+import { Canonical, Button, Modal } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';

@@ -27,7 +27,6 @@ class FooterHub extends React.Component {
                 <React.Fragment key={i}>
                   {item.Icon === 'user' && !isLogin ? (
                     <LoginButton
-                      intl={intl}
                       className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
                       btnStyle={{
                         fontSize: 'inherit'

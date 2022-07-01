@@ -10,7 +10,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Help from './Help';
 import LoginButton from '@/components/LoginButton';
 import LazyLoad from 'react-lazyload';
-
+import { Button } from '@/components/Common';
 import catImg from '@/assets/images/product-finder-cat2.jpg';
 import dogImg from '@/assets/images/product-finder-dog2.jpg';
 
@@ -87,11 +87,10 @@ function PetJSX(props) {
                 </p>
                 <div className="row justify-content-center text-center pf-pd-2rem">
                   {props.isLogin ? (
-                    <Link
-                      className="col-12 col-md-6 rc-btn rc-btn--one mb-3"
-                      to="/account/pets"
-                    >
-                      <FormattedMessage id="productFinder.createMyPetProfile" />
+                    <Link to="/account/pets">
+                      <Button type="primary" className="col-12 col-md-6 mb-3">
+                        <FormattedMessage id="productFinder.createMyPetProfile" />
+                      </Button>
                     </Link>
                   ) : (
                     <LoginButton
@@ -99,7 +98,6 @@ function PetJSX(props) {
                         localItemRoyal.set('okta-redirectUrl', '/account/pets');
                       }}
                       btnClass="col-12 col-md-6 rc-btn rc-btn--one mb-3"
-                      intl={intl}
                     >
                       <FormattedMessage id="productFinder.createMyPetProfile" />
                     </LoginButton>
@@ -214,11 +212,15 @@ class ProductFinderNoResult extends React.Component {
                             <FormattedMessage id="seeAllOurProducts" />
                           </h2>
                           <div className="rc-btn-group rc-md-up">
-                            <Link className="rc-btn rc-btn--one" to="/cats">
-                              <FormattedMessage id="cats3" />
+                            <Link to="/cats">
+                              <Button type="primary">
+                                <FormattedMessage id="cats3" />
+                              </Button>
                             </Link>
-                            <Link className="rc-btn rc-btn--one" to="/dogs">
-                              <FormattedMessage id="dogs3" />
+                            <Link to="/dogs">
+                              <Button type="primary">
+                                <FormattedMessage id="dogs3" />
+                              </Button>
                             </Link>
                           </div>
                         </div>
@@ -227,8 +229,10 @@ class ProductFinderNoResult extends React.Component {
                             <img src={catImg} alt="cat image" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
-                            <Link className="rc-btn rc-btn--one" to="/cats">
-                              <FormattedMessage id="cats3" />
+                            <Link to="/cats">
+                              <Button type="primary">
+                                <FormattedMessage id="cats3" />
+                              </Button>
                             </Link>
                           </div>
                         </div>
@@ -237,8 +241,10 @@ class ProductFinderNoResult extends React.Component {
                             <img src={dogImg} alt="dog image" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
-                            <Link className="rc-btn rc-btn--one" to="/dogs">
-                              <FormattedMessage id="dogs3" />
+                            <Link to="/dogs">
+                              <Button type="primary">
+                                <FormattedMessage id="dogs3" />
+                              </Button>
                             </Link>
                           </div>
                         </div>

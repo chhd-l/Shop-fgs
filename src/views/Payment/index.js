@@ -1,6 +1,5 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import Modal from '@/components/Modal';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 import { toJS, reaction } from 'mobx';
@@ -107,7 +106,7 @@ import {
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
-import { Canonical, Button } from '@/components/Common';
+import { Canonical, Button, Modal } from '@/components/Common';
 import {
   USEPOINT,
   NOTUSEPOINT
@@ -3625,15 +3624,15 @@ class Payment extends React.Component {
     const reInputCVVBtn = ({ disabled, loading = false }) => {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_cvv">
-          <button
-            className={`rc_btn_payment_cvv rc-btn rc-btn--one ${
-              loading ? 'ui-btn-loading' : ''
-            }`}
+          <Button
+            type="primary"
+            className={`rc_btn_payment_cvv`}
+            loading={loading}
             disabled={disabled}
             onClick={this.clickReInputCvvConfirm}
           >
             <FormattedMessage id="yes2" />
-          </button>
+          </Button>
         </div>
       );
     };
@@ -4573,14 +4572,15 @@ class Payment extends React.Component {
               <div className="w-64 md:w-96 text-center py-6 text-gray-600">
                 <FormattedMessage id="payment.countdown" />
               </div>
-              <button
-                className="md:hidden mt-2 rc-btn rc-btn--one"
+              <Button
+                type="primary"
+                className="md:hidden mt-2"
                 onClick={() => {
                   window.location = this.state.swishAppRedirectUrl;
                 }}
               >
                 Pay By Swish App
-              </button>
+              </Button>
             </div>
           )}
         </Modal>

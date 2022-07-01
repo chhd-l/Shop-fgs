@@ -52,7 +52,6 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
       // goodsInfo是规格集合
       const selectedGoodsInfo =
         find(cartItem.sizeList, (s: any) => s.selected) || cartItem.goodsInfo;
-      debugger;
       cartItem.goodsInfoId = selectedGoodsInfo.goodsInfoId;
       // 删除selectedGoodsInfo的相关属性，否则最外层相关值会被覆盖
       delete selectedGoodsInfo.goods;
@@ -62,10 +61,10 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
       delete selectedGoodsInfo.referenceData;
       delete selectedGoodsInfo.referenceObject;
       delete selectedGoodsInfo.recommendationInfos;
-      
+
       // 把选中的规则，平铺到了最外层，同会员购物车数据结构; 把goods对象平铺到最外层，同会员购物车数据结构
       cartItem = Object.assign({}, cartItem, cartItem.goods, selectedGoodsInfo);
-      
+
       // 当前需要加入的产品，是否存在于原购物车中，goodsId-spu goodsInfoId-sku
       const historyItemIdx = findIndex(
         cartDataCopy,

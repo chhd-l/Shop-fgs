@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 import { PanelContainer } from '../Common';
 import { DistributeLinkOrATag } from '@/components/DistributeLink';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -182,9 +183,10 @@ class Confirmation extends React.Component {
             )}
 
             <div className="text-right">
-              <button
-                className={`rc-btn rc-btn--one submit-payment`}
-                type="submit"
+              <Button
+                type="primary"
+                className={`submit-payment`}
+                thmlType="submit"
                 name="submit"
                 value="submit-shipping"
                 disabled={!isValid}
@@ -200,7 +202,7 @@ class Confirmation extends React.Component {
                 {/* 德国去除价格显示 */}
                 {window.__.env.REACT_APP_COUNTRY !== 'de' &&
                   formatMoney(tradePrice)}
-              </button>
+              </Button>
             </div>
 
             {this.props.intl.messages.securePaymentProcessing && (

@@ -12,7 +12,7 @@ import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { seoHoc } from '@/framework/common';
 import './index.css';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -286,12 +286,13 @@ class Values extends React.Component {
                               Our work is based on a vast and growing scientific
                               understanding of pet health and nutrition.
                             </p>
-                            <Link
-                              className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                              to="/Tailorednutrition"
-                              title="Learn more"
-                            >
-                              Learn more
+                            <Link to="/Tailorednutrition" title="Learn more">
+                              <Button
+                                type="primary"
+                                className="gtm-content-block-btn js-hnc-try-the-club"
+                              >
+                                Learn more
+                              </Button>
                             </Link>
                           </div>
                         </div>

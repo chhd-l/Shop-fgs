@@ -14,6 +14,7 @@ import {
 } from '../modules/utils';
 import AddressPreview from './Preview';
 import AddressPanelContainer from './AddressPanelContainer';
+import { Button } from '@/components/Common';
 import './VisitorAddress.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -647,27 +648,28 @@ class VisitorAddress extends React.Component {
                 <div className="d-flex justify-content-end mb-2">
                   {pickupFormData?.receiveType == 'PICK_UP' ? (
                     <>
-                      <button
-                        className={`rc-btn rc-btn--one rc-btn--sm ${
-                          this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
-                        }`}
+                      <Button
+                        type="primary"
+                        size="small"
+                        loading={this.state.btnConfirmLoading}
                         disabled={confirmBtnDisabled}
                         onClick={this.clickConfirmPickup}
                       >
                         <FormattedMessage id="clinic.confirm3" />
-                      </button>
+                      </Button>
                     </>
                   ) : (
                     <>
-                      <button
-                        className={`rc-btn rc-btn--one rc-btn--sm visitor_address_confirm ${
-                          this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
-                        }`}
+                      <Button
+                        type="primary"
+                        size="small"
+                        className={`visitor_address_confirm`}
+                        loading={this.state.btnConfirmLoading}
                         disabled={isValid && formAddressValid ? false : true}
                         onClick={this.handleClickConfirm}
                       >
                         <FormattedMessage id="clinic.confirm3" />
-                      </button>
+                      </Button>
                     </>
                   )}
                 </div>

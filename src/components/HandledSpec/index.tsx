@@ -18,6 +18,7 @@ interface Props {
   canSelectedWhenAllSpecDisabled?: boolean; //是否规格禁用了，仍然可以被选中，eg:规格被禁用了，一般情况不默认选中了；然而，PDP，即使规格被禁用了，仍需被选中，原因是需要返回对应的price信息，以便页面展示用
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   defaultSkuNo?: string;
+  shouldSkuGrayOutOfStock: boolean;
 }
 
 const HandledSpec = ({
@@ -31,10 +32,12 @@ const HandledSpec = ({
   onClickSku = () => {},
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
-  defaultSkuNo
+  defaultSkuNo,
+  shouldSkuGrayOutOfStock
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
     details;
+  const [selectId, setSelectId] = useState();
   const [sizeList, setSizeList] = useState<any[]>([]);
 
   const getPriceOrCode = () => {
@@ -144,7 +147,8 @@ const HandledSpec = ({
     updatedSku(handledValues, sizeList);
   };
 
-  const handleChooseSize = async(sId: any, sdId: any) => {
+  const handleChooseSize = async (sId: any, sdId: any) => {
+    setSelectId(sdId);
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -197,6 +201,30 @@ const HandledSpec = ({
       }
     })();
   }, [sizeList]);
+  const renderStyle = (sdItem: any) => {
+    let backgroundColor = '';
+    if (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) {
+      backgroundColor = '#ccc';
+    } else if (
+      shouldSkuGrayOutOfStock &&
+      sdItem.specDetailId === selectId &&
+      sdItem.isEmpty
+    ) {
+      backgroundColor = '#ccc';
+    } else {
+      backgroundColor = '#fff';
+    }
+    let cursor = '';
+    if (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) {
+      cursor = 'not-allowed';
+    } else {
+      cursor = 'not-pointer';
+    }
+    return {
+      backgroundColor,
+      cursor
+    };
+  };
   return (
     <div className="spec">
       {goodsSpecs?.map((sItem: any, i: number) => (
@@ -229,18 +257,7 @@ const HandledSpec = ({
                     }
                   }}
                 >
-                  <span
-                    style={{
-                      backgroundColor:
-                        sdItem.isDisabled && !sdItem.canSelectedOutOfStock
-                          ? '#ccc'
-                          : '#fff',
-                      cursor:
-                        sdItem.isDisabled && !sdItem.canSelectedOutOfStock
-                          ? 'not-allowed'
-                          : 'pointer'
-                    }}
-                  >
+                  <span style={renderStyle(sdItem)}>
                     {/* {parseFloat(sdItem.detailName)}{' '} */}
                     {sdItem.detailName}
                   </span>

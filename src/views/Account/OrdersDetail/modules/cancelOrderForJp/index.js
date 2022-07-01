@@ -6,8 +6,7 @@ import {
   CancelOrderSuccessModal
 } from '@/views/Account/OrdersDetail/modules';
 import { cancelOrderForJapan } from '@/api/order';
-import Modal from '@/components/Modal';
-import { Button } from '@/components/Common';
+import { Button, Modal } from '@/components/Common';
 
 const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
   const [cancelJpOrderModalVisible, setCancelJpOrderModalVisible] =

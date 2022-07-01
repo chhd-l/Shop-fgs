@@ -22,7 +22,6 @@ export const UnLoginUserBox = ({ history, className, intl }) => {
       <LoginButton
         className="rc-btn rc-btn--one mt-1 mb-1 bg-rc-red"
         btnStyle={{ width: '14rem', padding: '5px 0' }}
-        intl={intl}
       />
       <div className="newUser">
         <FormattedMessage id="header.User.newUser" />

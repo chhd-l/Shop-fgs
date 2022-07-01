@@ -441,7 +441,6 @@ class MegaMenuMobileForHub extends Component {
                           btnClass={`rc-list__header bg-transparent border-0 ${
                             shareData.length ? 'pb-0' : ''
                           }`}
-                          intl={intl}
                         >
                           <span className="iconfont rc-text-colour--text">
                             &#xe69c;

@@ -6,6 +6,7 @@ import { getPrescriberByCode } from '@/api/clinic';
 import './index.less';
 import { getDeviceType } from '@/utils/utils';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 const isMobile = getDeviceType() === 'H5';
 
@@ -131,15 +132,16 @@ class PrescriberCode extends React.Component {
                           </span>
                         </div>
                         <div className="col-span-12 md:col-span-5 order-3 text-center">
-                          <button
+                          <Button
                             style={{
                               marginTop: '16px'
                             }}
-                            className="rc-btn rc-btn--one mobilemargin3vh"
+                            type="primary"
+                            className="mobilemargin3vh"
                             onClick={this.searchPrescriberCode}
                           >
                             <FormattedMessage id="deLandingPage.prescriberCode.searchBtn" />
-                          </button>
+                          </Button>
                         </div>
                         {errMsg && (
                           <div className="col-span-12 order-2 md:order-4">

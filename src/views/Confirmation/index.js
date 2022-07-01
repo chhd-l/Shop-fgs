@@ -9,12 +9,10 @@ import OxxoModal from './modules/OxxoModal';
 import AdyenOxxoModal from './modules/AdyenOxxoModal';
 import PayProductInfo from '@/components/PayProductInfo';
 import AddressPreview from './modules/AddressPreview';
-import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.less';
-import { getDeviceType } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
@@ -22,8 +20,7 @@ import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
 import { mktCallBack, accountCallBack } from '@/api/home.js';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { bindSubmitParam } from '@/utils/utils';
-import { Canonical } from '@/components/Common';
-let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { Canonical, Modal, Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -233,12 +230,10 @@ class Confirmation extends React.Component {
   AdyenBtnJSX = (buyWay) => {
     const defaultJSX = (
       <>
-        <Link
-          to="/account"
-          className="rc-btn rc-btn--one"
-          style={{ transform: 'scale(.85)' }}
-        >
-          <FormattedMessage id="confirmation.account" />
+        <Link to="/account">
+          <Button type="primary" style={{ transform: 'scale(.85)' }}>
+            <FormattedMessage id="confirmation.account" />
+          </Button>
         </Link>
         <div style={{ padding: '0 1.25rem 0 .625rem' }}>
           <FormattedMessage id="or" />
@@ -585,15 +580,14 @@ class Confirmation extends React.Component {
                 <div className="d-flex align-items-center justify-content-center">
                   {this.state.oxxoPayUrl || this.state.adyenOxxoAction ? (
                     <>
-                      <a
-                        href="javascript:;"
-                        className="rc-btn rc-btn--one"
+                      <Button
+                        type="primary"
                         onClick={() => {
                           this.setState({ oxxoModalShow: true });
                         }}
                       >
                         <FormattedMessage id="printEbanx" />
-                      </a>
+                      </Button>
                       &nbsp;
                       <FormattedMessage id="or" />
                       &nbsp;

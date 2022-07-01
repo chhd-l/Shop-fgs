@@ -10,7 +10,7 @@ import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
-import Modal from '@/components/Modal';
+import { Modal } from '@/components/Common';
 import { addEventListenerArr } from './addEventListener';
 import loginRedirection from '@/lib/login-redirection';
 import { LOGO_PRIMARY, LOGO_PRIMARY_RU } from '@/utils/constant';
@@ -276,7 +276,7 @@ class RegisterRequired extends Component {
             {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
             {/* 加载token */}
             <div style={{ visibility: 'hidden' }}>
-              <LoginButton intl={intl} init={this.init} />
+              <LoginButton init={this.init} />
             </div>
 
             <div style={this.state.styleObj}>

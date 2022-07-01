@@ -30,7 +30,7 @@ import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
 import auto from '../../../components/GoodsDetailTabs/image/auto@2x.png';
 import { DivWrapper } from './style';
 import { seoHoc } from '@/framework/common';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -85,8 +85,10 @@ const clubNoSubscription = function () {
           <FormattedMessage id="subscription.clubNoSubscription.tip2" />
         </p>
         <div className="rc-margin-top--sm">
-          <Link className="rc-btn rc-btn--one" to="/club-subscription">
-            <FormattedMessage id="subscription.clubNoSubscription.getStart" />
+          <Link to="/club-subscription">
+            <Button type="primary">
+              <FormattedMessage id="subscription.clubNoSubscription.getStart" />
+            </Button>
           </Link>
         </div>
       </div>
@@ -389,11 +391,10 @@ class Subscription extends React.Component {
                       </p>
                     </div>
                     <div className="rc-margin-top--sm">
-                      <Link
-                        className="rc-btn rc-btn--one"
-                        to={'/subscription-landing'}
-                      >
-                        <FormattedMessage id="account.startAutoShipping" />
+                      <Link to={'/subscription-landing'}>
+                        <Button type="primary">
+                          <FormattedMessage id="account.startAutoShipping" />
+                        </Button>
                       </Link>
                     </div>
                   </div>

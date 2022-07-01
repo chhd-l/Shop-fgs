@@ -9,6 +9,7 @@ import discountnewtr from './image/discountnewtr.png';
 import advisernew from './image/pictospetadvisernew@4x.png';
 import iconsix from './image/iconsix.png';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { Button } from '@/components/Common';
 
 const SubsriptionBenefitsNew = () => {
   return (
@@ -209,7 +210,7 @@ const SubsriptionBenefitsNew = () => {
               href={'/product-finder'}
               ariaLabel="Links to product finder"
             >
-              <button
+              <Button
                 onClick={() => {
                   window.__.env.REACT_APP_COUNTRY == 'ru' &&
                     window?.dataLayer?.push({
@@ -217,7 +218,7 @@ const SubsriptionBenefitsNew = () => {
                       ruClubSubscriptionCtAName: 'Join the club - Middle'
                     });
                 }}
-                className="rc-btn rc-btn--one"
+                type="primary"
                 style={{
                   paddingLeft: '90px',
                   paddingRight: '90px',
@@ -228,7 +229,7 @@ const SubsriptionBenefitsNew = () => {
                 <FormattedMessage
                   id={'ClubLP.SubscriptionBenefitsNew.button'}
                 />
-              </button>
+              </Button>
             </DistributeHubLinkOrATag>
           </h4>
         </div>

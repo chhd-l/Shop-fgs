@@ -12,10 +12,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from '../images/img.png';
 import { getDeviceType } from '../../../utils/utils';
 import LazyLoad from 'react-lazyload';
-import picto_delivery from '../images/picto_delivery.png';
-import picto_advisor from '../images/picto_advisor.png';
-import picto_welcome_pack from '../images/picto_welcome-pack.png';
-import imageicon from '../images/imageIcon.png';
+import { Button } from '@/components/Common';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -77,15 +74,15 @@ const LongBanner = () => {
                       });
                     }}
                   >
-                    <button
+                    <Button
                       style={{
                         paddingTop: '0',
                         paddingBottom: '0'
                       }}
-                      className="rc-btn rc-btn--one "
+                      type="primary"
                     >
                       <FormattedMessage id="PreciseCatNutrition.LongBanner.button" />
-                    </button>
+                    </Button>
                   </a>
 
                   <p

@@ -56,7 +56,6 @@ class OktaLoginPage extends React.Component {
         <LoginButton
           buttonRef={this.LoginButton}
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
-          intl={intl}
           callbackUrl="/okta-login-page"
         />
         {loginStore.loginModal || this.state.loadingShow ? <Loading /> : null}

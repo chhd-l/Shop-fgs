@@ -61,6 +61,7 @@ import {
   GACartButtonClick
 } from '@/utils/GA/cart';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1120,15 +1121,17 @@ class LoginCart extends React.Component {
             <div className="col-lg-12 checkout-continue">
               <a onClick={this.handleCheckout}>
                 <div className="rc-padding-y--xs rc-column">
-                  <div
+                  <Button
                     data-oauthlogintargetendpoint="2"
-                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
-                      this.btnStatus ? '' : 'rc-btn-solid-disabled'
-                    } ${checkoutLoading ? 'ui-btn-loading' : ''}`}
+                    type="primary"
+                    size="small"
+                    className={`btn-block checkout-btn cart__checkout-btn rc-full-width`}
                     aria-pressed="true"
+                    disabled={!this.btnStatus}
+                    loading={checkoutLoading}
                   >
                     <FormattedMessage id="checkout" />
-                  </div>
+                  </Button>
                 </div>
               </a>
             </div>
@@ -1175,18 +1178,20 @@ class LoginCart extends React.Component {
             <div className="col-lg-12">
               <a onClick={this.handleCheckout}>
                 <div className="rc-padding-y--xs rc-column">
-                  <div
+                  <Button
+                    type="primary"
+                    size="small"
                     data-oauthlogintargetendpoint="2"
-                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
-                      this.btnStatus ? '' : 'rc-btn-solid-disabled'
-                    } ${checkoutLoading ? 'ui-btn-loading' : ''}`}
+                    className={`btn-block checkout-btn cart__checkout-btn rc-full-width`}
                     aria-pressed="true"
+                    disabled={!this.btnStatus}
+                    loading={checkoutLoading}
                   >
                     <FormattedMessage id="checkout" />{' '}
                     {mobileCartVisibleKey === 'less'
                       ? formatMoney(this.tradePrice)
                       : null}
-                  </div>
+                  </Button>
                 </div>
               </a>
             </div>
