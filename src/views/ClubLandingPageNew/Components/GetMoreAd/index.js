@@ -6,6 +6,7 @@ import rulogo from '../../image/CLUB_logoRU@2x.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { Button } from '@/components/Common';
 
 const GetMoreAd = () => {
   return (
@@ -244,7 +245,7 @@ const GetMoreAd = () => {
                         href={'/product-finder'}
                         ariaLabel="Links to product finder"
                       >
-                        <button
+                        <Button
                           onClick={() => {
                             window.__.env.REACT_APP_COUNTRY == 'ru' &&
                               window?.dataLayer?.push({
@@ -253,11 +254,12 @@ const GetMoreAd = () => {
                                   'Join the club - Bottom'
                               });
                           }}
-                          className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs "
+                          type="primary"
+                          className="rc-margin-right--xs rc-margin-bottom--xs "
                           style={{ padding: '10px 90px' }}
                         >
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />
-                        </button>
+                        </Button>
                       </DistributeHubLinkOrATag>
                     </div>
                   </div>

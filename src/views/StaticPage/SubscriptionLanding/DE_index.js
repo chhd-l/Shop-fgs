@@ -245,11 +245,10 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <Link
-                              to="/list/keywords"
-                              className="rc-btn rc-btn--one"
-                            >
-                              <FormattedMessage id="subscription.banner.btn" />
+                            <Link to="/list/keywords">
+                              <Button type="primary">
+                                <FormattedMessage id="subscription.banner.btn" />
+                              </Button>
                             </Link>
                           </div>
                         </div>

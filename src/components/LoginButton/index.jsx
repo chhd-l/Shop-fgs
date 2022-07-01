@@ -19,7 +19,6 @@ import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
 import { saveShelterId } from '@/api/recommendation';
 import { userBindConsent } from '@/api/consent';
-// import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 import loginRedirection from '@/lib/login-redirection';
 import { useHistory } from 'react-router-dom';
@@ -32,7 +31,6 @@ const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
   if (sessionItemRoyal.get('rc-guestId')) return <></>;
-  const { intl } = props;
   const history = useHistory();
   const init = props.init;
   const [, setUserInfo] = useState(null);
@@ -122,7 +120,7 @@ const LoginButton = (props) => {
                     });
                   // GA 登陆成功埋点 end
                   let userinfo = res.context.customerDetail;
-                  let customerId = res.context.customerId;
+                  let customerId = res.context?.customerId;
                   loginStore.changeLoginModal(false);
                   loginStore.changeIsLogin(true);
 

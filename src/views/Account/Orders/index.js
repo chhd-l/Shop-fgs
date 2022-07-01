@@ -585,10 +585,6 @@ class AccountOrders extends React.Component {
                         ) : orderList.length ? (
                           <>
                             {orderList.map((order) => {
-                              let isGift = order.tradeItems.find(
-                                (item) =>
-                                  (item.subscriptionPlanId || []).length > 0
-                              );
                               return (
                                 <div
                                   className="card-container border-b border-d7d7d7"
@@ -778,46 +774,21 @@ class AccountOrders extends React.Component {
                                               />
                                             )}
                                           </div>
-                                          {item.subscriptionPlanId ? (
-                                            <div className="align-items-center d-flex">
-                                              <em className="gift-icon" />
-                                              <div>
-                                                <span className="medium color-444 ui-text-overflow-line2">
-                                                  Cadeaux
-                                                </span>
-                                                <span>
-                                                  Abonnement Smart Feeder
-                                                </span>
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <div className="col-2 col-md-2 rc-md-up">
-                                              {formatMoney(item.splitPrice)}
-                                            </div>
-                                          )}
+                                          <div className="col-2 col-md-2 rc-md-up">
+                                            {formatMoney(item.splitPrice)}
+                                          </div>
                                         </div>
                                       ))}
                                     </div>
-                                    {isGift && !(getDeviceType() === 'H5') ? (
-                                      order.tradeItems.map((item, idx) => (
-                                        <div
-                                          className="col-2 col-md-3 text-right md:pl-0"
-                                          key={idx}
-                                        >
-                                          {formatMoney(item.price)}
-                                        </div>
-                                      ))
-                                    ) : (
-                                      <div className="col-2 col-md-3 text-center md:pl-0 md:pr-0">
-                                        <div className="rc-md-up">
-                                          {this.renderOperationBtns(order)}
-                                        </div>
-                                        <span
-                                          className="iconfont iconjiantouyou1 bold rc-md-down"
-                                          style={{ fontSize: '20px' }}
-                                        />
+                                    <div className="col-2 col-md-3 text-center md:pl-0 md:pr-0">
+                                      <div className="rc-md-up">
+                                        {this.renderOperationBtns(order)}
                                       </div>
-                                    )}
+                                      <span
+                                        className="iconfont iconjiantouyou1 bold rc-md-down"
+                                        style={{ fontSize: '20px' }}
+                                      />
+                                    </div>
                                     <div className="col-12 text-right md:hidden">
                                       {order.canDownInvoice ? (
                                         <span
@@ -831,23 +802,6 @@ class AccountOrders extends React.Component {
                                         </span>
                                       ) : null}
                                     </div>
-                                    {/* {order.subscribeId && !isGift ? (
-                                      <div className="col-12 text-right rc-md-up">
-                                        <Link
-                                          to={`/account/subscription/order/detail/${order.subscribeId}`}
-                                        >
-                                          <span
-                                            className="iconfont font-weight-bold red mr-1"
-                                            style={{ fontSize: '.8em' }}
-                                          >
-                                            &#xe675;
-                                          </span>
-                                          <span className="rc-styled-link">
-                                            <FormattedMessage id="autoShipOrderDetails" />
-                                          </span>
-                                        </Link>
-                                      </div>
-                                    ) : null} */}
                                   </div>
                                 </div>
                               );

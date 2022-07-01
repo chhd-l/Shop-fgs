@@ -4,6 +4,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import hos from '../../../../assets/images/preciseCatNutrition/hos.png';
 import recommend from '../../../../assets/images/preciseCatNutrition/recomment.jpg';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { Button } from '@/components/Common';
 
 let resultObj = {
   redirectToVet: {
@@ -30,9 +31,9 @@ export default function ResultPage({ getInit, result }) {
       </div>
       <div style={{ width: '100%', textAlign: 'center' }}>
         <DistributeHubLinkOrATag href={resultObj[result].href}>
-          <button className="rc-btn rc-btn--one question-button">
+          <Button type="primary" className="question-button">
             <FormattedMessage id={resultObj[result].title} />
-          </button>
+          </Button>
         </DistributeHubLinkOrATag>
 
         <div

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from '@/components/Modal';
+import { Modal } from '@/components/Common';
 import { inject, observer } from 'mobx-react';
 import './css/LimitLoginModal.less';
 import bgImg from '@/assets/images/bg-modal-header.png';

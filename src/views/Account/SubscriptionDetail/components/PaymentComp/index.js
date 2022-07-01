@@ -26,6 +26,7 @@ import getCardImg from '@/lib/get-card-img';
 import cn from 'classnames';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import { handleEmailShow } from '@/utils/utils';
+import { Button } from '@/components/Common';
 
 function CardItem(props) {
   const { data, supportPaymentMethods } = props;
@@ -983,8 +984,9 @@ class PaymentComp extends React.Component {
               <FormattedMessage id="or" />
             </span>
             &nbsp;
-            <button
-              className="rc-btn rc-btn--sm rc-btn--one"
+            <Button
+              type="primary"
+              size="small"
               disabled={!this.isCreditCardListSelected()}
               onClick={() => {
                 const selectedItem = creditCardList.filter(
@@ -998,7 +1000,7 @@ class PaymentComp extends React.Component {
               }}
             >
               <FormattedMessage id="save" />
-            </button>
+            </Button>
           </div>
         ) : null}
 

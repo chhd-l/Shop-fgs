@@ -9,6 +9,7 @@ import './index.css';
 import LazyLoad from 'react-lazyload';
 import { list1 } from './goods';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -127,11 +128,8 @@ class CatNutrition extends React.Component {
                           monde.{' '}
                         </p>
                       </div>
-                      <Link
-                        to="/Quality-safety"
-                        className="rc-btn rc-btn--one "
-                      >
-                        En savoir plus
+                      <Link to="/Quality-safety">
+                        <Button type="primary">En savoir plus</Button>
                       </Link>
                     </div>
                   </div>

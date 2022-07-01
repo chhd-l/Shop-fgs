@@ -13,7 +13,7 @@ import { productFinderPushEvent } from '@/utils/GA';
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import './index.less';
-import { Canonical } from '@/components/Common';
+import { Canonical, Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -94,18 +94,12 @@ class ProductFinder extends React.Component {
   render() {
     const btnJSX = (
       <div className="rc-btn-group">
-        <button
-          className="rc-btn rc-btn--one"
-          onClick={this.seletTheType.bind(this, 'cat')}
-        >
+        <Button type="primary" onClick={this.seletTheType.bind(this, 'cat')}>
           <FormattedMessage id="cats3" />
-        </button>
-        <button
-          className="rc-btn rc-btn--one"
-          onClick={this.seletTheType.bind(this, 'dog')}
-        >
+        </Button>
+        <Button type="primary" onClick={this.seletTheType.bind(this, 'dog')}>
           <FormattedMessage id="dogs3" />
-        </button>
+        </Button>
       </div>
     );
     const homeJSX = (

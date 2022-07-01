@@ -354,6 +354,10 @@ export default {
       redirectUrl: '/puppy-maxi-chunks-in-gravy-1097'
     },
     {
+      shortUrl: '/puppy-maxi-chunks-in-gravy-1097',
+      redirectUrl: '/maxi-puppy-chunks-in-gravy-1097'
+    },
+    {
       shortUrl: '/maxi-puppy---chunks-in-gravy-1097',
       redirectUrl: '/maxi-puppy-chunks-in-gravy-1097'
     },

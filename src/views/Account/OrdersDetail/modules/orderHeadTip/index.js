@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -220,12 +221,13 @@ const renderHeadTip = ({
                 <FormattedMessage id="comment">
                   {(txt) => (
                     <Link
-                      className="rc-btn rc-btn--sm rc-btn--one"
                       to={`/account/productReview/${details.id}`}
                       title={txt}
                       alt={txt}
                     >
-                      {txt}
+                      <Button size="small" type="primary">
+                        {txt}
+                      </Button>
                     </Link>
                   )}
                 </FormattedMessage>

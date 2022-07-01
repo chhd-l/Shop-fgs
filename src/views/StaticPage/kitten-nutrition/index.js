@@ -8,6 +8,7 @@ import { ProductCarousel } from '@/components/Product';
 import LazyLoad from 'react-lazyload';
 import { list1 } from './goods';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/Common';
 
 class PromotionRefuge extends React.Component {
   render() {
@@ -110,11 +111,8 @@ class PromotionRefuge extends React.Component {
                           sont au cœur de tout ce que nous faisons dans le
                           monde.{' '}
                         </p>
-                        <Link
-                          to="/Quality-safety"
-                          className="rc-btn rc-btn--one "
-                        >
-                          En savoir plus
+                        <Link to="/Quality-safety">
+                          <Button type="primary">En savoir plus</Button>
                         </Link>
                       </div>
                     </div>

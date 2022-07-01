@@ -11,6 +11,7 @@ import {
   AddItemMember as AddCartItemMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
+import { Button } from '@/components/Common';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -198,12 +199,10 @@ const AddCartSuccessMobile = ({
                 <FormattedMessage id="or" />
               </p>
             </div>
-            <Link
-              className="rc-btn rc-btn--one"
-              style={{ fontWeight: 400 }}
-              to="/cart"
-            >
-              <FormattedMessage id="goToCart" />
+            <Link to="/cart">
+              <Button type="primary" style={{ fontWeight: 400 }}>
+                <FormattedMessage id="goToCart" />
+              </Button>
             </Link>
           </section>
         </div>

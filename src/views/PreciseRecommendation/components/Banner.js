@@ -21,6 +21,7 @@ import righticon from '../image/righticon.png';
 import productback1 from '../image/productBack1.png';
 import productImage2 from '../image/productImage2.png';
 import cn from 'classnames';
+import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -400,20 +401,18 @@ const Banner = ({
                               style={{ lineHeight: '1.2' }}
                             >
                               {loginStore.isLogin || !addCartBtnStatus ? (
-                                <button
+                                <Button
                                   onClick={handleBuyNow}
-                                  className={cn(`rc-btn rc-btn--one`, {
-                                    'ui-btn-loading': loading
-                                  })}
+                                  type="primary"
+                                  loading={loading}
                                   disabled={!addCartBtnStatus}
                                   style={{ width: '300px', padding: '10px' }}
                                 >
                                   <FormattedMessage id="preciseNutrition.banner.button" />
-                                </button>
+                                </Button>
                               ) : (
                                 <LoginButton
                                   btnStyle={{ width: '230px', padding: '15px' }}
-                                  intl={intl}
                                   className={`rc-btn rc-btn--one rc-btn--sm`}
                                   // btnStyle={{ margin: '5px 0', width: '100%' }}
                                   // history={this.props.history}
@@ -566,16 +565,15 @@ const Banner = ({
             <FormattedMessage id="preciseNutrition.banner.des3" />
           </div>
           {loginStore.isLogin || !addCartBtnStatus ? (
-            <button
+            <Button
               style={{ width: 160 }}
               onClick={handleBuyNow}
-              className={cn(`rc-btn rc-btn--one`, {
-                'ui-btn-loading': loading
-              })}
+              type="primary"
+              loading={loading}
               disabled={!addCartBtnStatus}
             >
               <FormattedMessage id="preciseNutrition.banner.button" />
-            </button>
+            </Button>
           ) : (
             <LoginButton
               btnStyle={{ width: '200px', padding: '10px' }}
@@ -585,7 +583,6 @@ const Banner = ({
               beforeLoginCallback={async () => {
                 await hanldeUnloginAddToCart();
               }}
-              intl={intl}
             >
               <FormattedMessage id="preciseNutrition.banner.button" />
             </LoginButton>
