@@ -258,6 +258,7 @@ const Consent1TR = loadable(() =>
 const Consent2TR = loadable(() =>
   import('@/views/StaticPage/tr/Consent/Consent2')
 );
+const Login = loadable(() => import('@/views/Login'));
 const register = loadable(() => import('@/views/Register'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
@@ -1109,6 +1110,17 @@ const App = () => {
                 <Route path="/consent1-tr" component={Consent1TR} />
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
+                <Route
+                  path="/login"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <Login {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route path="/yandexmap" component={YandexMap} />
                 <Route
                   path="/welcome/:id"
