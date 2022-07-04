@@ -31,10 +31,10 @@ const Button = ({
       className={cn(
         `rc-btn`,
         className,
-        type === 'primary' ? 'rc-btn--one bg-rc-red' : 'rc-btn--two',
+        type === 'primary' ? 'rc-btn--one' : 'rc-btn--two',
         {
           'opacity-50 border-rc-red': loading,
-          'bg-rc-red': loading && type === 'primary',
+          'bg-rc-red': !disabled && type === 'primary',
           'text-rc-red': loading && type !== 'primary',
           'rc-btn--sm': size === 'small'
         }
