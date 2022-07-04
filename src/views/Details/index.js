@@ -219,8 +219,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -565,11 +571,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -900,8 +903,13 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1224,15 +1232,7 @@ class Details extends React.Component {
       !details.saleableFlag &&
       details.displayFlag;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    const isApi =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'API';
-    const isUrl =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'URL';
-    const retailerUrl = buyFromRetailerConfig.retailerEnable
-      ? buyFromRetailerConfig.url
-      : '';
+
     return (
       <ButtonGroup
         addToCartLoading={addToCartLoading}
@@ -1246,9 +1246,7 @@ class Details extends React.Component {
         vet={vet}
         addToCart={this.hanldeAddToCart}
         buyFromRetailer={this.handleBuyFromRetailer}
-        isApi={isApi}
-        isUrl={isUrl}
-        retailerUrl={retailerUrl}
+        buyFromRetailerConfig={buyFromRetailerConfig}
         versionType={versionB}
         showAddToCartBtn={showAddToCartBtn}
       />
@@ -1313,15 +1311,6 @@ class Details extends React.Component {
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    const isApi =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'API';
-    const isUrl =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'URL';
-    const retailerUrl = buyFromRetailerConfig.retailerEnable
-      ? buyFromRetailerConfig.url
-      : '';
 
     return (
       <div id="Details">
@@ -1556,7 +1545,7 @@ class Details extends React.Component {
                                   <div className="flex flex-row items-center mt-6">
                                     <div>{this.ButtonGroupDom(false)}</div>
                                     <span className="mx-4">
-                                      {isApi && isUrl && (
+                                      {buyFromRetailerConfig?.retailerEnable && (
                                         <FormattedMessage id="or" />
                                       )}
                                     </span>
@@ -1565,9 +1554,9 @@ class Details extends React.Component {
                                       barcode={barcode}
                                       goodsType={goodsType}
                                       onClick={this.handleBuyFromRetailer}
-                                      isApi={isApi}
-                                      isUrl={isUrl}
-                                      retailerUrl={retailerUrl}
+                                      buyFromRetailerConfig={
+                                        buyFromRetailerConfig
+                                      }
                                     />
                                   </div>
                                 ) : (
@@ -1611,9 +1600,7 @@ class Details extends React.Component {
                                   barcode={barcode}
                                   goodsType={goodsType}
                                   onClick={this.handleBuyFromRetailer}
-                                  isApi={isApi}
-                                  isUrl={isUrl}
-                                  retailerUrl={retailerUrl}
+                                  buyFromRetailerConfig={buyFromRetailerConfig}
                                 />
                               ) : null}
                             </div>
@@ -1725,9 +1712,9 @@ class Details extends React.Component {
                                     barcode={barcode}
                                     goodsType={goodsType}
                                     onClick={this.handleBuyFromRetailer}
-                                    isApi={isApi}
-                                    isUrl={isUrl}
-                                    retailerUrl={retailerUrl}
+                                    buyFromRetailerConfig={
+                                      buyFromRetailerConfig
+                                    }
                                   />
                                 </div>
                               ) : null}
