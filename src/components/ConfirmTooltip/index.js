@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { Button } from '@/components/Common';
 import './index.less';
 
 class ConfirmTooltip extends React.Component {
@@ -42,6 +41,7 @@ class ConfirmTooltip extends React.Component {
   };
   render() {
     const { arrowDirection, textStyle, cancelText, okText } = this.props;
+    // return  (
     return this.props.display ? (
       <div
         className={`confirm-tool-container position-relative arrow-direction-${arrowDirection}`}
@@ -59,28 +59,30 @@ class ConfirmTooltip extends React.Component {
           </div>
           <div className="d-flex justify-content-between py-2">
             {this.props.cancelBtnVisible ? (
-              <Button size="small" className="mt-1" onClick={this.cancel}>
+              <div
+                className="rc-btn rc-btn--two rc-btn--sm mt-1"
+                onClick={this.cancel}
+              >
                 {cancelText}
-              </Button>
+              </div>
             ) : (
               <div />
             )}
             {this.props.confirmBtnVisible ? (
-              <Button
-                type="primary"
-                size="small"
-                className={'mt-1'}
+              <div
+                className={' rc-btn rc-btn--one rc-btn--sm mt-1'}
                 onClick={(e) => {
                   this.props.confirm(e);
                 }}
               >
                 {okText}
-              </Button>
+              </div>
             ) : null}
           </div>
         </div>
       </div>
     ) : null;
+    // );
   }
 }
 export default ConfirmTooltip;
