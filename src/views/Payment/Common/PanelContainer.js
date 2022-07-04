@@ -39,7 +39,7 @@ const PanelContainer = ({
       <div
         className={cn(
           'd-flex justify-content-between align-items-center flex-wrap',
-          { red: panelStatus.isEdit },
+          { 'text-rc-red': panelStatus.isEdit },
           tClassName
         )}
         {...tRest}

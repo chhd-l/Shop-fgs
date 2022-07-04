@@ -2,11 +2,13 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import './index.css';
+import './index.less';
 import Loading from '@/components/Loading';
 import { login, getQuestions, register } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { getDictionary } from '@/utils/utils';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 // import bg1 from "@/assets/images/login-bg1.png";
 // import bg2 from "@/assets/images/login-bg2.png";
 import bg1 from '@/assets/images/login-bg3.jpg';
@@ -114,40 +116,43 @@ class Login extends React.Component {
       localItemRoyal.remove('rc-token');
     }
     this.props.loginStore.removeUserInfo();
-
+    this.setState({
+      loading: true
+    });
     const { history } = this.props;
-    let customerId = this.getUserInfo && this.getUserInfo.customerId;
+    // let customerId = this.getUserInfo && this.getUserInfo.customerId;
     login(this.state.loginForm)
       .then((res) => {
         localItemRoyal.set('rc-token', res.context.token);
-        let userinfo = res.context.customerDetail;
-        userinfo.customerAccount = res.context.accountName;
+        const { context } = res;
+        let userinfo = context.customerDetail;
+        const customerId = context.customerId || '';
+        userinfo.customerAccount = context.accountName;
         getCustomerInfo({ customerId })
           .then((customerInfoRes) => {
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
             this.props.loginStore.setUserInfo(userinfo);
-
-            history.push(
-              (this.props.location.state &&
-                this.props.location.state.redirectUrl) ||
-                '/account'
-            );
+            window.location.href = `${
+              localItemRoyal.get('okta-redirectUrl') || '/'
+            }`;
           })
           .catch((err) => {
-            history.push(
-              (this.props.location.state &&
-                this.props.location.state.redirectUrl) ||
-                '/account'
-            );
+            history.push(localItemRoyal.get('okta-redirectUrl') || '/');
             this.showErrorMsg(
               err.message.toString() || this.props.intl.messages.loginFailed
             );
+            this.setState({
+              loading: false
+            });
           });
       })
       .catch((err) => {
         this.showErrorMsg(
           err.message.toString() || this.props.intl.messages.loginFailed
         );
+        this.setState({
+          loading: false
+        });
       });
   };
   register = () => {
@@ -245,8 +250,7 @@ class Login extends React.Component {
   };
 
   emailVerify = (email) => {
-    let reg =
-      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email);
   };
   passwordVerify = (password) => {
@@ -260,13 +264,14 @@ class Login extends React.Component {
   };
 
   render() {
-    const { registerForm } = this.state;
+    const { registerForm, loading } = this.state;
     return (
       <div>
         <div
           id="embedded-container"
           className="miaa miaa-wrapper miaa-embedded"
         >
+          {loading ? <Loading /> : null}
           <div
             id="signIn"
             className="miaa-screen janrain-capture-ui capture-ui-content capture_screen_container"
@@ -276,47 +281,31 @@ class Login extends React.Component {
             style={{ display: 'block' }}
           >
             <div className="miaa-content">
-              {/* <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">
-                  ×
-                </span>
-              </button> */}
-              {/* <div className="miaa-header">
-                <div className="miaa-inner-content">
-                  <div className="miaa-brand-logo mb-5"></div>
-                </div>
-              </div> */}
-              <div
-                className="logoImg"
-                style={{
-                  width: '120px',
-                  height: '45px'
-                }}
-              >
-                <object
-                  id="main-logo"
-                  className="rc-logo-svg rc-logo--primary"
-                  data="https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.svg?v=8-9-5"
-                  type="image/svg+xml"
+              <div className="my-5 text-center">
+                <DistributeHubLinkOrATag
+                  href={''}
+                  to="/home"
+                  className="logo-home d-inline-block border-bottom border-transparent"
+                  title="Commerce Cloud Storefront Reference Architecture Accueil"
                 >
-                  <LazyLoad>
-                    <img
-                      src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
-                      width="150"
-                      height="100"
-                      alt="Royal Canin logo"
-                      style={{
-                        backgroundImage:
-                          'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)'
-                      }}
-                    />
-                  </LazyLoad>
-                </object>
+                  <h1 className="content-asset mb-0">
+                    {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
+                      <img
+                        src={LOGO_PRIMARY_RU}
+                        alt="Royal Canin Flagship Store"
+                        className="w-36 md:w-40"
+                      />
+                    ) : (
+                      <>
+                        <img
+                          src={LOGO}
+                          alt=""
+                          className="inline-block w-40 md:w-auto"
+                        />
+                      </>
+                    )}
+                  </h1>
+                </DistributeHubLinkOrATag>
               </div>
               <div
                 className="rc-layout-container rc-two-column"
@@ -341,7 +330,7 @@ class Login extends React.Component {
 
                 <div className="rc-column loginForm">
                   <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
-                    <h3 style={{ fontSize: '32px' }}>
+                    <h3 className="text-2xl">
                       <span style={{ color: '#666' }}>
                         <FormattedMessage id="welcomeTo" />
                       </span>{' '}
@@ -389,7 +378,7 @@ class Login extends React.Component {
                         <div className="miaa_input required ">
                           <input
                             type="email"
-                            className="capture_signInEmailAddress capture_required capture_text_input form-control"
+                            className="capture_signInEmailAddress capture_required capture_text_input form-control bg-white placeholder-gray-300"
                             placeholder={this.props.intl.messages.emailAddress}
                             name="customerAccount"
                             value={this.state.loginForm.customerAccount}
@@ -420,8 +409,10 @@ class Login extends React.Component {
                               id="capture_signIn_currentPassword"
                               data-capturefield="currentPassword"
                               type={this.state.loginPasswordType}
-                              className="capture_currentPassword capture_required capture_text_input form-control"
-                              placeholder={this.props.intl.messages.password}
+                              className="capture_currentPassword capture_required capture_text_input form-control bg-white  placeholder-gray-300"
+                              placeholder={
+                                this.props.intl.messages.enterPassword
+                              }
                               name="customerPassword"
                               value={this.state.loginForm.customerPassword}
                               onChange={(e) => this.loginFormChange(e)}
@@ -441,7 +432,13 @@ class Login extends React.Component {
                                 });
                               }}
                             >
-                              <em className="icon-eye-open fa fa-eye"></em>
+                              <em
+                                className={`iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2 ${
+                                  this.state.loginPasswordType === 'password'
+                                    ? 'iconeye'
+                                    : 'iconeye-close'
+                                }`}
+                              />
                             </span>
                           </div>
                         </div>
@@ -517,6 +514,11 @@ class Login extends React.Component {
                             type="primary"
                             className="w-full"
                             onClick={() => this.loginClick()}
+                            disabled={
+                              !Object.values(this.state.loginForm).every(
+                                (el) => el
+                              )
+                            }
                           >
                             <FormattedMessage id="login" />
                           </Button>
@@ -529,8 +531,9 @@ class Login extends React.Component {
                             className="rc-btn rc-btn--two"
                             style={{ width: '100%' }}
                             onClick={() => {
-                              this.setState({ type: 'register' });
-                              localItemRoyal.set('loginType', 'register');
+                              // this.setState({ type: 'register' });
+                              // localItemRoyal.set('loginType', 'register');
+                              this.props.history.push('/register');
                             }}
                           >
                             <FormattedMessage id="createAnAccount" />
