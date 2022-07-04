@@ -65,11 +65,17 @@ const Loyalty = (props) => {
       .then((res) => {
         setData(res.context.pointsRecordInfos);
         setTotalPage(res.context.totalPage);
+        scrollToTop();
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, [pageNum]);
+
+  const scrollToTop = () => {
+    const widget = document.querySelector('#page-top');
+    widget && widget.scrollIntoView();
+  };
 
   return (
     <>
