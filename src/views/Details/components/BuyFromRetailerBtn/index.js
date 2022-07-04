@@ -92,11 +92,20 @@ class BuyFromRetailerBtn extends React.Component {
     );
   };
   render() {
-    const { onClick, barcode, goodsType, isApi, isUrl, retailerUrl } =
-      this.props;
+    const { onClick, barcode, goodsType, buyFromRetailerConfig } = this.props;
+    const isApi =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API';
+    const isUrl =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'URL';
+    const vetUrl = buyFromRetailerConfig.retailerEnable
+      ? buyFromRetailerConfig.vetUrl
+      : '';
+    const sptUrl = buyFromRetailerConfig.retailerEnable
+      ? buyFromRetailerConfig.sptUrl
+      : '';
     const { ccidBtnDisplay } = this.state;
-    // const isApi = window.__.env.REACT_APP_HUBPAGE_RETAILER_ISAPI === '1';
-    // const isUrl = window.__.env.REACT_APP_HUBPAGE_RETAILER_ISURL === '1';
     return (
       <div ref={(el) => this.ccidBtnRef(el)}>
         {isApi ? (
@@ -134,7 +143,7 @@ class BuyFromRetailerBtn extends React.Component {
         ) : null}
         {isUrl ? (
           <a
-            href={retailerUrl}
+            href={goodsType === 3 ? vetUrl : sptUrl}
             className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
             style={{ padding: '7px 1.5rem' }}
           >

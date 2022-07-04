@@ -273,16 +273,25 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
 
   const handleNotifyMe = async () => {
     let subscribeId = subDetail.subscribeId;
-    const { goodsId = '', sizeList } = details;
+    const { goodsId = '', sizeList, goodsSpecs } = details;
     const goodsInfoId = sizeList?.filter((el) => el.selected)?.[0]?.goodsInfoId;
+    const detailName = goodsSpecs?.map((spec) =>
+      spec.chidren.find((el) => el.selected)
+    )?.[0]?.detailName;
+    const stockNoticeGoodsInfoVOS = [
+      {
+        goodsInfoId,
+        detailName
+      }
+    ];
     // modify & add is same
     const param = {
       customerId: loginStore?.userInfo?.customerId || '',
       email: userEmail,
-      goodsInfoIds: [goodsInfoId],
       goodsId,
       fromAddress: '2',
-      subscribeId
+      subscribeId,
+      stockNoticeGoodsInfoVOS
     };
     const res = await stockNoticeModify(param);
     if (res.code === 'K-000000') {

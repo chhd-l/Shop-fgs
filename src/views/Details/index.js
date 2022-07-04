@@ -1161,6 +1161,7 @@ class Details extends React.Component {
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
             onClickSku={this.handleClickSku}
+            shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />
           {isMobile && this.isLogin && (
@@ -1223,15 +1224,7 @@ class Details extends React.Component {
       !details.saleableFlag &&
       details.displayFlag;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    const isApi =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'API';
-    const isUrl =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'URL';
-    const retailerUrl = buyFromRetailerConfig.retailerEnable
-      ? buyFromRetailerConfig.url
-      : '';
+
     return (
       <ButtonGroup
         addToCartLoading={addToCartLoading}
@@ -1245,9 +1238,7 @@ class Details extends React.Component {
         vet={vet}
         addToCart={this.hanldeAddToCart}
         buyFromRetailer={this.handleBuyFromRetailer}
-        isApi={isApi}
-        isUrl={isUrl}
-        retailerUrl={retailerUrl}
+        buyFromRetailerConfig={buyFromRetailerConfig}
         versionType={versionB}
         showAddToCartBtn={showAddToCartBtn}
       />
@@ -1312,15 +1303,6 @@ class Details extends React.Component {
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    const isApi =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'API';
-    const isUrl =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'URL';
-    const retailerUrl = buyFromRetailerConfig.retailerEnable
-      ? buyFromRetailerConfig.url
-      : '';
 
     return (
       <div id="Details">
@@ -1555,7 +1537,7 @@ class Details extends React.Component {
                                   <div className="flex flex-row items-center mt-6">
                                     <div>{this.ButtonGroupDom(false)}</div>
                                     <span className="mx-4">
-                                      {isApi && isUrl && (
+                                      {buyFromRetailerConfig?.retailerEnable && (
                                         <FormattedMessage id="or" />
                                       )}
                                     </span>
@@ -1564,9 +1546,9 @@ class Details extends React.Component {
                                       barcode={barcode}
                                       goodsType={goodsType}
                                       onClick={this.handleBuyFromRetailer}
-                                      isApi={isApi}
-                                      isUrl={isUrl}
-                                      retailerUrl={retailerUrl}
+                                      buyFromRetailerConfig={
+                                        buyFromRetailerConfig
+                                      }
                                     />
                                   </div>
                                 ) : (
@@ -1610,9 +1592,7 @@ class Details extends React.Component {
                                   barcode={barcode}
                                   goodsType={goodsType}
                                   onClick={this.handleBuyFromRetailer}
-                                  isApi={isApi}
-                                  isUrl={isUrl}
-                                  retailerUrl={retailerUrl}
+                                  buyFromRetailerConfig={buyFromRetailerConfig}
                                 />
                               ) : null}
                             </div>
@@ -1724,9 +1704,9 @@ class Details extends React.Component {
                                     barcode={barcode}
                                     goodsType={goodsType}
                                     onClick={this.handleBuyFromRetailer}
-                                    isApi={isApi}
-                                    isUrl={isUrl}
-                                    retailerUrl={retailerUrl}
+                                    buyFromRetailerConfig={
+                                      buyFromRetailerConfig
+                                    }
                                   />
                                 </div>
                               ) : null}

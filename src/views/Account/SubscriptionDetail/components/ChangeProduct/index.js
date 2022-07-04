@@ -206,13 +206,28 @@ const ChangeProduct = () => {
 
   const handleNotifyMe = async () => {
     let subscribeId = subDetail.subscribeId;
-    const { goods = {}, goodsInfos = [] } = goodsDetails;
-    const goodsInfoIds = goodsInfos?.map((el) => el.goodsInfoId);
+    const { goods = {}, goodsInfos = [], goodsSpecs = [] } = goodsDetails;
+    let stockNoticeGoodsInfoVOS = [];
+    goodsSpecs.forEach(
+      (spec) =>
+        (stockNoticeGoodsInfoVOS = spec.chidren.map((el) => {
+          const goodsInfoId = goodsInfos.find((good) =>
+            good.mockSpecDetailIds.includes(el.specDetailId)
+          )?.goodsInfoId;
+          let goodsInfoObj = {
+            goodsInfoId,
+            detailName: el.detailName
+          };
+          return goodsInfoObj;
+        }))
+    );
+    console.log(stockNoticeGoodsInfoVOS, 'stockNoticeGoodsInfoVOS');
+    console.log(goodsDetails, 'dd22');
     // modify & add is same
     const param = {
       customerId: loginStore?.userInfo?.customerId || '',
       email: userEmail,
-      goodsInfoIds,
+      stockNoticeGoodsInfoVOS,
       goodsId: goods.goodsId || '',
       fromAddress: '1', //1:spu out of stock
       subscribeId
