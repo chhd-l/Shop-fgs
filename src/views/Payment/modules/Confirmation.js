@@ -6,6 +6,7 @@ import TermsCommon from '../Terms/common';
 import { PanelContainer } from '../Common';
 import { DistributeLinkOrATag } from '@/components/DistributeLink';
 import { Button } from '@/components/Common';
+import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -45,7 +46,12 @@ function JpConfirmationText() {
           to="/faq"
           className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
         > */}
-        <FormattedMessage id="here2" />
+        <Link
+          className="rc-styled-link border-b border-black hover:border-rc-red"
+          to="/faq?type=catogery-9"
+        >
+          <FormattedMessage id="here2" />
+        </Link>
         {/* </DistributeLinkOrATag> */}
         をご確認ください。
       </p>
