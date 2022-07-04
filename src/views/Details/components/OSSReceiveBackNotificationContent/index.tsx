@@ -58,8 +58,8 @@ const OssReceiveBackNotificationContent = ({
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
-    const detailName = details.goodsSpecDetails.find(
-      (goods: any) => goods.isSelected
+    const detailName = details.goodsSpecs[0].chidren.find(
+      (goods) => goods.selected
     )?.detailName;
     const goodsInfoId = selectedSpecItem.goodsInfoId;
     const params = {
