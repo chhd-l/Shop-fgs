@@ -11,6 +11,7 @@ import hootbg2 from './images/hootbg2.png';
 import Bitmap1 from './images/Bitmap1.png';
 import Bitmap2 from './images/Bitmap2.png';
 import Bitmap3 from './images/Bitmap3.png';
+import { Link } from 'react-router-dom';
 
 function AboutSubscription(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -156,7 +157,13 @@ function AboutSubscription(props) {
               className="font-PingFangSC text-16 leading-6 md:text-20 md:leading-7 text-center"
               style={{ color: '#666' }}
             >
-              定期購入についてのよくあるお問合せはこちら
+              定期購入についてのよくあるお問合せは
+              <Link
+                className="rc-styled-link border-b border-black hover:border-rc-red"
+                to="/faq?type=catogery-9"
+              >
+                こちら
+              </Link>
             </p>
           </div>
         </div>

@@ -182,9 +182,13 @@ const LoginButton = (props) => {
       );
 
       beforeLoginCallback && (await beforeLoginCallback());
-      oktaAuth.signInWithRedirect(
-        callbackUrl || window.__.env.REACT_APP_HOMEPAGE
-      );
+      if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+        history.push('/login');
+      } else {
+        oktaAuth.signInWithRedirect(
+          callbackUrl || window.__.env.REACT_APP_HOMEPAGE
+        );
+      }
     } catch (err) {
       console.log(err);
     }
