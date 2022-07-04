@@ -336,7 +336,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       if (this.props.cartData.length > 0 && fromPage === 'checkout') {
         // 支付页面 计算的购物车里面商品的数据
         // 取到购物车里面的 goodsInfoId、购买的sku数量
-        cartData?.forEach((e) => {
+        this.props.cartData?.forEach((e) => {
           goodsInfoDetails.push({
             goodsInfoId: e.goodsInfoId,
             quantity: e.buyCount
