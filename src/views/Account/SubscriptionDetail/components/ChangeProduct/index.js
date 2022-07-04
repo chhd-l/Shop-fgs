@@ -20,12 +20,8 @@ const loginStore = stores.loginStore;
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const {
-    setState,
-    subDetail,
-    isShowClub,
-    triggerShowChangeProduct
-  } = SubDetailHeaderValue;
+  const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
+    SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
@@ -46,10 +42,8 @@ const ChangeProduct = () => {
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
   const [details, setDetails] = useState({});
   const [renderDetailAgin, setRenderDetailAgin] = useState(true);
-  const [
-    recommendationVisibleLoading,
-    setRecommendationVisibleLoading
-  ] = useState(true);
+  const [recommendationVisibleLoading, setRecommendationVisibleLoading] =
+    useState(true);
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',
@@ -213,17 +207,19 @@ const ChangeProduct = () => {
   const handleNotifyMe = async () => {
     let subscribeId = subDetail.subscribeId;
     const { goods = {}, goodsInfos = [], goodsSpecs = [] } = goodsDetails;
-    let stockNoticeGoodsInfoVOS = goodsSpecs.map((spec) =>
-      spec.chidren.map((el) => {
-        const goodsInfoId = goodsInfos.find((good) =>
-          good.mockSpecDetailIds.includes(el.specDetailId)
-        )?.goodsInfoId;
-        let goodsInfoObj = {
-          goodsInfoId,
-          detailName: el.detailName
-        };
-        return goodsInfoObj;
-      })
+    let stockNoticeGoodsInfoVOS = [];
+    goodsSpecs.forEach(
+      (spec) =>
+        (stockNoticeGoodsInfoVOS = spec.chidren.map((el) => {
+          const goodsInfoId = goodsInfos.find((good) =>
+            good.mockSpecDetailIds.includes(el.specDetailId)
+          )?.goodsInfoId;
+          let goodsInfoObj = {
+            goodsInfoId,
+            detailName: el.detailName
+          };
+          return goodsInfoObj;
+        }))
     );
     console.log(stockNoticeGoodsInfoVOS, 'stockNoticeGoodsInfoVOS');
     console.log(goodsDetails, 'dd22');
