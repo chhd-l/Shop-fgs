@@ -64,8 +64,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
-    useState(null);
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
+    null
+  );
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
@@ -371,7 +372,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                       updatedPriceOrCode={updatedPriceOrCode}
                     />
                     <InstockStatusComp
-                      status={seleced}
+                      status={!outOfStockStatus}
                       className="subscription-stock"
                     />
                   </div>
@@ -392,7 +393,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                     />
                     <div className="absolute bottom-4 right-12">
                       <InstockStatusComp
-                        status={seleced}
+                        status={!outOfStockStatus}
                         className="subscription-stock"
                       />
                     </div>
