@@ -213,17 +213,19 @@ const ChangeProduct = () => {
   const handleNotifyMe = async () => {
     let subscribeId = subDetail.subscribeId;
     const { goods = {}, goodsInfos = [], goodsSpecs = [] } = goodsDetails;
-    let stockNoticeGoodsInfoVOS = goodsSpecs.map((spec) =>
-      spec.chidren.map((el) => {
-        const goodsInfoId = goodsInfos.find((good) =>
-          good.mockSpecDetailIds.includes(el.specDetailId)
-        )?.goodsInfoId;
-        let goodsInfoObj = {
-          goodsInfoId,
-          detailName: el.detailName
-        };
-        return goodsInfoObj;
-      })
+    let stockNoticeGoodsInfoVOS = [];
+    goodsSpecs.forEach(
+      (spec) =>
+        (stockNoticeGoodsInfoVOS = spec.chidren.map((el) => {
+          const goodsInfoId = goodsInfos.find((good) =>
+            good.mockSpecDetailIds.includes(el.specDetailId)
+          )?.goodsInfoId;
+          let goodsInfoObj = {
+            goodsInfoId,
+            detailName: el.detailName
+          };
+          return goodsInfoObj;
+        }))
     );
     console.log(stockNoticeGoodsInfoVOS, 'stockNoticeGoodsInfoVOS');
     console.log(goodsDetails, 'dd22');
