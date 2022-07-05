@@ -413,7 +413,7 @@ class PayProductInfo extends React.Component {
                   </span>
                 </div>
               </div>
-              {this.earnedPoint > 0 && (
+              {details?.tradePrice?.loyaltyPointsEarned > 0 && (
                 <div className="product-summary__total grand-total row leading-lines checkout--padding border-top px-5 py-3 font-normal">
                   <div className="col-6 start-lines">
                     <span>
@@ -422,7 +422,7 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="col-6 end-lines text-right">
                     <span className="grand-total-sum">
-                      {this.earnedPoint + 'pt'}
+                      {details?.tradePrice?.loyaltyPointsEarned + 'pt'}
                     </span>
                   </div>
                 </div>
