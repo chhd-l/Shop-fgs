@@ -557,7 +557,7 @@ class AddressList extends React.Component {
                   <>
                     {/* 删除按钮 */}
                     <span
-                      className={`d-flex position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box mb-3}`}
+                      className={`d-flex1 position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box`}
                     >
                       <span
                         className="rc-styled-link"
@@ -588,13 +588,15 @@ class AddressList extends React.Component {
                       size="small"
                       className={`font-weight-bold`}
                       onClick={this.handleEditAddress.bind(this, item)}
-                      style={{ fontSize: '12px' }}
+                      // style={{ fontSize: '12px' }}
                     >
-                      {item.receiveType === 'PICK_UP' ? (
-                        <FormattedMessage id="payment.changePickup" />
-                      ) : (
-                        <FormattedMessage id="edit" />
-                      )}
+                      <FormattedMessage
+                        id={
+                          item.receiveType === 'PICK_UP'
+                            ? 'payment.changePickup'
+                            : 'edit'
+                        }
+                      />
                     </Button>
                   </>
                 )}

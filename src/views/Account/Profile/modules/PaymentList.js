@@ -421,7 +421,7 @@ class PaymentList extends React.Component {
         style={{ lineHeight: 0.4 }}
       >
         <div>
-          <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
+          <span className="rc-icon rc-plus--xs rc-iconography plus-icon align-middle" />
           <FormattedMessage id="addANewPaymentMethod" />
         </div>
       </div>
