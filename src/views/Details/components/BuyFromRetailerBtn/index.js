@@ -147,7 +147,13 @@ class BuyFromRetailerBtn extends React.Component {
             className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
             style={{ padding: '7px 1.5rem' }}
           >
-            <FormattedMessage id="details.buyFromRetailer" />
+            <FormattedMessage
+              id={
+                goodsType === 3
+                  ? 'details.vetBuyFromRetailer'
+                  : 'details.buyFromRetailer'
+              }
+            />
           </a>
         ) : null}
       </div>
