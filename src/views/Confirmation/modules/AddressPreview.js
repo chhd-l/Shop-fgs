@@ -8,6 +8,7 @@ import {
 } from '@/utils/utils';
 import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 @injectIntl
 class InfosPreview extends React.Component {
@@ -102,7 +103,14 @@ class InfosPreview extends React.Component {
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="payment.paymentInformation" />
             </div>
-            <div>{details.consignee.name}</div>
+            {COUNTRY == 'jp' ? (
+              <div>
+                {details.consignee.lastName},{details.consignee.firstName}
+              </div>
+            ) : (
+              <div>{details.consignee.name}</div>
+            )}
+
             <div>{payRecord.paymentVendor}</div>
             {payRecord.lastFourDigits ? (
               <div className="medium">********{payRecord.lastFourDigits}</div>
