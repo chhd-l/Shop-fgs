@@ -1052,7 +1052,7 @@ class List extends React.Component {
             ];
             return tempArr.includes(pathname.replace(/\/$/, ''));
           })[0];
-
+        console.log('targetRouter', targetRouter);
         let sortParam = null;
         let cateIds = [];
         let filters = cloneDeep((state && state.filters) || []);
@@ -1922,7 +1922,7 @@ class List extends React.Component {
                 <FormattedMessage id="homePage" />
               </DistributeHubLinkOrATag>
             </div>
-            {titleData && titleData.title && titleData.description ? (
+            {titleData && titleData.title ? (
               <div className="rc-max-width--lg rc-padding-x--sm ">
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                   <div className="rc-column rc-double-width text-center md:text-left p-0">
@@ -1939,20 +1939,22 @@ class List extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="rc-column">
-                    {titleData.img && !isMobilePhone ? (
-                      <LazyLoad style={{ width: '100%' }}>
-                        <img
-                          src={optimizeImage({
-                            originImageUrl: titleData.img,
-                            width: 300
-                          })}
-                          className="mx-auto"
-                          alt="titleData image"
-                        />
-                      </LazyLoad>
-                    ) : null}
-                  </div>
+                  {titleData.img && (
+                    <div className="rc-column">
+                      {titleData.img && !isMobilePhone ? (
+                        <LazyLoad style={{ width: '100%' }}>
+                          <img
+                            src={optimizeImage({
+                              originImageUrl: titleData.img,
+                              width: 300
+                            })}
+                            className="mx-auto"
+                            alt="titleData image"
+                          />
+                        </LazyLoad>
+                      ) : null}
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
