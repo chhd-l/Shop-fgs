@@ -53,7 +53,7 @@ export default class HubSalesCategory extends Component {
         return {
           imgSrc:
             typeof item2.cateImg === 'string' &&
-            JSON.parse(item2.cateImg)[0].artworkUrl,
+            JSON.parse(item2.cateImg)[0]?.artworkUrl,
           cateName: item2.cateName,
           altName: item2.altName,
           cateRouter: item2.cateRouter,
