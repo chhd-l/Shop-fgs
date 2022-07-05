@@ -9,10 +9,10 @@ const convenienceStoreList = [
     label: <FormattedMessage id="Lawson" />,
     value: 'Lawson'
   },
-  {
-    label: <FormattedMessage id="Seven-Eleven" />,
-    value: 'Seven-Eleven'
-  },
+  // {
+  //   label: <FormattedMessage id="Seven-Eleven" />,
+  //   value: 'Seven-Eleven'
+  // },
   {
     label: <FormattedMessage id="Family Mart" />,
     value: 'Family Mart'
