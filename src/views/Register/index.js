@@ -277,8 +277,13 @@ class Register extends Component {
     let valid;
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -346,8 +351,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -448,7 +452,10 @@ class Register extends Component {
             });
           //GA 注册成功 end
 
-          if (res.context.oktaSessionToken) {
+          if (
+            window.__.env.REACT_APP_FGS_SELF_REGISTER ||
+            res.context.oktaSessionToken
+          ) {
             //自动登录
             loginStore.changeLoginModal(false);
             loginStore.changeIsLogin(true);
@@ -492,7 +499,13 @@ class Register extends Component {
               // window.location.href = window.location.origin + type[window.__.env.REACT_APP_GA_ENV];
               this.props.history.push('/checkout');
             } else {
-              window.location.href = callOktaCallBack; // 调用一次OKTA的登录
+              if (window.__.env.REACT_APP_FGS_SELF_REGISTER) {
+                this.props.history.push(
+                  localItemRoyal.get('okta-redirectUrl') || '/'
+                );
+              } else {
+                window.location.href = callOktaCallBack; // 调用一次OKTA的登录
+              }
             }
           } else {
             //发送邮件，跳转welcome页面

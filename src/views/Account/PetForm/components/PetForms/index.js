@@ -101,9 +101,13 @@ const PetForms = ({
   console.log('history', history);
   console.log('loginStore', loginStore);
   const Us = window.__.env.REACT_APP_COUNTRY == 'us';
-  const RuTrFrDe =
+  const sensitivityCountry =
     ['ru', 'tr', 'fr', 'de', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) >
     -1;
+  const RuTrFrDe =
+    ['ru', 'tr', 'fr', 'de', 'se', 'jp', 'mx'].indexOf(
+      window.__.env.REACT_APP_COUNTRY
+    ) > -1;
   const notUsUk =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
     window.__.env.REACT_APP_COUNTRY !== 'uk';
@@ -633,7 +637,7 @@ const PetForms = ({
   let isChoosePetType = isCat !== null;
   let sensitivityLists = specialNeedsOptions;
   let sensitivityLable = 'Special Need';
-  if (RuTrFrDe) {
+  if (sensitivityCountry) {
     sensitivityLists = sensitivityList;
     sensitivityLable = 'Sensitivity';
   }

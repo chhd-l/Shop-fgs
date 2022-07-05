@@ -589,7 +589,8 @@ class PayProductInfo extends React.Component {
       purchasesPara.address1 = this.props.deliveryAddress?.address1;
       let tmpParam = Object.assign(purchasesPara, {
         ...this.props,
-        isThrowValidPromotionCodeErr: true
+        isThrowValidPromotionCodeErr: true,
+        promotionCode: this.state.promotionInputValue //以现在promotionCode为主
       });
 
       if (!this.isLogin) {

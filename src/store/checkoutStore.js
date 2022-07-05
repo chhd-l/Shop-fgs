@@ -313,7 +313,6 @@ class CheckoutStore {
       return el;
     });
     console.log(data);
-    // debugger;
     localItemRoyal.set('rc-cart-data', data);
   }
 
@@ -723,7 +722,12 @@ class CheckoutStore {
       this.setGiftList(sitePurchasesRes.giftList);
 
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
-      this.setPromotionCode(newPromotionCode);
+
+      //this.setPromotionCode(newPromotionCode);
+
+      if (newPromotionCode) {
+        this.setPromotionCode(newPromotionCode);
+      }
 
       let goodsList = siteMiniPurchasesRes.goodsList;
       for (let good of goodsList) {

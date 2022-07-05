@@ -25,6 +25,7 @@ const getCountryCodeFromHref = () => {
       case 'shop.royalcanin.fr':
         countryLink = 'fr';
         break;
+      case 'shop.royalcanin.ru':
       case 'shop.royal-canin.ru':
       case 'shopstg.royal-canin.ru':
       case 'www.shop.royal-canin.ru':
