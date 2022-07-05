@@ -58,6 +58,7 @@ const ClubItem = ({ subItem, history }) => {
             <img
               style={{
                 width: '70px',
+                maxHeight: '8rem',
                 display: 'inline-block'
               }}
               key={item.spuId}
