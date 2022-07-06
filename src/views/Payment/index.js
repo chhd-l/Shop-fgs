@@ -2446,7 +2446,7 @@ class Payment extends React.Component {
       appointParam
     );
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
-    if (tokenObj && tokenObj.accessToken) {
+    if (tokenObj && tokenObj?.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
 

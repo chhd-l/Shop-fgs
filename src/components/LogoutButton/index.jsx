@@ -25,17 +25,17 @@ const clinicStore = stores.clinicStore;
 const LogoutButton = (props) => {
   const { authState, oktaAuth } = useOktaAuth();
 
-  useEffect(() => {
-    // 当打开多个tab时，同步登录登出状态
-    window.addEventListener('storage', (e) => {
-      if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
-        // 该token的旧值存在，新值不存在，表示登出
-        if (e.oldValue && !e.newValue) {
-          clickLogoff();
-        }
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   // 当打开多个tab时，同步登录登出状态
+  //   window.addEventListener('storage', (e) => {
+  //     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {debugger
+  //       // 该token的旧值存在，新值不存在，表示登出
+  //       if (e.oldValue && !e.newValue) {
+  //         clickLogoff();
+  //       }
+  //     }
+  //   });
+  // }, []);
 
   const logout = async () => {
     try {
