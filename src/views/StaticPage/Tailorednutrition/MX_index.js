@@ -253,7 +253,9 @@ class Tailorednutrition extends React.Component {
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-textContent">
                       <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
-                        <h2 className="ss text-cs-primary">El Resultado</h2>
+                        <h2 className="text-cs-primary rc-beta markup-text">
+                          El Resultado
+                        </h2>
                         <br />
                         <p>
                           El resultado es una dieta diseñada para satisfacer

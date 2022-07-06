@@ -201,7 +201,7 @@ class QualitySafety extends React.Component {
                   <div className="experience-component experience-assets-textContent">
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
                       {/* <h2>Une sélection rigoureuse des fournisseurs </h2> */}
-                      <h2 className="text-cs-primary">
+                      <h2 className="text-cs-primary rc-beta markup-text">
                         Una rigurosa selección de proveedores
                       </h2>
                       <br />
@@ -232,7 +232,7 @@ class QualitySafety extends React.Component {
                   <div className="experience-component experience-assets-textContent">
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
                       {/* <h2 className='text-cs-primary'>Ingrédients entièrement traçables</h2> */}
-                      <h2 className="text-cs-primary">
+                      <h2 className="text-cs-primary rc-beta markup-text">
                         Ingredientes completamente trazables
                       </h2>
                       <br />
