@@ -30,7 +30,7 @@ const UserJSX = (props) => {
     <>
       {showUserIcon ? (
         <>
-          {isLogin ? (
+          {isLogin && window.__.env.REACT_APP_COUNTRY !== 'jp' ? (
             <span className="rc-md-up" style={{ marginRight: '-.8rem' }}>
               {self.userInfo && self.userInfo.firstName}
             </span>
@@ -52,18 +52,7 @@ const UserJSX = (props) => {
                     data-loc="miniCartOrderBtn"
                     title={txt}
                   >
-                    <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
-                    <span
-                      className="rc-md-down"
-                      style={{
-                        bottom: '-1.45rem',
-                        position: 'absolute',
-                        right: '.3rem',
-                        fontSize: '.95em'
-                      }}
-                    >
-                      {self.userInfo && self.userInfo.firstName}
-                    </span>
+                    <UserIcon />
                   </Link>
                 )}
               </FormattedMessage>
@@ -75,7 +64,7 @@ const UserJSX = (props) => {
                     data-loc="miniCartOrderBtn"
                     title={txt}
                   >
-                    <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+                    <UserIcon />
                   </div>
                 )}
               </FormattedMessage>
@@ -236,3 +225,9 @@ const UserJSX = (props) => {
 };
 
 export default inject('loginStore')(observer(UserJSX));
+
+const UserIcon = () => {
+  return (
+    <em className="minicart-icon rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+  );
+};

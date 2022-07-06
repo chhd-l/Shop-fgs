@@ -13,7 +13,7 @@ class Exception extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Canonical />
+        <Canonical href={window.location.href} />
         <Header showMiniIcons={false} {...this.props} />
         <div
           className="page rc-content--fixed-header"
