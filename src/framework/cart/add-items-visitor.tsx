@@ -18,8 +18,6 @@ async function initIntl() {
   intl = createIntl({ locale: 'en', messages: lang }, cache); //locale and message can come from Redux or regular import
 }
 
-initIntl();
-
 interface Props {
   cartItemList: CART_ITEM_TYPE[];
   showPCMiniCartPop?: boolean; //Show PC mini cart at the top right-hand corner, when add products to cart successfully
@@ -36,6 +34,8 @@ interface CART_ITEM_TYPE {
 }
 
 const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
+  const { queryConfig } = stores.configStore;
+  await Promise.all([initIntl(), queryConfig()]);
   const { formatMessage } = intl;
   const {
     info: { skuLimitThreshold }
