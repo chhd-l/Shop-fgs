@@ -52,6 +52,22 @@ import { phoneNumberMask } from '@/utils/constant';
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
+var compositionFlag = true;
+
+function ToCDB(str) {
+  var tmp = '';
+  for (var i = 0; i < str.length; i++) {
+    if (str.charCodeAt(i) == 12288) {
+      tmp += String.fromCharCode(str.charCodeAt(i) - 12256);
+      continue;
+    } else if (str.charCodeAt(i) > 65280 && str.charCodeAt(i) < 65375) {
+      tmp += String.fromCharCode(str.charCodeAt(i) - 65248);
+    } else {
+      tmp += String.fromCharCode(str.charCodeAt(i));
+    }
+  }
+  return tmp;
+}
 
 @inject('configStore', 'loginStore')
 @injectIntl
@@ -457,19 +473,11 @@ class Form extends React.Component {
     if (!element) return; //没有postCode输入框就不执行
     let maskOptions = [];
     let postReg = '';
-    // switch (COUNTRY) {
-    //   case 'jp':
-    //     postReg = [{ mask: '000-0000' }];
-    //     break;
-    //   default:
-    //     postReg = [{ mask: /.*/ }];
-    //     break;
-    // }
     postReg = [{ mask: '000-0000' }];
     maskOptions = {
       mask: postReg
     };
-    IMask(element, maskOptions);
+    jpPostCodeMask = IMask(element, maskOptions);
   };
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
@@ -519,21 +527,21 @@ class Form extends React.Component {
       case 'tr':
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
-      case 'jp':
-        phoneReg = /^[0]\d{0,10}$/;
-        // phoneReg = [
-        //   {
-        //     mask: 'Y0000000000',
-        //     lazy: true,
-        //     blocks: {
-        //       Y: {
-        //         mask: IMask.MaskedEnum,
-        //         enum: ['0']
-        //       }
-        //     }
-        //   }
-        // ];
-        break;
+      // case 'jp':
+      //   phoneReg = /^[0]\d{0,10}$/;
+      //   // phoneReg = [
+      //   //   {
+      //   //     mask: 'Y0000000000',
+      //   //     lazy: true,
+      //   //     blocks: {
+      //   //       Y: {
+      //   //         mask: IMask.MaskedEnum,
+      //   //         enum: ['0']
+      //   //       }
+      //   //     }
+      //   //   }
+      //   // ];
+      //   break;
       default:
         phoneReg = [{ mask: '00000000000' }];
         break;
@@ -541,7 +549,9 @@ class Form extends React.Component {
     maskOptions = {
       mask: phoneReg
     };
-    IMask(element, maskOptions);
+    if (COUNTRY != 'jp') {
+      IMask(element, maskOptions);
+    }
 
     // if (COUNTRY == 'ru' && this.isLogin) {
     //   this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
@@ -583,22 +593,6 @@ class Form extends React.Component {
           // 格式化表单json
           let ress = this.formListFormat(narr);
 
-          // console.log(ress)
-          // debugger
-          // const setFormat = (result) => {
-          //   result.forEach((item) => {
-          //     if (item.fieldKey == 'phoneNumber' && item.requiredFlag == 1) {
-          //       // 设置手机号输入限制
-          //       setTimeout(() => {
-          //         this.setPhoneNumberReg();
-          //         if (COUNTRY == 'jp') {
-          //           this.setPostCodeReg();
-          //         }
-          //       }, 1000);
-          //     }
-          //   });
-          // }
-
           this.setState(
             {
               formList: ress
@@ -624,7 +618,7 @@ class Form extends React.Component {
                   setTimeout(() => {
                     this.setPhoneNumberReg();
                     if (COUNTRY == 'jp') {
-                      this.setPostCodeReg();
+                      //this.setPostCodeReg();
                     }
                   }, 1000);
                 }
@@ -1181,6 +1175,44 @@ class Form extends React.Component {
     value = value.replace(/-/g, '');
     return isNaN(value) ? false : true;
   };
+  compositionStart = () => {
+    //jpPostCodeMask.destroy();
+    compositionFlag = false;
+  };
+  compositionEnd = (e) => {
+    compositionFlag = true;
+
+    const { caninForm, postCodeFiledType } = this.state;
+    const target = e.target;
+    let tvalue = target.value;
+    const tname = target.name;
+
+    switch (tname) {
+      case 'postCode':
+        if (COUNTRY == 'jp') {
+          tvalue = ToCDB(tvalue);
+          if (tvalue.length == 3) {
+            tvalue = tvalue + '-';
+          }
+        }
+        break;
+      case 'phoneNumber':
+        if (COUNTRY == 'jp') {
+          tvalue = ToCDB(tvalue);
+        }
+        break;
+    }
+
+    caninForm[tname] = tvalue;
+    this.setState({ caninForm }, () => {
+      this.updateDataToProps();
+      if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
+        this.debounceValidvalidationData(tname, tvalue);
+      } else {
+        this.validvalidationData(tname, tvalue);
+      }
+    });
+  };
   // 文本框输入改变
   inputChange = (e) => {
     const { caninForm, postCodeFiledType } = this.state;
@@ -1195,8 +1227,24 @@ class Form extends React.Component {
         //tvalue = tvalue;
         break;
       case 'postCode':
+        if (COUNTRY == 'jp') {
+          if (compositionFlag) {
+            // if(tvalue.length == 3){
+            //   tvalue = tvalue + "-"
+            // }
+            //this.setPostCodeReg()
+            //tvalue = tvalue.replace(/\s/g, '').replace(/(\d{3})(?=\d)/g, '$1-');
+            //tvalue = ValidatePhone(tvalue)
+            if (tvalue.length < 6) {
+              tvalue = tvalue
+                .replace(/\s/g, '')
+                .replace(/-$/, '')
+                .replace(/(\d{3})(?:\d)/g, '$1-');
+            }
+          }
+        }
         // 可以输入字母+数字
-        if (postCodeFiledType !== 2) {
+        if (COUNTRY != 'jp' && postCodeFiledType !== 2) {
           tvalue = tvalue.replace(/\s+/g, '');
           if (!this.isNumber(tvalue)) {
             tvalue = '';
@@ -1209,6 +1257,8 @@ class Form extends React.Component {
               .replace(/\s/g, '')
               .replace(/-$/, '')
               .replace(/(\d{5})(?:\d)/g, '$1-');
+            break;
+          case 'jp':
             break;
           default:
             if (postCodeFiledType !== 2) {
@@ -1728,6 +1778,17 @@ class Form extends React.Component {
       </>
     );
   };
+  maxLengthFun = (item) => {
+    let maxLength = 0;
+    if (item.fieldKey == 'postCode' && COUNTRY == 'jp') {
+      maxLength = 8;
+    } else if (item.fieldKey == 'phoneNumber' && COUNTRY == 'jp') {
+      maxLength = 11;
+    } else {
+      maxLength = item.maxLength;
+    }
+    return maxLength;
+  };
   // 文本框
   inputJSX = (item) => {
     const { caninForm } = this.state;
@@ -1747,11 +1808,13 @@ class Form extends React.Component {
             type={item.filedType}
             //value={getInputValue(item)}
             value={caninForm[item.fieldKey] || ''}
-            onInput={(e) => this.inputChange(e)}
+            onChange={this.inputChange}
+            onCompositionStart={this.compositionStart}
+            onCompositionEnd={this.compositionEnd}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
-            maxLength={item.maxLength}
+            maxLength={this.maxLengthFun(item)}
             autoComplete="off"
           />
           <label className="rc-input__label" htmlFor="id-text1" />
