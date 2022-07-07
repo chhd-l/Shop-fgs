@@ -29,7 +29,7 @@ const LogoutButton = (props) => {
     // 当打开多个tab时，同步登录登出状态
     if (window.__.SYNCHRONIZE_LOGIN_STATUS) {
       window.addEventListener('storage', (e) => {
-        conosle.log('logoutbutton storage change', e.key);
+        console.log('logoutbutton storage change', e.key);
         if (e.key.includes('rc-token')) {
           debugger;
         }

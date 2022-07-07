@@ -41,7 +41,7 @@ const LoginButton = (props) => {
   useEffect(() => {
     if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
       window.addEventListener('storage', (e) => {
-        conosle.log('loginbutton storage change', e.key);
+        console.log('loginbutton storage change', e.key);
         if (e.key.includes('rc-token')) {
           debugger;
         }
