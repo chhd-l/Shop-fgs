@@ -1161,8 +1161,8 @@ class Details extends React.Component {
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
             // onClickSku={this.handleClickSku}
-            shouldSkuGrayOutOfStock
-            canSelectedOutOfStock
+            // shouldSkuGrayOutOfStock
+            // canSelectedOutOfStock
           />
           {/* {isMobile && this.isLogin && (
             <OssReceiveBackNotificationContent
