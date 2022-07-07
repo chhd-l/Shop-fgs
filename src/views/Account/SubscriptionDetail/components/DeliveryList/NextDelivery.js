@@ -53,13 +53,17 @@ const NextDelivery = ({
   // const [timeSlot, setTimeSlot] = useState('');
 
   useEffect(() => {
-    el.tradeItems.push({
-      ...gifts,
-      spuName: gifts.goodsInfoName,
-      pic: gifts.goodsInfoImg,
-      specDetails: gifts.goodsInfoWeight + gifts.goodsInfoUnit,
-      num: subDetail?.goodsQuantity
-    });
+    if (gifts) {
+      el.tradeItems.push({
+        ...gifts,
+        spuName: gifts?.goodsInfoName,
+        pic: gifts?.goodsInfoImg,
+        specDetails: gifts?.goodsInfoWeight + gifts?.goodsInfoUnit,
+        num: subDetail?.goodsQuantity,
+        subscriptionPrice: gifts?.marketPrice
+      });
+    }
+
     if (!showTimeSlot) {
       return;
     }
