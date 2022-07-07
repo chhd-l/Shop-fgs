@@ -17,7 +17,9 @@ const PriceDetailsList = ({
     installMentAdditionalFee,
     isShowInstallMent,
     serviceFeePrice,
-    loyaltyPointsPrice
+    loyaltyPointsPrice,
+    discount,
+    gifts
   },
   configStore
 }) => {
@@ -99,6 +101,20 @@ const PriceDetailsList = ({
       visible: loyaltyPointsPrice,
       className: 'green',
       key: 'pointDiscount'
+    },
+    {
+      key: 'marketPrice',
+      title: <FormattedMessage id="payment.Gift" />,
+      val: -gifts?.marketPrice,
+      visible: gifts ? true : false,
+      className: 'green'
+    },
+    {
+      key: 'discount',
+      title: <FormattedMessage id="payment.discount" />,
+      val: -((totalPrice - subscriptionDiscountPrice) * (1 - discount)),
+      visible: discount ? true : false,
+      className: 'green'
     }
   ]).filter((el) => el.visible);
   return priceList.map((item, idx) =>

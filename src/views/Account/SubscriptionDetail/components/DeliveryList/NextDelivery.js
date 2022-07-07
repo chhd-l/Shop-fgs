@@ -30,6 +30,7 @@ const NextDelivery = ({
   intl,
   slotTimeChanged
 }) => {
+  const gifts = subDetail.gifts;
   const showTimeSlot = window.__.env.REACT_APP_COUNTRY === 'jp';
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
@@ -52,6 +53,17 @@ const NextDelivery = ({
   // const [timeSlot, setTimeSlot] = useState('');
 
   useEffect(() => {
+    if (gifts) {
+      el.tradeItems.push({
+        ...gifts,
+        spuName: gifts?.goodsInfoName,
+        pic: gifts?.goodsInfoImg,
+        specDetails: gifts?.goodsInfoWeight + gifts?.goodsInfoUnit,
+        num: subDetail?.goodsQuantity,
+        subscriptionPrice: gifts?.marketPrice
+      });
+    }
+
     if (!showTimeSlot) {
       return;
     }
@@ -453,7 +465,9 @@ const NextDelivery = ({
                   (e) => e.discountPrice
                 ),
                 serviceFeePrice: el?.tradePrice?.serviceFeePrice,
-                loyaltyPointsPrice: el?.tradePrice?.loyaltyPoints
+                loyaltyPointsPrice: el?.tradePrice?.loyaltyPoints,
+                discount: subDetail?.discount,
+                gifts: subDetail?.gifts
               }}
             />
             {/* 总价 */}

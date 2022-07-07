@@ -39,6 +39,25 @@ const LoginButton = (props) => {
   const { authState } = useOktaAuth();
 
   useEffect(() => {
+    if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
+      window.addEventListener('storage', (e) => {
+        console.log('loginbutton storage change', e.key);
+        if (e.key.includes('rc-token')) {
+          debugger;
+        }
+        // 当打开多个tab时，同步登录登出状态
+        if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
+          debugger;
+          // 该token的旧值不存在，新值存在，表示登录
+          if (!e.oldValue && e.newValue) {
+            login();
+          }
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     if (isGetUserInfoDown && init) {
       init();
     }

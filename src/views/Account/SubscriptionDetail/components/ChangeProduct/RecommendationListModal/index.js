@@ -13,13 +13,18 @@ import { SubDetailHeaderContext } from '../../SubDetailHeader';
 import ProductDailyRation from './ProductDailyRation';
 import RelateProductList from './RelateProductList';
 import { Modal, Button } from '@/components/Common';
+import InstockStatusComp from '@/components/InstockStatusComp';
 
 const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
-    SubDetailHeaderValue;
+  const {
+    triggerShowChangeProduct,
+    setState,
+    productListLoading,
+    subDetail
+  } = SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -190,6 +195,9 @@ const RecommendationListModal = ({ intl }) => {
     }
   };
 
+  const mainProductStock = productDetail.mainProduct?.goodsInfos?.some(
+    (el) => el.stock
+  );
   return (
     <div
       className={`change-product-modal ${
@@ -300,6 +308,12 @@ const RecommendationListModal = ({ intl }) => {
                           subDetail.goodsInfo[0]?.goodsVO?.minSubscriptionPrice
                       )}
                     </span>
+                  </div>
+                  <div className="text-center mt-3">
+                    <InstockStatusComp
+                      status={mainProductStock}
+                      className="subscription-stock"
+                    />
                   </div>
                   <button
                     class="text-sm  my-6 rc-btn rc-btn--two rc-btn--sm"

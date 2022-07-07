@@ -37,7 +37,7 @@ const OssReceiveBackNotificationContent = ({
         customerId,
         goodsId,
         goodsInfoId: selectedSpecItem.goodsInfoId,
-        fromAddress: '1'
+        fromAddress: '2'
       };
       const {
         context: { email, stockNotice }

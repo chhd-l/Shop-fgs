@@ -221,26 +221,14 @@ export const GAInitUnLogin = ({
   try {
     let promotionInfo = getPromotionInfo();
     if (!isHubGA) return;
-    // const breed = [];
-    // productList?.[0]?.goodsAttributesValueRelList
-    //   ?.filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-    //   .forEach((item2) => {
-    //     breed.push(item2.goodsAttributeValue);
-    //   });
 
     const calculatedWeeks = getComputedWeeks(frequencyList);
     const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
     for (let [index, item] of mapProductList) {
-      let variant = item?.specText;
-      let goodsInfoNo = item?.goodsInfoNo;
-      let price = item.goodsInfoFlag
-        ? item.subscriptionPrice
-        : item.marketPrice;
       let subscriptionFrequency = item.form
         ? calculatedWeeks[item.form.frequencyId]
         : '';
-      let range = item.goodsCateName?.split('/')[1] || '';
-      let technology = item.goodsCateName?.split('/')[2] || '';
+      let technology = item.goods.goodsCateName?.split('/')[2] || '';
       if (!technology) {
         //第二种方式获取technology
         item?.goodsAttributesValueRelList
@@ -252,9 +240,6 @@ export const GAInitUnLogin = ({
           });
       }
 
-      if (type === 'felin') {
-        price = item.salePrice;
-      }
       const breed = filterAttrValue(
         item?.goodsAttributesValueRelList,
         'breeds'
@@ -264,24 +249,15 @@ export const GAInitUnLogin = ({
         'species'
       ).toString();
       let obj = deleteObjEmptyAttr({
-        pillar: pillarEnum[item.goodsType] || '',
-        price: price, //Product Price, including discount if promo code activated for this product
+        pillar: pillarEnum[item.goods.goodsType] || '',
         specie, //'Cat' or 'Dog',
-        range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-        name: item.goodsName, //WeShare product name, always in English
-        mainItemCode: item.goodsNo, //Main item code
-        SKU: goodsInfoNo, //product SKU
-        subscription: getSubscriptionAttr(item.goodsInfoFlag), //'One Shot', 'Subscription', 'Club'
-        technology: technology, //'Dry', 'Wet', 'Pack'
-        brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-        size: variant || '', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-        quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
+        mainItemCode: item.goods.goodsNo, //Main item code
+        technology, //'Dry', 'Wet', 'Pack'
         subscriptionFrequency:
           item.goodsInfoFlag > 0 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
         recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
         breed, //All animal breeds associated with the product in an array
-        imageURL: item.goodsInfoImg,
         promoCodeName:
           (promotionInfo &&
             promotionInfo[index] &&
@@ -293,12 +269,6 @@ export const GAInitUnLogin = ({
             promotionInfo[index].promoCodeAmount) ||
           '' //Promo code amount, only if promo activated
       });
-      if (type == 'felin') {
-        // felin特殊处理
-        obj.range = 'Booking';
-        obj.name = "L'Atelier Félin booking";
-        obj.mainItemCode = "L'Atelier Félin booking";
-      }
       arr.push(obj);
     }
     props.checkoutStore.saveGAProduct({ products: arr });
@@ -330,15 +300,6 @@ export const GAInitLogin = ({
     let subscriptionFrequency = item.periodTypeId
       ? calculatedWeeks[item.periodTypeId]
       : '';
-    let range = item.goods.goodsCateName?.split('/')[1] || '';
-    // let range = ''
-    // item?.goodsAttributesValueRelVOList
-    // ?.filter((item) => item.goodsAttributeName == 'Range')
-    // .forEach((item2) => {
-    //   if(item2.goodsAttributeValue){
-    //     range = item2.goodsAttributeValue.split("_")[0]
-    //   }
-    // });
     let technology = item.goods.goodsCateName?.split('/')[2] || '';
     if (!technology) {
       //第二种方式获取technology
@@ -351,12 +312,6 @@ export const GAInitLogin = ({
         });
     }
 
-    // let breed = [];
-    // item?.goodsAttributesValueRelVOList
-    //   ?.filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-    //   .forEach((item2) => {
-    //     breed.push(item2.goodsAttributeValue);
-    //   });
     // 非会员和会员的数据来源不一样，不要直接复制粘贴同一个值，取值不对！
     const breed = filterAttrValue(
       item?.goodsAttributesValueRelVOList,
@@ -366,25 +321,16 @@ export const GAInitLogin = ({
       item?.goodsAttributesValueRelVOList,
       'species'
     ).toString();
-    let productItem = {
+    let obj = deleteObjEmptyAttr({
       pillar: pillarEnum[item.goods.goodsType] || '',
-      price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie, //'Cat' or 'Dog',
-      range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-      name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
-      SKU: item.goodsInfoNo, //product SKU
-      subscription: getSubscriptionAttr(item.goodsInfoFlag), //'One Shot', 'Subscription', 'Club'
-      technology: technology, //'Dry', 'Wet', 'Pack'
-      brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-      size: item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-      quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
+      technology, //'Dry', 'Wet', 'Pack'
       subscriptionFrequency:
         item.goodsInfoFlag > 0 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
-      imageURL: item.goodsInfoImg,
       promoCodeName:
         (promotionInfo &&
           promotionInfo[index] &&
@@ -395,20 +341,9 @@ export const GAInitLogin = ({
           promotionInfo[index] &&
           promotionInfo[index].promoCodeAmount) ||
         '' //Promo code amount, only if promo activated
-    };
-    if (type == 'felin') {
-      // felin特殊处理
-      productItem.range = 'Booking';
-      productItem.name = "L'Atelier Félin booking";
-      productItem.mainItemCode = "L'Atelier Félin booking";
-    }
-    let obj = deleteObjEmptyAttr(productItem);
-
+    });
     arr.push(obj);
   }
-
-  //debugger;
-
   props.checkoutStore.saveGAProduct({ products: arr });
   if (isReturnList) {
     return arr;
@@ -592,16 +527,6 @@ export const orderConfirmationPushEvent = (details) => {
   const clinic = details.tradeItems.some((item) => item.recommendationId);
   if (!isHubGA) return;
   const GA_product = localItemRoyal.get('rc-ga-product');
-  if (GA_product?.products?.some?.((el) => el.quantity)) {
-    alert(
-      'The problem with quality zero, this is a debugger, please contact developer to check this situation!'
-    );
-  }
-  //The problem with quality zero, we don't push it when we limit it to zero
-  let allHasQuantity = GA_product?.products?.every?.((el) => el.quantity);
-  if (!allHasQuantity) {
-    return;
-  }
   let shippingMode = 'Standard Delivery';
   switch (window.__.env.REACT_APP_COUNTRY) {
     case 'ru':
@@ -618,6 +543,7 @@ export const orderConfirmationPushEvent = (details) => {
       break;
   }
 
+  const isFelin = details.appointmentNo;
   let obj = {
     event: 'orderConfirmation',
     orderConfirmation: deleteObjEmptyAttr({
@@ -630,7 +556,35 @@ export const orderConfirmationPushEvent = (details) => {
         details.tradePrice?.freeShippingDiscountPrice, //Shipping amount, US number format, local currency
       paymentMethod: details?.paymentItem, //String : payment method returned by Adyen API, cf. full list below
       loyaltyPoints: details?.tradePrice?.loyaltyPointsPrice, //Integer : part of the total amount in local currency (cf. "amount" key above) paid through loyalty points (JP only)
-      ...GA_product
+      products: details.tradeItems.map((item) => {
+        let obj = deleteObjEmptyAttr({
+          SKU: item.skuNo, //product SKU
+          brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+          imageURL: item.pic,
+          mainItemCode: item.spuNo, //Main item code
+          name: item.spuName, //WeShare product name, always in English
+          price: isFelin
+            ? item.levelPrice
+            : item.goodsInfoFlag
+            ? item.subscriptionPrice
+            : item.originalPrice, //Product Price, including discount if promo code activated for this product
+          quantity: item.num, //Number of products, only if already added to cartequals 'Subscription or Club'
+          range: item.goodsCateName?.split('/')[1] || '', //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+          size: item?.specDetails, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+          subscription: getSubscriptionAttr(item.goodsInfoFlag) //'One Shot', 'Subscription', 'Club'
+        });
+        // felin特殊处理
+        if (isFelin) {
+          obj.range = 'Booking';
+          obj.name = "L'Atelier Félin booking";
+          obj.mainItemCode = "L'Atelier Félin booking";
+        }
+        const productInfoFromLocalStorage =
+          (GA_product?.products || []).find(
+            (p) => p.mainItemCode === item.spuNo
+          ) || {};
+        return Object.assign({}, productInfoFromLocalStorage, obj);
+      })
     })
   };
   // setTimeout(() => {
