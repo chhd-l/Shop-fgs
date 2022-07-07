@@ -326,6 +326,10 @@ export default {
       redirectUrl: '/cats/retail-products'
     },
     {
+      shortUrl: '/x-small-adult-8 -1004',
+      redirectUrl: '/x-small-adult-8+-1004'
+    },
+    {
       shortUrl: '/x-small-ageing-12 -1005',
       redirectUrl: '/x-small-ageing-12+-1005'
     },
