@@ -427,7 +427,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           </strong>
         </div>
       </div>
-      {outOfStockStatus ? (
+      {/* {outOfStockStatus ? (
         <div className="mb-6 mt-5 md:mt-0 flex flex-col items-center md:justify-end md:items-end md:flex-row">
           <span className="text-base font-normal">
             <FormattedMessage
@@ -481,7 +481,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             </Button>
           ) : null}
         </div>
-      ) : null}
+      ) : null} */}
       <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row">
         <span
           className={cn(`text-plain rc-styled-link my-2 md:my-0 mt-5 md:mt-0`, {
@@ -507,7 +507,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           <Button onClick={() => showProdutctDetail(0)} size="small">
             <FormattedMessage id="subscription.productDetails" />
           </Button>
-          {outOfStockStatus && !alreadyNotice ? (
+          {/* {outOfStockStatus && !alreadyNotice ? (
             <Button
               size="small"
               type="primary"
@@ -526,7 +526,16 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             >
               <FormattedMessage id="subscription.changeNow" />
             </Button>
-          ) : null}
+          ) : null} */}
+          <Button
+            size="small"
+            type="primary"
+            onClick={() => changePets(seleced)}
+            loading={changeNowLoading}
+            disabled={!isSpecAvailable || !seleced}
+          >
+            <FormattedMessage id="subscription.changeNow" />
+          </Button>
         </div>
       </div>
     </React.Fragment>
