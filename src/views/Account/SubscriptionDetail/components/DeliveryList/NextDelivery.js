@@ -55,9 +55,9 @@ const NextDelivery = ({
   useEffect(() => {
     el.tradeItems.push({
       ...gifts,
-      spuName: gifts.goodsInfoName,
-      pic: gifts.goodsInfoImg,
-      specDetails: gifts.goodsInfoWeight + gifts.goodsInfoUnit,
+      spuName: gifts?.goodsInfoName,
+      pic: gifts?.goodsInfoImg,
+      specDetails: gifts?.goodsInfoWeight + gifts?.goodsInfoUnit,
       num: subDetail?.goodsQuantity
     });
     if (!showTimeSlot) {
