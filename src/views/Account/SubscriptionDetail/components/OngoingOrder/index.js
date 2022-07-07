@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   getDeviceType,
   formatDate,
@@ -12,7 +12,8 @@ import cn from 'classnames';
 
 const OngoingOrder = ({ subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-  const onGoingTradeLists = subDetail.onGoingTradeList
+  const gifts = subDetail.gifts;
+  let onGoingTradeLists = subDetail.onGoingTradeList
     ? Array.from(subDetail.onGoingTradeList, (ele) => {
         ele.tradeItems.forEach((el) => {
           el.spuName = judgeIsIndividual(el) ? (
@@ -38,7 +39,18 @@ const OngoingOrder = ({ subDetail }) => {
         return ele;
       })
     : [];
-  console.log('ongoingorder', onGoingTradeLists);
+
+  useEffect(() => {
+    onGoingTradeLists[0].tradeItems.push({
+      ...gifts,
+      spuName: gifts.goodsInfoName,
+      pic: gifts.goodsInfoImg,
+      specDetails: gifts.goodsInfoWeight + gifts.goodsInfoUnit,
+      num: subDetail?.goodsQuantity
+    });
+    console.log('OngoingOrder --------------', onGoingTradeLists);
+  }, []);
+
   return (
     <>
       {onGoingTradeLists.length > 0
