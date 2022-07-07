@@ -112,7 +112,10 @@ const PriceDetailsList = ({
     {
       key: 'discount',
       title: <FormattedMessage id="payment.discount" />,
-      val: -((totalPrice - subscriptionDiscountPrice) * (1 - discount)),
+      val: -(
+        (totalPrice - subscriptionDiscountPrice - deliveryPrice) *
+        (1 - discount)
+      ),
       visible: discount ? true : false,
       className: 'green'
     }
