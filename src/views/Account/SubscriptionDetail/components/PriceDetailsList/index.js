@@ -105,7 +105,7 @@ const PriceDetailsList = ({
     {
       key: 'marketPrice',
       title: <FormattedMessage id="payment.Gift" />,
-      val: -gifts.marketPrice,
+      val: -gifts?.marketPrice,
       visible: gifts ? true : false,
       className: 'green'
     },
