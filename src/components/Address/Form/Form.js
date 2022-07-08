@@ -1237,6 +1237,9 @@ class Form extends React.Component {
     switch (tname) {
       case 'firstName':
       case 'lastName':
+        if (COUNTRY == 'jp' && tvalue?.length == 49) {
+          // this.props.showErrMsg('リクエストを処理できない場合は、後でもう一度お試しいただくか、サポートにお問い合わせください');
+        }
         // 德国shop first name, last name去掉空格 - 的限制
         // tvalue = tvalue.replace(COUNTRY === 'de' ? /[-|\s]/gi : '', '');
         //tvalue = tvalue;
@@ -1799,6 +1802,8 @@ class Form extends React.Component {
       maxLength = 8;
     } else if (item.fieldKey == 'phoneNumber' && COUNTRY == 'jp') {
       maxLength = 11;
+    } else if (item?.fieldKey == 'lastName' && COUNTRY == 'jp') {
+      maxLength = 49;
     } else {
       maxLength = item.maxLength;
     }

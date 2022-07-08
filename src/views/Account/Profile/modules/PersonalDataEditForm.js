@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 import { isSaveAddressBtnDisabled, nullToEmpty } from '@/utils/constant';
 import { Button } from '@/components/Common';
 
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 @injectIntl
 @inject('loginStore')
 @observer
@@ -130,7 +131,7 @@ class PersonalDataEditForm extends React.Component {
     }
   };
   // 错误消息
-  showErrMsg(msg) {
+  showErrMsg = (msg) => {
     this.setState({
       errorMsg: msg
     });
@@ -143,7 +144,7 @@ class PersonalDataEditForm extends React.Component {
         errorMsg: ''
       });
     }, 5000);
-  }
+  };
   // 成功消息
   showSuccessMsg() {
     this.setState({
@@ -232,6 +233,12 @@ class PersonalDataEditForm extends React.Component {
   };
   // 显示下一步操作
   showNextPanel = async () => {
+    if (['jp'].includes(COUNTRY) && this.state?.form?.lastName?.length == 49) {
+      this.showErrMsg(
+        'リクエストを処理できない場合は、後でもう一度お試しいただくか、サポートにお問い合わせください'
+      );
+      return;
+    }
     this.setState({
       validationModalVisible: false
     });
