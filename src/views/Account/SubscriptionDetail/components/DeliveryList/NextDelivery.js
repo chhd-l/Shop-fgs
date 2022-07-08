@@ -56,7 +56,7 @@ const NextDelivery = ({
     if (gifts) {
       el.tradeItems.push({
         ...gifts,
-        spuName: gifts?.goodsInfoName,
+        skuName: gifts?.goodsInfoName,
         pic: gifts?.goodsInfoImg,
         specDetails: gifts?.goodsInfoWeight + gifts?.goodsInfoUnit,
         num: subDetail?.goodsQuantity,

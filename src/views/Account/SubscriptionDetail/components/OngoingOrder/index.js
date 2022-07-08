@@ -41,14 +41,16 @@ const OngoingOrder = ({ subDetail }) => {
     : [];
 
   useEffect(() => {
-    onGoingTradeLists[0].tradeItems.push({
-      ...gifts,
-      spuName: gifts?.goodsInfoName,
-      pic: gifts?.goodsInfoImg,
-      specDetails: gifts?.goodsInfoWeight + gifts?.goodsInfoUnit,
-      num: subDetail?.goodsQuantity
-    });
-    console.log('OngoingOrder --------------', onGoingTradeLists);
+    if (gifts) {
+      onGoingTradeLists[0].tradeItems.push({
+        ...gifts,
+        spuName: gifts?.goodsInfoName,
+        pic: gifts?.goodsInfoImg,
+        specDetails: gifts?.goodsInfoWeight + gifts?.goodsInfoUnit,
+        num: subDetail?.goodsQuantity
+      });
+      console.log('OngoingOrder --------------', onGoingTradeLists);
+    }
   }, []);
 
   return (
