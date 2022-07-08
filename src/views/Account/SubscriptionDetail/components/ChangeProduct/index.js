@@ -249,7 +249,7 @@ const ChangeProduct = () => {
 
     return (
       <div className="">
-        {/* {!productStock ? (
+        {!productStock ? (
           <div className=" mb-4 flex flex-col items-center md:items-start">
             <div className="text-base font-normal mb-2">
               <FormattedMessage
@@ -316,7 +316,7 @@ const ChangeProduct = () => {
               ) : null}
             </div>
           </div>
-        ) : null} */}
+        ) : null}
         <div className="text-center">
           <button
             id="modalFooterCancel"
