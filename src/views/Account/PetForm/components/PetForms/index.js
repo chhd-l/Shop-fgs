@@ -522,12 +522,11 @@ const PetForms = ({
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
-    const petsBreed =
-      petForm.isPurebred == 1
-        ? petForm.breed
-        : isCat
-        ? 'mixed_breed'
-        : petForm.breedcode;
+    //After the pet api is inherited, the distinction between cats and dogs is removed，in order to solve the problem of api;
+    const petsBreed = petForm.isPurebred === 1 ? petForm.breed : 'mixed_breed';
+    // : isCat
+    // ? 'mixed_breed'
+    // : petForm.breedcode;
     let pets = {
       birthOfPets: petForm.birthdate,
       petsId: paramsId,
