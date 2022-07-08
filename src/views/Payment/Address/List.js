@@ -2284,10 +2284,10 @@ class AddressList extends React.Component {
               )}
 
               <span>
-                {item.lastName},{item.firstName}
+                {item.lastName} {item.firstName}
               </span>
               <span>
-                {item.lastNameKatakana},{item.firstNameKatakana}
+                {item.lastNameKatakana} {item.firstNameKatakana}
               </span>
               <span>
                 {COUNTRY === 'jp' ? '〒' + item.postCode : item.postCode}
