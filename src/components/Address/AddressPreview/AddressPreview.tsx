@@ -225,9 +225,9 @@ const AddressPreview = ({
                 className="d-flex col-10 col-md-8 pl-1 pr-1"
                 style={{ flexDirection: 'column' }}
               >
-                <span>{lastName},{firstName}</span>
+                <span>{lastName} {firstName}</span>
                 <span>
-                   {lastNameKatakana},{firstNameKatakana}
+                   {lastNameKatakana} {firstNameKatakana}
                 </span>
                 <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
                 <p>{jpSetAddressFields({province,city,area,address1})}</p>
