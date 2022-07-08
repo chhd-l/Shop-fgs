@@ -57,6 +57,7 @@ var compositionFlag = true;
 function ToCDB(str) {
   var tmp = '';
   for (var i = 0; i < str.length; i++) {
+    console.log('char', i, str.charCodeAt(i));
     if (str.charCodeAt(i) == 12288) {
       tmp += String.fromCharCode(str.charCodeAt(i) - 12256);
       continue;

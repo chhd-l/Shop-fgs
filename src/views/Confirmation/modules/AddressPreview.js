@@ -105,7 +105,7 @@ class InfosPreview extends React.Component {
             </div>
             {COUNTRY == 'jp' ? (
               <div>
-                {details.consignee.lastName},{details.consignee.firstName}
+                {details.consignee.lastName} {details.consignee.firstName}
               </div>
             ) : (
               <div>{details.consignee.name}</div>
