@@ -44,7 +44,8 @@ import {
   getDetails,
   getLoginDetails,
   getDetailsBySpuNo,
-  getMixFeeding
+  getMixFeeding,
+  findPrescriberInfo
 } from '@/api/details';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
@@ -219,8 +220,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -275,6 +282,15 @@ class Details extends React.Component {
       buyFromRetailerConfig.retailerEnable && (!Tr || !sptGoods);
     return !loading && !bundle && isHub && !exclusiveFlag && enableRetailer;
   }
+
+  // findPrescriber = async () => {
+  //   const { clinicStore } = this.props;
+  //   const id = clinicStore.defaultClinicId
+  //   if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && id) {
+  //     const { res } = await findPrescriberInfo(id)
+  //     console.log(res, 'ressss')
+  //   }
+  // }
 
   redirectCanonicalLink({ pageLink }) {
     let ret;
@@ -565,11 +581,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -655,6 +668,8 @@ class Details extends React.Component {
               //     goodsRes.defaultPurchaseType ||
               //     configStore.info?.storeVO?.defaultPurchaseType
               // });
+
+              // this.findPrescriber()
             }
           );
         } else {
@@ -824,8 +839,8 @@ class Details extends React.Component {
   };
   showPrescriberCodeBeforeAddCart = () => {
     if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
-      const { clinicId, clinicName } = this.props.clinicStore;
-      if (!(clinicId && clinicName)) {
+      const { clinicId } = this.props.clinicStore;
+      if (!clinicId) {
         this.setState({ showPrescriberCodeModal: true });
       }
     }
@@ -900,8 +915,13 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,

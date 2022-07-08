@@ -110,3 +110,14 @@ export function getDailyPortionLifeStage(data) {
     data
   });
 }
+
+// de: search prescriber info
+export function findPrescriberInfo(prescriberId) {
+  return axios({
+    url: `/${window.__.env.REACT_APP_STOREID}/prescriber/findByByPrescriberIdOrId`,
+    method: 'post',
+    data: {
+      prescriberId
+    }
+  });
+}

@@ -47,9 +47,9 @@ class ClinicForm extends React.Component {
   componentDidMount() {
     const { clinicStore } = this.props;
     const nName = clinicStore.selectClinicName;
-    const nId = clinicStore.selectClinicId;
+    const nId = clinicStore.clinicId;
     const nCode = clinicStore.selectClinicCode;
-    if (nName && nId) {
+    if (nId) {
       this.setState({
         form: Object.assign(this.state.form, {
           clinicName: nName,
@@ -59,9 +59,9 @@ class ClinicForm extends React.Component {
       });
     }
     this.setState({
-      isEdit: !(nId && nName)
+      isEdit: !nId
     });
-    if (!this.checkoutWithClinic || (nName && nId)) {
+    if (!this.checkoutWithClinic || nId) {
       this.updatePanelStatus({ setToCompleted: true });
     } else {
       this.updatePanelStatus({ setToEdit: true });

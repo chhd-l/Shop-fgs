@@ -27,7 +27,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const isLogin = !!localItemRoyal.get('rc-token');
-@inject('checkoutStore', 'frequencyStore', 'loginStore')
+@inject('checkoutStore', 'frequencyStore', 'loginStore', 'clinicStore')
 @seoHoc()
 @observer
 class Confirmation extends React.Component {
@@ -116,7 +116,23 @@ class Confirmation extends React.Component {
   }
   async componentDidMount() {
     // 删除德国推荐标识
-    sessionItemRoyal.remove('deRecommendationGoodsId');
+    const deRecommendationGoodsId = localItemRoyal.get(
+      'deRecommendationGoodsId'
+    );
+    if (deRecommendationGoodsId) {
+      const clinicsId = localItemRoyal.get('customerId');
+      const {
+        setSelectClinicCode,
+        setSelectClinicName,
+        setDefaultClinicId,
+        setSelectClinicId
+      } = this.props.clinicStore;
+      setSelectClinicName('');
+      setSelectClinicCode('');
+      setDefaultClinicId(clinicsId);
+      setSelectClinicId(clinicsId);
+      localItemRoyal.remove('deRecommendationGoodsId');
+    }
     sessionItemRoyal.set('refresh-confirm-page', true);
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
