@@ -54,6 +54,7 @@ const CartDEBreeder = ({
         'deRecommendationGoodsId',
         recommendationGoodsInfoRels.map((goodsInfo) => goodsInfo.goods.goodsId)
       );
+      localItemRoyal.set('customerId', customerId);
       let recommendationInfos = {
         recommenderId: customerId
       };

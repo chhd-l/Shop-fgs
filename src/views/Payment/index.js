@@ -2560,7 +2560,9 @@ class Payment extends React.Component {
         });
       });
       param.clinicsId =
-        clinicStore.linkClinicRecommendationInfos.recommendationId;
+        clinicStore.linkClinicRecommendationInfos.recommendationId ||
+        clinicStore.selectClinicId ||
+        clinicStore.defaultClinicId;
     } else {
       param.tradeItems = cartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
