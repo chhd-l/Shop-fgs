@@ -361,16 +361,25 @@ class Form extends React.Component {
           // 获取delivery date
           this.getDdList(dateStr, v, ddlist);
 
+          // if (obj.deliveryDate == v.date) {
+          //   obj.deliveryDateId = dateStr;
+          // } else if (obj.deliveryDate == '' && COUNTRY == 'jp') {
+          //   obj.deliveryDate = 'Unspecified';
+          //   obj.deliveryDateId = 'Unspecified';
+          // } else if (isBelongDelievryDate() == false && COUNTRY == 'jp') {
+          //   obj.deliveryDate = 'Unspecified';
+          //   obj.deliveryDateId = 'Unspecified';
+          //   obj.timeSlotId = 'Unspecified';
+          //   obj.timeSlot = 'Unspecified';
+          // }
+
           if (obj.deliveryDate == v.date) {
             obj.deliveryDateId = dateStr;
-          } else if (obj.deliveryDate == '' && COUNTRY == 'jp') {
+          }
+
+          if (COUNTRY == 'jp') {
             obj.deliveryDate = 'Unspecified';
             obj.deliveryDateId = 'Unspecified';
-          } else if (isBelongDelievryDate() == false && COUNTRY == 'jp') {
-            obj.deliveryDate = 'Unspecified';
-            obj.deliveryDateId = 'Unspecified';
-            obj.timeSlotId = 'Unspecified';
-            obj.timeSlot = 'Unspecified';
           }
         });
 
@@ -429,15 +438,23 @@ class Form extends React.Component {
         // }
 
         //time slot不为Unspecified，就设置第一条数据为默认值
-        if (obj.timeSlot == 'Unspecified') {
-          obj.timeSlotId = 'Unspecified';
-          obj.timeSlot = 'Unspecified';
-        } else if (obj.timeSlot === '' && obj.timeSlotId == 0) {
+        // if (obj.timeSlot == 'Unspecified') {
+        //   obj.timeSlotId = 'Unspecified';
+        //   obj.timeSlot = 'Unspecified';
+        // } else if (obj.timeSlot === '' && obj.timeSlotId == 0) {
+        //   obj.timeSlotId = 'Unspecified';
+        //   obj.timeSlot = 'Unspecified';
+        // } else if(COUNTRY == 'jp'){
+        //   obj.timeSlotId = tslist[0]?.id || 'Unspecified';
+        //   obj.timeSlot = tslist[0]?.name || 'Unspecified';
+        // }
+
+        if (COUNTRY == 'jp') {
           obj.timeSlotId = 'Unspecified';
           obj.timeSlot = 'Unspecified';
         } else {
-          obj.timeSlotId = tslist[0]?.id || 'Unspecified';
-          obj.timeSlot = tslist[0]?.name || 'Unspecified';
+          obj.timeSlotId = tslist[0]?.id;
+          obj.timeSlot = tslist[0]?.name;
         }
       } else {
         obj.deliveryDate = '';
@@ -1220,6 +1237,9 @@ class Form extends React.Component {
     switch (tname) {
       case 'firstName':
       case 'lastName':
+        if (COUNTRY == 'jp' && tvalue?.length == 49) {
+          // this.props.showErrMsg('リクエストを処理できない場合は、後でもう一度お試しいただくか、サポートにお問い合わせください');
+        }
         // 德国shop first name, last name去掉空格 - 的限制
         // tvalue = tvalue.replace(COUNTRY === 'de' ? /[-|\s]/gi : '', '');
         //tvalue = tvalue;
@@ -1782,6 +1802,8 @@ class Form extends React.Component {
       maxLength = 8;
     } else if (item.fieldKey == 'phoneNumber' && COUNTRY == 'jp') {
       maxLength = 11;
+    } else if (item?.fieldKey == 'lastName' && COUNTRY == 'jp') {
+      maxLength = 49;
     } else {
       maxLength = item.maxLength;
     }
