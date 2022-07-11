@@ -379,7 +379,7 @@ export default {
     },
     {
       shortUrl: '/light-weight-care-loaf-våtfoder-1203',
-      redirectUrl: '/yorkshire-terrier-8 -1260'
+      redirectUrl: '/light-weight-care-loaf-1203'
     },
 
     {
@@ -388,7 +388,7 @@ export default {
     },
     {
       shortUrl: '/indoor-gravy-våtfoder-1278',
-      redirectUrl: '/labrador-retriever-5 -1339'
+      redirectUrl: '/indoor-gravy-1278'
     },
     {
       shortUrl: '/labrador-retriever-5 -1339',
