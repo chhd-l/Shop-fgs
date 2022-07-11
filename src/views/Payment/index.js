@@ -2548,6 +2548,10 @@ class Payment extends React.Component {
         });
       });
     } else if (this.isLogin) {
+      let id =
+        clinicStore.linkClinicRecommendationInfos.recommendationId ||
+        clinicStore.selectClinicId ||
+        clinicStore.defaultClinicId;
       param.tradeItems = loginCartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
           ele,
@@ -2556,13 +2560,11 @@ class Payment extends React.Component {
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          goodsInfoFlag: ele.goodsInfoFlag
+          goodsInfoFlag: ele.goodsInfoFlag,
+          recommendationId: id //As long as you bind the recommendation id once, you will need to pass it later
         });
       });
-      param.clinicsId =
-        clinicStore.linkClinicRecommendationInfos.recommendationId ||
-        clinicStore.selectClinicId ||
-        clinicStore.defaultClinicId;
+      param.clinicsId = id;
     } else {
       param.tradeItems = cartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
