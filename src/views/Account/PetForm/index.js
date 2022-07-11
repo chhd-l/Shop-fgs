@@ -474,7 +474,7 @@ class PetForm extends React.Component {
                                 }
                               }}
                             >
-                              Proceed without adding a pet profile
+                              <FormattedMessage id="JpProceed" />
                             </a>
                           </>
                         )}
