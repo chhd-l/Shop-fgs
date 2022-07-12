@@ -151,7 +151,7 @@ class WeekCalender extends Component {
     return [begin, end];
   };
   intervals = async (startString, endString, currentDate) => {
-    return new Promise((reslove) => {
+    return new Promise((resolve) => {
       let start = moment(startString, 'YYYYMMDD HH:mm');
       let end = moment(endString, 'YYYYMMDD HH:mm');
       start.minutes(Math.ceil(start.minutes() / 15) * 15);
@@ -179,7 +179,7 @@ class WeekCalender extends Component {
         result.push(cc);
         current.add(15, 'minutes');
       }
-      reslove(result);
+      resolve(result);
     });
   };
   clickAppointItem = (item, index) => {
