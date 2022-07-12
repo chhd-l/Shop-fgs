@@ -2295,33 +2295,29 @@ class AddressList extends React.Component {
               <p>{jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
               <span>
-                {item.deliveryDate && item.timeSlot ? (
-                  <>
-                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                {/* {item.deliveryDate && item.timeSlot ? ( */}
+                <>
+                  {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                  {COUNTRY === 'jp' ? (
+                    <p style={{ color: '#e2001a' }}>
+                      <FormattedMessage id="Deliverytime" />
+                    </p>
+                  ) : (
+                    <span>
+                      <FormattedMessage id="Deliverytime" />
+                    </span>
+                  )}
+                  {item.deliveryDate !== 'Unspecified' && (
+                    <>{formatJPDate(item.deliveryDate)}</>
+                  )}
 
-                    {item.deliveryDate !== 'Unspecified' && (
-                      <>
-                        {COUNTRY === 'jp' ? (
-                          <p style={{ color: '#e2001a' }}>
-                            <FormattedMessage id="Deliverytime" />
-                          </p>
-                        ) : (
-                          <span>
-                            <FormattedMessage id="Deliverytime" />
-                          </span>
-                        )}
-
-                        {formatJPDate(item.deliveryDate)}
-                      </>
-                    )}
-
-                    {item.timeSlot === 'Unspecified' ? (
-                      <FormattedMessage id="Unspecified" />
-                    ) : (
-                      formatJPTime(item.timeSlot)
-                    )}
-                  </>
-                ) : null}
+                  {item.timeSlot === 'Unspecified' ? (
+                    <FormattedMessage id="Unspecified" />
+                  ) : (
+                    formatJPTime(item.timeSlot)
+                  )}
+                </>
+                {/* ) : null} */}
               </span>
             </div>
             <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
