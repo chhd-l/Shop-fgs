@@ -64,9 +64,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
-    null
-  );
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
+    useState(null);
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
@@ -86,10 +85,10 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     const selectedSku = details?.sizeList?.filter((el) => el.selected)?.[0];
     if (selectedSku?.goodsInfoId && !selectedSku?.stock) {
       const params = {
-        customerId: loginStore?.userInfo?.customerId || '',
+        // customerId: loginStore?.userInfo?.customerId || '',
         goodsId: details.goodsId || '',
         goodsInfoId: selectedSku?.goodsInfoId || '',
-        storeId: window.__.env.REACT_APP_STOREID,
+        // storeId: window.__.env.REACT_APP_STOREID,
         fromAddress: '2' //2 sku out of stock
       };
       const res = await queryStockNotice(params);
@@ -287,7 +286,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     ];
     // modify & add is same
     const param = {
-      customerId: loginStore?.userInfo?.customerId || '',
+      // customerId: loginStore?.userInfo?.customerId || '',
       email: userEmail,
       goodsId,
       fromAddress: '2',
