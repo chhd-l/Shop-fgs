@@ -55,7 +55,7 @@ class SearchSelection extends React.Component {
       let str = '';
       let path = Array.from(e.path);
       path.pop();
-      path.map((el) => {
+      path.forEach((el) => {
         str = str + JSON.stringify(el.classList);
       });
       const isDqeClicked = str.includes(`dqeFormSpace_${this.state.random}`);
