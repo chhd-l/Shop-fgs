@@ -86,10 +86,10 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     const selectedSku = details?.sizeList?.filter((el) => el.selected)?.[0];
     if (selectedSku?.goodsInfoId && !selectedSku?.stock) {
       const params = {
-        customerId: loginStore?.userInfo?.customerId || '',
+        // customerId: loginStore?.userInfo?.customerId || '',
         goodsId: details.goodsId || '',
         goodsInfoId: selectedSku?.goodsInfoId || '',
-        storeId: window.__.env.REACT_APP_STOREID,
+        // storeId: window.__.env.REACT_APP_STOREID,
         fromAddress: '2' //2 sku out of stock
       };
       const res = await queryStockNotice(params);

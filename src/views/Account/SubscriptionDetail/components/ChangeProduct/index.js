@@ -125,9 +125,9 @@ const ChangeProduct = () => {
     const goodsId = details.goodsId || '';
     if (!productStock && goodsId) {
       const params = {
-        customerId: loginStore?.userInfo?.customerId || '',
+        // customerId: loginStore?.userInfo?.customerId || '',
         goodsId: details.goodsId,
-        storeId: window.__.env.REACT_APP_STOREID,
+        // storeId: window.__.env.REACT_APP_STOREID,
         fromAddress: '1'
       };
       const res = await queryStockNotice(params);
