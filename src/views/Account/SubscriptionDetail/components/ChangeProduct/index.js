@@ -231,7 +231,7 @@ const ChangeProduct = () => {
     console.log(goodsDetails, 'dd22');
     // modify & add is same
     const param = {
-      customerId: loginStore?.userInfo?.customerId || '',
+      // customerId: loginStore?.userInfo?.customerId || '',
       email: userEmail,
       stockNoticeGoodsInfoVOS,
       goodsId: goods.goodsId || '',
