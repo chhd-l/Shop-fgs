@@ -565,6 +565,7 @@ const App = () => {
                 {/* //77777 */}
                 <Route exact path="/sevenPay" component={sevenPay} />
                 {/*<Route exact path="/sevenPayResult" component={sevenPayResult} />*/}
+                {/* indv */}
                 <Route
                   exact
                   path="/precise-cat-nutrition"

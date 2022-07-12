@@ -220,10 +220,7 @@ class Whistlefit extends React.Component {
         />
         <Canonical />
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
-        <main
-          className="smartCollar rc-content--fixed-header rc-bg-colour--brand3"
-          style={{ fontFamily: 'din-pro' }}
-        >
+        <main className="smartCollar rc-content--fixed-header rc-bg-colour--brand3">
           <div className="experience-region experience-main">
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none">
@@ -236,13 +233,13 @@ class Whistlefit extends React.Component {
                         </LazyLoad>
                         <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start">
                           <div
-                            className="text-center md:text-left text-21 md:text-32  mt-5 md:mt-0 mb-5 md:mb-5 md:ml-0 md:mr-0 font-normal md:leading-14"
+                            className="text-center md:text-left text-21 md:text-32  mt-5 md:mt-0 mb-5 md:mb-5 md:ml-0 md:mr-0 md:leading-14"
                             style={{ color: '#E2001A' }}
                           >
                             Whistle Fit, le collier intelligent pour prendre
                             soin de la santé de votre chien
                           </div>
-                          <div className="text-center md:text-left text-14 md:text-24 mt-0 mb-6 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14">
+                          <div className="text-center md:text-left text-14 md:text-24 mt-0 mb-6 ml-5 md:ml-0 mr-5 md:mr-0 md:leading-14">
                             Faites partie des premiers à être informés de la
                             disponibilité du produit
                           </div>
@@ -286,10 +283,7 @@ class Whistlefit extends React.Component {
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="w-full px-0 md:px-36">
                     <div>
-                      <div
-                        className="px-4 md:px-48 text-18 md:text-38 text-center mt-0 md:p-6 my-6 md:my-12 font-normal md:leading-12"
-                        style={{ color: '#E2001A' }}
-                      >
+                      <div className="px-4 md:px-48 text-18 md:text-38 text-center mt-0 md:p-6 my-6 md:my-12 md:leading-12 text-rc-red">
                         Surveillez le bien-être de votre chien et identifiez
                         plus tôt les éventuels problèmes
                       </div>
@@ -379,7 +373,7 @@ class Whistlefit extends React.Component {
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="w-full px-0 md:px-36">
                     <div
-                      className="w-full pt-4 md:pt-0 px-4 md:px-48 font-normal text-center text-18 md:text-38 my-4 md:my-12 leading-tight md:leading-normal"
+                      className="w-full pt-4 md:pt-0 px-4 md:px-48 text-center text-18 md:text-38 my-4 md:my-12 leading-tight md:leading-normal text-rc-red"
                       style={{ color: '#E2001A' }}
                     >
                       Whistle Fit, comment ça marche ?
@@ -410,10 +404,10 @@ class Whistlefit extends React.Component {
                                   : 'order-3 md:order-1'
                               }`}
                             >
-                              <div className="h4 w-100 md:w-72 text-left text-16 md:text-30 font-normal mt-0 md:mt-6 mb-0 md:mb-6 leading-normal">
+                              <div className="w-100 md:w-72 text-left text-16 md:text-30 mt-0 md:mt-6 mb-0 md:mb-6 leading-normal">
                                 {item.title1}
                               </div>
-                              <div className="w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
+                              <div className="w-100 md:w-72 text-left text-14 md:text-xl mt-3 md:mt-6 mb-6 md:leading-normal">
                                 {item.title2}
                               </div>
                             </div>
@@ -451,10 +445,7 @@ class Whistlefit extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="w-100 px-0 md:px-36">
-                    <div
-                      className="pt-1 md:pt-0 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-18 md:text-38 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal font-normal"
-                      style={{ color: '#E2001A' }}
-                    >
+                    <div className="pt-1 md:pt-0 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-18 md:text-38 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal text-rc-red">
                       Ils ont adoré !
                     </div>
                     <div className="experience-component experience-layouts-herocarousel">
@@ -491,10 +482,7 @@ class Whistlefit extends React.Component {
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="w-full px-0 md:px-36">
                     <div className="flex justify-center">
-                      <div
-                        className="pt-1 md:pt-0  w-full px-4 md:px-44 text-center  text-18 md:text-38 my-6 md:my-12 leading-tight md:leading-12 font-normal"
-                        style={{ color: '#E2001A' }}
-                      >
+                      <div className="pt-1 md:pt-0  w-full px-4 md:px-44 text-center  text-18 md:text-38 my-6 md:my-12 leading-tight md:leading-12 text-rc-red">
                         Whistle Fit et Royal Canin vous aident à mieux
                         comprendre et répondre aux besoins uniques de votre
                         animal
@@ -540,10 +528,7 @@ class Whistlefit extends React.Component {
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="w-full px-0 md:px-36">
                     <div className="flex justify-center">
-                      <div
-                        className="pt-3 md:pt-0 w-full md:w-2/3 px-4 md:px-0 text-center  text-18 md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
-                        style={{ color: '#E2001A' }}
-                      >
+                      <div className="pt-3 md:pt-0 w-full md:w-2/3 px-4 md:px-0 text-center  text-18 md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal text-rc-red">
                         Whistle Fit vous intéresse ? Faites-le nous savoir.
                         Complétez le formulaire pour être informé en premier de
                         la disponibilité du produit.

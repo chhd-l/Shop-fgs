@@ -56,7 +56,7 @@ function AboutSubscription(props) {
             </p>
             <div className="md:flex justify-evenly">
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="font-DinPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center">
                   Point 1
                 </h1>
                 <p
@@ -67,7 +67,7 @@ function AboutSubscription(props) {
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="font-DinPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center">
                   Point 2
                 </h1>
                 <p
@@ -78,7 +78,7 @@ function AboutSubscription(props) {
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="font-DinPro text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-semibold text-center">
+                <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center">
                   Point 3
                 </h1>
                 <p

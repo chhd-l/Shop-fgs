@@ -287,7 +287,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     ];
     // modify & add is same
     const param = {
-      customerId: loginStore?.userInfo?.customerId || '',
+      // customerId: loginStore?.userInfo?.customerId || '',
       email: userEmail,
       goodsId,
       fromAddress: '2',
