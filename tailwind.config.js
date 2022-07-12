@@ -195,7 +195,6 @@ module.exports = {
       },
       fontFamily: {
         PingFangSC: 'var(--font-family-PingFangSC)',
-        DinPro: 'var(--font-family-DinPro)'
       }
     }
   },

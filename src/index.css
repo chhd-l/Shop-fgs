@@ -8,8 +8,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import './assets/iconfont/din/font-face.css';
-
 body {
   margin: 0;
   font-family: 'RC TYPE', Roboto, Avenir, Helvetica, Arial, sans-serif;
