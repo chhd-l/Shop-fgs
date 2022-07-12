@@ -584,8 +584,7 @@ class SubscriptionDetail extends React.Component {
           isNotInactive: subDetail.subscribeStatus !== 'INACTIVE' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
-          this.fromEmailGoToCart(this.state.isNotInactive);
-
+          this.fromEmailGoToCart(subDetail.subscribeStatus);
           if (!this.state.subDetail.petsLifeStageFlag) {
             this.setState({
               triggerShowChangeProduct: Object.assign(
@@ -611,12 +610,12 @@ class SubscriptionDetail extends React.Component {
   };
 
   // subscribeStatus =2，from email, go to cart
-  fromEmailGoToCart = async (isNotInactive) => {
+  fromEmailGoToCart = async (subscribeStatus) => {
     const search = this.props.history.location?.search || '';
     const fromEmail = search.includes('src=email');
     const sku = funcUrl({ name: 'sku' });
     const isLogin = this.props.loginStore.isLogin;
-    if (isNotInactive && fromEmail && isLogin && sku) {
+    if (subscribeStatus === '2' && fromEmail && isLogin && sku) {
       this.setState({ loadingPage: true });
       try {
         const { context = {} } = await getDetailsBySpuNo(sku);

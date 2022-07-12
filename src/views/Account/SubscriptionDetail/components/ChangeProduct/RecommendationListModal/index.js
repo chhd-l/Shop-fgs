@@ -195,9 +195,11 @@ const RecommendationListModal = ({ intl }) => {
     }
   };
 
-  const mainProductStock = productDetail.mainProduct?.goodsInfos?.some(
-    (el) => el.stock
+  const subDetailGoodsInfo = subDetail?.goodsInfo?.map(
+    (item) => item.goodsInfoVO
   );
+  const subDetailStock = subDetailGoodsInfo?.some((el) => el.stock);
+
   return (
     <div
       className={`change-product-modal ${
@@ -311,7 +313,7 @@ const RecommendationListModal = ({ intl }) => {
                   </div>
                   <div className="text-center mt-3">
                     <InstockStatusComp
-                      status={mainProductStock}
+                      status={subDetailStock}
                       className="subscription-stock"
                     />
                   </div>
