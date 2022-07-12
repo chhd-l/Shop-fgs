@@ -52,6 +52,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
+let jpSaveDeliveryDateFlag = false;
 
 /**
  * address list(delivery/billing) - member
@@ -240,6 +241,14 @@ class AddressList extends React.Component {
           ele.receiveType != 'PICK_UP'
         );
       });
+
+      if (!jpSaveDeliveryDateFlag) {
+        addressList.forEach((item) => {
+          item.deliveryDate = 'Unspecified';
+          item.timeSlot = 'Unspecified';
+        });
+      }
+
       // 默认地址
       const defaultAddressItem = find(addressList, (ele) => {
         return ele.isDefaltAddress === 1 && !!ele.validFlag;
@@ -1159,6 +1168,9 @@ class AddressList extends React.Component {
    * 3 ★ 俄罗斯需要根据地址先计算运费
    */
   handleSave = async ({ isThrowError = true } = {}) => {
+    if (COUNTRY == 'jp') {
+      jpSaveDeliveryDateFlag = true;
+    }
     try {
       const { isValid, addOrEdit, deliveryAddress } = this.state;
       if (!isValid || !addOrEdit) {
@@ -1299,8 +1311,18 @@ class AddressList extends React.Component {
       foledMore: !curState.foledMore
     }));
   };
+  handleJpUnspecified = () => {
+    const { addressList } = this.state;
+    if (COUNTRY == 'jp') {
+      addressList.forEach((item) => {
+        item.deliveryDate = 'Unspecified';
+        item.timeSlot = 'Unspecified';
+      });
+    }
+  };
   // 编辑地址
   handleClickEdit = () => {
+    this.handleJpUnspecified();
     this.props.paymentStore.setStsToEdit({
       key: this.curPanelKey,
       hideOthers: true
@@ -2252,6 +2274,11 @@ class AddressList extends React.Component {
 
     //日本 地址列表
     const jp_list = addressList.map((item, i) => {
+      // if(!jpSaveDeliveryDateFlag){
+      //   item.deliveryDate = 'Unspecified'
+      //   item.timeSlot = 'Unspecified'
+      // }
+
       return (
         <div
           className={cn(
@@ -2295,29 +2322,29 @@ class AddressList extends React.Component {
               <p>{jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
               <span>
-                {/* {item.deliveryDate && item.timeSlot ? ( */}
-                <>
-                  {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                  {COUNTRY === 'jp' ? (
-                    <p style={{ color: '#e2001a' }}>
-                      <FormattedMessage id="Deliverytime" />
-                    </p>
-                  ) : (
-                    <span>
-                      <FormattedMessage id="Deliverytime" />
-                    </span>
-                  )}
-                  {item.deliveryDate !== 'Unspecified' && (
-                    <>{formatJPDate(item.deliveryDate)}</>
-                  )}
+                {item.deliveryDate && item.timeSlot ? (
+                  <>
+                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
 
-                  {item.timeSlot === 'Unspecified' ? (
-                    <FormattedMessage id="Unspecified" />
-                  ) : (
-                    formatJPTime(item.timeSlot)
-                  )}
-                </>
-                {/* ) : null} */}
+                    {item.deliveryDate !== 'Unspecified' && (
+                      <>
+                        (
+                        <span>
+                          <FormattedMessage id="Deliverytime" />
+                        </span>
+                        ){formatJPDate(item.deliveryDate)}
+                      </>
+                    )}
+
+                    {item.timeSlot === 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      formatJPTime(item.timeSlot)
+                    )}
+
+                    {/* <FormattedMessage id="Unspecified" /> */}
+                  </>
+                ) : null}
               </span>
             </div>
             <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">

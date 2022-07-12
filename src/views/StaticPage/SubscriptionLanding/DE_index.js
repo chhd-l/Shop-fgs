@@ -33,7 +33,6 @@ class SubscriptionLanding extends React.Component {
         filters: ''
       }
     };
-    const tel = 'tel:' + this.props.configStore.storeContactPhoneNumber;
     const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 
     return (
@@ -79,22 +78,33 @@ class SubscriptionLanding extends React.Component {
                         <div className="rc-column">
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                              <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
-                                <FormattedMessage id="subscription.list1" />
-                              </li>
-                              <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
-                                <FormattedMessage id="subscription.list2" />
-                              </li>
-                              <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
-                                <FormattedMessage id="subscription.list3" />
-                              </li>
-                              <li className="rc-list__item">
-                                <em className="wof iconfont rc-margin-right--xs iconfont"></em>
-                                <FormattedMessage id="subscription.list4" />
-                              </li>
+                              {[
+                                {
+                                  desc: (
+                                    <FormattedMessage id="subscription.list1" />
+                                  )
+                                },
+                                {
+                                  desc: (
+                                    <FormattedMessage id="subscription.list2" />
+                                  )
+                                },
+                                {
+                                  desc: (
+                                    <FormattedMessage id="subscription.list3" />
+                                  )
+                                },
+                                {
+                                  desc: (
+                                    <FormattedMessage id="subscription.list4" />
+                                  )
+                                }
+                              ].map((item, i) => (
+                                <li className="rc-list__item" key={i}>
+                                  <em className="wof iconfont rc-margin-right--xs" />
+                                  {item.desc}
+                                </li>
+                              ))}
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">

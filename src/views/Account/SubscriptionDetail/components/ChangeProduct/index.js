@@ -20,12 +20,8 @@ const loginStore = stores.loginStore;
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const {
-    setState,
-    subDetail,
-    isShowClub,
-    triggerShowChangeProduct
-  } = SubDetailHeaderValue;
+  const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
+    SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
@@ -46,10 +42,8 @@ const ChangeProduct = () => {
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
   const [details, setDetails] = useState({});
   const [renderDetailAgin, setRenderDetailAgin] = useState(true);
-  const [
-    recommendationVisibleLoading,
-    setRecommendationVisibleLoading
-  ] = useState(true);
+  const [recommendationVisibleLoading, setRecommendationVisibleLoading] =
+    useState(true);
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',
@@ -125,9 +119,9 @@ const ChangeProduct = () => {
     const goodsId = details.goodsId || '';
     if (!productStock && goodsId) {
       const params = {
-        customerId: loginStore?.userInfo?.customerId || '',
+        // customerId: loginStore?.userInfo?.customerId || '',
         goodsId: details.goodsId,
-        storeId: window.__.env.REACT_APP_STOREID,
+        // storeId: window.__.env.REACT_APP_STOREID,
         fromAddress: '1'
       };
       const res = await queryStockNotice(params);
