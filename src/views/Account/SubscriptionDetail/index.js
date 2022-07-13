@@ -604,6 +604,11 @@ class SubscriptionDetail extends React.Component {
     } catch (err) {
       console.log(22222, err);
       this.showErrMsg(err.message || err);
+      const search = this.props.history.location?.search || '';
+      const fromEmail = search.includes('src=email');
+      if (fromEmail) {
+        this.props.history.push('/account/subscription');
+      }
     } finally {
       this.setState({ loading: false });
     }
