@@ -133,6 +133,12 @@ class Confirmation extends React.Component {
       setSelectClinicId(clinicsId);
       localItemRoyal.remove('deRecommendationGoodsId');
     }
+
+    const rcPrescriber = localItemRoyal.get('rc-prescriber');
+    if (rcPrescriber) {
+      const { setDefaultClinicId } = this.props.clinicStore;
+      setDefaultClinicId(rcPrescriber);
+    }
     sessionItemRoyal.set('refresh-confirm-page', true);
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
