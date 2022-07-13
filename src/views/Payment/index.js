@@ -2486,12 +2486,6 @@ class Payment extends React.Component {
       // shelterLandingPageData.forEach(el => el.addCartTime = Math.round(new Date(el.createTime)))
       // shelterLandingPageData.sort((a, b) => a.addCartTime - b.addCartTime)
       const clinicsId = shelterLandingPageData?.[0]?.recommendationId || '';
-      console.log(
-        clinicsId,
-        shelterLandingPageData,
-        shelterLandingPageData?.[0],
-        'recoProductParam-prefixFn:shelter-page'
-      );
       param = Object.assign(param, {
         clinicsId
       });
@@ -2552,7 +2546,9 @@ class Payment extends React.Component {
         clinicStore.linkClinicRecommendationInfos.recommendationId ||
         clinicStore.selectClinicId ||
         clinicStore.defaultClinicId;
+      let productRecomm = '';
       param.tradeItems = loginCartData.map((ele) => {
+        productRecomm = ele.recommendationId;
         const recoProductParam = handleRecoProductParamByItem({
           ele,
           ...this.props
@@ -2561,10 +2557,10 @@ class Payment extends React.Component {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
-          recommendationId: id //As long as you bind the recommendation id once, you will need to pass it later
+          recommendationId: ele.recommendationId || id //As long as you bind the recommendation id once, you will need to pass it later
         });
       });
-      param.clinicsId = id;
+      param.clinicsId = id || productRecomm;
     } else {
       param.tradeItems = cartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
