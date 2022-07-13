@@ -18,7 +18,7 @@ interface Props {
   buyFromRetailer: Function;
   versionType?: boolean;
   showAddToCartBtn?: boolean;
-  buyFromRetailerConfig?:any;
+  buyFromRetailerConfig?: any;
 }
 const ButtonGroup = ({
   addToCartLoading,
@@ -50,10 +50,9 @@ const ButtonGroup = ({
           })}
         >
           <Button
-            style={{ padding: '2px 30px' }}
             type="primary"
             className={cn(
-              `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile`
+              `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile w-full py-2 md:py-0.5 md:px-7`
             )}
             loading={addToCartLoading}
             disabled={!btnStatus}

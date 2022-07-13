@@ -31,28 +31,13 @@ function JpConfirmationText() {
         <span className="border-b border-gray-600">返品・交換について</span>
       </p>
       <p>
-        <DistributeLinkOrATag
-          target="_blank"
-          href="/faq"
-          to="/faq"
-          className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
-        >
-          返品・交換について
-        </DistributeLinkOrATag>
-        は、
-        {/* <DistributeLinkOrATag
-          target="_blank"
-          href="/faq"
-          to="/faq"
-          className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
-        > */}
+        返品・交換について は、
         <Link
           className="rc-styled-link border-b border-black hover:border-rc-red"
-          to="/faq?type=catogery-9"
+          to="/faq"
         >
           <FormattedMessage id="here2" />
         </Link>
-        {/* </DistributeLinkOrATag> */}
         をご確認ください。
       </p>
       <p className="mt-2">
