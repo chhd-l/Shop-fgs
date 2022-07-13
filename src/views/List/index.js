@@ -614,6 +614,13 @@ class List extends React.Component {
         canonicalRedirect.filter(
           (t) => decodeURIComponent(t.shortUrl) === decodeURIComponent(pathname)
         )[0]?.redirectUrl || pathname;
+      console.log('test canonical:', {
+        pathname,
+        canonicalRedirect,
+        ret: canonicalRedirect.filter(
+          (t) => decodeURIComponent(t.shortUrl) === decodeURIComponent(pathname)
+        )[0]?.redirectUrl
+      });
       return `${window.location.origin}${redirectUrl}${
         curSearch ? `?${curSearch}` : ''
       }`;
