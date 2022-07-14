@@ -372,6 +372,7 @@ class Recommendation extends React.Component {
           referenceObject: res.context?.structureType || '',
           referenceData: res.context?.prescriptionJson || ''
         };
+        localItemRoyal.set('rc-prescriber', res.context?.prescriberId || '');
         this.props.clinicStore.setLinkClinicRecommendationInfos(
           recommendationInfos
         );

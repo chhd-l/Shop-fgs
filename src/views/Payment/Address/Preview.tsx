@@ -29,7 +29,7 @@ const AddrPreview = ({ form, boldName = true, titleJSX }: Props) => {
   return form ? (
     <>
       {titleJSX ? titleJSX : null}
-      <div className="children-nomargin">
+      <div className="children-nomargin preview12">
         <AddressPreview
           nameCls={cn('font-weight-bold', { medium: boldName })}
           pickupNameCls={cn('font-weight-bold flex justify-between', {

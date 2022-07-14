@@ -16,11 +16,9 @@ import { funcUrl } from '@/lib/url-utils';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
-import AutoshipItem from './components/AutoshipItem';
-import ClubItem from './components/ClubItem';
-import IndvItem from './components/IndvItem';
+import { ItemContainer } from './components';
 
-import './index.css';
+import './index.less';
 import nutrition from '../../../components/GoodsDetailTabs/image/pictonutrition@4x.png';
 import gifticon from '../../../components/GoodsDetailTabs/image/pictogifts@4x.png';
 import spetadviser from '../../../components/GoodsDetailTabs/image/pictospetadviser@4x.png';
@@ -158,15 +156,7 @@ class Subscription extends React.Component {
     this.pageSize = 6;
   }
 
-  componentWillUnmount() {}
-
   async componentDidMount() {
-    for (let i = 0; i < 5; i++) {
-      setTimeout(() => {
-        this.setState({ testNumber: this.state.testNumber + i });
-        console.log(this.state.testNumber, 'testNumber');
-      }, 1000);
-    }
     let subscriptionId = funcUrl({ name: 'subscriptionId' });
     let updateLifeStage = funcUrl({ name: 'updateLifeStage' });
     let needBindPet = funcUrl({ name: 'needBindPet' });
@@ -225,6 +215,9 @@ class Subscription extends React.Component {
   }
 
   getSubList() {
+    const {
+      intl: { formatMessage }
+    } = this.props;
     const { form, initing, currentPage, subscriptionType } = this.state;
     if (!initing) {
       setTimeout(() => {
@@ -250,9 +243,35 @@ class Subscription extends React.Component {
     }
     getSubList(param)
       .then((res) => {
+        let subList = res.context.subscriptionResponses;
+        subList = subList.map((sItem) => {
+          sItem.itemSpecLogoConf = {
+            Individualization: {
+              src: getClubLogo({ subscriptionType: 'Individualization' }),
+              alt: 'indv logo'
+            },
+            Club: { src: getClubLogo({}), alt: 'club logo' }
+          }[sItem.subscriptionType];
+          sItem.goodsInfo = sItem.goodsInfo.map((gItem) => {
+            gItem.displayGoodsName =
+              sItem.subscriptionType === 'Individualization'
+                ? formatMessage(
+                    { id: 'subscription.personalized' },
+                    { val1: gItem.petsName }
+                  )
+                : gItem.goodsName;
+            gItem.displaySubscribeNum =
+              sItem.subscriptionType === 'Individualization'
+                ? 1
+                : sItem.subscribeNum;
+
+            return gItem;
+          });
+          return sItem;
+        });
         this.setState(
           {
-            subList: res.context.subscriptionResponses,
+            subList,
             loading: false,
             initing: false,
             currentPage: res.context.currentPage + 1,
@@ -335,30 +354,9 @@ class Subscription extends React.Component {
             ) : this.state.subscriptionType !== 'All' || subList.length ? (
               <>
                 {subList.map((subItem, i) => {
-                  let subItemComp = null;
-                  if (subItem.subscriptionType === 'Individualization') {
-                    subItemComp = (
-                      <IndvItem {...this.props} subItem={subItem} idx={i} />
-                    );
-                  } else if (subItem.subscriptionType === 'Club') {
-                    subItemComp = (
-                      <ClubItem
-                        {...this.props}
-                        history={this.props.history}
-                        subItem={subItem}
-                        idx={i}
-                      />
-                    );
-                  } else if (subItem.subscriptionType === 'Autoship') {
-                    subItemComp = (
-                      <AutoshipItem {...this.props} subItem={subItem} />
-                    );
-                  } else {
-                    subItemComp = (
-                      <AutoshipItem {...this.props} subItem={subItem} />
-                    );
-                  }
-                  return subItemComp;
+                  return (
+                    <ItemContainer {...this.props} subItem={subItem} key={i} />
+                  );
                 })}
               </>
             ) : window.__.env.REACT_APP_COUNTRY === 'ru' ||
@@ -466,4 +464,4 @@ class Subscription extends React.Component {
   }
 }
 
-export default injectIntl(Subscription);
+export default Subscription;

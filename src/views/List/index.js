@@ -582,6 +582,9 @@ class List extends React.Component {
   // 2. 需要取值绝对地址
   // 3. 使用generatePageLink方法生成当前页/上一页/下一页
   handleCanonicalLink() {
+    const {
+      location: { pathname: reactRouterPathname }
+    } = this.props;
     const { currentPage } = this.state;
     const curLink = this.generatePageLink(currentPage);
     const prevLink = this.generatePageLink(currentPage - 1);
@@ -612,7 +615,9 @@ class List extends React.Component {
       const pathname = window.location.pathname;
       const redirectUrl =
         canonicalRedirect.filter(
-          (t) => decodeURIComponent(t.shortUrl) === decodeURIComponent(pathname)
+          (t) =>
+            decodeURIComponent(t.shortUrl) ===
+            decodeURIComponent(reactRouterPathname)
         )[0]?.redirectUrl || pathname;
       return `${window.location.origin}${redirectUrl}${
         curSearch ? `?${curSearch}` : ''
