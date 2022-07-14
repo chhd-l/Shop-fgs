@@ -43,8 +43,12 @@ const funcUrl = ({
   customSearch
 } = {}) => {
   var baseUrl = type == undefined ? pathname + '?' : '';
-  var query =
-    search || customSearch ? decodeURIComponent(search) || customSearch : '';
+  var query = ''
+  if(customSearch){
+    query=customSearch
+  }else if(search) {
+    query = decodeURIComponent(search)
+  }
   // 如果没有传参,就返回 search 值 不包含问号
   if (name == undefined) {
     return query;
