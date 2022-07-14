@@ -143,7 +143,9 @@ class AccountOrders extends React.Component {
     }
     return ret;
   };
-  async cancelAppoint() {
+  cancelAppoint = async () => {
+    if (this.hasCancelAppointClick) return;
+    this.hasCancelAppointClick = true;
     const { details } = this.state;
     try {
       await cancelAppointByNo({ apptNo: details.apptNo });
@@ -153,7 +155,7 @@ class AccountOrders extends React.Component {
     } finally {
       this.setState({ cancelAppointModalVisible: false });
     }
-  }
+  };
   //feline订单操作按钮显示
   renderOperationBtns = () => {
     const { details } = this.state;

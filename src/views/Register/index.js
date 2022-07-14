@@ -277,13 +277,8 @@ class Register extends Component {
     let valid;
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         valid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -351,7 +346,8 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -762,7 +758,7 @@ class Register extends Component {
                       window.__.env.REACT_APP_HOMEPAGE
                     )
                   }
-                  className="jp-reg-to-login-btn"
+                  className="jp-reg-to-login-btn cursor-pointer"
                   style={{ color: '#e60012', fontSize: '1.875rem' }}
                 >
                   {<FormattedMessage id="jp.regToLogin" />}
