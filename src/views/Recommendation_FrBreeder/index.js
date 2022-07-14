@@ -470,12 +470,8 @@ class Recommendation extends React.Component {
     });
   };
   checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -504,12 +500,8 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -544,8 +536,8 @@ class Recommendation extends React.Component {
           recommendationId:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationId || this.props.clinicStore.linkClinicId,
-          recommendationInfos: this.props.clinicStore
-            .linkClinicRecommendationInfos,
+          recommendationInfos:
+            this.props.clinicStore.linkClinicRecommendationInfos,
           recommendationName:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -594,8 +586,8 @@ class Recommendation extends React.Component {
             quantity: p.recommendationNumber,
             goodsInfoFlag: p.goodsInfoFlag,
             periodTypeId: p.defaultFrequencyId,
-            recommendationInfos: this.props.clinicStore
-              .linkClinicRecommendationInfos,
+            recommendationInfos:
+              this.props.clinicStore.linkClinicRecommendationInfos,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -655,12 +647,8 @@ class Recommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     let totalPrice;
     inStockProducts.forEach((el) => {
       console.log(el, 'instock');
@@ -705,12 +693,8 @@ class Recommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
+    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
+      this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       await AddCartItemsMember({
@@ -885,13 +869,8 @@ class Recommendation extends React.Component {
         path: this.props.location.pathname
       }
     };
-    let {
-      productList,
-      activeIndex,
-      currentModalObj,
-      isSPT,
-      needLogin
-    } = this.state;
+    let { productList, activeIndex, currentModalObj, isSPT, needLogin } =
+      this.state;
     let MaxMarketPrice, MinMarketPrice;
     if (productList.length) {
       // MaxLinePrice = Math.max.apply(

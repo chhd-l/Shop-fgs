@@ -2560,7 +2560,7 @@ class Payment extends React.Component {
           recommendationId: ele.recommendationId || id //As long as you bind the recommendation id once, you will need to pass it later
         });
       });
-      param.clinicsId = id || productRecomm;
+      param.clinicsId = productRecomm || id;
     } else {
       param.tradeItems = cartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
