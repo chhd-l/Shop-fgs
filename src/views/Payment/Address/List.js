@@ -52,7 +52,6 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
-let jpSaveDeliveryDateFlag = false;
 
 /**
  * address list(delivery/billing) - member
@@ -81,6 +80,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      jpSaveDeliveryDateFlag: false,
       typeForGA: 'Add',
       isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
       isPickupOpen: this.props.configStore?.isPickupOpen,
@@ -242,7 +242,7 @@ class AddressList extends React.Component {
         );
       });
 
-      if (COUNTRY == 'jp' && !jpSaveDeliveryDateFlag) {
+      if (COUNTRY == 'jp' && !this.state.jpSaveDeliveryDateFlag) {
         addressList.forEach((item) => {
           item.deliveryDate = 'Unspecified';
           item.timeSlot = 'Unspecified';
@@ -1169,7 +1169,7 @@ class AddressList extends React.Component {
    */
   handleSave = async ({ isThrowError = true } = {}) => {
     if (COUNTRY == 'jp') {
-      jpSaveDeliveryDateFlag = true;
+      this.setState({ jpSaveDeliveryDateFlag: true });
     }
     try {
       const { isValid, addOrEdit, deliveryAddress } = this.state;
@@ -2247,6 +2247,7 @@ class AddressList extends React.Component {
                 ) : null}
 
                 {item?.county && ', ' + item.county}
+                {/* {item?.address2 && ', '+ item.address2} */}
 
                 {', ' +
                   matchNamefromDict(this.state.countryList, item.countryId)}
@@ -2274,11 +2275,6 @@ class AddressList extends React.Component {
 
     //日本 地址列表
     const jp_list = addressList.map((item, i) => {
-      // if(!jpSaveDeliveryDateFlag){
-      //   item.deliveryDate = 'Unspecified'
-      //   item.timeSlot = 'Unspecified'
-      // }
-
       return (
         <div
           className={cn(
