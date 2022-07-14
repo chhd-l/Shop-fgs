@@ -359,8 +359,9 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   handelQrcodeModalClose = async () => {
     try {
@@ -400,10 +401,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -414,10 +414,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -2322,10 +2321,9 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      let addPramas = (
-        sessionItemRoyal.get('recommend_product')
-          ? this.state.recommend_data
-          : cartData
+      let addPramas = (sessionItemRoyal.get('recommend_product')
+        ? this.state.recommend_data
+        : cartData
       ).map((ele) => ({
         goodsNum: ele.buyCount,
         goodsInfoId: ele.goodsInfoId
@@ -2562,7 +2560,7 @@ class Payment extends React.Component {
           recommendationId: ele.recommendationId || id //As long as you bind the recommendation id once, you will need to pass it later
         });
       });
-      param.clinicsId = id || productRecomm;
+      param.clinicsId = productRecomm || id;
     } else {
       param.tradeItems = cartData.map((ele) => {
         const recoProductParam = handleRecoProductParamByItem({
@@ -3256,10 +3254,9 @@ class Payment extends React.Component {
     // cyber游客绑卡
     const unLoginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3271,10 +3268,9 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
