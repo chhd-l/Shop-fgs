@@ -611,9 +611,8 @@ class SubscriptionDetail extends React.Component {
     } catch (err) {
       console.log(22222, err);
       this.showErrMsg(err.message || err);
-      const search = this.props.history.location?.search || '';
-      const fromEmail = search.includes('src=email');
-      if (fromEmail) {
+      let status = this.fromEmailStatus();
+      if (status) {
         this.props.history.push('/account/subscription');
       }
     } finally {
@@ -621,14 +620,21 @@ class SubscriptionDetail extends React.Component {
     }
   };
 
-  // subscribeStatus =2，from email, go to cart
-  fromEmailGoToCart = async (subscribeStatus) => {
+  fromEmailStatus = () => {
     const search = this.props.history.location?.search || '';
     const fromEmail = search.includes('src=email');
     const sku = funcUrl({ name: 'sku' });
     const isLogin = this.props.loginStore.isLogin;
-    if (subscribeStatus === '2' && fromEmail && isLogin && sku) {
+    const fromEmailStatus = search && fromEmail && sku && isLogin;
+    return fromEmailStatus;
+  };
+
+  // subscribeStatus =2，from email, go to cart
+  fromEmailGoToCart = async (subscribeStatus) => {
+    let status = this.fromEmailStatus();
+    if (status && subscribeStatus === '2') {
       this.setState({ loadingPage: true });
+      const sku = funcUrl({ name: 'sku' });
       try {
         const { context = {} } = await getDetailsBySpuNo(sku);
         const defaultClubFrequency =
@@ -647,7 +653,7 @@ class SubscriptionDetail extends React.Component {
         };
         this.addSubscriptionProductToCart(param);
       } catch (err) {
-        this.setState({ loadingPage: true });
+        this.setState({ loadingPage: false });
       }
     }
   };

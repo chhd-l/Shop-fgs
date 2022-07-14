@@ -14,6 +14,8 @@ import ProductDailyRation from './ProductDailyRation';
 import RelateProductList from './RelateProductList';
 import { Modal, Button } from '@/components/Common';
 import InstockStatusComp from '@/components/InstockStatusComp';
+import { funcUrl } from '@/lib/url-utils';
+import { getDetailsBySpuNo } from '@/api/details';
 
 const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
@@ -52,11 +54,23 @@ const RecommendationListModal = ({ intl }) => {
       if (!petsId) {
         return;
       }
-      let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
-      let mainProduct = res.context.mainProduct;
-      let otherProducts = res.context.otherProducts;
-      // let mainProduct = undefined;
-      // let otherProducts = []; //test
+
+      let res = {};
+      const search = history.location?.search || '';
+      const _fromEmail = search.includes('src=email');
+      const sku = funcUrl({ name: 'sku' });
+      const fromEmailStatus = search && _fromEmail && sku;
+      if (fromEmailStatus) {
+        const { context } = await getDetailsBySpuNo(sku);
+        let p = Object.assign({}, context, context.goods, {
+          spuCode: context.goods.goodsNo
+        });
+        res.context = { mainProduct: p };
+      } else {
+        res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
+      }
+      let mainProduct = res?.context?.mainProduct;
+      let otherProducts = res?.context?.otherProducts;
 
       let currentItems =
         (currentGoodsItems?.length ? currentGoodsItems : els) || []; // 存在setCurrentGoodsItems异步还没赋值成功造成currentGoodsItems没值
