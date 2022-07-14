@@ -34,7 +34,7 @@ function JpConfirmationText() {
         返品・交換について は、
         <Link
           className="rc-styled-link border-b border-black hover:border-rc-red"
-          to="/faq"
+          to="/faq?type=catogery-6"
         >
           <FormattedMessage id="here2" />
         </Link>
