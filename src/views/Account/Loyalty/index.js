@@ -63,7 +63,16 @@ const Loyalty = (props) => {
   useEffect(() => {
     ownerPointsInfo({ customerId, limit, page: pageNum }) //8000017bf858119b439bb8741f75cece
       .then((res) => {
-        setData(res.context.pointsRecordInfos);
+        const tempDate = res.context.pointsRecordInfos.map((item) => {
+          item.activationDate = item.activationDate?.substring(
+            0,
+            item.activationDate?.length - 4
+          );
+          return {
+            ...item
+          };
+        });
+        setData(tempDate);
         setTotalPage(res.context.totalPage);
         scrollToTop();
       })
