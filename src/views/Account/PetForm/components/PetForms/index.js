@@ -16,7 +16,7 @@ import RadioBox from '../FormItem/RadioBox';
 import UploadImg from '../ImgUpload';
 import { getDict } from '@/api/dict';
 import { changeSubscriptionDetailPets } from '@/api/subscription';
-import { addPet, delPets, editPets } from '@/api/pet';
+import { addPet, delPets, editPets, upLoadPetsImage } from '@/api/pet';
 import {
   getZoneTime,
   getDeviceType,
@@ -152,6 +152,8 @@ const PetForms = ({
   const [lifestyleOptions, setLifestyleOptions] = useState([]);
   const [activityOptions, setActivityOptions] = useState([]);
   const [specialNeedsOptions, setSpecialNeedsOptions] = useState([]);
+  const [petId, setPetId] = useState('');
+  const [formData, setFormData] = useState(null);
   useEffect(() => {
     (async () => {
       let lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
@@ -202,6 +204,9 @@ const PetForms = ({
       setActivityOptions(activityOptions);
       setSpecialNeedsOptions(specialNeedsOptions);
     })();
+    if (paramsId) {
+      setPetId(paramsId);
+    }
   }, []);
 
   useEffect(() => {
@@ -575,6 +580,9 @@ const PetForms = ({
       diffIndex = 1;
     }
     try {
+      if (!pets.petsId) {
+        param.customerPets.petsImg = '';
+      }
       let res = await action(param);
       let isLinkedSub = subList.find((el) => el.petsId);
       let isLinkedSubLength = subList.filter((el) => el.petsId)?.length;
@@ -585,6 +593,19 @@ const PetForms = ({
         let petsType = location.state?.petsType;
         let isFromSubscriptionDetail = location.state?.isFromSubscriptionDetail; //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
         let petsId = res.context?.result;
+        if (petsId && formData) {
+          formData.append('petId', res.context?.pets?.petsId);
+          setState({ loading: true });
+          upLoadPetsImage(formData)
+            .then((res) => {
+              handelImgChange(res.context);
+              setState({ loading: false });
+              myAccountActionPushEvent('Add picture');
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
         if (subscribeId) {
           if (petsType) {
             // 从subdetail过来新增宠物的需要单独linksub
@@ -674,6 +695,8 @@ const PetForms = ({
             hiddenLoading={() => {
               setState({ loading: false });
             }}
+            petId={paramsId || petId}
+            getFormData={(data) => setFormData(data)}
           />
         </div>
         <div className="formBox row">
