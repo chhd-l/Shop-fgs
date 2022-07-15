@@ -54,6 +54,8 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
         find(cartItem.sizeList, (s: any) => s.selected) || cartItem.goodsInfo;
       cartItem.goodsInfoId = selectedGoodsInfo.goodsInfoId;
       // 删除selectedGoodsInfo的相关属性，否则最外层相关值会被覆盖
+      delete selectedGoodsInfo.periodTypeId;
+      delete selectedGoodsInfo.goodsInfoFlag;
       delete selectedGoodsInfo.goods;
       delete selectedGoodsInfo.questionParams;
       delete selectedGoodsInfo.recommendationId;

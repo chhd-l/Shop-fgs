@@ -22,7 +22,7 @@ import { Canonical, Button } from '@/components/Common';
 @seoHoc('Subscription Page')
 @observer
 class SubscriptionLanding extends React.Component {
-  render(h) {
+  render() {
     const event = {
       page: {
         type: 'Content',
