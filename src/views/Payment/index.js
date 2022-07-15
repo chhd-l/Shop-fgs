@@ -2546,9 +2546,9 @@ class Payment extends React.Component {
         clinicStore.linkClinicRecommendationInfos.recommendationId ||
         clinicStore.selectClinicId ||
         clinicStore.defaultClinicId;
-      let productRecomm = '';
+      const recomm = loginCartData?.filter((el) => el.recommendationId);
+      const productRecomm = recomm?.[0]?.recommendationId || '';
       param.tradeItems = loginCartData.map((ele) => {
-        productRecomm = ele.recommendationId;
         const recoProductParam = handleRecoProductParamByItem({
           ele,
           ...this.props
