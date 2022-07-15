@@ -521,7 +521,7 @@ class CheckoutStore {
         transactionId
       });
 
-      console.log(purchasesRes);
+      // console.log(purchasesRes);
       // debugger;
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
