@@ -344,7 +344,8 @@ class SubscriptionDetail extends React.Component {
       // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
       !isIndv &&
         goodsInfo?.length === 1 &&
-        this.state.subDetail.petsLifeStageFlag === 1 &&
+        (this.fromEmailStatus() ||
+          this.state.subDetail.petsLifeStageFlag === 1) &&
         this.state.isNotInactive &&
         this.setState({
           triggerShowChangeProduct: {

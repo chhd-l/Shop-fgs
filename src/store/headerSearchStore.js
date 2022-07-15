@@ -19,6 +19,6 @@ class HeaderSearchStore {
     this.query = keyword
     this.results = number
     this.type = 'with results'
-  } 
+  }
 }
 export default HeaderSearchStore;

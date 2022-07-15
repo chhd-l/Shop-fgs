@@ -242,6 +242,17 @@ class AddressList extends React.Component {
         );
       });
 
+      if (COUNTRY !== 'jp') {
+        addressList.forEach((item) => {
+          if (item.deliveryDate == 'Unspecified') {
+            item.deliveryDate = '';
+          }
+          if ((item.timeSlot = 'Unspecified')) {
+            item.timeSlot = '';
+          }
+        });
+      }
+
       if (COUNTRY == 'jp' && !this.state.jpSaveDeliveryDateFlag) {
         addressList.forEach((item) => {
           item.deliveryDate = 'Unspecified';
