@@ -19,6 +19,7 @@ interface Props {
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   defaultSkuNo?: string;
   shouldSkuGrayOutOfStock: boolean;
+  showOffShelvesSpecs: boolean; //是否显示下架的规格
 }
 
 const HandledSpec = ({
@@ -33,7 +34,8 @@ const HandledSpec = ({
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo,
-  shouldSkuGrayOutOfStock
+  shouldSkuGrayOutOfStock,
+  showOffShelvesSpecs = true
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
     details;
@@ -237,32 +239,34 @@ const HandledSpec = ({
               className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
               id="id-single-select-size"
             >
-              {sItem.chidren?.map((sdItem: any, i: number) => (
-                <div
-                  key={i}
-                  className={cn(`rc-swatch__item`, {
-                    selected: sdItem.selected,
-                    outOfStock:
-                      sdItem.isDisabled && !sdItem.canSelectedOutOfStock
-                  })}
-                  onClick={() => {
-                    onClickSku();
-                    if (
-                      (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||
-                      sdItem.selected
-                    ) {
-                      return false;
-                    } else {
-                      handleChooseSize(sItem.specId, sdItem.specDetailId);
-                    }
-                  }}
-                >
-                  <span style={renderStyle(sdItem)}>
-                    {/* {parseFloat(sdItem.detailName)}{' '} */}
-                    {sdItem.detailName}
-                  </span>
-                </div>
-              ))}
+              {(sItem.chidren || [])
+                .filter((el: any) => showOffShelvesSpecs || el.addedFlag)
+                .map((sdItem: any, i: number) => (
+                  <div
+                    key={i}
+                    className={cn(`rc-swatch__item`, {
+                      selected: sdItem.selected,
+                      outOfStock:
+                        sdItem.isDisabled && !sdItem.canSelectedOutOfStock
+                    })}
+                    onClick={() => {
+                      onClickSku();
+                      if (
+                        (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||
+                        sdItem.selected
+                      ) {
+                        return false;
+                      } else {
+                        handleChooseSize(sItem.specId, sdItem.specDetailId);
+                      }
+                    }}
+                  >
+                    <span style={renderStyle(sdItem)}>
+                      {/* {parseFloat(sdItem.detailName)}{' '} */}
+                      {sdItem.detailName}
+                    </span>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

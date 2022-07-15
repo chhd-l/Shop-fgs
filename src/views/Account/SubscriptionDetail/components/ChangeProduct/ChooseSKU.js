@@ -368,6 +368,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                       updatedSku={matchGoods}
                       canSelectedOutOfStock={true}
                       canSelectedWhenAllSpecDisabled={true}
+                      showOffShelvesSpecs={false}
                       updatedPriceOrCode={updatedPriceOrCode}
                     />
                     <InstockStatusComp

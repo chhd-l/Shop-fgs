@@ -58,6 +58,7 @@ const handleSizeList = ({
         const filterproducts = goodsInfos.filter((goodEl) =>
           goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
         );
+        sdItem.addedFlag = filterproducts?.[0]?.addedFlag;
         sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
         sdItem.isEmpty = filterproducts.every((item) => item.stock === 0);
         sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0;

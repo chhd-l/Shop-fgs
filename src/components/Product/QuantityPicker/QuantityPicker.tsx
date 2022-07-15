@@ -50,7 +50,7 @@ const QuantityPicker = ({
   }, [initQuantity]);
 
   const subQuantity = () => {
-    if (disabled) return false;
+    if (!subBtnStatus || disabled) return false;
     setErrorMsg('');
     setQuantity(quantity === min ? min : Number(quantity) - 1);
 
@@ -59,7 +59,7 @@ const QuantityPicker = ({
     }
   };
   const addQuantity = () => {
-    if (disabled) return false;
+    if (!addBtnStatus || disabled) return false;
     setErrorMsg('');
     const tmpMax = restTotalLimitConf?.num
       ? Math.min(max, restTotalLimitConf.num)
