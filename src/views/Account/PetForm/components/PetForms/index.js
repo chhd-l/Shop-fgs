@@ -489,9 +489,9 @@ const PetForms = ({
           showErrorMsg(intl.messages.petWeightVerify);
           return;
         } else {
-          petForm.weightObj.measure = petForm.weightObj.measure
-            .split(',')
-            .join('.');
+          petForm.weightObj.measure = petForm.weightObj.measure.includes(',')
+            ? petForm.weightObj.measure.split(',').join('.')
+            : petForm.weightObj.measure;
         }
       } else {
         if (petForm.weightObj && Number(petForm.weightObj.measure) <= 0) {
