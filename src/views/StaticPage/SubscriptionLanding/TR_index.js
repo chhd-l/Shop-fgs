@@ -24,9 +24,7 @@ const localItemRoyal = window.__.localItemRoyal;
 @seoHoc('Subscription Page')
 @observer
 class Help extends React.Component {
-  componentWillUnmount() {}
-
-  render(h) {
+  render() {
     const event = {
       page: {
         type: 'Content',
