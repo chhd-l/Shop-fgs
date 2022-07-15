@@ -31,6 +31,7 @@ interface CART_ITEM_TYPE {
   quantity: number; //操作的数量
   goodsInfoFlag: any; //操作的购买方式
   goods: any; //产品基础信息
+  goodsSpecs?: any[];
 }
 
 const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
@@ -66,6 +67,12 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
 
       // 把选中的规则，平铺到了最外层，同会员购物车数据结构; 把goods对象平铺到最外层，同会员购物车数据结构
       cartItem = Object.assign({}, cartItem, cartItem.goods, selectedGoodsInfo);
+
+      // 购物车过滤下架的规格
+      Array.from(cartItem.goodsSpecs || [], (item: any) => {
+        item.chidren = item.chidren.filter((cItem: any) => cItem.addedFlag);
+        return item;
+      });
 
       // 当前需要加入的产品，是否存在于原购物车中，goodsId-spu goodsInfoId-sku
       const historyItemIdx = findIndex(
