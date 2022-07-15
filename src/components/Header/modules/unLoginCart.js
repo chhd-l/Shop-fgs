@@ -417,7 +417,6 @@ class UnloginCart extends React.Component {
                                 {item.goodsInfoFlag ? (
                                   <div
                                     style={{
-                                      width: '100%',
                                       overflow: 'hidden'
                                     }}
                                   >
