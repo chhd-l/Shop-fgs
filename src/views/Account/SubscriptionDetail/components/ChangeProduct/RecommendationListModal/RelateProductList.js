@@ -155,7 +155,7 @@ const RelateProductList = ({ mainProduct }) => {
   useEffect(() => {
     // Filter the product list by the attribute of the main product
     if (filterListRes) {
-      let _list = cloneDeep(mainProduct.goodsAttributesValueRelVOList || []);
+      let _list = cloneDeep(mainProduct.goodsAttributesValueRelVOList || mainProduct.goodsAttributesValueRelList|| []);
       let _prefnParamList = [];
       _list?.forEach((cEle) => {
         if (cEle.goodsAttributeValueEn) {
@@ -344,9 +344,8 @@ const RelateProductList = ({ mainProduct }) => {
     setPrefnParamListFromSearch(prefnParamListFromSearch);
   };
 
-  const getProductLists = async () => {
+  const getProductLists = async (pageNum) => {
     let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
-
     let goodsFilterRelList = initingList
       ? [...defaultFilterSearchForm.filterList]
       : [];
@@ -355,7 +354,7 @@ const RelateProductList = ({ mainProduct }) => {
     setLoading(true);
     let params = {
       storeId: window.__.env.REACT_APP_STOREID,
-      pageNum: currentPage - 1,
+      pageNum: pageNum || currentPage - 1,
       sortFlag: 11,
       pageSize: 9,
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
@@ -529,6 +528,11 @@ const RelateProductList = ({ mainProduct }) => {
     setFilterModalVisible(status);
   };
 
+  const hanldePageNumChange =({ currentPage }) =>{
+    setCurrentPage(currentPage)
+    getProductLists(currentPage-1)
+  }
+
   // handle the number of selected filters on the mobile
   const handleFilterCounts = (filterList) => {
     let filtersCounts = 0;
@@ -697,7 +701,8 @@ const RelateProductList = ({ mainProduct }) => {
                         );
                       })}
                 </article>
-                <div
+                {loading?null:
+                   <div
                   className="grid-footer rc-full-width"
                   style={{ marginTop: '0.5rem' }}
                   data-tms="Pagination"
@@ -708,11 +713,10 @@ const RelateProductList = ({ mainProduct }) => {
                     key={currentPage}
                     totalPage={totalPage}
                     paginationClass="max-w-xs w-74"
-                    // onPageNumChange={this.hanldePageNumChange}
-                    // prevPageLink={this.prevPageLink}
-                    // nextPageLink={this.nextPageLink}
+                    onPageNumChange={hanldePageNumChange}
                   />
                 </div>
+                }
               </div>
             )}
           </div>

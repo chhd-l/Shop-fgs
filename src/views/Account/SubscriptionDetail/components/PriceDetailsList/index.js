@@ -113,7 +113,7 @@ const PriceDetailsList = ({
       key: 'discount',
       title: <FormattedMessage id="payment.discount" />,
       val: -((totalPrice - subscriptionDiscountPrice) * (1 - discount)),
-      visible: discount === 1 ? false : true,
+      visible: discount === 1 || !discount ? false : true,
       className: 'green'
     }
   ]).filter((el) => el.visible);
