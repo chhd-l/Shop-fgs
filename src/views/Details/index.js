@@ -220,8 +220,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -575,11 +581,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -1313,7 +1316,6 @@ class Details extends React.Component {
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-
     return (
       <div id="Details">
         <GA_Comp props={this.props} details={details} />
@@ -1547,9 +1549,9 @@ class Details extends React.Component {
                                   <div className="flex flex-row items-center mt-6">
                                     <div>{this.ButtonGroupDom(false)}</div>
                                     <span className="mx-4">
-                                      {buyFromRetailerConfig?.retailerEnable && (
+                                      {this.retailerBtnStatus ? (
                                         <FormattedMessage id="or" />
-                                      )}
+                                      ) : null}
                                     </span>
                                     <BuyFromRetailerBtn
                                       // ccidBtnDisplay={ccidBtnDisplay}
