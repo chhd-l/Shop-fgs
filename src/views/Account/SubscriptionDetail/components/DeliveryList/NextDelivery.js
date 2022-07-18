@@ -466,7 +466,7 @@ const NextDelivery = ({
                 ),
                 serviceFeePrice: el?.tradePrice?.serviceFeePrice,
                 loyaltyPointsPrice: el?.tradePrice?.loyaltyPoints,
-                discount: subDetail?.discount,
+                // discount: subDetail?.discount,
                 gifts: subDetail?.gifts
               }}
             />
