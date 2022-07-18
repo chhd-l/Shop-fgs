@@ -4,7 +4,6 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import LoginButton from '@/components/LoginButton';
 import { Link } from 'react-router-dom';
 import { FOOD_DISPENSER_PIC, IMG_DEFAULT } from '@/utils/constant';
@@ -55,7 +54,7 @@ import {
 import cn from 'classnames';
 import { AddItemsVisitor as AddCartItemsVisitor } from '@/framework/cart';
 import { handleSizeList } from '@/framework/product';
-import { Button } from '@/components/Common';
+import { Button, Popover } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -592,23 +591,25 @@ class UnLoginCart extends React.Component {
             }`}
           >
             <span className="remove-product-btn z-50">
-              <span
-                className="rc-icon rc-close--sm rc-iconography inline-block w-8 h-8"
-                onClick={() => {
-                  this.updateConfirmTooltipVisible(pitem, true);
-                  this.setState({ currentProductIdx: index });
-                }}
-              />
-              <ConfirmTooltip
-                containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                arrowStyle={{ left: '89%' }}
+              <Popover
                 display={pitem.confirmTooltipVisible}
                 confirm={(e) => this.deleteProduct(pitem)}
                 updateChildDisplay={(status) =>
                   this.updateConfirmTooltipVisible(pitem, status)
                 }
                 content={<FormattedMessage id="confirmDeleteProduct" />}
-              />
+              >
+                <span
+                  className="rc-icon rc-close--sm rc-iconography inline-block w-8 h-8 position-relative"
+                  onClick={() => {
+                    this.updateConfirmTooltipVisible(
+                      pitem,
+                      !pitem.confirmTooltipVisible
+                    );
+                    this.setState({ currentProductIdx: index });
+                  }}
+                />
+              </Popover>
             </span>
             <div
               className="rc-input rc-input--inline position-absolute hidden"

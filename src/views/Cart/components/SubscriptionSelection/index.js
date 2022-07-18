@@ -1,9 +1,8 @@
 import React from 'react';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection';
-import { toJS } from 'mobx';
+import { Popover } from '@/components/Common';
 
 const SubscriptionSelection = function (props) {
   const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
@@ -104,35 +103,35 @@ const SubscriptionSelection = function (props) {
               <FormattedMessage id="autoship" />
             )}
             {!isGift && (
-              <span
-                className="info-tooltip delivery-method-tooltip"
-                onMouseEnter={() => {
+              <Popover
+                display={toolTipVisible && index === activeToolTipIndex}
+                cancelBtnVisible={false}
+                confirmBtnVisible={false}
+                updateChildDisplay={(status) =>
                   props.setState({
-                    toolTipVisible: true,
-                    activeToolTipIndex: index
-                  });
-                }}
-                onMouseLeave={() => {
-                  props.setState({
-                    toolTipVisible: false
-                  });
-                }}
+                    toolTipVisible: status
+                  })
+                }
+                content={<FormattedMessage id="subscription.promotionTip2" />}
               >
-                i
-              </span>
+                <span
+                  className="info-tooltip delivery-method-tooltip position-relative"
+                  onMouseEnter={() => {
+                    props.setState({
+                      toolTipVisible: !toolTipVisible,
+                      activeToolTipIndex: index
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    props.setState({
+                      toolTipVisible: false
+                    });
+                  }}
+                >
+                  i
+                </span>
+              </Popover>
             )}
-            <ConfirmTooltip
-              arrowStyle={{ left: '79%' }}
-              display={toolTipVisible && index === activeToolTipIndex}
-              cancelBtnVisible={false}
-              confirmBtnVisible={false}
-              updateChildDisplay={(status) =>
-                props.setState({
-                  toolTipVisible: status
-                })
-              }
-              content={<FormattedMessage id="subscription.promotionTip2" />}
-            />
           </span>
           <br />
           {saveExtraMoney}

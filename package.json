@@ -95,6 +95,7 @@
     "react-select": "^4.3.0",
     "react-slick": "^0.26.1",
     "react-slider": "^1.1.2",
+    "react-tiny-popover": "^7.1.0",
     "react-to-print": "^2.9.0",
     "react-yandex-maps": "^4.6.0",
     "resolve": "1.15.0",
