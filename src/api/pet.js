@@ -12,7 +12,8 @@ const api = {
   clubSubscriptionSavePets: '/pets/clubSubscriptionSavePets',
   changeSubscriptionGoodsByPets: `/${window.__.env.REACT_APP_STOREID}/subs/changeSubscriptionGoodsByPets`,
   getRation: `/product/finder/club/ration`,
-  saveAssistanceDogs: `/landingPage/${window.__.env.REACT_APP_STOREID}/assistanceDogs`
+  saveAssistanceDogs: `/landingPage/${window.__.env.REACT_APP_STOREID}/assistanceDogs`,
+  upLoadPetsImage: `/pets/upLoadPetsImage`
 };
 
 export default api;
@@ -110,5 +111,16 @@ export function saveAssistanceDogs(parameter) {
     url: `${api.saveAssistanceDogs}`,
     method: 'post',
     data: parameter
+  });
+}
+
+export function upLoadPetsImage(params) {
+  return axios({
+    url: api.upLoadPetsImage,
+    method: 'post',
+    data: params,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
   });
 }

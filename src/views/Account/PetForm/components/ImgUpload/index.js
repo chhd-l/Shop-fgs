@@ -4,6 +4,7 @@ import './index.less';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import { upLoadPetsImage } from '@/api/pet';
 
 @injectIntl
 export default class ImgUpload extends React.Component {
@@ -17,6 +18,7 @@ export default class ImgUpload extends React.Component {
   }
 
   handleChange(e) {
+    const { petId } = this.props;
     console.log('测试图片类型');
     const imgType = e.target.files[0].name || null;
     console.log(imgType);
@@ -45,19 +47,44 @@ export default class ImgUpload extends React.Component {
       console.log('文件类型错误');
     } else {
       const formData = new FormData();
-      formData.append('uploadFile', files[0]);
-      this.props.showLoading();
-      uploadResource(formData)
-        .then((res) => {
-          this.props.handleChange(res.context[0]);
-          this.props.hiddenLoading();
-          myAccountActionPushEvent('Add picture');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.props.handleChange(URL.createObjectURL(files[0]));
+      formData.append('multipartFile', files[0]);
+      // 这里要抽出去一个方法，父组件拿到petId后再调用
+      this.props.getFormData(formData);
+      // upLoadToParent(formData);
+      if (petId) {
+        formData.append('petId', petId);
+        this.props.showLoading();
+        upLoadPetsImage(formData)
+          .then((res) => {
+            this.props.handleChange(res.context);
+            this.props.hiddenLoading();
+            myAccountActionPushEvent('Add picture');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
   }
+
+  // upLoadToParent = (formData) => {
+  //   const { petId } = this.state;
+  //   if (petId) {
+  //     formData.append('petId', petId);
+  //     this.props.showLoading();
+  //     upLoadPetsImage(formData)
+  //       .then((res) => {
+  //         this.props.handleChange(res.context);
+  //         this.props.hiddenLoading();
+  //         myAccountActionPushEvent('Add picture');
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }
+
   hanldeDelete(idx) {
     const { imgList } = this.state;
     imgList.splice(idx, 1);
