@@ -108,14 +108,14 @@ const PriceDetailsList = ({
       val: -gifts?.marketPrice,
       visible: gifts ? true : false,
       className: 'green'
-    },
-    {
-      key: 'discount',
-      title: <FormattedMessage id="payment.discount" />,
-      val: -((totalPrice - subscriptionDiscountPrice) * (1 - discount)),
-      visible: discount === 1 || !discount ? false : true,
-      className: 'green'
     }
+    // {
+    //   key: 'discount',
+    //   title: <FormattedMessage id="payment.discount" />,
+    //   val: -((totalPrice - subscriptionDiscountPrice) * (1 - discount)),
+    //   visible: discount === 1 || !discount ? false : true,
+    //   className: 'green'
+    // }
   ]).filter((el) => el.visible);
   return priceList.map((item, idx) =>
     item.rowHtml ? (
