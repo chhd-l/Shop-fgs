@@ -26,7 +26,7 @@ const PriceDetailsList = ({
   const priceList = sortPriceList([
     {
       key: 'totalPrice',
-      val: totalPrice,
+      val: totalPrice + gifts?.marketPrice,
       visible: true,
       title: <FormattedMessage id="subscription.total" />
     },
@@ -43,6 +43,14 @@ const PriceDetailsList = ({
       title: <FormattedMessage id="promotion" />,
       val: -subscriptionDiscountPrice,
       visible: parseFloat(subscriptionDiscountPrice) > 0,
+      className: 'green'
+    },
+    {
+      key: 'marketPrice',
+      title: <FormattedMessage id="payment.Gift" />,
+      val: -gifts?.marketPrice,
+      visible: gifts ? true : false,
+      key: 'marketPrice',
       className: 'green'
     },
     ...promotionVOList.map((d) => ({
@@ -101,14 +109,8 @@ const PriceDetailsList = ({
       visible: loyaltyPointsPrice,
       className: 'green',
       key: 'pointDiscount'
-    },
-    {
-      key: 'marketPrice',
-      title: <FormattedMessage id="payment.Gift" />,
-      val: -gifts?.marketPrice,
-      visible: gifts ? true : false,
-      className: 'green'
     }
+
     // {
     //   key: 'discount',
     //   title: <FormattedMessage id="payment.discount" />,

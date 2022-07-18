@@ -1322,14 +1322,16 @@ export function sortPriceList(list) {
         'totalPrice',
         'consumptionTax', // 日本税费显示, 仅显示不参与总价计算
         'subscriptionDiscountPrice', // 订阅折扣
+        'marketPrice',
         'promotionCode',
         'deliveryPrice',
         'freeShippingDiscountPrice', // 运费折扣 俄罗斯
         'estimatedTax',
         'installMentAdditionalFee', // 土耳其分期费
         'serviceFee', // 日本服务费
-        'pointDiscount' // 日本积分折扣
+        'pointDiscount' // 日本积分折扣,
       ];
+  console.log('sequence', sequence);
   return list.sort((a, b) => {
     const idxA = sequence.findIndex((el) => el === a.key);
     const idxB = sequence.findIndex((el) => el === b.key);
