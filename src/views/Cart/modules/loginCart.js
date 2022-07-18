@@ -5,7 +5,6 @@ import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import {
@@ -61,7 +60,7 @@ import {
   GACartButtonClick
 } from '@/utils/GA/cart';
 import cn from 'classnames';
-import { Button } from '@/components/Common';
+import { Button, Popover } from '@/components/Common';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -682,23 +681,25 @@ class LoginCart extends React.Component {
             ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'}`}
           >
             <span className="remove-product-btn z-50">
-              <span
-                className="rc-icon rc-close--sm rc-iconography inline-block w-8 h-8"
-                onClick={() => {
-                  this.updateConfirmTooltipVisible(pitem, true);
-                  this.setState({ currentProductIdx: index });
-                }}
-              />
-              <ConfirmTooltip
-                containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                arrowStyle={{ left: '89%' }}
+              <Popover
                 display={pitem.confirmTooltipVisible}
-                confirm={this.deleteProduct.bind(this, pitem)}
+                confirm={(e) => this.deleteProduct(pitem)}
                 updateChildDisplay={(status) =>
                   this.updateConfirmTooltipVisible(pitem, status)
                 }
                 content={<FormattedMessage id="confirmDeleteProduct" />}
-              />
+              >
+                <span
+                  className="rc-icon rc-close--sm rc-iconography inline-block w-8 h-8 position-relative"
+                  onClick={() => {
+                    this.updateConfirmTooltipVisible(
+                      pitem,
+                      !pitem.confirmTooltipVisible
+                    );
+                    this.setState({ currentProductIdx: index });
+                  }}
+                />
+              </Popover>
             </span>
             <div
               className="rc-input rc-input--inline position-absolute hidden"
