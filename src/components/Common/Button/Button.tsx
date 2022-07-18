@@ -50,7 +50,7 @@ const Button = ({
           })}
         />
       ) : null}
-      {children}
+      <span>{children}</span>
     </button>
   );
 };
