@@ -488,14 +488,17 @@ const PetForms = ({
         }
       }
       if (['se'].includes(window.__.env.REACT_APP_COUNTRY)) {
-        const isstr = /^(\d+[,])*(\d+)$/.test(petForm.weightObj.measure);
-        console.log('isstr', isstr);
+        const isstr =
+          /^(\d+[,])*(\d+)$/.test(petForm.weightObj.measure) ||
+          /^(\d+[.])*(\d+)$/.test(petForm.weightObj.measure);
         if (petForm.weightObj && !isstr) {
           showErrorMsg(intl.messages.petWeightVerify);
           return;
         } else {
-          petForm.weightObj.measure = petForm.weightObj.measure.includes(',')
-            ? petForm.weightObj.measure.split(',').join('.')
+          petForm.weightObj.measure = (petForm.weightObj.measure + '').includes(
+            ','
+          )
+            ? petForm.weightObj.measure?.split(',').join('.')
             : petForm.weightObj.measure;
         }
       } else {
