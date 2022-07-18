@@ -247,7 +247,7 @@ class AddressList extends React.Component {
           if (item.deliveryDate == 'Unspecified') {
             item.deliveryDate = '';
           }
-          if ((item.timeSlot = 'Unspecified')) {
+          if (item.timeSlot == 'Unspecified') {
             item.timeSlot = '';
           }
         });
