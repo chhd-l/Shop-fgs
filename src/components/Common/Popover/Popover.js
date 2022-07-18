@@ -20,7 +20,14 @@ class PopoverComp extends React.Component {
     this.props.updateChildDisplay(false);
   };
   render() {
-    const { textStyle, cancelText, okText, positions } = this.props;
+    const {
+      containerStyle,
+      arrowStyle,
+      textStyle,
+      cancelText,
+      okText,
+      positions
+    } = this.props;
     return (
       <Popover
         isOpen={this.props.display}
