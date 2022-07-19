@@ -45,6 +45,7 @@ class Help extends React.Component {
   }
   saveCurrentScrollTop = () => {
     let curScrollTop = document.documentElement.scrollTop;
+
     sessionItemRoyal.set('recommendation-scroll', curScrollTop);
   };
   mobileDial = () => {
