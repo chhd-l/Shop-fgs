@@ -488,7 +488,7 @@ class PersonalDataEditForm extends React.Component {
 
             {/* preview form */}
             {/* {JSON.stringify(data)} */}
-            {console.log(123, data)}
+            {console.log(123, data, window.__.env.REACT_APP_COUNTRY === 'nl')}
             {data ? (
               <div
                 className={`row userProfileInfo text-break ${
@@ -532,6 +532,17 @@ class PersonalDataEditForm extends React.Component {
                           nullToEmpty(data.city) +
                           ' ' +
                           nullToEmpty(data.address1)
+                    //: data.address1
+                  },
+                  {
+                    name:
+                      window.__.env.REACT_APP_COUNTRY === 'nl' ? (
+                        <FormattedMessage id="payment.address2" />
+                      ) : null,
+                    val:
+                      window.__.env.REACT_APP_COUNTRY === 'nl'
+                        ? nullToEmpty(data.address2)
+                        : null
                     //: data.address1
                   }
                 ].map((item, i) => (
