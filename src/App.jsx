@@ -405,6 +405,10 @@ const Test = loadable(() => import('@/views/Test'));
 const Survey = loadable(() => import('@/views/Survey'));
 const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 
+const RU_Local_OurHistory = loadable(() =>
+  import('@/views/RuLocal/OurHistory')
+);
+
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
@@ -1193,6 +1197,11 @@ const App = () => {
                   )}
                 />
                 <Route
+                  exact
+                  path="/about-us/our-history"
+                  component={RU_Local_OurHistory}
+                ></Route>
+                <Route
                   path="/list/:category"
                   render={(props) => (
                     <List
@@ -1200,6 +1209,10 @@ const App = () => {
                       {...props}
                     />
                   )}
+                />
+                <Route
+                  path="/about-us/special-works-conditions"
+                  component={SpecialWorksConditions}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route
@@ -1360,10 +1373,6 @@ const App = () => {
                     return <Exception {...props} />;
                   }}
                   // component={Exception}
-                />
-                <Route
-                  path="/about-us/special-works-conditions"
-                  component={SpecialWorksConditions}
                 />
               </Switch>
             </Security>

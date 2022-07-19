@@ -33,7 +33,8 @@ module.exports = {
         'rc-detail-red': 'var(--rc-detail-red)',
         'cs-primary': '#E2001A',
         'cs-star': '#F80000',
-        'cs-gray': '#666666'
+        'cs-gray': '#666666',
+        'cs-gray-150': 'rgb(246, 246, 246)'
       },
       textColor: {
         'rc-red': 'var(--rc-red)',
@@ -62,7 +63,8 @@ module.exports = {
         32: '32px',
         36: '36px',
         38: '38px',
-        40: '40px'
+        40: '40px',
+        '4vw': '4vw'
       },
       lineHeight: {
         12: 1.2,
@@ -76,7 +78,8 @@ module.exports = {
         'cs-26': '1.62rem',
         'cs-48': '3rem',
         'cs-56': '3.5rem',
-        'cs-60': '3.81rem'
+        'cs-60': '3.81rem',
+        '4.3vw': '4.3vw'
       },
       minHeight: {
         auto: 'auto'
@@ -178,6 +181,7 @@ module.exports = {
         'cs-64': '4rem',
         'cs-80': '5rem',
         'cs-100': '6.25rem',
+        'cs-120': '7.5rem',
         'cs-309': '19.31rem',
         'cs-340': '21.25rem',
         'cs-519': '32.43rem',
@@ -185,6 +189,8 @@ module.exports = {
         'cs-680': '42.5rem'
       },
       padding: {
+        'cs-1': '1rem',
+        'cs-2': '2rem',
         'cs-17': '1.06rem',
         'cs-18': '1.12rem'
       },
@@ -194,8 +200,11 @@ module.exports = {
         'cs-align-content': 'center'
       },
       fontFamily: {
-        PingFangSC: 'var(--font-family-PingFangSC)',
-      }
+        PingFangSC: 'var(--font-family-PingFangSC)'
+      },
+      inset: {
+        'cs-89%': '89%'
+      },
     }
   },
   plugins: []
