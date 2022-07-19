@@ -1130,8 +1130,10 @@ class Form extends React.Component {
       });
       cform.deliveryDate = tslist[0]?.id ? data.no : 'Unspecified';
       cform.deliveryDateId = tslist[0]?.name ? data.value : 'Unspecified';
-      cform.timeSlotId = 'Unspecified';
-      cform.timeSlot = 'Unspecified';
+      if (COUNTRY == 'jp') {
+        cform.timeSlotId = 'Unspecified';
+        cform.timeSlot = 'Unspecified';
+      }
       this.setState({
         timeSlotList: tslist
       });
@@ -1439,6 +1441,7 @@ class Form extends React.Component {
     try {
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
+        console.log(888, caninForm);
         await validData({ rule: caninForm.formRuleRu, data: caninForm, intl });
       } else {
         //console.log(444,caninForm.formRule)
