@@ -33,7 +33,8 @@ module.exports = {
         'rc-detail-red': 'var(--rc-detail-red)',
         'cs-primary': '#E2001A',
         'cs-star': '#F80000',
-        'cs-gray': '#666666'
+        'cs-gray': '#666666',
+        'cs-gray-150': 'rgb(246, 246, 246)'
       },
       textColor: {
         'rc-red': 'var(--rc-red)',
@@ -200,7 +201,10 @@ module.exports = {
       },
       fontFamily: {
         PingFangSC: 'var(--font-family-PingFangSC)'
-      }
+      },
+      inset: {
+        'cs-89%': '89%'
+      },
     }
   },
   plugins: []
