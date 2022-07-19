@@ -91,12 +91,9 @@ const SubscriptionSelection = function (props) {
               marginTop: '5px',
               whiteSpace: 'nowrap'
             }}
-            className="font-normal inline-block"
+            className="inline-block font15 font-thin text-xl leading-4"
           >
-            <span
-              className="iconfont iconrefresh red mr-2"
-              style={{ fontSize: '1.2em' }}
-            />
+            <span className="iconfont iconrefresh text-rc-red mr-1 text-lg font-bold" />
             {isGift ? (
               'Food Dispenser Subscription'
             ) : (

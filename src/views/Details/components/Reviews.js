@@ -252,7 +252,7 @@ class Reviews extends React.Component {
                     style={{ marginBottom: '2rem' }}
                   >
                     <div
-                      className="red-text text-center"
+                      className="text-rc-red text-center"
                       style={{ fontSize: '26px' }}
                     >
                       <FormattedMessage id="customerReviews" />

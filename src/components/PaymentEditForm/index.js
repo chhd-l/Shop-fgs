@@ -1230,7 +1230,7 @@ class PaymentEditForm extends React.Component {
                     <FormattedMessage id="cyber.form.saveFor" />
                   </label>
                   {/* {this.state.errMsgObj.isDefault ? (
-                    <div className="red-text">
+                    <div className="text-rc-red">
                       <FormattedMessage id="cyber.form.theBox" />
                     </div>
                   ) : null} */}
