@@ -297,6 +297,8 @@ const AssistanceDog = loadable(() =>
   import('@/views/StaticPage/AssistanceDog')
 );
 
+const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
+
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -402,6 +404,10 @@ const SpecialWorksConditions = loadable(() =>
 const Test = loadable(() => import('@/views/Test'));
 const Survey = loadable(() => import('@/views/Survey'));
 const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
+
+const RU_Local_OurHistory = loadable(() =>
+  import('@/views/RuLocal/OurHistory')
+);
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
@@ -548,7 +554,9 @@ const App = () => {
                     }
                   }}
                 />
+
                 <Route exact path="/PayResult" component={PayResult} />
+                <Route exact path="/about-us" component={RuLocalAboutUs} />
                 <Route
                   exact
                   path="/Payu3dsPayResult"
@@ -1188,6 +1196,11 @@ const App = () => {
                     <Details key={props.match.params.id} {...props} />
                   )}
                 />
+                <Route
+                  exact
+                  path="/about-us/our-history"
+                  component={RU_Local_OurHistory}
+                ></Route>
                 <Route
                   path="/list/:category"
                   render={(props) => (
