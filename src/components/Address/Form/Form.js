@@ -57,7 +57,7 @@ var compositionFlag = true;
 function ToCDB(str) {
   var tmp = '';
   for (var i = 0; i < str.length; i++) {
-    console.log('char', i, str.charCodeAt(i));
+    console.log('char', str.charCodeAt(i));
     if (str.charCodeAt(i) == 12288) {
       tmp += String.fromCharCode(str.charCodeAt(i) - 12256);
       continue;
@@ -1208,9 +1208,13 @@ class Form extends React.Component {
       case 'postCode':
         if (COUNTRY == 'jp') {
           tvalue = ToCDB(tvalue);
-          if (tvalue.length == 3) {
-            tvalue = tvalue + '-';
-          }
+          // if (tvalue.length == 3) {
+          //   tvalue = tvalue + '-';
+          // }
+          tvalue = tvalue
+            .replace(/\s/g, '')
+            .replace(/-$/, '')
+            .replace(/(\d{3})(\d{4})/g, '$1-$2');
         }
         break;
       case 'phoneNumber':
@@ -1249,18 +1253,10 @@ class Form extends React.Component {
       case 'postCode':
         if (COUNTRY == 'jp') {
           if (compositionFlag) {
-            // if(tvalue.length == 3){
-            //   tvalue = tvalue + "-"
-            // }
-            //this.setPostCodeReg()
-            //tvalue = tvalue.replace(/\s/g, '').replace(/(\d{3})(?=\d)/g, '$1-');
-            //tvalue = ValidatePhone(tvalue)
-            if (tvalue.length < 6) {
-              tvalue = tvalue
-                .replace(/\s/g, '')
-                .replace(/-$/, '')
-                .replace(/(\d{3})(?:\d)/g, '$1-');
-            }
+            tvalue = tvalue
+              .replace(/\s/g, '')
+              .replace(/-$/, '')
+              .replace(/(\d{3})(\d{4})/g, '$1-$2');
           }
         }
         // 可以输入字母+数字
@@ -1802,7 +1798,7 @@ class Form extends React.Component {
   maxLengthFun = (item) => {
     let maxLength = 0;
     if (item.fieldKey == 'postCode' && COUNTRY == 'jp') {
-      maxLength = 8;
+      maxLength = 7;
     } else if (item.fieldKey == 'phoneNumber' && COUNTRY == 'jp') {
       maxLength = 11;
     } else if (item?.fieldKey == 'lastName' && COUNTRY == 'jp') {
