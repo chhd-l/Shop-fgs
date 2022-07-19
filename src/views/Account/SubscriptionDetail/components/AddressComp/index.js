@@ -135,8 +135,6 @@ function CardItem(props) {
                   county: data.county,
                   postCode: data.postCode,
                   consigneeName: data?.consigneeName,
-                  firstNameKatakana: data?.firstNameKatakana,
-                  lastNameKatakana: data?.lastNameKatakana,
                   consigneeNumber: data?.consigneeNumber
                 }}
               />

@@ -56,7 +56,7 @@ const HandledSpecSelect = ({
     idArr = selectedArr.map((el) => el.specDetailId);
     // marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     // currentUnitPrice = goodsInfos?.[0]?.marketPrice;
-    sizeList.map((item: any) => {
+    sizeList.forEach((item: any) => {
       let specTextArr = [];
       for (let specItem of goodsSpecs) {
         for (let specDetailItem of specItem.chidren) {

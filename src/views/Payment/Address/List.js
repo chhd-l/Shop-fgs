@@ -247,7 +247,7 @@ class AddressList extends React.Component {
           if (item.deliveryDate == 'Unspecified') {
             item.deliveryDate = '';
           }
-          if ((item.timeSlot = 'Unspecified')) {
+          if (item.timeSlot == 'Unspecified') {
             item.timeSlot = '';
           }
         });
@@ -1013,7 +1013,10 @@ class AddressList extends React.Component {
       this.setState({
         isValid: false
       });
+      console.log(8910, data);
+      console.log(8910, data.formRule);
       await validData({ rule: data.formRule, data, intl }); // 数据验证
+      console.log(8910);
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
@@ -2479,6 +2482,7 @@ class AddressList extends React.Component {
                       <FormattedMessage id="or" />{' '}
                     </>
                   ) : null}
+                  {console.log({ isValid, formAddressValid, jpNameValid })}
                   <Button
                     type="primary"
                     className="submitBtn"

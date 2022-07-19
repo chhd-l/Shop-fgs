@@ -51,7 +51,7 @@ const handleSizeList = ({
   if (goodsSpecDetails) {
     // 是否有规格可用
     let isAllSpecDisabled = true;
-    goodsSpecs.map((sItem: any, index: any) => {
+    goodsSpecs.forEach((sItem: any, index: any) => {
       // 该层判断是为了去判断sku是否存在
       // children为每个规格类别下的详细规则value，比如重量下的1kg、2kg集合
       sItem.chidren = goodsSpecDetails.filter((sdItem: any) => {
