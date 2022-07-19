@@ -1313,7 +1313,6 @@ class Details extends React.Component {
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-
     return (
       <div id="Details">
         <GA_Comp props={this.props} details={details} />
@@ -1547,9 +1546,9 @@ class Details extends React.Component {
                                   <div className="flex flex-row items-center mt-6">
                                     <div>{this.ButtonGroupDom(false)}</div>
                                     <span className="mx-4">
-                                      {buyFromRetailerConfig?.retailerEnable && (
+                                      {this.retailerBtnStatus ? (
                                         <FormattedMessage id="or" />
-                                      )}
+                                      ) : null}
                                     </span>
                                     <BuyFromRetailerBtn
                                       // ccidBtnDisplay={ccidBtnDisplay}

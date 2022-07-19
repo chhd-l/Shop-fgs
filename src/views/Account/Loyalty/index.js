@@ -31,7 +31,7 @@ const Loyalty = (props) => {
     }
   };
 
-  const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
+  const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(0);
   const [stageName, setStageName] = useState('');
 
   const [pageNum, setPageNum] = useState(1);
