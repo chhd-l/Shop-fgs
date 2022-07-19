@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import Progress from '../components/Progress';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { specialWorksConditions_contents } from '../modules/specialWorksConditions';
@@ -10,6 +11,7 @@ const specialWorksConditions = () => {
     <div className="ui-custom-hub text-black specialWorksConditions">
       <Header showMiniIcons={true} showUserIcon={true} />
       <div className="relative rc-content--fixed-header text-base">
+        <Progress />
         <div className="md:p-8 pb-8 pt-6 px-3">
           <div className="Информацияокомпании inline-block relative md:ml-16 ml-5 border-white border-solid border-b-2 hover:border-red-600">
             <Link className="cursor-pointer hover:text-red-600" to="/about-us">
@@ -25,12 +27,12 @@ const specialWorksConditions = () => {
                   <h3 className="flex items-center">
                     <span className="mr-1">{idx + 1}.</span>
                     <div className="border-white border-solid border-b-2 hover:border-red-600">
-                      <Link
-                        to={item.url}
+                      <a
+                        href={item.url}
                         className="transition-colors duration-200 hover:text-red-600"
                       >
                         {item.span}
-                      </Link>
+                      </a>
                     </div>
                   </h3>
                 </li>
