@@ -155,7 +155,11 @@ const RelateProductList = ({ mainProduct }) => {
   useEffect(() => {
     // Filter the product list by the attribute of the main product
     if (filterListRes) {
-      let _list = cloneDeep(mainProduct.goodsAttributesValueRelVOList || mainProduct.goodsAttributesValueRelList|| []);
+      let _list = cloneDeep(
+        mainProduct.goodsAttributesValueRelVOList ||
+          mainProduct.goodsAttributesValueRelList ||
+          []
+      );
       let _prefnParamList = [];
       _list?.forEach((cEle) => {
         if (cEle.goodsAttributeValueEn) {
@@ -168,7 +172,7 @@ const RelateProductList = ({ mainProduct }) => {
           });
         }
       });
-      _prefnParamList.reduce((pre, cur, i) => {
+      const prefnP = _prefnParamList.reduce((pre, cur, i) => {
         if (pre?.prefn === cur?.prefn) {
           let _cur = cur.prefvs.push(pre.prefvs[0]);
           delete _prefnParamList[i - 1];
@@ -177,7 +181,7 @@ const RelateProductList = ({ mainProduct }) => {
           return cur;
         }
       }, []);
-      const _decoParam = _prefnParamList.reduce(
+      const _decoParam = _prefnParamList?.reduce(
         (pre, cur) => {
           return {
             ret:
@@ -528,10 +532,10 @@ const RelateProductList = ({ mainProduct }) => {
     setFilterModalVisible(status);
   };
 
-  const hanldePageNumChange =({ currentPage }) =>{
-    setCurrentPage(currentPage)
-    getProductLists(currentPage-1)
-  }
+  const hanldePageNumChange = ({ currentPage }) => {
+    setCurrentPage(currentPage);
+    getProductLists(currentPage - 1);
+  };
 
   // handle the number of selected filters on the mobile
   const handleFilterCounts = (filterList) => {
@@ -701,22 +705,22 @@ const RelateProductList = ({ mainProduct }) => {
                         );
                       })}
                 </article>
-                {loading?null:
-                   <div
-                  className="grid-footer rc-full-width"
-                  style={{ marginTop: '0.5rem' }}
-                  data-tms="Pagination"
-                >
-                  <Pagination
-                    loading={loading}
-                    defaultCurrentPage={currentPage}
-                    key={currentPage}
-                    totalPage={totalPage}
-                    paginationClass="max-w-xs w-74"
-                    onPageNumChange={hanldePageNumChange}
-                  />
-                </div>
-                }
+                {loading ? null : (
+                  <div
+                    className="grid-footer rc-full-width"
+                    style={{ marginTop: '0.5rem' }}
+                    data-tms="Pagination"
+                  >
+                    <Pagination
+                      loading={loading}
+                      defaultCurrentPage={currentPage}
+                      key={currentPage}
+                      totalPage={totalPage}
+                      paginationClass="max-w-xs w-74"
+                      onPageNumChange={hanldePageNumChange}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
