@@ -399,6 +399,10 @@ const Test = loadable(() => import('@/views/Test'));
 const Survey = loadable(() => import('@/views/Survey'));
 const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 
+const RU_Local_OurHistory = loadable(() =>
+  import('@/views/RuLocal/OurHistory')
+);
+
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
@@ -1184,6 +1188,11 @@ const App = () => {
                     <Details key={props.match.params.id} {...props} />
                   )}
                 />
+                <Route
+                  exact
+                  path="/about-us/our-history"
+                  component={RU_Local_OurHistory}
+                ></Route>
                 <Route
                   path="/list/:category"
                   render={(props) => (
