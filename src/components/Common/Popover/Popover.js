@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './Popover.less';
 import { Popover, ArrowContainer } from 'react-tiny-popover';
+import cn from 'classnames';
 import { Button } from '@/components/Common';
 
 class PopoverComp extends React.Component {
@@ -9,11 +10,14 @@ class PopoverComp extends React.Component {
     content: <FormattedMessage id="confirmDelete" />,
     containerStyle: {},
     arrowStyle: {},
+    contentStyle: {},
     cancelBtnVisible: true,
     confirmBtnVisible: true,
     okText: <FormattedMessage id="clinic.confirm" />,
     cancelText: <FormattedMessage id="cancel" />,
-    positions: []
+    positions: [],
+    handleContentMouseOver: () => {},
+    handleContentMouseOut: () => {}
   };
 
   cancel = (e) => {
@@ -23,7 +27,7 @@ class PopoverComp extends React.Component {
     const {
       containerStyle,
       arrowStyle,
-      textStyle,
+      contentStyle,
       cancelText,
       okText,
       positions
@@ -35,7 +39,7 @@ class PopoverComp extends React.Component {
           positions.length ? positions : ['bottom', 'left', 'right', 'top']
         } // preferred positions by priority
         onClickOutside={() => this.props.updateChildDisplay(false)}
-        style={containerStyle}
+        containerStyle={containerStyle}
         content={({ position, childRect, popoverRect }) => (
           <ArrowContainer
             position={position}
@@ -43,15 +47,18 @@ class PopoverComp extends React.Component {
             popoverRect={popoverRect}
             arrowColor={'#d7d7d7'}
             arrowSize={10}
-            arrowStyle={{ opacity: 0.7 }}
+            arrowStyle={arrowStyle}
             className="popover-arrow-container z-50"
-            arrowClassName="popover-arrow confirm-tool-arrow111"
-            style={arrowStyle}
+            arrowClassName={cn('popover-arrow', {
+              'confirm-tool-arrow111': position === 'bottom'
+            })}
           >
             <div
+              onMouseOver={this.props.handleContentMouseOver}
+              onMouseOut={this.props.handleContentMouseOut}
               className="px-3 pt-3 pb-2 bg-rc-f6"
               style={{
-                minWidth: '300px',
+                maxWidth: '300px',
                 height: 'auto',
                 fontSize: '0.875rem',
                 lineHeight: '1.25rem',
@@ -60,7 +67,7 @@ class PopoverComp extends React.Component {
                 border: '1px solid #d7d7d7'
               }}
             >
-              <div className="content-text" style={textStyle}>
+              <div className="content-text" style={contentStyle}>
                 {this.props.content}
               </div>
               {this.props.cancelBtnVisible || this.props.confirmBtnVisible ? (

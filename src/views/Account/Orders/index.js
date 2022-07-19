@@ -336,7 +336,7 @@ class AccountOrders extends React.Component {
             <FormattedMessage id="writeReview">
               {(txt) => (
                 <Link
-                  className="red-text"
+                  className="text-rc-red"
                   to={`/account/productReview/${order.id}`}
                   title={txt}
                   alt={txt}

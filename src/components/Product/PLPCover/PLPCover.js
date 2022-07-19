@@ -755,7 +755,7 @@ const PriceItemShow = ({ item, configStore }) => {
                   &#xe675;
                 </span>
                 <span
-                  className="red-text text-nowrap"
+                  className="text-rc-red text-nowrap"
                   style={{
                     fontSize: '.7em',
                     transform: 'translateY(-50%)'
