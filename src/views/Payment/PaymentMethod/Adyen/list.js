@@ -105,11 +105,7 @@ class AdyenCreditCardList extends React.Component {
     showListLoading && this.setState({ listLoading: true });
     try {
       let res;
-      if (sessionItemRoyal.get('rc-userGroup')) {
-        res = await getPaymentMethod({}, true);
-      } else {
-        res = await getPaymentMethod({}, true);
-      }
+      res = await getPaymentMethod({}, true);
       let cardList = res.context;
       //根据curPayWayVal筛选对应支付的绑卡信息
       switch (this.curPayWayVal) {
