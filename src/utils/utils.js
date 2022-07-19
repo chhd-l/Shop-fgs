@@ -16,7 +16,7 @@ import indvLogo from '@/assets/images/indv_log.svg';
 import { format } from 'date-fns';
 import { LOGO_CLUB, LOGO_CLUB_RU } from '@/utils/constant';
 import moment from 'moment';
-
+import { ruLocalNavigation } from '@/utils/constant/ru-local-data';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
@@ -750,7 +750,8 @@ export async function fetchHeaderNavigations() {
   if (ret) {
     ret = JSON.parse(ret);
   } else {
-    const res = await queryHeaderNavigations();
+    // const res = await queryHeaderNavigations();
+    const res = ruLocalNavigation;
     if (res.context) {
       ret = res.context;
       ret.navigationResponseList = (ret?.navigationResponseList || []).filter(
@@ -793,8 +794,26 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
   if (ret) {
     ret = JSON.parse(ret);
   } else {
-    const res = await api();
+    console.info('ruLocalNavigation', ruLocalNavigation);
+    let res = null;
+    //处理ru local header&footer逻辑
+    if (sessionKey == 'header-navigations-hub') {
+      ruLocalNavigation.MenuGroups.forEach((outerItem) => {
+        outerItem.MenuItems?.forEach((innerItem) => {
+          let isOtherUrl = innerItem?.Link?.Url?.includes('http');
+          if (isOtherUrl === false) {
+            innerItem.Link.Url =
+              window.__.env.REACT_APP_URLPREFIX + innerItem.Link.Url;
+          }
+        });
+      });
+      res = ruLocalNavigation;
+    } else if (sessionKey == 'footer-hub') {
+    } else {
+      res = await api();
+    }
     ret = res;
+    debugger;
     sessionItemRoyal.set(sessionKey, JSON.stringify(ret));
   }
   return ret;
