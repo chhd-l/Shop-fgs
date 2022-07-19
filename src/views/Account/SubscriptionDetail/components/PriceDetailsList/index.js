@@ -50,7 +50,6 @@ const PriceDetailsList = ({
       title: <FormattedMessage id="payment.Gift" />,
       val: -gifts?.marketPrice,
       visible: gifts ? true : false,
-      key: 'marketPrice',
       className: 'green'
     },
     ...promotionVOList.map((d) => ({
