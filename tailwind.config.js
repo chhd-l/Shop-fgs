@@ -86,6 +86,9 @@ module.exports = {
       maxHeight: {
         '1/2-screen': '50vh'
       },
+      maxWidth: {
+        1400: '1400px'
+      },
       width: {
         '3/10': '30%',
         'cs-55/100': '55%',
@@ -122,7 +125,8 @@ module.exports = {
         'cs-960': '60rem',
         'cs-999': '62.43rem',
         'cs-1160': '72.5rem',
-        'cs-1400': '87.5rem'
+        'cs-1400': '87.5rem',
+        'cs-48': '48rem'
       },
       height: {
         'cs-34': '2.12rem',
