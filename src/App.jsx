@@ -22,6 +22,7 @@ import { Security, useOktaAuth } from '@okta/okta-react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import loadable from '@/lib/loadable-component';
+import { funcUrl } from './lib/url-utils';
 
 import oktaConfig from './oktaConfig';
 import stores from './store';
@@ -61,7 +62,6 @@ const PreciseCatNutrition = loadable(() =>
   import('@/views/PreciseCatNutrition')
 );
 const CartDEBreeder = loadable(() => import('@/views/CartDEBreeder'));
-import { funcUrl } from './lib/url-utils';
 // import LogRocket from 'logrocket';
 
 // LogRocket.init('kvnk0e/shop-lki8n', {
@@ -297,6 +297,8 @@ const AssistanceDog = loadable(() =>
   import('@/views/StaticPage/AssistanceDog')
 );
 
+const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
+
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -393,6 +395,10 @@ const PaymentMethod3dsResult = loadable(() =>
 
 const RegisterRequired = loadable(() =>
   import('@/views/Login/RegisterRequired')
+);
+
+const SpecialWorksConditions = loadable(() =>
+  import('@/views/RuLocal/SpecialWorksConditions')
 );
 
 const Test = loadable(() => import('@/views/Test'));
@@ -548,7 +554,9 @@ const App = () => {
                     }
                   }}
                 />
+
                 <Route exact path="/PayResult" component={PayResult} />
+                <Route exact path="/about-us" component={RuLocalAboutUs} />
                 <Route
                   exact
                   path="/Payu3dsPayResult"
@@ -1361,6 +1369,10 @@ const App = () => {
                     return <Exception {...props} />;
                   }}
                   // component={Exception}
+                />
+                <Route
+                  path="/about-us/special-works-conditions"
+                  component={SpecialWorksConditions}
                 />
               </Switch>
             </Security>
