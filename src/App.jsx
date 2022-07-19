@@ -1197,6 +1197,10 @@ const App = () => {
                     />
                   )}
                 />
+                <Route
+                  path="/about-us/special-works-conditions"
+                  component={SpecialWorksConditions}
+                />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route
                   render={(props) => (
@@ -1356,10 +1360,6 @@ const App = () => {
                     return <Exception {...props} />;
                   }}
                   // component={Exception}
-                />
-                <Route
-                  path="/about-us/special-works-conditions"
-                  component={SpecialWorksConditions}
                 />
               </Switch>
             </Security>
