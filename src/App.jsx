@@ -297,6 +297,8 @@ const AssistanceDog = loadable(() =>
   import('@/views/StaticPage/AssistanceDog')
 );
 
+const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
+
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -544,7 +546,9 @@ const App = () => {
                     }
                   }}
                 />
+
                 <Route exact path="/PayResult" component={PayResult} />
+                <Route exact path="/about-us" component={RuLocalAboutUs} />
                 <Route
                   exact
                   path="/Payu3dsPayResult"
