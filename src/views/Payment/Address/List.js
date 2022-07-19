@@ -1385,7 +1385,13 @@ class AddressList extends React.Component {
         localAddressForm: { fieldKeyEnableStatus }
       }
     } = this.props;
-    let farr = [data.address1, data.city];
+    let farr = [];
+    if (COUNTRY == 'nl') {
+      farr = [data.address1, data.address2, data.city];
+    } else {
+      farr = [data.address1, data.city];
+    }
+
     if (fieldKeyEnableStatus?.state) {
       farr.push(data.province);
     }
@@ -2261,7 +2267,6 @@ class AddressList extends React.Component {
                 ) : null}
 
                 {item?.county && ', ' + item.county}
-                {/* {item?.address2 && ', '+ item.address2} */}
 
                 {', ' +
                   matchNamefromDict(this.state.countryList, item.countryId)}
