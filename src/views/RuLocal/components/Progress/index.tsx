@@ -10,7 +10,6 @@ const Progress = () => {
       document.querySelector('#footer')?.getBoundingClientRect().top || 0;
     // 消除误差
     const top = Number(((windowTop - 50) / startTop)) * 100;
-    console.log('top', top);
     setProgressSp(() => {
         if(top > 100) return '0%'
         else if (top < 0) return '100%'
@@ -21,10 +20,6 @@ const Progress = () => {
   useEffect(() => {
     window.addEventListener('scroll', handlScroll, true);
     const windowTop =  document.querySelector('html')?.getBoundingClientRect().height || 0;
-    // console.log('aa',aa)
-    // const windowTop =
-    //   document.querySelector('#footer')?.getBoundingClientRect().top || 0;
-    // console.log('windowTop', windowTop);
     // 消除误差
     startTop = windowTop - 200 ;
     return () => {
