@@ -181,10 +181,10 @@ const ContactUs = () => {
                   <div className="text-container">
                     <div className="rc-full-width rc-text--left">
                       <div className="rc-container-text">
-                        <h2 className="rc-beta " data-en-title=""></h2>
+                        <h2 className="rc-beta "></h2>
                         <p>
                           <a
-                          lassName='a-link-color'
+                          className='a-link-color'
                             rel="noopener noreferrer"
                             href="https://ok.ru/royalcanin/"
                             target="_blank"

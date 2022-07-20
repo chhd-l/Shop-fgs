@@ -1000,7 +1000,7 @@ const App = () => {
                   }}
                 />
                 <Route
-                  path="/contact-us"
+                  path="/club"
                   exact
                   render={(props) => {
                     if (window.__.env.REACT_APP_COUNTRY === 'ru') {
