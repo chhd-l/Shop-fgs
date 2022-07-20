@@ -29,7 +29,7 @@ const Progress = () => {
   }, []);
   return (
     <div className="w-full fixed top-0 rc-content--fixed-header" style={{
-        zIndex: '999'
+        zIndex: 999
     }}>
         <div className='bg-gray-200 rounded-full h-2 relative -mt-2'>
             <div className='inline-block h-2 bg-green absolute top-0 left-0'

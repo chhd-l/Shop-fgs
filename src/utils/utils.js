@@ -1380,3 +1380,24 @@ export function sortPriceList(list) {
     return idxA - idxB;
   });
 }
+
+/**
+ * 全角转半角
+ *
+ */
+
+export function ToCDB(str) {
+  var tmp = '';
+  for (var i = 0; i < str.length; i++) {
+    console.log('char', str.charCodeAt(i));
+    if (str.charCodeAt(i) == 12288) {
+      tmp += String.fromCharCode(str.charCodeAt(i) - 12256);
+      continue;
+    } else if (str.charCodeAt(i) > 65280 && str.charCodeAt(i) < 65375) {
+      tmp += String.fromCharCode(str.charCodeAt(i) - 65248);
+    } else {
+      tmp += String.fromCharCode(str.charCodeAt(i));
+    }
+  }
+  return tmp;
+}
