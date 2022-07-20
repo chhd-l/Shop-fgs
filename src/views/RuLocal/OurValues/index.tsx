@@ -1,8 +1,9 @@
 import BreadCrumbs from '@/components/BreadCrumbs';
 import { Button } from '@/components/Common';
 import React from 'react';
+import FootLink from '../components/FootLink';
 import MyTab from '../components/MyTab';
-import { value10003 } from './mock';
+import { linkList, value10003 } from './mock';
 import {
   ElementKnowledge,
   ElmentenAccuracy,
@@ -52,13 +53,19 @@ const OurValues = () => {
           <MyTab tabList={tabList} />
         </div>
         <div className="bg-cs-gray-f6 w-full h-cs-8" />
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <img src={value10003} alt="" className="order-last md:order-first" />
-          <div className="text-center md:text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 py-cs-30">
+          <div className="flex w-full justify-end order-last md:order-first col-span-1">
+            <img
+              src={value10003}
+              alt=""
+              className=" w-full h-full md:w-cs-240 md:h-cs-180 "
+            />
+          </div>
+          <div className="text-center md:text-left col-span-2">
             <h2 className="text-cs-primary text-30 text-center md:text-left">
               Устойчивое развитие
             </h2>
-            <p className="text-16 text-cs-gray text-center md:text-left">
+            <p className="text-16 text-cs-gray text-center md:text-left mt-cs-16 mb-cs-36">
               Наш подход к обеспечению устойчивого развития заключается в том,
               что мы относимся к домашним животным, людям и планете с уважением,
               которого они заслуживают.
@@ -66,6 +73,8 @@ const OurValues = () => {
             <Button>Узнайте больше</Button>
           </div>
         </div>
+        <div className="bg-cs-gray-f6 w-full h-cs-8" />
+        <FootLink linkList={linkList} />
       </div>
     </>
   );

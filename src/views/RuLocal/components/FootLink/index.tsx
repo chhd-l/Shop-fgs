@@ -6,6 +6,7 @@ type FootLinkProps = {
     path: string;
     title: string;
     desc: string;
+    buttonText: string;
   }[];
 };
 
@@ -18,11 +19,7 @@ const FootLink = ({ linkList }: FootLinkProps) => {
           key={item.title}
         >
           <div className="col-span-1 flex items-end justify-end">
-            <img
-              src={item.path}
-              alt=""
-              className=" w-full h-full md:h-cs-180 md:w-cs-148 "
-            />
+            <img src={item.path} alt="" className=" w-full h-full " />
           </div>
           <div className="ml-0 md:ml-cs-22 col-span-2 md:text-left text-center">
             <h2 className="text-cs-primary text-30 leading-cs-40 text-center md:text-left">
@@ -31,7 +28,7 @@ const FootLink = ({ linkList }: FootLinkProps) => {
             <p className=" text-center md:text-left mt-cs-16 mb-cs-36">
               {item.desc}
             </p>
-            <Button>Узнайте больше</Button>
+            <Button>{item.buttonText}</Button>
           </div>
         </div>
       ))}
