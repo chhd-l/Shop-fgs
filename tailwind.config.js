@@ -210,13 +210,19 @@ module.exports = {
       padding: {
         'cs-1': '1rem',
         'cs-2': '2rem',
+        'cs-7': '7rem',
         'cs-14': '.875rem',
         'cs-17': '1.06rem',
         'cs-18': '1.12rem',
         'cs-30': '1.875rem',
+        'cs-36': '2.25rem',
         'cs-54': '3.375rem',
         'cs-66': '4.125rem',
-        'cs-88': '5.5rem'
+        'cs-88': '5.5rem',
+        'cs-200': '12.5rem',
+        'cs-240': '15rem',
+        'cs-272': '17rem',
+        'cs-288': '18rem'
       },
       flex: {
         'cs-justify-items': 'center',
@@ -228,6 +234,9 @@ module.exports = {
       },
       inset: {
         'cs-89%': '89%'
+      },
+      boxShadow: {
+        sm: '0px 5px 12px 2px rgba(0,0,0,0.0700)'
       }
     }
   },

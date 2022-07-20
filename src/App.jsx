@@ -304,6 +304,18 @@ const RuLocalFindProduct = loadable(() =>
   import('@/views/RuLocal/FindProduct')
 );
 
+const RU_Local_SpecialWorksConditions = loadable(() =>
+  import('@/views/RuLocal/SpecialWorksConditions')
+);
+
+const RU_Local_ShipmentConditions = loadable(() =>
+  import('@/views/RuLocal/ShipmentConditions')
+);
+
+const RU_Local_TermsConditions = loadable(() =>
+  import('@/views/RuLocal/TermsConditions')
+);
+
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -402,20 +414,15 @@ const RegisterRequired = loadable(() =>
   import('@/views/Login/RegisterRequired')
 );
 
-const RU_Local_SpecialWorksConditions = loadable(() =>
-  import('@/views/RuLocal/SpecialWorksConditions')
-);
-
-const RU_Local_ShipmentConditions = loadable(() =>
-  import('@/views/RuLocal/ShipmentConditions')
-);
-
 const Test = loadable(() => import('@/views/Test'));
 const Survey = loadable(() => import('@/views/Survey'));
 const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 
 const RU_Local_OurHistory = loadable(() =>
   import('@/views/RuLocal/OurHistory')
+);
+const RU_Local_Sustainability = loadable(() =>
+  import('@/views/RuLocal/Sustainability')
 );
 
 const RU_Local_OurValues = loadable(() => import('@/views/RuLocal/OurValues'));
@@ -1260,6 +1267,11 @@ const App = () => {
                   path="/about-us/our-values"
                   component={RU_Local_OurValues}
                 />
+                <Route
+                  exact
+                  path="/about-us/sustainability"
+                  component={RU_Local_Sustainability}
+                />
 
                 <Route
                   path="/list/:category"
@@ -1277,6 +1289,10 @@ const App = () => {
                 <Route
                   path="/about-us/shipment-conditions"
                   component={RU_Local_ShipmentConditions}
+                />
+                <Route
+                  path="/about-us/terms-and-conditions"
+                  component={RU_Local_TermsConditions}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route

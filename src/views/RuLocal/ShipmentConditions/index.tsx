@@ -6,6 +6,7 @@ import ExplanationTable from './components/ExplanationTable';
 import ShipmentConditionsTable from './components/ShipmentConditionsTable';
 import './index.less';
 import ReturnList from './components/ShipmentConditionsReturnList';
+import Footer from '@/components/Footer';
 
 const FileUrl =
   window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX +
@@ -31,10 +32,10 @@ const ShipmentConditions = () => {
               alt=""
             />
             <div className="h-cs-409 w-full md:max-w-500 md:max-h-420 bg-white px-8 md:py-8 py-4 mt-36 md:mt-0">
-              <h1 className="md:text-cs-40 md:leading-cs-56 text-red-500 mb-6">
+              <h1 className="md:text-cs-40 md:leading-cs-56 text-red-500 mb-4">
                 Условия доставки интернет-магазина ROYAL CANIN®
               </h1>
-              <p>
+              <p className='font-light'>
                 Доставка заказов до двери по{' '}
                 <span>Москве и Московской области</span> осуществляется
                 курьерской компанией{' '}
@@ -45,7 +46,7 @@ const ShipmentConditions = () => {
                 вас возникли вопросы по статусу вашего заказа, то вы можете
                 обратиться в нашу Службу заботы по телефону{' '}
                 <strong>8-800-200-37-35</strong> или проверить статус заказа на{' '}
-                <a className='text-blue-600 underline' href="https://www.dpd.ru/ols/trace2/extended.do2"><strong>сайте</strong></a> (кроме Москвы и Московской области).
+                <a className='text-purple-800 underline' href="https://www.dpd.ru/ols/trace2/extended.do2"><strong>сайте</strong></a> (кроме Москвы и Московской области).
               </p>
             </div>
           </div>
@@ -78,6 +79,7 @@ const ShipmentConditions = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
