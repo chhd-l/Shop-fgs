@@ -6,6 +6,7 @@ import ExplanationTable from './components/ExplanationTable';
 import ShipmentConditionsTable from './components/ShipmentConditionsTable';
 import './index.less';
 import ReturnList from './components/ShipmentConditionsReturnList';
+import Footer from '@/components/Footer';
 
 const FileUrl =
   window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX +
@@ -78,6 +79,7 @@ const ShipmentConditions = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -304,6 +304,18 @@ const RuLocalFindProduct = loadable(() =>
   import('@/views/RuLocal/FindProduct')
 );
 
+const RU_Local_SpecialWorksConditions = loadable(() =>
+  import('@/views/RuLocal/SpecialWorksConditions')
+);
+
+const RU_Local_ShipmentConditions = loadable(() =>
+  import('@/views/RuLocal/ShipmentConditions')
+);
+
+const RU_Local_TermsConditions = loadable(() =>
+  import('@/views/RuLocal/TermsConditions')
+);
+
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -400,14 +412,6 @@ const PaymentMethod3dsResult = loadable(() =>
 
 const RegisterRequired = loadable(() =>
   import('@/views/Login/RegisterRequired')
-);
-
-const RU_Local_SpecialWorksConditions = loadable(() =>
-  import('@/views/RuLocal/SpecialWorksConditions')
-);
-
-const RU_Local_ShipmentConditions = loadable(() =>
-  import('@/views/RuLocal/ShipmentConditions')
 );
 
 const Test = loadable(() => import('@/views/Test'));
@@ -1277,6 +1281,10 @@ const App = () => {
                 <Route
                   path="/about-us/shipment-conditions"
                   component={RU_Local_ShipmentConditions}
+                />
+                <Route
+                  path="/about-us/terms-and-conditions"
+                  component={RU_Local_TermsConditions}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route
