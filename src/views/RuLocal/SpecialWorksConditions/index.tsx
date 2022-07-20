@@ -6,14 +6,15 @@ import { Link } from 'react-router-dom';
 import { specialWorksConditions_contents } from '../modules/specialWorksConditions';
 import './index.less';
 
+const FileUrl = window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
+
 const SpecialWorksConditions = () => {
     const [ToOpen, setToOpen] = useState(false)
 
     const handlScroll = () => {
       const windowTop =
-        document.querySelector('#ReturnToTop')?.getBoundingClientRect().top || 0;
-        console.log('windowTop',windowTop)
-        if(windowTop <= -500 && windowTop >= -1000) setToOpen(true)
+        document.querySelector('#ListOfDocuments')?.getBoundingClientRect().top || 0;
+        if(windowTop <= -500 && windowTop >= -900) setToOpen(true)
         else setToOpen(false)
     };
   
@@ -27,7 +28,7 @@ const SpecialWorksConditions = () => {
   return (
     <div className="ui-custom-hub text-black specialWorksConditions">
       <Header showMiniIcons={true} showUserIcon={true} />
-      <div className="relative rc-content--fixed-header text-base">
+      <div id='ReturnTo' className="relative rc-content--fixed-header text-base">
         <Progress />
         <div className="md:p-8 pb-8 pt-6 px-3">
           <div className="Информацияокомпании inline-block relative md:ml-16 ml-5 border-white border-solid border-b-2 hover:border-red-600">
@@ -36,7 +37,7 @@ const SpecialWorksConditions = () => {
             </Link>
           </div>
         </div>
-        <div id='ReturnToTop' className="md:p-8 pl-8 px-3">
+        <div id='ListOfDocuments' className="md:p-8 pl-8 px-3">
           <div className="max-w-screen-md m-auto">
             <ol className="md:p-8 p-0">
               {specialWorksConditions_contents.map((item, idx) => (
@@ -45,7 +46,7 @@ const SpecialWorksConditions = () => {
                     <span className="mr-1">{idx + 1}.</span>
                     <div className="border-white border-solid border-b-2 hover:border-red-600">
                       <a
-                        href={item.url}
+                        href={`${FileUrl}/img/ru-local/pdf/${item.url}`}
                         className="transition-colors duration-200 hover:text-red-600"
                       >
                         {item.span}
@@ -61,8 +62,14 @@ const SpecialWorksConditions = () => {
           <div className="flex flex-col items-center">
             <span className="w-14 h-14"
                 style={{
-                    background: `url(${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/pdf/up-icon.png) no-repeat center`,
+                    background: `url(${FileUrl}/img/ru-local/pdf/up-icon.png) no-repeat center`,
                     backgroundSize: '100% 100%'
+                }}
+                onClick={() => {
+                    let anchorElement = document.getElementById('ReturnTo')
+                    if (anchorElement) {
+                      anchorElement.scrollIntoView({ inline: 'start', block: 'start', behavior: 'auto' })
+                    }
                 }}
             />
             <p className='mt-1.5'>Вернуться к началу</p>
