@@ -298,6 +298,23 @@ const AssistanceDog = loadable(() =>
 );
 
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
+const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
+const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
+const RuLocalFindProduct = loadable(() =>
+  import('@/views/RuLocal/FindProduct')
+);
+
+const RU_Local_SpecialWorksConditions = loadable(() =>
+  import('@/views/RuLocal/SpecialWorksConditions')
+);
+
+const RU_Local_ShipmentConditions = loadable(() =>
+  import('@/views/RuLocal/ShipmentConditions')
+);
+
+const RU_Local_TermsConditions = loadable(() =>
+  import('@/views/RuLocal/TermsConditions')
+);
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
@@ -395,14 +412,6 @@ const PaymentMethod3dsResult = loadable(() =>
 
 const RegisterRequired = loadable(() =>
   import('@/views/Login/RegisterRequired')
-);
-
-const RU_Local_SpecialWorksConditions = loadable(() =>
-  import('@/views/RuLocal/SpecialWorksConditions')
-);
-
-const RU_Local_ShipmentConditions = loadable(() =>
-  import('@/views/RuLocal/ShipmentConditions')
 );
 
 const Test = loadable(() => import('@/views/Test'));
@@ -564,7 +573,6 @@ const App = () => {
                 />
 
                 <Route exact path="/PayResult" component={PayResult} />
-                <Route exact path="/about-us" component={RuLocalAboutUs} />
                 <Route
                   exact
                   path="/Payu3dsPayResult"
@@ -984,13 +992,58 @@ const App = () => {
                   component={TR_GeneralConditions}
                 />
                 <Route
+                  path="/contact-us"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalContactUs {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/club"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalClub {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/club/find-product"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalFindProduct {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
                   path="/About-Us"
                   exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY === 'de'
-                      ? AboutUsDe
-                      : AboutUs
-                  }
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'de':
+                        return <AboutUsDe {...props} />;
+                        break;
+                      case 'ru':
+                        return <RuLocalAboutUs {...props} />;
+                        break;
+                      default:
+                        return <AboutUs {...props} />;
+                    }
+                  }}
+                  // component={
+                  //   window.__.env.REACT_APP_COUNTRY === 'de'
+                  //     ? AboutUsDe
+                  //     : AboutUs
+                  // }
                 />
                 <Route
                   path="/myroyalcanin"
@@ -1236,6 +1289,10 @@ const App = () => {
                 <Route
                   path="/about-us/shipment-conditions"
                   component={RU_Local_ShipmentConditions}
+                />
+                <Route
+                  path="/about-us/terms-and-conditions"
+                  component={RU_Local_TermsConditions}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route

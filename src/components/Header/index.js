@@ -225,7 +225,8 @@ class Header extends React.Component {
     //         }[this.props.match && this.props.match.path] || ''
     // });
 
-    (window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_IS_RULOCAL
+    (window.__.env.REACT_APP_HUB ||
+      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
       ? this.initNavigationsForHub
       : this.initNavigations)();
   }
@@ -663,7 +664,8 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  {window.__.env.REACT_APP_HUB ? (
+                  {window.__.env.REACT_APP_HUB ||
+                  window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
                       handleClickNavItem={this.handleClickNavItem}
@@ -705,7 +707,9 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center mr-0">
                 {showMiniIcons ? (
                   <>
-                    {window.__.env.REACT_APP_HUB && isMobile ? (
+                    {(window.__.env.REACT_APP_HUB ||
+                      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) &&
+                    isMobile ? (
                       <span
                         className={`iconfont icon-search mr-2 icon-search-mini ${
                           showSearchIcon ? 'show-search-icon' : ''
@@ -753,7 +757,8 @@ class Header extends React.Component {
               </nav>
             )}
 
-          {window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_IS_RULOCAL ? (
+          {window.__.env.REACT_APP_HUB ||
+          window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
