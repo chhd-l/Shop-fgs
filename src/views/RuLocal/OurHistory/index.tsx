@@ -1,4 +1,5 @@
 import BreadCrumbs from '@/components/BreadCrumbs';
+import { Button } from '@/components/Common';
 import React from 'react';
 import MyTab from '../components/MyTab';
 import { hirtory10001, hirtory10002 } from './mock';
@@ -69,7 +70,7 @@ const OurHistory = () => {
               Узнайте больше об идеях и ценностях, определяющих роль компании
               ROYAL CANIN® в мире.
             </p>
-            <button>111</button>
+            <Button>Узнайте больше</Button>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 px-cs-30 items-end">
@@ -89,7 +90,7 @@ const OurHistory = () => {
               дополняющемся изучении основ здоровья и правильного питания
               животных.
             </p>
-            <button>111</button>
+            <Button>Узнайте больше</Button>
           </div>
         </div>
       </div>
