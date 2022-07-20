@@ -2713,6 +2713,7 @@ class Payment extends React.Component {
       paymentStore: { serCurPayWayVal }
     } = this.props;
     serCurPayWayVal(e.target.value);
+    this.props.checkoutStore.setInputPoint(0);
     this.setState({ email: '' }, () => {
       this.onPaymentTypeValChange();
     });
@@ -2723,6 +2724,7 @@ class Payment extends React.Component {
     } = this.props;
     // code 转换小写
     serCurPayWayVal(paymentTypeCode);
+    this.props.checkoutStore.setInputPoint(0);
     openPromotionBox();
     this.setState({ email: '', convenienceStore: '' }, () => {
       this.onPaymentTypeValChange();
