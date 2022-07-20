@@ -31,7 +31,7 @@ class PaymentLogos extends React.Component {
     return (
       <>
         {/* payment logos */}
-        {paymentLogos?.length ? (
+        {paymentLogos?.length && !window.__.env.REACT_APP_IS_RULOCAL ? (
           <div className={cn(className)}>
             <div className={cn(`rc-espilon rc-text--inverse`)}>
               {messages['footer.securePaymentMethods']}

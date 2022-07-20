@@ -8,6 +8,7 @@ import { queryApiFromSessionCache, loadJS } from '@/utils/utils';
 import { getFooter } from '@/api/hub';
 import cn from 'classnames';
 import { FooterWrapper } from './style';
+import { marsFooter } from '@/utils/constant/ru-local-data';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isHub = window.__.env.REACT_APP_HUB;
@@ -38,7 +39,7 @@ class Footer extends React.Component {
       intl: { messages }
     } = this.props;
 
-    if (isHub) {
+    if (isHub || window.__.env.REACT_APP_IS_RULOCAL) {
       queryApiFromSessionCache({
         sessionKey: 'footer-hub',
         api: getFooter
@@ -125,7 +126,7 @@ class Footer extends React.Component {
   }
   get showHubFooter() {
     const { hubFooterInfo } = this.state;
-    return isHub && hubFooterInfo;
+    return (isHub || window.__.env.REACT_APP_IS_RULOCAL) && hubFooterInfo;
   }
   scrollToTop = () => {
     const widget = document.querySelector('#page-top');
@@ -177,6 +178,12 @@ class Footer extends React.Component {
             )
           ) : null}
         </div>
+        {window.__.env.REACT_APP_IS_RULOCAL ? (
+          <div
+            className="col-span-12"
+            dangerouslySetInnerHTML={{ __html: marsFooter }}
+          ></div>
+        ) : null}
 
         {/* <!-- OneTrust Cookies Settings button start --> */}
         {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) && (

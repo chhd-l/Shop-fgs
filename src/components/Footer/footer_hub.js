@@ -145,27 +145,29 @@ class FooterHub extends React.Component {
         {/* payment logos */}
         <PaymentLogos className="rc-column order-6 col-span-12 md:col-span-4" />
         <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop order-7 col-span-12">
-          <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
-            {ContactPhone ? (
-              <a
-                className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
-                role="menuitem"
-                href={`tel:${ContactPhone}`}
-              >
-                {ContactPhone}
-              </a>
-            ) : null}
+          {ContactPhone || ContactUsUrl ? (
+            <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
+              {ContactPhone ? (
+                <a
+                  className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
+                  role="menuitem"
+                  href={`tel:${ContactPhone}`}
+                >
+                  {ContactPhone}
+                </a>
+              ) : null}
 
-            {ContactUsUrl ? (
-              <a
-                className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
-                role="menuitem"
-                href={ContactUsUrl.Url}
-              >
-                {ContactUsUrl.Text}
-              </a>
-            ) : null}
-          </div>
+              {ContactUsUrl ? (
+                <a
+                  className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
+                  role="menuitem"
+                  href={ContactUsUrl.Url}
+                >
+                  {ContactUsUrl.Text}
+                </a>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </>
     );
