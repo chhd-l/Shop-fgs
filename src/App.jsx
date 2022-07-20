@@ -397,8 +397,12 @@ const RegisterRequired = loadable(() =>
   import('@/views/Login/RegisterRequired')
 );
 
-const SpecialWorksConditions = loadable(() =>
+const RU_Local_SpecialWorksConditions = loadable(() =>
   import('@/views/RuLocal/SpecialWorksConditions')
+);
+
+const RU_Local_ShipmentConditions = loadable(() =>
+  import('@/views/RuLocal/ShipmentConditions')
 );
 
 const Test = loadable(() => import('@/views/Test'));
@@ -1219,7 +1223,11 @@ const App = () => {
                 />
                 <Route
                   path="/about-us/special-works-conditions"
-                  component={SpecialWorksConditions}
+                  component={RU_Local_SpecialWorksConditions}
+                />
+                <Route
+                  path="/about-us/shipment-conditions"
+                  component={RU_Local_ShipmentConditions}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route

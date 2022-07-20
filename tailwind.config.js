@@ -35,7 +35,7 @@ module.exports = {
         'cs-star': '#F80000',
         'cs-gray': '#666666',
         'cs-gray-150': 'rgb(246, 246, 246)',
-        'cs-gray-f6': '#F6F6F6'
+        'cs-gray-f6': '#f6f6f6'
       },
       textColor: {
         'rc-red': 'var(--rc-red)',
@@ -65,7 +65,8 @@ module.exports = {
         36: '36px',
         38: '38px',
         40: '40px',
-        '4vw': '4vw'
+        '4vw': '4vw',
+        'cs-40': '2.5rem'
       },
       lineHeight: {
         12: 1.2,
@@ -87,13 +88,17 @@ module.exports = {
         auto: 'auto'
       },
       maxHeight: {
+        420: '420px',
         '1/2-screen': '50vh'
       },
       maxWidth: {
+        500: '500px',
         1400: '1400px'
       },
       width: {
+        'cs-29/100': '29%',
         '3/10': '30%',
+        'cs-31/100': '31%',
         'cs-55/100': '55%',
         'cs-73/100': '73%',
         'cs-77/100': '77.333333%',
@@ -156,6 +161,7 @@ module.exports = {
         'cs-168': '10.5rem',
         'cs-174': '10.87rem',
         'cs-190': '11.87rem',
+        'cs-200': '12.5rem',
         'cs-234': '14.62rem',
         'cs-238': '14.87rem',
         'cs-246': '15.37rem',
@@ -201,6 +207,7 @@ module.exports = {
       padding: {
         'cs-1': '1rem',
         'cs-2': '2rem',
+        'cs-14': '.875rem',
         'cs-17': '1.06rem',
         'cs-18': '1.12rem',
         'cs-30': '1.875rem',

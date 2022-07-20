@@ -2,9 +2,10 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Progress from '../components/Progress';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { specialWorksConditions_contents } from '../modules/specialWorksConditions';
 import './index.less';
+import BreadCrumbs from '@/components/BreadCrumbs';
 
 const FileUrl = window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
 
@@ -26,16 +27,17 @@ const SpecialWorksConditions = () => {
     }, []);
 
   return (
-    <div className="ui-custom-hub text-black specialWorksConditions">
+    <div className="text-black specialWorksConditions">
       <Header showMiniIcons={true} showUserIcon={true} />
       <div id='ReturnTo' className="relative rc-content--fixed-header text-base">
         <Progress />
         <div className="md:p-8 pb-8 pt-6 px-3">
-          <div className="Информацияокомпании inline-block relative md:ml-16 ml-5 border-white border-solid border-b-2 hover:border-red-600">
-            <Link className="cursor-pointer hover:text-red-600" to="/about-us">
+          {/* <div className="Информацияокомпании inline-block relative md:ml-16 ml-5 border-white border-solid border-b-2 hover:border-red-600"> */}
+            {/* <Link className="cursor-pointer hover:text-red-600" to="/about-us">
               Информация о компании
-            </Link>
-          </div>
+            </Link> */}
+          {/* </div> */}
+            <BreadCrumbs />
         </div>
         <div id='ListOfDocuments' className="md:p-8 pl-8 px-3">
           <div className="max-w-screen-md m-auto">
