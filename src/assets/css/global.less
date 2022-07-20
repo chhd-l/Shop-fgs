@@ -23899,3 +23899,23 @@ html:not(.rc-loaded--final) .rc-header__nav .rc-list__content.hidden {
   content: '\e60d';
   @apply text-rc-red text-lg;
 }
+ .ru-local-marsfooter{
+    font-family: 'RC TYPE', Roboto, Avenir, Helvetica, Arial, sans-serif;
+  }
+  .ru-local-marsfooter .mars-footer-label{
+color: #fff !important;
+  }
+@media only screen and (max-width: 767px) {
+  .ru-local-marsfooter{
+    .mars-footer-container{
+      padding-bottom: 0;
+    }
+    .mars-footer-list-right{
+      float: none;
+      li{
+        float: none!important;
+        white-space: nowrap;
+      }
+    }
+  }
+}
