@@ -21,27 +21,14 @@ const ShipmentConditionsTable = () => {
         </p>
         <div className="border border-solid text-center">
           {ShipmentConditionsTable_lists.map((strs, idx) => {
-            if (idx === 0)
-              return (
-                <div className="hover:bg-cs-gray-f6 h-24 flex" key={idx}>
-                  {strs.map((str, index) => (
-                    <div
-                      className="flex-1 flex items-center justify-center"
-                      key={index}
-                    >
-                      {str}
-                    </div>
-                  ))}
-                </div>
-              );
             return (
               <div
                 key={idx}
-                className="hover:bg-cs-gray-f6 h-12 flex border-t border-solid"
+                className={`hover:bg-cs-gray-f6 flex py-5 ${idx !== 0 && 'border-t border-solid'}`}
               >
                 {strs.map((str, index) => (
                   <div
-                    className="flex-1 flex items-center justify-center"
+                    className="flex-1 px-2 flex items-center justify-center"
                     key={index}
                   >
                     {str}
@@ -57,7 +44,7 @@ const ShipmentConditionsTable = () => {
           России Вы можете узнать из{' '}
           <a
             className="transition-colors hover:text-red-600 border-solid border-transparent border-b hover:border-red-600"
-            href="https://www.royal-canin.ru/upload/doc/Page-with-delivery-information.pdf"
+            href={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/shipment-conditions/PDF_1.pdf`}
           >
             <strong>файла</strong>
           </a>{' '}
@@ -79,15 +66,15 @@ const ShipmentConditionsTable = () => {
           неправильный номер.
         </p>
       </div>
-      <div className="-mx-32">
+      <div className="md:-mx-32">
         <div>
           <h1 className="mb-6 mt-14 text-red-500 text-2xl font-light text-center">
             При доставке транспортной компанией DPD Вы получаете:
           </h1>
-          <div className=" flex justify-between">
+          <div className="md:flex-row flex-col flex justify-between">
             {ShipmentConditionsTable_DPD.map((item, idx) => (
               <div
-                className="w-cs-29/100 p-8 text-center"
+                className="md:w-cs-29/100 p-8 text-center"
                 key={idx}
                 style={{
                   boxShadow: '0 8px 15px rgb(0 0 0 / 10%)'
@@ -95,7 +82,7 @@ const ShipmentConditionsTable = () => {
               >
                 <img
                   className="w-8 m-auto mb-8"
-                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/shipment-conditions/10003.jpg`}
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/shipment-conditions/${item.url}@2x.png`}
                   alt=""
                 />
                 <p className=' text-lg'>{item.span}</p>
@@ -107,9 +94,9 @@ const ShipmentConditionsTable = () => {
           <h1 className="mb-6 mt-14 text-red-500 text-2xl font-light text-center">
             Как пользоваться данными функциями:
           </h1>
-          <div className="flex items-end justify-between">
+          <div className="flex items-end justify-between md:flex-row flex-col">
             {ShipmentConditionsTable_Kak.map((item, idx) => (
-              <div className="w-cs-31/100 pb-8 pt-16" key={idx}>
+              <div className="md:w-cs-31/100 pb-8 pt-16" key={idx}>
                 <p className=' text-lg'>
                   {item.span} <strong>{item.strong}</strong>
                 </p>
