@@ -653,7 +653,7 @@ class UnLoginCart extends React.Component {
                     .replace('/', '')}-${pitem.goods.goodsNo}`}
                 >
                   <h4
-                    className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
+                    className="rc-gamma rc-margin--none d-md-inline-block cart-item-md__tagging_title order-2"
                     title={pitem.goodsName}
                     style={{ wordBreak: 'break-word' }}
                   >
