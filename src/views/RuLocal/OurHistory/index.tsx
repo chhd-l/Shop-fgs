@@ -1,6 +1,8 @@
 import BreadCrumbs from '@/components/BreadCrumbs';
 import React from 'react';
+import FootLink from '../components/FootLink';
 import MyTab from '../components/MyTab';
+import { linkList } from './mock';
 import {
   Tab1960,
   Tab1970,
@@ -33,22 +35,30 @@ const tabList = [
     element: <Tab2010 />
   }
 ];
+
 const OurHistory = () => {
   return (
-    <div className="p-cs-2 max-w-1400 mx-auto">
-      <BreadCrumbs />
-      <div className="p-cs-1 mt-28">
-        <h1 className=" text-cs-primary text-center text-4vw leading-4.3vw">
-          Более 50 лет в области здорового питания
-        </h1>
-        <p className="text-16 text-center">
-          С 1968 года компания ROYAL CANIN® работает над тем, чтобы сделать
-          питание одним из методов поддержания здоровья кошек и собак. Это наш
-          способ сделать мир для домашних животных лучше.
-        </p>
+    <>
+      <div className="p-cs-2 max-w-1400 mx-auto">
+        <BreadCrumbs />
+        <div className="p-cs-1 mt-28">
+          <h1 className=" text-cs-primary text-center text-4vw leading-4.3vw">
+            Более 50 лет в области здорового питания
+          </h1>
+          <p className="text-16 text-center">
+            С 1968 года компания ROYAL CANIN® работает над тем, чтобы сделать
+            питание одним из методов поддержания здоровья кошек и собак. Это наш
+            способ сделать мир для домашних животных лучше.
+          </p>
+        </div>
       </div>
-      <MyTab tabList={tabList} />
-    </div>
+      <div className="bg-cs-gray-f6 w-full h-cs-8" />
+      <div className="px-cs-2 mt-cs-36">
+        <MyTab tabList={tabList} />
+      </div>
+      <div className="bg-cs-gray-f6 w-full h-cs-8" />
+      <FootLink linkList={linkList} />
+    </>
   );
 };
 
