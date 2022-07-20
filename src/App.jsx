@@ -299,6 +299,10 @@ const AssistanceDog = loadable(() =>
 
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
 const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
+const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
+const RuLocalFindProduct = loadable(() =>
+  import('@/views/RuLocal/FindProduct')
+);
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
@@ -975,7 +979,39 @@ const App = () => {
                   exact
                   component={TR_GeneralConditions}
                 />
-                <Route path="/contact-us" exact component={RuLocalContactUs} />
+                <Route
+                  path="/contact-us"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalContactUs {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/contact-us"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalClub {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/club/find-product"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalFindProduct {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   path="/About-Us"
                   exact
