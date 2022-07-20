@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { specialWorksConditions_contents } from '../modules/specialWorksConditions';
 import './index.less';
 
+const FileUrl = window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
+
 const SpecialWorksConditions = () => {
     const [ToOpen, setToOpen] = useState(false)
 
@@ -45,7 +47,7 @@ const SpecialWorksConditions = () => {
                     <span className="mr-1">{idx + 1}.</span>
                     <div className="border-white border-solid border-b-2 hover:border-red-600">
                       <a
-                        href={item.url}
+                        href={`${FileUrl}/img/ru-local/pdf/${item.url}`}
                         className="transition-colors duration-200 hover:text-red-600"
                       >
                         {item.span}
@@ -61,7 +63,7 @@ const SpecialWorksConditions = () => {
           <div className="flex flex-col items-center">
             <span className="w-14 h-14"
                 style={{
-                    background: `url(${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/pdf/up-icon.png) no-repeat center`,
+                    background: `url(${FileUrl}/img/ru-local/pdf/up-icon.png) no-repeat center`,
                     backgroundSize: '100% 100%'
                 }}
             />
