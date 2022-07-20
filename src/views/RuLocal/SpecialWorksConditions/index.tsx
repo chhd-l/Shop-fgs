@@ -13,8 +13,7 @@ const SpecialWorksConditions = () => {
 
     const handlScroll = () => {
       const windowTop =
-        document.querySelector('#ReturnToTop')?.getBoundingClientRect().top || 0;
-        console.log('windowTop',windowTop)
+        document.querySelector('#ListOfDocuments')?.getBoundingClientRect().top || 0;
         if(windowTop <= -500 && windowTop >= -900) setToOpen(true)
         else setToOpen(false)
     };
@@ -38,7 +37,7 @@ const SpecialWorksConditions = () => {
             </Link>
           </div>
         </div>
-        <div id='ReturnToTop' className="md:p-8 pl-8 px-3">
+        <div id='ListOfDocuments' className="md:p-8 pl-8 px-3">
           <div className="max-w-screen-md m-auto">
             <ol className="md:p-8 p-0">
               {specialWorksConditions_contents.map((item, idx) => (
