@@ -1,3 +1,6 @@
+const path = window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX;
+export const hirtory10001 = `${path}/img/ru-local/history1/10001.jpg`;
+export const hirtory10002 = `${path}/img/ru-local/history1/10002.jpg`;
 export const Tab2010Data = [
   {
     title: '2012: Anallergenic — революционная инновация',

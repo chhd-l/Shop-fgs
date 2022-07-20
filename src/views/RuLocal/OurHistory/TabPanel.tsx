@@ -171,7 +171,12 @@ export const Tab2010 = () => {
   return (
     <div>
       {Tab2010Data.map((item) => (
-        <Render title={item.title} path={item.path} desc={item.desc} />
+        <Render
+          title={item.title}
+          path={item.path}
+          desc={item.desc}
+          key={item.title}
+        />
       ))}
     </div>
   );
