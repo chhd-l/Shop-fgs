@@ -4,12 +4,8 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import './index.less';
 import { Link } from 'react-router-dom';
-const HrLine = () => (
-  <hr
-    className="rc-md-up"
-    style={{ borderWidth: '8px', borderColor: '#f4f4f4' }}
-  />
-);
+import HrLine from '../components/HrLine';
+
 const AboutUs = () => {
   return (
     <div className="ru-local-about-us">
@@ -37,7 +33,6 @@ const AboutUs = () => {
             <div className="rc-full-width">
               <img
                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/about-us/10001.png`}
-                alt=""
               />
             </div>
           </div>
@@ -45,18 +40,14 @@ const AboutUs = () => {
         <HrLine />
         <div
           className="rc-padding-x--sm rc-margin--none rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active"
-          data-component="content-animation"
         >
           <div className="rc-padding-y--md rc-md-down"></div>
           <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
             <div className="rc-column rc-padding-y--none rc-single ">
               <a className="offset-top-header"></a>
               <div
-                data-name=""
                 className="content-block-variation-1 rc_center_on_mobile rc-padding-x--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-full-width "
-                data-component="content-animation"
                 id="content-block-with-text-and-image-6-about-us-page"
-                vet-products-partial-path="/products/vet"
               >
                 <div className="content-container">
                   <div className="img-container rc-padding-bottom--none">
@@ -67,10 +58,10 @@ const AboutUs = () => {
                   </div>
                   <div className="text-container">
                     <div className="rc-full-width rc-text--left">
-                      <div
+                      {/* <div
                         className="control-btns-size"
                         style={{ display: 'none' }}
-                      ></div>
+                      ></div> */}
                       <div className="rc-container-text">
                         <h2 className="rc-beta " data-en-title="Наши ценности">
                           Наши ценности
@@ -94,11 +85,8 @@ const AboutUs = () => {
             <div className="rc-column rc-single ">
               <a className="offset-top-header"></a>
               <div
-                data-name=""
                 className="content-block-variation-1 rc_center_on_mobile rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-full-width "
-                data-component="content-animation"
                 id="content-block-with-text-and-image-5-about-us-page"
-                vet-products-partial-path="/products/vet"
               >
                 <div className="content-container">
                   <div className="img-container ">
@@ -109,10 +97,10 @@ const AboutUs = () => {
                   </div>
                   <div className="text-container">
                     <div className="rc-full-width rc-text--left">
-                      <div
+                      {/* <div
                         className="control-btns-size"
                         style={{ display: 'none' }}
-                      ></div>
+                      ></div> */}
                       <div className="rc-container-text">
                         <h2 className="rc-beta " data-en-title="Наша история">
                           Наша история
@@ -140,11 +128,8 @@ const AboutUs = () => {
         <HrLine />
 
         <div
-          data-name=""
           className="content-block-variation-1 rc_center_on_mobile rc-padding--sm rc-margin--none rc-bg-colour--brand3 rc-full-width rc-animation-001--base rc-animation-001--active"
-          data-component="content-animation"
           id="content-block-with-text-and-image-10-about-us-page"
-          vet-products-partial-path="/products/vet"
         >
           <div className="content-container">
             <div className="img-container ">
@@ -159,7 +144,6 @@ const AboutUs = () => {
                 <div className="rc-container-text">
                   <h2
                     className="rc-beta "
-                    data-en-title="Наш диетологический подход"
                   >
                     Наш диетологический подход
                   </h2>
@@ -186,18 +170,14 @@ const AboutUs = () => {
 
         <div
           className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active"
-          data-component="content-animation"
         >
           <div className="rc-padding-y--md rc-md-down"></div>
           <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
             <div className="rc-column rc-single ">
               <a className="offset-top-header"></a>
               <div
-                data-name=""
                 className="content-block-variation-1 rc_center_on_mobile rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-full-width "
-                data-component="content-animation"
                 id="content-block-with-text-and-image-8-about-us-page"
-                vet-products-partial-path="/products/vet"
               >
                 <div className="content-container justify-center">
                   <div className="img-container ">

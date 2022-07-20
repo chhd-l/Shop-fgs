@@ -298,6 +298,7 @@ const AssistanceDog = loadable(() =>
 );
 
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
+const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
@@ -974,6 +975,7 @@ const App = () => {
                   exact
                   component={TR_GeneralConditions}
                 />
+                <Route path="/contact-us" exact component={RuLocalContactUs} />
                 <Route
                   path="/About-Us"
                   exact
