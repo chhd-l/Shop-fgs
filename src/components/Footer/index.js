@@ -189,7 +189,11 @@ class Footer extends React.Component {
         {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) && (
           <div
             className="cookieSettingBox bg-white"
-            style={{ visibility: 'hidden' }}
+            style={{
+              visibility: window.__.env.REACT_APP_IS_RULOCAL
+                ? 'visible'
+                : 'hidden'
+            }}
           >
             <button id="ot-sdk-btn" className="ot-sdk-show-settings">
               <FormattedMessage id="footer.cookieSettings" />

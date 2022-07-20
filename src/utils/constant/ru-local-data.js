@@ -186,7 +186,7 @@ export const ruLocalNavigation = {
         },
         {
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
+            Url: '/contact-us',
             Text: null
           },
           Subtitle: 'По e-mail ',
@@ -195,7 +195,7 @@ export const ruLocalNavigation = {
         },
         {
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/faq',
+            Url: '/about-us/faq',
             Text: null
           },
           Subtitle: 'Часто задаваемые вопросы ',
@@ -439,7 +439,7 @@ export const ruLocalFooter = {
     // },
     {
       Link: {
-        Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
+        Url: '/contact-us',
         Text: 'Связаться с нами'
       },
       MenuItems: [
@@ -489,7 +489,7 @@ export const ruLocalFooter = {
   ],
   LocalMarketSettings: {
     // ContactUsUrl: {
-    //   Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
+    //   Url: '/contact-us',
     //   Text: 'Связаться с нами'
     // },
     // EnableWeChat: false,
