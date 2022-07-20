@@ -409,6 +409,7 @@ const RU_Local_OurHistory = loadable(() =>
   import('@/views/RuLocal/OurHistory')
 );
 
+const RU_Local_OurValues = loadable(() => import('@/views/RuLocal/OurValues'));
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
@@ -1200,7 +1201,13 @@ const App = () => {
                   exact
                   path="/about-us/our-history"
                   component={RU_Local_OurHistory}
-                ></Route>
+                />
+                <Route
+                  exact
+                  path="/about-us/our-values"
+                  component={RU_Local_OurValues}
+                />
+
                 <Route
                   path="/list/:category"
                   render={(props) => (
