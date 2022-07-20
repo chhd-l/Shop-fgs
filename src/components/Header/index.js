@@ -225,7 +225,7 @@ class Header extends React.Component {
     //         }[this.props.match && this.props.match.path] || ''
     // });
 
-    (window.__.env.REACT_APP_HUB
+    (window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_IS_RULOCAL
       ? this.initNavigationsForHub
       : this.initNavigations)();
   }
@@ -753,7 +753,7 @@ class Header extends React.Component {
               </nav>
             )}
 
-          {window.__.env.REACT_APP_HUB ? (
+          {window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_IS_RULOCAL ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
