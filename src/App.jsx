@@ -556,7 +556,6 @@ const App = () => {
                 />
 
                 <Route exact path="/PayResult" component={PayResult} />
-                <Route exact path="/about-us" component={RuLocalAboutUs} />
                 <Route
                   exact
                   path="/Payu3dsPayResult"
@@ -978,11 +977,23 @@ const App = () => {
                 <Route
                   path="/About-Us"
                   exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY === 'de'
-                      ? AboutUsDe
-                      : AboutUs
-                  }
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'de':
+                        return <AboutUsDe {...props} />;
+                        break;
+                      case 'ru':
+                        return <RuLocalAboutUs {...props} />;
+                        break;
+                      default:
+                        return <AboutUs {...props} />;
+                    }
+                  }}
+                  // component={
+                  //   window.__.env.REACT_APP_COUNTRY === 'de'
+                  //     ? AboutUsDe
+                  //     : AboutUs
+                  // }
                 />
                 <Route
                   path="/myroyalcanin"
