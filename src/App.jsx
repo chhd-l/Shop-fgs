@@ -412,6 +412,9 @@ const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 const RU_Local_OurHistory = loadable(() =>
   import('@/views/RuLocal/OurHistory')
 );
+const RU_Local_Sustainability = loadable(() =>
+  import('@/views/RuLocal/Sustainability')
+);
 
 const RU_Local_OurValues = loadable(() => import('@/views/RuLocal/OurValues'));
 const ImplicitLogin = () => {
@@ -1210,6 +1213,11 @@ const App = () => {
                   exact
                   path="/about-us/our-values"
                   component={RU_Local_OurValues}
+                />
+                <Route
+                  exact
+                  path="/about-us/sustainability"
+                  component={RU_Local_Sustainability}
                 />
 
                 <Route
