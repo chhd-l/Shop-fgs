@@ -50,19 +50,22 @@ const OurHistory = () => {
             способ сделать мир для домашних животных лучше.
           </p>
         </div>
+      </div>
+      <div className="bg-cs-gray-f6 w-full h-cs-8" />
+      <div className="px-cs-2 mt-cs-36">
         <MyTab tabList={tabList} />
       </div>
-      <div className="bg-cs-gray-f6 w-full h-cs-8"></div>
+      <div className="bg-cs-gray-f6 w-full h-cs-8" />
       <div className="grid grid-cols-1 md:grid-cols-2 pt-cs-66 pb-cs-88 px-cs-2">
         <div className="grid grid-cols-1  md:grid-cols-3 px-cs-30 items-end">
           <div className="col-span-1 flex items-end justify-end">
             <img
               src={hirtory10001}
               alt=""
-              className=" w-full h-cs-180 md:w-cs-148 "
+              className=" w-full h-full md:h-cs-180 md:w-cs-148 "
             />
           </div>
-          <div className="ml-0 md:ml-cs-22 col-span-2">
+          <div className="ml-0 md:ml-cs-22 col-span-2 md:text-left text-center">
             <h2 className="text-cs-primary text-30 leading-cs-40 text-center md:text-left">
               Наши ценности
             </h2>
@@ -78,10 +81,10 @@ const OurHistory = () => {
             <img
               src={hirtory10002}
               alt=""
-              className=" w-full h-cs-180 md:w-cs-148 "
+              className=" w-full h-full md:h-cs-180 md:w-cs-148 "
             />
           </div>
-          <div className="ml-0 md:ml-cs-22 col-span-2">
+          <div className="ml-0 md:ml-cs-22 col-span-2 md:text-left text-center">
             <h2 className="text-cs-primary text-30 leading-cs-40 text-center md:text-left">
               Питание, учитывающее особые потребности
             </h2>
