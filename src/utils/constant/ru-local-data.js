@@ -6,7 +6,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: 'https://www.royalcanin.com/ru/shop/cats/retail-products',
+            Url: '/cats/retail-products',
             Text: 'Повседневные корма'
           },
           Type: 'MenuItem'
@@ -14,7 +14,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: '	https://www.royalcanin.com/ru/shop/cats/vet-products',
+            Url: '	/cats/vet-products',
             Text: 'Ветеринарные диеты'
           },
           Type: 'MenuItem'
@@ -22,7 +22,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: 'https://www.royalcanin.com/ru/shop/cats/kitten/retail-products',
+            Url: '/cats/kitten/retail-products',
             Text: 'Продукты для котят'
           },
           Type: 'MenuItem'
@@ -39,7 +39,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: 'https://www.royalcanin.com/ru/shop/dogs/retail-products',
+            Url: '/dogs/retail-products',
             Text: 'Повседневные корма'
           },
           Type: 'MenuItem'
@@ -47,7 +47,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: '	https://www.royalcanin.com/ru/shop/dogs/vet-products',
+            Url: '	/dogs/vet-products',
             Text: 'Ветеринарные диеты '
           },
           Type: 'MenuItem'
@@ -55,7 +55,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: 'https://www.royalcanin.com/ru/shop/dogs/puppy/retail-products',
+            Url: '/dogs/puppy/retail-products',
             Text: 'Продукты для щенков'
           },
           Type: 'MenuItem'
@@ -70,7 +70,7 @@ export const ruLocalNavigation = {
     {
       MenuItems: [],
       Link: {
-        Url: '	https://www.royalcanin.com/ru/club',
+        Url: '/club',
         Text: 'Клуб'
       },
       Type: 'MenuGroup'
@@ -78,7 +78,7 @@ export const ruLocalNavigation = {
     {
       MenuItems: [],
       Link: {
-        Url: 'https://www.royalcanin.com/ru/tailored-nutrition',
+        Url: '/tailored-nutrition',
         Text: 'Здоровое питание'
       },
       Type: 'MenuGroup'
@@ -88,7 +88,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: 'https://www.royalcanin.com/ru/about-us/our-history',
+            Url: '/about-us/our-history',
             Text: 'Наша история '
           },
           Type: 'MenuItem'
@@ -96,7 +96,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: 'https://www.royalcanin.com/ru/about-us/our-values',
+            Url: '/about-us/our-values',
             Text: 'Наши ценности'
           },
           Type: 'MenuItem'
@@ -104,7 +104,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: '	https://www.royalcanin.com/ru/about-us/sustainability',
+            Url: '	/about-us/sustainability',
             Text: 'Устойчивое развитие'
           },
           Type: 'MenuItem'
@@ -293,45 +293,53 @@ export const ruLocalFooter = {
     }
   ],
   MenuInfoItems: [
-    {
-      Title: 'Связаться с нами',
-      Content:
-        'Вы можете связаться с нами каждый день с 9:00 до 21:00 (по московскому времени)',
-      Image: {
-        Url: ' 320w, 360w, 640w, 720w, 960w, 1280w, 1440w',
-        AltText: ''
-      },
-      Type: 'MenuInfoItem'
-    }
+    // {
+    //   Title: 'Связаться с нами',
+    //   Content:
+    //     'Вы можете связаться с нами каждый день с 9:00 до 21:00 (по московскому времени)',
+    //   Image: {
+    //     Url: ' 320w, 360w, 640w, 720w, 960w, 1280w, 1440w',
+    //     AltText: ''
+    //   },
+    //   Type: 'MenuInfoItem'
+    // }
   ],
   MenuGroups: [
     {
       Link: {
-        Url: '/ru/shop/products',
+        Url: '/products',
         Text: 'Продукты'
       },
       MenuItems: [
         {
           Icon: '',
           Link: {
-            Url: '/ru/shop/dogs',
-            Text: 'Ассортимент продуктов для собак'
+            Url: '/cats/retail-products',
+            Text: 'Повседневные корма для кошек'
           },
           Type: 'MenuItem'
         },
         {
           Icon: '',
           Link: {
-            Url: '/ru/shop/cats',
-            Text: 'Ассортимент продуктов для кошек'
+            Url: '/dogs/retail-products',
+            Text: 'Повседневные корма для собак'
           },
           Type: 'MenuItem'
         },
         {
           Icon: '',
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/product-finder',
-            Text: 'Подобрать рацион'
+            Url: '/cats/vet-products',
+            Text: 'Ветеринарные продукты для кошек'
+          },
+          Type: 'MenuItem'
+        },
+        {
+          Icon: '',
+          Link: {
+            Url: '/dogs/vet-products',
+            Text: 'Ветеринарные продукты для собак'
           },
           Type: 'MenuItem'
         }
@@ -340,224 +348,95 @@ export const ruLocalFooter = {
     },
     {
       Link: {
-        Url: 'https://stgwedding.royalcanin.com/ru/cats',
-        Text: 'Кошки'
-      },
-      MenuItems: [
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/cats/products',
-            Text: 'Продукты'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/cats/breeds',
-            Text: 'Породы'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/cats/thinking-of-getting-a-cat',
-            Text: 'Хотите завести кошку?'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/cats/kitten',
-            Text: 'Котенок'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/cats/health-and-wellbeing',
-            Text: 'Здоровье и благополучие'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/cats/tips',
-            Text: 'Вопросы и ответы'
-          },
-          Type: 'MenuItem'
-        }
-      ],
-      Type: 'MenuGroup'
-    },
-    {
-      Link: {
-        Url: 'https://stgwedding.royalcanin.com/ru/dogs',
-        Text: 'Собаки'
-      },
-      MenuItems: [
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/dogs/products',
-            Text: 'Продукты'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/dogs/breeds',
-            Text: 'Породы'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/dogs/thinking-of-getting-a-dog',
-            Text: 'Хотите завести собаку?'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/dogs/puppy',
-            Text: 'Щенок'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/dogs/health-and-wellbeing',
-            Text: 'Здоровье и благополучие'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/dogs/tips',
-            Text: 'Вопросы и ответы'
-          },
-          Type: 'MenuItem'
-        }
-      ],
-      Type: 'MenuGroup'
-    },
-    {
-      Link: {
-        Url: 'https://stgwedding.royalcanin.com/ru/tailored-nutrition',
-        Text: 'Здоровое питание'
-      },
-      MenuItems: [],
-      Type: 'MenuGroup'
-    },
-    {
-      Link: {
-        Url: 'https://stgwedding.royalcanin.com/ru/about-us',
+        Url: '/about-us',
         Text: 'О нас'
       },
       MenuItems: [
         {
           Icon: '',
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/our-history',
-            Text: 'Наша история'
+            Url: '/club',
+            Text: 'Клуб*'
           },
           Type: 'MenuItem'
         },
         {
           Icon: '',
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/our-values',
-            Text: 'Наши ценности'
+            Url: '/about-us/our-history',
+            Text: 'Наша история*'
           },
           Type: 'MenuItem'
         },
         {
           Icon: '',
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/sustainability',
-            Text: 'Устойчивое развитие'
+            Url: '/about-us/special-works-conditions',
+            Text: 'Специальная оценка условий труда*'
           },
           Type: 'MenuItem'
         },
         {
           Icon: '',
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/quality-and-food-safety',
-            Text: 'Качество и пищевая безопасность'
+            Url: 'https://careers.mars.com/ru/ru',
+            Text: 'Карьера'
           },
           Type: 'MenuItem'
         },
         {
           Icon: '',
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/news',
-            Text: 'Новости'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/special-works-conditions',
-            Text: 'Специальная оценка условий труда'
+            Url: 'https://www.mars.com/global/policies/note-to-parents/np-russian',
+            Text: '	Уведомления для родителей'
           },
           Type: 'MenuItem'
         }
       ],
       Type: 'MenuGroup'
     },
-    {
-      Link: {
-        Url: 'https://stores.royal-canin.ru/stores/',
-        Text: 'Где купить'
-      },
-      MenuItems: [
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/local/',
-            Text: 'Найти зоомагазин '
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/vc/',
-            Text: 'Найти ветеринарную клинику'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: '/ru/shop',
-            Text: 'Интернет-магазин ROYAL CANIN®'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: '/ru/shop/club-subscription',
-            Text: 'Клуб'
-          },
-          Type: 'MenuItem'
-        }
-      ],
-      Type: 'MenuGroup'
-    },
+
+    // {
+    //   Link: {
+    //     Url: 'https://stores.royal-canin.ru/stores/',
+    //     Text: 'Где купить'
+    //   },
+    //   MenuItems: [
+    //     {
+    //       Icon: '',
+    //       Link: {
+    //         Url: 'https://stores.royal-canin.ru/stores/local/',
+    //         Text: 'Найти зоомагазин '
+    //       },
+    //       Type: 'MenuItem'
+    //     },
+    //     {
+    //       Icon: '',
+    //       Link: {
+    //         Url: 'https://stores.royal-canin.ru/stores/vc/',
+    //         Text: 'Найти ветеринарную клинику'
+    //       },
+    //       Type: 'MenuItem'
+    //     },
+    //     {
+    //       Icon: '',
+    //       Link: {
+    //         Url: '/ru/shop',
+    //         Text: 'Интернет-магазин ROYAL CANIN®'
+    //       },
+    //       Type: 'MenuItem'
+    //     },
+    //     {
+    //       Icon: '',
+    //       Link: {
+    //         Url: '/ru/shop/club-subscription',
+    //         Text: 'Клуб'
+    //       },
+    //       Type: 'MenuItem'
+    //     }
+    //   ],
+    //   Type: 'MenuGroup'
+    // },
     {
       Link: {
         Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
@@ -567,8 +446,40 @@ export const ruLocalFooter = {
         {
           Icon: '',
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/terms-and-conditions',
-            Text: 'Правила использования сайта'
+            Url: '/about-us/shipment-conditions',
+            Text: 'Условия доставки'
+          },
+          Type: 'MenuItem'
+        },
+        {
+          Icon: '',
+          Link: {
+            Url: '/about-us/terms-and-conditions',
+            Text: 'Возврат товара'
+          },
+          Type: 'MenuItem'
+        },
+        {
+          Icon: '',
+          Link: {
+            Url: '/about-us/faq',
+            Text: 'Часто задаваемые вопросы'
+          },
+          Type: 'MenuItem'
+        },
+        {
+          Icon: '',
+          Link: {
+            Url: 'https://www.mars.com/legal-russia',
+            Text: 'Условия использования веб-сайта'
+          },
+          Type: 'MenuItem'
+        },
+        {
+          Icon: '',
+          Link: {
+            Url: '/about-us/terms-and-conditions',
+            Text: 'Пользовательское соглашение'
           },
           Type: 'MenuItem'
         }
@@ -577,15 +488,69 @@ export const ruLocalFooter = {
     }
   ],
   LocalMarketSettings: {
-    ContactUsUrl: {
-      Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
-      Text: 'Связаться с нами'
-    },
-    EnableWeChat: false,
-    WeChatQrCode: {
-      Url: null,
-      AltText: ''
-    },
-    ContactPhone: '8 800 200 37 35'
+    // ContactUsUrl: {
+    //   Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
+    //   Text: 'Связаться с нами'
+    // },
+    // EnableWeChat: false,
+    // WeChatQrCode: {
+    //   Url: null,
+    //   AltText: ''
+    // },
+    // ContactPhone: '8 800 200 37 35'
   }
 };
+
+export const marsFooter = `<div class="col-span-12 ru-local-marsfooter">
+<div id="mars-footer-panel">
+    <div class="mars-footer-container">
+        <ul class="mars-footer-list-right" style="font-size: 0.625rem">
+            <li>
+                <a href="https://www.mars.com/privacy-policy-russian" rel="nofollow" target="_blank">
+                    <span class="mars-footer-label">
+                    Конфиденциальность
+                    </span>
+                    <span class="warning_blank">
+                        Opens a new window
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mars.com/cookies-russia" rel="nofollow" target="_blank">
+                    <span class="mars-footer-label">
+                    Файлы Cookies
+                    </span>
+                    <span class="warning_blank">
+                        Opens a new window
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mars.com/legal-russia" rel="nofollow" target="_blank">
+                    <span class="mars-footer-label">
+                    Юридические условия
+                    </span>
+                    <span class="warning_blank">
+                        Opens a new window
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mars.com/accessibility-russian" rel="nofollow" target="_blank">
+                    <span class="mars-footer-label">
+                    Доступность
+                    </span>
+                    <span class="warning_blank">
+                        Opens a new window
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="mars-footer-legal text-center">
+            <p>
+            ©2022 Royal Canin SAS. Все права защищены.
+            </p>Входит в группу компаний Mars, Incorporated.</p>
+        </div>
+    </div>
+</div>
+</div>`;

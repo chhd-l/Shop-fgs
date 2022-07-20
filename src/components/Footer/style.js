@@ -9,6 +9,7 @@ export const FooterWrapper = styled.footer`
       }
     }
   }
+
   @media screen and (min-width: 767px) {
     .hub-footer {
       .rc-list--footer-columns {
