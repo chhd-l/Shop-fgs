@@ -138,6 +138,10 @@ const breadcrumbNameMap = {
       name: 'CLUB'
     }
   ],
+  '/club/find-product': [
+    { name: 'Club', href: '/club' },
+    { name: 'Find Product', href: '/club/find-product' }
+  ],
   '/faq': [
     {
       name: 'FAQ'
