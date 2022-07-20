@@ -31,7 +31,7 @@ const ShipmentConditions = () => {
               alt=""
             />
             <div className="h-cs-409 w-full md:max-w-500 md:max-h-420 bg-white px-8 md:py-8 py-4 mt-36 md:mt-0">
-              <h1 className="md:text-cs-40 md:leading-cs-56 text-red-500">
+              <h1 className="md:text-cs-40 md:leading-cs-56 text-red-500 mb-6">
                 Условия доставки интернет-магазина ROYAL CANIN®
               </h1>
               <p>
@@ -45,7 +45,7 @@ const ShipmentConditions = () => {
                 вас возникли вопросы по статусу вашего заказа, то вы можете
                 обратиться в нашу Службу заботы по телефону{' '}
                 <strong>8-800-200-37-35</strong> или проверить статус заказа на{' '}
-                сайте (кроме Москвы и Московской области).
+                <a className='text-blue-600 underline' href="https://www.dpd.ru/ols/trace2/extended.do2"><strong>сайте</strong></a> (кроме Москвы и Московской области).
               </p>
             </div>
           </div>
