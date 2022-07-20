@@ -794,7 +794,7 @@ export function unique(arr) {
 
 export async function queryApiFromSessionCache({ sessionKey, api }) {
   let ret = sessionItemRoyal.get(sessionKey);
-  if (ret && sessionKey != 'footer-hub') {
+  if (ret) {
     ret = JSON.parse(ret);
   } else {
     console.info('ruLocalNavigation', ruLocalNavigation);
