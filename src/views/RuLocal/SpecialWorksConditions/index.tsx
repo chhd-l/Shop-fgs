@@ -15,7 +15,7 @@ const SpecialWorksConditions = () => {
       const windowTop =
         document.querySelector('#ReturnToTop')?.getBoundingClientRect().top || 0;
         console.log('windowTop',windowTop)
-        if(windowTop <= -500 && windowTop >= -1000) setToOpen(true)
+        if(windowTop <= -500 && windowTop >= -900) setToOpen(true)
         else setToOpen(false)
     };
   
@@ -29,7 +29,7 @@ const SpecialWorksConditions = () => {
   return (
     <div className="ui-custom-hub text-black specialWorksConditions">
       <Header showMiniIcons={true} showUserIcon={true} />
-      <div className="relative rc-content--fixed-header text-base">
+      <div id='ReturnTo' className="relative rc-content--fixed-header text-base">
         <Progress />
         <div className="md:p-8 pb-8 pt-6 px-3">
           <div className="Информацияокомпании inline-block relative md:ml-16 ml-5 border-white border-solid border-b-2 hover:border-red-600">
@@ -65,6 +65,12 @@ const SpecialWorksConditions = () => {
                 style={{
                     background: `url(${FileUrl}/img/ru-local/pdf/up-icon.png) no-repeat center`,
                     backgroundSize: '100% 100%'
+                }}
+                onClick={() => {
+                    let anchorElement = document.getElementById('ReturnTo')
+                    if (anchorElement) {
+                      anchorElement.scrollIntoView({ inline: 'start', block: 'start', behavior: 'auto' })
+                    }
                 }}
             />
             <p className='mt-1.5'>Вернуться к началу</p>
