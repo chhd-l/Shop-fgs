@@ -103,6 +103,7 @@ class AdyenCreditCardList extends React.Component {
     showListLoading = true
   } = {}) => {
     showListLoading && this.setState({ listLoading: true });
+    this.props.checkoutStore.setInputPoint(0);
     try {
       let res;
       res = await getPaymentMethod({}, true);

@@ -125,6 +125,7 @@ class LoginCart extends React.Component {
     console.log('loginPage');
     this.props.paymentStore.serCurPayWayVal(''); //为了从checout页面回到购物车页面时 清空支付方式
     this.props.checkoutStore.setEarnedPoint(0); //为了从checout页面回到购物车页面时 清空积分
+    this.props.checkoutStore.setInputPoint(0); //为了从checout页面回到购物车页面时 清空积分
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
