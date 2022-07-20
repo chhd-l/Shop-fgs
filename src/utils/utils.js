@@ -802,7 +802,7 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
     //处理ru local header&footer逻辑
     if (
       sessionKey == 'header-navigations-hub' &&
-      window.__.env.REACT_APP_IS_RULOCAL
+      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
     ) {
       ruLocalNavigation.MenuGroups.forEach((outerItem) => {
         outerItem.MenuItems?.forEach((innerItem) => {
@@ -816,7 +816,7 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       res = ruLocalNavigation;
     } else if (
       sessionKey == 'footer-hub' &&
-      window.__.env.REACT_APP_IS_RULOCAL
+      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
     ) {
       ruLocalFooter?.MenuGroups.forEach((outerItem) => {
         let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');

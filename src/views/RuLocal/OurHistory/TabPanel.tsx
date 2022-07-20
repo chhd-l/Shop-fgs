@@ -11,7 +11,7 @@ import {
 
 const textSize = 'max-w-screen-md mx-auto m-7';
 
-type TextRenderProps = {
+export type TextRenderProps = {
   title: string;
   desc: string;
   path: string;
@@ -22,7 +22,7 @@ const Render = ({ title, desc, path }: TextRenderProps) => {
       <img src={path} alt="" className="" />
       <div className={textSize}>
         <h2 className="text-30 text-rc-red text-center">{title}</h2>
-        <p className="mt-4 text-center">{desc}</p>
+        <p className="mt-4 text-center text-16 text-cs-gray">{desc}</p>
       </div>
     </div>
   );

@@ -5,6 +5,18 @@ const searchNoResult = {
   tr: '/on/demandware.store/Sites-TR-Site/tr_TR/Search-Show',
   de: '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
 };
+const aboutUsBread = () => {
+  let list = [
+    {
+      name: 'aboutUs2'
+    }
+  ];
+  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+    list = [{ name: 'Информация о компании', href: '/about-us' }];
+  }
+
+  return list;
+};
 const breadcrumbNameMap = {
   '/account': [{ name: 'account.home' }],
   '/account/information': [{ name: 'account.profile' }],
@@ -146,11 +158,8 @@ const breadcrumbNameMap = {
       name: 'Nos promotions Chat'
     }
   ],
-  '/About-Us': [
-    {
-      name: 'aboutUs2'
-    }
-  ],
+  '/About-Us': aboutUsBread(),
+  '/about-us': aboutUsBread(),
   '/product-finder': [{ name: 'productFinder.resultPage' }],
   '/product-finder/tree': [{ name: 'productFinder.resultPage' }],
   '/product-finder-recommendation': [

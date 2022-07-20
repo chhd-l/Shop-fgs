@@ -8,7 +8,7 @@ const BreadCrumbs = withRouter((props) => {
   const { location, match } = props;
   const breadcrumbNameMap = BreadcrumbNameMap;
 
-  const url = location.pathname;
+  const url = location.pathname?.toLocaleLowerCase();
 
   let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || [];
 

@@ -298,6 +298,11 @@ const AssistanceDog = loadable(() =>
 );
 
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
+const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
+const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
+const RuLocalFindProduct = loadable(() =>
+  import('@/views/RuLocal/FindProduct')
+);
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
@@ -413,6 +418,7 @@ const RU_Local_OurHistory = loadable(() =>
   import('@/views/RuLocal/OurHistory')
 );
 
+const RU_Local_OurValues = loadable(() => import('@/views/RuLocal/OurValues'));
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
@@ -560,7 +566,6 @@ const App = () => {
                 />
 
                 <Route exact path="/PayResult" component={PayResult} />
-                <Route exact path="/about-us" component={RuLocalAboutUs} />
                 <Route
                   exact
                   path="/Payu3dsPayResult"
@@ -980,13 +985,58 @@ const App = () => {
                   component={TR_GeneralConditions}
                 />
                 <Route
+                  path="/contact-us"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalContactUs {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/contact-us"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalClub {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/club/find-product"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalFindProduct {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
                   path="/About-Us"
                   exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY === 'de'
-                      ? AboutUsDe
-                      : AboutUs
-                  }
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'de':
+                        return <AboutUsDe {...props} />;
+                        break;
+                      case 'ru':
+                        return <RuLocalAboutUs {...props} />;
+                        break;
+                      default:
+                        return <AboutUs {...props} />;
+                    }
+                  }}
+                  // component={
+                  //   window.__.env.REACT_APP_COUNTRY === 'de'
+                  //     ? AboutUsDe
+                  //     : AboutUs
+                  // }
                 />
                 <Route
                   path="/myroyalcanin"
@@ -1204,7 +1254,13 @@ const App = () => {
                   exact
                   path="/about-us/our-history"
                   component={RU_Local_OurHistory}
-                ></Route>
+                />
+                <Route
+                  exact
+                  path="/about-us/our-values"
+                  component={RU_Local_OurValues}
+                />
+
                 <Route
                   path="/list/:category"
                   render={(props) => (

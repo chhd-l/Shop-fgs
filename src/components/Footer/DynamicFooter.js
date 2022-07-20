@@ -45,7 +45,7 @@ const DynamicFooter = ({ configStore, intl }) => {
     return (
       <>
         {/* payment logos */}
-        {logos?.length ? (
+        {logos?.length && !window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
           <>
             <div className={`rc-espilon rc-text--inverse`}>
               {messages['footer.securePaymentMethods']}

@@ -124,7 +124,7 @@ export const ruLocalNavigation = {
         //         "AltText":""
         //     },
         //     "PrimaryLink":{
-        //         "Url":"/ru/shop/club-subscription",
+        //         "Url":"/club-subscription",
         //         "Text":"Вступить"
         //     },
         //     "Title":"Программа ROYAL CANIN® КЛУБ",
@@ -134,7 +134,7 @@ export const ruLocalNavigation = {
         {
           Icon: '',
           Link: {
-            Url: '/ru/shop/dogs',
+            Url: '/dogs',
             Text: 'Интернет-магазин ROYAL CANIN®'
           },
           Type: 'MenuItem'
@@ -278,7 +278,7 @@ export const ruLocalFooter = {
     {
       Icon: 'user',
       Link: {
-        Url: '/ru/shop/account',
+        Url: '/account',
         Text: 'Личный кабинет'
       },
       Type: 'MenuItem'
@@ -286,7 +286,7 @@ export const ruLocalFooter = {
     {
       Icon: 'cart',
       Link: {
-        Url: '/ru/shop/cart',
+        Url: '/cart',
         Text: 'Корзина'
       },
       Type: 'MenuItem'
@@ -429,7 +429,7 @@ export const ruLocalFooter = {
     //     {
     //       Icon: '',
     //       Link: {
-    //         Url: '/ru/shop/club-subscription',
+    //         Url: '/club-subscription',
     //         Text: 'Клуб'
     //       },
     //       Type: 'MenuItem'
