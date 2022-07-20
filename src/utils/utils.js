@@ -818,7 +818,7 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       sessionKey == 'footer-hub' &&
       window.__.env.REACT_APP_IS_RULOCAL
     ) {
-      res = ruLocalFooter?.MenuGroups.forEach((outerItem) => {
+      ruLocalFooter?.MenuGroups.forEach((outerItem) => {
         let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
         if (outterisOtherUrl === false) {
           outerItem.Link.Url =
@@ -832,6 +832,7 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
           }
         });
       });
+      res = ruLocalFooter;
     } else {
       res = await api();
     }
