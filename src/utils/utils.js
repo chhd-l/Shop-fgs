@@ -794,7 +794,7 @@ export function unique(arr) {
 
 export async function queryApiFromSessionCache({ sessionKey, api }) {
   let ret = sessionItemRoyal.get(sessionKey);
-  if (ret && sessionKey != 'footer-hub') {
+  if (ret) {
     ret = JSON.parse(ret);
   } else {
     console.info('ruLocalNavigation', ruLocalNavigation);
@@ -818,7 +818,7 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       sessionKey == 'footer-hub' &&
       window.__.env.REACT_APP_IS_RULOCAL
     ) {
-      res = ruLocalFooter?.MenuGroups.forEach((outerItem) => {
+      ruLocalFooter?.MenuGroups.forEach((outerItem) => {
         let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
         if (outterisOtherUrl === false) {
           outerItem.Link.Url =
@@ -832,6 +832,7 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
           }
         });
       });
+      res = ruLocalFooter;
     } else {
       res = await api();
     }

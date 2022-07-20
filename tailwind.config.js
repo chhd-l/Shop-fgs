@@ -78,6 +78,7 @@ module.exports = {
         'cs-36': '2.25rem',
         'cs-24': '1.5rem',
         'cs-26': '1.62rem',
+        'cs-40': '2.5rem',
         'cs-48': '3rem',
         'cs-56': '3.5rem',
         'cs-60': '3.81rem',
@@ -107,6 +108,7 @@ module.exports = {
         'cs-63': '3.95rem',
         'cs-106': '6.62rem',
         'cs-110': '6.87rem',
+        'cs-148': '9.25rem',
         'cs-186': '11.62rem',
         'cs-240': '15rem',
         'cs-244': '15.25rem',
@@ -136,6 +138,7 @@ module.exports = {
         'cs-48': '48rem'
       },
       height: {
+        'cs-8': '0.5rem',
         'cs-34': '2.12rem',
         'cs-20': '1.25rem',
         'cs-40': '2.5rem',
@@ -153,6 +156,7 @@ module.exports = {
         'cs-114': '7.12rem',
         'cs-138': '8.62rem',
         'cs-143': '8.93rem',
+        'cs-180': '11.25rem',
         'cs-157': '9.81rem',
         'cs-168': '10.5rem',
         'cs-174': '10.87rem',
@@ -187,6 +191,7 @@ module.exports = {
         'cs-18': '1.12rem',
         'cs-22': '1.37rem',
         'cs-24': '1.5rem',
+        'cs-36': '2.25rem',
         'cs-40': '2.5rem',
         'cs-57': '3.56rem',
         'cs-64': '4rem',
@@ -204,7 +209,10 @@ module.exports = {
         'cs-2': '2rem',
         'cs-14': '.875rem',
         'cs-17': '1.06rem',
-        'cs-18': '1.12rem'
+        'cs-18': '1.12rem',
+        'cs-30': '1.875rem',
+        'cs-66': '4.125rem',
+        'cs-88': '5.5rem'
       },
       flex: {
         'cs-justify-items': 'center',
@@ -216,7 +224,7 @@ module.exports = {
       },
       inset: {
         'cs-89%': '89%'
-      },
+      }
     }
   },
   plugins: []
