@@ -49,7 +49,8 @@ const addItems = async ({ cartItemList, showPCMiniCartPop = true }: Props) => {
       (item: any) => item.goodsInfoFlag == 3
     );
     oldIndvIndex > -1 && cartDataCopy.splice(oldIndvIndex, 1); //删除购物车已有的indv商品
-    cartItemList.forEach((cartItem) => {
+    const cartItemListCopy = cloneDeep(cartItemList);
+    cartItemListCopy.forEach((cartItem: any) => {
       // goodsInfo是规格集合
       const selectedGoodsInfo =
         find(cartItem.sizeList, (s: any) => s.selected) || cartItem.goodsInfo;
