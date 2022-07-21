@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'jit',
   important: true,
   future: {
     purgeLayersByDefault: true,
@@ -208,7 +209,7 @@ module.exports = {
       },
       inset: {
         'cs-89%': '89%'
-      },
+      }
     }
   },
   plugins: []
