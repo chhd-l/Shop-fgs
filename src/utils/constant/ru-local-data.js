@@ -261,7 +261,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/cats/retail-products',
-            Text: 'Повседневные корма для кошек'
+            Text: 'Ассортимент продуктов для кошек'
           },
           Type: 'MenuItem'
         },
@@ -269,7 +269,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/dogs/retail-products',
-            Text: 'Повседневные корма для собак'
+            Text: 'Ассортимент продуктов для собак'
           },
           Type: 'MenuItem'
         },
@@ -302,7 +302,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/club',
-            Text: 'Клуб*'
+            Text: 'Клуб'
           },
           Type: 'MenuItem'
         },
@@ -310,7 +310,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/about-us/our-history',
-            Text: 'Наша история*'
+            Text: 'Наша история'
           },
           Type: 'MenuItem'
         },
@@ -318,7 +318,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/about-us/special-works-conditions',
-            Text: 'Специальная оценка условий труда*'
+            Text: 'Специальная оценка условий труда'
           },
           Type: 'MenuItem'
         },
