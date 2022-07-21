@@ -1,5 +1,6 @@
 module.exports = {
   important: true,
+  mode: 'jit',
   future: {
     purgeLayersByDefault: true,
     applyComplexClasses: true
@@ -89,6 +90,7 @@ module.exports = {
       },
       maxHeight: {
         420: '420px',
+        500: '500px',
         '1/2-screen': '50vh'
       },
       maxWidth: {
@@ -99,6 +101,7 @@ module.exports = {
       width: {
         'cs-29/100': '29%',
         '3/10': '30%',
+        '9/10': '90%',
         'cs-31/100': '31%',
         'cs-55/100': '55%',
         'cs-73/100': '73%',
@@ -128,6 +131,7 @@ module.exports = {
         'cs-440': '27.5rem',
         'cs-479': '29.93rem',
         'cs-480': '30rem',
+        'cs-500': '31.25rem',
         'cs-520': '32.5rem',
         'cs-560': '35rem',
         'cs-600': '37.5rem',
@@ -183,6 +187,7 @@ module.exports = {
         'cs-449': '28.06rem',
         'cs-450': '28.12rem',
         'cs-489': '30.56rem',
+        'cs-500': '31.25rem',
         'cs-556': '34.75rem',
         'cs-1241': '77.56rem'
       },
@@ -192,9 +197,11 @@ module.exports = {
         'cs-16': '1rem',
         'cs-17': '1.06rem',
         'cs-18': '1.12rem',
+        'cs-20': '1.25rem',
         'cs-22': '1.37rem',
         'cs-24': '1.5rem',
         'cs-36': '2.25rem',
+        'cs-30': '1.875rem',
         'cs-40': '2.5rem',
         'cs-57': '3.56rem',
         'cs-64': '4rem',
@@ -210,19 +217,24 @@ module.exports = {
       padding: {
         'cs-1': '1rem',
         'cs-2': '2rem',
+        'cs-6': '6rem',
         'cs-7': '7rem',
+        'cs-8': '8rem',
         'cs-14': '.875rem',
         'cs-17': '1.06rem',
         'cs-18': '1.12rem',
         'cs-30': '1.875rem',
+        'cs-40': '2.5rem',
         'cs-36': '2.25rem',
         'cs-54': '3.375rem',
         'cs-66': '4.125rem',
         'cs-88': '5.5rem',
+        'cs-109': '6.8rem',
         'cs-200': '12.5rem',
         'cs-240': '15rem',
         'cs-272': '17rem',
-        'cs-288': '18rem'
+        'cs-288': '18rem',
+        'cs-408': '25.5rem'
       },
       flex: {
         'cs-justify-items': 'center',
@@ -233,7 +245,9 @@ module.exports = {
         PingFangSC: 'var(--font-family-PingFangSC)'
       },
       inset: {
-        'cs-89%': '89%'
+        'cs-89%': '89%',
+        40: '2.5rem',
+        102: '102px'
       },
       boxShadow: {
         sm: '0px 5px 12px 2px rgba(0,0,0,0.0700)'
