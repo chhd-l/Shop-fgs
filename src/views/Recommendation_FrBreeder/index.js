@@ -327,6 +327,7 @@ class Recommendation extends React.Component {
           });
           let specList = el.goodsSpecs;
           let specDetailList = el.goodsSpecDetails;
+          const goodsInfos = el.goodsInfos;
           if (specList) {
             specList.map((sItem) => {
               sItem.chidren = specDetailList.filter((sdItem, i) => {
@@ -339,6 +340,10 @@ class Recommendation extends React.Component {
                 ) {
                   child.selected = true;
                 }
+                const filterproducts = goodsInfos.filter((goodEl) =>
+                  goodEl.mockSpecDetailIds.includes(child.specDetailId)
+                );
+                child.addedFlag = filterproducts?.[0]?.addedFlag;
                 return child;
               });
               return sItem;

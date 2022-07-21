@@ -14,7 +14,7 @@ import {
 } from '@/views/Payment/modules/utils';
 
 const Point = ({ checkoutStore }) => {
-  const { setSelectDiscountWay } = checkoutStore;
+  const { setSelectDiscountWay, setInputPoint } = checkoutStore;
 
   const data = [
     {
@@ -29,6 +29,7 @@ const Point = ({ checkoutStore }) => {
   useEffect(() => {
     //初始化折扣方式为未使用积分
     setSelectDiscountWay(NOTUSEPOINT);
+    setInputPoint('');
   }, []);
 
   const FormType = {

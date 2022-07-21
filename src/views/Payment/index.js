@@ -709,11 +709,15 @@ class Payment extends React.Component {
   }
 
   componentWillUnmount() {
-    //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
+    //已生效
     const {
-      paymentStore: { resetPanelStatus }
+      paymentStore: { resetPanelStatus, serCurPayWayVal },
+      checkoutStore: { setEarnedPoint, setInputPoint }
     } = this.props;
     resetPanelStatus();
+    serCurPayWayVal(''); //清空支付方式
+    setEarnedPoint(0); //清空挣得的积分
+    setInputPoint(''); //清空输入的积分
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-swishQrcode');
@@ -999,9 +1003,6 @@ class Payment extends React.Component {
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
       );
       if (paypalCardIndex > -1) {
-        // if(cardList[paypalCardIndex].isDefault === 1){
-        //    this.handlePaymentTypeClick('adyenPaypal');
-        // }
         this.setState({
           paypalAccount: cardList[paypalCardIndex].email,
           paypalCardId: cardList[paypalCardIndex].id
@@ -2145,7 +2146,7 @@ class Payment extends React.Component {
       //   sessionItemRoyal.set('orderNumber', orderNumber);
       // }
       this.removeLocalCartData();
-      this.props.checkoutStore.setInputPoint(0);
+
       generateGuestUUID();
       if (subOrderNumberList?.length) {
         sessionItemRoyal.set(
@@ -2708,25 +2709,23 @@ class Payment extends React.Component {
       promotionCode
     });
   };
-  handlePaymentTypeChange = (e) => {
+  handlePaymentTypeCommon = (paymentTypeCode) => {
     const {
-      paymentStore: { serCurPayWayVal }
+      paymentStore: { serCurPayWayVal },
+      checkoutStore: { setInputPoint }
     } = this.props;
-    serCurPayWayVal(e.target.value);
-    this.setState({ email: '' }, () => {
-      this.onPaymentTypeValChange();
-    });
-  };
-  handlePaymentTypeClick = (paymentTypeCode) => {
-    const {
-      paymentStore: { serCurPayWayVal }
-    } = this.props;
-    // code 转换小写
     serCurPayWayVal(paymentTypeCode);
+    setInputPoint('');
     openPromotionBox();
     this.setState({ email: '', convenienceStore: '' }, () => {
       this.onPaymentTypeValChange();
     });
+  };
+  handlePaymentTypeChange = (e) => {
+    this.handlePaymentTypeCommon(e.target.value);
+  };
+  handlePaymentTypeClick = (paymentTypeCode) => {
+    this.handlePaymentTypeCommon(paymentTypeCode);
   };
 
   handleCardTypeChange = (e) => {

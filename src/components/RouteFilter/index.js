@@ -72,8 +72,8 @@ class RouteFilter extends Component {
         !localItemRoyal.get('rc-register') &&
         //pathname === '/' &&
         pathname !== '/implicit/callback' &&
-        pathname !== '/required'
-        //pathname !== '/account/information'
+        pathname !== '/required' &&
+        pathname !== '/general-terms-conditions'
       ) {
         this.getConsentList();
       }

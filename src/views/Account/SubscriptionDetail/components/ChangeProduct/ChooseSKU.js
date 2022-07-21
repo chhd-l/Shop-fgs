@@ -21,6 +21,7 @@ import { QuantityPicker } from '@/components/Product';
 import stores from '@/store';
 import cn from 'classnames';
 import { Button } from '@/components/Common';
+import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
 
 const loginStore = stores.loginStore;
 
@@ -272,6 +273,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   };
 
   const handleNotifyMe = async () => {
+    GABackInStockNotifyMeClick();
     let subscribeId = subDetail.subscribeId;
     const { goodsId = '', sizeList, goodsSpecs } = details;
     const goodsInfoId = sizeList?.filter((el) => el.selected)?.[0]?.goodsInfoId;

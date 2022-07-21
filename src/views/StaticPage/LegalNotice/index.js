@@ -124,10 +124,17 @@ function LegalNotice(props) {
                   className="font-PingFangSC text-16 leading-6 mb-3 md:text-18 md:leading-7 md:mb-8"
                   style={{ color: '#666' }}
                 >
-                  {/* コンビニ決済を支払方法として選択された場合、ご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。 */}
-                  {/* 代金引換を支払方法として選択された場合、代引手数料としてご注文1件につき以下の手数料（税込）をお客様にご負担いただきます。 */}
-                  コンビニ決済を支払方法として選択された場合、コンビニ決済手数料としてご注文1件につき収納代金の3.85％をお客様にご負担いただきます。
+                  コンビニ決済を支払方法として選択された場合、コンビニ決済手数料としてご注文1件につき以下の手数料をお客様にご負担いただきます。​
                 </p>
+                <ul
+                  className="font-PingFangSC text-16 leading-6 ml-3 mb-4 md:text-18 md:ml-5 md:leading-7 md:mb-8"
+                  style={{ color: '#666' }}
+                >
+                  <li className="list-disc">収納代金が5,195円未満 200円​</li>
+                  <li className="list-disc">
+                    収納代金が5,195円以上 収納代金の3.85％
+                  </li>
+                </ul>
               </div>
               {/* 6 */}
               <div className={`${mar}`}>
