@@ -146,7 +146,12 @@ class Footer extends React.Component {
     const { showFooter } = this.props;
     return showFooter ? (
       <FooterWrapper
-        className={cn('rc-bg-colour--interface-dark')}
+        className={cn(
+          'rc-bg-colour--interface-dark',
+          window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
+            ? 'ui-custom-hub ru-local-footer'
+            : ''
+        )}
         id="footer"
         data-tms="Footer"
       >

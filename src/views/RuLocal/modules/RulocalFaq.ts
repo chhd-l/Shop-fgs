@@ -11,6 +11,7 @@ type RulocalFaq_contentsListType = {
     a2?: string
     url2?: string
     span2?: string
+    link2?: string
     ul2?: string[]
     ol2?: string[]
     p3?: string
@@ -112,6 +113,7 @@ export const RulocalFaq_contents:RulocalFaq_contentsType[] = [
                 span: '',
                 p2: 'С полным списком регионов, сроков доставки, а также тарифов Вы можете ознакомиться ',
                 a2: ' здесь',
+                link2: '/about-us/shipment-conditions',
                 span2: '',
                 p3: 'При Заказе на сумму от 2500 руб. доставка бесплатна.',
                 p4: '',
