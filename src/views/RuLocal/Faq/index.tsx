@@ -19,7 +19,7 @@ const Faq = () => {
         <div className="p-12">
           <BreadCrumbs />
         </div>
-        <div>
+        <div className='.main'>
           <div className="max-w-screen-md m-auto p-1">
             <h1 className="text-center mb-0 text-red-500" onClick={() => {
               console.log('pathname',pathname)
