@@ -796,8 +796,8 @@ const en_US = {
   'login.guestContinue': 'Continue with a guest',
   'login.loginTip':
     ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
-  'login.passwordTip':
-    '8-20 characters and include at a lowercase letter, an uppercase letter, a number',
+  // 'login.passwordTip':
+  //   '8-20 characters and include at a lowercase letter, an uppercase letter, a number',
   'login.register': 'Create a personal account',
   'login.secondCheck': ' I confirm that I am over 18 years old',
   'login.thirdCheck': ' I agree to receive the marketing newsletter',
@@ -901,8 +901,8 @@ const en_US = {
     'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
   oxxo: 'OXXO',
   packageX: 'Package {val}',
-  password: 'Password *',
-  passwordHide: 'Password:********',
+  // password: 'Password *',
+  // passwordHide: 'Password:********',
   paused: 'Paused',
   payAtOxxO: 'Pay at any OXXO with cash in Mexico',
   'payment.acceptCards': 'We accept credit cards.',

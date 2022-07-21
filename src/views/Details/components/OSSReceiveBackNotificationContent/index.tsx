@@ -1,7 +1,3 @@
-/**
- * purpose: As a PO, I can click on the OOS SKU Then the notify bloc displays
- * oss means out of stuck
- */
 import { stockNoticeModify } from '@/api/cart';
 import { queryStockNotice } from '@/api/subscription';
 import { EMAIL_REGEXP } from '@/utils/constant';
