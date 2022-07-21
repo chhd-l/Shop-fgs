@@ -303,6 +303,9 @@ const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
 const RuLocalFindProduct = loadable(() =>
   import('@/views/RuLocal/FindProduct')
 );
+const RuLocalTailoredNutrition = loadable(() =>
+  import('@/views/RuLocal/TailoredNutrition')
+);
 
 const RULocalSpecialWorksConditions = loadable(() =>
   import('@/views/RuLocal/SpecialWorksConditions')
@@ -992,6 +995,18 @@ const App = () => {
                   path="/general-conditions-tr"
                   exact
                   component={TR_GeneralConditions}
+                />
+
+                <Route
+                  path="/tailored-nutrition"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalTailoredNutrition {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/contact-us"
