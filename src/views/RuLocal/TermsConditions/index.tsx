@@ -945,7 +945,7 @@ const TermsConditions = () => {
             Возврат денежных средств в таком случае осуществляется посредством
             Возврата стоимости на расчетный счет Покупателя, указанный при
             оформлении возврата на бланке, который можно скачать по{' '}
-            <a href="https://www.royal-canin.ru/upload/doc/return-form.pdf">
+            <a href={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/terms-and-conditions/return-form.pdf`}>
               <strong>ссылке</strong>
             </a>
           </p>
