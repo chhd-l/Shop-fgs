@@ -21,7 +21,7 @@ const Icon = ({ isActive }) => {
     return (
       <span
         className={`rc-vertical-align h4 icon iconfont collapse-icon`}
-        style={{ right: '1rem', height: '28px' }}
+        style={{ right: '0.5rem', height: '28px' }}
       >
         &#xe604;
       </span>
