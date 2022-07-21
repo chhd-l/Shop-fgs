@@ -1,5 +1,4 @@
 module.exports = {
-  mode: 'jit',
   important: true,
   future: {
     purgeLayersByDefault: true,
