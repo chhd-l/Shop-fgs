@@ -1,7 +1,7 @@
 import React from 'react';
-const HrLine = () => (
+const HrLine = ({alwaysShow}:{alwaysShow?:boolean}) => (
   <hr
-    className="rc-md-up"
+    className={alwaysShow?"":"rc-md-up"}
     style={{ borderWidth: '8px', borderColor: '#f4f4f4' }}
   />
 );

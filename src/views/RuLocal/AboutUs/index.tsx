@@ -126,7 +126,7 @@ const AboutUs = () => {
           <div className="rc-padding-y--md rc-md-down rc-hidden"></div>
         </div>
         <HrLine />
-
+{/* 
         <div
           className="content-block-variation-1 rc_center_on_mobile rc-padding--sm rc-margin--none rc-bg-colour--brand3 rc-full-width rc-animation-001--base rc-animation-001--active"
           id="content-block-with-text-and-image-10-about-us-page"
@@ -140,7 +140,6 @@ const AboutUs = () => {
             </div>
             <div className="text-container">
               <div className="rc-full-width rc-text--left">
-                {/* <div className="control-btns-size" style="display:none;"></div> */}
                 <div className="rc-container-text">
                   <h2
                     className="rc-beta "
@@ -166,7 +165,7 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-        <HrLine />
+        <HrLine /> */}
 
         <div
           className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active"
