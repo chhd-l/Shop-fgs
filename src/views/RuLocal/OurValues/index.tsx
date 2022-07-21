@@ -54,7 +54,7 @@ const OurValues = () => {
             </p>
           </div>
           <div className="bg-cs-gray-f6 w-full h-cs-8" />
-          <div className="px-cs-2 mt-cs-36">
+          <div className="px-0 md:px-cs-2 mt-cs-36">
             <MyTab tabList={tabList} />
           </div>
           <div className="bg-cs-gray-f6 w-full h-cs-8" />

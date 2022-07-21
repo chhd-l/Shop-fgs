@@ -17,7 +17,7 @@ const MyTab = ({ tabList }: MyTabProps) => {
           {tabList.map((item, index) => (
             <li key={item.tab}>
               <button
-                className="rc-tab rc-btn rc-btn--sm"
+                className="rc-tab rc-btn rc-btn--sm whitespace-nowrap"
                 data-toggle={`tab__panel-${
                   index + 1
                 }--single-4e432196-9e94-47a0-9de3-b4e3caf507ec`}
