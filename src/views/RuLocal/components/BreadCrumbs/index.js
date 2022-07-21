@@ -46,23 +46,24 @@ const BreadCrumbs = withRouter((props) => {
               <meta itemProp="position" content="1" />
             </li>
           )}
-          {mapData.length > 0 && (
-            <>
+          {mapData.length > 0 ? (
+            isMobile || mapData.length === 1 ? (
+              <span
+                itemProp="name"
+                className="font-weight-normal ml-2 mr-2"
+                style={{ color: '#e2001a' }}
+              >
+                &lt;
+              </span>
+            ) : (
               <span
                 itemProp="name"
                 className="font-weight-normal ml-2 mr-2 rc-md-up"
               >
                 &gt;
               </span>
-              <span
-                itemProp="name"
-                className="font-weight-normal ml-2 mr-2 rc-md-down"
-                style={{ color: '#e2001a' }}
-              >
-                &lt;
-              </span>
-            </>
-          )}
+            )
+          ) : null}
           {mapData.map((item, index) => (
             <>
               <li
@@ -71,18 +72,16 @@ const BreadCrumbs = withRouter((props) => {
                 itemType="https://schema.org/ListItem"
                 itemProp="itemListElement"
               >
-                {item.href ? (
-                  <Link
-                    className="rc-styled-link rc-progress__breadcrumb mr-0"
-                    itemType="https://schema.org/Thing"
-                    itemProp="item"
-                    to={item.href}
-                  >
-                    <span itemProp="name">
-                      <FormattedMessage id={`${item.name}`} />
-                    </span>
-                  </Link>
-                ) : (
+                <Link
+                  className={`rc-styled-link rc-progress__breadcrumb mr-0 ${
+                    index < mapData.length - 1 || mapData.length === 1
+                      ? ''
+                      : 'font-thin'
+                  }`}
+                  itemType="https://schema.org/Thing"
+                  itemProp="item"
+                  to={item.href}
+                >
                   <FormattedMessage id={`${item.name}`}>
                     {(txt) => (
                       <span itemProp="name" title={txt}>
@@ -90,7 +89,7 @@ const BreadCrumbs = withRouter((props) => {
                       </span>
                     )}
                   </FormattedMessage>
-                )}
+                </Link>
                 <meta itemProp="position" content={index + 2} />
               </li>
               {index !== mapData.length - 1 && (

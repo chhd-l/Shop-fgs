@@ -804,6 +804,11 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       sessionKey == 'header-navigations-hub' &&
       window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
     ) {
+      let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
+      if (outterisOtherUrl === false && !outerItem?.Link?.Url?.includes('#')) {
+        outerItem.Link.Url =
+          window.__.env.REACT_APP_URLPREFIX + outerItem.Link.Url;
+      }
       ruLocalNavigation.MenuGroups.forEach((outerItem) => {
         outerItem.MenuItems?.forEach((innerItem) => {
           let isOtherUrl = innerItem?.Link?.Url?.includes('http');

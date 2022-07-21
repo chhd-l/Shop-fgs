@@ -1,4 +1,4 @@
-import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbs from '../components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';

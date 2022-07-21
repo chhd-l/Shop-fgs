@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbs from '../components/BreadCrumbs';
 import HrLine from '../components/HrLine';
 import Collapse from '@/components/Collapse';
 import { ClubFAQ } from '../modules/club';
