@@ -999,9 +999,6 @@ class Payment extends React.Component {
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
       );
       if (paypalCardIndex > -1) {
-        // if(cardList[paypalCardIndex].isDefault === 1){
-        //    this.handlePaymentTypeClick('adyenPaypal');
-        // }
         this.setState({
           paypalAccount: cardList[paypalCardIndex].email,
           paypalCardId: cardList[paypalCardIndex].id
@@ -2721,7 +2718,6 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
-    // code 转换小写
     serCurPayWayVal(paymentTypeCode);
     openPromotionBox();
     this.setState({ email: '', convenienceStore: '' }, () => {
