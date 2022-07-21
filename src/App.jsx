@@ -304,17 +304,19 @@ const RuLocalFindProduct = loadable(() =>
   import('@/views/RuLocal/FindProduct')
 );
 
-const RU_Local_SpecialWorksConditions = loadable(() =>
+const RULocalSpecialWorksConditions = loadable(() =>
   import('@/views/RuLocal/SpecialWorksConditions')
 );
 
-const RU_Local_ShipmentConditions = loadable(() =>
+const RULocalShipmentConditions = loadable(() =>
   import('@/views/RuLocal/ShipmentConditions')
 );
 
-const RU_Local_TermsConditions = loadable(() =>
+const RULocalTermsConditions = loadable(() =>
   import('@/views/RuLocal/TermsConditions')
 );
+
+const RULocalFaq = loadable(() => import('@/views/RuLocal/Faq'));
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
@@ -1284,15 +1286,47 @@ const App = () => {
                 />
                 <Route
                   path="/about-us/special-works-conditions"
-                  component={RU_Local_SpecialWorksConditions}
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalSpecialWorksConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/about-us/shipment-conditions"
-                  component={RU_Local_ShipmentConditions}
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalShipmentConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/about-us/terms-and-conditions"
-                  component={RU_Local_TermsConditions}
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalTermsConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/about-us/faq"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalFaq {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route

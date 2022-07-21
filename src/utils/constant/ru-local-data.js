@@ -118,60 +118,6 @@ export const ruLocalNavigation = {
     },
     {
       MenuItems: [
-        // {
-        //     "Image":{
-        //         "Url":"https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=320\u0026auto=compress 320w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=360\u0026auto=compress 360w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=640\u0026auto=compress 640w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=720\u0026auto=compress 720w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=960\u0026auto=compress 960w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=1280\u0026auto=compress 1280w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=1440\u0026auto=compress 1440w",
-        //         "AltText":""
-        //     },
-        //     "PrimaryLink":{
-        //         "Url":"/club-subscription",
-        //         "Text":"Вступить"
-        //     },
-        //     "Title":"Программа ROYAL CANIN® КЛУБ",
-        //     "Subtitle":"",
-        //     "Type":"PromotionalMenuItem"
-        // },
-        {
-          Icon: '',
-          Link: {
-            Url: '/dogs',
-            Text: 'Интернет-магазин ROYAL CANIN®'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/local/',
-            Text: 'Найти зоомагазин '
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/vc/',
-            Text: 'Найти ветеринарную клинику'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/',
-            Text: 'Найти интернет-магазин партнера '
-          },
-          Type: 'MenuItem'
-        }
-      ],
-      Link: {
-        Url: '##',
-        Text: 'Где купить'
-      },
-      Type: 'MenuGroup'
-    },
-    {
-      MenuItems: [
         {
           Title: 'Остались вопросы?',
           Content:
@@ -395,48 +341,6 @@ export const ruLocalFooter = {
       ],
       Type: 'MenuGroup'
     },
-
-    // {
-    //   Link: {
-    //     Url: 'https://stores.royal-canin.ru/stores/',
-    //     Text: 'Где купить'
-    //   },
-    //   MenuItems: [
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: 'https://stores.royal-canin.ru/stores/local/',
-    //         Text: 'Найти зоомагазин '
-    //       },
-    //       Type: 'MenuItem'
-    //     },
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: 'https://stores.royal-canin.ru/stores/vc/',
-    //         Text: 'Найти ветеринарную клинику'
-    //       },
-    //       Type: 'MenuItem'
-    //     },
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: '/ru/shop',
-    //         Text: 'Интернет-магазин ROYAL CANIN®'
-    //       },
-    //       Type: 'MenuItem'
-    //     },
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: '/club-subscription',
-    //         Text: 'Клуб'
-    //       },
-    //       Type: 'MenuItem'
-    //     }
-    //   ],
-    //   Type: 'MenuGroup'
-    // },
     {
       Link: {
         Url: '/contact-us',
@@ -487,18 +391,7 @@ export const ruLocalFooter = {
       Type: 'MenuGroup'
     }
   ],
-  LocalMarketSettings: {
-    // ContactUsUrl: {
-    //   Url: '/contact-us',
-    //   Text: 'Связаться с нами'
-    // },
-    // EnableWeChat: false,
-    // WeChatQrCode: {
-    //   Url: null,
-    //   AltText: ''
-    // },
-    // ContactPhone: '8 800 200 37 35'
-  }
+  LocalMarketSettings: {}
 };
 
 export const marsFooter = `<div class="col-span-12 ru-local-marsfooter">

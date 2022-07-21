@@ -4,7 +4,6 @@ import React from 'react';
 import { Button } from '@/components/Common';
 import ExplanationTable from './components/ExplanationTable';
 import ShipmentConditionsTable from './components/ShipmentConditionsTable';
-import './index.less';
 import ReturnList from './components/ShipmentConditionsReturnList';
 import Footer from '@/components/Footer';
 
@@ -31,7 +30,9 @@ const ShipmentConditions = () => {
               }}
               alt=""
             />
-            <div className="h-cs-409 w-full md:max-w-500 md:max-h-420 bg-white px-8 md:py-8 py-4 mt-36 md:mt-0">
+            <div className="h-cs-409 w-full md:max-w-500 md:max-h-420 bg-white px-8 md:py-8 py-4 md:mt-0" style={{
+              marginTop: '46%'
+            }}>
               <h1 className="md:text-cs-40 md:leading-cs-56 text-red-500 mb-4">
                 Условия доставки интернет-магазина ROYAL CANIN®
               </h1>
