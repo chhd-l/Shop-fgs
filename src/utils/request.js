@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
+import { getRandom } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -28,7 +29,7 @@ service.interceptors.request.use((config) => {
   }
   if (config.method && config.method.toLocaleLowerCase() === 'get') {
     config.params = {
-      requestId: Math.random(),
+      requestId: getRandom(),
       ...config.params
     };
     Object.assign(config, {

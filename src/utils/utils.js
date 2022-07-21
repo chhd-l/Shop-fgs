@@ -1401,3 +1401,14 @@ export function ToCDB(str) {
   }
   return tmp;
 }
+
+/**
+ * 获取随机数
+ *
+ */
+
+export const getRandom = () => {
+  const crypto = window.crypto || window.msCrypto;
+  var array = new Uint32Array(1);
+  return crypto.getRandomValues(array)[0];
+};
