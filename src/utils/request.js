@@ -1,9 +1,14 @@
 import axios from 'axios';
 import qs from 'qs';
-import { getRandom } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+
+const getRandom = () => {
+  const crypto = window.crypto || window.msCrypto;
+  var array = new Uint32Array(1);
+  return crypto.getRandomValues(array)[0];
+};
 
 let env = process.env.NODE_ENV;
 let base_url;
