@@ -1,6 +1,5 @@
 module.exports = {
   important: true,
-  mode: 'jit',
   future: {
     purgeLayersByDefault: true,
     applyComplexClasses: true
@@ -89,6 +88,7 @@ module.exports = {
         auto: 'auto'
       },
       maxHeight: {
+        300: '300px',
         420: '420px',
         500: '500px',
         '1/2-screen': '50vh'
@@ -129,6 +129,7 @@ module.exports = {
         'cs-399': '24.93rem',
         'cs-439': '27.43rem',
         'cs-440': '27.5rem',
+        'cs-470': '29.375rem',
         'cs-479': '29.93rem',
         'cs-480': '30rem',
         'cs-500': '31.25rem',
@@ -192,6 +193,7 @@ module.exports = {
         'cs-1241': '77.56rem'
       },
       margin: {
+        '54/10': '54%',
         '4r': '4rem',
         'cs-13.65': '0.85rem',
         'cs-16': '1rem',
@@ -229,6 +231,7 @@ module.exports = {
         'cs-54': '3.375rem',
         'cs-66': '4.125rem',
         'cs-88': '5.5rem',
+        'cs-100': '6.25rem',
         'cs-109': '6.8rem',
         'cs-200': '12.5rem',
         'cs-240': '15rem',
