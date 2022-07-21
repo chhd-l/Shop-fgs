@@ -86,7 +86,7 @@ class Register extends Component {
       lastNameValid: true,
       phoneticFirstNameValid: true,
       phoneticLastNameValid: true,
-      passwordInputType: 'mypwd',
+      passwordInputType: process.env.REACT_APP_PASSWORDINPUTTYPE,
       illegalSymbol: false,
       showValidErrorMsg: false
     };
@@ -948,14 +948,14 @@ class Register extends Component {
                           style={{ color: '#666' }}
                           className={cn(
                             'iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2',
-                            passwordInputType === 'mypwd'
+                            passwordInputType === 'password'
                               ? 'iconeye'
                               : 'iconeye-close'
                           )}
                           onClick={() => {
                             this.setState({
                               passwordInputType:
-                                this.state.passwordInputType === 'mypwd'
+                                this.state.passwordInputType === 'password'
                                   ? 'text'
                                   : 'password'
                             });
@@ -964,14 +964,14 @@ class Register extends Component {
                         <button
                           type="button"
                           className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle hidden ${
-                            passwordInputType === 'mypwd'
+                            passwordInputType === 'password'
                               ? 'rc-show--xs'
                               : 'rc-hide--xs'
                           }`}
                           onClick={() => {
                             this.setState({
                               passwordInputType:
-                                this.state.passwordInputType === 'mypwd'
+                                this.state.passwordInputType === 'password'
                                   ? 'text'
                                   : 'password'
                             });
