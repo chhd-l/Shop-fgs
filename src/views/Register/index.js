@@ -86,7 +86,7 @@ class Register extends Component {
       lastNameValid: true,
       phoneticFirstNameValid: true,
       phoneticLastNameValid: true,
-      passwordInputType: 'password',
+      passwordInputType: 'myPassword',
       illegalSymbol: false,
       showValidErrorMsg: false
     };
@@ -924,7 +924,7 @@ class Register extends Component {
 
                   <Input
                     id="registerPassword"
-                    type={passwordInputType}
+                    type="password"
                     maxLength="255"
                     autocomplete="new-password"
                     minLength="8"
@@ -948,14 +948,14 @@ class Register extends Component {
                           style={{ color: '#666' }}
                           className={cn(
                             'iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2',
-                            passwordInputType === 'password'
+                            passwordInputType === 'myPassword'
                               ? 'iconeye'
                               : 'iconeye-close'
                           )}
                           onClick={() => {
                             this.setState({
                               passwordInputType:
-                                this.state.passwordInputType === 'password'
+                                this.state.passwordInputType === 'myPassword'
                                   ? 'text'
                                   : 'password'
                             });
@@ -964,14 +964,14 @@ class Register extends Component {
                         <button
                           type="button"
                           className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle hidden ${
-                            passwordInputType === 'password'
+                            passwordInputType === 'myPassword'
                               ? 'rc-show--xs'
                               : 'rc-hide--xs'
                           }`}
                           onClick={() => {
                             this.setState({
                               passwordInputType:
-                                this.state.passwordInputType === 'password'
+                                this.state.passwordInputType === 'myPassword'
                                   ? 'text'
                                   : 'password'
                             });
