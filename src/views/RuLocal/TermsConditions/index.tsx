@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
 import Progress from '../components/Progress';
+import RuLocalReturnTo from '../components/RuLocalReturnTo';
 import './index.less'
 
 const TermsConditions = () => {
@@ -10,12 +11,13 @@ const TermsConditions = () => {
     <div className='TermsConditions'>
       <Header showMiniIcons={true} showUserIcon={true} />
       <Progress />
-      <main className="rc-content--fixed-header rc-bg-colour--brand3 text-cs-gray">
+      <main id='ReturnTo' className="rc-content--fixed-header rc-bg-colour--brand3 text-cs-gray relative">
         <div className="p-8">
           <BreadCrumbs />
         </div>
-        <div className='px-cs-272'>
-          <h1 className="text-center text-cs-40">
+        <RuLocalReturnTo start={-500} end={-13000} />
+        <div id='ListOfDocuments' className='md:px-72 p-8'>
+          <h1 className="text-center md:text-cs-40 text-3xl">
             Пользовательское соглашение
           </h1>
           <p>
@@ -1099,10 +1101,13 @@ const TermsConditions = () => {
               <strong style={{color: '#6264a7'}}>contact.ru@royalcanin.com</strong>
             </a>
           </p>
+          <p>
           12.3. Все споры, связанные с заключением, исполнением и прекращением
           действия настоящего Соглашения, не урегулированные во внесудебном
           порядке, подлежат рассмотрению в суде по месту нахождения
           Администрации Сайта.
+          </p>
+        <div className='w-1/3 border-b border-solid border-cs-gray my-16' />
         </div>
       </main>
       <Footer />
