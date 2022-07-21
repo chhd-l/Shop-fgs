@@ -1,14 +1,20 @@
 import React from 'react';
-import { slickList } from '../../Sustainability/mock';
 import './index.less';
 
-const Slick = () => {
+type SlickProps = {
+  slickList: {
+    desc: string;
+    label: string;
+    path: string;
+  }[];
+};
+const Slick = ({ slickList }: SlickProps) => {
   return (
     <div className="rc-carousel rc-carousel--a rc-carousel--nav-center">
       <div className="rc-carousel__section">
         <div className="rc-carousel__slides">
-          {slickList.map((item) => (
-            <div className="rc-carousel__slide" key={item.desc}>
+          {slickList.map((item, index) => (
+            <div className="rc-carousel__slide" key={index}>
               <div className="rc-carousel__slide-anim-wrap">
                 <h2 className="rc-carousel__slide-title rc-beta">
                   {item.desc}
@@ -23,8 +29,8 @@ const Slick = () => {
       </div>
       <div className="rc-carousel__section">
         <div data-js-carousel="" data-has-slides="true">
-          {slickList.map((item) => (
-            <div key={item.path}>
+          {slickList.map((item, index) => (
+            <div key={index}>
               <img src={item.path} alt="" />
             </div>
           ))}
