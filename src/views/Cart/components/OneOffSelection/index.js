@@ -3,7 +3,7 @@ import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 
 const OneOffSelection = function (props) {
-  const { isGift, pitem, isLogin } = props;
+  const { isGift, pitem } = props;
   return (
     <div
       className="buyMethod for_ipad_pro_price rc-margin-bottom--xs--desktop cursor-pointer"
@@ -29,7 +29,6 @@ const OneOffSelection = function (props) {
           className="price singlePrice text-nowrap qhx"
           style={{ fontSize: '1.375rem' }}
         >
-          {/* {console.log(999, pitem)} */}
           {formatMoney(pitem.buyCount * pitem.salePrice)}
         </div>
       </div>
