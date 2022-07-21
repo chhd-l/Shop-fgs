@@ -5,7 +5,7 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import { specialWorksConditions_contents } from '../modules/specialWorksConditions';
 import './index.less';
-import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbs from '../components/BreadCrumbs';
 import RuLocalReturnTo from '../components/RuLocalReturnTo';
 
 const FileUrl = window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
@@ -22,7 +22,7 @@ const SpecialWorksConditions = () => {
               Информация о компании
             </Link> */}
           {/* </div> */}
-          <BreadCrumbs />
+          <BreadCrumbs noHomeLink />
         </div>
         <div id='ListOfDocuments' className="md:p-8 pl-8 px-3">
           <div className="max-w-screen-md m-auto">

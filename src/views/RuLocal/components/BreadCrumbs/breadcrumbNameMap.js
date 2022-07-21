@@ -42,15 +42,31 @@ const breadcrumbNameMap = {
     { name: 'Club', href: '/club' },
     { name: 'Find Product', href: '/club/find-product' }
   ],
-  '/faq': [
+  '/about-us/faq': [
     {
-      name: 'FAQ'
+      name: 'Информация о компании',
+      href: '/about-us'
+    },
+    {
+      name: 'Часто задаваемые вопросы',
+      href: '/about-us/faq'
     }
   ],
-  '/shipmentConditions': [
+  '/about-us/special-works-conditions': [
+    { name: 'Информация о компании', href: '/about-us' }
+  ],
+  '/about-us/shipment-conditions': [
     {
-      name: 'ShipmentConditions'
+      name: 'Информация о компании',
+      href: '/about-us'
+    },
+    {
+      name: 'Условия доставки интернет-магазина',
+      href: '/about-us/shipment-conditions'
     }
+  ],
+  '/about-us/terms-and-conditions': [
+    { name: 'Информация о компании', href: '/about-us' }
   ],
   '/promotion-refuge': [
     {

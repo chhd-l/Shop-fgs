@@ -1,29 +1,25 @@
-import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbs from '../components/BreadCrumbs';
 import Collapse from '@/components/Collapse';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { RulocalFaq_contents } from '../modules/RulocalFaq';
 import './index.less';
 
 const Faq = () => {
   const { Panel } = Collapse;
-  const { pathname } = useLocation();
 
   return (
     <div className="RulocalFaq">
       <Header showMiniIcons={true} showUserIcon={true} />
       <main className="rc-content--fixed-header rc-bg-colour--brand3 px-8">
-        <div className="p-12">
+        <div className="md:p-12 py-12">
           <BreadCrumbs />
         </div>
-        <div className='.main'>
+        <div id='mainRuLocal'>
           <div className="max-w-screen-md m-auto p-1">
-            <h1 className="text-center mb-0 text-red-500" onClick={() => {
-              console.log('pathname',pathname)
-            }}>
+            <h1 className="text-center mb-0 text-red-500" >
               Часто задаваемые вопросы
             </h1>
             <p className="text-center my-6">
@@ -49,7 +45,7 @@ const Faq = () => {
                               backgroundColor: 'yellow'
                             }}>{val?.yellowSpan}</span>
                             {val?.span_2}
-                            {val?.link && val?.a && <Link>{val?.a}</Link>}
+                            {val?.link && val?.a && <Link to={val.link}>{val.a}</Link>}
                             {val?.url && val?.a && (
                               <a href={val.url}>{val.a}</a>
                             )}
@@ -72,6 +68,7 @@ const Faq = () => {
                           {val?.p2 && (
                             <p>
                               {val.p2}
+                              {val?.link2 && val?.a2 && <Link to={val.link2}>{val.a2}</Link>}
                               {val?.url2 && val?.a2 && (
                                 <a href={val.url2}>{val.a2}</a>
                               )}

@@ -1,4 +1,4 @@
-import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbs from '../components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
@@ -13,7 +13,7 @@ const TermsConditions = () => {
       <Progress />
       <main id='ReturnTo' className="rc-content--fixed-header rc-bg-colour--brand3 text-cs-gray relative">
         <div className="p-8">
-          <BreadCrumbs />
+          <BreadCrumbs noHomeLink />
         </div>
         <RuLocalReturnTo start={-500} end={-13000} />
         <div id='ListOfDocuments' className='md:px-72 p-8'>
