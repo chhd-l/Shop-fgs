@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { loadJS, filterObjectValue } from '@/utils/utils';
 import { getSpecies } from '@/utils/GA';
 
@@ -141,6 +142,7 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     pillar: pillarEnum[goodsType]
   };
   const product = filterObjectValue(GAProductsInfo);
+  debugger;
   if (window.dataLayer) {
     // dataLayer?.push({
     //   products: [product]
@@ -149,7 +151,18 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
       dataLayer?.push({
         event: 'pdpScreenLoad',
         pdpScreenLoad: {
-          products: [product] //为了区分plp，pdp，checkout的products
+          products: [product], //为了区分plp，pdp，checkout的products
+          availableSizes: [
+            //All product sizes & prices available for a given product
+            {
+              size: '2',
+              price: '25.99',
+              pricePerUnit: '12.99',
+              localUnit: 'Kg'
+            },
+            { size: '4', price: '100', pricePerUnit: '30', localUnit: 'Kg' },
+            { size: '10', price: '300', pricePerUnit: '40', localUnit: 'Kg' }
+          ]
         },
         pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
       });

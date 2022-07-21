@@ -3309,6 +3309,12 @@ class="
   <p>
   日曜・祝日・弊社指定定休日を除く
   </p>
+  <a
+  class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
+  role="menuitem"
+  href="tel:0120-253-912"
+  >0120-253-912</a
+>
 </div>
 </div>
 <div
@@ -3317,25 +3323,8 @@ class="
   col-span-12
   md:col-span-4
   rc-padding-bottom--none
-  rc-padding-top--lg--mobile
 "
 id="J_footer_payment_box"
 ></div>
-<div
-class="
-  rc-column
-  rc-padding-x--none
-  rc-padding-top--xs--desktop
-  rc-padding-y--md--mobile
-  rc-text--center--sm-down
-  col-span-12
-"
->
-<a
-  class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
-  role="menuitem"
-  href="tel:0120-253-912"
-  >0120-253-912</a
->
-</div>`
+`
 };
