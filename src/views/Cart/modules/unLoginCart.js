@@ -15,7 +15,8 @@ import {
   getDeviceType,
   handleRecommendation,
   isShowMixFeeding,
-  optimizeImage
+  optimizeImage,
+  setSeoConfig
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
@@ -27,6 +28,7 @@ import { getGoodsRelationBatch, valetGuestMiniCars } from '@/api/cart';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
@@ -39,7 +41,6 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
 import { QuantityPicker, ProductCarousel } from '@/components/Product';
-import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import PromotionCodeText from '../components/PromotionCodeText';
@@ -902,6 +903,27 @@ class UnLoginCart extends React.Component {
     });
 
     const { productList } = this.state;
+    // 把选中的规则，平铺到了最外层，同会员购物车数据结构; 把goods对象平铺到最外层，同会员购物车数据结构
+    const selectedSize = find(pitem.sizeList, (s) => s.selected);
+    // 删除selectedGoodsInfo的相关属性，否则最外层相关值会被覆盖
+    delete selectedSize.periodTypeId;
+    delete selectedSize.goodsInfoFlag;
+    delete selectedSize.goods;
+    delete selectedSize.questionParams;
+    delete selectedSize.recommendationId;
+    delete selectedSize.recommendationName;
+    delete selectedSize.referenceData;
+    delete selectedSize.referenceObject;
+    delete selectedSize.recommendationInfos;
+    delete selectedSize.buyCount;
+
+    productList[index] = pitem = Object.assign(
+      {},
+      pitem,
+      pitem.goods,
+      selectedSize
+    );
+
     // 合并购物车，有相同规格的，删除本条
     const tmpIdx = findIndex(
       productList.filter((el, i) => i !== index),
@@ -1352,8 +1374,7 @@ class UnLoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList, errorMsg, goodsIdArr } = this.state;
-    const { history, location } = this.props;
+    const { productList, errorMsg } = this.state;
     const List = this.getProducts(this.state.productList);
 
     const dogsPic =

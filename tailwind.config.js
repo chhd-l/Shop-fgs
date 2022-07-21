@@ -208,7 +208,7 @@ module.exports = {
       },
       inset: {
         'cs-89%': '89%'
-      },
+      }
     }
   },
   plugins: []

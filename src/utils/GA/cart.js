@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { filterObjectValue } from '../utils';
 
 export const GACartButtonClick = (item) => {
@@ -68,5 +69,11 @@ export const GACartRecommendedProductClick = (el) => {
     cartRecommendedProductClick: {
       products: [product]
     }
+  });
+};
+
+export const GABackInStockNotifyMeClick = () => {
+  window.dataLayer?.push({
+    event: 'backInStockNotifyMe' //String : constant
   });
 };

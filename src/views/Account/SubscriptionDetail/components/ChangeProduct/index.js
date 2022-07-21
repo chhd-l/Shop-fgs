@@ -13,6 +13,7 @@ import { getFrequencyDict } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import cn from 'classnames';
 import { Button, Modal } from '@/components/Common';
+import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
 
 export const ChangeProductContext = createContext();
 const loginStore = stores.loginStore;
@@ -205,6 +206,7 @@ const ChangeProduct = () => {
   };
 
   const handleNotifyMe = async () => {
+    GABackInStockNotifyMeClick();
     let subscribeId = subDetail.subscribeId;
     const { goods = {}, goodsInfos = [], goodsSpecs = [] } = goodsDetails;
     let stockNoticeGoodsInfoVOS = [];
