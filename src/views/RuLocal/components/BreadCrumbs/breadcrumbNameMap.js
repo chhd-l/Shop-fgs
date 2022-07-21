@@ -34,32 +34,21 @@ const breadcrumbNameMap = {
     }
   ],
   '/latelier/felin-terms-conditions': [
-    {
-      name: 'CONDITIONS GÉNÉRALES DE RESERVATION'
-    }
+    { name: 'CONDITIONS GÉNÉRALES DE RESERVATION' }
   ],
   '/club/find-product': [
     { name: 'Club', href: '/club' },
     { name: 'Find Product', href: '/club/find-product' }
   ],
   '/about-us/faq': [
-    {
-      name: 'Информация о компании',
-      href: '/about-us'
-    },
-    {
-      name: 'Часто задаваемые вопросы',
-      href: '/about-us/faq'
-    }
+    { name: 'Информация о компании', href: '/about-us' },
+    { name: 'Часто задаваемые вопросы', href: '/about-us/faq' }
   ],
   '/about-us/special-works-conditions': [
     { name: 'Информация о компании', href: '/about-us' }
   ],
   '/about-us/shipment-conditions': [
-    {
-      name: 'Информация о компании',
-      href: '/about-us'
-    },
+    { name: 'Информация о компании', href: '/about-us' },
     {
       name: 'Условия доставки интернет-магазина',
       href: '/about-us/shipment-conditions'
