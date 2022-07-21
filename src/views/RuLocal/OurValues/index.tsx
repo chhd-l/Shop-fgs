@@ -3,6 +3,7 @@ import { Button } from '@/components/Common';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import FootLink from '../components/FootLink';
 import MyTab from '../components/MyTab';
 import { linkList, value10003 } from './mock';
@@ -74,7 +75,12 @@ const OurValues = () => {
                 что мы относимся к домашним животным, людям и планете с
                 уважением, которого они заслуживают.
               </p>
-              <Button>Узнайте больше</Button>
+              <Link
+                to="/about-us/sustainability "
+                className="rc-btn rc-btn--two"
+              >
+                Узнайте больше
+              </Link>
             </div>
           </div>
           <div className="bg-cs-gray-f6 w-full h-cs-8" />

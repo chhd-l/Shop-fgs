@@ -12,6 +12,9 @@ export const sustainability10021 = `${path}/img/ru-local/sustainability/10021.pn
 export const sustainability10020 = `${path}/img/ru-local/sustainability/10020.png`;
 export const sustainability10022 = `${path}/img/ru-local/sustainability/10022.png`;
 export const sustainability10023 = `${path}/img/ru-local/sustainability/10023.png`;
+export const sustainability10007 = `${path}/img/ru-local/sustainability/10007.png`;
+export const sustainability10008 = `${path}/img/ru-local/sustainability/10008.png`;
+export const sustainability10009 = `${path}/img/ru-local/sustainability/10009.png`;
 
 export const cardList = [
   {
@@ -68,5 +71,19 @@ export const slickList = [
     label: 'Джеральдин Мера — глобальный координатор по устойчивому развитию',
     path: sustainability10023,
     desc: '  «Я обеспечиваю точность данных об устойчивом развитии, чтобынадежно отслеживать наши результаты на этом пути. Я доверяю Royal Canin и 8000 наших сотрудников, когда речь идет об улучшении нашего социального воздействия на экосистему».  '
+  }
+];
+export const IconTabList = [
+  {
+    text: 'Домашние животные',
+    icon: sustainability10007
+  },
+  {
+    text: 'Планета',
+    icon: sustainability10008
+  },
+  {
+    text: 'Люди',
+    icon: sustainability10009
   }
 ];

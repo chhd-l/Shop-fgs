@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import React from 'react';
 import Slick from '../components/Slick';
 import Card from './components/Card';
+import IconTab from './components/IconTab';
 import './index.less';
 import {
   iconList,
@@ -38,6 +39,7 @@ const Sustainability = () => {
               Принципы устойчивого развития, которыми руководствуется ROYAL
               CANIN®
             </h1>
+            <IconTab />
             <h2 className="text-30  text-cs-primary text-center mt-cs-100">
               Наш путь к углеродной нейтральности
             </h2>

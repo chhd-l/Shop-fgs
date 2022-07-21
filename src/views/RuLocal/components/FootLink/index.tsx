@@ -1,5 +1,5 @@
-import { Button } from '@/components/Common';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 type FootLinkProps = {
   linkList: {
@@ -7,6 +7,7 @@ type FootLinkProps = {
     title: string;
     desc: string;
     buttonText: string;
+    link: string;
   }[];
 };
 
@@ -28,7 +29,9 @@ const FootLink = ({ linkList }: FootLinkProps) => {
             <p className=" text-center md:text-left mt-cs-16 mb-cs-36">
               {item.desc}
             </p>
-            <Button>{item.buttonText}</Button>
+            <Link to={item.link} className="rc-btn rc-btn--two">
+              {item.buttonText}
+            </Link>
           </div>
         </div>
       ))}
