@@ -3,9 +3,15 @@ import { Button } from '@/components/Common';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
+import Slick from '../components/Slick';
 import Card from './components/Card';
 import './index.less';
-import { iconList, sustainability10013, sustainability10017 } from './mock';
+import {
+  iconList,
+  sustainability10013,
+  sustainability10014,
+  sustainability10017
+} from './mock';
 const Sustainability = () => {
   return (
     <>
@@ -32,7 +38,6 @@ const Sustainability = () => {
               Принципы устойчивого развития, которыми руководствуется ROYAL
               CANIN®
             </h1>
-
             <h2 className="text-30  text-cs-primary text-center mt-cs-100">
               Наш путь к углеродной нейтральности
             </h2>
@@ -83,7 +88,7 @@ const Sustainability = () => {
                 style={{ zIndex: -1 }}
               />
               <div
-                style={{ marginTop: '46%' }}
+                style={{ marginTop: '23%' }}
                 className="h-cs-409 w-full md:max-w-500 md:max-h-420 px-0 md:px-8 md:py-8 py-4  md:mt-0 bg-white"
               >
                 <h2 className="  text-30 text-cs-primary   ">
@@ -149,7 +154,7 @@ const Sustainability = () => {
           </div>
         </div>
         <div className="bg-cs-gray-f6 w-full h-cs-8" />
-        <div className="px-0 md:px-cs-408">
+        <div className="px-0 md:px-cs-408 text-center mb-cs-64">
           <h2 className="text-30 text-cs-primary text-center">
             Поддержка положительной роли домашних животных в обществе в рамках
             работы фонда ROYAL CANIN®{' '}
@@ -161,6 +166,33 @@ const Sustainability = () => {
           </p>
           <Button>Узнайте больше о нашем фонде (анг.)</Button>
         </div>
+        <div className="md:px-24 py-12 px-8">
+          <div className="relative h-full py-cs-100 md:px-24 px-4 overflow-hidden">
+            <img
+              className="absolute top-0 left-0 w-full"
+              src={sustainability10014}
+              style={{
+                zIndex: -1
+              }}
+              alt=""
+            />
+            <div className="h-cs-409 w-full md:max-w-500 md:max-h-300 bg-white px-8 md:py-8 py-4 md:mt-0 ml-0 md:ml-54/10">
+              <p className="text-16 text-cs-gray">
+                «Наша цель — сделать МИР ДЛЯ ДОМАШНИХ ЖИВОТНЫХ ЛУЧШЕ, ведь они
+                улучшают наши жизни. Вот почему фонд ROYAL CANIN® поддерживает
+                внешние проекты, в которых роль домашних животных занимает
+                центральное место в здоровье и благосостоянии людей»
+              </p>
+              <p className="text-16 text-cs-gray mt-cs-24">
+                — Фабрис Матье, глобальный директор по устойчивому развитию
+              </p>
+            </div>
+          </div>
+        </div>
+        <h2 className="text-30 text-cs-primary text-center mt-cs-40 mb-cs-100">
+          Что руководители ROYAL CANIN® говорят об устойчивом развитии
+        </h2>
+        <Slick />
       </div>
 
       <Footer />

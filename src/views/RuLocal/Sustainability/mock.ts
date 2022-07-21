@@ -5,6 +5,13 @@ export const sustainability10018 = `${path}/img/ru-local/sustainability/10018.pn
 export const sustainability10015 = `${path}/img/ru-local/sustainability/10015.png`;
 export const sustainability10016 = `${path}/img/ru-local/sustainability/10016.png`;
 export const sustainability10017 = `${path}/img/ru-local/sustainability/10017.png`;
+export const sustainability10014 = `${path}/img/ru-local/sustainability/10014.jpg`;
+export const sustainability10025 = `${path}/img/ru-local/sustainability/10025.png`;
+export const sustainability10019 = `${path}/img/ru-local/sustainability/10019.png`;
+export const sustainability10021 = `${path}/img/ru-local/sustainability/10021.png`;
+export const sustainability10020 = `${path}/img/ru-local/sustainability/10020.png`;
+export const sustainability10022 = `${path}/img/ru-local/sustainability/10022.png`;
+export const sustainability10023 = `${path}/img/ru-local/sustainability/10023.png`;
 
 export const cardList = [
   {
@@ -33,5 +40,33 @@ export const iconList = [
   {
     label: 'Биоразлагаемость',
     path: sustainability10016
+  }
+];
+
+export const slickList = [
+  {
+    desc: ' «Мы стремимся предотвращать и сокращать выбросы парниковых газов на всех этапах производства. Этот вопрос мы решаем и с нашими постащиками, поскольку знаем, что 70%  выбросов углекислого газа происходит на этапе подготовки сырья».  ',
+    label: 'Лоик Муто — президент ROYAL CANIN®',
+    path: sustainability10019
+  },
+  {
+    label: 'Марион Сартил — глобальный координатор по устойчивому развитию',
+    path: sustainability10021,
+    desc: ' «Следуя нашему научно-обоснованному подходу, мы оценили углеродный след каждой из наших формул. Наши амбиции по борьбе с изменением климата привели к одной из крупнейших трансформаций бизнеса за последние 10 лет».  '
+  },
+  {
+    label: 'Камилла Уссельо — менеджер по стратегическому снабжению в Европе',
+    path: sustainability10020,
+    desc: ' «Пищевая ценность нашей продукции – наш главный приоритет. Мы всегда стараемся закупать более экологически устойчивые ингредиенты. Мы заменим рыбий жир в некоторых формулах маслом водорослей, чтобы сохранить дикую рыбу».  '
+  },
+  {
+    label: 'Мари-Анн Урс — менеджер по научным коммуникациям в Европе',
+    path: sustainability10022,
+    desc: '  «Будучи ветеринарным врачом, я не только люблю животных, но и уважаю планету. В рамках программы Go Green, проводимой нашими сотрудниками, мы установили ульи на наших объектах с целью защиты черной пчелы, исчезающего вида». '
+  },
+  {
+    label: 'Джеральдин Мера — глобальный координатор по устойчивому развитию',
+    path: sustainability10023,
+    desc: '  «Я обеспечиваю точность данных об устойчивом развитии, чтобынадежно отслеживать наши результаты на этом пути. Я доверяю Royal Canin и 8000 наших сотрудников, когда речь идет об улучшении нашего социального воздействия на экосистему».  '
   }
 ];

@@ -230,6 +230,7 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@types/react-slick": "^0.23.10",
     "autoprefixer": "^9.8.8",
     "compression-webpack-plugin": "^1.1.12",
     "copy-webpack-plugin": "^5.1.2",
