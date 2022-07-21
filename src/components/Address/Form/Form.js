@@ -730,7 +730,9 @@ class Form extends React.Component {
               ? (regExp = /^[0-9]{3}-[0-9]{4}$/)
               : (regExp = /^\d{5}$/);
           } else {
-            regExp = /\S/;
+            COUNTRY === 'nl'
+              ? (regExp = /^\d{4}[a-zA-Z]{2}$/)
+              : (regExp = /\S/);
           }
           errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
