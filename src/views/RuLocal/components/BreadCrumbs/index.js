@@ -46,23 +46,24 @@ const BreadCrumbs = withRouter((props) => {
               <meta itemProp="position" content="1" />
             </li>
           )}
-          {mapData.length > 0 && (
-            <>
+          {mapData.length > 0 ? (
+            isMobile || mapData.length === 1 ? (
+              <span
+                itemProp="name"
+                className="font-weight-normal ml-2 mr-2"
+                style={{ color: '#e2001a' }}
+              >
+                &lt;
+              </span>
+            ) : (
               <span
                 itemProp="name"
                 className="font-weight-normal ml-2 mr-2 rc-md-up"
               >
                 &gt;
               </span>
-              <span
-                itemProp="name"
-                className="font-weight-normal ml-2 mr-2 rc-md-down"
-                style={{ color: '#e2001a' }}
-              >
-                &lt;
-              </span>
-            </>
-          )}
+            )
+          ) : null}
           {mapData.map((item, index) => (
             <>
               <li
