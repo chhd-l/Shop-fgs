@@ -128,6 +128,7 @@ class Help extends React.Component {
           // console.log(el, 'el');
           let specList = el.goodsSpecs;
           let specDetailList = el.goodsSpecDetails;
+          const goodsInfos = el.goodsInfos;
           if (specList) {
             specList.map((sItem) => {
               sItem.chidren = specDetailList.filter((sdItem, i) => {
@@ -143,6 +144,11 @@ class Help extends React.Component {
                   // console.log(child, 'child');
                   child.selected = true;
                 }
+
+                const filterproducts = goodsInfos.filter((goodEl) =>
+                  goodEl.mockSpecDetailIds.includes(child.specDetailId)
+                );
+                child.addedFlag = filterproducts?.[0]?.addedFlag;
                 return child;
               });
               return sItem;
