@@ -2705,17 +2705,7 @@ class Payment extends React.Component {
       promotionCode
     });
   };
-  handlePaymentTypeChange = (e) => {
-    const {
-      paymentStore: { serCurPayWayVal }
-    } = this.props;
-    serCurPayWayVal(e.target.value);
-    this.props.checkoutStore.setInputPoint(0);
-    this.setState({ email: '' }, () => {
-      this.onPaymentTypeValChange();
-    });
-  };
-  handlePaymentTypeClick = (paymentTypeCode) => {
+  handlePaymentTypeCommon = (paymentTypeCode) => {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
@@ -2725,6 +2715,12 @@ class Payment extends React.Component {
     this.setState({ email: '', convenienceStore: '' }, () => {
       this.onPaymentTypeValChange();
     });
+  };
+  handlePaymentTypeChange = (e) => {
+    this.handlePaymentTypeCommon(e.target.value);
+  };
+  handlePaymentTypeClick = (paymentTypeCode) => {
+    this.handlePaymentTypeCommon(paymentTypeCode);
   };
 
   handleCardTypeChange = (e) => {
