@@ -1,4 +1,5 @@
 import BreadCrumbs from '@/components/BreadCrumbs';
+import { Button } from '@/components/Common';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
@@ -127,8 +128,8 @@ const Sustainability = () => {
             </div>
             <div className=" flex flex-wrap mt-cs-100">
               <p
-                className="text-20 text-cs-gray order-none md:order-2  "
-                style={{ width: 'calc(100% - 130px)', textIndent: '-0.75rem' }}
+                className="text-20 text-cs-gray order-none md:order-2  btn text-left"
+                // style={{ width: 'calc(100% - 130px)', textIndent: '-0.75rem' }}
               >
                 “ Одновременно с составом мы меняем наш подход к упаковке,
                 потому что считаем, что в неэкологичной упаковке не может быть
@@ -146,6 +147,19 @@ const Sustainability = () => {
               </p>
             </div>
           </div>
+        </div>
+        <div className="bg-cs-gray-f6 w-full h-cs-8" />
+        <div className="px-0 md:px-cs-408">
+          <h2 className="text-30 text-cs-primary text-center">
+            Поддержка положительной роли домашних животных в обществе в рамках
+            работы фонда ROYAL CANIN®{' '}
+          </h2>
+          <p className=" my-cs-16 text-16 text-cs-gray text-center">
+            Домашние животные делают наш мир лучше. Наш фонд, созданный в 2020
+            году, финансирует проекты по поддержке положительной роли домашних
+            животных в здоровье и благополучии человека.
+          </p>
+          <Button>Узнайте больше о нашем фонде (анг.)</Button>
         </div>
       </div>
 

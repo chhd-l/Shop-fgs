@@ -233,7 +233,8 @@ module.exports = {
         'cs-200': '12.5rem',
         'cs-240': '15rem',
         'cs-272': '17rem',
-        'cs-288': '18rem'
+        'cs-288': '18rem',
+        'cs-408': '25.5rem'
       },
       flex: {
         'cs-justify-items': 'center',
