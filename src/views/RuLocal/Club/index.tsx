@@ -4,9 +4,10 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import HrLine from '../components/HrLine';
 import Collapse from '@/components/Collapse';
-
+import { ClubFAQ } from '../modules/club';
+import './index.less'
 const Club = () => {
-  const {Panel} = Collapse
+  const { Panel } = Collapse;
   return (
     <div className="ru-local-club">
       <Header showMiniIcons={true} showUserIcon={true} />
@@ -293,21 +294,23 @@ const Club = () => {
             <h3 className="rc-gamma">Ответы на часто задаваемые вопросы</h3>
           </div>
         </div>
-
-
-        <Collapse onChange={()=>{
-          console.info('sdsdsdsds')
-        }}>
-      <Panel header="This is panel header 1" key="1">
-        <p>asdsdsdsds</p>
-      </Panel>
-      <Panel header="This is panel header 2" key="2">
-        <p>sdsdsdsdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-      </Panel>
-      <Panel header="This is panel header 3" key="3">
-        <p>bbbbbbbbbbbbbbbbbbbbbbb</p>
-      </Panel>
-    </Collapse>
+        <div className="rc-layout-container rc-one-colum rc-max-width--xl">
+          <Collapse
+            onChange={() => {
+              console.info('sdsdsdsds');
+            }}
+          >
+            {ClubFAQ.map((el, idx) => (
+              <Panel header={el.title} key={idx}>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: el?.content
+                  }}
+                ></div>
+              </Panel>
+            ))}
+          </Collapse>
+        </div>
       </main>
       <Footer />
     </div>
