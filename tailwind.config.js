@@ -88,12 +88,14 @@ module.exports = {
         auto: 'auto'
       },
       maxHeight: {
+        242: '242px',
         300: '300px',
         420: '420px',
         500: '500px',
         '1/2-screen': '50vh'
       },
       maxWidth: {
+        320: '320px',
         500: '500px',
         900: '900px',
         1400: '1400px'
