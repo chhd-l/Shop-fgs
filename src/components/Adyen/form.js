@@ -10,6 +10,7 @@ import { myAccountActionPushEvent } from '@/utils/GA';
 import getPaymentConf from '@/lib/get-payment-conf';
 import packageTranslations from './translations';
 import { Button } from '@/components/Common';
+import '@adyen/adyen-web/dist/adyen.css';
 
 let adyenFormData = {};
 
@@ -43,6 +44,7 @@ class AdyenCreditCardForm extends React.Component {
       isValid: false,
       adyenOriginKeyConf: null
     };
+    this.containerEl = React.createRef();
   }
   componentDidMount() {
     this.initAdyenConf();
@@ -81,100 +83,93 @@ class AdyenCreditCardForm extends React.Component {
       }
     );
   }
-  initForm() {
+  async initForm() {
     const {
       intl: { messages }
     } = this.props;
     const _this = this;
     const { translations } = packageTranslations({ messages });
     const { adyenOriginKeyConf } = this.state;
-    dynamicLoadCss(
-      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
-    );
     console.log({ adyenOriginKeyConf });
-    loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      callback: function () {
-        if (!!window.AdyenCheckout && adyenOriginKeyConf) {
-          console.log('render adyen form start');
-          //要有值
-          const AdyenCheckout = window.AdyenCheckout;
-          // (1) Create an instance of AdyenCheckout
-          const checkout = new AdyenCheckout({
-            environment: adyenOriginKeyConf?.environment,
-            clientKey: adyenOriginKeyConf?.openPlatformSecret,
-            locale: adyenOriginKeyConf?.locale || 'en-US',
-            // 只有adyen本身不支持的语言时，自定义翻译才有用
-            translations: {
-              [adyenOriginKeyConf?.locale || 'en-US']: translations
-            },
-            allowAddedLocales: true
-          });
 
-          // (2). Create and mount the Component
-          const card = checkout
-            .create('card', {
-              hasHolderName: true,
-              holderNameRequired: true,
-              // enableStoreDetails: _this.props.enableStoreDetails,
-              enableStoreDetails: _this.props.isShowEnableStoreDetails,
-              styles: {},
-              placeholders: {},
-              showPayButton: false,
-              brands: ADYEN_CREDIT_CARD_BRANDS,
-              onLoad: () => {
-                console.log('adyen form loaded');
-              },
-              onBrand: (state) => {
-                adyenFormData = Object.assign(adyenFormData, {
-                  adyenBrands: state.brand,
-                  brand: state.brand,
-                  brandImageUrl: state.brandImageUrl
-                });
-              },
-              onChange: (state) => {
-                try {
-                  _this.getBrowserInfo(state);
-                  console.log('adyen form state:', state);
-                  console.log('adyen form card:', card);
-                  const {
-                    enableStoreDetails,
-                    isShowEnableStoreDetails,
-                    mustSaveForFutherPayments
-                  } = _this.props;
-                  let tmpValidSts;
-                  if (isShowEnableStoreDetails && mustSaveForFutherPayments) {
-                    tmpValidSts = card.data.storePaymentMethod && state.isValid;
-                  } else {
-                    tmpValidSts = state.isValid;
-                  }
-                  _this.setState({ isValid: tmpValidSts }, () => {
-                    console.log('adyen form state.isValid:', state.isValid);
-                  });
-                  _this.props.updateClickPayBtnValidStatus(tmpValidSts);
-                  if (tmpValidSts) {
-                    adyenFormData = Object.assign(
-                      adyenFormData,
-                      getAdyenParam(card.data),
-                      {
-                        storePaymentMethod: isShowEnableStoreDetails
-                          ? card.data && card.data.storePaymentMethod
-                          : mustSaveForFutherPayments
-                          ? true
-                          : false
-                      }
-                    );
-                  }
-                } catch (err) {
-                  console.log('set adyen form err', err);
-                }
+    if (this.containerEl.current) {
+      const configuration = {
+        environment: adyenOriginKeyConf?.environment,
+        clientKey: adyenOriginKeyConf?.openPlatformSecret,
+        locale: adyenOriginKeyConf?.locale || 'en-US',
+        // 只有adyen本身不支持的语言时，自定义翻译才有用
+        translations: {
+          [adyenOriginKeyConf?.locale || 'en-US']: translations
+        },
+        allowAddedLocales: true
+      };
+      const AdyenCheckout = (await import('@adyen/adyen-web')).default;
+
+      const checkout = await new AdyenCheckout(configuration);
+      const card = checkout
+        .create('card', {
+          brands: ADYEN_CREDIT_CARD_BRANDS,
+          enableStoreDetails: _this.props.isShowEnableStoreDetails,
+          hasHolderName: true,
+          holderNameRequired: true,
+          showPayButton: false,
+          onBrand: (state) => {
+            adyenFormData = Object.assign(adyenFormData, {
+              adyenBrands: state.brand,
+              brand: state.brand,
+              brandImageUrl: state.brandImageUrl
+            });
+          },
+          // onFieldValid: (state: any) => {
+          //   updateFormData(
+          //     Object.assign(CardListStore.formData || {}, {
+          //       lastFourDigits: state.endDigits,
+          //     })
+          //   )
+          // },
+          onChange: (state) => {
+            try {
+              _this.getBrowserInfo(state);
+              console.log('adyen form state:', state);
+              console.log('adyen form card:', card);
+              const {
+                enableStoreDetails,
+                isShowEnableStoreDetails,
+                mustSaveForFutherPayments
+              } = _this.props;
+              let tmpValidSts;
+              if (isShowEnableStoreDetails && mustSaveForFutherPayments) {
+                tmpValidSts = card.data.storePaymentMethod && state.isValid;
+              } else {
+                tmpValidSts = state.isValid;
               }
-            })
-            .mount('#adyen-card-container');
-          _this.props.updateInitStatus(true);
-        }
-      }
-    });
+              _this.setState({ isValid: tmpValidSts }, () => {
+                console.log('adyen form state.isValid:', state.isValid);
+              });
+              _this.props.updateClickPayBtnValidStatus(tmpValidSts);
+              if (tmpValidSts) {
+                adyenFormData = Object.assign(
+                  adyenFormData,
+                  getAdyenParam(card.data),
+                  {
+                    storePaymentMethod: isShowEnableStoreDetails
+                      ? card.data && card.data.storePaymentMethod
+                      : mustSaveForFutherPayments
+                      ? true
+                      : false
+                  }
+                );
+              }
+            } catch (err) {
+              console.log('set adyen form err', err);
+            }
+          },
+          onLoad: () => {
+            console.log('adyen form loaded');
+          }
+        })
+        .mount(this.containerEl.current);
+    }
   }
   handleSavePromise = async () => {
     try {
@@ -284,6 +279,7 @@ class AdyenCreditCardForm extends React.Component {
         )}
         <div
           id="adyen-card-container"
+          ref={this.containerEl}
           className={`payment-method__container ${
             !isCheckoutPage ||
             !isOnepageCheckout ||
