@@ -18,6 +18,7 @@ const BreadCrumbs = withRouter((props) => {
   }
   return (
     <div className="rc-bg-colour--brand3" style={{ paddingTop: '1px' }}>
+      {/* <div className={`rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm ${window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE?"rc-padding-top--md rc-padding-bottom--xs":"rc-padding-y--xs"}`}> */}
       <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
         <ul
           className="d-flex"
@@ -47,7 +48,7 @@ const BreadCrumbs = withRouter((props) => {
             </li>
           )}
           {mapData.length > 0 ? (
-            isMobile || mapData.length === 1 ? (
+            isMobile || (mapData.length === 1 && props.noHomeLink) ? (
               <span
                 itemProp="name"
                 className="font-weight-normal ml-2 mr-2"

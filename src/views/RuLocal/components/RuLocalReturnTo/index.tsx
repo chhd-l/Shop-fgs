@@ -21,7 +21,7 @@ const RuLocalReturnTo = ({start, end}: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <div className={`${ToOpen ? 'md:fixed top-3/4' : 'md:absolute bottom-16'} md:bg-transparent md:p-0 py-10 px-2.5 bg-cs-gray-150 right-32`}>
+    return <div className={`${ToOpen ? 'md:fixed top-3/4' : 'md:absolute bottom-16'} md:bg-transparent md:p-0 py-10 px-2.5 bg-cs-gray-150 right-28`}>
     <div className="flex flex-col items-center">
       <span className="w-14 h-14"
           style={{
