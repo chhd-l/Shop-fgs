@@ -75,9 +75,6 @@ class AdyenCreditCardList extends React.Component {
     this.editFormRef = React.createRef();
   }
   componentDidUpdate() {
-    dynamicLoadCss(
-      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
-    );
     if (this.props.paymentStore.isRreshList) {
       if (this.isLogin) {
         this.queryList();
@@ -301,43 +298,38 @@ class AdyenCreditCardList extends React.Component {
     const adyenOriginKeyConf = tmpConfArr.filter(
       (t) => t.pspItemCode === curPayWayInfo?.code
     )[0];
-    loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      callback: function () {
-        if (!!window.AdyenCheckout) {
-          const AdyenCheckout = window.AdyenCheckout;
-          const checkout = new AdyenCheckout({
-            environment: adyenOriginKeyConf?.environment,
-            originKey: adyenOriginKeyConf?.openPlatformSecret,
-            locale: adyenOriginKeyConf?.locale || 'en-US'
-          });
-          checkout
-            .create('card', {
-              brand: brand,
-              onChange: (state) => {
-                console.log(state);
-                _this.getBrowserInfo(state);
-                const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
-                let result = find(cardList, (ele) => ele.id === id);
-                result.encryptedSecurityCode = tmpCode;
-                // ****************************************************************
-                //el.encryptedSecurityCode = tmpCode;
-                // ****************************************************************
 
-                updateSelectedCardInfo(result);
-                updateFormValidStatus(result);
-                // ****************************************************************
-                //_this.setState({ cardList: _this.state.cardList });
-                // ****************************************************************
-              },
-              onLoad: (state) => {
-                el.isLoadCvv = true;
-              }
-            })
-            .mount(element);
+    const configuration = {
+      environment: adyenOriginKeyConf?.environment,
+      clientKey: adyenOriginKeyConf?.openPlatformSecret,
+      locale: adyenOriginKeyConf?.locale || 'en-US'
+    };
+    const AdyenCheckout = (await import('@adyen/adyen-web')).default;
+    const checkout = await new AdyenCheckout(configuration);
+    const card = checkout
+      .create('card', {
+        // brands: brand,
+        onChange: (state) => {
+          console.log(state);
+          _this.getBrowserInfo(state);
+          const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
+          let result = find(cardList, (ele) => ele.id === id);
+          result.encryptedSecurityCode = tmpCode;
+          // ****************************************************************
+          //el.encryptedSecurityCode = tmpCode;
+          // ****************************************************************
+
+          updateSelectedCardInfo(result);
+          updateFormValidStatus(result);
+          // ****************************************************************
+          //_this.setState({ cardList: _this.state.cardList });
+          // ****************************************************************
+        },
+        onLoad: (state) => {
+          el.isLoadCvv = true;
         }
-      }
-    });
+      })
+      .mount(element);
   };
   handleClickDeleteBtn(el, e) {
     e.preventDefault();
