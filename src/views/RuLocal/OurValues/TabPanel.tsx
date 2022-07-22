@@ -47,7 +47,7 @@ export const ElmentenThusiasm = () => {
       </div>
       <div className="text-center md:text-left col-span-3">
         <h2 className="text-cs-primary text-30 text-center md:text-left">
-          Устойчивое развитие
+          Здоровье питомцев — наша главная забота
         </h2>
         <p className="text-16 text-cs-gray text-center md:text-left mt-cs-16 mb-cs-36">
           Наш подход к обеспечению устойчивого развития заключается в том, что

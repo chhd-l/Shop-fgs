@@ -6,6 +6,7 @@ import ExplanationTable from './components/ExplanationTable';
 import ShipmentConditionsTable from './components/ShipmentConditionsTable';
 import ReturnList from './components/ShipmentConditionsReturnList';
 import Footer from '@/components/Footer';
+import { Link } from 'react-router-dom';
 
 const FileUrl =
   window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX +
@@ -76,7 +77,7 @@ const ShipmentConditions = () => {
             <p className="text-center md:text-left mt-cs-16 mb-cs-36">
               Наши эксперты здесь, чтобы помочь Вам!
             </p>
-            <Button type="primary">Связаться с нами</Button>
+            <Button type="primary"><Link to='/contact-us'>Связаться с нами</Link></Button>
           </div>
         </div>
       </div>

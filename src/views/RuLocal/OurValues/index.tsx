@@ -83,7 +83,7 @@ const OurValues = () => {
             </div>
           </div>
           <div className="bg-cs-gray-f6 w-full h-cs-8" />
-          <FootLink linkList={linkList} />
+          {/* <FootLink linkList={linkList} /> */}
         </div>
       </div>
 
