@@ -2,10 +2,8 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import FootLink from '../components/FootLink';
 import MyTab from '../components/MyTab';
-import { linkList, value10003 } from './mock';
+import { value10003 } from './mock';
 import {
   ElementKnowledge,
   ElmentenAccuracy,
@@ -13,6 +11,7 @@ import {
   ElmentenRespect,
   ElmentenThusiasm
 } from './TabPanel';
+import { Button } from '@/components/Common';
 
 const tabList = [
   {
@@ -36,7 +35,7 @@ const tabList = [
     element: <ElmentenRespect />
   }
 ];
-const OurValues = () => {
+const OurValues = (props: any) => {
   return (
     <>
       <Header showMiniIcons={true} showUserIcon={true} />
@@ -74,12 +73,11 @@ const OurValues = () => {
                 что мы относимся к домашним животным, людям и планете с
                 уважением, которого они заслуживают.
               </p>
-              <Link
-                to="/about-us/sustainability "
-                className="rc-btn rc-btn--two"
+              <Button
+                onClick={() => props.history.push('/about-us/sustainability')}
               >
                 Узнайте больше
-              </Link>
+              </Button>
             </div>
           </div>
           <div className="bg-cs-gray-f6 w-full h-cs-8" />

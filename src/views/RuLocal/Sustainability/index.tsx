@@ -1,5 +1,4 @@
 import BreadCrumbs from '../components/BreadCrumbs';
-import { Button } from '@/components/Common';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
@@ -17,7 +16,7 @@ import {
 const Sustainability = () => {
   return (
     <>
-      <Header showMiniIcons={true} showUserIcon={true} />
+      <Header showMiniIcons={true} showUserIcon={true} key="sustainability" />
       <div className="relative rc-content--fixed-header">
         <div className=" max-w-1400 mx-auto">
           <BreadCrumbs />
