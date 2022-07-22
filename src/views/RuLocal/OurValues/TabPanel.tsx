@@ -10,8 +10,8 @@ import {
 
 const Render = ({ title, path, desc }: TextRenderProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 p-cs-2 ">
-      <div className="mt-cs-80  px-0 md:px-cs-54">
+    <div className="grid grid-cols-1 md:grid-cols-2 py-cs-2  px-0 md:px-cs-2">
+      <div className="  px-0 md:px-cs-54">
         <h2 className="text-30 text-cs-primary font-light">{title}</h2>
         <p className="text-16 text-cs-gray mt-cs-18 text-justify">{desc}</p>
       </div>

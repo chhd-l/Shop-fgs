@@ -42,7 +42,7 @@ const OurValues = () => {
     <>
       <Header showMiniIcons={true} showUserIcon={true} />
       <div className="relative rc-content--fixed-header">
-        <div className="p-cs-2 max-w-1400 mx-auto">
+        <div className="px-0 md:px-cs-2    py-cs-2 max-w-1400 mx-auto">
           <BreadCrumbs />
           <div className="p-cs-1 mt-28">
             <h1 className=" text-cs-primary text-center text-4vw leading-4.3vw">
