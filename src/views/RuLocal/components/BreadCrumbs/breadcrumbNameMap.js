@@ -26,6 +26,7 @@ const breadcrumbNameMap = {
       name: 'aboutUs2'
     }
   ],
+  '/club': [{ name: 'Club', href: '/club' }],
   '/Tailorednutrition': [
     {
       name: 'tailorednutrition'
