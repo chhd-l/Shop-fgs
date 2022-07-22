@@ -15,7 +15,7 @@ const SpecialWorksConditions = () => {
     <div className="text-black specialWorksConditions">
       <Header showMiniIcons={true} showUserIcon={true} />
       <div id='ReturnTo' className="relative rc-content--fixed-header text-base" style={{
-        zIndex: '-1'
+        zIndex: 0
       }}>
         <Progress />
         <div className="md:p-8 pb-8 pt-6 px-3">
