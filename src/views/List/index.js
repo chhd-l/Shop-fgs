@@ -393,7 +393,8 @@ class List extends React.Component {
       invalidPage: false, //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
       prefnParamListFromSearch: [],
       filtersCounts: 0,
-      categoryDogType: false
+      categoryDogType: false,
+      goodsFilterVOList: []
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1057,7 +1058,6 @@ class List extends React.Component {
             ];
             return tempArr.includes(pathname.replace(/\/$/, ''));
           })[0];
-        console.log('targetRouter', targetRouter);
         let sortParam = null;
         let cateIds = [];
         let filters = cloneDeep((state && state.filters) || []);
@@ -1129,8 +1129,6 @@ class List extends React.Component {
           .reverse();
         // set SEO
         this.setSEO({ cateIds });
-        console.log(search, 'search==');
-        // debugger
         // 解析prefn/prefv, 匹配filter, 设置默认选中值
         const prefnNum = (search.match(/prefn/gi) || []).length;
         for (let index = 0; index < prefnNum; index++) {
@@ -1141,13 +1139,6 @@ class List extends React.Component {
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
-          console.log(
-            res[3],
-            funcUrl({ name: `prefn${index + 1}` }),
-            fnEle,
-            tItem,
-            'tItem==='
-          );
 
           if (tItem) {
             let attributeValues = [];
@@ -1512,7 +1503,20 @@ class List extends React.Component {
         break;
       }
     }
-
+    const _goodsAttributesValueRelVOList = cloneDeep(
+      goodsAttributesValueRelVOList
+    );
+    const goodsFilterVOList =
+      JSON.parse(sessionItemRoyal.get('plpGoodsFilterVOList')) || [];
+    _goodsAttributesValueRelVOList.forEach((items) => {
+      goodsFilterVOList.forEach((ele) => {
+        if (items.attributeId === ele.attributeId) {
+          items.plpDisplayAttributeValueIdList = ele.attributesValueList.map(
+            (el) => el.id
+          );
+        }
+      });
+    });
     let params = {
       cateType,
       storeId: window.__.env.REACT_APP_STOREID,
@@ -1522,10 +1526,12 @@ class List extends React.Component {
       pageSize: this.pageSize,
       keywords,
       storeCateIds,
-      goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
-        const { attributeValues, ...otherParam } = el;
-        return otherParam;
-      }),
+      goodsAttributesValueRelVOList: _goodsAttributesValueRelVOList.map(
+        (el) => {
+          const { attributeValues, ...otherParam } = el;
+          return otherParam;
+        }
+      ),
       goodsFilterRelList: goodsFilterRelList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -1547,7 +1553,6 @@ class List extends React.Component {
     if (searchForm.maxMarketPrice === null) {
       getConfig()
         .then((res) => {
-          console.log('res', res);
           this.MygetList(
             { ...params, maxMarketPrice: res?.context?.maxGoodsPrice },
             type
@@ -1562,6 +1567,7 @@ class List extends React.Component {
   MygetList(params, type) {
     getList(params)
       .then((res) => {
+        sessionItemRoyal.remove('plpGoodsFilterVOList');
         const esGoodsStoreGoodsFilterVOList = this.handledAttributeDetailNameEn(
           res.context?.esGoodsStoreGoodsFilterVOList || []
         );
@@ -1639,7 +1645,8 @@ class List extends React.Component {
               results: esGoodsPage.totalElements,
               currentPage: esGoodsPage.number + 1,
               totalPage: esGoodsPage.totalPages,
-              currentPageProductNum: esGoodsPage.numberOfElements
+              currentPageProductNum: esGoodsPage.numberOfElements,
+              goodsFilterVOList: esGoodsStoreGoodsFilterVOList
             },
             () => {
               this.handleCanonicalLink();
@@ -1799,6 +1806,13 @@ class List extends React.Component {
         }
       );
     }, 500);
+  };
+
+  handleFilterApplyChange = () => {
+    sessionItemRoyal.set(
+      'plpGoodsFilterVOList',
+      JSON.stringify(this.state.goodsFilterVOList)
+    );
   };
 
   // 处理mobile端已经选中的filters数量
@@ -2075,6 +2089,7 @@ class List extends React.Component {
                                 this.state.prefnParamListFromSearch
                               }
                               filtersCounts={filtersCounts}
+                              handleFilterApply={this.handleFilterApplyChange}
                             />
                           )}
                           {/* 由于么数据暂时隐藏注释 */}
