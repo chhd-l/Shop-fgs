@@ -5,6 +5,11 @@ const Progress = () => {
 
   const handlScroll = () => {
       const width = ((window.pageYOffset) / (document.body.clientHeight - window.innerHeight)) * window.innerWidth;
+      console.log('window.pageYOffset',window.pageYOffset)
+      console.log('window.innerHeight',window.innerHeight)
+      console.log('window.innerWidth',window.innerWidth)
+      console.log('document.body.clientHeight',document.body.clientHeight)
+      
       setProgressSp(width)
   };
 
