@@ -213,6 +213,7 @@ class Filter extends React.Component {
   };
 
   handleFilterApplyBtn = () => {
+    this.props.handleFilterApply();
     const { pathname } = this.props.history.location;
     const { baseSearchStr } = this.props;
     const searchFilterParams = this.state.selectedFilterParams.reduce(
