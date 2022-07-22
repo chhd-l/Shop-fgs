@@ -102,7 +102,7 @@ class AdyenCreditCardForm extends React.Component {
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
             environment: adyenOriginKeyConf?.environment,
-            originKey: adyenOriginKeyConf?.openPlatformSecret,
+            clientKey: adyenOriginKeyConf?.openPlatformSecret,
             locale: adyenOriginKeyConf?.locale || 'en-US',
             // 只有adyen本身不支持的语言时，自定义翻译才有用
             translations: {
