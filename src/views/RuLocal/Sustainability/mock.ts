@@ -18,6 +18,9 @@ export const sustainability10009 = `${path}/img/ru-local/sustainability/10009.pn
 export const sustainability10010 = `${path}/img/ru-local/sustainability/10010.png`;
 export const sustainability10011 = `${path}/img/ru-local/sustainability/10011.png`;
 export const sustainability10012 = `${path}/img/ru-local/sustainability/10012.png`;
+export const sustainability10024 = `${path}/img/ru-local/sustainability/10024.png`;
+export const sustainability10025_p = `${path}/img/ru-local/sustainability/10025.png`;
+export const sustainability10026 = `${path}/img/ru-local/sustainability/10026.png`;
 
 export const cardList = [
   {
@@ -74,6 +77,22 @@ export const slickList = [
     label: 'Джеральдин Мера — глобальный координатор по устойчивому развитию',
     path: sustainability10023,
     desc: '  «Я обеспечиваю точность данных об устойчивом развитии, чтобынадежно отслеживать наши результаты на этом пути. Я доверяю Royal Canin и 8000 наших сотрудников, когда речь идет об улучшении нашего социального воздействия на экосистему».  '
+  },
+  {
+    label: 'Джеффри Дэниел — менеджер по разработке рецептур',
+    path: sustainability10024,
+    desc: '«Разрабатывая продуктовые формулы, мы выбираем сырье, которое гарантирует оптимальную питательную ценность, оставляя минимальный углеродныйслед».  '
+  },
+  {
+    label: 'Анн-Лор Лебё — глобальный управляющий директор по упаковке',
+    path: sustainability10025_p,
+    desc: '  «Пригодность для повторного использования — одна из наших главных целей при разработке новой упаковки. Я очень горжусь тем, что поддерживаю и вношу свой вклад в этот путь к устойчивому развитию». '
+  },
+  {
+    path: sustainability10026,
+    desc: 'Фабрис Матье — глобальный менеджер по устойчивому развитию',
+    label:
+      ' «Мы твердо верим, что построение экологически ответственного бизнеса основывается на продуктивном взаимодействии с партнерами и всеми заинтересованными сторонами».  '
   }
 ];
 export const IconTabList = [

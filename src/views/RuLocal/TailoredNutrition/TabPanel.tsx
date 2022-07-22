@@ -46,22 +46,22 @@ const Render = ({ path, label, title, img }: RenderProps) => {
 };
 export const TabPanel1 = () => {
   return (
-    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
+    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl md:px-cs-320">
       {cat.map((item, index) => (
         <Render {...item} key={index} />
       ))}
-      <div className="rc-column rc-single "></div>
+      {/* <div className="rc-column rc-single "></div> */}
     </div>
   );
 };
 
 export const TabPanel2 = () => {
   return (
-    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
+    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl md:px-cs-320">
       {dog.map((item, index) => (
         <Render {...item} key={index} />
       ))}
-      <div className="rc-column rc-single "></div>
+      {/* <div className="rc-column rc-single "></div> */}
     </div>
   );
 };
