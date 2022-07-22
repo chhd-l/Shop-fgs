@@ -17,18 +17,18 @@ const Faq = () => {
         <div className="md:p-12 py-12">
           <BreadCrumbs />
         </div>
-        <div id='mainRuLocal'>
+        <div id="mainRuLocal">
           <div className="max-w-screen-md m-auto p-1">
-            <h1 className="text-center mb-0 text-red-500" >
+            <h1 className="text-center mb-0 text-red-500">
               Часто задаваемые вопросы
             </h1>
             <p className="text-center my-6">
-              Все, что мы делаем, обусловлено стремлением заботиться о здоровье
-              и благополучии каждой кошки и собаки.
+              У Вас вопрос? Здесь Вы найдете ответы на наиболее часто задаваемые
+              вопросы о работе нашего интернет-магазина.
             </p>
           </div>
           {RulocalFaq_contents.map((item, idx) => (
-            <div className=' pb-16' key={idx}>
+            <div className=" pb-16" key={idx}>
               <div className="h-2 bg-cs-gray-f6" />
               <div className="md:p-8">
                 <div className="p-2">
@@ -41,11 +41,20 @@ const Faq = () => {
                         <Panel header={val.title} key={key}>
                           <p>
                             {val.p}
-                            <span style={{
-                              backgroundColor: 'yellow'
-                            }}>{val?.yellowSpan}</span>
+                            <span
+                              style={{
+                                backgroundColor: 'yellow'
+                              }}
+                            >
+                              {val?.yellowSpan}
+                            </span>
                             {val?.span_2}
-                            {val?.link && val?.a && <Link to={val.link}>{val.a}</Link>}
+                            {val?.link && val?.a && (
+                              <Link style={{
+                                color: 'rgb(78, 1, 171)',
+                                textDecorationColor: ' rgb(78, 1, 171)',
+                              }} to={val.link}>{val.a}</Link>
+                            )}
                             {val?.url && val?.a && (
                               <a href={val.url}>{val.a}</a>
                             )}
@@ -68,7 +77,12 @@ const Faq = () => {
                           {val?.p2 && (
                             <p>
                               {val.p2}
-                              {val?.link2 && val?.a2 && <Link to={val.link2}>{val.a2}</Link>}
+                              {val?.link2 && val?.a2 && (
+                                <Link style={{
+                                  color: 'rgb(78, 1, 171)',
+                                  textDecorationColor: ' rgb(78, 1, 171)',
+                                }}  to={val.link2}>{val.a2}</Link>
+                              )}
                               {val?.url2 && val?.a2 && (
                                 <a href={val.url2}>{val.a2}</a>
                               )}
