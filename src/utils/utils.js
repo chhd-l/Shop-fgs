@@ -1331,7 +1331,7 @@ export function sortPriceList(list) {
         'serviceFee', // 日本服务费
         'pointDiscount' // 日本积分折扣,
       ];
-  console.log('sequence', sequence);
+  // console.log('sequence', sequence);
   return list.sort((a, b) => {
     const idxA = sequence.findIndex((el) => el === a.key);
     const idxB = sequence.findIndex((el) => el === b.key);
