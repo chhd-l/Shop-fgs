@@ -1253,10 +1253,12 @@ class Form extends React.Component {
       case 'postCode':
         if (COUNTRY == 'jp') {
           if (compositionFlag) {
-            tvalue = tvalue
-              .replace(/\s/g, '')
-              .replace(/-$/, '')
-              .replace(/(\d{3})(\d{4})/g, '$1-$2');
+            if (tvalue.length < 6) {
+              tvalue = tvalue
+                .replace(/\s/g, '')
+                .replace(/-$/, '')
+                .replace(/(\d{3})(?:\d)/g, '$1-');
+            }
           }
         }
         // 可以输入字母+数字
@@ -1798,7 +1800,7 @@ class Form extends React.Component {
   maxLengthFun = (item) => {
     let maxLength = 0;
     if (item.fieldKey == 'postCode' && COUNTRY == 'jp') {
-      maxLength = 7;
+      maxLength = 8;
     } else if (item.fieldKey == 'phoneNumber' && COUNTRY == 'jp') {
       maxLength = 11;
     } else if (item?.fieldKey == 'lastName' && COUNTRY == 'jp') {
