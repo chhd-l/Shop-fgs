@@ -250,6 +250,7 @@ module.exports = {
         'cs-272': '17rem',
         'cs-288': '18rem',
         'cs-304': '19rem',
+        'cs-320': '20rem',
         'cs-408': '25.5rem'
       },
       flex: {
