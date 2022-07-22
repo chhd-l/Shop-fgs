@@ -178,6 +178,9 @@ class WeekCalender extends Component {
         }
         result.push(cc);
         current.add(15, 'minutes');
+        if (current > end) {
+          break;
+        }
       }
       resolve(result);
     });

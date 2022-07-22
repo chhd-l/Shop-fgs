@@ -53,7 +53,7 @@ const setGoogleProductStructuredDataMarkup = ({
 }) => {
   loadJS({
     code: JSON.stringify({
-      '@context': 'http://schema.org/',
+      '@context': 'https://schema.org/',
       '@type': 'Product',
       brand: 'Royal Canin',
       name: details.goodsName,
@@ -67,7 +67,7 @@ const setGoogleProductStructuredDataMarkup = ({
         '@type': 'AggregateOffer',
         priceCurrency: window.__.env.REACT_APP_CURRENCY,
         availability: instockStatus
-          ? 'http://schema.org/InStock'
+          ? 'https://schema.org/InStock'
           : 'https://schema.org/OutOfStock',
         lowPrice: details.fromPrice,
         highPrice: details.toPrice || details.fromPrice
