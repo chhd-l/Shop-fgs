@@ -70,7 +70,7 @@ class GoogleMap extends React.Component {
 
         //点位图标图片大小
         var imageUrl =
-          'http://chart.apis.google.com/chart?cht=mm&chs=24x32&chco=' +
+          'https://chart.apis.google.com/chart?cht=mm&chs=24x32&chco=' +
           'FFFFFF,FF0000,000000&ext=.png';
         var markerImage = new maps.MarkerImage(imageUrl, new maps.Size(24, 32));
 

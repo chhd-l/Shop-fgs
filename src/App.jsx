@@ -29,7 +29,7 @@ import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
 // import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
-import { stgShowAuth } from '@/utils/utils';
+import { stgShowAuth, getRandom } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
@@ -1262,7 +1262,7 @@ const App = () => {
 
                     //为了匹配/refuge108785 这种数字动态的短链接
                     if (/^\/refuge/.test(pathname))
-                      return <RefugeSource key={Math.random()} {...props} />;
+                      return <RefugeSource key={getRandom()} {...props} />;
 
                     // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                     if (PDP_Regex.test(pathname)) {

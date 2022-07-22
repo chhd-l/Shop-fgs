@@ -150,7 +150,25 @@ export default class Selection extends React.Component {
       let option = optionList.filter(
         (ele) => ele.value + '' === selectedItem.value + ''
       )[0].name;
-      if (option) {
+      const isNameArray = optionList.some((item) => item.name2);
+      if (isNameArray) {
+        let option2 = optionList.filter(
+          (ele) => ele.value + '' === selectedItem.value + ''
+        )[0].name2;
+        let isEmpty = optionList.filter(
+          (ele) => ele.value + '' === selectedItem.value + ''
+        )[0].isEmpty;
+        res = (
+          <>
+            <span>{option}</span>
+            <span
+              className={`sku-stock ml-8 ${isEmpty ? 'sku-out-of-stock' : ''}`}
+            >
+              <FormattedMessage id={option2} />
+            </span>
+          </>
+        );
+      } else if (option) {
         res = option;
       } else {
         res = placeholder;
@@ -296,7 +314,19 @@ export default class Selection extends React.Component {
                       this.handleMouseEnterOption(i);
                     }}
                   >
-                    {item.name == 'Unspecified' ? (
+                    {/* name2 :sku selection need show sku and stock status,page:subscription details */}
+                    {item.name2 ? (
+                      <>
+                        <span>{item.name}</span>
+                        <span
+                          className={`sku-stock ml-8 ${
+                            item.isEmpty ? 'sku-out-of-stock' : ''
+                          }`}
+                        >
+                          <FormattedMessage id={item.name2} />
+                        </span>
+                      </>
+                    ) : item.name == 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
                       item.name

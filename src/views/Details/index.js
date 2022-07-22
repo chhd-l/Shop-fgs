@@ -78,7 +78,7 @@ import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Mo
 import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 import cloneDeep from 'lodash/cloneDeep';
 import PurchaseMethodB from './components/PurchaseMethodB';
-import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotificationContent';
+//import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotificationContent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { getRandom } from '@/utils/utils';
 
 /**
  * 带有远程搜索功能的下拉选择组件
@@ -43,7 +44,7 @@ class SearchSelection extends React.Component {
       loadingList: false,
       placeholder: this.props.placeholder,
       searchForNoResult: true,
-      random: Math.random()
+      random: getRandom()
     };
     this.timer = null;
     this.otherValue = '';

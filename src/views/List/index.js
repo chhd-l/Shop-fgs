@@ -1616,7 +1616,7 @@ class List extends React.Component {
 
           loadJS({
             code: JSON.stringify({
-              '@context': 'http://schema.org/',
+              '@context': 'https://schema.org/',
               '@type': 'ItemList',
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',

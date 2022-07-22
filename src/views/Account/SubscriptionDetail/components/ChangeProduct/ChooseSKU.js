@@ -356,7 +356,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6">
               {details.goodsInfos && (
                 <>
-                  <div className="rc-md-up">
+                  {/* <div className="rc-md-up">
                     <HandledSpec
                       renderAgin={renderDetailAgin}
                       details={details}
@@ -377,29 +377,29 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                       status={!outOfStockStatus}
                       className="subscription-stock"
                     />
-                  </div>
-                  <div className="rc-md-down relative">
-                    <HandledSpecSelect
-                      renderAgin={renderDetailAgin}
-                      details={details}
-                      disabledGoodsInfoIds={subDetail.goodsInfo.map(
-                        (g) => g.goodsInfoVO.goodsInfoId
-                      )}
-                      onIsSpecAvailable={(status) => {
-                        setIsSpecAvailable(status);
-                      }}
-                      setState={setState}
-                      updatedSku={matchGoods}
-                      canSelectedOutOfStock={true}
-                      canSelectedWhenAllSpecDisabled={true}
-                    />
-                    <div className="absolute bottom-4 right-12">
+                  </div> */}
+                  {/* <div className="rc-md-down relative"> */}
+                  <HandledSpecSelect
+                    renderAgin={renderDetailAgin}
+                    details={details}
+                    disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                      (g) => g.goodsInfoVO.goodsInfoId
+                    )}
+                    onIsSpecAvailable={(status) => {
+                      setIsSpecAvailable(status);
+                    }}
+                    setState={setState}
+                    updatedSku={matchGoods}
+                    canSelectedOutOfStock={true}
+                    canSelectedWhenAllSpecDisabled={true}
+                  />
+                  {/* <div className="absolute bottom-4 right-12">
                       <InstockStatusComp
                         status={!outOfStockStatus}
                         className="subscription-stock"
                       />
-                    </div>
-                  </div>
+                    </div> */}
+                  {/* </div> */}
                 </>
               )}
             </div>

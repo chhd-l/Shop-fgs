@@ -333,7 +333,7 @@ class PrivacyPolicy extends React.Component {
                   Conductual en Línea de la Alianza de Publicidad Digital en
                   Estados Unidos y para clientes de Estados Unidos. Se puede
                   encontrar más información sobre estos Principios&nbsp;
-                  <a href="http://www.aboutads.info/obaprinciples">aquí</a>. Se
+                  <a href="https://www.aboutads.info/obaprinciples">aquí</a>. Se
                   espera que los anuncios que colocamos en línea que utilizan
                   datos basados en intereses sean entregados con el Ícono de
                   Opción de Publicidad para ayudar a los consumidores a
@@ -480,7 +480,7 @@ class PrivacyPolicy extends React.Component {
                 <p>
                   En Estados Unidos, visite este sitio:&nbsp;
                   <a
-                    href="http://www.aboutads.info/choices/"
+                    href="https://www.aboutads.info/choices/"
                     target="_blank"
                     rel="nofollow"
                   >
@@ -497,11 +497,11 @@ class PrivacyPolicy extends React.Component {
                 </p>
                 <p>
                   En Canadá, visite este sitio:&nbsp;
-                  <a href="http://youradchoices.ca/">Your Ad Choices</a>.
+                  <a href="https://youradchoices.ca/">Your Ad Choices</a>.
                 </p>
                 <p>
                   En la Unión Europea, visite este sitio:&nbsp;
-                  <a href="http://www.youronlinechoices.eu/">
+                  <a href="https://www.youronlinechoices.eu/">
                     Your Online Choices
                   </a>
                   .

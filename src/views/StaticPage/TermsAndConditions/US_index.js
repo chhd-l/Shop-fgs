@@ -139,7 +139,7 @@ class TermsConditionsUs extends React.Component {
                     registration on our Site, please review our Privacy Policy
                     here:
                     <a
-                      href="http://www.mars.com/global/policies/privacy/pp-english.aspx."
+                      href="https://www.mars.com/global/policies/privacy/pp-english.aspx."
                       style={{ textDecoration: 'underline' }}
                     >
                       http://www.mars.com/global/policies/privacy/pp-english.aspx.
@@ -420,7 +420,7 @@ class TermsConditionsUs extends React.Component {
                     Statement (available at{' '}
                     <a
                       href={
-                        'http://www.mars.com/global/policies/privacy/pp-english.aspx'
+                        'https://www.mars.com/global/policies/privacy/pp-english.aspx'
                       }
                       style={{ textDecoration: 'underline' }}
                     >
@@ -683,7 +683,7 @@ class TermsConditionsUs extends React.Component {
                       these Terms and the Terms of Use (available at{' '}
                       <a
                         href={
-                          'http://www.mars.com/global/policies/legal/ld-english.aspx'
+                          'https://www.mars.com/global/policies/legal/ld-english.aspx'
                         }
                         style={{ textDecoration: 'underline' }}
                       >
@@ -706,7 +706,7 @@ class TermsConditionsUs extends React.Component {
                       . Orders can be placed online at{' '}
                       <a
                         style={{ textDecoration: 'underline' }}
-                        href="http://shop.royalcanin.com/us"
+                        href="https://shop.royalcanin.com/us"
                       >
                         http://shop.royalcanin.com/us
                       </a>{' '}

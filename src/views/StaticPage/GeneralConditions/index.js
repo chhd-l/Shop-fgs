@@ -53,7 +53,7 @@ class Help extends React.Component {
               &nbsp;использования услуг (сервисов) сайта, расположенного в сети
               Интернет по адресу&nbsp;
               <a
-                href="http://www.shop.royal-canin.ru/"
+                href="https://www.shop.royal-canin.ru/"
                 target="_self"
                 data-link-type="external"
                 data-link-label="shop.royal-canin.ru"
@@ -73,10 +73,10 @@ class Help extends React.Component {
                 «Политики конфиденциальности», постоянно находящейся по
                 адресу:&nbsp;
                 <a
-                  href="http://www.mars.com/global/policies/privacy/pp-russian.aspx"
+                  href="https://www.mars.com/global/policies/privacy/pp-russian.aspx"
                   target="_self"
                   data-link-type="external"
-                  data-link-label="http://www.mars.com/global/policies/privacy/pp-russian.aspx"
+                  data-link-label="https://www.mars.com/global/policies/privacy/pp-russian.aspx"
                   style={{ color: 'rgb(68, 68, 68)' }}
                 >
                   http://www.mars.com/global/policies/privacy/pp-russian.aspx
@@ -87,10 +87,10 @@ class Help extends React.Component {
                 «Условий пользования web-сайтов группы компаний Марс», постоянно
                 находящихся по адресу:&nbsp;
                 <a
-                  href="http://www.mars.com/global/policies/legal/ld-russian.aspx"
+                  href="https://www.mars.com/global/policies/legal/ld-russian.aspx"
                   target="_self"
                   data-link-type="external"
-                  data-link-label="http://www.mars.com/global/policies/legal/ld-russian.aspx"
+                  data-link-label="https://www.mars.com/global/policies/legal/ld-russian.aspx"
                   style={{ color: 'rgb(68, 68, 68)' }}
                 >
                   http://www.mars.com/global/policies/legal/ld-russian.aspx
@@ -104,7 +104,7 @@ class Help extends React.Component {
                   href="https://www.mars.com/global/policies/note-to-parents/np-russian"
                   target="_self"
                   data-link-type="external"
-                  data-link-label="http://www.mars.com/global/policies/note-to-parents/np-russian.aspx"
+                  data-link-label="https://www.mars.com/global/policies/note-to-parents/np-russian.aspx"
                   style={{ color: 'rgb(68, 68, 68)' }}
                 >
                   http://www.mars.com/global/policies/note-to-parents/np-russian.aspx
@@ -235,20 +235,20 @@ class Help extends React.Component {
               предпринимательской деятельности, Товары, представленные в
               каталоге по адресу&nbsp;
               <a
-                href="http://www.shop.royal-canin.ru/ru/cats"
+                href="https://www.shop.royal-canin.ru/ru/cats"
                 target="_self"
                 data-link-type="external"
-                data-link-label="http://www.shop.royal-canin.ru/ru/cats"
+                data-link-label="https://www.shop.royal-canin.ru/ru/cats"
                 style={{ color: 'rgb(68, 68, 68)' }}
               >
                 http://www.shop.royal-canin.ru/ru/cats
               </a>
               &nbsp;и&nbsp;
               <a
-                href="http://www.shop.royal-canin.ru/ru/dogs"
+                href="https://www.shop.royal-canin.ru/ru/dogs"
                 target="_self"
                 data-link-type="external"
-                data-link-label="http://www.shop.royal-canin.ru/ru/dogs"
+                data-link-label="https://www.shop.royal-canin.ru/ru/dogs"
                 style={{ color: 'rgb(68, 68, 68)' }}
               >
                 http://www.shop.royal-canin.ru/ru/dogs
@@ -281,10 +281,10 @@ class Help extends React.Component {
                 «Политикой конфиденциальности», постоянно находящейся по
                 адресу:&nbsp;
                 <a
-                  href="http://www.mars.com/global/policies/privacy/pp-russian.aspx"
+                  href="https://www.mars.com/global/policies/privacy/pp-russian.aspx"
                   target="_self"
                   data-link-type="external"
-                  data-link-label="http://www.mars.com/global/policies/privacy/pp-russian.aspx"
+                  data-link-label="https://www.mars.com/global/policies/privacy/pp-russian.aspx"
                   style={{ color: 'rgb(68, 68, 68)' }}
                 >
                   http://www.mars.com/global/policies/privacy/pp-russian.aspx
@@ -295,10 +295,10 @@ class Help extends React.Component {
                 «Условиями пользования web-сайтов группы компаний Марс»,
                 постоянно находящимися по адресу:&nbsp;
                 <a
-                  href="http://www.mars.com/global/policies/legal/ld-russian.aspx"
+                  href="https://www.mars.com/global/policies/legal/ld-russian.aspx"
                   target="_self"
                   data-link-type="external"
-                  data-link-label="http://www.mars.com/global/policies/legal/ld-russian.aspx"
+                  data-link-label="https://www.mars.com/global/policies/legal/ld-russian.aspx"
                   style={{ color: 'rgb(68, 68, 68)' }}
                 >
                   http://www.mars.com/global/policies/legal/ld-russian.aspx
@@ -312,7 +312,7 @@ class Help extends React.Component {
                   href="https://www.mars.com/global/policies/note-to-parents/np-russian"
                   target="_self"
                   data-link-type="external"
-                  data-link-label="http://www.mars.com/global/policies/note-to-parents/np-russian.aspx"
+                  data-link-label="https://www.mars.com/global/policies/note-to-parents/np-russian.aspx"
                   style={{ color: 'rgb(68, 68, 68)' }}
                 >
                   http://www.mars.com/global/policies/note-to-parents/np-russian.aspx
@@ -336,7 +336,7 @@ class Help extends React.Component {
                 href="https://www.shop.royal-canin.ru/s/RU/ru/general-terms-conditions.html"
                 target="_self"
                 data-link-type="external"
-                data-link-label="http://www.shop.royal-canin.ru/ru/general-terms-conditions.html"
+                data-link-label="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html"
                 style={{ color: 'rgb(68, 68, 68)' }}
               >
                 http://www.shop.royal-canin.ru/ru/general-terms-conditions.html
@@ -952,10 +952,10 @@ class Help extends React.Component {
               «Политика конфиденциальности», постоянно находящегося по
               адресу&nbsp;
               <a
-                href="http://www.mars.com/global/policies/privacy/pp-russian.aspx"
+                href="https://www.mars.com/global/policies/privacy/pp-russian.aspx"
                 target="_self"
                 data-link-type="external"
-                data-link-label="http://www.mars.com/global/policies/privacy/pp-russian.aspx"
+                data-link-label="https://www.mars.com/global/policies/privacy/pp-russian.aspx"
                 style={{ color: 'rgb(68, 68, 68)' }}
               >
                 http://www.mars.com/global/policies/privacy/pp-russian.aspx
