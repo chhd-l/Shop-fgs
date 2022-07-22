@@ -18,6 +18,9 @@ const aboutUsBread = () => {
   return list;
 };
 const breadcrumbNameMap = {
+  '/tailored-nutrition': [
+    { name: 'Здоровье и питание', href: '/tailored-nutrition' }
+  ],
   '/aboutUs': [
     {
       name: 'aboutUs2'
@@ -32,6 +35,18 @@ const breadcrumbNameMap = {
     {
       name: 'generalTermsConditions'
     }
+  ],
+  '/about-us/our-history': [
+    { name: 'Информация о компании', href: '/about-us' },
+    { name: 'Наша история', href: '/about-us/our-history' }
+  ],
+  '/about-us/sustainability': [
+    { name: 'Информация о компании', href: '/about-us' },
+    { name: 'Устойчивое развитие', href: '/about-us/sustainability' }
+  ],
+  '/about-us/our-values': [
+    { name: 'Информация о компании', href: '/about-us' },
+    { name: 'Наши ценности', href: '/about-us/our-values' }
   ],
   '/latelier/felin-terms-conditions': [
     { name: 'CONDITIONS GÉNÉRALES DE RESERVATION' }

@@ -13,6 +13,7 @@ export const linkList = [
   {
     title: 'Ответы на самые важные вопросы',
     path: value10004,
+    link: '/cats/tips',
     buttonText: 'Узнать подробнее',
     desc: 'Эксперт отвечает на самые распространенные вопросы о здоровье домашних животных, о компании ROYAL CANIN® и наших продуктах.'
   },
@@ -20,6 +21,7 @@ export const linkList = [
     title: 'Качество — абсолютный приоритет',
     path: value10006,
     desc: 'Качество и безопасность продукции — основа нашей деятельности в любой стране мира.',
-    buttonText: 'Узнать подробнее'
+    buttonText: 'Узнать подробнее',
+    link: '/about-us/quality-and-food-safety '
   }
 ];

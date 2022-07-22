@@ -72,9 +72,16 @@ const BreadCrumbs = withRouter((props) => {
                 itemType="https://schema.org/ListItem"
                 itemProp="itemListElement"
               >
+                {console.info(index < mapData.length - 1)}
+                {console.info(mapData.length === 1 && isMobile)}
+                {console.info(
+                  mapData.length === 1 && !isMobile && !props.noHomeLink
+                )}
                 <Link
                   className={`rc-styled-link rc-progress__breadcrumb mr-0 ${
-                    index < mapData.length - 1 || mapData.length === 1
+                    index < mapData.length - 1 ||
+                    (mapData.length === 1 && isMobile) ||
+                    (mapData.length === 1 && !isMobile && props.noHomeLink)
                       ? ''
                       : 'font-thin'
                   }`}
