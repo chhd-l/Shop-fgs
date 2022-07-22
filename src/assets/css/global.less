@@ -23931,3 +23931,17 @@ color: #fff !important;
     border-bottom: 1px solid #f1f1f1;
 }
 }
+.rc-header__logo path {
+    transition: .25s cubic-bezier(0.81, 0.23, 0.23, 0.76);
+}
+.rc-header__logo.rc-logo--scrolled .rc-header__logo-text {
+    opacity: 0;
+}
+.rc-header__logo.rc-logo--scrolled .rc-header__logo-crown {
+    transform: translateY(18px);
+}
+.rc-header__logo .rc-header__logo-crown {
+    position: relative;
+    transform-box: fill-box;
+    transform-origin: top;
+}
