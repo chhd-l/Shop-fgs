@@ -13,6 +13,7 @@ import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import { Canonical } from '@/components/Common';
+import { myAccountPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -30,6 +31,7 @@ class FAQ extends React.Component {
   }
   componentWillUnmount() {}
   componentDidMount() {
+    myAccountPushEvent('FAQs');
     window.scrollTo({ top: 0 });
     getFaq()
       .then((res) => {

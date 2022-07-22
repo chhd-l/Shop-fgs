@@ -23,6 +23,7 @@ import { seoHoc } from '@/framework/common';
 import { Canonical, Modal } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
+const country = window.__.env.REACT_APP_GA_COUNTRY;
 
 function PanleContainer(props) {
   const loading = props.loading || false;
@@ -79,7 +80,14 @@ class AccountProfile extends React.Component {
   }
   componentWillUnmount() {}
   componentDidMount() {
-    myAccountPushEvent('Personal information');
+    switch (country?.toLowerCase()) {
+      case 'jp':
+        myAccountPushEvent('My information');
+        break;
+      default:
+        myAccountPushEvent('Personal information');
+        break;
+    }
 
     this.queryCustomerBaseInfo();
   }

@@ -7,6 +7,8 @@ import {
 } from '@/views/Account/OrdersDetail/modules';
 import { cancelOrderForJapan } from '@/api/order';
 import { Button, Modal } from '@/components/Common';
+import { myAccountActionPushEvent } from '@/utils/GA';
+const country = window.__.env.REACT_APP_GA_COUNTRY;
 
 const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
   const [cancelJpOrderModalVisible, setCancelJpOrderModalVisible] =
@@ -50,6 +52,13 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
               className="rc-styled-link border-b border-gray-300 hover:border-rc-red mt-2"
               onClick={() => {
                 setCancelJpOrderModalVisible(true);
+                switch (country?.toLowerCase()) {
+                  case 'jp':
+                    myAccountActionPushEvent('Cancel order');
+                    break;
+                  default:
+                    break;
+                }
               }}
             >
               <FormattedMessage id="order.cancelOrder" />

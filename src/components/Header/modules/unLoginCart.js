@@ -245,7 +245,18 @@ class UnloginCart extends React.Component {
                 </div>
                 {/* 操作按钮组 start */}
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                  <Link to="/cart">
+                  <Link
+                    to="/cart"
+                    onClick={() => {
+                      this.hubGA &&
+                        window?.dataLayer?.push({
+                          event: 'cartHeaderClicks',
+                          cartHeaderClicks: {
+                            button: 'See my cart'
+                          }
+                        });
+                    }}
+                  >
                     <Button type="primary" size="small" className="w-100">
                       <FormattedMessage id="minicart.seemycart" />
                     </Button>

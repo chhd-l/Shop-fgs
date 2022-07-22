@@ -168,6 +168,7 @@ export const myAccountActionPushEvent = (myAccountActionName) => {
     event: 'myAccountAction',
     myAccountActionName
     //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
+    //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change order time' (JP), 'Cancel order' (JP)
   });
   // console.log(myAccountActionName)
   // debugger
