@@ -6,39 +6,12 @@ const IconTab = () => {
   const [active, setActive] = useState(0);
   return (
     <>
-      <div className="rc-fade--x" data-toggle-group="">
-        <ul
-          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank padding-inline-start md:justify-center"
-          role="tablist"
-        >
-          {IconTabList.map((item, index) => (
-            <li key={index} onClick={() => setActive(index)}>
-              <button
-                className="rc-tab rc-tab--img rc-btn"
-                data-toggle="image__panel-1--b1cb7d22-d7fe-4117-84d5-f2688a48c5dd"
-                role="tab"
-              >
-                <figure
-                  className="rc-tab__img rc-img--round rc-img--round--md"
-                  style={{ backgroundImage: `url(${item.icon})` }}
-                >
-                  <figcaption className="rc-screen-reader-text">
-                    Tab image
-                  </figcaption>
-                </figure>
-                {/* <span className="rc-tab__label">Tab label 1</span> */}
-                <span className="rc-tab__label">{item.text}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {/* <div className="flex flex-row justify-center cursor-pointer  overflow-scroll">
+      <div className="flex flex-row justify-start md:justify-center cursor-pointer  overflow-scroll md:overflow-auto ">
         {IconTabList.map((item, index) => (
           <div
             className={`icon_navigation-tab text-center ${
               active === index && 'active'
-            }`}
+            } min-w-200 md:min-w-0`}
             key={item.text}
             onClick={() => setActive(index)}
           >
@@ -46,7 +19,7 @@ const IconTab = () => {
             <span>{item.text}</span>
           </div>
         ))}
-      </div> */}
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-cs-64 mb-cs-48">
         <div className="w-full flex justify-center order-2 md:order-1 mt-cs-48 md:mt-0">
           <img
