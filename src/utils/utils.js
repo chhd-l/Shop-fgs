@@ -836,7 +836,6 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       res = await api();
     }
     ret = res;
-    debugger;
     sessionItemRoyal.set(sessionKey, JSON.stringify(ret));
   }
   return ret;
