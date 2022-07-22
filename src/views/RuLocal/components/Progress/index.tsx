@@ -20,7 +20,9 @@ const Progress = () => {
     };
   }, []);
   return (
-    <div className="w-full fixed top-0 rc-content--fixed-header">
+    <div className="w-full fixed top-0 rc-content--fixed-header" style={{
+      zIndex: 1
+    }}>
       <div className='relative w-full'>
         <div className='absolute w-full left-0' style={{
           bottom: '-.5rem'

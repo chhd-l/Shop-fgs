@@ -18,7 +18,10 @@ const TermsConditions = () => {
           zIndex: 0
         }}
       >
-        <div className="p-8">
+        <div className="p-8"
+        style={{
+          zIndex: 0
+        }}>
           <BreadCrumbs noHomeLink />
         </div>
         <RuLocalReturnTo start={-500} end={-13000} />
@@ -26,7 +29,8 @@ const TermsConditions = () => {
           id="ListOfDocuments"
           className="p-8 m-auto"
           style={{
-            maxWidth: '1100px'
+            maxWidth: '1100px',
+            zIndex: 0
           }}
         >
           <div className='md:p-4'>
