@@ -8,7 +8,12 @@ import BannerTip from '@/components/BannerTip';
 import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import {
+  formatMoney,
+  getDeviceType,
+  distributeLinktoPrecriberOrPaymentPage,
+  getFrequencyDict
+} from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
 import { DivWrapper } from './style';
@@ -19,10 +24,6 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import {
-  distributeLinktoPrecriberOrPaymentPage,
-  getFrequencyDict
-} from '@/utils/utils';
 import {
   GARecommendationProduct,
   GABreederRecoPromoCodeCTA,
@@ -321,6 +322,7 @@ class Recommendation extends React.Component {
           });
           let specList = el.goodsSpecs;
           let specDetailList = el.goodsSpecDetails;
+          const goodsInfos = el.goodsInfos;
           if (specList) {
             specList.map((sItem) => {
               sItem.chidren = specDetailList.filter((sdItem, i) => {
@@ -333,6 +335,10 @@ class Recommendation extends React.Component {
                 ) {
                   child.selected = true;
                 }
+                const filterproducts = goodsInfos.filter((goodEl) =>
+                  goodEl.mockSpecDetailIds.includes(child.specDetailId)
+                );
+                child.addedFlag = filterproducts?.[0]?.addedFlag;
                 return child;
               });
               return sItem;
