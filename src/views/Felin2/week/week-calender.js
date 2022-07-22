@@ -157,7 +157,7 @@ class WeekCalender extends Component {
       start.minutes(Math.ceil(start.minutes() / 15) * 15);
       let result = [];
       let current = moment(start);
-      while (current <= end) {
+      while (current.valueOf() <= end.valueOf()) {
         let dateNo = current.format('YYYYMMDD');
         let cc = {
           disabled: true,
@@ -177,10 +177,7 @@ class WeekCalender extends Component {
           }
         }
         result.push(cc);
-        current.add(15, 'minutes');
-        if (current > end) {
-          break;
-        }
+        current.add(15, 'minutes').valueOf();
       }
       resolve(result);
     });
