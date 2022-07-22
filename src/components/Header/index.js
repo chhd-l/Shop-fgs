@@ -370,6 +370,15 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    // ru header transition
+    if (window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) {
+      const svgLogo = document.querySelector(
+        '.rc-header__nav.rc-header__nav--primary svg'
+      );
+      document.scrollingElement.scrollTop > document.body.offsetTop + 100
+        ? svgLogo.classList.add('rc-logo--scrolled')
+        : svgLogo.classList.remove('rc-logo--scrolled');
+    }
     // debugger;
     const headerNavigationDom = document.querySelector(
       '.rc-header__nav.rc-header__nav--secondary'
@@ -391,7 +400,6 @@ class Header extends React.Component {
     if (headerNavigationDom) {
       headerNavigationDom.style.display = scrolledDom ? 'none' : 'flex';
     }
-
     let baseEl = document.querySelector('#J_sidecart_container');
     if (!baseEl) {
       return false;
