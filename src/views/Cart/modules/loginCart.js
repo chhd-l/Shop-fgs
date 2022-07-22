@@ -122,9 +122,6 @@ class LoginCart extends React.Component {
     this.showErrMsg = this.showErrMsg.bind(this);
   }
   async componentDidMount() {
-    console.log('loginPage');
-    this.props.paymentStore.serCurPayWayVal(''); //为了从checout页面回到购物车页面时 清空支付方式
-    this.props.checkoutStore.setEarnedPoint(0); //为了从checout页面回到购物车页面时 清空积分
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
@@ -736,7 +733,7 @@ class LoginCart extends React.Component {
                     .replace('/', '')}-${pitem.goods.goodsNo}`}
                 >
                   <h4
-                    className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
+                    className="rc-gamma rc-margin--none d-md-inline-block cart-item-md__tagging_title order-2"
                     title={pitem.goodsName}
                     style={{ wordBreak: 'break-word' }}
                   >

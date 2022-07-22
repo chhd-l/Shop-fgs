@@ -44,31 +44,15 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import { ToCDB } from '@/utils/utils';
 import './index.less';
 import { format } from 'date-fns';
 import { DatePickerComponent, Input } from '@/components/Common';
-import { phoneNumberMask } from '@/utils/constant';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
 var compositionFlag = true;
-
-function ToCDB(str) {
-  var tmp = '';
-  for (var i = 0; i < str.length; i++) {
-    console.log('char', str.charCodeAt(i));
-    if (str.charCodeAt(i) == 12288) {
-      tmp += String.fromCharCode(str.charCodeAt(i) - 12256);
-      continue;
-    } else if (str.charCodeAt(i) > 65280 && str.charCodeAt(i) < 65375) {
-      tmp += String.fromCharCode(str.charCodeAt(i) - 65248);
-    } else {
-      tmp += String.fromCharCode(str.charCodeAt(i));
-    }
-  }
-  return tmp;
-}
 
 @inject('configStore', 'loginStore')
 @injectIntl
@@ -567,10 +551,6 @@ class Form extends React.Component {
     if (COUNTRY != 'jp') {
       IMask(element, maskOptions);
     }
-
-    // if (COUNTRY == 'ru' && this.isLogin) {
-    //   this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
-    // }
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
@@ -750,7 +730,9 @@ class Form extends React.Component {
               ? (regExp = /^[0-9]{3}-[0-9]{4}$/)
               : (regExp = /^\d{5}$/);
           } else {
-            regExp = /\S/;
+            COUNTRY === 'nl'
+              ? (regExp = /^\d{4}[a-zA-Z]{2}$/)
+              : (regExp = /\S/);
           }
           errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
@@ -783,6 +765,10 @@ class Form extends React.Component {
               /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else if (COUNTRY == 'jp') {
             regExp = /^[0]\d{9,10}$/;
+          } else if (COUNTRY === 'nl') {
+            // 荷兰
+            regExp =
+              /^\(\+[3][1]\)[\s][0-9]{3}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1208,9 +1194,6 @@ class Form extends React.Component {
       case 'postCode':
         if (COUNTRY == 'jp') {
           tvalue = ToCDB(tvalue);
-          // if (tvalue.length == 3) {
-          //   tvalue = tvalue + '-';
-          // }
           tvalue = tvalue
             .replace(/\s/g, '')
             .replace(/-$/, '')

@@ -93,7 +93,7 @@ const AddCartSuccessMobile = ({
                       style={{ flex: 1 }}
                     >
                       <h4
-                        className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2 text-left"
+                        className="rc-gamma rc-margin--none d-md-inline-block cart-item-md__tagging_title order-2 text-left"
                         title={mixFeedingData.goodsName}
                       >
                         {mixFeedingData.goodsName}

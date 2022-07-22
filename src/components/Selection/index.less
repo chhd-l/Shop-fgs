@@ -80,3 +80,23 @@
   height: 64px !important;
   padding: .8em 1.6rem 0 0 !important;
 }
+
+.sku-stock {
+  color: #47b800;
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background: #47b800;
+    vertical-align: 2px;
+    margin-right: 8px;
+  }
+}
+.sku-out-of-stock {
+  color: #C03344;
+  &::before {
+    background: #C03344;
+  }
+}

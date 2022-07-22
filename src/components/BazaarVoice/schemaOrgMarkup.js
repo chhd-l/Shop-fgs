@@ -32,7 +32,7 @@ export function addSchemaOrgMarkup(details, instockStatus, homePageText) {
       url: window.location.href,
       priceCurrency: window.__.env.REACT_APP_CURRENCY,
       availability: instockStatus
-        ? 'http://schema.org/InStock'
+        ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
       price: details.toPrice || details.fromPrice,
       lowPrice: details.fromPrice,

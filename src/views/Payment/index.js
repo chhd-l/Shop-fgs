@@ -359,9 +359,8 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   handelQrcodeModalClose = async () => {
     try {
@@ -401,9 +400,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -414,9 +414,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -708,11 +709,15 @@ class Payment extends React.Component {
   }
 
   componentWillUnmount() {
-    //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
+    //已生效
     const {
-      paymentStore: { resetPanelStatus }
+      paymentStore: { resetPanelStatus, serCurPayWayVal },
+      checkoutStore: { setEarnedPoint, setInputPoint }
     } = this.props;
     resetPanelStatus();
+    serCurPayWayVal(''); //清空支付方式
+    setEarnedPoint(0); //清空挣得的积分
+    setInputPoint(''); //清空输入的积分
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-swishQrcode');
@@ -998,9 +1003,6 @@ class Payment extends React.Component {
         (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
       );
       if (paypalCardIndex > -1) {
-        // if(cardList[paypalCardIndex].isDefault === 1){
-        //    this.handlePaymentTypeClick('adyenPaypal');
-        // }
         this.setState({
           paypalAccount: cardList[paypalCardIndex].email,
           paypalCardId: cardList[paypalCardIndex].id
@@ -2144,6 +2146,7 @@ class Payment extends React.Component {
       //   sessionItemRoyal.set('orderNumber', orderNumber);
       // }
       this.removeLocalCartData();
+
       generateGuestUUID();
       if (subOrderNumberList?.length) {
         sessionItemRoyal.set(
@@ -2321,9 +2324,10 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      let addPramas = (sessionItemRoyal.get('recommend_product')
-        ? this.state.recommend_data
-        : cartData
+      let addPramas = (
+        sessionItemRoyal.get('recommend_product')
+          ? this.state.recommend_data
+          : cartData
       ).map((ele) => ({
         goodsNum: ele.buyCount,
         goodsInfoId: ele.goodsInfoId
@@ -2705,25 +2709,23 @@ class Payment extends React.Component {
       promotionCode
     });
   };
-  handlePaymentTypeChange = (e) => {
+  handlePaymentTypeCommon = (paymentTypeCode) => {
     const {
-      paymentStore: { serCurPayWayVal }
+      paymentStore: { serCurPayWayVal },
+      checkoutStore: { setInputPoint }
     } = this.props;
-    serCurPayWayVal(e.target.value);
-    this.setState({ email: '' }, () => {
-      this.onPaymentTypeValChange();
-    });
-  };
-  handlePaymentTypeClick = (paymentTypeCode) => {
-    const {
-      paymentStore: { serCurPayWayVal }
-    } = this.props;
-    // code 转换小写
     serCurPayWayVal(paymentTypeCode);
+    setInputPoint('');
     openPromotionBox();
     this.setState({ email: '', convenienceStore: '' }, () => {
       this.onPaymentTypeValChange();
     });
+  };
+  handlePaymentTypeChange = (e) => {
+    this.handlePaymentTypeCommon(e.target.value);
+  };
+  handlePaymentTypeClick = (paymentTypeCode) => {
+    this.handlePaymentTypeCommon(paymentTypeCode);
   };
 
   handleCardTypeChange = (e) => {
@@ -3254,9 +3256,10 @@ class Payment extends React.Component {
     // cyber游客绑卡
     const unLoginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3268,9 +3271,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });

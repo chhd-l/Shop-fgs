@@ -33,6 +33,7 @@ class WeekCalender extends Component {
   getCurrentWeek = async (date = undefined) => {
     let weekDate = [];
     let dateList = await this.getEnmbeData();
+    let result = [];
     for (let i = 0; i < 3; i++) {
       let _date = moment(date).add(i, 'days');
       let nowDate = moment(_date).format('YYYYMMDD');
@@ -40,7 +41,8 @@ class WeekCalender extends Component {
       let list = await this.intervals(
         moment(_date).format('YYYYMMDD 10:00'),
         moment(_date).format('YYYYMMDD 20:00'),
-        currentDate
+        currentDate,
+        result
       );
       weekDate.push({
         weekDay: _date.format('ddd'),
@@ -57,6 +59,7 @@ class WeekCalender extends Component {
     console.log(date);
     let weekDate = [];
     let dateList = await this.getEnmbeData();
+    let result = [];
     for (let i = 0; i < 3; i++) {
       let _date = moment(date).subtract(i + 1, 'days');
       let nowDate = moment(_date).format('YYYYMMDD');
@@ -64,7 +67,8 @@ class WeekCalender extends Component {
       let list = await this.intervals(
         moment(_date).format('YYYYMMDD 10:00'),
         moment(_date).format('YYYYMMDD 20:00'),
-        currentDate
+        currentDate,
+        result
       );
       weekDate.unshift({
         weekDay: _date.format('ddd'),
@@ -80,6 +84,7 @@ class WeekCalender extends Component {
   getCurrentWeek2 = async (date = undefined) => {
     let weekDate = [];
     let dateList = await this.getEnmbeData();
+    let result = [];
     for (let i = 0; i < 3; i++) {
       let _date = moment(date).add(i + 1, 'days');
       let nowDate = moment(_date).format('YYYYMMDD');
@@ -87,7 +92,8 @@ class WeekCalender extends Component {
       let list = await this.intervals(
         moment(_date).format('YYYYMMDD 10:00'),
         moment(_date).format('YYYYMMDD 20:00'),
-        currentDate
+        currentDate,
+        result
       );
       weekDate.push({
         weekDay: _date.format('ddd'),
@@ -145,35 +151,32 @@ class WeekCalender extends Component {
     let dd = moment(arr[arr.length - 1].showDate);
     this.getCurrentWeek2(dd);
   };
-  intervals = async (startString, endString, currentDate) => {
+  intervals = async (startString, endString, currentDate, result) => {
     return new Promise((reslove) => {
       let start = moment(startString, 'YYYYMMDD HH:mm');
       let end = moment(endString, 'YYYYMMDD HH:mm');
       start.minutes(Math.ceil(start.minutes() / 15) * 15);
-      let result = [];
       let current = moment(start);
-      while (current <= end) {
-        let dateNo = current.format('YYYYMMDD');
-        let cc = {
-          disabled: true,
-          type: 'default',
-          dateNo,
-          time: current.format('HH:mm')
-        };
-        if (currentDate.minuteList) {
-          let curr = currentDate.minuteList[current.format('YYYYMMDD HH:mm')];
-          if (curr) {
-            cc = {
-              ...curr,
-              disabled: false,
-              time: current.format('HH:mm'),
-              dateNo
-            };
-          }
+      let dateNo = current.format('YYYYMMDD');
+      let cc = {
+        disabled: true,
+        type: 'default',
+        dateNo,
+        time: current.format('HH:mm')
+      };
+      if (currentDate.minuteList) {
+        let curr = currentDate.minuteList[current.format('YYYYMMDD HH:mm')];
+        if (curr) {
+          cc = {
+            ...curr,
+            disabled: false,
+            time: current.format('HH:mm'),
+            dateNo
+          };
         }
-        result.push(cc);
-        current.add(15, 'minutes');
       }
+      result.push(cc);
+      current.add(15, 'minutes');
       reslove(result);
     });
   };

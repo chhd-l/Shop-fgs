@@ -8,7 +8,7 @@ import { login, getQuestions, register } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { getDictionary } from '@/utils/utils';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import { LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
+import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 // import bg1 from "@/assets/images/login-bg1.png";
 // import bg2 from "@/assets/images/login-bg2.png";
 import bg1 from '@/assets/images/login-bg3.jpg';
@@ -250,8 +250,7 @@ class Login extends React.Component {
   };
 
   emailVerify = (email) => {
-    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
-    return reg.test(email);
+    return EMAIL_REGEXP.test(email);
   };
   passwordVerify = (password) => {
     //匹配至少包含一个数字、一个大写字母 一个小写字母 8-20 位的密码

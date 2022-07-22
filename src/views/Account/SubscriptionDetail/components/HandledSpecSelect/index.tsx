@@ -24,7 +24,7 @@ const HandledSpecSelect = ({
   updatedSku,
   defaultSkuId,
   disabledGoodsInfoIds = [],
-  onIsSpecAvailable = () => {},
+  onIsSpecAvailable = () => { },
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo
@@ -134,9 +134,14 @@ const HandledSpecSelect = ({
       canSelectedWhenAllSpecDisabled,
       canSelectedOutOfStock
     });
-    goodsSpecs.forEach((el:any) => el.chidren.forEach((it:any) => {
+    goodsSpecs.forEach((el: any) => el.chidren.forEach((it: any) => {
       it.value = it.detailName
       it.name = it.detailName
+      it.name2 = 'details.inStock'
+      if(it.isEmpty) {
+        it.name2 = 'details.outStock'
+      }
+      it.disabled = it.isEmpty
     }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
@@ -154,29 +159,27 @@ const HandledSpecSelect = ({
     })();
   }, [sizeList]);
 
-  
+
 
   const selectStock = (sItem: any) => {
     const v = sItem?.chidren?.filter((el: any) => el.selected)?.[0]?.value
 
-    const selectChange =(el:any) =>{
-      console.log(el,sItem,'elelelele')
+    const selectChange = (el: any) => {
       handleChooseSize(sItem.specId, el.specDetailId);
     }
     return (
       <Selection
         optionList={sItem.chidren}
         key={sItem.specName}
-      selectedItemData={{
-        value: v
-      }}
-      selectedItemChange={selectChange}
+        selectedItemData={{
+          value: v
+        }}
+        selectedItemChange={selectChange}
       />
     )
 
   }
 
-  // console.log(goodsSpecs.map((s:any) =>s.chidren.map((el:any)=> el.selected?el.value:'')),'goodsSpecs==')
   return (
     <div className="spec select-spec-wrap">
       {goodsSpecs?.map((sItem: any, i: number) => (
@@ -184,50 +187,7 @@ const HandledSpecSelect = ({
           <div className="rc-margin-bottom--xs">
             <FormattedMessage id={sItem?.specName} />:
           </div>
-{selectStock(sItem)}
-
-          {/* <div data-attr="size">
-            <div
-              className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
-              id="id-single-select-size"
-            >
-              {sItem.chidren?.map((sdItem: any, i: number) => (
-                <div
-                  key={i}
-                  className={cn(`rc-swatch__item`, {
-                    selected: sdItem.selected,
-                    outOfStock:
-                      sdItem.isDisabled && !sdItem.canSelectedOutOfStock
-                  })}
-                  onClick={() => {
-                    if (
-                      (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||
-                      sdItem.selected
-                    ) {
-                      return false;
-                    } else {
-                      handleChooseSize(sItem.specId, sdItem.specDetailId);
-                    }
-                  }}
-                >
-                  <span
-                    style={{
-                      backgroundColor:
-                        sdItem.isDisabled && !sdItem.canSelectedOutOfStock
-                          ? '#ccc'
-                          : '#fff',
-                      cursor:
-                        sdItem.isDisabled && !sdItem.canSelectedOutOfStock
-                          ? 'not-allowed'
-                          : 'pointer'
-                    }}
-                  >
-                    {sdItem.detailName}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div> */}
+          {selectStock(sItem)}
         </div>
       ))}
     </div>

@@ -411,7 +411,7 @@ class TermUse extends React.Component {
                     Europäische Kommission stellt unter{' '}
                     <a
                       className="rc-styled-link"
-                      href="http://ec.europa.eu/consumers/odr/"
+                      href="https://ec.europa.eu/consumers/odr/"
                     >
                       http://ec.europa.eu/consumers/odr/
                     </a>{' '}

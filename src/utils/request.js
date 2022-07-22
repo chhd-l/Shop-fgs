@@ -4,6 +4,12 @@ import qs from 'qs';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+const getRandom = () => {
+  const crypto = window.crypto || window.msCrypto;
+  var array = new Uint32Array(1);
+  return crypto.getRandomValues(array)[0];
+};
+
 let env = process.env.NODE_ENV;
 let base_url;
 if (env === 'development') {
@@ -28,7 +34,7 @@ service.interceptors.request.use((config) => {
   }
   if (config.method && config.method.toLocaleLowerCase() === 'get') {
     config.params = {
-      requestId: Math.random(),
+      requestId: getRandom(),
       ...config.params
     };
     Object.assign(config, {

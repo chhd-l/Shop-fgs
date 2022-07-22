@@ -4,14 +4,17 @@ import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import Loading from '@/components/Loading';
 import { AddressForm } from '@/components/Address';
-import { PRESONAL_INFO_RULE } from '@/utils/constant';
+import {
+  isSaveAddressBtnDisabled,
+  nullToEmpty,
+  PRESONAL_INFO_RULE
+} from '@/utils/constant';
 import { validData, handleDateForIos } from '@/utils/utils';
 import { updateCustomerBaseInfo, getCustomerInfo } from '@/api/user';
 import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { format } from 'date-fns';
-import { isSaveAddressBtnDisabled, nullToEmpty } from '@/utils/constant';
 import { Button } from '@/components/Common';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;

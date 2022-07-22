@@ -86,7 +86,7 @@ class Register extends Component {
       lastNameValid: true,
       phoneticFirstNameValid: true,
       phoneticLastNameValid: true,
-      passwordInputType: 'password',
+      passwordInputType: process.env.REACT_APP_PASSWORDINPUTTYPE,
       illegalSymbol: false,
       showValidErrorMsg: false
     };
@@ -924,7 +924,7 @@ class Register extends Component {
 
                   <Input
                     id="registerPassword"
-                    type={passwordInputType}
+                    type="password"
                     maxLength="255"
                     autocomplete="new-password"
                     minLength="8"
