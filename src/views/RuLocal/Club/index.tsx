@@ -295,7 +295,7 @@ const Club = () => {
             <h3 className="rc-gamma">Ответы на часто задаваемые вопросы</h3>
           </div>
         </div>
-        <div className="rc-layout-container rc-one-colum rc-max-width--xl">
+        <div className="rc-layout-container rc-one-colum rc-max-width--xl rc-padding-y--sm rc-margin-bottom--xs rc-bg-colour--brand3">
           <Collapse
             onChange={() => {
               console.info('sdsdsdsds');

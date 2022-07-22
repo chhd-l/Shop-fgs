@@ -15,15 +15,19 @@ const Progress = () => {
     };
   }, []);
   return (
-    <div className="w-full fixed top-0 rc-content--fixed-header" style={{
-        zIndex: 999
-    }}>
-        <div className='bg-gray-200 rounded-full h-2 relative -mt-2'>
+    <div className="w-full fixed top-0 rc-content--fixed-header">
+      <div className='relative w-full'>
+        <div className='absolute w-full left-0' style={{
+          bottom: '-.5rem'
+        }}>
+        <div className='bg-gray-200 rounded-full h-2 relative'>
             <div className='inline-block h-2 bg-green absolute top-0 left-0'
                 style={{
                     width: ProgressSp + 'px'
                 }} />
         </div>
+        </div>
+      </div>
     </div>
   );
 };
