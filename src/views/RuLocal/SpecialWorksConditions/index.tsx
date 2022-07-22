@@ -14,14 +14,11 @@ const SpecialWorksConditions = () => {
   return (
     <div className="text-black specialWorksConditions">
       <Header showMiniIcons={true} showUserIcon={true} />
-      <div id='ReturnTo' className="relative rc-content--fixed-header text-base">
+      <div id='ReturnTo' className="relative rc-content--fixed-header text-base" style={{
+        zIndex: '-1'
+      }}>
         <Progress />
         <div className="md:p-8 pb-8 pt-6 px-3">
-          {/* <div className="Информацияокомпании inline-block relative md:ml-16 ml-5 border-white border-solid border-b-2 hover:border-red-600"> */}
-          {/* <Link className="cursor-pointer hover:text-red-600" to="/about-us">
-              Информация о компании
-            </Link> */}
-          {/* </div> */}
           <BreadCrumbs noHomeLink />
         </div>
         <div id='ListOfDocuments' className="md:p-8 pl-8 px-3">

@@ -11,7 +11,9 @@ const TermsConditions = () => {
     <div className='TermsConditions'>
       <Header showMiniIcons={true} showUserIcon={true} />
       <Progress />
-      <main id='ReturnTo' className="rc-content--fixed-header rc-bg-colour--brand3 text-cs-gray relative">
+      <main id='ReturnTo' className="rc-content--fixed-header rc-bg-colour--brand3 text-cs-gray relative" style={{
+        zIndex: '-1'
+      }}>
         <div className="p-8">
           <BreadCrumbs noHomeLink />
         </div>
