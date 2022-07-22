@@ -11,7 +11,7 @@ const MyTab = ({ tabList }: MyTabProps) => {
     <div>
       <nav className="rc-tabs__controller  rc-fade--x" data-toggle-group="">
         <ul
-          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-tab--centered padding-inline-start"
+          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank md:justify-center padding-inline-start"
           role="tablist"
         >
           {tabList.map((item, index) => (
