@@ -1,5 +1,4 @@
 import BreadCrumbs from '../components/BreadCrumbs';
-import { Button } from '@/components/Common';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
@@ -42,8 +41,8 @@ const OurValues = () => {
     <>
       <Header showMiniIcons={true} showUserIcon={true} />
       <div className="relative rc-content--fixed-header">
-      <BreadCrumbs />
-        <div className="p-cs-2 max-w-1400 mx-auto">
+        <div className="px-0 md:px-cs-2    py-cs-2 max-w-1400 mx-auto">
+          <BreadCrumbs />
           <div className="p-cs-1 mt-28">
             <h1 className=" text-cs-primary text-center text-4vw leading-4.3vw">
               Здоровье питомцев — наша главная забота

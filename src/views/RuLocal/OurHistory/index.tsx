@@ -2,9 +2,7 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
-import FootLink from '../components/FootLink';
 import MyTab from '../components/MyTab';
-import { linkList } from './mock';
 import {
   Tab1960,
   Tab1970,
@@ -13,6 +11,7 @@ import {
   Tab2000,
   Tab2010
 } from './TabPanel';
+import HistoryFoot from './components/HistoryFoot';
 
 const tabList = [
   { tab: '1960-е годы', element: <Tab1960 /> },
@@ -43,10 +42,10 @@ const OurHistory = () => {
     <>
       <Header showMiniIcons={true} showUserIcon={true} />
       <div className="relative rc-content--fixed-header">
-        <div className="p-cs-2 max-w-1400 mx-auto">
+        <div className="px-cs-1 max-w-1400 mx-auto">
           <BreadCrumbs />
-          <div className="p-cs-1 mt-28">
-            <h1 className=" text-cs-primary text-center text-4vw leading-4.3vw">
+          <div className="p-cs-1 md:mt-28 mt-0">
+            <h1 className=" text-cs-primary text-center text-30 leading-cs-40">
               Более 50 лет в области здорового питания
             </h1>
             <p className="text-16 text-center">
@@ -57,11 +56,11 @@ const OurHistory = () => {
           </div>
         </div>
         <div className="bg-cs-gray-f6 w-full h-cs-8" />
-        <div className="px-cs-2 mt-cs-36">
+        <div className="md:px-cs-1 px-0 mt-cs-36">
           <MyTab tabList={tabList} />
         </div>
         <div className="bg-cs-gray-f6 w-full h-cs-8" />
-        <FootLink linkList={linkList} />
+        <HistoryFoot />
       </div>
       <Footer />
     </>

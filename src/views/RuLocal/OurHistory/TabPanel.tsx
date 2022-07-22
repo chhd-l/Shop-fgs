@@ -18,10 +18,10 @@ export type TextRenderProps = {
 };
 const Render = ({ title, desc, path }: TextRenderProps) => {
   return (
-    <div className=" mt-16">
+    <div className="md:mt-16 md:px-cs-6 px-0">
       <img src={path} alt="" className="" />
       <div className={textSize}>
-        <h2 className="text-30 text-rc-red text-center">{title}</h2>
+        <h2 className=" text-26 text-rc-red text-center">{title}</h2>
         <p className="mt-4 text-center text-16 text-cs-gray">{desc}</p>
       </div>
     </div>
