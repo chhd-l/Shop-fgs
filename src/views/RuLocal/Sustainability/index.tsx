@@ -158,7 +158,7 @@ const Sustainability = () => {
           </div>
         </div>
         <div className="bg-cs-gray-f6 w-full h-cs-8" />
-        <div className="px-cs-1 md:px-cs-408 text-center mb-cs-64 mt-cs-32 ">
+        <div className="px-cs-1 md:px-cs-408  mb-cs-64 mt-cs-32 ">
           <h2 className="md:text-30 text-26 text-cs-primary text-center">
             Поддержка положительной роли домашних животных в обществе в рамках
             работы фонда ROYAL CANIN®{' '}
@@ -168,7 +168,7 @@ const Sustainability = () => {
             году, финансирует проекты по поддержке положительной роли домашних
             животных в здоровье и благополучии человека.
           </p>
-          <Button>Узнайте больше о нашем фонде (анг.)</Button>
+          {/* <Button>Узнайте больше о нашем фонде (анг.)</Button> */}
         </div>
         <div className="md:px-24  px-8">
           <div className="relative h-full pt-cs-100 pb-0 md:pb-cs-100 md:px-24 px-4 overflow-hidden">
