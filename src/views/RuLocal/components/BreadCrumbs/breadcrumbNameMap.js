@@ -21,21 +21,10 @@ const breadcrumbNameMap = {
   '/tailored-nutrition': [
     { name: 'Здоровье и питание', href: '/tailored-nutrition' }
   ],
-  '/aboutUs': [
-    {
-      name: 'aboutUs2'
-    }
-  ],
-  '/Tailorednutrition': [
-    {
-      name: 'tailorednutrition'
-    }
-  ],
-  '/general-terms-conditions': [
-    {
-      name: 'generalTermsConditions'
-    }
-  ],
+  '/aboutUs': [{ name: 'aboutUs2' }],
+  '/club': [{ name: 'Club', href: '/club' }],
+  '/Tailorednutrition': [{ name: 'tailorednutrition' }],
+  '/general-terms-conditions': [{ name: 'generalTermsConditions' }],
   '/about-us/our-history': [
     { name: 'Информация о компании', href: '/about-us' },
     { name: 'Наша история', href: '/about-us/our-history' }
@@ -72,16 +61,8 @@ const breadcrumbNameMap = {
   '/about-us/terms-and-conditions': [
     { name: 'Информация о компании', href: '/about-us' }
   ],
-  '/promotion-refuge': [
-    {
-      name: 'Nos promotions refuge'
-    }
-  ],
-  '/cadeau-coussin-chat': [
-    {
-      name: 'Nos promotions Chat'
-    }
-  ],
+  '/promotion-refuge': [{ name: 'Nos promotions refuge' }],
+  '/cadeau-coussin-chat': [{ name: 'Nos promotions Chat' }],
   '/About-Us': aboutUsBread(),
   '/about-us': aboutUsBread()
 };
