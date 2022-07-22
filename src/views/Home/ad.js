@@ -35,14 +35,14 @@ export function Ads() {
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_MOBILE.jpg`}
                           srcSet={optimizeImage({
-                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`,
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v3.jpg`,
                             width: 440
                           })}
                         />
                         <source
                           media="(min-width: 640px) and (max-width: 769px)"
                           srcSet={optimizeImage({
-                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`,
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v3.jpg`,
                             width: 440
                           })}
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
@@ -53,7 +53,7 @@ export function Ads() {
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR@2x.jpg`}
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_DESKTOP.jpg`}
                           srcSet={optimizeImage({
-                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`,
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v3.jpg`,
                             width: 1440
                           })}
                         />
@@ -64,7 +64,7 @@ export function Ads() {
                           // src={BannerFRLg}
                           // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_DESKTOP.jpg`}
                           src={optimizeImage({
-                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`,
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v3.jpg`,
                             width: 1440
                           })}
                         />

@@ -21,6 +21,7 @@ import cn from 'classnames';
 import { seoHoc } from '@/framework/common';
 import { Canonical, Button } from '@/components/Common';
 
+const country = window.__.env.REACT_APP_GA_COUNTRY;
 @injectIntl
 @inject('loginStore')
 @seoHoc('Account pet')
@@ -38,7 +39,14 @@ class Pet extends React.Component {
     this.isUk = window.__.env.REACT_APP_COUNTRY === 'uk';
   }
   componentDidMount() {
-    myAccountPushEvent('Pets');
+    switch (country?.toLowerCase()) {
+      case 'jp':
+        myAccountPushEvent('My Animals');
+        break;
+      default:
+        myAccountPushEvent('Pets');
+        break;
+    }
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     this.getBreedList();
   }

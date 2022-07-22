@@ -31,6 +31,7 @@ import { seoHoc } from '@/framework/common';
 import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
+const country = window.__.env.REACT_APP_GA_COUNTRY;
 
 //针对ru和tr noSubscription采用这个页面
 const clubNoSubscription = function () {
@@ -176,7 +177,14 @@ class Subscription extends React.Component {
         return;
       }
     }
-    myAccountPushEvent('Subscriptions');
+    switch (country?.toLowerCase()) {
+      case 'jp':
+        myAccountPushEvent('My subscriptions');
+        break;
+      default:
+        myAccountPushEvent('Subscriptions');
+        break;
+    }
     const res = await getDictionary({ type: 'SubscriptionType' });
     const arr = res.map((el) => {
       return {
