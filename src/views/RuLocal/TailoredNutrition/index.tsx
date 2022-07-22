@@ -2,9 +2,17 @@ import React from 'react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import BreadCrumbs from '../components/BreadCrumbs';
-import { Link } from 'react-router-dom';
 import './index.less';
 import HrLine from '../components/HrLine';
+import Slick from '../components/Slick';
+import { nutritionData } from './mock';
+import { TabPanel1, TabPanel2 } from './TabPanel';
+import MyTab from '../components/MyTab';
+
+const tabList = [
+  { tab: 'Гаммы продуктов для кошек', element: <TabPanel1 /> },
+  { tab: 'Гаммы продуктов для собак  ', element: <TabPanel2 /> }
+];
 const TailoredNutrition = () => {
   return (
     <div className="ru-local-tailored-nutrition">
@@ -36,13 +44,20 @@ const TailoredNutrition = () => {
             </div>
             <div className="rc-column   rc-text--left">
               <div className="rc-full-width">
-                <img className="lazyautosizes lazyloaded" 
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/tailored-nutrition/10001.jpg`}
+                <img
+                  className="lazyautosizes lazyloaded"
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/tailored-nutrition/10001.jpg`}
                 />
               </div>
             </div>
           </div>
           <div className="rc-padding-y--md rc-md-down"></div>
+        </div>
+        <div
+          className="rc-margin--none rc-bg-colour--brand3 rc-full-width "
+          data-component="content-animation"
+        >
+          <Slick slickList={nutritionData} />
         </div>
         <HrLine />
         <div
@@ -73,7 +88,6 @@ const TailoredNutrition = () => {
           </div>
           <div className="rc-padding-y--md rc-md-down"></div>
         </div>
-        <div>slider mock</div>
         <HrLine />
 
         <div
@@ -108,61 +122,18 @@ const TailoredNutrition = () => {
           <div className="rc-padding-y--md rc-md-down"></div>
         </div>
 
-        <div>tab mock</div>
+        <MyTab tabList={tabList} />
         <div className="rc-padding-y--sm rc-showhide">
           <div
             className="rc-padding--sm rc-margin--none rc-bg-colour--brand3"
             data-component="content-animation"
           >
             <div className="rc-padding-y--md rc-md-down"></div>
-            <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
-            <div className="rc-column rc-single "></div>
-              <div className="rc-column rc-single ">
-                <div
-                  className="rc-padding--sm rc-full-width rc-margin-bottom--xs rc-bg-colour--brand3 "
-                  data-component="content-animation"
-                  id="content-block-with-text-and-image-15-tailored-nutrition-page"
-                >
-                  <div className="rc-padding-y--md rc-md-down"></div>
-                  <div className="rc-layout-container rc-one-column rc-max-width--xl">
-                    <div className="rc-column">
-                      <div className="rc-full-width ">
-                        <img className="lazyautosizes lazyloaded" 
-                        src="https://cdn.royalcanin-weshare-online.io/M-fKpHoBaPOZra8q8bYa/v5/0090721-banner2-1?w=320"
-                />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rc-layout-container rc-one-column rc-max-width--xl">
-                    <div className="rc-column">
-                      <div className="rc-full-width rc-text--center ">
-                        <div className="rc-container-text">
-                          <h4>Повседневный корм</h4>
-                          <h2
-                            className="rc-beta "
-                            data-en-title="Корм для котят"
-                          >
-                            Корм для котят
-                          </h2>
-                          <Link
-                            className="rc-btn rc-btn--two"
-                           to="/cats/products/kitten"
-                          >
-                            Узнайте больше
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rc-padding-y--md rc-md-down"></div>
-                </div>
-              </div>
-              <div className="rc-column rc-single "></div>
-            </div>
+
             <div className="rc-padding-y--md rc-md-down"></div>
           </div>
         </div>
-        <HrLine alwaysShow={true}/>
+        <HrLine alwaysShow={true} />
         <div className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active"></div>
       </main>
       <Footer />
