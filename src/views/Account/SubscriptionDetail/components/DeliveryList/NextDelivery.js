@@ -16,8 +16,10 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
 import PriceDetailsList from '../PriceDetailsList';
 import { DatePickerComponent } from '@/components/Common';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 const Unspecified = 'Unspecified';
+const country = window.__.env.REACT_APP_GA_COUNTRY;
 
 const NextDelivery = ({
   el,
@@ -173,6 +175,13 @@ const NextDelivery = ({
         };
       })
     });
+    switch (country?.toLowerCase()) {
+      case 'jp':
+        myAccountActionPushEvent('Change order time');
+        break;
+      default:
+        break;
+    }
   };
   const skipNext = (el) => {
     setState({

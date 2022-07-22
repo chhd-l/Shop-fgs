@@ -15,8 +15,10 @@ import { ownerPointsInfo } from '@/api/payment';
 import { inject, observer } from 'mobx-react';
 import './index.less';
 import { ownerTotalPoints } from '@/api/payment';
+import { myAccountPushEvent } from '@/utils/GA';
 
 const isMobile = getDeviceType() !== 'PC';
+const country = window.__.env.REACT_APP_GA_COUNTRY;
 
 const Loyalty = (props) => {
   const customerId = props?.loginStore?.userInfo?.customerId;
@@ -48,6 +50,14 @@ const Loyalty = (props) => {
   };
 
   useEffect(() => {
+    switch (country?.toLowerCase()) {
+      case 'jp':
+        myAccountPushEvent('Loyalty Program');
+        break;
+      default:
+        // myAccountPushEvent('Subscriptions');
+        break;
+    }
     //获取当前积分
     ownerTotalPoints({ customerId })
       .then((res) => {
