@@ -43,11 +43,11 @@ const LoginButton = (props) => {
       window.addEventListener('storage', (e) => {
         console.log('loginbutton storage change', e.key);
         if (e.key.includes('rc-token')) {
-          debugger;
+          // debugger;
         }
         // 当打开多个tab时，同步登录登出状态
         if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
-          debugger;
+          // debugger;
           // 该token的旧值不存在，新值存在，表示登录
           if (!e.oldValue && e.newValue) {
             login();
@@ -57,8 +57,14 @@ const LoginButton = (props) => {
     }
   }, []);
 
+  // 拿到userinfo信息后，执行传入该组件的init方法
   useEffect(() => {
+    console.log('拿到userinfo信息后，执行传入该组件的init方法', {
+      isGetUserInfoDown,
+      init
+    });
     if (isGetUserInfoDown && init) {
+      debugger;
       init();
     }
   }, [isGetUserInfoDown, init]);
