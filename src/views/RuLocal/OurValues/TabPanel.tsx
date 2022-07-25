@@ -20,6 +20,7 @@ const Render = ({ title, path, desc }: TextRenderProps) => {
   );
 };
 
+//Знания
 export const ElementKnowledge = () => {
   return (
     <Render
@@ -35,6 +36,7 @@ export const ElementKnowledge = () => {
   );
 };
 
+////Увлеченность
 export const ElmentenThusiasm = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 py-cs-30">
@@ -58,6 +60,7 @@ export const ElmentenThusiasm = () => {
   );
 };
 
+//Потребности питомцев
 export const ElmentenPetNeeds = () => {
   return (
     <Render
@@ -68,6 +71,7 @@ export const ElmentenPetNeeds = () => {
   );
 };
 
+//Точность
 export const ElmentenAccuracy = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 py-cs-30">
@@ -95,6 +99,7 @@ export const ElmentenAccuracy = () => {
   );
 };
 
+//Уважение
 export const ElmentenRespect = () => {
   return (
     <Render
