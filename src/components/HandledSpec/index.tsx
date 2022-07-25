@@ -150,7 +150,6 @@ const HandledSpec = ({
   };
 
   const handleChooseSize = async (sId: any, sdId: any) => {
-    setSelectId(sdId);
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -204,6 +203,13 @@ const HandledSpec = ({
     })();
   }, [sizeList]);
   const renderStyle = (sdItem: any) => {
+    console.log(
+      sdItem,
+      shouldSkuGrayOutOfStock,
+      sdItem.specDetailId === selectId,
+      sdItem.isEmpty,
+      '99999999'
+    );
     let backgroundColor = '';
     if (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) {
       backgroundColor = '#ccc';
@@ -251,6 +257,7 @@ const HandledSpec = ({
                     })}
                     onClick={() => {
                       onClickSku();
+                      setSelectId(sdItem.specDetailId);
                       if (
                         (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||
                         sdItem.selected

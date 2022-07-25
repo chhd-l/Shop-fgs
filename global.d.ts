@@ -22,3 +22,4 @@ declare global {
     dataLayer: any;
   }
 }
+declare module '*.svg';

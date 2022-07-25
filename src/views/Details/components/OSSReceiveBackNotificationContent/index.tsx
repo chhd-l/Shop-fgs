@@ -6,7 +6,10 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
 import { Details, SelectedSpecItem, UserInfo } from './typing';
 import { Button } from '@/components/Common';
-import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
+import {
+  GABackInStockNotifyMeClick,
+  GABackToStockSubscription
+} from '@/utils/GA/cart';
 
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
@@ -53,6 +56,7 @@ const OssReceiveBackNotificationContent = ({
   };
   const handleSubmit = async () => {
     GABackInStockNotifyMeClick();
+    GABackToStockSubscription(selectedSpecItem);
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
