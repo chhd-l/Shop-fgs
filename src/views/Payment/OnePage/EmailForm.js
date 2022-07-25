@@ -53,6 +53,10 @@ class EmailForm extends React.Component {
     return 'email';
   }
   handleClickEdit = () => {
+    this.props.paymentStore.setStsToCompleted({
+      key: 'email',
+      onlyGa: true
+    });
     this.props.paymentStore.setStsToEdit({
       key: this.curKey,
       hideOthers: true
