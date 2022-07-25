@@ -178,15 +178,19 @@ class RegisterRequired extends Component {
     this.setState({ list });
   };
   init = async () => {
-    const { history, configStore, clinicStore } = this.props;
+    const { loginStore } = this.props;
     this.setState({
       circleLoading: true,
       styleObj: { display: 'none' },
       isLoading: true
     });
     try {
-      let customerId = this.userInfo && this.userInfo.customerId;
-      console.log('excute init function', customerId);
+      let customerId = loginStore.userInfo?.customerId;
+      console.log(
+        'excute init function',
+        customerId,
+        localItemRoyal.get('rc-userinfo')
+      );
       if (!customerId) {
         return;
       }
