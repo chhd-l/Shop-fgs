@@ -187,9 +187,13 @@ class PaymentStore {
     }
     //console.log(toJS(this.panelStatus))
   }
-
+  /**
+   *
+   * @param {*} onlyGa only handle ga
+   * @returns
+   */
   @action.bound
-  setStsToCompleted({ key, isFirstLoad }) {
+  setStsToCompleted({ key, isFirstLoad, onlyGa }) {
     console.log('key', key);
     // this.isLogin在某些情况下为false,因此判断不对，例如在cart页面登录再进checkout页面。
     const isLoginIng = localItemRoyal.get('rc-token');
@@ -450,6 +454,7 @@ class PaymentStore {
       }
     }
 
+    if (onlyGa) return;
     this.updatePanelStatus(key, {
       isPrepare: false,
       isEdit: false,

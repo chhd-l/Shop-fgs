@@ -677,7 +677,6 @@ class VisitorAddress extends React.Component {
             </fieldset>
           ) : null
         ) : null}
-
         {visitorValidationLoading && <Loading positionFixed="true" />}
         {visitorValidationModalVisible && (
           <ValidationAddressModal

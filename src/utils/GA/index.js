@@ -10,7 +10,7 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
-const pillarEnum = {
+export const pillarEnum = {
   0: 'SPT',
   1: 'SPT',
   2: 'BUNDLE',

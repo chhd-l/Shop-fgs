@@ -78,7 +78,7 @@ import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Mo
 import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 import cloneDeep from 'lodash/cloneDeep';
 import PurchaseMethodB from './components/PurchaseMethodB';
-//import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotificationContent';
+import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotificationContent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -175,8 +175,8 @@ class Details extends React.Component {
       mixFeedingBtnLoading: false,
       hiddenMixFeedingBanner: false,
       fromPrice: '',
-      versionB: false
-      // ossReceiveBackNotificationContentVisible: false
+      versionB: false,
+      ossReceiveBackNotificationContentVisible: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -815,7 +815,8 @@ class Details extends React.Component {
           widgetid: id,
           ean: barcode,
           subid: '',
-          trackingid: buyFromRetailerConfig.trackingIdPrefix // ''
+          trackingid: buyFromRetailerConfig.trackingIdPrefix,
+          'data-eventgtm': true
         }
       });
     }
@@ -1138,20 +1139,20 @@ class Details extends React.Component {
       </div>
     );
   };
-  // handleClickSku = () => {
-  //   if (!this.isLogin) return;
-  //   setTimeout(() => {
-  //     if (!this.state.instockStatus) {
-  //       this.setState({
-  //         ossReceiveBackNotificationContentVisible: true
-  //       });
-  //     } else {
-  //       this.setState({
-  //         ossReceiveBackNotificationContentVisible: false
-  //       });
-  //     }
-  //   }, 0);
-  // };
+  handleClickSku = () => {
+    if (!this.isLogin) return;
+    setTimeout(() => {
+      if (!this.state.instockStatus) {
+        this.setState({
+          ossReceiveBackNotificationContentVisible: true
+        });
+      } else {
+        this.setState({
+          ossReceiveBackNotificationContentVisible: false
+        });
+      }
+    }, 0);
+  };
   specAndQuantityDom = (selectedSpecItem) => {
     const {
       configStore: {
@@ -1170,18 +1171,18 @@ class Details extends React.Component {
             updatedPriceOrCode={this.updatedPriceOrCode}
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
-            // onClickSku={this.handleClickSku}
-            // shouldSkuGrayOutOfStock
-            // canSelectedOutOfStock
+            onClickSku={this.handleClickSku}
+            shouldSkuGrayOutOfStock
+            canSelectedOutOfStock
           />
-          {/* {isMobile && this.isLogin && (
+          {isMobile && this.isLogin && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
               selectedSpecItem={selectedSpecItem}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
-          )} */}
+          )}
           <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
             <span className="amount">
               <FormattedMessage id="amount" />:
@@ -1207,14 +1208,14 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {/* {!isMobile && this.isLogin && (
+        {!isMobile && this.isLogin && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
-        )} */}
+        )}
       </>
     );
   };

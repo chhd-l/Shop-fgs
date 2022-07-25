@@ -1341,6 +1341,10 @@ class AddressList extends React.Component {
       key: this.curPanelKey,
       hideOthers: true
     });
+    this.props.paymentStore.setStsToCompleted({
+      key: 'deliveryAddr',
+      onlyGa: true
+    });
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   };
