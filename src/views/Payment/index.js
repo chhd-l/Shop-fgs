@@ -3540,6 +3540,10 @@ class Payment extends React.Component {
 
   // 编辑
   handleClickPaymentPanelEdit = async () => {
+    this.props.paymentStore.setStsToCompleted({
+      key: 'paymentMethod',
+      onlyGa: true
+    });
     const {
       checkoutStore,
       paymentStore: {
