@@ -43,7 +43,11 @@ function BreadCrumbsNavigation({ list }) {
                   <span itemProp="name">{item.name}</span>
                 ) : item.isHubOuterLink ? (
                   <>
-                    <DistributeHubLinkOrATag href={item.href} to={item.link}>
+                    <DistributeHubLinkOrATag
+                      href={item.href}
+                      to={item.link}
+                      itemProp="item"
+                    >
                       <span itemProp="name">{item.name}</span>
                     </DistributeHubLinkOrATag>
                   </>
