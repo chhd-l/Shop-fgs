@@ -764,6 +764,25 @@ class Register extends Component {
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>
               </p>
+              <p className="text-center">
+                {
+                  <FormattedMessage
+                    id="jp.goToAccount"
+                    values={{
+                      val: (
+                        <a
+                          className="ui-cursor-pointer text-cs-gray text-16"
+                          href="https://accountpreview.royalcanin.com/"
+                          target={'_blank'}
+                          style={{ borderBottom: '1px solid #666' }}
+                        >
+                          こちら
+                        </a>
+                      )
+                    }}
+                  />
+                }
+              </p>
             </div>
             {/* SocialRegister */}
             {window.__.env.REACT_APP_FaceBook_IDP ||
