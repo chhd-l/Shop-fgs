@@ -186,6 +186,7 @@ class RegisterRequired extends Component {
     });
     try {
       let customerId = this.userInfo && this.userInfo.customerId;
+      console.log('excute init function', customerId);
       if (!customerId) {
         return;
       }
@@ -193,6 +194,7 @@ class RegisterRequired extends Component {
         customerId,
         oktaToken: localItemRoyal.get('oktaToken')
       });
+      console.log('requiredList.length', result.context.requiredList.length);
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         this.redirectPage();
