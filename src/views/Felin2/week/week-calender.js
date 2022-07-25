@@ -40,7 +40,6 @@ class WeekCalender extends Component {
     let weekOfDay = moment(date).format('E'); // 指定日期的周的第几天
     let weekDate = [];
     let dateList = await this.getEnmbeData();
-    let result = [];
     for (let i = 0; i < 7; i++) {
       let _date = moment(date).subtract(weekOfDay - i, 'days');
       let nowDate = moment(_date).format('YYYYMMDD');
@@ -48,8 +47,7 @@ class WeekCalender extends Component {
       let list = await this.intervals(
         moment(_date).format('YYYYMMDD 10:00'),
         moment(_date).format('YYYYMMDD 20:00'),
-        currentDate,
-        result
+        currentDate
       );
       weekDate.push({
         weekDay: _date.format('ddd'),
@@ -152,34 +150,35 @@ class WeekCalender extends Component {
       .format('YYYY-MM-DD');
     return [begin, end];
   };
-  intervals = async (startString, endString, currentDate, result) => {
+  intervals = async (startString, endString, currentDate) => {
     return new Promise((resolve) => {
       let start = moment(startString, 'YYYYMMDD HH:mm');
       let end = moment(endString, 'YYYYMMDD HH:mm');
       start.minutes(Math.ceil(start.minutes() / 15) * 15);
-
+      let result = [];
       let current = moment(start);
-      let dateNo = current.format('YYYYMMDD');
-      let cc = {
-        disabled: true,
-        type: 'default',
-        dateNo,
-        time: current.format('HH:mm')
-      };
-      if (currentDate.minuteList) {
-        let curr = currentDate.minuteList[current.format('YYYYMMDD HH:mm')];
-        if (curr) {
-          cc = {
-            ...curr,
-            disabled: false,
-            time: current.format('HH:mm'),
-            dateNo
-          };
+      while (current.valueOf() <= end.valueOf()) {
+        let dateNo = current.format('YYYYMMDD');
+        let cc = {
+          disabled: true,
+          type: 'default',
+          dateNo,
+          time: current.format('HH:mm')
+        };
+        if (currentDate.minuteList) {
+          let curr = currentDate.minuteList[current.format('YYYYMMDD HH:mm')];
+          if (curr) {
+            cc = {
+              ...curr,
+              disabled: false,
+              time: current.format('HH:mm'),
+              dateNo
+            };
+          }
         }
+        result.push(cc);
+        current.add(15, 'minutes').valueOf();
       }
-      result.push(cc);
-      current.add(15, 'minutes');
-      console.log({ result });
       resolve(result);
     });
   };

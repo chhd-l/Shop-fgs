@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { loadJS, filterObjectValue } from '@/utils/utils';
+import { loadJS, filterObjectValue, formatMoney } from '@/utils/utils';
 import { getSpecies } from '@/utils/GA';
 
 const purchaseType = {
@@ -53,7 +53,7 @@ const setGoogleProductStructuredDataMarkup = ({
 }) => {
   loadJS({
     code: JSON.stringify({
-      '@context': 'http://schema.org/',
+      '@context': 'https://schema.org/',
       '@type': 'Product',
       brand: 'Royal Canin',
       name: details.goodsName,
@@ -67,7 +67,7 @@ const setGoogleProductStructuredDataMarkup = ({
         '@type': 'AggregateOffer',
         priceCurrency: window.__.env.REACT_APP_CURRENCY,
         availability: instockStatus
-          ? 'http://schema.org/InStock'
+          ? 'https://schema.org/InStock'
           : 'https://schema.org/OutOfStock',
         lowPrice: details.fromPrice,
         highPrice: details.toPrice || details.fromPrice
@@ -142,7 +142,14 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     pillar: pillarEnum[goodsType]
   };
   const product = filterObjectValue(GAProductsInfo);
+  const availableSizes = item?.sizeList.map((size) => ({
+    size: size.goodsInfoWeight,
+    price: size.marketPrice,
+    pricePerUnit: Math.ceil(size.basePrice || 0),
+    localUnit: size.goodsInfoUnit
+  }));
   // debugger;
+
   if (window.dataLayer) {
     // dataLayer?.push({
     //   products: [product]
@@ -151,18 +158,8 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
       dataLayer?.push({
         event: 'pdpScreenLoad',
         pdpScreenLoad: {
-          products: [product] //为了区分plp，pdp，checkout的products
-          // availableSizes: [
-          //   //All product sizes & prices available for a given product
-          //   {
-          //     size: '2',
-          //     price: '25.99',
-          //     pricePerUnit: '12.99',
-          //     localUnit: 'Kg'
-          //   },
-          //   { size: '4', price: '100', pricePerUnit: '30', localUnit: 'Kg' },
-          //   { size: '10', price: '300', pricePerUnit: '40', localUnit: 'Kg' }
-          // ]
+          products: [product], //为了区分plp，pdp，checkout的products
+          availableSizes: availableSizes
         },
         pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
       });
