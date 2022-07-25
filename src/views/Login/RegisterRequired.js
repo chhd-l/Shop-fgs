@@ -178,14 +178,19 @@ class RegisterRequired extends Component {
     this.setState({ list });
   };
   init = async () => {
-    const { history, configStore, clinicStore } = this.props;
+    const { loginStore } = this.props;
     this.setState({
       circleLoading: true,
       styleObj: { display: 'none' },
       isLoading: true
     });
     try {
-      let customerId = this.userInfo && this.userInfo.customerId;
+      let customerId = loginStore.userInfo?.customerId;
+      console.log(
+        'excute init function',
+        customerId,
+        localItemRoyal.get('rc-userinfo')
+      );
       if (!customerId) {
         return;
       }
@@ -193,6 +198,7 @@ class RegisterRequired extends Component {
         customerId,
         oktaToken: localItemRoyal.get('oktaToken')
       });
+      console.log('requiredList.length', result.context.requiredList.length);
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         this.redirectPage();

@@ -815,7 +815,8 @@ class Details extends React.Component {
           widgetid: id,
           ean: barcode,
           subid: '',
-          trackingid: buyFromRetailerConfig.trackingIdPrefix // ''
+          trackingid: buyFromRetailerConfig.trackingIdPrefix,
+          'data-eventgtm': true
         }
       });
     }
