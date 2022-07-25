@@ -569,9 +569,12 @@ class List extends React.Component {
     ]?.join(' '); //要排序，因此这样写的==
     const prefv1 = decodeURI(funcUrl({ name: 'prefv1' }) || '');
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
-
+    if (window.__.env.REACT_APP_COUNTRY === 'tr' && prefv1) {
+      this.setState({
+        prefv1
+      });
+    }
     this.setState({
-      prefv1,
       animalType,
       sizePrefv: sizePrefv.join(' '),
       allPrefv
