@@ -27,14 +27,14 @@ const LogoutButton = (props) => {
 
   useEffect(() => {
     // 当打开多个tab时，同步登录登出状态
-    if (window.__.SYNCHRONIZE_LOGIN_STATUS) {
+    if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
       window.addEventListener('storage', (e) => {
         console.log('logoutbutton storage change', e.key);
         if (e.key.includes('rc-token')) {
-          debugger;
+          // debugger;
         }
         if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
-          debugger;
+          // debugger;
           // 该token的旧值存在，新值不存在，表示登出
           if (e.oldValue && !e.newValue) {
             clickLogoff();
