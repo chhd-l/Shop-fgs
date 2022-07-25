@@ -50,10 +50,8 @@ const LinkPet = ({
     })
       .then((res) => {
         let petsList = res.context.context || [];
-        let petList =
-          petsList?.filter(
-            (el) => el.petsType?.match(eval('/' + petType + '/i'))?.index > -1
-          ) || [];
+        let mathReg = new RegExp(petType, 'i');
+        let petList = petsList?.filter((el) => mathReg.test(el.petsType)) || [];
         setPetList(petList);
         setAddNewPetVisible(true);
       })
