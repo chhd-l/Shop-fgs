@@ -10,26 +10,14 @@ import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
-import { Modal } from '@/components/Common';
+import { Modal, Button } from '@/components/Common';
 import { addEventListenerArr } from './addEventListener';
 import loginRedirection from '@/lib/login-redirection';
 import { LOGO_PRIMARY, LOGO_PRIMARY_RU } from '@/utils/constant';
+import { ErrorMessage } from '@/components/Message';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-function ErrMsg({ msg }) {
-  return (
-    <div className={`text-break mt-2 mb-2 ${msg ? '' : 'hidden'}`}>
-      <aside
-        className="rc-alert rc-alert--error rc-alert--with-close"
-        role="alert"
-      >
-        <span className="pl-0">{msg}</span>
-      </aside>
-    </div>
-  );
-}
 
 @inject(
   'loginStore',
@@ -55,7 +43,7 @@ class RegisterRequired extends Component {
       errMsg: ''
     };
   }
-  async componentDidMount() {
+  componentDidMount() {
     //定义变量获取屏幕视口宽度
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
@@ -91,13 +79,30 @@ class RegisterRequired extends Component {
         this.setState({ list: tempArr });
       }
     });
+
+    window.addEventListener('storage', this.storageHandler);
   }
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    window.removeEventListener('storage', this.storageHandler);
+  }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
+  }
+  // 监听has-selected-all-consent-required-page变量，存在值时，其他tab需要同步跳转
+  storageHandler(e) {
+    if (
+      e.key ===
+      `${localStorage.getItem(
+        'country-code-current-operated'
+      )}-has-selected-all-consent-required-page`
+    ) {
+      if (!e.oldValue && e.newValue) {
+        this.redirectPage();
+      }
+    }
   }
   //属性变为true，time定时后变为false
   showAlert(attr, time) {
@@ -120,6 +125,10 @@ class RegisterRequired extends Component {
   }
   //会员提交
   submitLogin = async () => {
+    localStorage.setItem(
+      'country-code-current-operated',
+      window.__.env.REACT_APP_COUNTRY
+    );
     this.setState({
       circleLoading: true
     });
@@ -127,7 +136,7 @@ class RegisterRequired extends Component {
       this.props.authState && this.props.authState.accessToken
         ? this.props.authState.accessToken.value
         : '';
-    let oktaToken = 'Bearer ' + oktaTokenString;
+    const oktaToken = 'Bearer ' + oktaTokenString;
     try {
       const isRequiredChecked = this.state.list
         .filter((item) => item.isRequired)
@@ -143,6 +152,8 @@ class RegisterRequired extends Component {
         });
 
         this.redirectPage();
+        // 设置一个变量，记录是否勾选了所有必须的consent，监听此storage，其他tab需要同步跳转
+        localItemRoyal.set('has-selected-all-consent-required-page', true);
       } else {
         this.showAlert('isShowRequired', 2000);
       }
@@ -186,11 +197,6 @@ class RegisterRequired extends Component {
     });
     try {
       let customerId = loginStore.userInfo?.customerId;
-      console.log(
-        'excute init function',
-        customerId,
-        localItemRoyal.get('rc-userinfo')
-      );
       if (!customerId) {
         return;
       }
@@ -198,7 +204,6 @@ class RegisterRequired extends Component {
         customerId,
         oktaToken: localItemRoyal.get('oktaToken')
       });
-      console.log('requiredList.length', result.context.requiredList.length);
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         this.redirectPage();
@@ -282,7 +287,7 @@ class RegisterRequired extends Component {
             {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
             {/* 加载token */}
             <div style={{ visibility: 'hidden' }}>
-              <LoginButton init={this.init} />
+              <LoginButton getUserInfoDownCallback={this.init} />
             </div>
 
             <div style={this.state.styleObj}>
@@ -327,7 +332,7 @@ class RegisterRequired extends Component {
                     )}
                   </div>
                 </div>
-                <ErrMsg msg={errMsg} />
+                <ErrorMessage msg={errMsg} />
                 {/* Header title */}
                 <h2
                   className="rc-text-colour--brand1 text-center"
@@ -359,7 +364,7 @@ class RegisterRequired extends Component {
                 ) : null}
                 <div style={{ marginTop: '1.25rem' }}>
                   <div className="rc-layout-container rc-one-column mx-4 md:mx-64">
-                    <div className="rc-column" style={{ paddingBottom: '0' }}>
+                    <div className="rc-column pb-0">
                       {this.state.isLoading ? (
                         <div className="pt-2 pb-2">
                           <Skeleton color="#f5f5f5" width="100%" count={4} />
@@ -405,15 +410,14 @@ class RegisterRequired extends Component {
                     marginBottom: '30px'
                   }}
                 >
-                  {
-                    <button
-                      className="rc-btn rc-btn--lg rc-btn--one px-5"
-                      disabled={!this.computedIsCheck(this.state.list)}
-                      onClick={this.submitLogin}
-                    >
-                      <FormattedMessage id="required.continue" />
-                    </button>
-                  }
+                  <Button
+                    type="primary"
+                    className="px-5"
+                    disabled={!this.computedIsCheck(this.state.list)}
+                    onClick={this.submitLogin}
+                  >
+                    <FormattedMessage id="required.continue" />
+                  </Button>
                 </div>
               </div>
             </div>

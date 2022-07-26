@@ -811,7 +811,7 @@ class Register extends Component {
                 <div className="regName">
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
                     maxLength="50"
                     name="lastName"
@@ -837,7 +837,7 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
                     maxLength="50"
                     name="firstName"
@@ -863,7 +863,7 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
                     maxLength="50"
                     name="phoneticLastName"
@@ -890,7 +890,7 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
                     maxLength="50"
                     name="phoneticFirstName"
@@ -919,7 +919,7 @@ class Register extends Component {
                 <div className="regNameTwo">
                   <Input
                     id="registerEmail"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="email"
                     maxLength="90"
                     name="email"
@@ -945,7 +945,7 @@ class Register extends Component {
                     id="registerPassword"
                     type="password"
                     maxLength="255"
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                     minLength="8"
                     name="password"
                     valid={passwordValid}
@@ -1283,7 +1283,7 @@ class Register extends Component {
                                   id="registerName"
                                   valid={nameValid}
                                   isWarning={formWarning.name}
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   onChange={this.registerChange}
                                   onBlur={this.inputBlur}
                                   value={registerForm.name}
@@ -1304,7 +1304,7 @@ class Register extends Component {
                               <>
                                 <Input
                                   id="registerName"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   type="text"
                                   maxLength="50"
                                   name="firstName"
@@ -1334,7 +1334,7 @@ class Register extends Component {
                                 />
                                 <Input
                                   id="registerName"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   type="text"
                                   maxLength="50"
                                   name="lastName"
@@ -1367,7 +1367,7 @@ class Register extends Component {
 
                             <Input
                               id="registerEmail"
-                              autocomplete="off"
+                              autoComplete="off"
                               type="email"
                               maxLength="90"
                               name="email"
@@ -1398,7 +1398,7 @@ class Register extends Component {
                               valid={passwordValid}
                               onChange={this.registerChange}
                               onFocus={this.inputFocus}
-                              autocomplete="new-password"
+                              autoComplete="new-password"
                               onBlur={this.inputBlur}
                               value={registerForm.password}
                               label={<FormattedMessage id="registerPassword" />}
