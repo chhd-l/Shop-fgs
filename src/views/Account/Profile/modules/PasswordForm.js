@@ -147,7 +147,7 @@ class PasswordForm extends React.Component {
               <div className="rc-input rc-input--inline rc-margin-y--xs">
                 <input
                   type="text"
-                  autocomplete="off"
+                  autoComplete="off"
                   placeholder={this.props.intl.messages.oldPassword}
                   className="form-control password-input"
                   value={passwordForm.oldPassword}
@@ -156,7 +156,7 @@ class PasswordForm extends React.Component {
                 />
                 <input
                   type="text"
-                  autocomplete="off"
+                  autoComplete="off"
                   placeholder={this.props.intl.messages.newPassword}
                   className="form-control password-input"
                   value={passwordForm.newPassword}
@@ -165,7 +165,7 @@ class PasswordForm extends React.Component {
                 />
                 <input
                   type="text"
-                  autocomplete="off"
+                  autoComplete="off"
                   placeholder={this.props.intl.messages.enterPasswordAgain}
                   className="form-control password-input"
                   value={passwordForm.confirmPassword}

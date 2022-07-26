@@ -5,7 +5,8 @@ import {
   formatDate,
   optimizeImage,
   filterOrderId,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { IMG_DEFAULT } from '@/utils/constant';
