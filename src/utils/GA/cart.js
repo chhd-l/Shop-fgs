@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { pillarEnum } from '.';
 import { filterObjectValue } from '../utils';
-import { filterAttrValue } from './util';
+import { filterAttrValue, getSubscriptionAttr } from './util';
 
 export const GACartButtonClick = (item) => {
   window.dataLayer?.push({
@@ -81,58 +81,40 @@ export const GABackInStockNotifyMeClick = () => {
 };
 export const GABackToStockSubscription = (item, form) => {
   const {
-    cateId,
-    minMarketPrice,
-    goodsCateName,
     goodsName,
     goodsInfos,
     goodsNo,
     goodsAttributesValueRelList,
-    goodsImg,
-    quantity,
     goodsType
   } = item;
-  const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-  const selectSku = item.sizeList.filter((item) => item.selected);
-  const size = selectSku.map((selectItem) => selectItem.specText).toString();
-  const price = selectSku
-    .map((selectItem) => selectItem.marketPrice)
-    .toString();
-  const specie = filterAttrValue(
-    goodsAttributesValueRelList,
-    'species'
-  ).toString();
-  const range = filterAttrValue(
-    goodsAttributesValueRelList,
-    'range'
-  ).toString();
-  const technology = filterAttrValue(
-    goodsAttributesValueRelList,
-    'technology'
-  ).toString();
-  const breed = filterAttrValue(goodsAttributesValueRelList, 'breeds');
+  const selectSku = item.sizeList.filter((i) => i.selected);
+
+  let product = {
+    pillar: pillarEnum[goodsType],
+    SKU: goodsInfos?.[0]?.goodsInfoNo || '',
+    size: selectSku.map((selectItem) => selectItem.specText).toString(),
+    price: selectSku.map((selectItem) => selectItem.marketPrice).toString(),
+    specie: filterAttrValue(goodsAttributesValueRelList, 'species').toString(),
+    range: filterAttrValue(goodsAttributesValueRelList, 'range').toString(),
+    technology: filterAttrValue(
+      goodsAttributesValueRelList,
+      'technology'
+    ).toString(),
+    breed: filterAttrValue(goodsAttributesValueRelList, 'breeds'),
+    subscription: getSubscriptionAttr(form.buyWay),
+    quantity: form.quantity,
+    name: goodsName,
+    mainItemCode: goodsNo,
+    brand: 'Royal Canin'
+  };
+  if (form.buyWay !== 0) {
+    product.subscriptionFrequency = form.frequencyValueEn;
+  }
   window.dataLayer?.push({
     event: 'BackToStockSubscription', //String : Constant
     BackToStockSubscription: {
       //String : Constant
-      products: [
-        {
-          //All the information provided in the "products" object have the same key / values as other product interactions (PLP Load, PDP Load, checkout, etc...)
-          pillar: pillarEnum[goodsType], //String : 'SPT' or 'Vet' depending on type of product range
-          price, //Integer : Product Price, including discount if promo code activated for this product
-          specie, //String : 'Cat' or 'Dog',
-          range, //String : Possible values are 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-          name: goodsName,
-          mainItemCode: goodsNo,
-          SKU,
-
-          technology, //String : 'Dry', 'Wet', 'Pack'
-          quantity: quantity,
-          brand: 'Royal Canin', //String : 'Royal Canin' or 'Eukanuba'
-          size, //String : Same wording as displayed on the site, with units depending on the country (oz, grams...)
-          breed //Array : All animal breeds associated with the product in an array
-        }
-      ]
+      products: [product]
     }
   });
 };

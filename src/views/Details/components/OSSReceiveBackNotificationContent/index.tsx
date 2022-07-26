@@ -15,12 +15,14 @@ export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
   details: Details;
   form: Form;
+  quantity: number;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
   details,
+  quantity,
   selectedSpecItem,
   userInfo,
   form
@@ -58,7 +60,7 @@ const OssReceiveBackNotificationContent = ({
   };
   const handleSubmit = async () => {
     GABackInStockNotifyMeClick();
-    GABackToStockSubscription(details, form);
+    GABackToStockSubscription(details, { ...form, quantity });
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
