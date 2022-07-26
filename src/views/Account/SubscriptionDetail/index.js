@@ -47,6 +47,7 @@ import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
 import { SuccessMessage, ErrorMessage } from '@/components/Message';
 import { Canonical, Button, Modal } from '@/components/Common';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -699,6 +700,7 @@ class SubscriptionDetail extends React.Component {
     } else if (modalType === 'cancelAll') {
       cancelAllSub({ subscribeId: subDetail.subscribeId })
         .then((res) => {
+          myAccountActionPushEvent('Cancel Subscription');
           window.location.reload();
         })
         .catch((err) => {
