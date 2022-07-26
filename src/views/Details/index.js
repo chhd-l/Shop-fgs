@@ -1159,7 +1159,7 @@ class Details extends React.Component {
         info: { skuLimitThreshold }
       }
     } = this.props;
-    const { details, quantity, quantityMinLimit, stock } = this.state;
+    const { details, quantity, quantityMinLimit, stock, form } = this.state;
     return (
       <>
         <div className="specAndQuantity rc-margin-bottom--xs ">
@@ -1179,6 +1179,7 @@ class Details extends React.Component {
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
+              form={form}
               selectedSpecItem={selectedSpecItem}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
@@ -1212,6 +1213,7 @@ class Details extends React.Component {
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
+            form={form}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
@@ -1640,6 +1642,7 @@ class Details extends React.Component {
                                 >
                                   {this.ButtonGroupDom(false)}
                                 </SingleBuyMethod>
+
                                 {currentSubscriptionStatus &&
                                 currentSubscriptionPrice &&
                                 skuPromotions == 'autoship' ? (
@@ -1663,6 +1666,7 @@ class Details extends React.Component {
                                     {this.ButtonGroupDom(false)}
                                   </AutoshipBuyMethod>
                                 ) : null}
+
                                 {currentSubscriptionStatus &&
                                 currentSubscriptionPrice &&
                                 skuPromotions == 'club' ? (

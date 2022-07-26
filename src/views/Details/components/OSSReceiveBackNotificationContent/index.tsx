@@ -4,7 +4,7 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
-import { Details, SelectedSpecItem, UserInfo } from './typing';
+import { Details, Form, SelectedSpecItem, UserInfo } from './typing';
 import { Button } from '@/components/Common';
 import {
   GABackInStockNotifyMeClick,
@@ -14,6 +14,7 @@ import {
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
   details: Details;
+  form: Form;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
 };
@@ -21,7 +22,8 @@ const OssReceiveBackNotificationContent = ({
   visible,
   details,
   selectedSpecItem,
-  userInfo
+  userInfo,
+  form
 }: OssReceiveBackNotificationContentProps) => {
   const { customerId } = userInfo;
   const { goodsId } = details;
@@ -56,7 +58,7 @@ const OssReceiveBackNotificationContent = ({
   };
   const handleSubmit = async () => {
     GABackInStockNotifyMeClick();
-    GABackToStockSubscription(selectedSpecItem);
+    GABackToStockSubscription(details, form);
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
