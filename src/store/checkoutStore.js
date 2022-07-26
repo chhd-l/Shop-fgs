@@ -508,7 +508,7 @@ class CheckoutStore {
         goodsInfoIds: [],
         goodsMarketingDTOList: [],
         promotionCode,
-        purchaseFlag: purchaseFlag,
+        purchaseFlag,
         country: taxFeeData.country,
         region: taxFeeData.region,
         city: taxFeeData.city,

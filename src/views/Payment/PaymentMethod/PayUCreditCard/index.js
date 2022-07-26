@@ -34,7 +34,7 @@ function VisitorEditForm({
             <span className="rc-input rc-input--full-width" input-setup="true">
               <input
                 type="text"
-                autocomplete="off"
+                autoComplete="off"
                 className="rc-input__control form-control cardOwner"
                 name="cardOwner"
                 value={creditCardInfoForm.cardOwner}
@@ -93,7 +93,7 @@ function VisitorEditForm({
               >
                 <input
                   type="text"
-                  autocomplete="off"
+                  autoComplete="off"
                   className="rc-input__control input__phoneField shippingPhoneNumber"
                   min-lenght="18"
                   max-length="18"
@@ -702,7 +702,7 @@ class PayOs extends React.Component {
                                           >
                                             <input
                                               type="tel"
-                                              autocomplete="off"
+                                              autoComplete="off"
                                               className={formListInputColor(
                                                 'form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                                 'cardNumber'
@@ -769,7 +769,7 @@ class PayOs extends React.Component {
                               >
                                 <input
                                   type="tel"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   className={formListInputColor(
                                     'rc-text-colour--iconography font-thin form-control  phone border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardMmyy'
@@ -809,7 +809,7 @@ class PayOs extends React.Component {
                               >
                                 <input
                                   type="password"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   className={formListInputColor(
                                     'form-control phone  rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardCvv'
@@ -852,7 +852,7 @@ class PayOs extends React.Component {
                                       'rc-text-colour--iconography font-thin form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                       'cardOwner'
                                     )}
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     name="cardOwner"
                                     value={creditCardInfoForm.cardOwner}
                                     onChange={this.cardInfoInputChange}
