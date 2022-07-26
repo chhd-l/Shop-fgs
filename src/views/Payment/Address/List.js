@@ -2324,7 +2324,7 @@ class AddressList extends React.Component {
               style={{ flexDirection: 'column' }}
             >
               {COUNTRY === 'jp' && (
-                <span style={{ color: '#e2001a' }}>
+                <span className="font-bold text-cs-primary">
                   <FormattedMessage id="DeliveryShelter" />
                 </span>
               )}
@@ -2341,7 +2341,7 @@ class AddressList extends React.Component {
               <p>{jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
               {COUNTRY === 'jp' && (
-                <p style={{ color: '#e2001a' }}>
+                <p className="font-bold text-cs-primary">
                   <FormattedMessage id="Deliverytime" />
                 </p>
               )}
