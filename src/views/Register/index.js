@@ -1213,16 +1213,20 @@ class Register extends Component {
                       </p>
                       <p className="text-center align-bottom">
                         <FormattedMessage id="registerHaveAccount" />{' '}
-                        <a
-                          onClick={() =>
-                            this.props.oktaAuth.signInWithRedirect(
-                              window.__.env.REACT_APP_HOMEPAGE
-                            )
-                          }
+                        <span
+                          onClick={() => {
+                            if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                              this.props.history.push('./login');
+                            } else {
+                              this.props.oktaAuth.signInWithRedirect(
+                                window.__.env.REACT_APP_HOMEPAGE
+                              );
+                            }
+                          }}
                           className="rc-styled-link"
                         >
                           <FormattedMessage id="registerLoginIn" />
-                        </a>
+                        </span>
                       </p>
                       {/* SocialRegister */}
                       {window.__.env.REACT_APP_FaceBook_IDP ||

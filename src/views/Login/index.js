@@ -250,7 +250,8 @@ class Login extends React.Component {
   };
 
   emailVerify = (email) => {
-    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    let reg =
+      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email);
   };
   passwordVerify = (password) => {
@@ -308,7 +309,7 @@ class Login extends React.Component {
                 </DistributeHubLinkOrATag>
               </div>
               <div
-                className="rc-layout-container rc-two-column"
+                className="rc-layout-container rc-two-column ml-0 mr-0"
                 style={{
                   display: this.state.type === 'login' ? 'block' : 'none'
                 }}
@@ -491,8 +492,8 @@ class Login extends React.Component {
                             style={{ color: '#666', fontSize: '.875rem' }}
                             onClick={(e) => {
                               e.preventDefault();
-                              this.setState({ type: 'forgetPassword' });
-                              localItemRoyal.set('loginType', 'forgetPassword');
+                              // this.setState({ type: 'forgetPassword' });
+                              // localItemRoyal.set('loginType', 'forgetPassword');
                             }}
                           >
                             <FormattedMessage id="forgetPassword" />
