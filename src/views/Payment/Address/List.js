@@ -2336,6 +2336,11 @@ class AddressList extends React.Component {
               </span>
               <p>{jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
+              {COUNTRY === 'jp' && (
+                <p style={{ color: '#e2001a' }}>
+                  <FormattedMessage id="Deliverytime" />
+                </p>
+              )}
               <span>
                 {item.deliveryDate && item.timeSlot ? (
                   <>
@@ -2344,9 +2349,11 @@ class AddressList extends React.Component {
                     {item.deliveryDate !== 'Unspecified' && (
                       <>
                         (
-                        <span>
-                          <FormattedMessage id="Deliverytime" />
-                        </span>
+                        {COUNTRY !== 'jp' && (
+                          <span>
+                            <FormattedMessage id="Deliverytime" />
+                          </span>
+                        )}
                         ){formatJPDate(item.deliveryDate)}
                       </>
                     )}
