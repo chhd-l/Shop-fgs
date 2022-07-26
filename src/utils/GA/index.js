@@ -10,7 +10,7 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
-const pillarEnum = {
+export const pillarEnum = {
   0: 'SPT',
   1: 'SPT',
   2: 'BUNDLE',
@@ -222,10 +222,10 @@ export const GAInitUnLogin = ({
   try {
     let promotionInfo = getPromotionInfo();
     if (!isHubGA) return;
-
     const calculatedWeeks = getComputedWeeks(frequencyList);
     const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
     for (let [index, item] of mapProductList) {
+      console.log('mapProductList', mapProductList, props.clinicStore);
       let subscriptionFrequency = item.form
         ? calculatedWeeks[item.form.frequencyId]
         : '';
@@ -240,7 +240,6 @@ export const GAInitUnLogin = ({
             }
           });
       }
-
       const breed = filterAttrValue(
         item?.goodsAttributesValueRelList,
         'breeds'
@@ -249,7 +248,23 @@ export const GAInitUnLogin = ({
         item?.goodsAttributesValueRelList,
         'species'
       ).toString();
+      const range = filterAttrValue(
+        item?.goodsAttributesValueRelList,
+        'range'
+      ).toString();
+      const size =
+        item?.sizeList.length &&
+        item?.sizeList
+          .filter((item) => item.selected)
+          .map((selectItem) => selectItem.specText)
+          .toString();
       let obj = deleteObjEmptyAttr({
+        name: item.goodsInfoName,
+        brand: 'Royal Canin',
+        SKU: item.goodsInfoNo,
+        range,
+        size,
+        quantity: item.quantity,
         pillar: pillarEnum[item.goods.goodsType] || '',
         specie, //'Cat' or 'Dog',
         mainItemCode: item.goods.goodsNo, //Main item code
@@ -271,6 +286,7 @@ export const GAInitUnLogin = ({
           '' //Promo code amount, only if promo activated
       });
       arr.push(obj);
+      console.log('test', obj);
     }
     props.checkoutStore.saveGAProduct({ products: arr });
     if (isReturnList) {

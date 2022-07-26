@@ -1341,6 +1341,10 @@ class AddressList extends React.Component {
       key: this.curPanelKey,
       hideOthers: true
     });
+    this.props.paymentStore.setStsToCompleted({
+      key: 'deliveryAddr',
+      onlyGa: true
+    });
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   };
@@ -2320,7 +2324,7 @@ class AddressList extends React.Component {
               style={{ flexDirection: 'column' }}
             >
               {COUNTRY === 'jp' && (
-                <span style={{ color: '#e2001a' }}>
+                <span className="font-bold text-cs-primary">
                   <FormattedMessage id="DeliveryShelter" />
                 </span>
               )}
@@ -2336,6 +2340,11 @@ class AddressList extends React.Component {
               </span>
               <p>{jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
+              {COUNTRY === 'jp' && (
+                <p className="font-bold text-cs-primary">
+                  <FormattedMessage id="Deliverytime" />
+                </p>
+              )}
               <span>
                 {item.deliveryDate && item.timeSlot ? (
                   <>
@@ -2344,9 +2353,11 @@ class AddressList extends React.Component {
                     {item.deliveryDate !== 'Unspecified' && (
                       <>
                         (
-                        <span>
-                          <FormattedMessage id="Deliverytime" />
-                        </span>
+                        {COUNTRY !== 'jp' && (
+                          <span>
+                            <FormattedMessage id="Deliverytime" />
+                          </span>
+                        )}
                         ){formatJPDate(item.deliveryDate)}
                       </>
                     )}
