@@ -770,7 +770,7 @@ class AddressList extends React.Component {
     // 代客下单
     if (isUserGroup && localItemRoyal.get('rc-promotionCode')) {
       // 如果是日本
-      if (COUNTRY === 'jp') {
+      if (false && COUNTRY === 'jp') {
         nextConfirmPanel = paymentStore?.panelStatus?.filter(
           (item) => item.key === 'bindPet'
         )[0];
@@ -781,7 +781,7 @@ class AddressList extends React.Component {
       }
     } else {
       // 正常下单
-      if (COUNTRY !== 'jp') {
+      if (false && COUNTRY !== 'jp') {
         nextConfirmPanel = searchNextConfirmPanel({
           list: toJS(
             paymentStore?.panelStatus?.filter((item) => item.key !== 'bindPet')
@@ -2107,7 +2107,7 @@ class AddressList extends React.Component {
             }
             //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
             let nextConfirmPanel;
-            if (COUNTRY !== 'jp') {
+            if (false && COUNTRY !== 'jp') {
               nextConfirmPanel = searchNextConfirmPanel({
                 list: toJS(
                   paymentStore?.panelStatus?.filter(

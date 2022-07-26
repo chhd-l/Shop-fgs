@@ -348,7 +348,7 @@ class VisitorAddress extends React.Component {
 
         //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
         let nextConfirmPanel;
-        if (COUNTRY !== 'jp') {
+        if (false && COUNTRY !== 'jp') {
           nextConfirmPanel = searchNextConfirmPanel({
             list: toJS(
               paymentStore?.panelStatus?.filter(
@@ -518,7 +518,7 @@ class VisitorAddress extends React.Component {
           }
           //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
           let nextConfirmPanel;
-          if (COUNTRY !== 'jp') {
+          if (false && COUNTRY !== 'jp') {
             nextConfirmPanel = searchNextConfirmPanel({
               list: toJS(
                 paymentStore?.panelStatus?.filter(
