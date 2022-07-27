@@ -197,6 +197,10 @@ class RegisterRequired extends Component {
     });
     try {
       let customerId = loginStore.userInfo?.customerId;
+      console.log(
+        "loginStore.userInfo?.customerId at required page's init function",
+        loginStore.userInfo?.customerId
+      );
       if (!customerId) {
         return;
       }

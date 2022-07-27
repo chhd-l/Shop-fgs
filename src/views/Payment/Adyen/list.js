@@ -6,7 +6,7 @@ import Skeleton from 'react-skeleton-loader';
 import EditForm from '@/components/Adyen/form';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Popover } from '@/components/Common';
 import { loadJS } from '@/utils/utils';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
 import LazyLoad from 'react-lazyload';
@@ -505,20 +505,17 @@ class AdyenCreditCardList extends React.Component {
         }}
       >
         <span className={`position-relative pl-2 ui-cursor-pointer-pure`}>
-          <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
-            <FormattedMessage id="delete" />
-          </span>
-          <ConfirmTooltip
-            containerStyle={{
-              transform: 'translate(-89%, 105%)'
-            }}
-            arrowStyle={{ left: '89%' }}
+          <Popover
             display={el.confirmTooltipVisible}
             confirm={this.handleClickConfirmDeleteBtn.bind(this, { el, idx })}
             updateChildDisplay={(status) =>
               this.updateConfirmTooltipVisible(el, status)
             }
-          />
+          >
+            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+              <FormattedMessage id="delete" />
+            </span>
+          </Popover>
         </span>
       </div>
     );

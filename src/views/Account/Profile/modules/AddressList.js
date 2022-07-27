@@ -20,11 +20,10 @@ import {
 } from '@/api/address';
 // import { queryCityNameById } from '@/api/address';
 import AddressEditForm from '../ShippingAddressForm';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { AddressPreview } from '@/components/Address';
-import { Button } from '@/components/Common';
+import { Button, Popover } from '@/components/Common';
 import './AddressList.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -522,35 +521,34 @@ class AddressList extends React.Component {
                       onClick={this.handleEditAddress.bind(this, item)}
                       style={{ fontSize: '12px' }}
                     >
-                      {item.receiveType === 'PICK_UP' ? (
-                        <FormattedMessage id="payment.changePickup" />
-                      ) : (
-                        <FormattedMessage id="edit" />
-                      )}
+                      <FormattedMessage
+                        id={
+                          item.receiveType === 'PICK_UP'
+                            ? 'payment.changePickup'
+                            : 'edit'
+                        }
+                      />
                     </Button>
 
                     {/* 删除按钮 */}
                     <span
                       className={`d-flex position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box`}
                     >
-                      <span
-                        className="rc-styled-link"
-                        onClick={this.handleClickDeleteBtn.bind(this, item)}
-                        // style={isPad? {position: 'absolute',top: '1.25rem',right: '1.5rem'}: {}}
-                      >
-                        <FormattedMessage id="delete" />
-                      </span>
-                      {/* 删除询问弹框 */}
-                      <ConfirmTooltip
-                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                        arrowStyle={{ left: '89%' }}
+                      <Popover
                         display={item.confirmTooltipVisible}
                         confirm={this.deleteCard.bind(this, item)}
                         updateChildDisplay={(status) =>
                           this.deleteConfirmTooltipVisible(item, status)
                         }
                         content={<FormattedMessage id="confirmDeleteAddress" />}
-                      />
+                      >
+                        <span
+                          className="rc-styled-link"
+                          onClick={this.handleClickDeleteBtn.bind(this, item)}
+                        >
+                          <FormattedMessage id="delete" />
+                        </span>
+                      </Popover>
                     </span>
                   </>
                 ) : (
@@ -559,28 +557,21 @@ class AddressList extends React.Component {
                     <span
                       className={`d-flex1 position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box`}
                     >
-                      <span
-                        className="rc-styled-link"
-                        onClick={this.handleClickDeleteBtn.bind(this, item)}
-                        // style={isPad? {position: 'absolute',top: '1.25rem',right: '1.5rem'}: {}}
-                      >
-                        <FormattedMessage id="delete" />
-                      </span>
-                      {/* 删除询问弹框 */}
-                      <ConfirmTooltip
-                        containerStyle={{
-                          transform: isMobile
-                            ? 'translate(-60%, 105%)'
-                            : 'translate(-89%, 108%)'
-                        }}
-                        arrowStyle={{ left: isMobile ? '54%' : '89%' }}
+                      <Popover
                         display={item.confirmTooltipVisible}
                         confirm={this.deleteCard.bind(this, item)}
                         updateChildDisplay={(status) =>
                           this.deleteConfirmTooltipVisible(item, status)
                         }
                         content={<FormattedMessage id="confirmDeleteAddress" />}
-                      />
+                      >
+                        <span
+                          className="rc-styled-link"
+                          onClick={this.handleClickDeleteBtn.bind(this, item)}
+                        >
+                          <FormattedMessage id="delete" />
+                        </span>
+                      </Popover>
                     </span>
 
                     {/* 编辑按钮 */}

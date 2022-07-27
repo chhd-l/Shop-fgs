@@ -10,9 +10,10 @@ import ChangeSelection from './ChangeSelection';
 import DailyRation from '../DailyRation';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { DeleteItem } from '@/api/subscription';
 import { GAForChangeProductBtn } from '@/utils/GA';
+import { Popover } from '@/components/Common';
+
 export const SubGoodsInfosContext = createContext();
 
 const SubGoodsInfos = ({
@@ -224,16 +225,7 @@ const SubGoodsInfos = ({
                 </div>
                 {el.canDelete ? (
                   <div className="absolute right-2 top-2">
-                    <span
-                      className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red p-2"
-                      onClick={() => {
-                        updateConfirmTooltipVisible(el, true);
-                      }}
-                    />
-
-                    <ConfirmTooltip
-                      containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                      arrowStyle={{ left: '89%' }}
+                    <Popover
                       display={el.confirmTooltipVisible}
                       confirm={() =>
                         deleteItem(el?.goodsInfoVO?.storeId, {
@@ -253,7 +245,14 @@ const SubGoodsInfos = ({
                       cancelText={
                         <FormattedMessage id="subscription.confirmDeleteProduct.cancel" />
                       }
-                    />
+                    >
+                      <span
+                        className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red p-2"
+                        onClick={() => {
+                          updateConfirmTooltipVisible(el, true);
+                        }}
+                      />
+                    </Popover>
                   </div>
                 ) : null}
                 {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
@@ -442,16 +441,7 @@ const SubGoodsInfos = ({
                   </div>
                   {el.canDelete ? (
                     <div className="absolute right-4 top-4">
-                      <span
-                        className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
-                        onClick={() => {
-                          updateConfirmTooltipVisible(el, true);
-                        }}
-                      />
-
-                      <ConfirmTooltip
-                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                        arrowStyle={{ left: '89%' }}
+                      <Popover
                         display={el.confirmTooltipVisible}
                         confirm={() => {
                           deleteItem(el?.goodsInfoVO?.storeId, {
@@ -471,7 +461,14 @@ const SubGoodsInfos = ({
                         cancelText={
                           <FormattedMessage id="subscription.confirmDeleteProduct.cancel" />
                         }
-                      />
+                      >
+                        <span
+                          className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                          onClick={() => {
+                            updateConfirmTooltipVisible(el, true);
+                          }}
+                        />
+                      </Popover>
                     </div>
                   ) : null}
                 </div>
