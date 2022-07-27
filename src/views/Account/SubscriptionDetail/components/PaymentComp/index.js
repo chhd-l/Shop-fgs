@@ -13,7 +13,6 @@ import {
   setDefaltCard
 } from '@/api/payment';
 import Loading from '@/components/Loading';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE,
@@ -26,7 +25,7 @@ import getCardImg from '@/lib/get-card-img';
 import cn from 'classnames';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import { handleEmailShow } from '@/utils/utils';
-import { Button } from '@/components/Common';
+import { Button, Popover } from '@/components/Common';
 
 function CardItem(props) {
   const { data, supportPaymentMethods } = props;
@@ -922,21 +921,7 @@ class PaymentComp extends React.Component {
                               <span
                                 className={`position-relative p-2 ui-cursor-pointer-pure`}
                               >
-                                <span
-                                  className="rc-styled-link"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    this.updateConfirmTooltipVisible(el, true);
-                                  }}
-                                >
-                                  <FormattedMessage id="delete" />
-                                </span>
-                                <ConfirmTooltip
-                                  containerStyle={{
-                                    transform: 'translate(-89%, 105%)'
-                                  }}
-                                  arrowStyle={{ left: '89%' }}
+                                <Popover
                                   display={el.confirmTooltipVisible}
                                   content={
                                     <FormattedMessage
@@ -951,7 +936,21 @@ class PaymentComp extends React.Component {
                                   updateChildDisplay={(status) =>
                                     this.updateConfirmTooltipVisible(el, status)
                                   }
-                                />
+                                >
+                                  <span
+                                    className="rc-styled-link"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      this.updateConfirmTooltipVisible(
+                                        el,
+                                        true
+                                      );
+                                    }}
+                                  >
+                                    <FormattedMessage id="delete" />
+                                  </span>
+                                </Popover>
                               </span>
                             </>
                           ) : null}

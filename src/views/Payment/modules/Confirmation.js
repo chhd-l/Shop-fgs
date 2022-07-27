@@ -180,7 +180,7 @@ class Confirmation extends React.Component {
               <Button
                 type="primary"
                 className={`submit-payment`}
-                thmlType="submit"
+                htmlType="submit"
                 name="submit"
                 value="submit-shipping"
                 disabled={!isValid}
