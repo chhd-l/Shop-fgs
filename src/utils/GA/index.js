@@ -318,27 +318,11 @@ export const GAInitLogin = ({
       item?.goodsAttributesValueRelVOList,
       'breeds'
     );
-    const range = filterAttrValue(
-      item?.goodsAttributesValueRelVOList,
-      'range'
-    ).toString();
-    const size =
-      item?.goodsSpecDetails.length &&
-      item?.goodsSpecDetails
-        .filter((item) => item.selected)
-        .map((selectItem) => selectItem.detailName)
-        .toString();
     const specie = filterAttrValue(
       item?.goodsAttributesValueRelVOList,
       'species'
     ).toString();
     let obj = deleteObjEmptyAttr({
-      name: item.goodsInfoName,
-      brand: 'Royal Canin',
-      SKU: item.goodsInfoNo,
-      range,
-      size,
-      quantity: item.quantity,
       pillar: pillarEnum[item.goods.goodsType] || '',
       specie, //'Cat' or 'Dog',
       mainItemCode: item.goods.goodsNo, //Main item code
