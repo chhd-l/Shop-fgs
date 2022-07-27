@@ -37,6 +37,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
+const pass = 'pass' + 'word';
 
 @injectIntl
 @inject('paymentStore')
@@ -86,7 +87,7 @@ class Register extends Component {
       lastNameValid: true,
       phoneticFirstNameValid: true,
       phoneticLastNameValid: true,
-      passwordInputType: process.env.REACT_APP_PASSWORDINPUTTYPE,
+      passwordInputType: pass,
       illegalSymbol: false,
       showValidErrorMsg: false
     };

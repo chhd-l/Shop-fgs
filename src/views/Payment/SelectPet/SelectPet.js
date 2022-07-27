@@ -45,10 +45,13 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
   };
 
   const handleEditPanel = () => {
-    // todo bug
     paymentStore.setStsToEdit({
       key: curKey,
       hideOthers: true
+    });
+    paymentStore.setStsToCompleted({
+      key: 'deliveryAddr',
+      onlyGa: true
     });
   };
 
