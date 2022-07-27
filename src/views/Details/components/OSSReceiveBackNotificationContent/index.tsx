@@ -69,9 +69,8 @@ const OssReceiveBackNotificationContent = ({
       (goods) => goods.selected
     )?.detailName;
     const goodsInfoId = selectedSpecItem.goodsInfoId;
-    const params = {
+    const params: any = {
       email,
-      customerId: userInfo?.customerId,
       goodsId,
       stockNoticeGoodsInfoVOS: [
         {
@@ -81,8 +80,13 @@ const OssReceiveBackNotificationContent = ({
       ],
       fromAddress: '2'
     };
-    const notice = isLogin ? stockNoticeModify : stockNoticeModifyUnLogin;
-    await notice(params);
+    if (isLogin) {
+      params.customerId = userInfo.customerId;
+      await stockNoticeModify(params);
+    } else {
+      params.storeId = window.__.env.REACT_APP_STOREID;
+      await stockNoticeModifyUnLogin(params);
+    }
     setIsEdited(true);
   };
   return (
