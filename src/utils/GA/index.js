@@ -225,10 +225,16 @@ export const GAInitUnLogin = ({
     const calculatedWeeks = getComputedWeeks(frequencyList);
     const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
     for (let [index, item] of mapProductList) {
+      let variant = item?.specText;
+      let goodsInfoNo = item?.goodsInfoNo;
+      let price = item.goodsInfoFlag
+        ? item.subscriptionPrice
+        : item.marketPrice;
       let subscriptionFrequency = item.form
         ? calculatedWeeks[item.form.frequencyId]
         : '';
-      let technology = item.goods.goodsCateName?.split('/')[2] || '';
+      let range = item.goodsCateName?.split('/')[1] || '';
+      let technology = item.goodsCateName?.split('/')[2] || '';
       if (!technology) {
         //第二种方式获取technology
         item?.goodsAttributesValueRelList
@@ -240,6 +246,9 @@ export const GAInitUnLogin = ({
           });
       }
 
+      if (type === 'felin') {
+        price = item.salePrice;
+      }
       const breed = filterAttrValue(
         item?.goodsAttributesValueRelList,
         'breeds'
@@ -249,15 +258,24 @@ export const GAInitUnLogin = ({
         'species'
       ).toString();
       let obj = deleteObjEmptyAttr({
-        pillar: pillarEnum[item.goods.goodsType] || '',
+        pillar: pillarEnum[item.goodsType] || '',
+        price: price, //Product Price, including discount if promo code activated for this product
         specie, //'Cat' or 'Dog',
-        mainItemCode: item.goods.goodsNo, //Main item code
-        technology, //'Dry', 'Wet', 'Pack'
+        range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+        name: item.goodsName, //WeShare product name, always in English
+        mainItemCode: item.goodsNo, //Main item code
+        SKU: goodsInfoNo, //product SKU
+        subscription: getSubscriptionAttr(item.goodsInfoFlag), //'One Shot', 'Subscription', 'Club'
+        technology: technology, //'Dry', 'Wet', 'Pack'
+        brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+        size: variant || '', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+        quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
         subscriptionFrequency:
           item.goodsInfoFlag > 0 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
         recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
         breed, //All animal breeds associated with the product in an array
+        imageURL: item.goodsInfoImg,
         promoCodeName:
           (promotionInfo &&
             promotionInfo[index] &&
@@ -269,6 +287,12 @@ export const GAInitUnLogin = ({
             promotionInfo[index].promoCodeAmount) ||
           '' //Promo code amount, only if promo activated
       });
+      if (type == 'felin') {
+        // felin特殊处理
+        obj.range = 'Booking';
+        obj.name = "L'Atelier Félin booking";
+        obj.mainItemCode = "L'Atelier Félin booking";
+      }
       arr.push(obj);
     }
     props.checkoutStore.saveGAProduct({ products: arr });
@@ -300,6 +324,7 @@ export const GAInitLogin = ({
     let subscriptionFrequency = item.periodTypeId
       ? calculatedWeeks[item.periodTypeId]
       : '';
+    let range = item.goods.goodsCateName?.split('/')[1] || '';
     let technology = item.goods.goodsCateName?.split('/')[2] || '';
     if (!technology) {
       //第二种方式获取technology
@@ -321,16 +346,25 @@ export const GAInitLogin = ({
       item?.goodsAttributesValueRelVOList,
       'species'
     ).toString();
-    let obj = deleteObjEmptyAttr({
+    let productItem = {
       pillar: pillarEnum[item.goods.goodsType] || '',
+      price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie, //'Cat' or 'Dog',
+      range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+      name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
-      technology, //'Dry', 'Wet', 'Pack'
+      SKU: item.goodsInfoNo, //product SKU
+      subscription: getSubscriptionAttr(item.goodsInfoFlag), //'One Shot', 'Subscription', 'Club'
+      technology: technology, //'Dry', 'Wet', 'Pack'
+      brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+      size: item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+      quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
       subscriptionFrequency:
         item.goodsInfoFlag > 0 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
+      imageURL: item.goodsInfoImg,
       promoCodeName:
         (promotionInfo &&
           promotionInfo[index] &&
@@ -341,7 +375,15 @@ export const GAInitLogin = ({
           promotionInfo[index] &&
           promotionInfo[index].promoCodeAmount) ||
         '' //Promo code amount, only if promo activated
-    });
+    };
+    if (type == 'felin') {
+      // felin特殊处理
+      productItem.range = 'Booking';
+      productItem.name = "L'Atelier Félin booking";
+      productItem.mainItemCode = "L'Atelier Félin booking";
+    }
+    let obj = deleteObjEmptyAttr(productItem);
+
     arr.push(obj);
   }
   props.checkoutStore.saveGAProduct({ products: arr });
@@ -583,6 +625,11 @@ export const orderConfirmationPushEvent = (details) => {
           (GA_product?.products || []).find(
             (p) => p.mainItemCode === item.spuNo
           ) || {};
+        console.log(
+          111111,
+          Object.assign({}, productInfoFromLocalStorage, obj)
+        );
+        debugger;
         return Object.assign({}, productInfoFromLocalStorage, obj);
       })
     })
