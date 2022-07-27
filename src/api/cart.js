@@ -13,7 +13,8 @@ const api = {
   recordSurveyReview: '/survey/views', //统计survey 1 review
   valetGuestMiniCars: `/site/${window.__.env.REACT_APP_STOREID}`,
   batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add`, // 批量加入后台购物车
-  stockNoticeModify: `/stockNotice/modify` // 批量加入后台购物车
+  stockNoticeModify: `/stockNotice/modify`, // 登录无库存邮件通知
+  stockNoticeModifyUnLogin: `/stockNotice/modifyPDP` // 未登录无库存邮件通知
 };
 
 export default api;
@@ -183,6 +184,13 @@ export function batchAdd(parameter) {
 export function stockNoticeModify(parameter) {
   return axios({
     url: api.stockNoticeModify,
+    method: 'post',
+    data: parameter
+  });
+}
+export function stockNoticeModifyUnLogin(parameter) {
+  return axios({
+    url: api.stockNoticeModifyUnLogin,
     method: 'post',
     data: parameter
   });

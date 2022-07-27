@@ -1,4 +1,4 @@
-import { stockNoticeModify } from '@/api/cart';
+import { stockNoticeModify, stockNoticeModifyUnLogin } from '@/api/cart';
 import { queryStockNotice } from '@/api/subscription';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
   details: Details;
   form: Form;
+  isLogin: boolean;
   quantity: number;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
@@ -23,22 +24,22 @@ const OssReceiveBackNotificationContent = ({
   visible,
   details,
   quantity,
+  isLogin,
   selectedSpecItem,
   userInfo,
   form
 }: OssReceiveBackNotificationContentProps) => {
-  const { customerId } = userInfo;
   const { goodsId } = details;
   const [email, setEmail] = useState<string>();
   const [isEdited, setIsEdited] = useState(false);
   useEffect(() => {
-    if (!selectedSpecItem || selectedSpecItem?.stock !== 0) return;
+    if (!isLogin || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
     async function req() {
       setIsEdited(false);
       setEmail('');
       const params = {
-        customerId,
+        customerId: userInfo.customerId,
         goodsId,
         goodsInfoId: selectedSpecItem.goodsInfoId,
         fromAddress: '2'
@@ -70,7 +71,7 @@ const OssReceiveBackNotificationContent = ({
     const goodsInfoId = selectedSpecItem.goodsInfoId;
     const params = {
       email,
-      customerId,
+      customerId: userInfo?.customerId,
       goodsId,
       stockNoticeGoodsInfoVOS: [
         {
@@ -80,7 +81,8 @@ const OssReceiveBackNotificationContent = ({
       ],
       fromAddress: '2'
     };
-    await stockNoticeModify(params);
+    const notice = isLogin ? stockNoticeModify : stockNoticeModifyUnLogin;
+    await notice(params);
     setIsEdited(true);
   };
   return (
