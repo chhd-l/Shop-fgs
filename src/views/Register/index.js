@@ -1175,7 +1175,6 @@ class Register extends Component {
                               <FormattedMessage id="registerErrorMessage" />
                             )}
                             <strong>
-                              9
                               <Link
                                 to="/help"
                                 className="rc-text-colour--brand1"
