@@ -13,6 +13,7 @@ import { QuantityPicker } from '@/components/Product';
 import { DeleteItem } from '@/api/subscription';
 import { GAForChangeProductBtn } from '@/utils/GA';
 import { Popover } from '@/components/Common';
+import ChangeProductButton from './ChangeProductButton';
 
 export const SubGoodsInfosContext = createContext();
 
@@ -219,7 +220,15 @@ const SubGoodsInfos = ({
                       </span>
                     )}
                   </div>
+                  {subDetail?.canChangeProductAtGoodsLine ? (
+                    <ChangeProductButton
+                      handleClickChangeProduct={() =>
+                        handleClickChangeProduct(index)
+                      }
+                    />
+                  ) : null}
                 </div>
+
                 <div className="border-t">
                   <ChangeSelection el={el} intl={intl} idx={index} />
                 </div>
@@ -404,6 +413,13 @@ const SubGoodsInfos = ({
                               )}
                             </div>
                           </div>
+                          {subDetail?.canChangeProductAtGoodsLine ? (
+                            <ChangeProductButton
+                              handleClickChangeProduct={() =>
+                                handleClickChangeProduct(index)
+                              }
+                            />
+                          ) : null}
                         </div>
                       </div>
                       {isShowClub && !!el.petsId && isNotInactive && (

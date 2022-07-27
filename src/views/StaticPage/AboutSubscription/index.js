@@ -136,7 +136,7 @@ function AboutSubscription(props) {
             </p>
           </div>
           <div className="throughLine"></div>
-          <div className="md:hidden md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
+          <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
             <h1 className="font-PingFangSC text-rc-red text-22 leading-7 md:text-30 md:leading-10 font-semibold text-center mb-4 md:mb-6">
               会員ステージと保有ポイントの確認方法
             </h1>
