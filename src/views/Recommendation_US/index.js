@@ -940,7 +940,22 @@ class Recommendation extends React.Component {
                 <>
                   <p>
                     <strong className="text-rc-red">
-                      <FormattedMessage id="recommendation.firstOrderDiscount" />
+                      {isUs && (
+                        <span className="text-rc-red">
+                          <FormattedMessage
+                            id="Subscription.promotionCode"
+                            values={{
+                              val1: (
+                                <span className="text-cs-gray">NEWPET20</span>
+                              ),
+                              val2: <span className="text-cs-gray">20%</span>
+                            }}
+                          />
+                        </span>
+                      )}
+                      {isRu && (
+                        <FormattedMessage id="recommendation.firstOrderDiscount" />
+                      )}
                     </strong>
                   </p>
                   <Button
@@ -1390,7 +1405,28 @@ class Recommendation extends React.Component {
 
                               {/*11111111 Add, between price & cart, in bold, red, bigger:*/}
                               <strong style={{ color: '#E2001A' }}>
-                                <FormattedMessage id="recommendation.firstOrderDiscount" />
+                                {isUs ? (
+                                  <span className="text-rc-red">
+                                    <FormattedMessage
+                                      id="Subscription.promotionCode"
+                                      values={{
+                                        val1: (
+                                          <span className="text-cs-gray">
+                                            NEWPET20
+                                          </span>
+                                        ),
+                                        val2: (
+                                          <span className="text-cs-gray">
+                                            20%
+                                          </span>
+                                        )
+                                      }}
+                                    />
+                                  </span>
+                                ) : (
+                                  <FormattedMessage id="recommendation.firstOrderDiscount" />
+                                )}
+
                                 {/*Your welcome offer to receive 30% off your first order will be applied at checkout.*/}
                               </strong>
 
