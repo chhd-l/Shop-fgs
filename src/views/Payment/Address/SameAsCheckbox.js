@@ -1,5 +1,5 @@
 import React from 'react';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Popover } from '@/components/Common';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 
@@ -58,25 +58,22 @@ class SameAsCheckbox extends React.Component {
             {['fr', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) >
             -1 ? null : (
               <span className="shipping-method-pricing ml3">
-                <span
-                  className="info delivery-method-tooltip fit-mobile-icon-left"
-                  style={{ verticalAlign: 'unset' }}
-                  onMouseEnter={this.updateoolTipVisible.bind(this, true)}
-                  onMouseLeave={this.updateoolTipVisible.bind(this, false)}
-                >
-                  i
-                </span>
-                <ConfirmTooltip
-                  containerStyle={{
-                    transform: 'translate(-62%, 117%)'
-                  }}
-                  arrowStyle={{ left: '92%' }}
+                <Popover
                   display={this.state.toolTipVisible}
                   cancelBtnVisible={false}
                   confirmBtnVisible={false}
                   updateChildDisplay={this.updateoolTipVisible.bind(this)}
                   content={<FormattedMessage id="payment.forFreeTip" />}
-                />
+                >
+                  <span
+                    className="info delivery-method-tooltip fit-mobile-icon-left"
+                    style={{ verticalAlign: 'unset' }}
+                    onMouseEnter={this.updateoolTipVisible.bind(this, true)}
+                    onMouseLeave={this.updateoolTipVisible.bind(this, false)}
+                  >
+                    i
+                  </span>
+                </Popover>
               </span>
             )}
           </div>

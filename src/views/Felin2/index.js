@@ -14,7 +14,7 @@ import thak from './image/thak.png';
 import cat1 from './image/new.png';
 import header1 from './image/header1.png';
 import LazyLoad from 'react-lazyload';
-import Rate from '../../components/Rate';
+import Rate from '@/components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';

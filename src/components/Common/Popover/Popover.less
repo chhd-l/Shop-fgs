@@ -1,17 +1,51 @@
-.confirm-tool-arrow111 {
-  // top: 2px!important;
-  border-bottom: 0.625rem solid #d7d7d7;
-  border-left: 0.625rem solid transparent;
-  border-right: 0.625rem solid transparent;
+.popover-arrow {
+  &.arrow-bottom,
+  &.arrow-top {
+    &::after {
+      left: -9px;
+      border-left: 9px solid transparent;
+      right: -9px;
+      border-right: 9px solid transparent;
+    }
+  }
+  &.arrow-bottom {
+    &::after {
+      bottom: -0.6875rem;
+      border-bottom: 9px solid #f6f6f6;
+    }
+  }
+  &.arrow-top {
+    &::after {
+      top: -0.6875rem;
+      border-top: 9px solid #f6f6f6;
+    }
+  }
+
+  &.arrow-left,
+  &.arrow-right {
+    &::after {
+      top: -9px;
+      border-top: 9px solid transparent;
+      bottom: -9px;
+      border-bottom: 9px solid transparent;
+    }
+  }
+  &.arrow-left {
+    &::after {
+      left: -0.6875rem;
+      border-left: 9px solid #f6f6f6;
+    }
+  }
+  &.arrow-right {
+    &::after {
+      right: -0.6875rem;
+      border-right: 9px solid #f6f6f6;
+    }
+  }
+
   &::after {
     content: '';
     position: absolute;
-    bottom: -0.6875rem;
-    border-bottom: 9px solid #f6f6f6;
-    left: -9px;
-    border-left: 9px solid transparent;
-    right: -9px;
-    border-right: 9px solid transparent;
     width: 0;
     height: 0;
   }

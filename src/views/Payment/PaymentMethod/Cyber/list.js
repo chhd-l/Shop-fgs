@@ -5,8 +5,7 @@ import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
 import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { loadJS } from '@/utils/utils';
+import { Popover } from '@/components/Common';
 import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
 import { usPaymentInfo } from '@/api/payment';
@@ -461,14 +460,7 @@ class CyberCardList extends React.Component {
         }}
       >
         <span className={`position-relative pl-2 ui-cursor-pointer-pure`}>
-          <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
-            <FormattedMessage id="delete" />
-          </span>
-          <ConfirmTooltip
-            containerStyle={{
-              transform: 'translate(-89%, 105%)'
-            }}
-            arrowStyle={{ left: '89%' }}
+          <Popover
             display={el.confirmTooltipVisible}
             content={
               <FormattedMessage
@@ -483,7 +475,11 @@ class CyberCardList extends React.Component {
             updateChildDisplay={(status) =>
               this.updateConfirmTooltipVisible(el, status)
             }
-          />
+          >
+            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+              <FormattedMessage id="delete" />
+            </span>
+          </Popover>
         </span>
       </div>
     );
