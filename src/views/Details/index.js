@@ -1145,7 +1145,6 @@ class Details extends React.Component {
     );
   };
   handleClickSku = () => {
-    if (!this.isLogin) return;
     setTimeout(() => {
       if (!this.state.instockStatus) {
         this.setState({
@@ -1180,11 +1179,12 @@ class Details extends React.Component {
             shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />
-          {isMobile && this.isLogin && (
+          {isMobile && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
               form={form}
+              isLogin={this.isLogin}
               quantity={quantity}
               selectedSpecItem={selectedSpecItem}
               visible={this.state.ossReceiveBackNotificationContentVisible}
@@ -1215,11 +1215,12 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {!isMobile && this.isLogin && (
+        {!isMobile && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
             form={form}
+            isLogin={this.isLogin}
             quantity={quantity}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}

@@ -145,7 +145,7 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
   const availableSizes = item?.sizeList.map((size) => ({
     size: size.goodsInfoWeight,
     price: size.marketPrice,
-    pricePerUnit: Math.ceil(size.basePrice || 0),
+    pricePerUnit: size.basePrice,
     localUnit: size.goodsInfoUnit
   }));
   // debugger;
