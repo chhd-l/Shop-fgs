@@ -203,13 +203,6 @@ const HandledSpec = ({
     })();
   }, [sizeList]);
   const renderStyle = (sdItem: any) => {
-    console.log(
-      sdItem,
-      shouldSkuGrayOutOfStock,
-      sdItem.specDetailId === selectId,
-      sdItem.isEmpty,
-      '99999999'
-    );
     let backgroundColor = '';
     if (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) {
       backgroundColor = '#ccc';

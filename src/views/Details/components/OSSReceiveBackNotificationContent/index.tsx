@@ -1,10 +1,10 @@
-import { stockNoticeModify } from '@/api/cart';
+import { stockNoticeModify, stockNoticeModifyUnLogin } from '@/api/cart';
 import { queryStockNotice } from '@/api/subscription';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
-import { Details, SelectedSpecItem, UserInfo } from './typing';
+import { Details, Form, SelectedSpecItem, UserInfo } from './typing';
 import { Button } from '@/components/Common';
 import {
   GABackInStockNotifyMeClick,
@@ -14,27 +14,32 @@ import {
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
   details: Details;
+  form: Form;
+  isLogin: boolean;
+  quantity: number;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
   details,
+  quantity,
+  isLogin,
   selectedSpecItem,
-  userInfo
+  userInfo,
+  form
 }: OssReceiveBackNotificationContentProps) => {
-  const { customerId } = userInfo;
   const { goodsId } = details;
   const [email, setEmail] = useState<string>();
   const [isEdited, setIsEdited] = useState(false);
   useEffect(() => {
-    if (!selectedSpecItem || selectedSpecItem?.stock !== 0) return;
+    if (!isLogin || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
     async function req() {
       setIsEdited(false);
       setEmail('');
       const params = {
-        customerId,
+        customerId: userInfo.customerId,
         goodsId,
         goodsInfoId: selectedSpecItem.goodsInfoId,
         fromAddress: '2'
@@ -56,7 +61,7 @@ const OssReceiveBackNotificationContent = ({
   };
   const handleSubmit = async () => {
     GABackInStockNotifyMeClick();
-    GABackToStockSubscription(selectedSpecItem);
+    GABackToStockSubscription(details, { ...form, quantity });
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
@@ -64,9 +69,8 @@ const OssReceiveBackNotificationContent = ({
       (goods) => goods.selected
     )?.detailName;
     const goodsInfoId = selectedSpecItem.goodsInfoId;
-    const params = {
+    const params: any = {
       email,
-      customerId,
       goodsId,
       stockNoticeGoodsInfoVOS: [
         {
@@ -76,7 +80,13 @@ const OssReceiveBackNotificationContent = ({
       ],
       fromAddress: '2'
     };
-    await stockNoticeModify(params);
+    if (isLogin) {
+      params.customerId = userInfo.customerId;
+      await stockNoticeModify(params);
+    } else {
+      params.storeId = window.__.env.REACT_APP_STOREID;
+      await stockNoticeModifyUnLogin(params);
+    }
     setIsEdited(true);
   };
   return (

@@ -28,24 +28,33 @@ const LogoutButton = (props) => {
   useEffect(() => {
     // 当打开多个tab时，同步登录登出状态
     if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
-      window.addEventListener('storage', (e) => {
-        console.log('logoutbutton storage change', e.key);
-        if (e.key.includes('rc-token')) {
-          // debugger;
-        }
-        if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
-          // debugger;
-          // 该token的旧值存在，新值不存在，表示登出
-          if (e.oldValue && !e.newValue) {
-            clickLogoff();
-          }
-        }
-      });
+      window.addEventListener('storage', storageHandler);
+      return () => {
+        window.removeEventListener('storage', storageHandler);
+      };
     }
   }, []);
 
+  const storageHandler = (e) => {
+    console.log('logoutbutton storage change', e.key);
+    if (
+      e.key ===
+      `${localStorage.getItem('country-code-current-operated')}-rc-token`
+    ) {
+      // debugger;
+      // 该token的旧值存在，新值不存在，表示登出
+      if (e.oldValue && !e.newValue) {
+        clickLogoff();
+      }
+    }
+  };
+
   const logout = async () => {
     try {
+      localStorage.setItem(
+        'country-code-current-operated',
+        window.__.env.REACT_APP_COUNTRY
+      );
       const idToken = authState.idToken;
       if (idToken) {
         if (location.pathname.includes('/account')) {
@@ -92,6 +101,7 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('okta-session-token');
       localItemRoyal.remove('rc-userinfo');
       localItemRoyal.remove('customer-okta-id');
+      localItemRoyal.remove('has-selected-all-consent-required-page');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
       clinicStore.removeDefaultClinicInfo();

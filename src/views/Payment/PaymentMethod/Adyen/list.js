@@ -305,7 +305,7 @@ class AdyenCreditCardList extends React.Component {
       locale: adyenOriginKeyConf?.locale || 'en-US'
     };
     const AdyenCheckout = (await import('@adyen/adyen-web')).default;
-    const checkout = await new AdyenCheckout(configuration);
+    const checkout = await AdyenCheckout(configuration);
     const card = checkout
       .create('card', {
         // brands: brand,
