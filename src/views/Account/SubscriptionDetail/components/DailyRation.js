@@ -11,10 +11,10 @@ const DailyRation = ({ rations }) => {
         display: 'inline-block'
       }}
     >
-      <span style={{ fontSize: '12px' }}>
+      <p style={{ fontSize: '12px' }}>
         <FormattedMessage id="subscription.dailyRation" />
-      </span>
-      :<strong>{rations}</strong>
+      </p>
+      <strong>{rations}</strong>
     </span>
   ) : null;
 };

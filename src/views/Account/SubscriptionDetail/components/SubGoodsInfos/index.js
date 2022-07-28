@@ -12,8 +12,7 @@ import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { DeleteItem } from '@/api/subscription';
 import { GAForChangeProductBtn } from '@/utils/GA';
-import { Popover } from '@/components/Common';
-import ChangeProductButton from './ChangeProductButton';
+import { Button, Popover } from '@/components/Common';
 
 export const SubGoodsInfosContext = createContext();
 
@@ -221,11 +220,9 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                   {subDetail?.canChangeProductAtGoodsLine ? (
-                    <ChangeProductButton
-                      handleClickChangeProduct={() =>
-                        handleClickChangeProduct(index)
-                      }
-                    />
+                    <Button onClick={() => handleClickChangeProduct(index)}>
+                      <FormattedMessage id="subscriptionDetail.changeProduct" />
+                    </Button>
                   ) : null}
                 </div>
 
@@ -286,7 +283,7 @@ const SubGoodsInfos = ({
                   { 'mt-4': index }
                 )}
                 style={{
-                  padding: '1rem 0 1.5rem 0'
+                  padding: '1rem 0 2rem 0'
                 }}
                 key={index}
               >
@@ -319,6 +316,35 @@ const SubGoodsInfos = ({
                             }
                             alt={el.goodsName}
                           />
+                          {isShowClub && !!el.petsId && isNotInactive && (
+                            <div
+                              style={{
+                                position: 'relative',
+                                paddingLeft: '26px',
+                                width: '75%'
+                              }}
+                            >
+                              {/* Because of the style, comment first */}
+                              <span
+                                style={{
+                                  width: 'auto',
+                                  paddingTop: '6px'
+                                }}
+                                className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
+                              ></span>
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  // left: '45%',
+                                  left: '0',
+                                  top: -4,
+                                  whiteSpace: 'nowrap'
+                                }}
+                              >
+                                <DailyRation rations={el.petsRation} />
+                              </div>
+                            </div>
+                          )}
                           {/* </LazyLoad> */}
                         </div>
                         <div
@@ -414,42 +440,15 @@ const SubGoodsInfos = ({
                             </div>
                           </div>
                           {subDetail?.canChangeProductAtGoodsLine ? (
-                            <ChangeProductButton
-                              handleClickChangeProduct={() =>
-                                handleClickChangeProduct(index)
-                              }
-                            />
+                            <Button
+                              className=" mt-cs-16"
+                              onClick={() => handleClickChangeProduct(index)}
+                            >
+                              <FormattedMessage id="subscriptionDetail.changeProduct" />
+                            </Button>
                           ) : null}
                         </div>
                       </div>
-                      {isShowClub && !!el.petsId && isNotInactive && (
-                        <div
-                          style={{
-                            position: 'relative',
-                            paddingLeft: '26px',
-                            width: '75%'
-                          }}
-                        >
-                          <span
-                            style={{
-                              width: 'auto',
-                              paddingTop: '6px'
-                            }}
-                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
-                          ></span>
-                          <div
-                            style={{
-                              position: 'absolute',
-                              // left: '45%',
-                              left: '0',
-                              top: -4,
-                              whiteSpace: 'nowrap'
-                            }}
-                          >
-                            <DailyRation rations={el.petsRation} />
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
                   <div className="col-4 col-md-5">
