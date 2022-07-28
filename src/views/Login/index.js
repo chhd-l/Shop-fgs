@@ -80,7 +80,14 @@ class Login extends React.Component {
       this.props.loginStore.isLogin &&
       localItemRoyal.get('rc-logined-reload')
     ) {
-      this.redirectPage();
+      const tmpUrl = localItemRoyal.get('okta-redirectUrl')
+        ? localItemRoyal.get('okta-redirectUrl')
+        : '/';
+      if (tmpUrl == '/cart-force-to-checkout') {
+        this.redirectPage();
+      } else {
+        window.location.href = tmpUrl;
+      }
       localItemRoyal.remove('rc-logined-reload');
       return;
     }
@@ -155,7 +162,6 @@ class Login extends React.Component {
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
             this.props.loginStore.setUserInfo(userinfo);
             localItemRoyal.set('rc-logined-reload');
-
             window.location.reload();
             // window.location.href = `${
             //   localItemRoyal.get('okta-redirectUrl') || '/'
