@@ -14,6 +14,7 @@ import { DeleteItem } from '@/api/subscription';
 import { GAForChangeProductBtn } from '@/utils/GA';
 import { Popover } from '@/components/Common';
 import ChangeProductButton from './ChangeProductButton';
+import HandledSpecSelect from '../HandledSpecSelect';
 
 export const SubGoodsInfosContext = createContext();
 
@@ -40,6 +41,7 @@ const SubGoodsInfos = ({
   const isIndv = subDetail.subscriptionType === 'Individualization';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
+  const [isSpecAvailable, setIsSpecAvailable] = useState(false);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
@@ -82,6 +84,27 @@ const SubGoodsInfos = ({
     }
   };
 
+  const matchGoods = (data, sizeList) => {
+    // let newDetails = Object.assign(details, {
+    //   sizeList
+    // });
+
+    // 兼容打开弹窗之后，重置黄色box不存在sizeList情况
+    // if (sizeList && firstIn) {
+    //   setFirstIn(false);
+    //   setMainSizeList(sizeList);
+    // }
+    console.info('data', data);
+    console.info('sizeList', sizeList);
+    // setSkuPromotions(data.skuPromotions);
+    // setStock(data.stock);
+    // setCurrentSubscriptionPrice(
+    //   data.currentSubscriptionPrice || data.selectPrice
+    // );
+    // setCurrentSubscriptionStatus(data.currentSubscriptionStatus);
+    // setDetails(newDetails);
+  };
+
   const propsObj = {
     subDetail,
     isGift,
@@ -100,6 +123,7 @@ const SubGoodsInfos = ({
     isShowClub,
     handleClickChangeProduct
   };
+  console.log(subDetail, 'subDetail==22');
   return (
     // true?null:
     <SubGoodsInfosContext.Provider value={propsObj}>
@@ -337,7 +361,7 @@ const SubGoodsInfos = ({
                           >
                             {el.goodsName}
                           </h5>
-                          <p
+                          {/* <p
                             style={{
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
@@ -345,7 +369,22 @@ const SubGoodsInfos = ({
                             }}
                           >
                             {!isIndv && el.specText}
-                          </p>
+                          </p> */}
+                          <HandledSpecSelect
+                            details={el}
+                            // defaultSkuId="2c91808576903fd801769045e1d50142"
+                            defaultSkuId={el.skuId}
+                            disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                              (g) => g.goodsInfoVO.goodsInfoId
+                            )}
+                            onIsSpecAvailable={(status) => {
+                              setIsSpecAvailable(status);
+                            }}
+                            setState={setState}
+                            updatedSku={matchGoods}
+                            canSelectedOutOfStock={true}
+                            canSelectedWhenAllSpecDisabled={true}
+                          />
                           <div>
                             <div style={{ whiteSpace: 'nowrap' }}>
                               <span
