@@ -52,6 +52,12 @@ const localEnv = {
     }
     return ret;
   },
+  ruLocal: ({ countryFromLink }) => {
+    return {
+      REACT_APP_BASEURL: `http://shop.royalcanin.ru/api`,
+      REACT_APP_HUB_APIURL: `http://shop.royalcanin.ru/api`
+    };
+  },
   productionHub: ({ countryFromLink }) => {
     if (process.env.NODE_ENV === 'production') {
       const host = window.location.host;

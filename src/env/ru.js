@@ -29,6 +29,9 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ru/shop'
   },
+  ruLocal: {
+    REACT_APP_HOMEPAGE: '/'
+  },
   stgwedding: {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ru/shop'
