@@ -316,7 +316,7 @@ const SubGoodsInfos = ({
                     <div
                       className="rc-layout-container rc-five-column direction-column "
                       style={{
-                        height: '160px',
+                        // height: '160px',
                         paddingRight: '60px',
                         paddingTop: '0',
                         alignItems: 'center'
