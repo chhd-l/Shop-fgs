@@ -33,7 +33,7 @@ export default class Selection extends React.Component {
       hoveredIdx: -1,
       dataList: [],
       noResultsFound: false,
-      open: true //初始化为ru环境时地址默认选中第一个
+      open: this.props.open || false //初始化为ru环境时地址默认选中第一个
     };
     this.timeOutId = null;
     this.searchRef = React.createRef();
