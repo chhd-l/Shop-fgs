@@ -154,16 +154,16 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     // dataLayer?.push({
     //   products: [product]
     // });
-    setTimeout(() => {
-      dataLayer?.push({
-        event: 'pdpScreenLoad',
-        pdpScreenLoad: {
-          products: [product], //为了区分plp，pdp，checkout的products
-          availableSizes: availableSizes
-        },
-        pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
-      });
-    }, 5000);
+    // setTimeout(() => {
+    dataLayer?.push({
+      event: 'pdpScreenLoad',
+      pdpScreenLoad: {
+        products: [product], //为了区分plp，pdp，checkout的products
+        availableSizes: availableSizes
+      },
+      pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
+    });
+    // }, 5000);
   }
 };
 

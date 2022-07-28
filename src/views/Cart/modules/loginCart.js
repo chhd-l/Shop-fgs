@@ -861,7 +861,6 @@ class LoginCart extends React.Component {
                       pitem={pitem}
                       activeToolTipIndex={this.state.activeToolTipIndex}
                       index={index}
-                      toolTipVisible={this.state.toolTipVisible}
                       computedList={this.computedList.filter(
                         (el) => el.goodsInfoFlag === 2
                       )}

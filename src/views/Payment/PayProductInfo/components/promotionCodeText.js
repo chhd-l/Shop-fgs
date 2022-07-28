@@ -1,31 +1,14 @@
 import React, { useState } from 'react';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Popover } from '@/components/Common';
 import { formatMoney } from '@/utils/utils';
+
 export default function PromotionCodeText({ el, i }) {
   const [promotionsVisible, setPromotionsVisible] = useState(false);
   return (
     <div className="row leading-lines shipping-item green" key={i}>
       <div className="col-7 start-lines">
-        <p
-          className="order-shipping-cost ui-text-overflow-line2"
-          id={`marketingName${i}`}
-          onMouseEnter={(e) => {
-            if (
-              document.getElementById(`marketingName${i}`).scrollHeight > 48
-            ) {
-              setPromotionsVisible(true);
-            }
-          }}
-          onMouseLeave={() => {
-            setPromotionsVisible(false);
-          }}
-        >
-          {el.marketingName}
-        </p>
-        <ConfirmTooltip
-          arrowStyle={{ left: '10%' }}
+        <Popover
           display={promotionsVisible}
-          containerStyle={{ left: '100%' }}
           cancelBtnVisible={false}
           confirmBtnVisible={false}
           updateChildDisplay={(status) => setPromotionsVisible(status)}
@@ -39,7 +22,24 @@ export default function PromotionCodeText({ el, i }) {
               {el.marketingName}
             </div>
           }
-        />
+        >
+          <p
+            className="order-shipping-cost ui-text-overflow-line2"
+            id={`marketingName${i}`}
+            onMouseEnter={(e) => {
+              if (
+                document.getElementById(`marketingName${i}`).scrollHeight > 48
+              ) {
+                setPromotionsVisible(true);
+              }
+            }}
+            onMouseLeave={() => {
+              setPromotionsVisible(false);
+            }}
+          >
+            {el.marketingName}
+          </p>
+        </Popover>
       </div>
       <div className="col-5 end-lines">
         <p className="text-right">

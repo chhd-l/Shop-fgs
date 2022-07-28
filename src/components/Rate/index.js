@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './index.less';
-import Tooltip from '@/components/Tooltip';
+import { Popover } from '@/components/Common';
+
 export default class Rate extends Component {
   static defaultProps = {
     color: 'red' // red yellow
@@ -37,6 +38,7 @@ export default class Rate extends Component {
       return state[1];
     }
   }
+
   render() {
     const { color } = this.props;
     let { count, num, enter, leave } = this.state;
@@ -67,55 +69,77 @@ export default class Rate extends Component {
       ) : (
         <span className="iconfont rate__icon grey icongrayStar1" />
       );
+
+    const RatePanel = (
+      <div className="rate flex items-center">
+        {new Array(count).fill().map((item, index) => (
+          <span
+            className="rate__icon__container"
+            key={index}
+            onClick={() => {
+              if (!this.state.disabled) {
+                num = index + 1;
+                leave = num;
+                this.setState({ num, leave });
+                this.props.selectRate(num);
+              }
+            }}
+            onMouseEnter={() => {
+              if (!this.state.disabled) {
+                enter = index + 1;
+                num = 0;
+                this.setState({ enter, num });
+              }
+              if (tooltip) {
+                this.setState({ tooltipStatus: true });
+              }
+            }}
+            onMouseLeave={() => {
+              if (!this.state.disabled) {
+                enter = 0;
+                num = leave;
+                this.setState({ enter, num });
+              }
+              if (tooltip) {
+                this.setState({ tooltipStatus: false });
+              }
+            }}
+          >
+            {enter > index || num - 1 >= index ? (
+              <>{activeStar}</>
+            ) : flag && index === numInt ? (
+              <>{halfStar}</>
+            ) : (
+              <>{inActiveStar}</>
+            )}
+          </span>
+        ))}
+      </div>
+    );
     return (
       <div>
-        <div className="rate flex 1111111 items-center">
-          {new Array(count).fill().map((item, index) => (
-            <span
-              className="rate__icon__container"
-              key={index}
-              onClick={() => {
-                if (!this.state.disabled) {
-                  num = index + 1;
-                  leave = num;
-                  this.setState({ num, leave });
-                  this.props.selectRate(num);
-                }
-              }}
-              onMouseEnter={() => {
-                if (!this.state.disabled) {
-                  enter = index + 1;
-                  num = 0;
-                  this.setState({ enter, num });
-                }
-                if (tooltip) {
-                  this.setState({ tooltipStatus: true });
-                }
-              }}
-              onMouseLeave={() => {
-                if (!this.state.disabled) {
-                  enter = 0;
-                  num = leave;
-                  this.setState({ enter, num });
-                }
-                if (tooltip) {
-                  this.setState({ tooltipStatus: false });
-                }
-              }}
-            >
-              {enter > index || num - 1 >= index ? (
-                <>{activeStar}</>
-              ) : flag && index === numInt ? (
-                <>{halfStar}</>
-              ) : (
-                <>{inActiveStar}</>
-              )}
-            </span>
-          ))}
-        </div>
-        {tooltip && this.state.tooltipStatus ? (
-          <Tooltip content={tooltip} />
-        ) : null}
+        {tooltip ? (
+          <Popover
+            display={this.state.tooltipStatus}
+            cancelBtnVisible={false}
+            confirmBtnVisible={false}
+            updateChildDisplay={(status) => {
+              this.setState({
+                tooltipStatus: status
+              });
+            }}
+            positions={['right']}
+            content={tooltip}
+            contentStyle={{
+              padding: '.3rem'
+            }}
+            arrowSize={6}
+          >
+            {RatePanel}
+          </Popover>
+        ) : (
+          RatePanel
+        )}
       </div>
     );
   }
