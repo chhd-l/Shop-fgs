@@ -450,9 +450,10 @@ class SubscriptionDetail extends React.Component {
       let completedYearOption = [];
       let petsType = '';
       let isIndv = subDetail.subscriptionType == 'Individualization';
-      const isShowClub =
-        subDetail.subscriptionType?.toLowerCase().includes('club') ||
-        subDetail.subscriptionType?.toLowerCase().includes('individualization');
+      const isShowChangeProductStatus =
+        ['club', 'individualization', 'autoship'].indexOf(
+          subDetail.subscriptionType?.toLowerCase()
+        ) > -1;
       subDetail.goodsInfo =
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
@@ -478,14 +479,21 @@ class SubscriptionDetail extends React.Component {
           return item;
         }) || []; //防止商品被删报错
       // change product状态
-      const cPStatus = isShowClub && !isIndv && subscribeStatusVal === 'ACTIVE';
+      const cPStatus =
+        isShowChangeProductStatus && !isIndv && subscribeStatusVal === 'ACTIVE';
+      console.log(
+        isShowChangeProductStatus,
+        cPStatus,
+        subDetail?.goodsInfo?.length,
+        'kkk'
+      );
       subDetail.canChangeProduct = cPStatus;
-      // 多个商品时，change product按钮放在商品行
+      // change product按钮放在商品行,不再区分单个多个
       subDetail.canChangeProductAtGoodsLine =
-        cPStatus && subDetail?.goodsInfo?.length > 1;
+        cPStatus && subDetail?.goodsInfo?.length > 0;
       // 单个商品时，change product按钮放在外边
-      subDetail.canChangeProductAtOuterBox =
-        cPStatus && subDetail?.goodsInfo?.length == 1;
+      // subDetail.canChangeProductAtOuterBox =
+      //   cPStatus && subDetail?.goodsInfo?.length == 1;
       const isCat =
         subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
         'Cat';

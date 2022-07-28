@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from '@/components/Common';
 import Skeleton from 'react-skeleton-loader';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Popover } from '@/components/Common';
 import ProgressWithTooptip from '@/components/ProgressWithTooptip';
 import helpImg from '@/assets/images/product-finder-help.png';
 import RadioAnswer from './RadioAnswer';
@@ -653,25 +653,25 @@ class Question extends React.Component {
             )}
           </div>
           <div className="col-2 col-md-1 rc-md-up">
-            <LazyLoad>
-              <img
-                className="ui-cursor-pointer"
-                src={helpImg}
-                onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
-                onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
-                alt="help icon"
-              />
-            </LazyLoad>
-            <ConfirmTooltip
-              arrowDirection="right"
-              arrowStyle={{ top: '25%' }}
+            <Popover
+              positions={['right']}
               display={iconToolTipVisible}
               cancelBtnVisible={false}
               confirmBtnVisible={false}
               updateChildDisplay={this.setIconToolTipVisible}
               content={<FormattedMessage id="productFinder.helpTip3" />}
               key="1"
-            />
+            >
+              <LazyLoad>
+                <img
+                  className="ui-cursor-pointer"
+                  src={helpImg}
+                  onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
+                  onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
+                  alt="help icon"
+                />
+              </LazyLoad>
+            </Popover>
           </div>
         </div>
         <div className="row">
@@ -737,46 +737,29 @@ class Question extends React.Component {
                     </div>
                     <div className="col-12 col-md-7 mt-2 mb-4 md:mt-0 md:mb-0">
                       <div className="position-relative inlineblock">
-                        <p
-                          className="rc-styled-link mb-0 mt-2"
-                          onMouseEnter={this.setBtnToolTipVisible.bind(
-                            this,
-                            true
-                          )}
-                          onMouseLeave={this.setBtnToolTipVisible.bind(
-                            this,
-                            false
-                          )}
+                        <Popover
+                          positions={['left']}
+                          display={btnToolTipVisible}
+                          cancelBtnVisible={false}
+                          confirmBtnVisible={false}
+                          updateChildDisplay={this.setBtnToolTipVisible}
+                          content={descriptionTips}
+                          key="2"
                         >
-                          <FormattedMessage id="productFinder.whyAreWeAskingThis" />
-                        </p>
-                        <div className="rc-md-up">
-                          <ConfirmTooltip
-                            arrowDirection="left"
-                            arrowStyle={{ top: '50%' }}
-                            display={btnToolTipVisible}
-                            cancelBtnVisible={false}
-                            confirmBtnVisible={false}
-                            updateChildDisplay={this.setBtnToolTipVisible}
-                            content={descriptionTips}
-                            key="2"
-                          />
-                        </div>
-                        <div className="rc-md-down">
-                          <ConfirmTooltip
-                            arrowDirection="bottom"
-                            arrowStyle={{ top: '-14%' }}
-                            containerStyle={{
-                              transform: 'translate(-50%, 120%)'
-                            }}
-                            display={btnToolTipVisible}
-                            cancelBtnVisible={false}
-                            confirmBtnVisible={false}
-                            updateChildDisplay={this.setBtnToolTipVisible}
-                            content={descriptionTips}
-                            key="3"
-                          />
-                        </div>
+                          <p
+                            className="rc-styled-link mb-0 mt-2"
+                            onMouseEnter={this.setBtnToolTipVisible.bind(
+                              this,
+                              true
+                            )}
+                            onMouseLeave={this.setBtnToolTipVisible.bind(
+                              this,
+                              false
+                            )}
+                          >
+                            <FormattedMessage id="productFinder.whyAreWeAskingThis" />
+                          </p>
+                        </Popover>
                       </div>
                     </div>
                   </div>

@@ -1,9 +1,10 @@
 import React from 'react';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Popover } from '@/components/Common';
 import getCardImg from '@/lib/get-card-img';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
+import cn from 'classnames';
 
 @inject('paymentStore')
 @observer
@@ -40,26 +41,27 @@ class CardItemCover extends React.Component {
     return (
       // paddingFlag表示此卡正在pending，不能用于选择支付
       <div
-        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ${
+        className={cn(
+          `rounded pl-2 pr-2 creditCompleteInfoBox position-relative`,
           el?.paddingFlag
             ? 'ui-cursor-not-allowed disabled'
-            : 'ui-cursor-pointer border'
-        }  ${selectedSts ? 'active border-blue' : ''} ${
-          !selectedSts && !lastItem ? 'border-bottom-0' : ''
-        }`}
+            : 'ui-cursor-pointer border',
+          {
+            'active border-blue': selectedSts,
+            'border-bottom-0': !selectedSts && !lastItem
+          }
+        )}
         onClick={handleClickCardItem}
         title={`${el?.paddingFlag ? 'pending' : ''}`}
       >
         {el.isValid && (
           <span
-            className="position-absolute iconfont font-weight-bold green"
+            className="position-absolute iconfont font-weight-bold green iconchenggong"
             style={{
               right: '3%',
               bottom: '4%'
             }}
-          >
-            &#xe68c;
-          </span>
+          />
         )}
 
         <div className="pt-4 pb-4">
@@ -86,24 +88,22 @@ class CardItemCover extends React.Component {
               style={{ right: '1%', top: '2%', zIndex: 50 }}
             >
               <span
-                className={`pull-right position-relative pl-2 ${
+                className={cn(
+                  `pull-right position-relative pl-2`,
                   el.paddingFlag
                     ? 'ui-cursor-not-allowed'
                     : 'ui-cursor-pointer-pure'
-                }`}
+                )}
               >
-                <span onClick={handleClickDeleteBtn}>
-                  <FormattedMessage id="delete" />
-                </span>
-                <ConfirmTooltip
-                  containerStyle={{
-                    transform: 'translate(-89%, 105%)'
-                  }}
-                  arrowStyle={{ left: '89%' }}
+                <Popover
                   display={el.confirmTooltipVisible}
                   confirm={deleteCard}
                   updateChildDisplay={updateConfirmTooltipVisible}
-                />
+                >
+                  <span onClick={handleClickDeleteBtn}>
+                    <FormattedMessage id="delete" />
+                  </span>
+                </Popover>
               </span>
             </div>
           )}

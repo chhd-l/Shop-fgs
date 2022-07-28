@@ -4,7 +4,8 @@ import {
   getDictionary,
   matchNamefromDict,
   handleFelinAppointTime,
-  formatDate
+  formatDate,
+  formatJPDate
 } from '@/utils/utils';
 import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
@@ -39,6 +40,7 @@ class InfosPreview extends React.Component {
       orderTime.appointEndTime.split(' ')[1]
     );
   };
+
   render() {
     const { payRecord, details } = this.props;
     return (
@@ -68,7 +70,7 @@ class InfosPreview extends React.Component {
 
         {/* {JSON.stringify(details.consignee)} */}
         {details && !details.appointmentNo ? (
-          <div className={cn('col-span-12 md:col-span-6 mb-3 order-1')}>
+          <div className={cn('col-span-12 md:col-span-8 mb-3 order-1 ')}>
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="deliveryAddress" />
             </div>
@@ -88,12 +90,31 @@ class InfosPreview extends React.Component {
                 postCode: details.consignee.postCode,
                 rfc: details.consignee.rfc,
                 buyerRemark: details.buyerRemark,
+
                 countryName: matchNamefromDict(
                   this.state.countryList,
                   details.consignee.countryId
                 )
               }}
             />
+            {COUNTRY === 'jp' && (
+              <div className="pl-1">
+                <p>
+                  {details.consignee.deliveryDate === 'Unspecified' && (
+                    <FormattedMessage id="Unspecified" />
+                  )}
+                  {details.consignee.deliveryDate !== 'Unspecified' &&
+                    formatJPDate(details.consignee.deliveryDate)}
+                </p>
+                <p>
+                  {details.consignee.timeSlot === 'Unspecified' && (
+                    <FormattedMessage id="Unspecified" />
+                  )}
+                  {details.consignee.timeSlot !== 'Unspecified' &&
+                    formatJPTime(details.consignee.timeSlot)}
+                </p>
+              </div>
+            )}
           </div>
         ) : null}
         {payRecord && payRecord.lastFourDigits ? (
@@ -110,7 +131,6 @@ class InfosPreview extends React.Component {
             ) : (
               <div>{details.consignee.name}</div>
             )}
-
             <div>{payRecord.paymentVendor}</div>
             {payRecord.lastFourDigits ? (
               <div className="medium">********{payRecord.lastFourDigits}</div>
@@ -132,7 +152,6 @@ class InfosPreview extends React.Component {
                 </>
               ) : null}
             </div>
-
             {payRecord.accountName ? <p>{payRecord.accountName}</p> : null}
             {/* 分期费用明细 */}
             {0 && details.tradePrice.installmentPrice ? (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Popover } from '@/components/Common';
+
 let clickInit = false;
 class BuyFromRetailerBtn extends React.Component {
   constructor(props) {
@@ -12,28 +13,6 @@ class BuyFromRetailerBtn extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const tipIcon = (
-      <span
-        className="info-tooltip delivery-method-tooltip"
-        onMouseEnter={(e) => {
-          this.setState({
-            toolTipVisible: true
-          });
-        }}
-        onMouseLeave={() => {
-          this.setState({
-            toolTipVisible: false
-          });
-        }}
-      >
-        i
-      </span>
-    );
-    this.setState({
-      tipIcon
-    });
-  }
   ccidBtnRef(el) {
     const self = this;
     const nodeBtn = document.querySelector('.other-buy-btn');
@@ -66,29 +45,42 @@ class BuyFromRetailerBtn extends React.Component {
       observer.observe(nodeBtn, config);
     }
   }
+  onMouseEnter = () => {
+    this.setState({
+      toolTipVisible: !this.state.toolTipVisible
+    });
+  };
+  onMouseLeave = () => {
+    this.setState({
+      toolTipVisible: false
+    });
+  };
   confirmTooltip = () => {
     return (
-      <ConfirmTooltip
-        arrowDirection="bottom"
-        containerStyle={{
-          transform: 'translate(-95%, -50%)',
-          width: ' 15.3rem',
-          minWidth: 'auto'
-        }}
+      <Popover
         display={this.state.toolTipVisible}
         cancelBtnVisible={false}
         confirmBtnVisible={false}
-        updateChildDisplay={(status) =>
+        updateChildDisplay={(status) => {
           this.setState({
             toolTipVisible: status
-          })
-        }
+          });
+        }}
+        positions={['top']}
         content={<FormattedMessage id="details.buyFromRetailerTip" />}
-        textStyle={{
+        contentStyle={{
           fontWeight: 500,
           fontSize: '1rem'
         }}
-      />
+      >
+        <span
+          className="info-tooltip delivery-method-tooltip"
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+        >
+          i
+        </span>
+      </Popover>
     );
   };
   render() {
@@ -135,10 +127,7 @@ class BuyFromRetailerBtn extends React.Component {
                 </span>
               ) : null}
             </div>
-            <div style={{ position: 'relative' }}>
-              {this.state.tipIcon}
-              {this.confirmTooltip()}
-            </div>
+            <div style={{ position: 'relative' }}>{this.confirmTooltip()}</div>
           </div>
         ) : null}
         {isUrl ? (
