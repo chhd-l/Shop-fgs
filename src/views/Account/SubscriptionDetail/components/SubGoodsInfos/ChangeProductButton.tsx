@@ -9,9 +9,10 @@ const ChangeProductButton = ({
 }: ChangeProductButtonProps) => {
   return (
     <div
-      className="rc-card-content px-3 md:px-0 mt-cs-24 font-semibold text-cs-primary rounded-3xl border-2 border-cs-primary text-center"
+      className="rc-card-content px-3 md:px-0 mt-cs-24 font-semibold text-cs-primary rounded-full border-2 border-cs-primary text-center py-2"
       onClick={handleClickChangeProduct}
     >
+      <FormattedMessage id="subscriptionDetail.changeProduct" />
       {/* <div className=" flex items-center">
         <span
           style={{
@@ -30,11 +31,11 @@ const ChangeProductButton = ({
               color: 'rgb(58,180,29)'
             }}
           />
+<FormattedMessage id="subscriptionDetail.changeProduct" />
           <span>
           </span>
         </span>
       </div> */}
-      <FormattedMessage id="subscriptionDetail.changeProduct" />
     </div>
   );
 };
