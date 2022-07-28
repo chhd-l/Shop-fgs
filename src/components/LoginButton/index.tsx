@@ -103,6 +103,7 @@ const LoginButton = ({
             }&post_logout_redirect_uri=${redirectUri}`;
           }
           setUserInfo(info);
+          loginStore.setUserInfo(info);
           localItemRoyal.set('customer-okta-id', info.sub);
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
