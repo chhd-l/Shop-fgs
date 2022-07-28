@@ -1928,6 +1928,7 @@ class Form extends React.Component {
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               emptyFirstItem={'State'}
+              open={true}
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
             />
@@ -1939,6 +1940,7 @@ class Form extends React.Component {
               }
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
+              open={true}
               name={item.fieldKey}
               selectedItemData={{
                 value:
