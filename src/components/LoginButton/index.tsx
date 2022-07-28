@@ -66,6 +66,9 @@ const LoginButton = ({
 
   // 拿到userinfo信息后，执行传入该组件的init方法
   useEffect(() => {
+    // if (isGetUserInfoDown) {
+      console.log('getUserInfoDownCallback', isGetUserInfoDown, getUserInfoDownCallback);
+    // }
     if (isGetUserInfoDown && getUserInfoDownCallback) {
       getUserInfoDownCallback();
     }
@@ -103,7 +106,6 @@ const LoginButton = ({
             }&post_logout_redirect_uri=${redirectUri}`;
           }
           setUserInfo(info);
-          loginStore.setUserInfo(info);
           localItemRoyal.set('customer-okta-id', info.sub);
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
@@ -124,6 +126,7 @@ const LoginButton = ({
               customerId
             })
               .then(() => {
+                console.log('setIsGetUserInfoDown22')
                 setIsGetUserInfoDown(true);
                 loginStore.changeLoginModal(false);
               })
@@ -183,7 +186,7 @@ const LoginButton = ({
                   //     customerId
                   //   });
                   // }
-
+                  console.log('setIsGetUserInfoDown33')
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
@@ -192,6 +195,7 @@ const LoginButton = ({
                 });
             } else {
               loginStore.changeLoginModal(false);
+              console.log('setIsGetUserInfoDown11')
               setIsGetUserInfoDown(true);
             }
           }
