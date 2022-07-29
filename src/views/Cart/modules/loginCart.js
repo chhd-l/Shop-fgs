@@ -572,7 +572,7 @@ class LoginCart extends React.Component {
               isGift ? 'rc-padding-right--xs' : ''
             }`}
           >
-            <div style={{ marginTop: '.75rem' }}>
+            <div>
               <FormattedMessage id="quantity" />:{' '}
             </div>
             <QuantityPicker

@@ -345,18 +345,6 @@ class Form extends React.Component {
           // 获取delivery date
           this.getDdList(dateStr, v, ddlist);
 
-          // if (obj.deliveryDate == v.date) {
-          //   obj.deliveryDateId = dateStr;
-          // } else if (obj.deliveryDate == '' && COUNTRY == 'jp') {
-          //   obj.deliveryDate = 'Unspecified';
-          //   obj.deliveryDateId = 'Unspecified';
-          // } else if (isBelongDelievryDate() == false && COUNTRY == 'jp') {
-          //   obj.deliveryDate = 'Unspecified';
-          //   obj.deliveryDateId = 'Unspecified';
-          //   obj.timeSlotId = 'Unspecified';
-          //   obj.timeSlot = 'Unspecified';
-          // }
-
           if (obj.deliveryDate == v.date) {
             obj.deliveryDateId = dateStr;
           }
@@ -369,10 +357,13 @@ class Form extends React.Component {
 
         // delivery date为空或者过期设置第一条数据为默认值
 
-        // if (!obj.deliveryDate || !alldata[obj.deliveryDate]) {
-        //   obj.deliveryDateId = ddlist[0].id;
-        //   obj.deliveryDate = ddlist[0].no;
-        // }
+        if (
+          COUNTRY == 'ru' &&
+          (!obj.deliveryDate || !alldata[obj.deliveryDate])
+        ) {
+          obj.deliveryDateId = ddlist[0].id;
+          obj.deliveryDate = ddlist[0].no;
+        }
 
         // 设置 time slot
         //let tsFlag = false;
@@ -1194,6 +1185,9 @@ class Form extends React.Component {
       case 'postCode':
         if (COUNTRY == 'jp') {
           tvalue = ToCDB(tvalue);
+          // if (tvalue.length == 3) {
+          //   tvalue = tvalue + '-';
+          // }
           tvalue = tvalue
             .replace(/\s/g, '')
             .replace(/-$/, '')
