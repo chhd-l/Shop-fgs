@@ -222,7 +222,7 @@ const LoginButton = ({
       // 该token的旧值不存在，新值存在，表示登录
       if (!e.oldValue && e.newValue) {
         console.log(111111111, e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`)
-        login();
+        // login();
       }
     }
     // if (
