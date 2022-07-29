@@ -142,29 +142,33 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     pillar: pillarEnum[goodsType]
   };
   const product = filterObjectValue(GAProductsInfo);
-  const availableSizes = item?.sizeList.map((size) => ({
-    size: size.goodsInfoWeight,
-    price: size.marketPrice,
-    pricePerUnit: size.basePrice,
-    localUnit: size.goodsInfoUnit
-  }));
-  // debugger;
 
-  if (window.dataLayer) {
-    // dataLayer?.push({
-    //   products: [product]
-    // });
-    // setTimeout(() => {
-    dataLayer?.push({
-      event: 'pdpScreenLoad',
-      pdpScreenLoad: {
-        products: [product], //为了区分plp，pdp，checkout的products
-        availableSizes: availableSizes
-      },
-      pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
-    });
-    // }, 5000);
-  }
+  const availableSizes = item?.goodsInfos.reduce(
+    (previousValue, currentValue) => {
+      const normalSize = {
+        size: currentValue.goodsInfoWeight,
+        price: currentValue.marketPrice,
+        pricePerUnit: currentValue.basePrice,
+        localUnit: currentValue.goodsInfoUnit
+      };
+      const subscriptionSize = {
+        size: currentValue.goodsInfoWeight,
+        price: currentValue.subscriptionPrice,
+        pricePerUnit: currentValue.basePrice,
+        localUnit: currentValue.goodsInfoUnit
+      };
+      return [...previousValue, normalSize, subscriptionSize];
+    },
+    []
+  );
+  window?.dataLayer.push({
+    event: 'pdpScreenLoad',
+    pdpScreenLoad: {
+      products: [product], //为了区分plp，pdp，checkout的products
+      availableSizes: availableSizes
+    },
+    pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
+  });
 };
 
 //hub加入购物车，埋点

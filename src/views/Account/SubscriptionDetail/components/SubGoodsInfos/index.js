@@ -310,12 +310,12 @@ const SubGoodsInfos = ({
                       <div
                         className="rc-column flex flex-row"
                         style={{
-                          width: '80%',
+                          width: '90%',
                           padding: 0,
                           alignItems: 'center'
                         }}
                       >
-                        <div className="img-container mr-3">
+                        <div className="w-cs-110 mr-3 object-cover">
                           {/* <LazyLoad> */}
                           <img
                             style={{ maxHeight: '100%' }}
@@ -333,7 +333,6 @@ const SubGoodsInfos = ({
                                 width: '75%'
                               }}
                             >
-                              {/* Because of the style, comment first */}
                               <span
                                 style={{
                                   width: 'auto',
