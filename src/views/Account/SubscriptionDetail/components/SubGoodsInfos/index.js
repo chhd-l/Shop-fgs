@@ -149,6 +149,7 @@ const SubGoodsInfos = ({
                     style={{ flex: '1', paddingLeft: '.625rem' }}
                   >
                     <h3
+                      className="text-xl"
                       style={{
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -158,7 +159,14 @@ const SubGoodsInfos = ({
                     >
                       {el.goodsName}
                     </h3>
-                    <p
+                    {getFoodType(el) ? (
+                      <p className="rc-card__meta rc-padding-bottom--xs ui-text-overflow-line2">
+                        <FormattedMessage
+                          id={`product.plp.foodtype.${getFoodType(el)}`}
+                        />
+                      </p>
+                    ) : null}
+                    {/* <p
                       style={{
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -166,14 +174,34 @@ const SubGoodsInfos = ({
                       }}
                     >
                       {!isIndv && el.specText}
-                    </p>
+                    </p> */}
                     {isShowClub && !!subDetail.petsId && (
                       <DailyRation rations={el.petsRation} />
                     )}
                   </div>
                 </div>
                 <div className="p-3">
-                  <div>
+                  <div className="flex items-end justify-between">
+                    {!isIndv ? (
+                      <HandledSpecSelect
+                        details={el}
+                        defaultSkuId={el.skuId}
+                        disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                          (g) => g.goodsInfoVO.goodsInfoId
+                        )}
+                        onIsSpecAvailable={(status) => {
+                          setIsSpecAvailable(status);
+                        }}
+                        setState={setState}
+                        updatedSku={matchGoods}
+                        updatedChangeSku={(skuInfo) => {
+                          subDetail.goodsInfo[index].skuId =
+                            skuInfo.goodsInfoId || '';
+                          onSubChange();
+                        }}
+                        canSelectedWhenAllSpecDisabled={true}
+                      />
+                    ) : null}
                     <span style={{ display: isIndv ? 'none' : 'inline-block' }}>
                       <QuantityPicker
                         className={'inline-block align-middle	'}
@@ -185,17 +213,9 @@ const SubGoodsInfos = ({
                         }}
                         showError={showErrMsg}
                       />
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          fontSize: '1.375rem',
-                          lineHeight: '40px',
-                          verticalAlign: 'middle'
-                        }}
-                      >
-                        =
-                      </span>
                     </span>
+                  </div>
+                  <div className="mt-3 mb-5">
                     <span
                       className="price"
                       style={{
@@ -229,7 +249,10 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                   {subDetail?.canChangeProductAtGoodsLine ? (
-                    <Button onClick={() => handleClickChangeProduct(index)}>
+                    <Button
+                      className="w-full"
+                      onClick={() => handleClickChangeProduct(index)}
+                    >
                       <FormattedMessage id="subscriptionDetail.changeProduct" />
                     </Button>
                   ) : null}
@@ -426,7 +449,7 @@ const SubGoodsInfos = ({
                                   }}
                                   showError={showErrMsg}
                                 />
-                                <span
+                                {/* <span
                                   style={{
                                     display: 'inline-block',
                                     fontSize: '1.375rem',
@@ -435,7 +458,7 @@ const SubGoodsInfos = ({
                                   }}
                                 >
                                   =
-                                </span>
+                                </span> */}
                               </span>
 
                               <span
