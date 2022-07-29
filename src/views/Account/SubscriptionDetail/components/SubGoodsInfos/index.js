@@ -13,6 +13,7 @@ import { QuantityPicker } from '@/components/Product';
 import { DeleteItem } from '@/api/subscription';
 import { GAForChangeProductBtn } from '@/utils/GA';
 import { Button, Popover } from '@/components/Common';
+import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 import HandledSpecSelect from '../HandledSpecSelect';
 
 export const SubGoodsInfosContext = createContext();
@@ -46,8 +47,8 @@ const SubGoodsInfos = ({
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
   }, [configStore?.info?.skuLimitThreshold]);
 
-  //订阅数量更改
-  const onQtyChange = async () => {
+  //subscription info change
+  const onSubChange = async () => {
     try {
       setState({ isDataChange: true });
     } catch (err) {
@@ -84,24 +85,8 @@ const SubGoodsInfos = ({
   };
 
   const matchGoods = (data, sizeList) => {
-    // let newDetails = Object.assign(details, {
-    //   sizeList
-    // });
-
-    // 兼容打开弹窗之后，重置黄色box不存在sizeList情况
-    // if (sizeList && firstIn) {
-    //   setFirstIn(false);
-    //   setMainSizeList(sizeList);
-    // }
-    console.info('data', data);
-    console.info('sizeList', sizeList);
-    // setSkuPromotions(data.skuPromotions);
-    // setStock(data.stock);
-    // setCurrentSubscriptionPrice(
-    //   data.currentSubscriptionPrice || data.selectPrice
-    // );
-    // setCurrentSubscriptionStatus(data.currentSubscriptionStatus);
-    // setDetails(newDetails);
+    console.info('data1', data);
+    console.info('sizeList1', sizeList);
   };
 
   const propsObj = {
@@ -164,6 +149,7 @@ const SubGoodsInfos = ({
                     style={{ flex: '1', paddingLeft: '.625rem' }}
                   >
                     <h3
+                      className="text-xl"
                       style={{
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -173,7 +159,14 @@ const SubGoodsInfos = ({
                     >
                       {el.goodsName}
                     </h3>
-                    <p
+                    {getFoodType(el) ? (
+                      <p className="rc-card__meta rc-padding-bottom--xs ui-text-overflow-line2">
+                        <FormattedMessage
+                          id={`product.plp.foodtype.${getFoodType(el)}`}
+                        />
+                      </p>
+                    ) : null}
+                    {/* <p
                       style={{
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -181,14 +174,34 @@ const SubGoodsInfos = ({
                       }}
                     >
                       {!isIndv && el.specText}
-                    </p>
+                    </p> */}
                     {isShowClub && !!subDetail.petsId && (
-                      <DailyRation rations={el.petsRation} />
+                      <DailyRation rations={el.petsRation} type="mobile" />
                     )}
                   </div>
                 </div>
                 <div className="p-3">
-                  <div>
+                  <div className="flex items-end justify-between">
+                    {!isIndv ? (
+                      <HandledSpecSelect
+                        details={el}
+                        defaultSkuId={el.skuId}
+                        disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                          (g) => g.goodsInfoVO.goodsInfoId
+                        )}
+                        onIsSpecAvailable={(status) => {
+                          setIsSpecAvailable(status);
+                        }}
+                        setState={setState}
+                        updatedSku={matchGoods}
+                        updatedChangeSku={(skuInfo) => {
+                          subDetail.goodsInfo[index].skuId =
+                            skuInfo.goodsInfoId || '';
+                          onSubChange();
+                        }}
+                        canSelectedWhenAllSpecDisabled={true}
+                      />
+                    ) : null}
                     <span style={{ display: isIndv ? 'none' : 'inline-block' }}>
                       <QuantityPicker
                         className={'inline-block align-middle	'}
@@ -196,21 +209,13 @@ const SubGoodsInfos = ({
                         initQuantity={el.subscribeNum}
                         updateQuantity={(val) => {
                           subDetail.goodsInfo[index].subscribeNum = val;
-                          onQtyChange();
+                          onSubChange();
                         }}
                         showError={showErrMsg}
                       />
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          fontSize: '1.375rem',
-                          lineHeight: '40px',
-                          verticalAlign: 'middle'
-                        }}
-                      >
-                        =
-                      </span>
                     </span>
+                  </div>
+                  <div className="mt-3 mb-5">
                     <span
                       className="price"
                       style={{
@@ -244,7 +249,10 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                   {subDetail?.canChangeProductAtGoodsLine ? (
-                    <Button onClick={() => handleClickChangeProduct(index)}>
+                    <Button
+                      className="w-full"
+                      onClick={() => handleClickChangeProduct(index)}
+                    >
                       <FormattedMessage id="subscriptionDetail.changeProduct" />
                     </Button>
                   ) : null}
@@ -364,7 +372,10 @@ const SubGoodsInfos = ({
                                   whiteSpace: 'nowrap'
                                 }}
                               >
-                                <DailyRation rations={el.petsRation} />
+                                <DailyRation
+                                  rations={el.petsRation}
+                                  type="pc"
+                                />
                               </div>
                             </div>
                           )}
@@ -377,6 +388,7 @@ const SubGoodsInfos = ({
                           }}
                         >
                           <h5
+                            className="text-xl"
                             style={{
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
@@ -386,6 +398,13 @@ const SubGoodsInfos = ({
                           >
                             {el.goodsName}
                           </h5>
+                          {getFoodType(el) ? (
+                            <p className="rc-card__meta rc-padding-bottom--xs ui-text-overflow-line2">
+                              <FormattedMessage
+                                id={`product.plp.foodtype.${getFoodType(el)}`}
+                              />
+                            </p>
+                          ) : null}
                           {/* <p
                             style={{
                               overflow: 'hidden',
@@ -395,22 +414,27 @@ const SubGoodsInfos = ({
                           >
                             {!isIndv && el.specText}
                           </p> */}
-                          <HandledSpecSelect
-                            details={el}
-                            // defaultSkuId="2c91808576903fd801769045e1d50142"
-                            defaultSkuId={el.skuId}
-                            disabledGoodsInfoIds={subDetail.goodsInfo.map(
-                              (g) => g.goodsInfoVO.goodsInfoId
-                            )}
-                            onIsSpecAvailable={(status) => {
-                              setIsSpecAvailable(status);
-                            }}
-                            setState={setState}
-                            updatedSku={matchGoods}
-                            canSelectedOutOfStock={true}
-                            canSelectedWhenAllSpecDisabled={true}
-                          />
-                          <div>
+                          {!isIndv ? (
+                            <HandledSpecSelect
+                              details={el}
+                              defaultSkuId={el.skuId}
+                              disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                                (g) => g.goodsInfoVO.goodsInfoId
+                              )}
+                              onIsSpecAvailable={(status) => {
+                                setIsSpecAvailable(status);
+                              }}
+                              setState={setState}
+                              updatedSku={matchGoods}
+                              updatedChangeSku={(skuInfo) => {
+                                subDetail.goodsInfo[index].skuId =
+                                  skuInfo.goodsInfoId || '';
+                                onSubChange();
+                              }}
+                              canSelectedWhenAllSpecDisabled={true}
+                            />
+                          ) : null}
+                          <div className="mt-2">
                             <div style={{ whiteSpace: 'nowrap' }}>
                               <span
                                 style={{
@@ -424,11 +448,11 @@ const SubGoodsInfos = ({
                                   updateQuantity={(val) => {
                                     subDetail.goodsInfo[index].subscribeNum =
                                       val;
-                                    onQtyChange();
+                                    onSubChange();
                                   }}
                                   showError={showErrMsg}
                                 />
-                                <span
+                                {/* <span
                                   style={{
                                     display: 'inline-block',
                                     fontSize: '1.375rem',
@@ -437,7 +461,7 @@ const SubGoodsInfos = ({
                                   }}
                                 >
                                   =
-                                </span>
+                                </span> */}
                               </span>
 
                               <span
