@@ -251,8 +251,8 @@ const ChangeProduct = () => {
               <FormattedMessage
                 id={
                   alreadyNotice
-                    ? 'subscription.backToStockInfoActivated'
-                    : 'subscription.backToStockInfo'
+                    ? '<Back to stock> notification is activated for'
+                    : 'Receive "back in stock" notification'
                 }
               />
             </div>
@@ -298,7 +298,7 @@ const ChangeProduct = () => {
                   disabled={!correctEmail || alreadyNotice}
                   onClick={handleNotifyMe}
                 >
-                  <FormattedMessage id="notifyMe" />
+                  <FormattedMessage id="Notify me" />
                 </Button>
               ) : null}
               {alreadyNotice ? (
@@ -307,7 +307,7 @@ const ChangeProduct = () => {
                   className="ml-6"
                   onClick={handleModifyEmail}
                 >
-                  <FormattedMessage id="modifyEmail" />
+                  <FormattedMessage id="Modify e-mail" />
                 </Button>
               ) : null}
             </div>
