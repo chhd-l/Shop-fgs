@@ -52,17 +52,17 @@ const LoginButton = ({
   const history = useHistory();
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
-  const { oktaAuth, authState } = useOktaAuth();
-  // const { authState } = useOktaAuth();
+  const { oktaAuth } = useOktaAuth();
+  const { authState } = useOktaAuth();
 
-  // useEffect(() => {
-  //   if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
-  //     window.addEventListener('storage', storageHandler);
-  //     return () => {
-  //       window.removeEventListener('storage', storageHandler);
-  //     };
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
+      window.addEventListener('storage', storageHandler);
+      return () => {
+        window.removeEventListener('storage', storageHandler);
+      };
+    }
+  }, []);
 
   // 拿到userinfo信息后，执行传入该组件的init方法
   useEffect(() => {
@@ -219,10 +219,13 @@ const LoginButton = ({
     // }
     // 当打开多个tab时，同步登录登出状态
     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
-      
       // 该token的旧值不存在，新值存在，表示登录
       if (!e.oldValue && e.newValue) {
-        console.log(111111111, e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`)
+        console.log(
+          111111111,
+          e.key,
+          `${window.__.env.REACT_APP_COUNTRY}-rc-token`
+        );
         // login();
       }
     }
