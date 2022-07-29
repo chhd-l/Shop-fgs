@@ -80,14 +80,15 @@ class Login extends React.Component {
       this.props.loginStore.isLogin &&
       localItemRoyal.get('rc-logined-reload')
     ) {
-      const tmpUrl = localItemRoyal.get('okta-redirectUrl')
-        ? localItemRoyal.get('okta-redirectUrl')
-        : '/';
-      if (tmpUrl == '/cart-force-to-checkout') {
-        this.redirectPage();
-      } else {
-        window.location.href = tmpUrl;
-      }
+      this.props && this.props.history.push('/required');
+      // const tmpUrl = localItemRoyal.get('okta-redirectUrl')
+      //   ? localItemRoyal.get('okta-redirectUrl')
+      //   : '/';
+      // if (tmpUrl == '/cart-force-to-checkout') {
+      //   this.redirectPage();
+      // } else {
+      //   window.location.href = tmpUrl;
+      // }
       localItemRoyal.remove('rc-logined-reload');
       return;
     }

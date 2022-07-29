@@ -58,7 +58,10 @@ const LoginButton = (props) => {
   }, []);
 
   useEffect(() => {
-    if (isGetUserInfoDown && init) {
+    if (
+      (isGetUserInfoDown || window.__.env.REACT_APP_FGS_SELF_REGISTER) &&
+      init
+    ) {
       init();
     }
   }, [isGetUserInfoDown, init]);

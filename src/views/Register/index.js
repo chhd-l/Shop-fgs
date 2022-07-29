@@ -447,7 +447,8 @@ class Register extends Component {
               }
             });
           //GA 注册成功 end
-
+          let customerDetail = res.context.customerDetail;
+          let submitParam = bindSubmitParam(this.state.list);
           if (
             window.__.env.REACT_APP_FGS_SELF_REGISTER ||
             res.context.oktaSessionToken
@@ -496,34 +497,20 @@ class Register extends Component {
               this.props.history.push('/checkout');
             } else {
               if (window.__.env.REACT_APP_FGS_SELF_REGISTER) {
-                this.props.history.push(
-                  localItemRoyal.get('okta-redirectUrl') || '/'
-                );
+                // await  localItemRoyal.set('oktaToken',  res.context.oktaSessionToken);
+                this.bindConsent(submitParam, customerDetail, () => {
+                  this.props.history.push('/required');
+                });
               } else {
                 window.location.href = callOktaCallBack; // 调用一次OKTA的登录
               }
             }
           } else {
             //发送邮件，跳转welcome页面
-            let customerDetail = res.context.customerDetail;
-            let submitParam = bindSubmitParam(this.state.list);
-            userBindConsent({
-              ...submitParam,
-              useBackendOktaTokenFlag: true,
-              customerId: customerDetail.customerId
-            })
-              .then((res) => {
-                loginStore.setUserInfo(customerDetail); // For compare email
-                this.props.history.push('/welcome/' + registerForm.email);
-              })
-              .catch((err) => {
-                window.scrollTo(0, 0);
-                this.setState({
-                  circleLoading: false,
-                  hasError: true,
-                  errorMessage: null
-                });
-              });
+            this.bindConsent(submitParam, customerDetail, () => {
+              loginStore.setUserInfo(customerDetail); // For compare email
+              this.props.history.push('/welcome/' + registerForm.email);
+            });
           }
         } else {
           window.scrollTo(0, 0);
@@ -545,6 +532,24 @@ class Register extends Component {
         });
       });
   };
+  bindConsent(submitParam, customerDetail, cb) {
+    userBindConsent({
+      ...submitParam,
+      useBackendOktaTokenFlag: true,
+      customerId: customerDetail.customerId
+    })
+      .then((res) => {
+        cb && cb();
+      })
+      .catch((err) => {
+        window.scrollTo(0, 0);
+        this.setState({
+          circleLoading: false,
+          hasError: true,
+          errorMessage: null
+        });
+      });
+  }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
