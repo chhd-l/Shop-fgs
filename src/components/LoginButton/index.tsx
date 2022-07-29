@@ -17,10 +17,8 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
-import { saveShelterId } from '@/api/recommendation';
 import { userBindConsent } from '@/api/consent';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
-import loginRedirection from '@/lib/login-redirection';
 import { useHistory } from 'react-router-dom';
 import cn from 'classnames';
 
@@ -29,10 +27,29 @@ const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
-const LoginButton = (props) => {
+interface Props {
+  getUserInfoDownCallback?: Function; //登录成功，获取到用户信息后，需执行的callback
+  beforeLoginCallback?: Function; //进行登录操作前，需执行的函数
+  callbackUrl?: Function; //登录成功的回调
+  btnClass?: Function;
+  className?: Function;
+  btnStyle?: object;
+  buttonRef?: any;
+  children?: any;
+}
+
+const LoginButton = ({
+  getUserInfoDownCallback,
+  callbackUrl,
+  beforeLoginCallback,
+  btnClass,
+  className,
+  btnStyle,
+  buttonRef,
+  children
+}: Props) => {
   if (sessionItemRoyal.get('rc-guestId')) return <></>;
   const history = useHistory();
-  const init = props.init;
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
   const { oktaAuth } = useOktaAuth();
@@ -40,34 +57,22 @@ const LoginButton = (props) => {
 
   useEffect(() => {
     if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
-      window.addEventListener('storage', (e) => {
-        console.log('loginbutton storage change', e.key);
-        if (e.key.includes('rc-token')) {
-          // debugger;
-        }
-        // 当打开多个tab时，同步登录登出状态
-        if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
-          // debugger;
-          // 该token的旧值不存在，新值存在，表示登录
-          if (!e.oldValue && e.newValue) {
-            login();
-          }
-        }
-      });
+      window.addEventListener('storage', storageHandler);
+      return () => {
+        window.removeEventListener('storage', storageHandler);
+      };
     }
   }, []);
 
   // 拿到userinfo信息后，执行传入该组件的init方法
   useEffect(() => {
-    console.log('拿到userinfo信息后，执行传入该组件的init方法', {
-      isGetUserInfoDown,
-      init
-    });
-    if (isGetUserInfoDown && init) {
-      debugger;
-      init();
+    // if (isGetUserInfoDown) {
+      console.log('getUserInfoDownCallback', isGetUserInfoDown, getUserInfoDownCallback);
+    // }
+    if (isGetUserInfoDown && getUserInfoDownCallback) {
+      getUserInfoDownCallback();
     }
-  }, [isGetUserInfoDown, init]);
+  }, [isGetUserInfoDown, getUserInfoDownCallback]);
 
   useEffect(() => {
     setIsGetUserInfoDown(false);
@@ -83,7 +88,7 @@ const LoginButton = (props) => {
       loginStore.changeLoginModal(true);
       oktaAuth
         .getUser()
-        .then((info) => {
+        .then((info: any) => {
           // Cross-store login: 跨店铺登录后需要logout再登录
           if (
             loginStore?.userInfo?.email &&
@@ -120,7 +125,8 @@ const LoginButton = (props) => {
               ...{ oktaToken },
               customerId
             })
-              .then((res) => {
+              .then(() => {
+                console.log('setIsGetUserInfoDown22')
                 setIsGetUserInfoDown(true);
                 loginStore.changeLoginModal(false);
               })
@@ -131,9 +137,11 @@ const LoginButton = (props) => {
           } else {
             if (!loginStore.isLogin) {
               getToken({ oktaToken: oktaToken })
-                .then(async (res) => {
+                .then(async (res: any) => {
                   // GA 登录成功埋点 start
+                  // @ts-ignore
                   window.dataLayer &&
+                    // @ts-ignore
                     window.dataLayer.push({
                       event: `${window.__.env.REACT_APP_GTM_SITE_ID}loginAccess`,
                       interaction: {
@@ -150,7 +158,7 @@ const LoginButton = (props) => {
                   loginStore.changeIsLogin(true);
 
                   localItemRoyal.set('rc-token', res.context.token);
-                  let customerInfoRes = await getCustomerInfo({
+                  let customerInfoRes: any = await getCustomerInfo({
                     customerId
                   });
                   userinfo.defaultClinics =
@@ -163,6 +171,7 @@ const LoginButton = (props) => {
                     checkoutStore.cartData.length
                   ) {
                     await mergeUnloginCartData();
+                    // @ts-ignore
                     await checkoutStore.updateLoginCart({
                       delFlag: 1
                     }); // indv登录的时候需要查询到相应的数据
@@ -177,7 +186,7 @@ const LoginButton = (props) => {
                   //     customerId
                   //   });
                   // }
-
+                  console.log('setIsGetUserInfoDown33')
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
@@ -186,6 +195,7 @@ const LoginButton = (props) => {
                 });
             } else {
               loginStore.changeLoginModal(false);
+              console.log('setIsGetUserInfoDown11')
               setIsGetUserInfoDown(true);
             }
           }
@@ -197,9 +207,30 @@ const LoginButton = (props) => {
     }
   }, [authState, oktaAuth]); // Update if authState changes
 
+  const storageHandler = (e: StorageEvent) => {
+    console.log('loginbutton storage change', e.key);
+    // if (e.key.includes('rc-token')) {
+    // debugger;
+    // }
+    // 当打开多个tab时，同步登录登出状态
+    if (
+      e.key ===
+      `${localStorage.getItem('country-code-current-operated')}-rc-token`
+    ) {
+      // debugger;
+      // 该token的旧值不存在，新值存在，表示登录
+      if (!e.oldValue && e.newValue) {
+        login();
+      }
+    }
+  };
+
   const login = async () => {
-    const { beforeLoginCallback, callbackUrl } = props;
     try {
+      localStorage.setItem(
+        'country-code-current-operated',
+        window.__.env.REACT_APP_COUNTRY
+      );
       sessionItemRoyal.remove('rc-token-lose');
       localItemRoyal.set(
         'okta-redirectUrl',
@@ -223,15 +254,13 @@ const LoginButton = (props) => {
     <>
       <LimitLoginModal />
       <button
-        className={cn(
-          props.btnClass || props.className || 'rc-btn rc-btn--one bg-rc-red'
-        )}
-        style={props.btnStyle || {}}
+        className={cn(btnClass || className || 'rc-btn rc-btn--one bg-rc-red')}
+        style={btnStyle || {}}
         onClick={login}
-        ref={props.buttonRef}
+        ref={buttonRef}
         id="J-btn-login"
       >
-        {props.children || <FormattedMessage id="login" />}
+        {children || <FormattedMessage id="login" />}
       </button>
     </>
   );

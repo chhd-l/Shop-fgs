@@ -731,7 +731,7 @@ class Form extends React.Component {
               : (regExp = /^\d{5}$/);
           } else {
             COUNTRY === 'nl'
-              ? (regExp = /^\d{4}[a-zA-Z]{2}$/)
+              ? (regExp = /^\d{4}\s?[a-zA-Z]{2}$/)
               : (regExp = /\S/);
           }
           errMsg = formatMessage({ id: 'enterCorrectPostCode' });
@@ -1928,6 +1928,7 @@ class Form extends React.Component {
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               emptyFirstItem={'State'}
+              open={true}
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
             />
@@ -1939,6 +1940,7 @@ class Form extends React.Component {
               }
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
+              open={true}
               name={item.fieldKey}
               selectedItemData={{
                 value:

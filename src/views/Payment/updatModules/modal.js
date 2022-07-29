@@ -54,7 +54,7 @@ class MyModal extends React.Component {
             <input
               disabled={userInfo.firstName}
               type="text"
-              autocomplete="off"
+              autoComplete="off"
               className="my-input"
               placeholder="FirstName"
               value={this.state.params.firstName}
@@ -64,7 +64,7 @@ class MyModal extends React.Component {
             <input
               disabled={userInfo.lastName}
               type="text"
-              autocomplete="off"
+              autoComplete="off"
               className="my-input"
               placeholder="LastName"
               name="LastName"
@@ -85,7 +85,7 @@ class MyModal extends React.Component {
             <input
               disabled={userInfo.phone}
               type="text"
-              autocomplete="off"
+              autoComplete="off"
               maxLength="11"
               className="my-input"
               placeholder="Phone"

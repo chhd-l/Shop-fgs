@@ -1,5 +1,10 @@
 import type { DeepRequired } from 'utility-types';
-
+export type Form = {
+  buyWay: number;
+  frequencyVal: string;
+  frequencyName: string;
+  frequencyId: number;
+};
 export type Details = DeepRequired<{
   id: string;
   goodsName: string;

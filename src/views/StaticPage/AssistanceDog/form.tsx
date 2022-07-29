@@ -250,7 +250,7 @@ const Form = ({ intl }: Props) => {
         {/* @ts-ignore */}
         <Input
           id="registerEmail"
-          autocomplete="off"
+          autoComplete="off"
           type="email"
           name="email"
           isWarning={formWarning.email}
@@ -282,7 +282,7 @@ const Form = ({ intl }: Props) => {
           id="registerName"
           isWarning={formWarning.name}
           valid={formValid.name}
-          autocomplete="off"
+          autoComplete="off"
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.name}
@@ -320,7 +320,7 @@ const Form = ({ intl }: Props) => {
           id="phone"
           valid={formValid.phone}
           isWarning={formWarning.phone}
-          autocomplete="off"
+          autoComplete="off"
           // onChange={registerChange}
           onInput={registerChange}
           disabled={formDisabled.phone}
@@ -349,7 +349,7 @@ const Form = ({ intl }: Props) => {
           id="registerPetName"
           valid={formValid.petName}
           isWarning={formWarning.petName}
-          autocomplete="off"
+          autoComplete="off"
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.petName}
@@ -373,7 +373,7 @@ const Form = ({ intl }: Props) => {
           id="petGraduationSchool"
           valid={formValid.petGraduationSchool}
           isWarning={formWarning.petGraduationSchool}
-          autocomplete="off"
+          autoComplete="off"
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.petGraduationSchool}
@@ -397,7 +397,7 @@ const Form = ({ intl }: Props) => {
           id="petID"
           valid={formValid.petID}
           isWarning={formWarning.petID}
-          autocomplete="off"
+          autoComplete="off"
           onChange={registerChange}
           onBlur={inputBlur}
           value={registerForm.petID}

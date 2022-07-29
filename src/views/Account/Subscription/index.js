@@ -91,20 +91,23 @@ const clubNoSubscription = function () {
           </Link>
         </div>
       </div>
-      <div className="block">
+      <div className="block mt-4 md:mt-0">
         <h3 className="red">
           <FormattedMessage id="subscription.clubNoSubscription" />
         </h3>
         <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
           <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-            {clubListData.map((item) => (
-              <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none club-no-subscription">
+            {clubListData.map((item, i) => (
+              <div
+                className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none club-no-subscription"
+                key={i}
+              >
                 <img
                   src={item.img}
                   alt={item.alt}
                   className="m-auto rc-margin--none--desktop"
                 />
-                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-1001111">
                   <p className="mb-0 text-left">{item.text}</p>
                 </div>
               </div>

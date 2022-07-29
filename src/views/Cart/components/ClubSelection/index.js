@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection';
 
 const ClubSelection = function (props) {
-  // useEffect(() => {}, []);
-  const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
-    props;
+  const { isGift, pitem, isLogin } = props;
   return (
     <div
       className="buyMethod rc-margin-bottom--xs ClubSelection cursor-pointer"
@@ -36,36 +33,6 @@ const ClubSelection = function (props) {
             ) : (
               <FormattedMessage id="Club subscription" />
             )}
-            {/* {!isGift && (
-              <span
-                className="info-tooltip delivery-method-tooltip"
-                onMouseEnter={() => {
-                  props.setState({
-                    toolTipVisible: true,
-                    activeToolTipIndex: index
-                  });
-                }}
-                onMouseLeave={() => {
-                  props.setState({
-                    toolTipVisible: false
-                  });
-                }}
-              >
-                i
-              </span>
-            )} */}
-            <ConfirmTooltip
-              arrowStyle={{ left: '79%' }}
-              display={toolTipVisible && index === activeToolTipIndex}
-              cancelBtnVisible={false}
-              confirmBtnVisible={false}
-              updateChildDisplay={(status) =>
-                this.setState({
-                  toolTipVisible: status
-                })
-              }
-              content={<FormattedMessage id="subscription.promotionTip2" />}
-            />
           </span>
         </div>
         <div className="price text-nowrap">

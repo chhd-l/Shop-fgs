@@ -66,6 +66,7 @@ import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
+import { findUserSelectedList } from '@/api/consent';
 import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
@@ -149,6 +150,7 @@ class Details extends React.Component {
         buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
         frequencyName: '',
+        frequencyValueEn: '',
         frequencyId: -1
       },
       frequencyList: [],
@@ -176,7 +178,8 @@ class Details extends React.Component {
       hiddenMixFeedingBanner: false,
       fromPrice: '',
       versionB: false,
-      ossReceiveBackNotificationContentVisible: false
+      ossReceiveBackNotificationContentVisible: false,
+      merberConsent: ''
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -347,6 +350,8 @@ class Details extends React.Component {
       let clubDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 2);
 
       let defaultFrequencyId = 0;
+      let defaultFrequencyValueEn = '';
+
       // 获取默认frequencyId
       if (details?.promotions === 'club') {
         defaultFrequencyId =
@@ -354,18 +359,20 @@ class Details extends React.Component {
           configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
           (clubDictRes[0] && clubDictRes[0].id) ||
           '';
+        defaultFrequencyValueEn = clubDictRes[0]?.valueEn;
       } else {
         defaultFrequencyId =
           details?.defaultFrequencyId ||
           configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
+        defaultFrequencyValueEn = autoshipDictRes[0]?.valueEn;
       }
-
       this.setState({
         form: Object.assign(this.state.form, {
           buyWay,
-          frequencyId: defaultFrequencyId
+          frequencyId: defaultFrequencyId,
+          frequencyValueEn: defaultFrequencyValueEn
         }),
         defaultPurchaseType
       });
@@ -411,7 +418,6 @@ class Details extends React.Component {
   };
 
   matchGoods(data, sizeList) {
-    console.log('datddddddddddddddddddda', this.state.details, data, sizeList);
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
     let {
@@ -721,6 +727,8 @@ class Details extends React.Component {
                   );
                 }, 60000);
               }
+
+              this.handleMerberConsent();
             }
           );
         } else {
@@ -742,7 +750,6 @@ class Details extends React.Component {
         }
       })
       .catch((e) => {
-        console.log(e);
         this.setState({
           errMsg: e.message || <FormattedMessage id="details.errMsg2" />
         });
@@ -831,6 +838,8 @@ class Details extends React.Component {
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
     form.frequencyId = data.id;
+    form.frequencyValueEn = data.valueEn;
+
     this.setState({ form }, () => {
       // this.props.updateSelectedData(this.state.form);
     });
@@ -936,6 +945,22 @@ class Details extends React.Component {
     }
   }
 
+  handleMerberConsent = async () => {
+    if (this.isLogin) {
+      const customerId = this.props.loginStore.userInfo.customerId || '';
+      const param = {
+        consentPage: 'PDP page',
+        customerId,
+        oktaToken: localItemRoyal.get('oktaToken')
+      };
+      try {
+        const res = await findUserSelectedList(param);
+        this.setState({
+          merberConsent: res?.context?.requiredList?.[0]?.consentTitle || ''
+        });
+      } catch (e) {}
+    }
+  };
   handleInputChange(e) {
     let { form } = this.state;
     form.buyWay = parseInt(e.currentTarget.value);
@@ -1140,7 +1165,6 @@ class Details extends React.Component {
     );
   };
   handleClickSku = () => {
-    if (!this.isLogin) return;
     setTimeout(() => {
       if (!this.state.instockStatus) {
         this.setState({
@@ -1159,7 +1183,7 @@ class Details extends React.Component {
         info: { skuLimitThreshold }
       }
     } = this.props;
-    const { details, quantity, quantityMinLimit, stock } = this.state;
+    const { details, quantity, quantityMinLimit, stock, form } = this.state;
     return (
       <>
         <div className="specAndQuantity rc-margin-bottom--xs ">
@@ -1175,10 +1199,13 @@ class Details extends React.Component {
             shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />
-          {isMobile && this.isLogin && (
+          {isMobile && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
+              form={form}
+              isLogin={this.isLogin}
+              quantity={quantity}
               selectedSpecItem={selectedSpecItem}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
@@ -1208,10 +1235,14 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {!isMobile && this.isLogin && (
+        {!isMobile && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
+            form={form}
+            isLogin={this.isLogin}
+            quantity={quantity}
+            merberConsent={this.state.merberConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
@@ -1640,6 +1671,7 @@ class Details extends React.Component {
                                 >
                                   {this.ButtonGroupDom(false)}
                                 </SingleBuyMethod>
+
                                 {currentSubscriptionStatus &&
                                 currentSubscriptionPrice &&
                                 skuPromotions == 'autoship' ? (
@@ -1663,6 +1695,7 @@ class Details extends React.Component {
                                     {this.ButtonGroupDom(false)}
                                   </AutoshipBuyMethod>
                                 ) : null}
+
                                 {currentSubscriptionStatus &&
                                 currentSubscriptionPrice &&
                                 skuPromotions == 'club' ? (

@@ -5,7 +5,8 @@ import {
   formatDate,
   optimizeImage,
   filterOrderId,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -154,7 +155,11 @@ const ItemContainer = ({ subItem, className }) => {
         <div className="col-span-6 md:col-span-2 mx-2 status">
           <StatusMark status={subItem.subscribeStatus} />
         </div>
-        <div className="col-span-6 md:col-span-2 text-center">
+        <div
+          className={`col-span-6 md:col-span-2 text-center ${
+            subItem.goodsInfo?.length ? 'visible' : 'invisible'
+          }`}
+        >
           <Button
             size="small"
             className="truncate md:w-11/12"

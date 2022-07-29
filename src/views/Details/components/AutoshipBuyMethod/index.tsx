@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection';
 import { formatMoney } from '@/utils/utils';
 import { Decimal } from 'decimal.js';
-const De = window.__.env.REACT_APP_COUNTRY === 'de';
 
 interface Props {
   form: any;
@@ -77,32 +75,7 @@ const AutoshipBuyMethod = ({
               >
                 {/* <span className="iconfont mr-2">&#xe675;</span> */}
                 <FormattedMessage id="autoship" />
-                {/* <span
-                  className="info-tooltip delivery-method-tooltip"
-                  onMouseEnter={() => {
-                    setToolTipVisible(true);
-                  }}
-                  onMouseLeave={() => {
-                    setToolTipVisible(false);
-                  }}
-                >
-                  i
-                  <ConfirmTooltip
-                    arrowStyle={{ left: '50%' }}
-                    containerStyle={{
-                      transform: 'translate(-50%, 110%)'
-                    }}
-                    display={toolTipVisible}
-                    cancelBtnVisible={false}
-                    confirmBtnVisible={false}
-                    updateChildDisplay={(status) => {
-                      setToolTipVisible(status);
-                    }}
-                    content={
-                      <FormattedMessage id="subscription.promotionTip2" />
-                    }
-                  />
-                </span> */}
+               
               </span>
             </label>
           </div>

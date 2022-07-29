@@ -817,7 +817,7 @@ class PayProductInfo extends React.Component {
                         className="rc-input__control"
                         id="id-promotionCode"
                         type="text"
-                        autocomplete="off"
+                        autoComplete="off"
                         name="text"
                         placeholder={txt}
                         value={this.state.promotionInputValue}

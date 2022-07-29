@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Popover } from '@/components/Common';
 import { formatMoney } from '@/utils/utils';
 
 export default function PromotionCodeText({ el, i }) {
@@ -8,30 +8,8 @@ export default function PromotionCodeText({ el, i }) {
   return (
     <div className={`row shipping-item green d-flex`}>
       <div className="col-6 pb-4">
-        <p
-          id={`marketingName${i}`}
-          className="ui-text-overflow-line2 mb-0"
-          onMouseEnter={() => {
-            if (
-              document.getElementById(`marketingName${i}`).scrollHeight > 48
-            ) {
-              setPromotionsVisible(true);
-            }
-          }}
-          onMouseLeave={() => {
-            setPromotionsVisible(false);
-          }}
-        >
-          {/* {this.promotionDesc || (
-                            <FormattedMessage id="NoPromotionDesc" />
-                          )} */}
-          {/* <FormattedMessage id="promotion" /> */}
-          {el.marketingName}
-        </p>
-        <ConfirmTooltip
-          arrowStyle={{ left: '10%' }}
+        <Popover
           display={promotionsVisible}
-          containerStyle={{ left: '120%' }}
           cancelBtnVisible={false}
           confirmBtnVisible={false}
           updateChildDisplay={(status) => setPromotionsVisible(status)}
@@ -40,7 +18,28 @@ export default function PromotionCodeText({ el, i }) {
               {el.marketingName}
             </div>
           }
-        />
+        >
+          <p
+            id={`marketingName${i}`}
+            className="ui-text-overflow-line2 mb-0"
+            onMouseEnter={() => {
+              if (
+                document.getElementById(`marketingName${i}`).scrollHeight > 48
+              ) {
+                setPromotionsVisible(true);
+              }
+            }}
+            onMouseLeave={() => {
+              setPromotionsVisible(false);
+            }}
+          >
+            {/* {this.promotionDesc || (
+                          <FormattedMessage id="NoPromotionDesc" />
+                        )} */}
+            {/* <FormattedMessage id="promotion" /> */}
+            {el.marketingName}
+          </p>
+        </Popover>
       </div>
       <div className="col-6">
         <p className="text-right shipping-cost text-nowrap">

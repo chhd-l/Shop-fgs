@@ -32,13 +32,33 @@ export default class Selection extends React.Component {
       },
       hoveredIdx: -1,
       dataList: [],
-      noResultsFound: false
+      noResultsFound: false,
+      open: this.props.open || false //初始化为ru环境时地址默认选中第一个
     };
     this.timeOutId = null;
     this.searchRef = React.createRef();
   }
   componentDidMount() {
     this.searchRef?.current && this.searchRef?.current?.focus();
+  }
+  componentDidUpdate(prevProps, prevStat) {
+    if (
+      prevProps.optionList.length !== 0 &&
+      prevStat.dataList.length !== prevProps.optionList.length &&
+      this.state.open &&
+      window.__.env.REACT_APP_COUNTRY === 'ru'
+    ) {
+      const item = prevProps.optionList[0];
+      this.setState(
+        {
+          selectedItem: { ...item },
+          open: false
+        },
+        () => {
+          this.props.selectedItemChange(this.state.selectedItem);
+        }
+      );
+    }
   }
   hideOptions = () => {
     this.setState({
@@ -51,14 +71,16 @@ export default class Selection extends React.Component {
       if (this.props.slotTimeChanged) {
         this.setState({
           selectedItem: { value, ...item },
-          optionsVisible: false
+          optionsVisible: false,
+          open: false
         });
       }
     } else {
       this.setState(
         {
           selectedItem: { value, ...item },
-          optionsVisible: false
+          optionsVisible: false,
+          open: false
         },
         () => {
           this.props.selectedItemChange(this.state.selectedItem);
@@ -168,6 +190,8 @@ export default class Selection extends React.Component {
             </span>
           </>
         );
+        console.log('showValueoption', option);
+        console.log('showValueplaceholder', placeholder);
       } else if (option) {
         res = option;
       } else {
@@ -305,6 +329,7 @@ export default class Selection extends React.Component {
                       if (item.disabled) {
                         return;
                       }
+                      console.log('handleClickOptionitem', item);
                       this.handleClickOption(item.value, item);
                     }}
                     onMouseEnter={() => {

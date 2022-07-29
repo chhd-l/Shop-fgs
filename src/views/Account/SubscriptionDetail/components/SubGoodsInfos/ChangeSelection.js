@@ -137,36 +137,6 @@ const ChangeSelection = ({ el, idx }) => {
           />
         </div>
       </div>
-      {subDetail?.canChangeProductAtGoodsLine ? (
-        <div className="rc-card-content px-3 md:px-0">
-          <div className=" flex items-center">
-            <span
-              style={{
-                width: 'auto',
-                paddingTop: '6px'
-              }}
-              className={cn(
-                `text-plain rc-styled-link ui-text-overflow-md-line1`,
-                {
-                  'ui-btn-loading': productListLoading
-                }
-              )}
-              onClick={() => handleClickChangeProduct(idx)}
-            >
-              <em
-                className="iconfont iconrefresh font-bold mr-2"
-                style={{
-                  fontSize: '1.1rem',
-                  color: 'rgb(58,180,29)'
-                }}
-              />
-              <span>
-                <FormattedMessage id="subscriptionDetail.changeProduct" />
-              </span>
-            </span>
-          </div>
-        </div>
-      ) : null}
     </>
   );
 };

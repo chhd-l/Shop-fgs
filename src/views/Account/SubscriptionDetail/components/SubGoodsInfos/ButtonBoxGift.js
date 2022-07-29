@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
 import { getRemainings } from '@/api/dispenser';
-import { myAccountActionPushEvent } from '@/utils/GA';
 import { getDeviceType } from '@/utils/utils';
 import { Button } from '@/components/Common';
 
@@ -27,7 +26,7 @@ const ButtonBoxGift = () => {
     };
     try {
       let res = await getRemainings(params);
-      myAccountActionPushEvent('Cancel Subscription');
+
       let remainingsList = res.context;
       setState({
         remainingsList,
