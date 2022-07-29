@@ -98,8 +98,8 @@ const OssReceiveBackNotificationContent = ({
           <FormattedMessage
             id={
               isEdited
-                ? 'subscription.backToStockInfoActivated'
-                : 'subscription.backToStockInfo'
+                ? '<Back to stock> notification is activated for'
+                : 'Receive "back in stock" notification'
             }
           />
         }
@@ -129,7 +129,7 @@ const OssReceiveBackNotificationContent = ({
               className="rc-btn rc-btn--two rc-btn--sm h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={() => setIsEdited(false)}
             >
-              <FormattedMessage id="modifyEmail" />
+              <FormattedMessage id="Modify e-mail" />
             </button>
           </>
         ) : (
@@ -153,7 +153,7 @@ const OssReceiveBackNotificationContent = ({
               className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={handleSubmit}
             >
-              <FormattedMessage id="notifyMe" />
+              <FormattedMessage id="Notify me" />
             </Button>
           </>
         )}
