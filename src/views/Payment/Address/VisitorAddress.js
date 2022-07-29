@@ -258,6 +258,10 @@ class VisitorAddress extends React.Component {
       key: this.curPanelKey,
       hideOthers: true
     });
+    this.props.paymentStore.setStsToCompleted({
+      key: 'email',
+      onlyGa: true
+    });
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   };

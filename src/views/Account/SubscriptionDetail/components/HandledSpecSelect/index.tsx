@@ -16,6 +16,7 @@ interface Props {
   canSelectedWhenAllSpecDisabled?: boolean; //是否规格禁用了，仍然可以被选中，eg:规格被禁用了，一般情况不默认选中了；然而，PDP，即使规格被禁用了，仍需被选中，原因是需要返回对应的price信息，以便页面展示用
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   defaultSkuNo?: string;
+  updatedChangeSku?:Function;
 }
 
 const HandledSpecSelect = ({
@@ -27,7 +28,8 @@ const HandledSpecSelect = ({
   onIsSpecAvailable = () => { },
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
-  defaultSkuNo
+  defaultSkuNo,
+  updatedChangeSku=()=>{}
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } =
     details;
@@ -119,6 +121,13 @@ const HandledSpecSelect = ({
         }
         return item;
       });
+      const specDetailId = goodsSpecs.map((item: any) =>
+      item.chidren.find((good: any) => good.specDetailId === sdId)
+    )?.[0]?.specDetailId;
+    const skuInfo = goodsInfos.find((item: any) =>
+      item.mockSpecDetailIds.includes(specDetailId)
+    );
+    updatedChangeSku(skuInfo)
     matchGoods();
   };
 
@@ -141,7 +150,7 @@ const HandledSpecSelect = ({
       if(it.isEmpty) {
         it.name2 = 'details.outStock'
       }
-      it.disabled = it.isEmpty
+      it.disabled = !canSelectedOutOfStock && it.isEmpty
     }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
@@ -163,7 +172,6 @@ const HandledSpecSelect = ({
 
   const selectStock = (sItem: any) => {
     const v = sItem?.chidren?.filter((el: any) => el.selected)?.[0]?.value
-
     const selectChange = (el: any) => {
       handleChooseSize(sItem.specId, el.specDetailId);
     }
@@ -184,7 +192,7 @@ const HandledSpecSelect = ({
     <div className="spec select-spec-wrap">
       {goodsSpecs?.map((sItem: any, i: number) => (
         <div id="choose-select" className="spec-choose-select" key={i}>
-          <div className="rc-margin-bottom--xs">
+          <div>
             <FormattedMessage id={sItem?.specName} />:
           </div>
           {selectStock(sItem)}
