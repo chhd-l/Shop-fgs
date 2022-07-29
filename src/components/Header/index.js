@@ -92,7 +92,7 @@ class Header extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
 
     // this.clickLogin = this.clickLogin.bind(this)
-    this.clickLogoff = this.clickLogoff.bind(this);
+    // this.clickLogoff = this.clickLogoff.bind(this);
 
     this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this);
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this);
@@ -480,20 +480,20 @@ class Header extends React.Component {
     history.push('/login');
     localItemRoyal.set('loginType', 'register');
   }
-  clickLogin() {
-    this.props.history.push('/login');
-    localItemRoyal.set('loginType', 'login');
-  }
-  clickLogoff() {
-    const { loginStore, checkoutStore, history, clinicStore } = this.props;
-    localItemRoyal.remove('rc-token');
-    loginStore.removeUserInfo();
-    clinicStore.removeDefaultClinicInfo();
-    clinicStore.removeSelectClinicInfo();
-    checkoutStore.removeLoginCartData();
-    loginStore.changeIsLogin(false);
-    history.push('/');
-  }
+  // clickLogin() {
+  //   this.props.history.push('/login');
+  //   localItemRoyal.set('loginType', 'login');
+  // }
+  // clickLogoff() {
+  //   const { loginStore, checkoutStore, history, clinicStore } = this.props;
+  //   localItemRoyal.remove('rc-token');
+  //   loginStore.removeUserInfo();
+  //   clinicStore.removeDefaultClinicInfo();
+  //   clinicStore.removeSelectClinicInfo();
+  //   checkoutStore.removeLoginCartData();
+  //   loginStore.changeIsLogin(false);
+  //   history.push('/');
+  // }
   renderClinic() {
     const { clinicId, clinicName } = this.props.clinicStore;
     const cls = classNames('tip-clinics', { 'max-h-full': isCountryMx });
