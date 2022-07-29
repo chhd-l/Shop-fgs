@@ -32,33 +32,13 @@ export default class Selection extends React.Component {
       },
       hoveredIdx: -1,
       dataList: [],
-      noResultsFound: false,
-      open: this.props.open || false
+      noResultsFound: false
     };
     this.timeOutId = null;
     this.searchRef = React.createRef();
   }
   componentDidMount() {
     this.searchRef?.current && this.searchRef?.current?.focus();
-  }
-  componentDidUpdate(prevProps, prevStat) {
-    if (
-      prevProps.optionList.length !== 0 &&
-      prevStat.dataList.length !== prevProps.optionList.length &&
-      this.state.open &&
-      window.__.env.REACT_APP_COUNTRY === 'ru'
-    ) {
-      const item = prevProps.optionList[0];
-      this.setState(
-        {
-          selectedItem: { ...item },
-          open: false
-        },
-        () => {
-          this.props.selectedItemChange(this.state.selectedItem);
-        }
-      );
-    }
   }
   hideOptions = () => {
     this.setState({
