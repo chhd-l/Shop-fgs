@@ -51,6 +51,7 @@ const LogoutButton = (props) => {
   };
 
   const logout = async () => {
+    console.log('click logout button');
     try {
       localStorage.setItem(
         'country-code-current-operated',
