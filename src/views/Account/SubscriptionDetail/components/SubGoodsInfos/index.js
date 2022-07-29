@@ -348,7 +348,6 @@ const SubGoodsInfos = ({
                                 width: '75%'
                               }}
                             >
-                              {/* Because of the style, comment first */}
                               <span
                                 style={{
                                   width: 'auto',
