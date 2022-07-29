@@ -36,15 +36,16 @@ const LogoutButton = (props) => {
   }, []);
 
   const storageHandler = (e) => {
-    console.log('logoutbutton storage change', e.key);
-    if (
-      e.key ===
-      `${localStorage.getItem('country-code-current-operated')}-rc-token`
-    ) {
-      // debugger;
+    // console.log('logoutbutton storage change', e.key);
+    if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // 该token的旧值存在，新值不存在，表示登出
       if (e.oldValue && !e.newValue) {
-        clickLogoff();
+        console.log(
+          11111111122222,
+          e.key,
+          `${window.__.env.REACT_APP_COUNTRY}-rc-token`
+        );
+        // clickLogoff();
       }
     }
   };
