@@ -183,7 +183,7 @@ const SubGoodsInfos = ({
                       {!isIndv && el.specText}
                     </p>
                     {isShowClub && !!subDetail.petsId && (
-                      <DailyRation rations={el.petsRation} />
+                      <DailyRation rations={el.petsRation} type="mobile" />
                     )}
                   </div>
                 </div>
@@ -364,7 +364,10 @@ const SubGoodsInfos = ({
                                   whiteSpace: 'nowrap'
                                 }}
                               >
-                                <DailyRation rations={el.petsRation} />
+                                <DailyRation
+                                  rations={el.petsRation}
+                                  type="pc"
+                                />
                               </div>
                             </div>
                           )}
