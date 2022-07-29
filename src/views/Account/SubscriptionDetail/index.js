@@ -36,8 +36,10 @@ import {
   cancelAllSub,
   orderNowSub,
   updateNextDeliveryTime,
+  changeSubscriptionGoods,
   checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
+
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
@@ -473,6 +475,7 @@ class SubscriptionDetail extends React.Component {
           }
           item.oldSubscribeNum = item.subscribeNum;
           item.oldPeriodTypeId = item.periodTypeId;
+          item.oldSkuId = item.skuId;
           item.canDelete =
             subDetail.goodsInfo.length > 1 && subscribeStatusVal === 'ACTIVE';
           item.confirmTooltipVisible = false;
@@ -841,6 +844,7 @@ class SubscriptionDetail extends React.Component {
         })
       };
       let changeField = [];
+      let skuChange = false;
       let goodsItems = subDetail.goodsInfo?.map((el) => {
         if (
           el.subscribeNum !== el.oldSubscribeNum &&
@@ -853,6 +857,9 @@ class SubscriptionDetail extends React.Component {
           !changeField.includes('frequency')
         ) {
           changeField.push('frequency');
+        }
+        if (el.oldSkuId !== el.skuId) {
+          skuChange = true;
         }
         return {
           skuId: el.skuId,
@@ -869,7 +876,11 @@ class SubscriptionDetail extends React.Component {
         changeField: changeField.length > 0 ? changeField.join(',') : ''
       });
       this.setState({ loading: true });
-      await updateDetail(param);
+      if (skuChange) {
+        this.subSkuChange(subDetail);
+      } else {
+        await updateDetail(param);
+      }
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
@@ -889,6 +900,31 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
+
+  subSkuChange = async (subDetail) => {
+    let addGoodsItems = [];
+    let deleteGoodsItems = [];
+    subDetail.goodsInfo.forEach((el) => {
+      addGoodsItems.push({
+        goodsInfoFlag: el.goodsInfoFlag,
+        nextDeliveryTime: el.nextDeliveryTime,
+        periodTypeId: el.periodTypeId,
+        skuId: el.skuId,
+        subscribeNum: el.subscribeNum
+      });
+      deleteGoodsItems.push({
+        skuId: el.oldSkuId,
+        subscribeId: subDetail.subscribeId,
+        subscribeNum: el.subscribeNum
+      });
+    });
+    const params = {
+      subscribeId: subDetail.subscribeId,
+      addGoodsItems,
+      deleteGoodsItems
+    };
+    await changeSubscriptionGoods(params);
+  };
 
   render() {
     const event = {
