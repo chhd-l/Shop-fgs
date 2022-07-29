@@ -25,15 +25,15 @@ const clinicStore = stores.clinicStore;
 const LogoutButton = (props) => {
   const { authState, oktaAuth } = useOktaAuth();
 
-  useEffect(() => {
-    // 当打开多个tab时，同步登录登出状态
-    if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
-      window.addEventListener('storage', storageHandler);
-      return () => {
-        window.removeEventListener('storage', storageHandler);
-      };
-    }
-  }, []);
+  // useEffect(() => {
+  //   // 当打开多个tab时，同步登录登出状态
+  //   if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
+  //     window.addEventListener('storage', storageHandler);
+  //     return () => {
+  //       window.removeEventListener('storage', storageHandler);
+  //     };
+  //   }
+  // }, []);
 
   const storageHandler = (e) => {
     // console.log('logoutbutton storage change', e.key);

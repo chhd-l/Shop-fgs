@@ -80,10 +80,10 @@ class RegisterRequired extends Component {
       }
     });
 
-    window.addEventListener('storage', this.storageHandler);
+    // window.addEventListener('storage', this.storageHandler);
   }
   componentWillUnmount() {
-    window.removeEventListener('storage', this.storageHandler);
+    // window.removeEventListener('storage', this.storageHandler);
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -202,6 +202,7 @@ class RegisterRequired extends Component {
         loginStore.userInfo?.customerId,
         localItemRoyal.get('rc-userinfo')
       );
+      debugger;
       if (!customerId) {
         return;
       }
