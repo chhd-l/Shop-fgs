@@ -17,10 +17,10 @@ import {
   PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
 import PaymentEditForm from '@/components/PaymentEditForm';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import getCardImg from '@/lib/get-card-img';
 import { handleEmailShow } from '@/utils/utils';
+import { Popover } from '@/components/Common';
 
 function CardItem(props) {
   const { data, listVisible, supportPaymentMethods } = props;
@@ -140,28 +140,7 @@ function CardItem(props) {
             right: '-12%'
           }}
         >
-          <div
-            className={`${
-              data.paddingFlag ? 'ui-cursor-not-allowed' : 'rc-styled-link'
-            }`}
-            onClick={(e) => props.handleClickDeleteBtn(data, e)}
-          >
-            {/* <FormattedMessage id="delete" /> */}
-            <div
-              className="iconfont iconshanchu"
-              style={{
-                fontSize: '2rem',
-                lineHeight: '2rem'
-                // fontWeight: '600'
-              }}
-            ></div>
-          </div>
-          <ConfirmTooltip
-            containerStyle={{
-              transform: 'translate(-89%, 105%)'
-            }}
-            arrowStyle={{ left: '89%' }}
-            lastFourDigits={data.lastFourDigits}
+          <Popover
             content={
               <FormattedMessage
                 id="confirmDelete2"
@@ -176,7 +155,24 @@ function CardItem(props) {
             updateChildDisplay={(status) =>
               props.updateConfirmTooltipVisible(data, status)
             }
-          />
+          >
+            <div
+              className={classNames(
+                data.paddingFlag ? 'ui-cursor-not-allowed' : 'rc-styled-link'
+              )}
+              onClick={(e) => props.handleClickDeleteBtn(data, e)}
+            >
+              {/* <FormattedMessage id="delete" /> */}
+              <div
+                className="iconfont iconshanchu"
+                style={{
+                  fontSize: '2rem',
+                  lineHeight: '2rem'
+                  // fontWeight: '600'
+                }}
+              />
+            </div>
+          </Popover>
         </div>
       )}
       {/* } */}

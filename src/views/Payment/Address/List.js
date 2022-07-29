@@ -1342,7 +1342,7 @@ class AddressList extends React.Component {
       hideOthers: true
     });
     this.props.paymentStore.setStsToCompleted({
-      key: 'deliveryAddr',
+      key: 'email',
       onlyGa: true
     });
     // 设置home delivery状态

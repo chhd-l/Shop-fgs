@@ -53,14 +53,12 @@ class EmailForm extends React.Component {
     return 'email';
   }
   handleClickEdit = () => {
-    this.props.paymentStore.setStsToCompleted({
-      key: 'email',
-      onlyGa: true
-    });
     this.props.paymentStore.setStsToEdit({
       key: this.curKey,
       hideOthers: true
     });
+    const options = this.isLogin ? 'Existing account' : 'Guest checkout';
+    checkoutDataLayerPushEvent({ name: 'Email', options });
     this.setState({
       form: Object.assign(this.state.form, {
         email: this.props.currentEmailVal

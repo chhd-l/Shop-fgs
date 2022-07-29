@@ -6,8 +6,7 @@ import Skeleton from 'react-skeleton-loader';
 import EditForm from '@/components/Adyen/form';
 import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { loadJS, dynamicLoadCss } from '@/utils/utils';
+import { Popover } from '@/components/Common';
 import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
 import getPaymentConf from '@/lib/get-payment-conf';
@@ -305,7 +304,7 @@ class AdyenCreditCardList extends React.Component {
       locale: adyenOriginKeyConf?.locale || 'en-US'
     };
     const AdyenCheckout = (await import('@adyen/adyen-web')).default;
-    const checkout = await new AdyenCheckout(configuration);
+    const checkout = await AdyenCheckout(configuration);
     const card = checkout
       .create('card', {
         // brands: brand,
@@ -496,20 +495,17 @@ class AdyenCreditCardList extends React.Component {
         }}
       >
         <span className={`position-relative pl-2 ui-cursor-pointer-pure`}>
-          <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
-            <FormattedMessage id="delete" />
-          </span>
-          <ConfirmTooltip
-            containerStyle={{
-              transform: 'translate(-89%, 105%)'
-            }}
-            arrowStyle={{ left: '89%' }}
+          <Popover
             display={el.confirmTooltipVisible}
             confirm={this.handleClickConfirmDeleteBtn.bind(this, { el, idx })}
             updateChildDisplay={(status) =>
               this.updateConfirmTooltipVisible(el, status)
             }
-          />
+          >
+            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+              <FormattedMessage id="delete" />
+            </span>
+          </Popover>
         </span>
       </div>
     );

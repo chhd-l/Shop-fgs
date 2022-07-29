@@ -435,8 +435,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             <FormattedMessage
               id={
                 alreadyNotice
-                  ? 'subscription.backToStockInfoActivated'
-                  : 'subscription.backToStockInfo'
+                  ? '<Back to stock> notification is activated for'
+                  : 'Receive "back in stock" notification'
               }
             />
           </span>
@@ -479,7 +479,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               className="md:ml-6 mt-3 md:mt-0"
               onClick={handleModifyEmail}
             >
-              <FormattedMessage id="modifyEmail" />
+              <FormattedMessage id="Modify e-mail" />
             </Button>
           ) : null}
         </div>
@@ -516,7 +516,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               disabled={!correctEmail || alreadyNotice}
               onClick={handleNotifyMe}
             >
-              <FormattedMessage id="notifyMe" />
+              <FormattedMessage id="Notify me" />
             </Button>
           ) : isNotInactive && !alreadyNotice ? (
             <Button

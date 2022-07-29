@@ -6,26 +6,17 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import SearchSelection from '@/components/SearchSelection';
 import { getPrescriberByCode } from '@/api/clinic';
 import { searchNextConfirmPanel } from '../modules/utils';
-import PropTypes from 'prop-types';
 import ClinicPanelContainer from './ClinicPanelContainer';
-import { Button } from '@/components/Common';
+import { Button, Popover } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+let flag;
 
 @inject('clinicStore', 'configStore', 'paymentStore', 'checkoutStore')
 @injectIntl
 @observer
 class ClinicForm extends React.Component {
-  static propTypes = {
-    containerStyle: PropTypes.object,
-    arrowStyle: PropTypes.object
-  };
   static defaultProps = {
-    content: <FormattedMessage id="confirmDelete" />,
-    containerStyle: {},
-    arrowStyle: {},
-    cancelBtnVisible: true,
-    confirmBtnVisible: true,
     needPrescriber: false
   };
   constructor(props) {
@@ -107,15 +98,15 @@ class ClinicForm extends React.Component {
     });
   };
   handleMouseOver() {
-    this.flag = 1;
+    flag = 1;
     this.setState({
       toolTipVisible: true
     });
   }
   handleMouseOut() {
-    this.flag = 0;
+    flag = 0;
     setTimeout(() => {
-      if (!this.flag) {
+      if (!flag) {
         this.setState({
           toolTipVisible: false,
           errMsg: ''
@@ -216,57 +207,52 @@ class ClinicForm extends React.Component {
                   inputCustomStyle={true}
                 />
                 <span className="ml-3">
-                  <span
-                    className="info delivery-method-tooltip"
-                    style={{ verticalAlign: 'unset' }}
-                    onMouseOver={this.handleMouseOver}
-                    onMouseOut={this.handleMouseOut}
+                  <Popover
+                    display={this.state.toolTipVisible}
+                    cancelBtnVisible={false}
+                    confirmBtnVisible={false}
+                    updateChildDisplay={(status) => {
+                      this.setState({
+                        toolTipVisible: status
+                      });
+                    }}
+                    content={
+                      <FormattedMessage
+                        id="noClinicTip"
+                        values={{
+                          val: (
+                            <Link
+                              to="/prescriptionNavigate"
+                              target="_blank"
+                              rel="nofollow"
+                              className="rc-styled-link font-italic"
+                            >
+                              <FormattedMessage id="clickHere3" />
+                              {Boolean(
+                                window.__.env
+                                  .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                              ) && (
+                                <span className="warning_blank">
+                                  <FormattedMessage id="opensANewWindow" />
+                                </span>
+                              )}
+                            </Link>
+                          )
+                        }}
+                      />
+                    }
+                    handleContentMouseOver={this.handleMouseOver}
+                    handleContentMouseOut={this.handleMouseOut}
                   >
-                    ?
-                  </span>
-                  {this.state.toolTipVisible ? (
-                    <div
-                      className="confirm-tool-container position-relative"
+                    <span
+                      className="info delivery-method-tooltip"
+                      style={{ verticalAlign: 'unset' }}
                       onMouseOver={this.handleMouseOver}
                       onMouseOut={this.handleMouseOut}
                     >
-                      <div
-                        className="confirm-tool-content rc-bg-colour--brand4 p-3"
-                        style={this.props.containerStyle}
-                        tabIndex="1"
-                      >
-                        <div
-                          className="confirm-tool-arrow"
-                          style={this.props.arrowStyle}
-                        />
-                        <div className="pt-1">
-                          <FormattedMessage
-                            id="noClinicTip"
-                            values={{
-                              val: (
-                                <Link
-                                  to="/prescriptionNavigate"
-                                  target="_blank"
-                                  rel="nofollow"
-                                  className="rc-styled-link font-italic"
-                                >
-                                  <FormattedMessage id="clickHere3" />
-                                  {Boolean(
-                                    window.__.env
-                                      .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                                  ) && (
-                                    <span className="warning_blank">
-                                      <FormattedMessage id="opensANewWindow" />
-                                    </span>
-                                  )}
-                                </Link>
-                              )
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
+                      ?
+                    </span>
+                  </Popover>
                 </span>
               </div>
               <div className="d-flex justify-content-end mt-3 rc_btn_clinic_form">

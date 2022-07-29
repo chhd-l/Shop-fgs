@@ -145,7 +145,7 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
   const availableSizes = item?.sizeList.map((size) => ({
     size: size.goodsInfoWeight,
     price: size.marketPrice,
-    pricePerUnit: Math.ceil(size.basePrice || 0),
+    pricePerUnit: size.basePrice,
     localUnit: size.goodsInfoUnit
   }));
   // debugger;
@@ -154,16 +154,16 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     // dataLayer?.push({
     //   products: [product]
     // });
-    setTimeout(() => {
-      dataLayer?.push({
-        event: 'pdpScreenLoad',
-        pdpScreenLoad: {
-          products: [product], //为了区分plp，pdp，checkout的products
-          availableSizes: availableSizes
-        },
-        pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
-      });
-    }, 5000);
+    // setTimeout(() => {
+    dataLayer?.push({
+      event: 'pdpScreenLoad',
+      pdpScreenLoad: {
+        products: [product], //为了区分plp，pdp，checkout的products
+        availableSizes: availableSizes
+      },
+      pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
+    });
+    // }, 5000);
   }
 };
 

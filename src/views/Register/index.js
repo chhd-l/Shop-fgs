@@ -37,6 +37,36 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
+const pass = 'pass' + 'word';
+
+const ErrorMessage = ({ msg, close, style = {} }) => {
+  return msg ? (
+    <aside
+      aria-hidden="true"
+      className={cn(
+        'ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm'
+      )}
+      role="alert"
+      style={style}
+    >
+      <p>{msg}</p>
+      <button
+        className="rc-btn rc-alert__close rc-close--xs rc-iconography"
+        data-close=""
+        aria-label=""
+      >
+        <span className="rc-screen-reader-text" />
+      </button>
+      <button
+        className="ciam-alert-close-error-popin rc-alert__close rc-icon rc-alert__close rc-close--xs rc-iconography"
+        data-close=""
+        onClick={close}
+      >
+        <span className="rc-screen-reader-text"></span>
+      </button>
+    </aside>
+  ) : null;
+};
 
 @injectIntl
 @inject('paymentStore')
@@ -75,18 +105,15 @@ class Register extends Component {
         email: '',
         password: ''
       },
-      regError: false,
-      regErrorMessage: '',
       passwordMessage: '',
       emailMessage: '',
       requiredConsentCount: 0,
-      hasError: false,
       errorMessage: '',
       firstNameValid: true,
       lastNameValid: true,
       phoneticFirstNameValid: true,
       phoneticLastNameValid: true,
-      passwordInputType: process.env.REACT_APP_PASSWORDINPUTTYPE,
+      passwordInputType: pass,
       illegalSymbol: false,
       showValidErrorMsg: false
     };
@@ -434,114 +461,101 @@ class Register extends Component {
     )
       .then(async (res) => {
         console.log('oktaRegister', res);
-        if (res.code === 'K-000000') {
-          //GA 注册成功 start
-          window.dataLayer &&
-            dataLayer.push({
-              event: `${window.__.env.REACT_APP_GTM_SITE_ID}accountCreation`,
-              interaction: {
-                category: 'account creation',
-                action: 'accounct creation',
-                label: '',
-                value: 1
-              }
-            });
-          //GA 注册成功 end
+        //GA 注册成功 start
+        window.dataLayer &&
+          dataLayer.push({
+            event: `${window.__.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+            interaction: {
+              category: 'account creation',
+              action: 'accounct creation',
+              label: '',
+              value: 1
+            }
+          });
+        //GA 注册成功 end
 
-          if (
-            window.__.env.REACT_APP_FGS_SELF_REGISTER ||
+        if (
+          window.__.env.REACT_APP_FGS_SELF_REGISTER ||
+          res.context.oktaSessionToken
+        ) {
+          //自动登录
+          loginStore.changeLoginModal(false);
+          loginStore.changeIsLogin(true);
+
+          localItemRoyal.set('rc-token', res.context.token);
+          localItemRoyal.set('rc-register', true);
+          if (checkoutStore.cartData.length) {
+            await mergeUnloginCartData();
+            await checkoutStore.updateLoginCart();
+          }
+
+          // PO bind shelterId, country:us
+          const shelterId = sessionItemRoyal.get('handled-shelter') || '';
+          const customerId = res.context?.customerId || '';
+          // if (shelterId) {
+          //   await saveShelterId({
+          //     shelterId,
+          //     customerId
+          //   });
+          // }
+
+          loginStore.setUserInfo(res.context.customerDetail);
+          localItemRoyal.set(
+            'okta-session-token',
             res.context.oktaSessionToken
-          ) {
-            //自动登录
-            loginStore.changeLoginModal(false);
-            loginStore.changeIsLogin(true);
-
-            localItemRoyal.set('rc-token', res.context.token);
-            localItemRoyal.set('rc-register', true);
-            if (checkoutStore.cartData.length) {
-              await mergeUnloginCartData();
-              await checkoutStore.updateLoginCart();
-            }
-
-            // PO bind shelterId, country:us
-            const shelterId = sessionItemRoyal.get('handled-shelter') || '';
-            const customerId = res.context?.customerId || '';
-            // if (shelterId) {
-            //   await saveShelterId({
-            //     shelterId,
-            //     customerId
-            //   });
+          );
+          var callOktaCallBack = getOktaCallBackUrl(
+            res.context.oktaSessionToken
+          ); //获取okta的登录的url
+          localItemRoyal.set(
+            'rc-consent-list',
+            JSON.stringify(this.state.list)
+          ); // 把consent放入缓存，登录完成后，注册consent
+          // 注册的时候如果是预约专家就直接跳转checkout页面
+          let appointmentNo = sessionItemRoyal.get('appointment-no');
+          if (appointmentNo) {
+            // let type ={
+            //   sit:'/fr/checkout',
+            //   uat: '/fr/shop/checkout',
             // }
-
-            loginStore.setUserInfo(res.context.customerDetail);
-            localItemRoyal.set(
-              'okta-session-token',
-              res.context.oktaSessionToken
-            );
-            var callOktaCallBack = getOktaCallBackUrl(
-              res.context.oktaSessionToken
-            ); //获取okta的登录的url
-            localItemRoyal.set(
-              'rc-consent-list',
-              JSON.stringify(this.state.list)
-            ); // 把consent放入缓存，登录完成后，注册consent
-            // 注册的时候如果是预约专家就直接跳转checkout页面
-            let appointmentNo = sessionItemRoyal.get('appointment-no');
-            if (appointmentNo) {
-              // let type ={
-              //   sit:'/fr/checkout',
-              //   uat: '/fr/shop/checkout',
-              // }
-              // window.location.href = window.location.origin + type[window.__.env.REACT_APP_GA_ENV];
-              this.props.history.push('/checkout');
-            } else {
-              if (window.__.env.REACT_APP_FGS_SELF_REGISTER) {
-                this.props.history.push(
-                  localItemRoyal.get('okta-redirectUrl') || '/'
-                );
-              } else {
-                window.location.href = callOktaCallBack; // 调用一次OKTA的登录
-              }
-            }
+            // window.location.href = window.location.origin + type[window.__.env.REACT_APP_GA_ENV];
+            this.props.history.push('/checkout');
           } else {
-            //发送邮件，跳转welcome页面
-            let customerDetail = res.context.customerDetail;
-            let submitParam = bindSubmitParam(this.state.list);
-            userBindConsent({
-              ...submitParam,
-              useBackendOktaTokenFlag: true,
-              customerId: customerDetail.customerId
-            })
-              .then((res) => {
-                loginStore.setUserInfo(customerDetail); // For compare email
-                this.props.history.push('/welcome/' + registerForm.email);
-              })
-              .catch((err) => {
-                window.scrollTo(0, 0);
-                this.setState({
-                  circleLoading: false,
-                  hasError: true,
-                  errorMessage: null
-                });
-              });
+            if (window.__.env.REACT_APP_FGS_SELF_REGISTER) {
+              this.props.history.push(
+                localItemRoyal.get('okta-redirectUrl') || '/'
+              );
+            } else {
+              window.location.href = callOktaCallBack; // 调用一次OKTA的登录
+            }
           }
         } else {
-          window.scrollTo(0, 0);
-          this.setState({
-            circleLoading: false,
-            hasError: true,
-            errorMessage: null
-          });
+          //发送邮件，跳转welcome页面
+          let customerDetail = res.context.customerDetail;
+          let submitParam = bindSubmitParam(this.state.list);
+          userBindConsent({
+            ...submitParam,
+            useBackendOktaTokenFlag: true,
+            customerId: customerDetail.customerId
+          })
+            .then((res) => {
+              loginStore.setUserInfo(customerDetail); // For compare email
+              this.props.history.push('/welcome/' + registerForm.email);
+            })
+            .catch((err) => {
+              window.scrollTo(0, 0);
+              this.setState({
+                circleLoading: false,
+                errorMessage: err.detailMessage || err.message
+              });
+            });
         }
       })
       .catch((err) => {
         window.scrollTo(0, 0);
         this.setState({
           circleLoading: false,
-          hasError: true,
-          errorMessage: null,
-          regErrorMessage: err.detailMessage,
-          regError: true
+          errorMessage: err.detailMessage || err.message
         });
       });
   };
@@ -614,10 +628,8 @@ class Register extends Component {
       passwordMessage,
       requiredConsentCount,
       list,
-      hasError,
       errorMessage,
       passwordInputType,
-      regError,
       formWarning
     } = this.state;
     const allValid =
@@ -691,46 +703,16 @@ class Register extends Component {
               </DistributeHubLinkOrATag>
             </div>
             {/* 注册重复错误提示 */}
-            {regError ? (
-              <aside
-                className="rc-alert rc-alert--error mb-2 rc-alert__close"
-                role="alert"
-                style={{
-                  padding: '.5rem',
-                  width: '750px',
-                  margin: '0px auto',
-                  textAlign: 'center'
-                }}
-              >
-                <span>
-                  {
-                    <FormattedMessage
-                      id="jp.regErrorMessage"
-                      values={{
-                        val: ''
-                      }}
-                      // values={{
-                      //   val: (
-                      //     <a
-                      //       className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
-                      //       href="https://shopsit.royalcanin.com/jp/help"
-                      //     >
-                      //       {<FormattedMessage id="jp.reghelp" />}
-                      //     </a>
-                      //   )
-                      // }}
-                    />
-                  }
-                </span>
-                <button
-                  class="rc-alert__close rc-icon rc-icon rc-alert__close rc-close--xs rc-iconography"
-                  data-close=""
-                  onClick={() => this.setState({ regError: false })}
-                >
-                  <span class="rc-screen-reader-text">Close</span>
-                </button>
-              </aside>
-            ) : null}
+            <ErrorMessage
+              msg={errorMessage}
+              close={() => this.setState({ errorMessage: '' })}
+              style={{
+                padding: '.5rem',
+                width: '750px',
+                margin: '0px auto',
+                textAlign: 'center'
+              }}
+            />
             {/* logo下标题 */}
             <div className="text-center logo-bottom-title">
               {/* <p>{<FormattedMessage id="jp.regtitle" />}</p>
@@ -1178,49 +1160,29 @@ class Register extends Component {
                 <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
                   <div className="rc-column rc-max-width--md rc-text--center">
                     <div className="rc-margin-bottom--sm">
-                      <aside
-                        aria-hidden="true"
-                        className={
-                          (!hasError ? 'hidden ' : '') +
-                          'ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm'
+                      <ErrorMessage
+                        msg={
+                          errorMessage ? (
+                            <>
+                              {errorMessage}{' '}
+                              <strong>
+                                <Link
+                                  to="/help"
+                                  className="rc-text-colour--brand1"
+                                >
+                                  <FormattedMessage id="contactUs" />
+                                </Link>
+                              </strong>
+                            </>
+                          ) : (
+                            ''
+                          )
                         }
-                        role="alert"
-                      >
-                        <p>
-                          <div>
-                            {errorMessage ? (
-                              errorMessage + ' '
-                            ) : (
-                              <FormattedMessage id="registerErrorMessage" />
-                            )}
-                            <strong>
-                              9
-                              <Link
-                                to="/help"
-                                className="rc-text-colour--brand1"
-                              >
-                                <FormattedMessage id="contactUs" />
-                              </Link>
-                            </strong>
-                          </div>
-                        </p>
-                        <button
-                          className="rc-btn rc-alert__close rc-close--xs rc-iconography"
-                          data-close=""
-                          aria-label=""
-                        >
-                          <span className="rc-screen-reader-text" />
-                        </button>
-                        <button
-                          className="ciam-alert-close-error-popin rc-alert__close rc-icon rc-alert__close rc-close--xs rc-iconography"
-                          data-close=""
-                          onClick={() => {
-                            this.setState({ hasError: false });
-                          }}
-                        >
-                          <span className="rc-screen-reader-text"></span>
-                        </button>
-                      </aside>
+                        close={() => {
+                          this.setState({ errorMessage: '' });
+                        }}
+                      />
+
                       <h2
                         className={`text-center rc-margin-bottom--sm`}
                         dangerouslySetInnerHTML={{

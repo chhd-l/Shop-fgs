@@ -31,6 +31,8 @@ import { getNavigation } from '@/api/hub';
 import queryNavigation from './mock/navigation';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
+import classNames from 'classnames';
+import { isCountryMx } from '@/utils/country';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -494,8 +496,9 @@ class Header extends React.Component {
   }
   renderClinic() {
     const { clinicId, clinicName } = this.props.clinicStore;
+    const cls = classNames('tip-clinics', { 'max-h-full': isCountryMx });
     return clinicId && clinicName && this.props.showMiniIcons ? (
-      <div className="tip-clinics" title={clinicName}>
+      <div className={cls} title={clinicName}>
         <FormattedMessage id="clinic.clinic" /> : {clinicName}
       </div>
     ) : null;

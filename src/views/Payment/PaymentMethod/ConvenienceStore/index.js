@@ -6,25 +6,32 @@ import { DistributeLinkOrATag } from '@/components/DistributeLink';
 
 const convenienceStoreList = [
   {
-    label: <FormattedMessage id="Lawson" />,
-    value: 'Lawson'
-  },
-  // {
-  //   label: <FormattedMessage id="Seven-Eleven" />,
-  //   value: 'Seven-Eleven'
-  // },
-  {
-    label: <FormattedMessage id="Family Mart" />,
-    value: 'Family Mart'
+    label: <FormattedMessage id="Seven-Eleven" />,
+    value: 'Seven-Eleven'
   },
   {
-    label: <FormattedMessage id="Seiko Mart" />,
-    value: 'Seiko Mart'
-  },
-  {
-    label: <FormattedMessage id="Ministop" />,
-    value: 'Ministop'
+    label: (
+      <>
+        <FormattedMessage id="Lawson" />、
+        <FormattedMessage id="Family Mart" />、
+        <FormattedMessage id="Seiko Mart" />、
+        <FormattedMessage id="Ministop" />
+      </>
+    ),
+    value: 'Lawson,Family Mart,Seiko Mart,Ministop'
   }
+  // {
+  //   label: <FormattedMessage id="Family Mart" />,
+  //   value: 'Family Mart'
+  // },
+  // {
+  //   label: <FormattedMessage id="Seiko Mart" />,
+  //   value: 'Seiko Mart'
+  // },
+  // {
+  //   label: <FormattedMessage id="Ministop" />,
+  //   value: 'Ministop'
+  // }
 ];
 
 const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
@@ -47,7 +54,7 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
         <div className="flex flex-row flex-wrap my-4">
           {convenienceStoreList.map((item, index) => (
             <div
-              className="w-full md:w-1/2 rc-input rc-input--inline mr-0 mt-2"
+              className="w-full rc-input rc-input--inline mr-0 mt-2 max-w-none"
               key={index}
             >
               <input
