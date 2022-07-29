@@ -449,9 +449,11 @@ class SubscriptionDetail extends React.Component {
       let completedYearOption = [];
       let petsType = '';
       let isIndv = subDetail.subscriptionType == 'Individualization';
-      const isShowClub =
-        subDetail.subscriptionType?.toLowerCase().includes('club') ||
-        subDetail.subscriptionType?.toLowerCase().includes('individualization');
+      const isShow =
+        ['autoship', 'club', 'individualization'].indexOf(
+          subDetail.subscriptionType?.toLowerCase()
+        ) > -1;
+      console.log(isShow, 'ss');
       subDetail.goodsInfo =
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
@@ -477,7 +479,7 @@ class SubscriptionDetail extends React.Component {
           return item;
         }) || []; //防止商品被删报错
       // change product状态
-      const cPStatus = isShowClub && !isIndv && subscribeStatusVal === 'ACTIVE';
+      const cPStatus = isShow && !isIndv && subscribeStatusVal === 'ACTIVE';
       subDetail.canChangeProduct = cPStatus;
       // 多个商品时，change product按钮放在商品行
       subDetail.canChangeProductAtGoodsLine =
