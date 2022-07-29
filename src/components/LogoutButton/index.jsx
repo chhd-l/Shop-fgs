@@ -51,7 +51,11 @@ const LogoutButton = (props) => {
   };
 
   const logout = async () => {
-    console.log('click logout button');
+    console.log(
+      'click logout button',
+      oktaAuth?.options?.clientId,
+      oktaAuth?.options?.clientId === window.__.env.REACT_APP_CLIENT_ID
+    );
     try {
       localStorage.setItem(
         'country-code-current-operated',
