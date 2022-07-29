@@ -212,7 +212,7 @@ const LoginButton = ({
   }, [authState, oktaAuth]); // Update if authState changes
 
   const storageHandler = (e: StorageEvent) => {
-    console.log('loginbutton storage change', e.key);
+    console.log('loginbutton storage change', e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`);
     // if (e.key.includes('rc-token')) {
     // debugger;
     // }
