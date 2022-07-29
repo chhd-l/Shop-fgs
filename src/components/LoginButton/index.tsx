@@ -226,7 +226,7 @@ const LoginButton = ({
           e.key,
           `${window.__.env.REACT_APP_COUNTRY}-rc-token`
         );
-        // login();
+        login();
       }
     }
     // if (
