@@ -212,15 +212,16 @@ const LoginButton = ({
   }, [authState, oktaAuth]); // Update if authState changes
 
   const storageHandler = (e: StorageEvent) => {
-    console.log('loginbutton storage change', e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`);
+    // console.log('loginbutton storage change', e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`);
     // if (e.key.includes('rc-token')) {
     // debugger;
     // }
     // 当打开多个tab时，同步登录登出状态
     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
-      // debugger;
+      
       // 该token的旧值不存在，新值存在，表示登录
       if (!e.oldValue && e.newValue) {
+        console.log(111111111, e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`)
         login();
       }
     }
