@@ -66,6 +66,13 @@ const LoginButton = ({
 
   // 拿到userinfo信息后，执行传入该组件的init方法
   useEffect(() => {
+    // if (isGetUserInfoDown) {
+    console.log(
+      'getUserInfoDownCallback',
+      isGetUserInfoDown,
+      getUserInfoDownCallback
+    );
+    // }
     if (isGetUserInfoDown && getUserInfoDownCallback) {
       getUserInfoDownCallback();
     }
@@ -123,6 +130,7 @@ const LoginButton = ({
               customerId
             })
               .then(() => {
+                console.log('setIsGetUserInfoDown22');
                 setIsGetUserInfoDown(true);
                 loginStore.changeLoginModal(false);
               })
@@ -182,7 +190,7 @@ const LoginButton = ({
                   //     customerId
                   //   });
                   // }
-
+                  console.log('setIsGetUserInfoDown33');
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
@@ -191,6 +199,7 @@ const LoginButton = ({
                 });
             } else {
               loginStore.changeLoginModal(false);
+              console.log('setIsGetUserInfoDown11');
               setIsGetUserInfoDown(true);
             }
           }
@@ -203,21 +212,28 @@ const LoginButton = ({
   }, [authState, oktaAuth]); // Update if authState changes
 
   const storageHandler = (e: StorageEvent) => {
-    console.log('loginbutton storage change', e.key);
+    console.log('loginbutton storage change', e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`);
     // if (e.key.includes('rc-token')) {
     // debugger;
     // }
     // 当打开多个tab时，同步登录登出状态
-    if (
-      e.key ===
-      `${localStorage.getItem('country-code-current-operated')}-rc-token`
-    ) {
+    if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // debugger;
       // 该token的旧值不存在，新值存在，表示登录
       if (!e.oldValue && e.newValue) {
         login();
       }
     }
+    // if (
+    //   e.key ===
+    //   `${localStorage.getItem('country-code-current-operated')}-rc-token`
+    // ) {
+    //   // debugger;
+    //   // 该token的旧值不存在，新值存在，表示登录
+    //   if (!e.oldValue && e.newValue) {
+    //     login();
+    //   }
+    // }
   };
 
   const login = async () => {

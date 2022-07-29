@@ -12,8 +12,8 @@ import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import { DeleteItem } from '@/api/subscription';
 import { GAForChangeProductBtn } from '@/utils/GA';
-import { Popover } from '@/components/Common';
-import ChangeProductButton from './ChangeProductButton';
+import { Button, Popover } from '@/components/Common';
+import HandledSpecSelect from '../HandledSpecSelect';
 
 export const SubGoodsInfosContext = createContext();
 
@@ -40,6 +40,7 @@ const SubGoodsInfos = ({
   const isIndv = subDetail.subscriptionType === 'Individualization';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
+  const [isSpecAvailable, setIsSpecAvailable] = useState(false);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
@@ -82,6 +83,27 @@ const SubGoodsInfos = ({
     }
   };
 
+  const matchGoods = (data, sizeList) => {
+    // let newDetails = Object.assign(details, {
+    //   sizeList
+    // });
+
+    // 兼容打开弹窗之后，重置黄色box不存在sizeList情况
+    // if (sizeList && firstIn) {
+    //   setFirstIn(false);
+    //   setMainSizeList(sizeList);
+    // }
+    console.info('data', data);
+    console.info('sizeList', sizeList);
+    // setSkuPromotions(data.skuPromotions);
+    // setStock(data.stock);
+    // setCurrentSubscriptionPrice(
+    //   data.currentSubscriptionPrice || data.selectPrice
+    // );
+    // setCurrentSubscriptionStatus(data.currentSubscriptionStatus);
+    // setDetails(newDetails);
+  };
+
   const propsObj = {
     subDetail,
     isGift,
@@ -100,6 +122,7 @@ const SubGoodsInfos = ({
     isShowClub,
     handleClickChangeProduct
   };
+  console.log(subDetail, 'subDetail==22');
   return (
     // true?null:
     <SubGoodsInfosContext.Provider value={propsObj}>
@@ -221,11 +244,9 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                   {subDetail?.canChangeProductAtGoodsLine ? (
-                    <ChangeProductButton
-                      handleClickChangeProduct={() =>
-                        handleClickChangeProduct(index)
-                      }
-                    />
+                    <Button onClick={() => handleClickChangeProduct(index)}>
+                      <FormattedMessage id="subscriptionDetail.changeProduct" />
+                    </Button>
                   ) : null}
                 </div>
 
@@ -286,7 +307,7 @@ const SubGoodsInfos = ({
                   { 'mt-4': index }
                 )}
                 style={{
-                  padding: '1rem 0 1.5rem 0'
+                  padding: '1rem 0 2rem 0'
                 }}
                 key={index}
               >
@@ -295,7 +316,7 @@ const SubGoodsInfos = ({
                     <div
                       className="rc-layout-container rc-five-column direction-column "
                       style={{
-                        height: '160px',
+                        // height: '160px',
                         paddingRight: '60px',
                         paddingTop: '0',
                         alignItems: 'center'
@@ -319,6 +340,35 @@ const SubGoodsInfos = ({
                             }
                             alt={el.goodsName}
                           />
+                          {isShowClub && !!el.petsId && isNotInactive && (
+                            <div
+                              style={{
+                                position: 'relative',
+                                paddingLeft: '26px',
+                                width: '75%'
+                              }}
+                            >
+                              {/* Because of the style, comment first */}
+                              <span
+                                style={{
+                                  width: 'auto',
+                                  paddingTop: '6px'
+                                }}
+                                className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
+                              ></span>
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  // left: '45%',
+                                  left: '0',
+                                  top: -4,
+                                  whiteSpace: 'nowrap'
+                                }}
+                              >
+                                <DailyRation rations={el.petsRation} />
+                              </div>
+                            </div>
+                          )}
                           {/* </LazyLoad> */}
                         </div>
                         <div
@@ -337,7 +387,7 @@ const SubGoodsInfos = ({
                           >
                             {el.goodsName}
                           </h5>
-                          <p
+                          {/* <p
                             style={{
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
@@ -345,7 +395,22 @@ const SubGoodsInfos = ({
                             }}
                           >
                             {!isIndv && el.specText}
-                          </p>
+                          </p> */}
+                          <HandledSpecSelect
+                            details={el}
+                            // defaultSkuId="2c91808576903fd801769045e1d50142"
+                            defaultSkuId={el.skuId}
+                            disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                              (g) => g.goodsInfoVO.goodsInfoId
+                            )}
+                            onIsSpecAvailable={(status) => {
+                              setIsSpecAvailable(status);
+                            }}
+                            setState={setState}
+                            updatedSku={matchGoods}
+                            canSelectedOutOfStock={true}
+                            canSelectedWhenAllSpecDisabled={true}
+                          />
                           <div>
                             <div style={{ whiteSpace: 'nowrap' }}>
                               <span
@@ -414,42 +479,15 @@ const SubGoodsInfos = ({
                             </div>
                           </div>
                           {subDetail?.canChangeProductAtGoodsLine ? (
-                            <ChangeProductButton
-                              handleClickChangeProduct={() =>
-                                handleClickChangeProduct(index)
-                              }
-                            />
+                            <Button
+                              className=" mt-cs-16"
+                              onClick={() => handleClickChangeProduct(index)}
+                            >
+                              <FormattedMessage id="subscriptionDetail.changeProduct" />
+                            </Button>
                           ) : null}
                         </div>
                       </div>
-                      {isShowClub && !!el.petsId && isNotInactive && (
-                        <div
-                          style={{
-                            position: 'relative',
-                            paddingLeft: '26px',
-                            width: '75%'
-                          }}
-                        >
-                          <span
-                            style={{
-                              width: 'auto',
-                              paddingTop: '6px'
-                            }}
-                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
-                          ></span>
-                          <div
-                            style={{
-                              position: 'absolute',
-                              // left: '45%',
-                              left: '0',
-                              top: -4,
-                              whiteSpace: 'nowrap'
-                            }}
-                          >
-                            <DailyRation rations={el.petsRation} />
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
                   <div className="col-4 col-md-5">

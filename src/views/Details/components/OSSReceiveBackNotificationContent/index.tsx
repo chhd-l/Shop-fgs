@@ -19,6 +19,7 @@ export type OssReceiveBackNotificationContentProps = {
   quantity: number;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
+  merberConsent:string;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -27,7 +28,8 @@ const OssReceiveBackNotificationContent = ({
   isLogin,
   selectedSpecItem,
   userInfo,
-  form
+  form,
+  merberConsent
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId } = details;
   const [email, setEmail] = useState<string>();
@@ -156,6 +158,12 @@ const OssReceiveBackNotificationContent = ({
           </>
         )}
       </div>
+      {merberConsent?<div className='mt-4 flex'>
+      <span className="rc-text-colour--brand1 mr-1 text-xl">*</span>
+      <div  dangerouslySetInnerHTML={{
+        __html: merberConsent
+      }} />
+      </div> : null}
     </div>
   );
 };
