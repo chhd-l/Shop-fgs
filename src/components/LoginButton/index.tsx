@@ -52,8 +52,8 @@ const LoginButton = ({
   const history = useHistory();
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
-  const { oktaAuth } = useOktaAuth();
-  const { authState } = useOktaAuth();
+  const { oktaAuth, authState } = useOktaAuth();
+  // const { authState } = useOktaAuth();
 
   // useEffect(() => {
   //   if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
@@ -79,6 +79,7 @@ const LoginButton = ({
   }, [isGetUserInfoDown, getUserInfoDownCallback]);
 
   useEffect(() => {
+    console.log('login in status同步', authState, oktaAuth);
     setIsGetUserInfoDown(false);
     // console.log('OKTA authState:', authState);
     if (!authState.isAuthenticated) {
