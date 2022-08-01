@@ -253,7 +253,9 @@ const ChangeProduct = () => {
 
   const modalFooterContent = () => {
     const productStock = goodsDetails?.goodsInfos?.some((el) => el.stock);
-
+    const autoshipType =
+      subDetail.subscriptionType?.toLowerCase() === 'autoship';
+    const modalType = autoshipType ? 3 : 0;
     return (
       <div className="">
         {!productStock ? (
@@ -330,7 +332,7 @@ const ChangeProduct = () => {
             type="button"
             className="btn btn-outline-primary rc-btn--sm mr-6"
             data-dismiss="modal"
-            onClick={() => showModal(0)}
+            onClick={() => showModal(modalType)}
           >
             <FormattedMessage id="subscription.seeOtherRecommendation" />
           </button>
@@ -349,11 +351,7 @@ const ChangeProduct = () => {
       </div>
     );
   };
-  console.log(
-    triggerShowChangeProduct,
-    subDetail,
-    'triggerShowChangeProduct--'
-  );
+
   return (
     <>
       <ChangeProductContext.Provider value={propsObj}>
@@ -407,7 +405,7 @@ const ChangeProduct = () => {
               className="rc-outline-light rc-padding-y--sm"
             >
               {/* <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm"> */}
-              <ChooseSKU />
+              <ChooseSKU inModal={true} />
             </div>
           </Modal>
         </div>
