@@ -33,7 +33,7 @@ const OssReceiveBackNotificationContent = ({
   notifyMeConsent
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId } = details;
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
   const [list, setList] = useState<List[]>();
   const [consentCheckedStatus, setConsentCheckedStatus] = useState(false);
@@ -83,9 +83,10 @@ const OssReceiveBackNotificationContent = ({
     }
 
     if (!isLogin) {
-      // const consentCheckedStatus = list.every((item:any) => item.isChecked)
-      // if(!consentCheckedStatus) {
-      // }
+      const consentCheckedStatus = list!.every((item: any) => item.isChecked);
+      if (!consentCheckedStatus) {
+        return;
+      }
     }
     const detailName = details.goodsSpecs[0].chidren.find(
       (goods: any) => goods.selected
@@ -107,12 +108,12 @@ const OssReceiveBackNotificationContent = ({
       await stockNoticeModify(params);
     } else {
       params.storeId = window.__.env.REACT_APP_STOREID;
-      // params.requiredList= [
-      //   {
-      //     id: 99,
-      //     selectedFlag: true
-      //   }
-      // ]
+      params.requiredList = list!.map((item: any) => {
+        return {
+          id: item.id,
+          selectedFlag: true
+        };
+      });
       await stockNoticeModifyUnLogin(params);
     }
     setIsEdited(true);

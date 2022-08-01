@@ -190,8 +190,8 @@ class Consent extends Component {
                   name="checkbox-2"
                   disabled={disabled}
                   onChange={() => {
-                    if (item.noChecked) return; //此项不需要check事件
-                    //勾选checkbox
+                    if (item.noChecked) return; // 此项不需要check事件
+                    // 勾选checkbox
                     this.props.list.map((x) => {
                       if (x.id === item.id) {
                         x.isChecked = !item.isChecked;
@@ -216,7 +216,7 @@ class Consent extends Component {
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
                         {/* se consent */}
-                        {item.consentDesc == 'MARS_PETCARE_SE_B2C_OPT' ? (
+                        {item.consentDesc === 'MARS_PETCARE_SE_B2C_OPT' ? (
                           <>
                             <ConsentToolTip
                               consentInnerHtml={createMarkup(

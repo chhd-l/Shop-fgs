@@ -9,8 +9,16 @@ function getDatePickerConfig() {
   const curDatePickerCfg = window.__.env.REACT_APP_DATEPICKER_LOCALE
     ? JSON.parse(window.__.env.REACT_APP_DATEPICKER_LOCALE)
     : { datePickerLocale: 'en', dateFnslocaleModuleLang: 'en-US' };
-  const curLocaleModule =
-    require(`date-fns/locale/${curDatePickerCfg.dateFnslocaleModuleLang}`).default;
+  let curLocaleModule;
+  try {
+    curLocaleModule =
+      require(`date-fns/locale/${curDatePickerCfg.dateFnslocaleModuleLang}`).default;
+  } catch (err) {
+    console.error(
+      "Shop init error: REACT_APP_DATEPICKER_LOCALE.dateFnslocaleModuleLang error, please modify it at storeportal's shop config"
+    );
+  }
+
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });

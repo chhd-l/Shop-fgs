@@ -77,6 +77,11 @@ const fetchDynamicConfig = async () => {
   } catch (err) {
     console.log('shop config fetch error', err);
   } finally {
+    if (!envVal.REACT_APP_CURRENCY) {
+      console.error(
+        "Shop init error: Curreny code is null, please config it at storeportal's store details"
+      );
+    }
     window.__ = Object.assign(window.__ || {}, { env: envVal });
   }
 };
