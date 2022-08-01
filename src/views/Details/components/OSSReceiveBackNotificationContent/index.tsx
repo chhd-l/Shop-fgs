@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
 import { Details, Form, SelectedSpecItem, UserInfo } from './typing';
 import { Button } from '@/components/Common';
-import Consent from '@/components/Consent';
+import Consent, { List } from '@/components/Consent';
 import {
   GABackInStockNotifyMeClick,
   GABackToStockSubscription
@@ -35,9 +35,9 @@ const OssReceiveBackNotificationContent = ({
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<List[]>();
   const [consentCheckedStatus, setConsentCheckedStatus] = useState(false);
-
+  console.log('listlistlist', list);
   useEffect(() => {
     if (notifyMeConsent.length) {
       setList(notifyMeConsent);
@@ -66,7 +66,7 @@ const OssReceiveBackNotificationContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSpecItem?.goodsInfoId]);
 
-  const sendList = (list: any) => {
+  const sendList = (list: List[]) => {
     setList([...list]);
   };
 
@@ -83,13 +83,13 @@ const OssReceiveBackNotificationContent = ({
     }
 
     if (!isLogin) {
-      const consentCheckedStatus = list.every((item:any) => item.isChecked)
-      if(!consentCheckedStatus) {
-        return
+      const consentCheckedStatus = list!.every((item: any) => item.isChecked);
+      if (!consentCheckedStatus) {
+        return;
       }
     }
     const detailName = details.goodsSpecs[0].chidren.find(
-      (goods) => goods.selected
+      (goods: any) => goods.selected
     )?.detailName;
     const goodsInfoId = selectedSpecItem.goodsInfoId;
     const params: any = {
@@ -108,12 +108,12 @@ const OssReceiveBackNotificationContent = ({
       await stockNoticeModify(params);
     } else {
       params.storeId = window.__.env.REACT_APP_STOREID;
-      params.requiredList= list.map(item=>{
-        return{
+      params.requiredList = list!.map((item: any) => {
+        return {
           id: item.id,
           selectedFlag: true
-        }
-      })
+        };
+      });
       await stockNoticeModifyUnLogin(params);
     }
     setIsEdited(true);
@@ -186,16 +186,11 @@ const OssReceiveBackNotificationContent = ({
           </>
         )}
       </div>
-      {list.length ? (
+      {list?.length && (
         <div className="mt-3 ml-5">
-          <Consent
-            // @ts-ignore
-            list={list}
-            sendList={sendList}
-            pageType="pdp page"
-          />
+          <Consent list={list} sendList={sendList} pageType="pdp page" />
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

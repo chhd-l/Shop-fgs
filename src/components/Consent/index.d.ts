@@ -1,0 +1,40 @@
+export type List = Partial<{
+  id: number;
+  parentId?: any;
+  storeId: number;
+  consentId: string;
+  consentCode: string;
+  consentType: string;
+  consentCategory: string;
+  filedType: string;
+  consentPage: string;
+  languageTypeId: number;
+  consentTitleType: string;
+  consentTitle: string;
+  consentVersion: string;
+  consentDesc: string;
+  createBy: string;
+  createTime: string;
+  updateBy: string;
+  updateTime: string;
+  sort: number;
+  deleteBy?: any;
+  deleteFlag: number;
+  deleteTime?: any;
+  openFlag: number;
+  pushOktaFlag: number;
+  consentGroup: string;
+  communicationType?: any;
+  sendEmailFlag: number;
+  consentRegisterTitle?: any;
+  consentItemVersion: number;
+  selectedFlag: boolean;
+  detailList?: any;
+  isChecked: boolean;
+}>;
+
+export default (props: {
+  list?: List[];
+  sendList?: (list: List[]) => void;
+  pageType?: string;
+}) => JSX.Element;
