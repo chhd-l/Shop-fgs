@@ -27,12 +27,10 @@ const LogoutButton = (props) => {
 
   useEffect(() => {
     // 当打开多个tab时，同步登录登出状态
-    if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
-      window.addEventListener('storage', storageHandler);
-      return () => {
-        window.removeEventListener('storage', storageHandler);
-      };
-    }
+    window.addEventListener('storage', storageHandler);
+    return () => {
+      window.removeEventListener('storage', storageHandler);
+    };
   }, []);
 
   const storageHandler = (e) => {

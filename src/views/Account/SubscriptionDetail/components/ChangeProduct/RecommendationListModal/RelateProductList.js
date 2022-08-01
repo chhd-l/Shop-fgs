@@ -143,6 +143,12 @@ const RelateProductList = ({ mainProduct }) => {
   }, [resetList, defaultFilterSearchForm]);
 
   useEffect(() => {
+    console.log(
+      resetList,
+      defaultFilterSearchForm,
+      mainProduct,
+      'defaultFilterSearchForm=='
+    );
     if (
       resetList &&
       (defaultFilterSearchForm?.attrList?.length < 1 ||
@@ -153,6 +159,7 @@ const RelateProductList = ({ mainProduct }) => {
   }, [resetList, defaultFilterSearchForm]);
 
   useEffect(() => {
+    console.log(filterListRes, 'filterListRes--');
     // Filter the product list by the attribute of the main product
     if (filterListRes) {
       let _list = cloneDeep(
@@ -195,6 +202,14 @@ const RelateProductList = ({ mainProduct }) => {
         { i: 1, ret: '' }
       );
       const _search = `?${_decoParam.ret.substr(1)}`;
+      console.log(
+        mainProduct,
+        _list,
+        _prefnParamList,
+        _decoParam,
+        _search,
+        '_search--'
+      );
       handleSelectedFilterPref(_search);
     }
   }, [filterListRes]);
@@ -560,6 +575,14 @@ const RelateProductList = ({ mainProduct }) => {
         </span>
       </ListItemForDefault>
     ));
+
+  console.log(
+    filterListRes,
+    resetList,
+    defaultFilterSearchForm,
+    mainProduct,
+    'defaultFilterSearchForm=='
+  );
 
   return (
     <>

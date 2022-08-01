@@ -14,6 +14,7 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import cn from 'classnames';
 import { Button, Modal } from '@/components/Common';
 import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
+import NotPetChangeProduct from './NotPetChangeProduct';
 
 export const ChangeProductContext = createContext();
 const loginStore = stores.loginStore;
@@ -23,7 +24,12 @@ const ChangeProduct = () => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
     SubDetailHeaderValue;
-  const [showModalArr, setShowModalArr] = useState([false, false, false]);
+  const [showModalArr, setShowModalArr] = useState([
+    false,
+    false,
+    false,
+    false
+  ]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
   const [frequencyList, setFrequencyList] = useState([]);
@@ -32,7 +38,7 @@ const ChangeProduct = () => {
   const [userEmail, setUserEmail] = useState(loginStore?.userInfo?.email || '');
 
   const showModal = (num) => {
-    let newArr = [false, false, false];
+    let newArr = [false, false, false, false];
     //如果不传数字，默认全部关闭
     if (num !== undefined) {
       newArr = showModalArr.map((el, i) => i == num);
@@ -114,6 +120,15 @@ const ChangeProduct = () => {
     }
   }, [showModalArr, details]);
 
+  useEffect(() => {
+    if (
+      triggerShowChangeProduct.isShowModal &&
+      triggerShowChangeProduct?.notPet
+    ) {
+      showModal(3);
+    }
+  }, [triggerShowChangeProduct]);
+
   // check whether the current spu stock out notice has been alerted
   const checkGoodsNotice = async (details) => {
     const productStock = details?.goodsInfos?.some((el) => el.stock);
@@ -161,12 +176,10 @@ const ChangeProduct = () => {
       });
   };
   const initMainProduct = () => {
-    console.log(333);
     queryProductDetails({ mainProductDetails }); // 需要重置顶部推荐框
     showModal(); // 关闭所有弹窗
   };
   const showProdutctDetail = (id) => {
-    console.log(444);
     queryProductDetails({
       id,
       cb: () => {
@@ -223,8 +236,6 @@ const ChangeProduct = () => {
           return goodsInfoObj;
         }))
     );
-    console.log(stockNoticeGoodsInfoVOS, 'stockNoticeGoodsInfoVOS');
-    console.log(goodsDetails, 'dd22');
     // modify & add is same
     const param = {
       // customerId: loginStore?.userInfo?.customerId || '',
@@ -338,10 +349,15 @@ const ChangeProduct = () => {
       </div>
     );
   };
-
+  console.log(
+    triggerShowChangeProduct,
+    subDetail,
+    'triggerShowChangeProduct--'
+  );
   return (
     <>
       <ChangeProductContext.Provider value={propsObj}>
+        <NotPetChangeProduct />
         <RecommendationListModal />
         <div className="product-detail-modal">
           <Modal

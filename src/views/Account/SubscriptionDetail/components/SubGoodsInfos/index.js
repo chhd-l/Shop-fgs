@@ -71,12 +71,15 @@ const SubGoodsInfos = ({
   const handleClickChangeProduct = (idx) => {
     setState({ currentChangeProductIdx: idx });
     GAForChangeProductBtn();
-    if (!!subDetail.petsId) {
+    const autoshipSubStatus =
+      subDetail.subscriptionType?.toLowerCase() === 'autoship';
+    if (!!subDetail.petsId || autoshipSubStatus) {
       setState({
         triggerShowChangeProduct: Object.assign({}, triggerShowChangeProduct, {
           firstShow: !triggerShowChangeProduct.firstShow,
           goodsInfo: subDetail?.goodsInfo,
-          isShowModal: true
+          isShowModal: true,
+          notPet: autoshipSubStatus ? true : false
         })
       });
     } else {

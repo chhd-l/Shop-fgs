@@ -56,12 +56,10 @@ const LoginButton = ({
   const { authState } = useOktaAuth();
 
   useEffect(() => {
-    if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
-      window.addEventListener('storage', storageHandler);
-      return () => {
-        window.removeEventListener('storage', storageHandler);
-      };
-    }
+    window.addEventListener('storage', storageHandler);
+    return () => {
+      window.removeEventListener('storage', storageHandler);
+    };
   }, []);
 
   // 拿到userinfo信息后，执行传入该组件的init方法

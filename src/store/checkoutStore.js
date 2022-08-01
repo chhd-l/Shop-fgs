@@ -49,7 +49,9 @@ const getLoginData = (data) => {
 };
 
 class CheckoutStore {
-  @observable cartData = localItemRoyal.get('rc-cart-data') || [];
+  @observable cartData = localItemRoyal.get('rc-cart-data')
+    ? localItemRoyal.get('rc-cart-data').filter((e) => e.goods)
+    : [];
   @observable AuditData = localItemRoyal.get('rc-audit-data') || [];
   @observable autoAuditFlag = localItemRoyal.get('rc-autoAuditFlag') || false;
   @observable petFlag = localItemRoyal.get('rc-petFlag') || false; // 商品列表
