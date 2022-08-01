@@ -37,4 +37,5 @@ export default (props: {
   list?: List[];
   sendList?: (list: List[]) => void;
   pageType?: string;
+  [key: string]: any;
 }) => JSX.Element;
