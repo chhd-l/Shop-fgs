@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
 import { Details, Form, SelectedSpecItem, UserInfo } from './typing';
 import { Button } from '@/components/Common';
+import Consent from '@/components/Consent';
 import {
   GABackInStockNotifyMeClick,
   GABackToStockSubscription
@@ -19,7 +20,7 @@ export type OssReceiveBackNotificationContentProps = {
   quantity: number;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
-  merberConsent:string;
+  notifyMeConsent: any;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -29,11 +30,20 @@ const OssReceiveBackNotificationContent = ({
   selectedSpecItem,
   userInfo,
   form,
-  merberConsent
+  notifyMeConsent
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId } = details;
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
+  const [list, setList] = useState([]);
+  const [consentCheckedStatus, setConsentCheckedStatus] = useState(false);
+
+  useEffect(() => {
+    if (notifyMeConsent.length) {
+      setList(notifyMeConsent);
+    }
+  }, [notifyMeConsent]);
+
   useEffect(() => {
     if (!isLogin || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
@@ -56,6 +66,10 @@ const OssReceiveBackNotificationContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSpecItem?.goodsInfoId]);
 
+  const sendList = (list: any) => {
+    setList([...list]);
+  };
+
   if (!visible) return null;
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -66,6 +80,12 @@ const OssReceiveBackNotificationContent = ({
     GABackToStockSubscription(details, { ...form, quantity });
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
+    }
+
+    if (!isLogin) {
+      // const consentCheckedStatus = list.every((item:any) => item.isChecked)
+      // if(!consentCheckedStatus) {
+      // }
     }
     const detailName = details.goodsSpecs[0].chidren.find(
       (goods) => goods.selected
@@ -87,10 +107,17 @@ const OssReceiveBackNotificationContent = ({
       await stockNoticeModify(params);
     } else {
       params.storeId = window.__.env.REACT_APP_STOREID;
+      // params.requiredList= [
+      //   {
+      //     id: 99,
+      //     selectedFlag: true
+      //   }
+      // ]
       await stockNoticeModifyUnLogin(params);
     }
     setIsEdited(true);
   };
+
   return (
     <div className="p-6 mb-3 border-rc-ddd border-l border-r border-t border-b">
       <h2 className="text-base">
@@ -158,12 +185,16 @@ const OssReceiveBackNotificationContent = ({
           </>
         )}
       </div>
-      {merberConsent?<div className='mt-4 flex'>
-      <span className="rc-text-colour--brand1 mr-1 text-xl">*</span>
-      <div  dangerouslySetInnerHTML={{
-        __html: merberConsent
-      }} />
-      </div> : null}
+      {list.length ? (
+        <div className="mt-3 ml-5">
+          <Consent
+            // @ts-ignore
+            list={list}
+            sendList={sendList}
+            pageType="pdp page"
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

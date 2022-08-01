@@ -66,7 +66,7 @@ import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
-import { findUserSelectedList } from '@/api/consent';
+import { getAppointPageSelected } from '@/api/consent';
 import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
@@ -179,7 +179,7 @@ class Details extends React.Component {
       fromPrice: '',
       versionB: false,
       ossReceiveBackNotificationContentVisible: false,
-      merberConsent: '',
+      notifyMeConsent: [],
       notifyMeStatus: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
@@ -954,20 +954,18 @@ class Details extends React.Component {
       });
     }
     const outOfStock = this.state.details.goodsInfos?.some((it) => !it.stock);
-    // if (this.isLogin && outOfStock) {
-    //   try {
-    //     const customerId = this.props.loginStore.userInfo.customerId || '';
-    //     const param = {
-    //       consentPage: 'PDP page',
-    //       customerId,
-    //       oktaToken: localItemRoyal.get('oktaToken')
-    //     };
-    //     const res = await findUserSelectedList(param);
-    //     this.setState({
-    //       merberConsent: res?.context?.requiredList?.[0]?.consentTitle || ''
-    //     });
-    //   } catch (e) { }
-    // }
+    if (!this.isLogin && outOfStock) {
+      try {
+        const param = {
+          consentGroup: 'PDP-notifyme',
+          storeId: window.__.env.REACT_APP_STOREID
+        };
+        const res = await getAppointPageSelected(param);
+        this.setState({
+          notifyMeConsent: res?.context?.requiredList
+        });
+      } catch (e) {}
+    }
   };
 
   handleInputChange(e) {
@@ -1217,6 +1215,7 @@ class Details extends React.Component {
               isLogin={this.isLogin}
               quantity={quantity}
               selectedSpecItem={selectedSpecItem}
+              notifyMeConsent={this.state.notifyMeConsent}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
           )}
@@ -1252,7 +1251,7 @@ class Details extends React.Component {
             form={form}
             isLogin={this.isLogin}
             quantity={quantity}
-            // merberConsent={this.state.merberConsent}
+            notifyMeConsent={this.state.notifyMeConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
