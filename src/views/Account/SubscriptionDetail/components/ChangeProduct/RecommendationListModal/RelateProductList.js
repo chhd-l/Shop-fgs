@@ -143,12 +143,12 @@ const RelateProductList = ({ mainProduct }) => {
   }, [resetList, defaultFilterSearchForm]);
 
   useEffect(() => {
-    console.log(
-      resetList,
-      defaultFilterSearchForm,
-      mainProduct,
-      'defaultFilterSearchForm=='
-    );
+    // console.log(
+    //   resetList,
+    //   defaultFilterSearchForm,
+    //   mainProduct,
+    //   'defaultFilterSearchForm=='
+    // );
     if (
       resetList &&
       (defaultFilterSearchForm?.attrList?.length < 1 ||
@@ -159,7 +159,7 @@ const RelateProductList = ({ mainProduct }) => {
   }, [resetList, defaultFilterSearchForm]);
 
   useEffect(() => {
-    console.log(filterListRes, 'filterListRes--');
+    // console.log(filterListRes, 'filterListRes--');
     // Filter the product list by the attribute of the main product
     if (filterListRes) {
       let _list = cloneDeep(
@@ -179,16 +179,35 @@ const RelateProductList = ({ mainProduct }) => {
           });
         }
       });
-      const prefnP = _prefnParamList.reduce((pre, cur, i) => {
-        if (pre?.prefn === cur?.prefn) {
-          let _cur = cur.prefvs.push(pre.prefvs[0]);
-          delete _prefnParamList[i - 1];
-          return _cur;
+      const prefnParamNewList = [];
+      const prefnNames = [];
+      for (const item of _prefnParamList) {
+        if (!prefnNames.includes(item.prefn)) {
+          const obj = { prefn: item.prefn };
+          obj['prefvs'] = item['prefvs'];
+          prefnParamNewList.push(obj);
+          prefnNames.push(item.prefn);
         } else {
-          return cur;
+          for (const ele of prefnParamNewList) {
+            if (ele.prefn === item.prefn) {
+              ele['prefvs'] = ele['prefvs'].concat(item['prefvs']);
+              break;
+            }
+          }
         }
-      }, []);
-      const _decoParam = _prefnParamList?.reduce(
+      }
+      // const prefnP = _prefnParamList.reduce((pre, cur, i) => {
+      //   newData.push(cur);
+      //   if (pre?.prefn === cur?.prefn) {
+      //     cur.prefvs.push(pre.prefvs[0]);
+      //     console.log(cur, pre.prefvs, ' 1111111 ');
+      //     newData[i] = cur;
+      //     delete _prefnParamList[i - 1];
+      //   }
+      //   return cur;
+      // }, []);
+      // console.log('prefnP', newData, prefnP);
+      const _decoParam = prefnParamNewList?.reduce(
         (pre, cur) => {
           return {
             ret:
@@ -201,15 +220,16 @@ const RelateProductList = ({ mainProduct }) => {
         },
         { i: 1, ret: '' }
       );
+      console.log(_decoParam, '_decoParam==');
       const _search = `?${_decoParam.ret.substr(1)}`;
-      console.log(
-        mainProduct,
-        _list,
-        _prefnParamList,
-        _decoParam,
-        _search,
-        '_search--'
-      );
+      // console.log(
+      //   mainProduct,
+      //   _list,
+      //   _prefnParamList,
+      //   _decoParam,
+      //   _search,
+      //   '_search--'
+      // );
       handleSelectedFilterPref(_search);
     }
   }, [filterListRes]);
@@ -576,13 +596,13 @@ const RelateProductList = ({ mainProduct }) => {
       </ListItemForDefault>
     ));
 
-  console.log(
-    filterListRes,
-    resetList,
-    defaultFilterSearchForm,
-    mainProduct,
-    'defaultFilterSearchForm=='
-  );
+  // console.log(
+  //   filterListRes,
+  //   resetList,
+  //   defaultFilterSearchForm,
+  //   mainProduct,
+  //   'defaultFilterSearchForm=='
+  // );
 
   return (
     <>
