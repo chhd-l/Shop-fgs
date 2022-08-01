@@ -194,11 +194,13 @@ class RegisterRequired extends Component {
       isLoading: true
     });
     try {
-      let customerId = loginStore.userInfo?.customerId;
+      let customerId =
+        loginStore.userInfo?.customerId ||
+        localItemRoyal.get('rc-userinfo')?.customerId;
       console.log(
         "loginStore.userInfo?.customerId at required page's init function",
         loginStore.userInfo?.customerId,
-        localItemRoyal.get('rc-userinfo')
+        localItemRoyal.get('rc-userinfo')?.customerId
       );
       debugger;
       if (!customerId) {
