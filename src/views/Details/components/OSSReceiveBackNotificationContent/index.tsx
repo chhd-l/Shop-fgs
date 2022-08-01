@@ -35,7 +35,7 @@ const OssReceiveBackNotificationContent = ({
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<any>([]);
   const [consentCheckedStatus, setConsentCheckedStatus] = useState(false);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const OssReceiveBackNotificationContent = ({
       await stockNoticeModify(params);
     } else {
       params.storeId = window.__.env.REACT_APP_STOREID;
-      params.requiredList= list.map(item=>{
+      params.requiredList= list.map((item:any)=>{
         return{
           id: item.id,
           selectedFlag: true
