@@ -179,7 +179,8 @@ class Details extends React.Component {
       fromPrice: '',
       versionB: false,
       ossReceiveBackNotificationContentVisible: false,
-      merberConsent: ''
+      merberConsent: '',
+      notifyMeStatus: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -728,7 +729,7 @@ class Details extends React.Component {
                 }, 60000);
               }
 
-              this.handleMerberConsent();
+              this.handleNotifyMeStatus();
             }
           );
         } else {
@@ -945,22 +946,30 @@ class Details extends React.Component {
     }
   }
 
-  handleMerberConsent = async () => {
-    if (this.isLogin) {
-      const customerId = this.props.loginStore.userInfo.customerId || '';
-      const param = {
-        consentPage: 'PDP page',
-        customerId,
-        oktaToken: localItemRoyal.get('oktaToken')
-      };
-      try {
-        const res = await findUserSelectedList(param);
-        this.setState({
-          merberConsent: res?.context?.requiredList?.[0]?.consentTitle || ''
-        });
-      } catch (e) {}
+  handleNotifyMeStatus = async () => {
+    const { configStore } = this.props;
+    if (configStore?.info?.notifyMeStatus === '1') {
+      this.setState({
+        notifyMeStatus: true
+      });
     }
+    const outOfStock = this.state.details.goodsInfos?.some((it) => !it.stock);
+    // if (this.isLogin && outOfStock) {
+    //   try {
+    //     const customerId = this.props.loginStore.userInfo.customerId || '';
+    //     const param = {
+    //       consentPage: 'PDP page',
+    //       customerId,
+    //       oktaToken: localItemRoyal.get('oktaToken')
+    //     };
+    //     const res = await findUserSelectedList(param);
+    //     this.setState({
+    //       merberConsent: res?.context?.requiredList?.[0]?.consentTitle || ''
+    //     });
+    //   } catch (e) { }
+    // }
   };
+
   handleInputChange(e) {
     let { form } = this.state;
     form.buyWay = parseInt(e.currentTarget.value);
@@ -1183,7 +1192,8 @@ class Details extends React.Component {
         info: { skuLimitThreshold }
       }
     } = this.props;
-    const { details, quantity, quantityMinLimit, stock, form } = this.state;
+    const { details, quantity, quantityMinLimit, stock, form, notifyMeStatus } =
+      this.state;
     return (
       <>
         <div className="specAndQuantity rc-margin-bottom--xs ">
@@ -1199,7 +1209,7 @@ class Details extends React.Component {
             shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />
-          {isMobile && (
+          {isMobile && notifyMeStatus && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
@@ -1235,14 +1245,14 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {!isMobile && (
+        {!isMobile && notifyMeStatus && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
             form={form}
             isLogin={this.isLogin}
             quantity={quantity}
-            merberConsent={this.state.merberConsent}
+            // merberConsent={this.state.merberConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
