@@ -66,7 +66,7 @@ import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
-import { findUserSelectedList } from '@/api/consent';
+import { getAppointPageSelected } from '@/api/consent';
 import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
@@ -179,7 +179,8 @@ class Details extends React.Component {
       fromPrice: '',
       versionB: false,
       ossReceiveBackNotificationContentVisible: false,
-      merberConsent: ''
+      notifyMeConsent: [],
+      notifyMeStatus: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -728,7 +729,7 @@ class Details extends React.Component {
                 }, 60000);
               }
 
-              this.handleMerberConsent();
+              this.handleNotifyMeStatus();
             }
           );
         } else {
@@ -945,22 +946,28 @@ class Details extends React.Component {
     }
   }
 
-  handleMerberConsent = async () => {
-    if (this.isLogin) {
-      const customerId = this.props.loginStore.userInfo.customerId || '';
-      const param = {
-        consentPage: 'PDP page',
-        customerId,
-        oktaToken: localItemRoyal.get('oktaToken')
-      };
+  handleNotifyMeStatus = async () => {
+    const { configStore } = this.props;
+    if (configStore?.info?.notifyMeStatus === '1') {
+      this.setState({
+        notifyMeStatus: true
+      });
+    }
+    const outOfStock = this.state.details.goodsInfos?.some((it) => !it.stock);
+    if (!this.isLogin && outOfStock) {
       try {
-        const res = await findUserSelectedList(param);
+        const param = {
+          consentGroup: 'PDP-notifyme',
+          storeId: window.__.env.REACT_APP_STOREID
+        };
+        const res = await getAppointPageSelected(param);
         this.setState({
-          merberConsent: res?.context?.requiredList?.[0]?.consentTitle || ''
+          notifyMeConsent: res?.context?.requiredList
         });
       } catch (e) {}
     }
   };
+
   handleInputChange(e) {
     let { form } = this.state;
     form.buyWay = parseInt(e.currentTarget.value);
@@ -1183,7 +1190,8 @@ class Details extends React.Component {
         info: { skuLimitThreshold }
       }
     } = this.props;
-    const { details, quantity, quantityMinLimit, stock, form } = this.state;
+    const { details, quantity, quantityMinLimit, stock, form, notifyMeStatus } =
+      this.state;
     return (
       <>
         <div className="specAndQuantity rc-margin-bottom--xs ">
@@ -1199,7 +1207,7 @@ class Details extends React.Component {
             shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />
-          {isMobile && (
+          {isMobile && notifyMeStatus && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
@@ -1207,6 +1215,7 @@ class Details extends React.Component {
               isLogin={this.isLogin}
               quantity={quantity}
               selectedSpecItem={selectedSpecItem}
+              notifyMeConsent={this.state.notifyMeConsent}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
           )}
@@ -1235,14 +1244,14 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {!isMobile && (
+        {!isMobile && notifyMeStatus && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
             form={form}
             isLogin={this.isLogin}
             quantity={quantity}
-            merberConsent={this.state.merberConsent}
+            notifyMeConsent={this.state.notifyMeConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />
