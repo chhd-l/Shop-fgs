@@ -45,6 +45,7 @@ const handleSizeList = ({
     if (specsItem) {
       choosedSpecsArr = specsItem.mockSpecDetailIds;
     }
+    console.log(defaultSkuId,'3232',choosedSpecsArr)
   }
 
   // 组装购物车的前端数据结构与规格的层级关系
@@ -83,6 +84,7 @@ const handleSizeList = ({
           );
           if (specDetailIndex > -1) {
             defaultSelcetdSku = specDetailIndex;
+            console.log(defaultSelcetdSku,'defaultSelcetdSku==')
           }
         }
       }
@@ -98,6 +100,7 @@ const handleSizeList = ({
         // 1. 如果是sku进来的，需要默认当前sku被选择
         if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
           sItem.chidren[defaultSelcetdSku].selected = true;
+          console.log(sItem,'sItem==')
         }
       } else if (isSelectedDefaultSkuItem > -1) {
         // 2. 在storePortal设置了defaultSku那么该sku被选中
