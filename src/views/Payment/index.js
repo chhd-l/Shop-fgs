@@ -914,20 +914,20 @@ class Payment extends React.Component {
         isFirstLoad: true
       });
       let nextConfirmPanel;
-      if (COUNTRY !== 'jp') {
-        nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(
-            paymentStore?.panelStatus?.filter((item) => item.key !== 'bindPet')
-          ),
-          curKey: 'deliveryAddr'
-        });
-      } else {
-        // 下一个最近的未complete的panel
-        nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStore.panelStatus),
-          curKey: 'deliveryAddr'
-        });
-      }
+      // if (COUNTRY !== 'jp') {
+      //   nextConfirmPanel = searchNextConfirmPanel({
+      //     list: toJS(
+      //       paymentStore?.panelStatus?.filter((item) => item.key !== 'bindPet')
+      //     ),
+      //     curKey: 'deliveryAddr'
+      //   });
+      // } else {
+      // 下一个最近的未complete的panel
+      nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: 'deliveryAddr'
+      });
+      // }
       paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
@@ -3540,10 +3540,18 @@ class Payment extends React.Component {
 
   // 编辑
   handleClickPaymentPanelEdit = async () => {
-    this.props.paymentStore.setStsToCompleted({
-      key: 'deliveryAddr',
-      onlyGa: true
-    });
+    if (this.props.checkoutStore.isShowBindPet) {
+      this.props.paymentStore.setStsToCompleted({
+        key: 'bindPet',
+        onlyGa: true
+      });
+    } else {
+      this.props.paymentStore.setStsToCompleted({
+        key: 'deliveryAddr',
+        onlyGa: true
+      });
+    }
+
     const {
       checkoutStore,
       paymentStore: {
@@ -4338,15 +4346,15 @@ class Payment extends React.Component {
                     </div>
                   </>
                 )}
-                {COUNTRY === 'jp' && (
-                  <SelectPet
-                    recommendData={this.state.recommend_data}
-                    updateRecommendData={(data) => {
-                      this.setState({ recommend_data: data });
-                    }}
-                    isRepay={tid}
-                  />
-                )}
+                {/* {COUNTRY === 'jp' && ( */}
+                <SelectPet
+                  recommendData={this.state.recommend_data}
+                  updateRecommendData={(data) => {
+                    this.setState({ recommend_data: data });
+                  }}
+                  isRepay={tid}
+                />
+                {/* // )} */}
 
                 <PanelContainer
                   panelStatus={paymentMethodPanelStatus}

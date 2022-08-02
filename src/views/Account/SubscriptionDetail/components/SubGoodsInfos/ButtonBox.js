@@ -51,6 +51,7 @@ const ButtonBox = () => {
   };
   const handleCancel = (e) => {
     e.preventDefault();
+    debugger;
     setState({
       modalType: 'cancelAll',
       modalShow: true,
