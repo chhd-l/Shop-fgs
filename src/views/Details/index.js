@@ -958,7 +958,7 @@ class Details extends React.Component {
       });
     }
     const outOfStock = this.state.details.goodsInfos?.some((it) => !it.stock);
-    if (!this.isLogin && outOfStock) {
+    if (!this.isLogin && outOfStock && Ru) {
       try {
         const param = {
           consentGroup: 'PDP-notifyme',
@@ -966,7 +966,7 @@ class Details extends React.Component {
         };
         const res = await getAppointPageSelected(param);
         this.setState({
-          notifyMeConsent: res?.context?.requiredList
+          notifyMeConsent: res?.context?.requiredList || []
         });
       } catch (e) {}
     }
