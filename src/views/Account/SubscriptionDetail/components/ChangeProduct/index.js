@@ -44,6 +44,12 @@ const ChangeProduct = () => {
       newArr = showModalArr.map((el, i) => i == num);
     }
     setShowModalArr(newArr);
+    setState({
+      triggerShowChangeProduct: {
+        ...triggerShowChangeProduct,
+        showLoading: false
+      }
+    });
   };
   const [goodsDetails, setGoodsDetails] = useState({});
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
