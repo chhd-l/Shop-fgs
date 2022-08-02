@@ -21,12 +21,8 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const {
-    triggerShowChangeProduct,
-    setState,
-    productListLoading,
-    subDetail
-  } = SubDetailHeaderValue;
+  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
+    SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -152,7 +148,11 @@ const RecommendationListModal = ({ intl }) => {
   const redirectTo = (url) => {
     history.push(url);
   };
-  const showChangeProduct = async ({ goodsInfo, isShowModal }) => {
+  const showChangeProduct = async ({ goodsInfo, isShowModal, notPet }) => {
+    if (isShowModal && notPet) {
+      showModal(3);
+      return;
+    }
     if (!goodsInfo || productDetail.mainProduct?.spuCode) {
       showModal(0);
       return;
