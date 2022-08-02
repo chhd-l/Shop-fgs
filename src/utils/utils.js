@@ -1233,6 +1233,24 @@ export const formatJPTime = (time) => {
   const end = Number(time.substring(6, 8));
   return `${begin}～${end}時`;
 };
+
+export const getFormatDate = (dateinfo) => {
+  if (!dateinfo) return;
+  const COUNTRY = window.__.env.REACT_APP_COUNTRY;
+  const date = new Date(dateinfo);
+  const year = date.getFullYear();
+  const month =
+    date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1;
+  const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+  switch (COUNTRY) {
+    case 'jp':
+      return [year, '/', month, '/', day].join('');
+    default:
+      return [day, '/', month, '/', year].join('');
+  }
+};
 /**
  * 动态渲染script html或link html
  * @param  {String} {htmlStr} 需要处理的html字符串

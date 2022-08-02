@@ -1,0 +1,352 @@
+.miaa {
+  font-size: 0.9375rem;
+}
+
+.billingCheckbox,
+.footerCheckbox {
+  padding-left: 1.5rem;
+}
+
+.ui-warning,
+.footerCheckbox .warning {
+  font-size: 0.625rem;
+  color: #c03344;
+}
+
+.footerCheckbox .rc-input__label--inline {
+  cursor: auto;
+}
+
+.footerCheckbox > .form-check-input {
+  width: 0.9375rem;
+  height: 0.9375rem;
+  font-size: 0.625rem !important;
+  margin-top: 2px;
+}
+
+.footerCheckbox {
+  font-size: 0.875rem !important;
+}
+
+.rc-input__validation-message {
+  color: #c03344 !important;
+  font-size: 80% !important;
+}
+
+.rc-input--warning > [class^='rc-input']:not([value='']) {
+  border-color: #c03344 !important;
+}
+
+.rc-input--warning
+  > [class^='rc-input']:not([value=''])
+  + .rc-input__label::after {
+  background-color: #c03344 !important;
+}
+
+.rc-input--warning > [class^='rc-input'] {
+  color: #c03344 !important;
+  border-color: #c03344 !important;
+}
+
+.rc-input--label {
+  margin-top: 0 !important;
+}
+
+.rc-input__label::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px !important;
+  z-index: 2;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.rc-input__control:not([value='']) + .rc-input__label::after {
+  background-color: #d7d7d7 !important;
+}
+
+.deliveryMethod .col-8 {
+  padding-left: 0 !important;
+}
+
+.logo-payment-card-list {
+  margin-left: 0.5rem;
+}
+
+.logo-payment-card-list.logo-credit-card {
+  display: inline-block;
+}
+
+@media (max-width: 768.98px) {
+  .ui-margin-top-1-md-down {
+    margin-top: 1rem;
+  }
+
+  .ui-border-bottom-none-md-down {
+    border-bottom: none !important;
+  }
+  .product-summary__total {
+    padding: 0 1.25rem;
+  }
+}
+
+.cardImage {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cardImage .img {
+  width: 40px;
+  height: 40px;
+  color: rgb(102, 102, 102);
+  font-weight: 300;
+  font-family: 'RC TYPE', Roboto, Avenir, Helvetica, Arial, sans-serif;
+  margin-right: 1.25rem;
+}
+
+.cardForm span,
+.cardForm input {
+  font-size: 0.875rem;
+  color: rgb(102, 102, 102);
+  font-weight: 300;
+  font-family: 'RC TYPE', Roboto, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.cardFormBox {
+  position: relative;
+  border-bottom: 2px solid #d7d7d7;
+}
+
+.cardForm .col-sm-6 {
+  padding: 0;
+}
+
+.cardForm .form-group {
+  margin-bottom: 2px !important;
+}
+
+.cardForm .rc-input--inline {
+  margin-right: 0 !important;
+}
+
+.cardForm .rc-input__control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(236, 0, 26, 0.25);
+}
+
+.cardForm .focus-visible {
+  box-shadow: none;
+}
+/* .ru-cardFrom .cardForm .focus-visible {
+  box-shadow: 0 0 5px 0px #0066ff;
+  border: 1px solid #0066ff!important;
+} */
+
+.cardForm > .rc-input:nth-child(1) {
+  width: 54%;
+}
+
+.cardForm > .rc-input:nth-child(2) {
+  width: 28%;
+}
+
+.cardForm > .rc-input:nth-child(3) {
+  width: 18%;
+}
+
+#payment .rc-baseline img {
+  display: inline-block !important;
+}
+
+.cardForm {
+  display: inline-block;
+  width: calc(100% - 60px);
+}
+
+.cardForm .rc-input__control + .rc-input__label::before,
+.rc-input__control + .rc-input__label::after,
+.cardForm .rc-input__label {
+  width: 0;
+  border: none !important;
+}
+
+.creditCompleteInfoBox {
+  transition: all 0.3s ease-in-out;
+}
+
+.creditCompleteInfoBox img {
+  width: 100%;
+}
+
+.creditCompleteInfoBox > p .pull-right {
+  text-decoration: underline;
+}
+
+.creditCompleteInfo {
+  color: black;
+}
+
+.deliveryAddress {
+  margin-bottom: 2rem;
+}
+
+.product-summary__products__item {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.ui-lighter {
+  opacity: 0.7;
+  font-size: 0.95em;
+}
+
+@media (max-width: 768.98px) {
+  .rc-padding-left--none--md-down {
+    padding-left: 0 !important;
+  }
+
+  .rc-padding-right--none--md-down {
+    padding-right: 0 !important;
+  }
+
+  .cardForm .form-group {
+    border-bottom: 2px solid #d7d7d7;
+    margin-bottom: 0.9375rem !important;
+  }
+}
+
+.ui-position-absolute {
+  position: absolute;
+}
+
+#card-secure-fields {
+  border-color: #d7d7d7 !important;
+}
+
+/*
+.shippingPhoneNumber {
+  -moz-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    -khtml-user-select:none;
+    user-select:none;
+}
+.shippingPhoneNumber::-ms-clear,::-ms-reveal{display:none;} */
+
+.ml-custom {
+  margin-left: 1.25rem !important;
+}
+
+.mr-custom {
+  margin-right: 1.25rem !important;
+}
+
+.normalDelivery {
+  font-size: 0.875rem;
+}
+
+.billingCheckbox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info {
+  background: #d7d7d7;
+  display: inline-block;
+  height: 1.125rem;
+  width: 1.125rem;
+  min-width: 1.125rem;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  color: #fff;
+  text-align: center;
+  line-height: 1.0625rem;
+  cursor: pointer;
+  text-transform: lowercase;
+}
+
+#id-checkbox-billing {
+  cursor: pointer;
+}
+
+@media (max-width: 540px) {
+  /* .PayCardImgFitScreen {
+    width: 50% !important;
+  } */
+
+  .PayCardBoxMargin {
+    margin-top: 0rem;
+  }
+
+  .fontFitSCreen {
+    font-size: 0.75rem !important;
+  }
+}
+
+.input__checkbox:focus + .rc-input__label--inline::before,
+.input__radio:focus + .rc-input__label--inline::before,
+.modal__header a:focus .rc-modal__logo,
+.rc-input__checkbox:focus + .rc-input__label--inline::before,
+.rc-input__radio:focus + .rc-input__label--inline::before,
+.rc-modal__header a:focus .rc-modal__logo {
+  outline: 0 !important;
+}
+
+@media (max-width: 450px) {
+  .fit-mobile-billingCheckbox {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .fit-mobile-icon-left {
+    position: absolute;
+    left: -1.6rem;
+  }
+
+  .fit-mobile-normalDelivery {
+    position: relative;
+    margin-left: 1.6rem;
+  }
+}
+
+.petProduct {
+  padding: 0.625rem 0;
+  /* border: 1px solid #ccc; */
+  /* overflow: hidden; */
+  /* margin-bottom: 1.25rem; */
+}
+
+.securityCodeTips {
+  height: 30px;
+  line-height: 30px;
+  margin-top: 0.625rem;
+}
+
+.securityCodeTips {
+  position: relative;
+}
+.securityCodeTips .icon {
+  position: absolute;
+  left: 0px;
+  width: 1.5rem;
+  height: 32px;
+  background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--iconography--xs.svg?v=8-9-1);
+  background-repeat: no-repeat;
+}
+.securityCodeTips .icon1 {
+  background-position: 0 0;
+}
+.securityCodeTips .desc {
+  color: #666;
+  padding-left: 1.25rem;
+  padding-top: 2px;
+}
+
+.paymentIconTransform {
+  transform: scale(0.8);
+  margin-right: -0.1rem;
+}

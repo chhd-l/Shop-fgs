@@ -5,11 +5,19 @@ import getCardImg from '@/lib/get-card-img';
 import {
   getDictionary,
   isCanVerifyBlacklistPostCode,
-  handleEmailShow
+  handleEmailShow,
+  formatMoney,
+  formatDate,
+  getFormatDate
 } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { AddressPreview } from '@/components/Address';
 import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
+import { format } from 'date-fns';
+import * as date_fns_locale from 'date-fns/locale';
+import { Modal } from '@/components/Common';
+
+const country = window.__.env.REACT_APP_COUNTRY;
 
 const UserPaymentInfo = ({
   currentCardInfo,
@@ -19,12 +27,9 @@ const UserPaymentInfo = ({
   currentDeliveryAddress,
   paymentStore: { supportPaymentMethods }
 }) => {
-  useEffect(() => {
-    getDictionary({ type: 'country' }).then((res) => {
-      setCountryList(res || []);
-    });
-  }, []);
   const [countryList, setCountryList] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [promotionsArr, setPromotionsArr] = useState([]);
   let minDeliveryTime = null;
   let maxDeliveryTime = null;
   if (subDetail?.noStartTradeList) {
@@ -32,6 +37,17 @@ const UserPaymentInfo = ({
     minDeliveryTime = snsl.minDeliveryTime;
     maxDeliveryTime = snsl.maxDeliveryTime;
   }
+
+  useEffect(() => {
+    getDictionary({ type: 'country' }).then((res) => {
+      setCountryList(res || []);
+    });
+  }, []);
+
+  useEffect(() => {
+    setPromotionsArr(subDetail.promotionResponse?.promotionVOList || []);
+  }, [subDetail.promotionResponse?.promotionVOList]);
+
   const eidtModule = (type) => {
     if (type == 'PaymentComp') {
       window.scrollTo(0, 0);
@@ -341,6 +357,241 @@ const UserPaymentInfo = ({
           </div>
         </div>
       ) : null}
+      {/* promotion save */}
+      {/* fr ru tr  us: 368369*/}
+      {/* ['fr', 'ru', 'tr'].includes(country) */}
+      {promotionsArr?.length > 0 && (
+        <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
+          <div className="h-100 border border-d7d7d7 p-5">
+            {/* 头部标题和 more */}
+            <div className="align-items-center">
+              <span className="iconfont iconpoint-logo mr-3" />
+              <span>
+                <FormattedMessage id="subscription.Promotions" />
+              </span>
+              <a
+                className="rc-styled-link text-rc-red float-right"
+                style={{ marginTop: '5px', overflow: 'visible' }}
+                onClick={() => setVisible(true)}
+              >
+                <FormattedMessage id="subscription.Seemore" />
+              </a>
+            </div>
+
+            <div className="subscription_detail_userinfo">
+              {/* 省下来的钱 */}
+              <p className="money flex mt-4">
+                <span
+                  className="iconfont iconrefresh mr-3 font-semibold"
+                  style={{ color: '#009700' }}
+                />
+                <span>
+                  <FormattedMessage
+                    id="Subscription.SaveTitle"
+                    values={{
+                      money: (
+                        <span style={{ color: '#009700' }}>
+                          {formatMoney(
+                            subDetail?.promotionResponse
+                              ?.totalSubscriptionPrice ?? 0
+                          )}
+                        </span>
+                      )
+                    }}
+                  />
+                </span>
+              </p>
+              {/* 使用的code */}
+              <p className="code flex mt-4">
+                <span
+                  className="iconfont iconrefresh mr-3 font-semibold"
+                  style={{ color: '#009700' }}
+                />
+                <span>
+                  {/* marketingType 0 满减 1 满折 */}
+                  <FormattedMessage
+                    id="Subscription.SavePrice"
+                    values={{
+                      money: (
+                        <span style={{ color: '#009700' }}>
+                          {formatMoney(promotionsArr[0].value ?? 0)}
+                        </span>
+                      ),
+                      code: (
+                        <span
+                          className="text-22 font-semibold"
+                          style={{ color: '#009700' }}
+                        >
+                          {promotionsArr[0].publicStatus === '1' ? (
+                            <FormattedMessage id="subscription.PROMOTION" />
+                          ) : (
+                            promotionsArr[0]?.code
+                          )}
+                        </span>
+                      )
+                    }}
+                  />
+                  <br />
+                  <span>
+                    {/* 日本是年 月 日  -----其他国家是日 月 年 */}
+                    <FormattedMessage
+                      id="Subscription.AddOn"
+                      values={{
+                        time: (
+                          <span>
+                            {getFormatDate(promotionsArr[0].useTime) ||
+                              getFormatDate(new Date())}
+                          </span>
+                        )
+                      }}
+                    />
+                    {/* {format(new Date("2022-7-29"), "MMMM do yyyy", { locale: date_fns_locale[window.__.env.REACT_APP_LANG_LOCALE] })} */}
+                  </span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* promotion modal */}
+      <Modal
+        modalTitle={
+          <span className="text-cs-primary flex">
+            <span className="flex items-center">
+              <span className="iconfont iconpoint-logo mr-3 font-semibold" />
+            </span>
+            <span className="text-30">
+              <FormattedMessage id="subscription.PromotionsHistory" />
+            </span>
+          </span>
+        }
+        visible={visible}
+        footerVisible={false}
+        close={() => setVisible(false)}
+      >
+        <div
+          className="promotionModal pl-3 pr-3"
+          style={{ maxHeight: '28rem', overflowY: 'auto' }}
+        >
+          {promotionsArr?.length > 0 &&
+            promotionsArr.map((item) => {
+              // publicStatus 0 private
+              //              1 public
+              if (item?.publicStatus === '1') {
+                return (
+                  <div
+                    className="flex mb-2 p-4"
+                    style={{
+                      border: '1px solid #d7d7d7',
+                      borderRadius: '4px',
+                      maxHeight: '400px'
+                    }}
+                  >
+                    <span className="flex items-center">
+                      <span
+                        className="iconfont iconrefresh mr-3 font-semibold"
+                        style={{ color: '#009700' }}
+                      />
+                    </span>
+                    <div>
+                      <p className="font-medium text-20">{item.name ?? ''}</p>
+                      <p>
+                        <FormattedMessage
+                          id="Subscription.SaveItem"
+                          values={{
+                            money: `${formatMoney(item?.value || 0)}`,
+                            code: (
+                              <span className="font-medium text-18">
+                                <FormattedMessage id="subscription.PROMOTION" />
+                              </span>
+                            )
+                          }}
+                        />
+                      </p>
+                    </div>
+                  </div>
+                );
+              } else {
+                // marketingType 0 满减 1 满折
+                if (item?.marketingType === 0) {
+                  return (
+                    <div
+                      className="flex mb-2 p-4"
+                      style={{
+                        border: '1px solid #d7d7d7',
+                        borderRadius: '4px',
+                        maxHeight: '400px'
+                      }}
+                    >
+                      <span className="flex items-center">
+                        <span
+                          className="iconfont iconrefresh mr-3 font-semibold"
+                          style={{ color: '#009700' }}
+                        />
+                      </span>
+                      <div>
+                        <p className="font-medium text-20">{item.name ?? ''}</p>
+                        <p>
+                          <FormattedMessage
+                            id="Subscription.SaveItem"
+                            values={{
+                              money: `${formatMoney(item?.value ?? 0)}`,
+                              code: (
+                                <span className="font-medium text-18">
+                                  {item?.code ?? ''}
+                                </span>
+                              )
+                            }}
+                          />
+                        </p>
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div
+                      className="flex mb-2 p-4"
+                      style={{
+                        border: '1px solid #d7d7d7',
+                        borderRadius: '4px',
+                        maxHeight: '400px'
+                      }}
+                    >
+                      <span className="flex items-center">
+                        <span
+                          className="iconfont iconrefresh mr-3 font-semibold"
+                          style={{ color: '#009700' }}
+                        />
+                      </span>
+                      <div>
+                        <p className="font-medium text-20">{item.name ?? ''}</p>
+                        <p>
+                          <FormattedMessage
+                            id="Subscription.SaveItemDiscount"
+                            values={{
+                              discount:
+                                `${
+                                  item?.discount &&
+                                  `${item?.discount}`.includes('%')
+                                    ? item?.discount
+                                    : Number(item?.discount).toFixed(0) + '%'
+                                }` ?? '0%',
+                              code: (
+                                <span className="font-medium text-18">
+                                  {item?.code ?? ''}
+                                </span>
+                              )
+                            }}
+                          />
+                        </p>
+                      </div>
+                    </div>
+                  );
+                }
+              }
+            })}
+        </div>
+      </Modal>
     </div>
   );
 };

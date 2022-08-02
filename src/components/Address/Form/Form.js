@@ -44,15 +44,31 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { ToCDB } from '@/utils/utils';
 import './index.less';
 import { format } from 'date-fns';
 import { DatePickerComponent, Input } from '@/components/Common';
+import { phoneNumberMask } from '@/utils/constant';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
 var compositionFlag = true;
+
+function ToCDB(str) {
+  var tmp = '';
+  for (var i = 0; i < str.length; i++) {
+    console.log('char', str.charCodeAt(i));
+    if (str.charCodeAt(i) == 12288) {
+      tmp += String.fromCharCode(str.charCodeAt(i) - 12256);
+      continue;
+    } else if (str.charCodeAt(i) > 65280 && str.charCodeAt(i) < 65375) {
+      tmp += String.fromCharCode(str.charCodeAt(i) - 65248);
+    } else {
+      tmp += String.fromCharCode(str.charCodeAt(i));
+    }
+  }
+  return tmp;
+}
 
 @inject('configStore', 'loginStore')
 @injectIntl
@@ -115,7 +131,7 @@ class Form extends React.Component {
         pickupCode: null, // 快递公司code
         pickupName: '', // 快递公司
         DuData: null, // 俄罗斯DuData
-        formRule: [], // form表单校验规则
+        formRule: [], // form表单校验规 则
         workTime: '', // pickup workTime
         provinceIdStr: '', // pickup计算价格使用
         cityIdStr: '', // pickup计算价格使用
@@ -489,7 +505,7 @@ class Form extends React.Component {
         phoneReg = [{ mask: '000-000-0000' }];
         break;
       case 'nl':
-        phoneReg = '(+31) 000 00 00 00';
+        phoneReg = [{ mask: '(+31) 000 00 00 00' }];
         break;
       case 'uk':
         phoneReg = [
@@ -542,6 +558,10 @@ class Form extends React.Component {
     if (COUNTRY != 'jp') {
       IMask(element, maskOptions);
     }
+
+    // if (COUNTRY == 'ru' && this.isLogin) {
+    //   this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
+    // }
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
@@ -721,9 +741,7 @@ class Form extends React.Component {
               ? (regExp = /^[0-9]{3}-[0-9]{4}$/)
               : (regExp = /^\d{5}$/);
           } else {
-            COUNTRY === 'nl'
-              ? (regExp = /^\d{4}\s?[a-zA-Z]{2}$/)
-              : (regExp = /\S/);
+            regExp = /\S/;
           }
           errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
@@ -756,10 +774,6 @@ class Form extends React.Component {
               /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else if (COUNTRY == 'jp') {
             regExp = /^[0]\d{9,10}$/;
-          } else if (COUNTRY === 'nl') {
-            // 荷兰
-            regExp =
-              /^\(\+[3][1]\)[\s][0-9]{3}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1922,7 +1936,6 @@ class Form extends React.Component {
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               emptyFirstItem={'State'}
-              open={true}
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
             />
@@ -1934,7 +1947,6 @@ class Form extends React.Component {
               }
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
-              open={true}
               name={item.fieldKey}
               selectedItemData={{
                 value:
@@ -1967,20 +1979,9 @@ class Form extends React.Component {
         {/* email */}
         <div className="col-md-6">
           <div className="form-group require">
-            <div className="flex items-center justify-between">
-              <label className="form-control-label" htmlFor="emailShipping">
-                <FormattedMessage id="account.Email" />
-              </label>
-              {COUNTRY === 'jp' ? (
-                <a
-                  href="https://ncv.microsoft.com/23fH9DIr5C"
-                  className="underline"
-                  target="_blank"
-                >
-                  <FormattedMessage id="changeEmail" />
-                </a>
-              ) : null}
-            </div>
+            <label className="form-control-label" htmlFor="emailShipping">
+              <FormattedMessage id="account.Email" />
+            </label>
 
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
               <input

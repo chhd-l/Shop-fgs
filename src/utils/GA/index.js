@@ -630,7 +630,6 @@ export const orderConfirmationPushEvent = (details) => {
           111111,
           Object.assign({}, productInfoFromLocalStorage, obj)
         );
-        debugger;
         return Object.assign({}, productInfoFromLocalStorage, obj);
       })
     })

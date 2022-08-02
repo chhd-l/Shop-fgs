@@ -77,6 +77,7 @@ const Cart = loadable(() => import('@/views/Cart'));
 const CartFRBreeder = loadable(() => import('@/views/CartFRBreeder'));
 // const CartInStock = loadable(() => import('@/views/CartInStock'));
 const Payment = loadable(() => import('@/views/Payment'));
+const Checkout = loadable(() => import('@/views/Checkout'));
 const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
@@ -532,6 +533,14 @@ const App = () => {
                     }
                     return <Cart {...props} />;
                   }}
+                />
+                <Route
+                  exact
+                  path="/checkoutnew"
+                  sensitive
+                  render={(props) => (
+                    <Checkout key={props.match.params.type} {...props} />
+                  )}
                 />
                 <Route
                   exact
