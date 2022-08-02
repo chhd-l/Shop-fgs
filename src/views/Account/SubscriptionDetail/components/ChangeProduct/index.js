@@ -44,6 +44,12 @@ const ChangeProduct = () => {
       newArr = showModalArr.map((el, i) => i == num);
     }
     setShowModalArr(newArr);
+    setState({
+      triggerShowChangeProduct: {
+        ...triggerShowChangeProduct,
+        showLoading: false
+      }
+    });
   };
   const [goodsDetails, setGoodsDetails] = useState({});
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
@@ -253,7 +259,9 @@ const ChangeProduct = () => {
 
   const modalFooterContent = () => {
     const productStock = goodsDetails?.goodsInfos?.some((el) => el.stock);
-
+    const autoshipType =
+      subDetail.subscriptionType?.toLowerCase() === 'autoship';
+    const modalType = autoshipType ? 3 : 0;
     return (
       <div className="">
         {!productStock ? (
@@ -330,7 +338,7 @@ const ChangeProduct = () => {
             type="button"
             className="btn btn-outline-primary rc-btn--sm mr-6"
             data-dismiss="modal"
-            onClick={() => showModal(0)}
+            onClick={() => showModal(modalType)}
           >
             <FormattedMessage id="subscription.seeOtherRecommendation" />
           </button>
@@ -349,11 +357,8 @@ const ChangeProduct = () => {
       </div>
     );
   };
-  console.log(
-    triggerShowChangeProduct,
-    subDetail,
-    'triggerShowChangeProduct--'
-  );
+
+  const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
   return (
     <>
       <ChangeProductContext.Provider value={propsObj}>
@@ -395,19 +400,23 @@ const ChangeProduct = () => {
             close={() => {
               initMainProduct();
             }}
+            modalBodyClass="px-0"
           >
-            <h4 className="red text-center mb-3 mt-3">
-              <FormattedMessage id="subscription.productRecommendation" />
+            <h4 className="red text-center mb-2 text-2xl">
+              <FormattedMessage
+                id={`${
+                  autoshipType
+                    ? 'subscriptionDetail.changeProduct'
+                    : 'subscription.productRecommendation'
+                }`}
+              />
             </h4>
             <p className="text-center">
               <FormattedMessage id="subscription.chooseOption" />
             </p>
-            <div
-              style={{ padding: '.9375rem' }}
-              className="rc-outline-light rc-padding-y--sm"
-            >
+            <div>
               {/* <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm"> */}
-              <ChooseSKU />
+              <ChooseSKU inModal={true} />
             </div>
           </Modal>
         </div>

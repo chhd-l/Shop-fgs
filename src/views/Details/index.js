@@ -66,7 +66,7 @@ import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
-import { findUserSelectedList } from '@/api/consent';
+import { getAppointPageSelected } from '@/api/consent';
 import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
@@ -179,7 +179,7 @@ class Details extends React.Component {
       fromPrice: '',
       versionB: false,
       ossReceiveBackNotificationContentVisible: false,
-      merberConsent: '',
+      notifyMeConsent: [],
       notifyMeStatus: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
@@ -352,7 +352,6 @@ class Details extends React.Component {
 
       let defaultFrequencyId = 0;
       let defaultFrequencyValueEn = '';
-
       // 获取默认frequencyId
       if (details?.promotions === 'club') {
         defaultFrequencyId =
@@ -360,14 +359,19 @@ class Details extends React.Component {
           configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
           (clubDictRes[0] && clubDictRes[0].id) ||
           '';
-        defaultFrequencyValueEn = clubDictRes[0]?.valueEn;
+        defaultFrequencyValueEn = clubDictRes.find(
+          (autoship) => autoship.id === defaultFrequencyId
+        )?.valueEn;
       } else {
         defaultFrequencyId =
           details?.defaultFrequencyId ||
           configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
-        defaultFrequencyValueEn = autoshipDictRes[0]?.valueEn;
+
+        defaultFrequencyValueEn = autoshipDictRes.find(
+          (autoship) => autoship.id === defaultFrequencyId
+        )?.valueEn;
       }
       this.setState({
         form: Object.assign(this.state.form, {
@@ -954,20 +958,18 @@ class Details extends React.Component {
       });
     }
     const outOfStock = this.state.details.goodsInfos?.some((it) => !it.stock);
-    // if (this.isLogin && outOfStock) {
-    //   try {
-    //     const customerId = this.props.loginStore.userInfo.customerId || '';
-    //     const param = {
-    //       consentPage: 'PDP page',
-    //       customerId,
-    //       oktaToken: localItemRoyal.get('oktaToken')
-    //     };
-    //     const res = await findUserSelectedList(param);
-    //     this.setState({
-    //       merberConsent: res?.context?.requiredList?.[0]?.consentTitle || ''
-    //     });
-    //   } catch (e) { }
-    // }
+    if (!this.isLogin && outOfStock && Ru) {
+      try {
+        const param = {
+          consentGroup: 'PDP-notifyme',
+          storeId: window.__.env.REACT_APP_STOREID
+        };
+        const res = await getAppointPageSelected(param);
+        this.setState({
+          notifyMeConsent: res?.context?.requiredList || []
+        });
+      } catch (e) {}
+    }
   };
 
   handleInputChange(e) {
@@ -1217,6 +1219,7 @@ class Details extends React.Component {
               isLogin={this.isLogin}
               quantity={quantity}
               selectedSpecItem={selectedSpecItem}
+              notifyMeConsent={this.state.notifyMeConsent}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
           )}
@@ -1252,7 +1255,7 @@ class Details extends React.Component {
             form={form}
             isLogin={this.isLogin}
             quantity={quantity}
-            // merberConsent={this.state.merberConsent}
+            notifyMeConsent={this.state.notifyMeConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />

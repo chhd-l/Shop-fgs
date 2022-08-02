@@ -91,7 +91,6 @@ const ConsentModule = ({
       list={list}
       key={list.length}
       sendList={sendList}
-      id={'AssistanceDogLandingPage'}
       pageType="Landing page"
     />
   );
