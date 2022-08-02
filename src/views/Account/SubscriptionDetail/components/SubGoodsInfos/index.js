@@ -79,7 +79,8 @@ const SubGoodsInfos = ({
           firstShow: !triggerShowChangeProduct.firstShow,
           goodsInfo: subDetail?.goodsInfo,
           isShowModal: true,
-          notPet: autoshipSubStatus ? true : false
+          notPet: autoshipSubStatus ? true : false,
+          showLoading: true
         })
       });
     } else {
@@ -110,7 +111,6 @@ const SubGoodsInfos = ({
     isShowClub,
     handleClickChangeProduct
   };
-  console.log(subDetail, 'subDetail==22');
   return (
     // true?null:
     <SubGoodsInfosContext.Provider value={propsObj}>
@@ -255,6 +255,7 @@ const SubGoodsInfos = ({
                     <Button
                       className="w-full"
                       onClick={() => handleClickChangeProduct(index)}
+                      loading={triggerShowChangeProduct.showLoading}
                     >
                       <FormattedMessage id="subscriptionDetail.changeProduct" />
                     </Button>
@@ -508,6 +509,7 @@ const SubGoodsInfos = ({
                             <Button
                               className=" mt-cs-16"
                               onClick={() => handleClickChangeProduct(index)}
+                              loading={triggerShowChangeProduct.showLoading}
                             >
                               <FormattedMessage id="subscriptionDetail.changeProduct" />
                             </Button>
