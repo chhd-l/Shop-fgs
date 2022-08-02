@@ -192,7 +192,7 @@ const btnStatus = Ru? consentChecked && correctEmail : correctEmail;
           </>
         )}
       </div>
-      {list?.length && (
+      {list?.length > 0 && (
         <div className="mt-3 ml-5">
           <Consent list={list} sendList={sendList} pageType="pdp page" />
         </div>
