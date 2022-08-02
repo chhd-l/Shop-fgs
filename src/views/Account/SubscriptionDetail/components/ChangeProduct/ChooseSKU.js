@@ -22,6 +22,7 @@ import stores from '@/store';
 import cn from 'classnames';
 import { Button } from '@/components/Common';
 import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
+import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 
 const loginStore = stores.loginStore;
 
@@ -352,7 +353,11 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
   return (
     <React.Fragment>
       <ErrorMessage msg={errorMsgSureChange} />
-      <div className="d-flex md:justify-between md:items-center py-4 px-4 md:px-0 w-full md:w-auto ">
+      <div
+        className={`d-flex ${
+          inModal ? 'md:justify-center' : 'md:justify-between'
+        } md:items-center py-4 px-4 md:px-0 w-full md:w-auto `}
+      >
         <div
           className={`d-flex flex-col md:flex-row  w-full md:w-auto items-center`}
         >
@@ -381,6 +386,28 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
               inModal ? 'flex-col' : 'flex-col w-full md:w-auto md:flex-row'
             }`}
           >
+            {inModal ? (
+              <>
+                <h3
+                  className="text-xl"
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    overflowWrap: 'normal',
+                    color: '#e2001a'
+                  }}
+                >
+                  {details.goodsName}
+                </h3>
+                {getFoodType(details) ? (
+                  <p className="rc-card__meta rc-padding-bottom--xs ui-text-overflow-line2">
+                    <FormattedMessage
+                      id={`product.plp.foodtype.${getFoodType(details)}`}
+                    />
+                  </p>
+                ) : null}{' '}
+              </>
+            ) : null}
             {!isMobile ? quantityBox() : null}
             <div className="cart-and-ipay md:max-w-xs w-full md:w-auto">
               <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6 md:mt-0">
