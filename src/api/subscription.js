@@ -19,7 +19,8 @@ const api = {
   changeSubscriptionGoods: `/${window.__.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
   getListForPet: `/${window.__.env.REACT_APP_STOREID}/subGoodsByPetsId`,
   findPetProductForClub: '/product/finder/club/pets/products',
-  checkSubscriptionAddressPickPoint: `/${window.__.env.REACT_APP_STOREID}/sub/checkSubscriptionAddressPickPoint` //订阅详情修改quantity、address、product时tempoline api验证
+  checkSubscriptionAddressPickPoint: `/${window.__.env.REACT_APP_STOREID}/sub/checkSubscriptionAddressPickPoint`, //订阅详情修改quantity、address、product时tempoline api验证
+  updateSubGoodsInfo: `/${window.__.env.REACT_APP_STOREID}/sub/sfn/`
 };
 
 export default api;
@@ -169,6 +170,14 @@ export function stockNoticeModify(params) {
 export function queryStockNotice(params) {
   return axios({
     url: `/stockNotice/query`,
+    method: 'post',
+    data: params
+  });
+}
+
+export function updateSubGoodsInfo(params) {
+  return axios({
+    url: `${api.updateSubGoodsInfo}${params.subscribeId}`,
     method: 'post',
     data: params
   });
