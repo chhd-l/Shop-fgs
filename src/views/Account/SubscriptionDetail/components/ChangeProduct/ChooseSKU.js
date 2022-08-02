@@ -476,7 +476,8 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
                 `frequency subscription-detail-frequency w-full md:w-auto mt-5 md:mt-0 max-w-xs`,
                 {
                   'subscriptionDetail-choose-frequency': isMobile,
-                  'md:px-8': !inModal
+                  'md:px-8': !inModal,
+                  'modal-subscription-frequency': inModal
                 }
               )}
             >
