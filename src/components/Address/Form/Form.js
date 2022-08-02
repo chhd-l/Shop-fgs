@@ -115,7 +115,7 @@ class Form extends React.Component {
         pickupCode: null, // 快递公司code
         pickupName: '', // 快递公司
         DuData: null, // 俄罗斯DuData
-        formRule: [], // form表单校验规则
+        formRule: [], // form表单校验规 则
         workTime: '', // pickup workTime
         provinceIdStr: '', // pickup计算价格使用
         cityIdStr: '', // pickup计算价格使用
