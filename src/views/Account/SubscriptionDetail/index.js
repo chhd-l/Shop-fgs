@@ -72,7 +72,8 @@ class SubscriptionDetail extends React.Component {
         goodsInfo: [],
         firstShow: false,
         isShowModal: false,
-        showBox: false // 只有一个商品的情况下都需要添加被动更换商品
+        showBox: false, // 只有一个商品的情况下都需要添加被动更换商品
+        showLoading: false // change product button loading status
       },
       currentChangeProductIdx: 0, // 默认只有一个产品时，设置change product idx为0
       isGift: false,
@@ -335,7 +336,7 @@ class SubscriptionDetail extends React.Component {
       funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
-      if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
         this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
       }
       // 邮件展示需要绑定宠物
@@ -359,7 +360,7 @@ class SubscriptionDetail extends React.Component {
           }
         });
       !isIndv &&
-        goodsInfo?.length == 1 &&
+        goodsInfo?.length === 1 &&
         this.state.isNotInactive &&
         isAddedPet &&
         this.setState({

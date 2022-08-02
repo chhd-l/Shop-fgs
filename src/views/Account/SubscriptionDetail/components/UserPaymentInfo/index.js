@@ -569,11 +569,13 @@ const UserPaymentInfo = ({
                           <FormattedMessage
                             id="Subscription.SaveItemDiscount"
                             values={{
-                              discount: `${
-                                item?.discount
-                                  ? Number(item?.discount).toFixed(0) + '%'
-                                  : '0%'
-                              }`,
+                              discount:
+                                `${
+                                  item?.discount &&
+                                  `${item?.discount}`.includes('%')
+                                    ? item?.discount
+                                    : Number(item?.discount).toFixed(0) + '%'
+                                }` ?? '0%',
                               code: (
                                 <span className="font-medium text-18">
                                   {item?.code ?? ''}
