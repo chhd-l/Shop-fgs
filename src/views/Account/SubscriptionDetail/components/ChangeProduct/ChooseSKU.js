@@ -67,6 +67,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
+  console.log(currentGoodsItems, 'currentGoodsItems--');
   const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
     useState(null);
   const [currentUnitPrice, setCurrentUnitPrice] = useState(null);
@@ -380,7 +381,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
       <ErrorMessage msg={errorMsgSureChange} />
       <div
         className={`d-flex ${
-          inModal ? 'md:justify-center  py-4' : 'md:justify-between'
+          inModal ? 'md:justify-center  py-6' : 'md:justify-between'
         } md:items-center px-4 md:px-0 w-full md:w-auto `}
       >
         <div
@@ -514,114 +515,129 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
           </div>
         </div>
       </div>
-      {outOfStockStatus ? (
-        <div className="mb-6 mt-5 md:mt-0 flex flex-col items-center md:justify-end md:items-end md:flex-row">
-          <span className="text-base font-normal">
-            <FormattedMessage
-              id={
-                alreadyNotice
-                  ? '<Back to stock> notification is activated for'
-                  : 'Receive "back in stock" notification'
-              }
-            />
-          </span>
-          <div
-            className={`md:ml-4 ${
-              correctEmail
-                ? 'correct-format-input-box mt-3 md:mt-0'
-                : 'active-input-box mt-3 md:mt-0'
-            }`}
-          >
-            <input
-              className={`email-input font-light text-base ${
-                alreadyNotice ? ' w-60' : 'border-b-2 pb-1 md:w-80'
-              }`}
-              onChange={handleEmailChange}
-              maxLength="50"
-              disabled={alreadyNotice}
-              value={userEmail}
-            />
-            {correctEmail ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 absolute right-1 top-0"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            ) : null}
-          </div>
-          {alreadyNotice ? (
-            <Button
-              size="small"
-              className="md:ml-6 mt-3 md:mt-0"
-              onClick={handleModifyEmail}
-            >
-              <FormattedMessage id="Modify e-mail" />
-            </Button>
-          ) : null}
-        </div>
-      ) : null}
       <div
         className={cn(
-          `d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row`,
+          // `d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row`,
+          `d-flex  mt-3 md:mt-0 flex-col`,
           {
             'justify-center w-full pt-3 modal-change-btn': inModal
           }
         )}
       >
-        <span
-          className={cn(`text-plain rc-styled-link my-2 md:my-0 mt-5 md:mt-0`, {
-            'ui-btn-loading': productListLoading,
-            hidden: inModal
-          })}
-          onClick={() => {
-            setState({
-              triggerShowChangeProduct: Object.assign(
-                {},
-                triggerShowChangeProduct,
-                {
-                  firstShow: !triggerShowChangeProduct.firstShow,
-                  goodsInfo: [...subDetail.goodsInfo],
-                  isShowModal: true
+        {outOfStockStatus ? (
+          <div
+            className={`mb-6 mt-5 md:mt-0 flex flex-col items-center ${
+              inModal ? 'md:justify-center' : 'md:justify-end'
+            }  md:items-end md:flex-row`}
+          >
+            <span className="text-base font-normal">
+              <FormattedMessage
+                id={
+                  alreadyNotice
+                    ? '<Back to stock> notification is activated for'
+                    : 'Receive "back in stock" notification'
                 }
-              )
-            });
-          }}
+              />
+            </span>
+            <div
+              className={`md:ml-4 ${
+                correctEmail
+                  ? 'correct-format-input-box mt-3 md:mt-0 w-11/12 md:w-auto'
+                  : 'active-input-box mt-3 md:mt-0 '
+              }`}
+            >
+              <input
+                className={`email-input font-light text-base ${
+                  alreadyNotice ? ' w-60' : 'border-b-2 pb-1 w-full md:w-80'
+                }`}
+                onChange={handleEmailChange}
+                maxLength="50"
+                disabled={alreadyNotice}
+                value={userEmail}
+              />
+              {correctEmail ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 absolute right-1 top-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              ) : null}
+            </div>
+            {alreadyNotice ? (
+              <Button
+                size="small"
+                className="md:ml-6 mt-3 md:mt-0"
+                onClick={handleModifyEmail}
+              >
+                <FormattedMessage id="Modify e-mail" />
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
+        <div
+          className={`flex items-center flex-col-reverse md:flex-row ${
+            inModal ? 'justify-center' : 'justify-between'
+          } `}
         >
-          <FormattedMessage id="subscription.seeOtherRecommendation" />
-        </span>
-        <div className="for-mobile-colum d-flex for-mobile-colum d-flex md:flex-row w-11/12 md:w-auto">
-          <Button onClick={() => showProdutctDetail(0)} size="small">
-            <FormattedMessage id="subscription.productDetails" />
-          </Button>
-          {outOfStockStatus && !alreadyNotice ? (
-            <Button
-              size="small"
-              type="primary"
-              disabled={!correctEmail || alreadyNotice}
-              onClick={handleNotifyMe}
-            >
-              <FormattedMessage id="Notify me" />
+          <span
+            className={cn(
+              `text-plain rc-styled-link my-2 md:my-0 mt-5 md:mt-0 block`,
+              {
+                'ui-btn-loading': productListLoading,
+                hidden: inModal
+              }
+            )}
+            onClick={() => {
+              setState({
+                triggerShowChangeProduct: Object.assign(
+                  {},
+                  triggerShowChangeProduct,
+                  {
+                    firstShow: !triggerShowChangeProduct.firstShow,
+                    goodsInfo: [...subDetail.goodsInfo],
+                    isShowModal: true
+                  }
+                )
+              });
+            }}
+          >
+            <FormattedMessage id="subscription.seeOtherRecommendation" />
+          </span>
+          <div className="for-mobile-colum d-flex for-mobile-colum d-flex md:flex-row w-11/12 md:w-auto flex-col-reverse md:flex-row">
+            <Button onClick={() => showProdutctDetail(0)} size="small">
+              <FormattedMessage id="subscription.productDetails" />
             </Button>
-          ) : isNotInactive && !alreadyNotice ? (
-            <Button
-              size="small"
-              type="primary"
-              onClick={() => changePets(seleced)}
-              loading={changeNowLoading}
-              disabled={!isSpecAvailable || !seleced}
-            >
-              <FormattedMessage id="subscription.changeNow" />
-            </Button>
-          ) : null}
+            {outOfStockStatus && !alreadyNotice ? (
+              <Button
+                size="small"
+                type="primary"
+                disabled={!correctEmail || alreadyNotice}
+                onClick={handleNotifyMe}
+                className="mb-2 md:mb-0"
+              >
+                <FormattedMessage id="Notify me" />
+              </Button>
+            ) : isNotInactive && !alreadyNotice ? (
+              <Button
+                size="small"
+                type="primary"
+                onClick={() => changePets(seleced)}
+                loading={changeNowLoading}
+                disabled={!isSpecAvailable || !seleced}
+              >
+                <FormattedMessage id="subscription.changeNow" />
+              </Button>
+            ) : null}
+          </div>
         </div>
       </div>
     </React.Fragment>

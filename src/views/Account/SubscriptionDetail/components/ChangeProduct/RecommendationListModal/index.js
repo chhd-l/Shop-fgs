@@ -150,7 +150,9 @@ const RecommendationListModal = ({ intl }) => {
   };
   const showChangeProduct = async ({ goodsInfo, isShowModal, notPet }) => {
     if (isShowModal && notPet) {
-      showModal(3);
+      queryProductList(goodsInfo, () => {
+        showModal(3);
+      });
       return;
     }
     if (!goodsInfo || productDetail.mainProduct?.spuCode) {
