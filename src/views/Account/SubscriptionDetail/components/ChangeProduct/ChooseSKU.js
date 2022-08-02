@@ -22,10 +22,12 @@ import stores from '@/store';
 import cn from 'classnames';
 import { Button } from '@/components/Common';
 import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
+import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 
 const loginStore = stores.loginStore;
 
-const ChooseSKU = ({ intl, configStore, ...restProps }) => {
+const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
+  console.log(inModal, 'inModal==');
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
@@ -67,6 +69,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   } = ChangeProductValue;
   const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
     useState(null);
+  const [currentUnitPrice, setCurrentUnitPrice] = useState(null);
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
@@ -125,6 +128,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setCurrentSubscriptionPrice(
       data.currentSubscriptionPrice || data.selectPrice
     );
+    setCurrentUnitPrice(data.currentUnitPrice);
     setCurrentSubscriptionStatus(data.currentSubscriptionStatus);
     setDetails(newDetails);
   };
@@ -305,58 +309,111 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setAlreadyNotice(false);
   };
 
-  let seleced = quantity < stock && skuPromotions == 'club';
+  const quantityBox = () => {
+    return (
+      <div
+        className={cn(`line-item-quantity text-lg-center`, {
+          'ml-2 md:mx-6': !inModal
+        })}
+      >
+        <div
+          className={cn(` text-left mb-2`, {
+            hidden: inModal
+          })}
+        >
+          <FormattedMessage id="amount" />:
+        </div>
+        <div className="d-flex rc-align-children--space-between">
+          <div className="Quantity">
+            <div className="quantity d-flex justify-content-between align-items-center">
+              <input
+                type="hidden"
+                id="invalid-quantity"
+                value="Пожалуйста, введите правильный номер."
+                name="invalid-quantity"
+              />
+              <QuantityPicker
+                min={quantityMinLimit}
+                max={skuLimitThreshold?.skuMaxNum}
+                initQuantity={quantity}
+                updateQuantity={(val) => {
+                  setQuantity(val);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
+  let seleced = quantity < stock && (skuPromotions === 'club' || autoshipType);
   let outOfStockStatus = quantity > stock;
   return (
     <React.Fragment>
       <ErrorMessage msg={errorMsgSureChange} />
-      <div className="d-flex md:justify-between md:items-center">
-        <div className="d-flex flex-col md:flex-row w-full md:w-auto items-center">
-          <div className="flex items-center">
+      <div
+        className={`d-flex ${
+          inModal ? 'md:justify-center' : 'md:justify-between'
+        } md:items-center py-4 px-4 md:px-0 w-full md:w-auto `}
+      >
+        <div
+          className={`d-flex flex-col md:flex-row  w-full md:w-auto items-center`}
+        >
+          <div className="flex items-center w-full md:w-auto">
             <div className="flex flex-col">
               <div
-                className="text-base font-medium mb-2"
+                className={cn(`text-base font-medium mb-2`, {
+                  hidden: inModal
+                })}
                 style={{ maxWidth: '210px' }}
               >
                 {details.goodsName}
               </div>
               <img
                 src={details.goodsImg}
-                className="h-24 object-contain w-auto"
+                className={cn(`h-32 object-contain w-auto`, {
+                  'md:h-64 md:mr-16': inModal
+                })}
                 alt={details.goodsName}
               />
             </div>
-            <div className="line-item-quantity text-lg-center ml-2 md:mx-6">
-              <div className="text-left mb-2">
-                <FormattedMessage id="amount" />:
-              </div>
-              <div className="d-flex rc-align-children--space-between">
-                <div className="Quantity">
-                  <div className="quantity d-flex justify-content-between align-items-center">
-                    <input
-                      type="hidden"
-                      id="invalid-quantity"
-                      value="Пожалуйста, введите правильный номер."
-                      name="invalid-quantity"
-                    />
-                    <QuantityPicker
-                      min={quantityMinLimit}
-                      max={skuLimitThreshold?.skuMaxNum}
-                      initQuantity={quantity}
-                      updateQuantity={(val) => {
-                        setQuantity(val);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            {isMobile ? quantityBox() : null}
           </div>
-          <div className="cart-and-ipay md:max-w-xs w-full md:w-auto">
-            <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6">
-              {details.goodsInfos && (
-                <>
-                  {/* <div className="rc-md-up">
+          <div
+            className={`d-flex ${
+              inModal ? 'flex-col' : 'flex-col w-full md:w-auto md:flex-row'
+            }`}
+          >
+            {inModal ? (
+              <>
+                <h3
+                  className="text-xl"
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    overflowWrap: 'normal',
+                    color: '#e2001a'
+                  }}
+                >
+                  {details.goodsName}
+                </h3>
+                {getFoodType(details) ? (
+                  <p className="rc-card__meta rc-padding-bottom--xs ui-text-overflow-line2">
+                    <FormattedMessage
+                      id={`product.plp.foodtype.${getFoodType(details)}`}
+                    />
+                  </p>
+                ) : null}{' '}
+              </>
+            ) : null}
+            {!isMobile ? quantityBox() : null}
+            <div className="cart-and-ipay md:max-w-xs w-full md:w-auto">
+              <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6 md:mt-0">
+                {details.goodsInfos && (
+                  <>
+                    {/* <div className="rc-md-up">
                     <HandledSpec
                       renderAgin={renderDetailAgin}
                       details={details}
@@ -378,55 +435,74 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                       className="subscription-stock"
                     />
                   </div> */}
-                  {/* <div className="rc-md-down relative"> */}
-                  <HandledSpecSelect
-                    renderAgin={renderDetailAgin}
-                    details={details}
-                    disabledGoodsInfoIds={subDetail.goodsInfo.map(
-                      (g) => g.goodsInfoVO.goodsInfoId
-                    )}
-                    onIsSpecAvailable={(status) => {
-                      setIsSpecAvailable(status);
-                    }}
-                    setState={setState}
-                    updatedSku={matchGoods}
-                    canSelectedOutOfStock={true}
-                    canSelectedWhenAllSpecDisabled={true}
-                  />
-                  {/* <div className="absolute bottom-4 right-12">
+                    {/* <div className="rc-md-down relative"> */}
+                    <HandledSpecSelect
+                      renderAgin={renderDetailAgin}
+                      details={details}
+                      disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                        (g) => g.goodsInfoVO.goodsInfoId
+                      )}
+                      onIsSpecAvailable={(status) => {
+                        setIsSpecAvailable(status);
+                      }}
+                      setState={setState}
+                      updatedSku={matchGoods}
+                      canSelectedOutOfStock={true}
+                      canSelectedWhenAllSpecDisabled={true}
+                    />
+                    {/* <div className="absolute bottom-4 right-12">
                       <InstockStatusComp
                         status={!outOfStockStatus}
                         className="subscription-stock"
                       />
                     </div> */}
-                  {/* </div> */}
-                </>
+                    {/* </div> */}
+                  </>
+                )}
+              </div>
+            </div>
+            <div
+              className={cn(
+                `frequency subscription-detail-frequency w-full md:w-auto mt-5 md:mt-0`,
+                {
+                  'subscriptionDetail-choose-frequency': isMobile,
+                  'md:px-8': !inModal
+                }
+              )}
+            >
+              {skuPromotions != 0 && (
+                <FrequencySelection
+                  frequencyType={skuPromotions}
+                  currentFrequencyId={form.frequencyId}
+                  className=""
+                  handleConfirm={handleSelectedItemChange}
+                />
               )}
             </div>
+            <div className="flex items-center">
+              <strong className="mt-2 price text-xl">
+                {formatMoney(currentSubscriptionPrice * quantity)}
+              </strong>
+              <span
+                className={cn(`price`, {
+                  hidden: !inModal
+                })}
+                style={{
+                  display: 'inline-block',
+                  // fontSize: '1.25rem',
+                  fontWeight: '400',
+                  textDecoration: 'line-through',
+                  verticalAlign: 'middle',
+                  marginLeft: '8px',
+                  height: '.6875rem',
+                  color: '#aaa',
+                  fontSize: '.875rem'
+                }}
+              >
+                {formatMoney(currentUnitPrice * quantity)}
+              </span>
+            </div>
           </div>
-          <p
-            className={cn(
-              `frequency subscription-detail-frequency md:px-8 w-full md:w-auto mt-5 md:mt-0`,
-              {
-                'subscriptionDetail-choose-frequency': isMobile
-              }
-            )}
-          >
-            {skuPromotions != 0 && (
-              <FrequencySelection
-                frequencyType={skuPromotions}
-                currentFrequencyId={form.frequencyId}
-                className=""
-                handleConfirm={handleSelectedItemChange}
-              />
-            )}
-          </p>
-          <strong
-            className="w-full  md:w-auto mt-6"
-            style={{ marginTop: '20px' }}
-          >
-            = {formatMoney(currentSubscriptionPrice * quantity)}
-          </strong>
         </div>
       </div>
       {outOfStockStatus ? (
@@ -435,8 +511,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             <FormattedMessage
               id={
                 alreadyNotice
-                  ? 'subscription.backToStockInfoActivated'
-                  : 'subscription.backToStockInfo'
+                  ? '<Back to stock> notification is activated for'
+                  : 'Receive "back in stock" notification'
               }
             />
           </span>
@@ -479,15 +555,23 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               className="md:ml-6 mt-3 md:mt-0"
               onClick={handleModifyEmail}
             >
-              <FormattedMessage id="modifyEmail" />
+              <FormattedMessage id="Modify e-mail" />
             </Button>
           ) : null}
         </div>
       ) : null}
-      <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row">
+      <div
+        className={cn(
+          `d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row`,
+          {
+            'justify-center w-full pt-3 modal-change-btn': inModal
+          }
+        )}
+      >
         <span
           className={cn(`text-plain rc-styled-link my-2 md:my-0 mt-5 md:mt-0`, {
-            'ui-btn-loading': productListLoading
+            'ui-btn-loading': productListLoading,
+            hidden: inModal
           })}
           onClick={() => {
             setState({
@@ -505,7 +589,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         >
           <FormattedMessage id="subscription.seeOtherRecommendation" />
         </span>
-        <div className="for-mobile-colum d-flex for-mobile-colum d-flex flex-col-reverse md:flex-row">
+        <div className="for-mobile-colum d-flex for-mobile-colum d-flex md:flex-row w-11/12 md:w-auto">
           <Button onClick={() => showProdutctDetail(0)} size="small">
             <FormattedMessage id="subscription.productDetails" />
           </Button>
@@ -516,7 +600,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               disabled={!correctEmail || alreadyNotice}
               onClick={handleNotifyMe}
             >
-              <FormattedMessage id="notifyMe" />
+              <FormattedMessage id="Notify me" />
             </Button>
           ) : isNotInactive && !alreadyNotice ? (
             <Button

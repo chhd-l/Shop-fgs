@@ -96,6 +96,7 @@ class Consent extends Component {
     const auto = this.props.auto || false;
     let autoClass = '';
     auto ? (autoClass = 'm-auto') : (autoClass = '');
+    console.log('innerList ', list);
     return (
       <div
         className={`required-component break-words ${autoClass}`}
@@ -137,6 +138,7 @@ class Consent extends Component {
       pageType === 'checkout' &&
       window.__.env.REACT_APP_COUNTRY === 'se' &&
       isLogin;
+
     return (
       <>
         {list?.map((item, index) => {
@@ -188,9 +190,8 @@ class Consent extends Component {
                   name="checkbox-2"
                   disabled={disabled}
                   onChange={() => {
-                    console.log('this.state.list', this.state.list);
-                    if (item.noChecked) return; //此项不需要check事件
-                    //勾选checkbox
+                    if (item.noChecked) return; // 此项不需要check事件
+                    // 勾选checkbox
                     this.props.list.map((x) => {
                       if (x.id === item.id) {
                         x.isChecked = !item.isChecked;
@@ -215,7 +216,7 @@ class Consent extends Component {
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
                         {/* se consent */}
-                        {item.consentDesc == 'MARS_PETCARE_SE_B2C_OPT' ? (
+                        {item.consentDesc === 'MARS_PETCARE_SE_B2C_OPT' ? (
                           <>
                             <ConsentToolTip
                               consentInnerHtml={createMarkup(

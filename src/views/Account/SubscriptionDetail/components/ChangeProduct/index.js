@@ -14,6 +14,7 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import cn from 'classnames';
 import { Button, Modal } from '@/components/Common';
 import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
+import NotPetChangeProduct from './NotPetChangeProduct';
 
 export const ChangeProductContext = createContext();
 const loginStore = stores.loginStore;
@@ -23,7 +24,12 @@ const ChangeProduct = () => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
     SubDetailHeaderValue;
-  const [showModalArr, setShowModalArr] = useState([false, false, false]);
+  const [showModalArr, setShowModalArr] = useState([
+    false,
+    false,
+    false,
+    false
+  ]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
   const [frequencyList, setFrequencyList] = useState([]);
@@ -32,7 +38,7 @@ const ChangeProduct = () => {
   const [userEmail, setUserEmail] = useState(loginStore?.userInfo?.email || '');
 
   const showModal = (num) => {
-    let newArr = [false, false, false];
+    let newArr = [false, false, false, false];
     //如果不传数字，默认全部关闭
     if (num !== undefined) {
       newArr = showModalArr.map((el, i) => i == num);
@@ -114,6 +120,15 @@ const ChangeProduct = () => {
     }
   }, [showModalArr, details]);
 
+  useEffect(() => {
+    if (
+      triggerShowChangeProduct.isShowModal &&
+      triggerShowChangeProduct?.notPet
+    ) {
+      showModal(3);
+    }
+  }, [triggerShowChangeProduct]);
+
   // check whether the current spu stock out notice has been alerted
   const checkGoodsNotice = async (details) => {
     const productStock = details?.goodsInfos?.some((el) => el.stock);
@@ -161,12 +176,10 @@ const ChangeProduct = () => {
       });
   };
   const initMainProduct = () => {
-    console.log(333);
     queryProductDetails({ mainProductDetails }); // 需要重置顶部推荐框
     showModal(); // 关闭所有弹窗
   };
   const showProdutctDetail = (id) => {
-    console.log(444);
     queryProductDetails({
       id,
       cb: () => {
@@ -223,8 +236,6 @@ const ChangeProduct = () => {
           return goodsInfoObj;
         }))
     );
-    console.log(stockNoticeGoodsInfoVOS, 'stockNoticeGoodsInfoVOS');
-    console.log(goodsDetails, 'dd22');
     // modify & add is same
     const param = {
       // customerId: loginStore?.userInfo?.customerId || '',
@@ -242,7 +253,9 @@ const ChangeProduct = () => {
 
   const modalFooterContent = () => {
     const productStock = goodsDetails?.goodsInfos?.some((el) => el.stock);
-
+    const autoshipType =
+      subDetail.subscriptionType?.toLowerCase() === 'autoship';
+    const modalType = autoshipType ? 3 : 0;
     return (
       <div className="">
         {!productStock ? (
@@ -251,8 +264,8 @@ const ChangeProduct = () => {
               <FormattedMessage
                 id={
                   alreadyNotice
-                    ? 'subscription.backToStockInfoActivated'
-                    : 'subscription.backToStockInfo'
+                    ? '<Back to stock> notification is activated for'
+                    : 'Receive "back in stock" notification'
                 }
               />
             </div>
@@ -298,7 +311,7 @@ const ChangeProduct = () => {
                   disabled={!correctEmail || alreadyNotice}
                   onClick={handleNotifyMe}
                 >
-                  <FormattedMessage id="notifyMe" />
+                  <FormattedMessage id="Notify me" />
                 </Button>
               ) : null}
               {alreadyNotice ? (
@@ -307,7 +320,7 @@ const ChangeProduct = () => {
                   className="ml-6"
                   onClick={handleModifyEmail}
                 >
-                  <FormattedMessage id="modifyEmail" />
+                  <FormattedMessage id="Modify e-mail" />
                 </Button>
               ) : null}
             </div>
@@ -319,7 +332,7 @@ const ChangeProduct = () => {
             type="button"
             className="btn btn-outline-primary rc-btn--sm mr-6"
             data-dismiss="modal"
-            onClick={() => showModal(0)}
+            onClick={() => showModal(modalType)}
           >
             <FormattedMessage id="subscription.seeOtherRecommendation" />
           </button>
@@ -339,9 +352,11 @@ const ChangeProduct = () => {
     );
   };
 
+  const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
   return (
     <>
       <ChangeProductContext.Provider value={propsObj}>
+        <NotPetChangeProduct />
         <RecommendationListModal />
         <div className="product-detail-modal">
           <Modal
@@ -379,19 +394,23 @@ const ChangeProduct = () => {
             close={() => {
               initMainProduct();
             }}
+            modalBodyClass="px-0"
           >
-            <h4 className="red text-center mb-3 mt-3">
-              <FormattedMessage id="subscription.productRecommendation" />
+            <h4 className="red text-center mb-2 text-2xl">
+              <FormattedMessage
+                id={`${
+                  autoshipType
+                    ? 'subscriptionDetail.changeProduct'
+                    : 'subscription.productRecommendation'
+                }`}
+              />
             </h4>
             <p className="text-center">
               <FormattedMessage id="subscription.chooseOption" />
             </p>
-            <div
-              style={{ padding: '.9375rem' }}
-              className="rc-outline-light rc-padding-y--sm"
-            >
+            <div>
               {/* <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm"> */}
-              <ChooseSKU />
+              <ChooseSKU inModal={true} />
             </div>
           </Modal>
         </div>

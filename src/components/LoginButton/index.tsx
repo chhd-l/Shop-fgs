@@ -56,22 +56,28 @@ const LoginButton = ({
   const { authState } = useOktaAuth();
 
   useEffect(() => {
-    if (window.__.env.SYNCHRONIZE_LOGIN_STATUS) {
-      window.addEventListener('storage', storageHandler);
-      return () => {
-        window.removeEventListener('storage', storageHandler);
-      };
-    }
+    window.addEventListener('storage', storageHandler);
+    return () => {
+      window.removeEventListener('storage', storageHandler);
+    };
   }, []);
 
   // 拿到userinfo信息后，执行传入该组件的init方法
   useEffect(() => {
+    // if (isGetUserInfoDown) {
+    console.log(
+      'getUserInfoDownCallback',
+      isGetUserInfoDown,
+      getUserInfoDownCallback
+    );
+    // }
     if (isGetUserInfoDown && getUserInfoDownCallback) {
       getUserInfoDownCallback();
     }
   }, [isGetUserInfoDown, getUserInfoDownCallback]);
 
   useEffect(() => {
+    console.log('login in status同步', authState, oktaAuth);
     setIsGetUserInfoDown(false);
     // console.log('OKTA authState:', authState);
     if (!authState.isAuthenticated) {
@@ -123,6 +129,7 @@ const LoginButton = ({
               customerId
             })
               .then(() => {
+                console.log('setIsGetUserInfoDown22');
                 setIsGetUserInfoDown(true);
                 loginStore.changeLoginModal(false);
               })
@@ -182,7 +189,7 @@ const LoginButton = ({
                   //     customerId
                   //   });
                   // }
-
+                  console.log('setIsGetUserInfoDown33');
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
@@ -191,6 +198,7 @@ const LoginButton = ({
                 });
             } else {
               loginStore.changeLoginModal(false);
+              console.log('setIsGetUserInfoDown11');
               setIsGetUserInfoDown(true);
             }
           }
@@ -203,21 +211,32 @@ const LoginButton = ({
   }, [authState, oktaAuth]); // Update if authState changes
 
   const storageHandler = (e: StorageEvent) => {
-    console.log('loginbutton storage change', e.key);
+    // console.log('loginbutton storage change', e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`);
     // if (e.key.includes('rc-token')) {
     // debugger;
     // }
     // 当打开多个tab时，同步登录登出状态
-    if (
-      e.key ===
-      `${localStorage.getItem('country-code-current-operated')}-rc-token`
-    ) {
-      // debugger;
+    if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // 该token的旧值不存在，新值存在，表示登录
       if (!e.oldValue && e.newValue) {
+        console.log(
+          111111111,
+          e.key,
+          `${window.__.env.REACT_APP_COUNTRY}-rc-token`
+        );
         login();
       }
     }
+    // if (
+    //   e.key ===
+    //   `${localStorage.getItem('country-code-current-operated')}-rc-token`
+    // ) {
+    //   // debugger;
+    //   // 该token的旧值不存在，新值存在，表示登录
+    //   if (!e.oldValue && e.newValue) {
+    //     login();
+    //   }
+    // }
   };
 
   const login = async () => {

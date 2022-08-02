@@ -168,6 +168,13 @@ class Recommendation extends React.Component {
       requestName = getRecommendationList_prescriberId;
       params = prescription;
     }
+
+    // 如果ru先下普通单（vet商品），选择了诊所，然后再下推荐单，需要移除前一次下的vet商品绑定的clinicsName
+    const { clinicStore } = this.props;
+    if (isRu && token && clinicStore.selectClinicName) {
+      clinicStore.setSelectClinicName('');
+    }
+
     console.timeEnd('begin');
     console.time('接口请求');
     requestName(params)

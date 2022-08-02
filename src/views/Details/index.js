@@ -66,6 +66,7 @@ import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
+import { getAppointPageSelected } from '@/api/consent';
 import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
@@ -177,7 +178,9 @@ class Details extends React.Component {
       hiddenMixFeedingBanner: false,
       fromPrice: '',
       versionB: false,
-      ossReceiveBackNotificationContentVisible: false
+      ossReceiveBackNotificationContentVisible: false,
+      notifyMeConsent: [],
+      notifyMeStatus: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -349,7 +352,6 @@ class Details extends React.Component {
 
       let defaultFrequencyId = 0;
       let defaultFrequencyValueEn = '';
-
       // 获取默认frequencyId
       if (details?.promotions === 'club') {
         defaultFrequencyId =
@@ -357,14 +359,19 @@ class Details extends React.Component {
           configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
           (clubDictRes[0] && clubDictRes[0].id) ||
           '';
-        defaultFrequencyValueEn = clubDictRes[0]?.valueEn;
+        defaultFrequencyValueEn = clubDictRes.find(
+          (autoship) => autoship.id === defaultFrequencyId
+        )?.valueEn;
       } else {
         defaultFrequencyId =
           details?.defaultFrequencyId ||
           configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
-        defaultFrequencyValueEn = autoshipDictRes[0]?.valueEn;
+
+        defaultFrequencyValueEn = autoshipDictRes.find(
+          (autoship) => autoship.id === defaultFrequencyId
+        )?.valueEn;
       }
       this.setState({
         form: Object.assign(this.state.form, {
@@ -725,6 +732,8 @@ class Details extends React.Component {
                   );
                 }, 60000);
               }
+
+              this.handleNotifyMeStatus();
             }
           );
         } else {
@@ -940,6 +949,28 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false });
     }
   }
+
+  handleNotifyMeStatus = async () => {
+    const { configStore } = this.props;
+    if (configStore?.info?.notifyMeStatus === '1') {
+      this.setState({
+        notifyMeStatus: true
+      });
+    }
+    const outOfStock = this.state.details.goodsInfos?.some((it) => !it.stock);
+    if (!this.isLogin && outOfStock) {
+      try {
+        const param = {
+          consentGroup: 'PDP-notifyme',
+          storeId: window.__.env.REACT_APP_STOREID
+        };
+        const res = await getAppointPageSelected(param);
+        this.setState({
+          notifyMeConsent: res?.context?.requiredList
+        });
+      } catch (e) {}
+    }
+  };
 
   handleInputChange(e) {
     let { form } = this.state;
@@ -1163,7 +1194,8 @@ class Details extends React.Component {
         info: { skuLimitThreshold }
       }
     } = this.props;
-    const { details, quantity, quantityMinLimit, stock, form } = this.state;
+    const { details, quantity, quantityMinLimit, stock, form, notifyMeStatus } =
+      this.state;
     return (
       <>
         <div className="specAndQuantity rc-margin-bottom--xs ">
@@ -1179,7 +1211,7 @@ class Details extends React.Component {
             shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />
-          {isMobile && (
+          {isMobile && notifyMeStatus && (
             <OssReceiveBackNotificationContent
               userInfo={this.props.loginStore.userInfo}
               details={details}
@@ -1187,6 +1219,7 @@ class Details extends React.Component {
               isLogin={this.isLogin}
               quantity={quantity}
               selectedSpecItem={selectedSpecItem}
+              notifyMeConsent={this.state.notifyMeConsent}
               visible={this.state.ossReceiveBackNotificationContentVisible}
             />
           )}
@@ -1215,13 +1248,14 @@ class Details extends React.Component {
             </div>
           </div>
         </div>
-        {!isMobile && (
+        {!isMobile && notifyMeStatus && (
           <OssReceiveBackNotificationContent
             userInfo={this.props.loginStore.userInfo}
             details={details}
             form={form}
             isLogin={this.isLogin}
             quantity={quantity}
+            notifyMeConsent={this.state.notifyMeConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
           />

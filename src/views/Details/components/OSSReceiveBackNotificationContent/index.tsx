@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import './style.less';
 import { Details, Form, SelectedSpecItem, UserInfo } from './typing';
 import { Button } from '@/components/Common';
+import Consent, { List } from '@/components/Consent';
 import {
   GABackInStockNotifyMeClick,
   GABackToStockSubscription
@@ -19,6 +20,7 @@ export type OssReceiveBackNotificationContentProps = {
   quantity: number;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
+  notifyMeConsent: any;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -27,11 +29,20 @@ const OssReceiveBackNotificationContent = ({
   isLogin,
   selectedSpecItem,
   userInfo,
-  form
+  form,
+  notifyMeConsent
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId } = details;
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
+  const [list, setList] = useState<List[]>();
+  const [consentCheckedStatus, setConsentCheckedStatus] = useState(false);
+  console.log('listlistlist', list);
+  useEffect(() => {
+    if (notifyMeConsent?.length) {
+      setList(notifyMeConsent);
+    }
+  }, [notifyMeConsent]);
   useEffect(() => {
     if (!isLogin || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
@@ -53,8 +64,10 @@ const OssReceiveBackNotificationContent = ({
     req();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSpecItem?.goodsInfoId]);
-
   if (!visible) return null;
+  const sendList = (list: List[]) => {
+    setList([...list]);
+  };
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
@@ -65,8 +78,14 @@ const OssReceiveBackNotificationContent = ({
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
+    if (!isLogin) {
+      const consentCheckedStatus = list!.every((item: any) => item.isChecked);
+      if (!consentCheckedStatus) {
+        return;
+      }
+    }
     const detailName = details.goodsSpecs[0].chidren.find(
-      (goods) => goods.selected
+      (goods: any) => goods.selected
     )?.detailName;
     const goodsInfoId = selectedSpecItem.goodsInfoId;
     const params: any = {
@@ -85,10 +104,17 @@ const OssReceiveBackNotificationContent = ({
       await stockNoticeModify(params);
     } else {
       params.storeId = window.__.env.REACT_APP_STOREID;
+      params.requiredList = list!.map((item: any) => {
+        return {
+          id: item.id,
+          selectedFlag: true
+        };
+      });
       await stockNoticeModifyUnLogin(params);
     }
     setIsEdited(true);
   };
+  const submitBtnClickable = email.length > 0;
   return (
     <div className="p-6 mb-3 border-rc-ddd border-l border-r border-t border-b">
       <h2 className="text-base">
@@ -96,8 +122,8 @@ const OssReceiveBackNotificationContent = ({
           <FormattedMessage
             id={
               isEdited
-                ? 'subscription.backToStockInfoActivated'
-                : 'subscription.backToStockInfo'
+                ? '<Back to stock> notification is activated for'
+                : 'Receive "back in stock" notification'
             }
           />
         }
@@ -127,7 +153,7 @@ const OssReceiveBackNotificationContent = ({
               className="rc-btn rc-btn--two rc-btn--sm h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={() => setIsEdited(false)}
             >
-              <FormattedMessage id="modifyEmail" />
+              <FormattedMessage id="Modify e-mail" />
             </button>
           </>
         ) : (
@@ -148,14 +174,20 @@ const OssReceiveBackNotificationContent = ({
             <Button
               type="primary"
               size="small"
+              disabled={!submitBtnClickable}
               className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={handleSubmit}
             >
-              <FormattedMessage id="notifyMe" />
+              <FormattedMessage id="Notify me" />
             </Button>
           </>
         )}
       </div>
+      {list?.length && (
+        <div className="mt-3 ml-5">
+          <Consent list={list} sendList={sendList} pageType="pdp page" />
+        </div>
+      )}
     </div>
   );
 };

@@ -95,9 +95,7 @@ class RegisterRequired extends Component {
   storageHandler(e) {
     if (
       e.key ===
-      `${localStorage.getItem(
-        'country-code-current-operated'
-      )}-has-selected-all-consent-required-page`
+      `${window.__.env.REACT_APP_COUNTRY}-has-selected-all-consent-required-page`
     ) {
       if (!e.oldValue && e.newValue) {
         this.redirectPage();
@@ -196,11 +194,15 @@ class RegisterRequired extends Component {
       isLoading: true
     });
     try {
-      let customerId = loginStore.userInfo?.customerId;
+      let customerId =
+        loginStore.userInfo?.customerId ||
+        localItemRoyal.get('rc-userinfo')?.customerId;
       console.log(
         "loginStore.userInfo?.customerId at required page's init function",
-        loginStore.userInfo?.customerId
+        loginStore.userInfo?.customerId,
+        localItemRoyal.get('rc-userinfo')?.customerId
       );
+      debugger;
       if (!customerId) {
         return;
       }

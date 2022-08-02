@@ -33,7 +33,7 @@ export default class Selection extends React.Component {
       hoveredIdx: -1,
       dataList: [],
       noResultsFound: false,
-      open: true //初始化为ru环境时地址默认选中第一个
+      open: this.props.open || false //初始化为ru环境时地址默认选中第一个
     };
     this.timeOutId = null;
     this.searchRef = React.createRef();
@@ -41,6 +41,21 @@ export default class Selection extends React.Component {
   componentDidMount() {
     this.searchRef?.current && this.searchRef?.current?.focus();
   }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedItemData !== this.props.selectedItemData) {
+      this.setState({
+        selectedItem: {
+          name: '',
+          value:
+            (nextProps.selectedItemData && nextProps.selectedItemData.value) ||
+            '',
+          id: -1
+        }
+      });
+    }
+  }
+
   componentDidUpdate(prevProps, prevStat) {
     if (
       prevProps.optionList.length !== 0 &&
@@ -164,7 +179,6 @@ export default class Selection extends React.Component {
     let res = '';
     const { placeholder, optionList } = this.props;
     const { selectedItem } = this.state;
-
     const length = optionList.filter(
       (ele) => ele.value + '' === selectedItem.value + ''
     ).length;
@@ -190,8 +204,6 @@ export default class Selection extends React.Component {
             </span>
           </>
         );
-        console.log('showValueoption', option);
-        console.log('showValueplaceholder', placeholder);
       } else if (option) {
         res = option;
       } else {
@@ -329,7 +341,6 @@ export default class Selection extends React.Component {
                       if (item.disabled) {
                         return;
                       }
-                      console.log('handleClickOptionitem', item);
                       this.handleClickOption(item.value, item);
                     }}
                     onMouseEnter={() => {
