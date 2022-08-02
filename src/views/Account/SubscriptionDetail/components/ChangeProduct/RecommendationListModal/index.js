@@ -149,18 +149,19 @@ const RecommendationListModal = ({ intl }) => {
     history.push(url);
   };
   const showChangeProduct = async ({ goodsInfo, isShowModal, notPet }) => {
-    if (isShowModal && notPet) {
-      showModal(3);
-      return;
-    }
     if (!goodsInfo || productDetail.mainProduct?.spuCode) {
       showModal(0);
       return;
     }
     if (isShowModal) {
-      queryProductList(goodsInfo, () => {
-        showModal(0);
-      });
+      if (notPet) {
+        setCurrentGoodsItems([...goodsInfo]);
+        showModal(3);
+      } else {
+        queryProductList(goodsInfo, () => {
+          showModal(0);
+        });
+      }
     } else {
       queryProductList(goodsInfo, ({ newProductDetail }) => {
         // 查详情
