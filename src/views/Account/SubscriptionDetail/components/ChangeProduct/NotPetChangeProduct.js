@@ -10,41 +10,25 @@ import RelateProductList from './RecommendationListModal/RelateProductList';
 const NotPetChangeProduct = () => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const {
-    productListLoading,
-    setState,
-    getDetail,
-    subDetail,
-    triggerShowChangeProduct,
-    currentChangeProductIdx
-  } = SubDetailHeaderValue;
-  const {
-    setMainProductDetails,
-    showModalArr,
-    showModal,
-    initMainProduct,
-    queryProductDetails,
-    currentGoodsItems,
-    setCurrentGoodsItems,
-    showProdutctDetail
-  } = ChangeProductValue;
-  // console.log(subDetail?.goodsInfo?.[currentChangeProductIdx],currentChangeProductIdx, 3333)
+  const { subDetail, currentChangeProductIdx } = SubDetailHeaderValue;
+  const { showModalArr, showModal } = ChangeProductValue;
   const subProduct = subDetail?.goodsInfo?.[currentChangeProductIdx] || {};
-  console.log(subProduct, currentChangeProductIdx, 3333);
   return (
-    <Modal
-      headerVisible={true}
-      footerVisible={false}
-      visible={showModalArr[3]}
-      modalTitle={''}
-      close={() => {
-        showModal();
-      }}
-    >
-      {Object.keys(subProduct).length ? (
-        <RelateProductList mainProduct={subProduct} />
-      ) : null}
-    </Modal>
+    <div className="not-pet-list-modal">
+      <Modal
+        headerVisible={true}
+        footerVisible={false}
+        visible={showModalArr[3]}
+        modalTitle={''}
+        close={() => {
+          showModal();
+        }}
+      >
+        {Object.keys(subProduct).length ? (
+          <RelateProductList mainProduct={subProduct} />
+        ) : null}
+      </Modal>
+    </div>
   );
 };
 

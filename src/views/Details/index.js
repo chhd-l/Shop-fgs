@@ -352,7 +352,6 @@ class Details extends React.Component {
 
       let defaultFrequencyId = 0;
       let defaultFrequencyValueEn = '';
-
       // 获取默认frequencyId
       if (details?.promotions === 'club') {
         defaultFrequencyId =
@@ -360,14 +359,19 @@ class Details extends React.Component {
           configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
           (clubDictRes[0] && clubDictRes[0].id) ||
           '';
-        defaultFrequencyValueEn = clubDictRes[0]?.valueEn;
+        defaultFrequencyValueEn = clubDictRes.find(
+          (autoship) => autoship.id === defaultFrequencyId
+        )?.valueEn;
       } else {
         defaultFrequencyId =
           details?.defaultFrequencyId ||
           configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
-        defaultFrequencyValueEn = autoshipDictRes[0]?.valueEn;
+
+        defaultFrequencyValueEn = autoshipDictRes.find(
+          (autoship) => autoship.id === defaultFrequencyId
+        )?.valueEn;
       }
       this.setState({
         form: Object.assign(this.state.form, {
