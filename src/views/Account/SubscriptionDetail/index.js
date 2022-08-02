@@ -73,7 +73,7 @@ class SubscriptionDetail extends React.Component {
         firstShow: false,
         isShowModal: false,
         showBox: false, // 只有一个商品的情况下都需要添加被动更换商品
-        showLoading: false
+        showLoading: false // change product button loading status
       },
       currentChangeProductIdx: 0, // 默认只有一个产品时，设置change product idx为0
       isGift: false,

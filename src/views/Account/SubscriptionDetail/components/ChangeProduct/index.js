@@ -126,15 +126,6 @@ const ChangeProduct = () => {
     }
   }, [showModalArr, details]);
 
-  useEffect(() => {
-    if (
-      triggerShowChangeProduct.isShowModal &&
-      triggerShowChangeProduct?.notPet
-    ) {
-      showModal(3);
-    }
-  }, [triggerShowChangeProduct]);
-
   // check whether the current spu stock out notice has been alerted
   const checkGoodsNotice = async (details) => {
     const productStock = details?.goodsInfos?.some((el) => el.stock);

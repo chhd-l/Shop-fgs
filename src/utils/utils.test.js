@@ -1,14 +1,13 @@
-import { flat } from './flat';
+import { flat } from './utils';
 
-// jest.mock("@/api",()=>{
-//     return {
-//         __esModule: true,
-//         getSeoConfig: ()=>{},
-//         queryHeaderNavigations:()=>{}
-//     }
-// })
+jest.mock('@/api', () => {
+  return {
+    getSeoConfig: () => {},
+    queryHeaderNavigations: () => {}
+  };
+});
 
-test('flat', () => {
+test.only('flat', () => {
   expect(flat([''])).not.toBe('');
   expect(flat([[123]])).not.toBe('');
 });
