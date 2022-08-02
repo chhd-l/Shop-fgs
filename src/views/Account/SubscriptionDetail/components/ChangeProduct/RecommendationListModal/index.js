@@ -21,12 +21,8 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const {
-    triggerShowChangeProduct,
-    setState,
-    productListLoading,
-    subDetail
-  } = SubDetailHeaderValue;
+  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
+    SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -152,15 +148,20 @@ const RecommendationListModal = ({ intl }) => {
   const redirectTo = (url) => {
     history.push(url);
   };
-  const showChangeProduct = async ({ goodsInfo, isShowModal }) => {
+  const showChangeProduct = async ({ goodsInfo, isShowModal, notPet }) => {
     if (!goodsInfo || productDetail.mainProduct?.spuCode) {
       showModal(0);
       return;
     }
     if (isShowModal) {
-      queryProductList(goodsInfo, () => {
-        showModal(0);
-      });
+      if (notPet) {
+        setCurrentGoodsItems([...goodsInfo]);
+        showModal(3);
+      } else {
+        queryProductList(goodsInfo, () => {
+          showModal(0);
+        });
+      }
     } else {
       queryProductList(goodsInfo, ({ newProductDetail }) => {
         // 查详情
