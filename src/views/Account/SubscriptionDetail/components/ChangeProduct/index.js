@@ -352,6 +352,7 @@ const ChangeProduct = () => {
     );
   };
 
+  const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
   return (
     <>
       <ChangeProductContext.Provider value={propsObj}>
@@ -393,17 +394,21 @@ const ChangeProduct = () => {
             close={() => {
               initMainProduct();
             }}
+            modalBodyClass="px-0"
           >
-            <h4 className="red text-center mb-3 mt-3">
-              <FormattedMessage id="subscription.productRecommendation" />
+            <h4 className="red text-center mb-2 text-2xl">
+              <FormattedMessage
+                id={`${
+                  autoshipType
+                    ? 'subscriptionDetail.changeProduct'
+                    : 'subscription.productRecommendation'
+                }`}
+              />
             </h4>
             <p className="text-center">
               <FormattedMessage id="subscription.chooseOption" />
             </p>
-            <div
-              style={{ padding: '.9375rem' }}
-              className="rc-outline-light rc-padding-y--sm"
-            >
+            <div>
               {/* <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm"> */}
               <ChooseSKU inModal={true} />
             </div>
