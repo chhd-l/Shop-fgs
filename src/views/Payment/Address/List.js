@@ -750,6 +750,7 @@ class AddressList extends React.Component {
     }
   };
   confirmToNextPanel({ init = false } = {}) {
+    const { isShowBindPet } = this.props.checkoutStore;
     if (this.curPanelKey !== 'deliveryAddr') {
       return false;
     }
@@ -781,7 +782,7 @@ class AddressList extends React.Component {
       }
     } else {
       // 正常下单
-      if (COUNTRY !== 'jp') {
+      if (!isShowBindPet) {
         nextConfirmPanel = searchNextConfirmPanel({
           list: toJS(
             paymentStore?.panelStatus?.filter((item) => item.key !== 'bindPet')
@@ -1998,7 +1999,7 @@ class AddressList extends React.Component {
       pickupCalculation,
       wrongAddressMsg
     } = this.state;
-
+    const { isShowBindPet } = this.props.checkoutStore;
     // 如果地址字段有缺失，提示错误信息
     if (!pickupFormData?.consigneeNumber) {
       let fky = wrongAddressMsg['title'] + wrongAddressMsg['phoneNumber'];
@@ -2120,7 +2121,7 @@ class AddressList extends React.Component {
             }
             //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
             let nextConfirmPanel;
-            if (COUNTRY !== 'jp') {
+            if (!isShowBindPet) {
               nextConfirmPanel = searchNextConfirmPanel({
                 list: toJS(
                   paymentStore?.panelStatus?.filter(

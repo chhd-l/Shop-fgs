@@ -7,15 +7,30 @@ import { DivWrapper } from './style';
 import Form from './form';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
-import { Button } from '@/components/Common';
+import { Button, Canonical } from '@/components/Common';
+import GoogleTagManager from '@/components/GoogleTagManager';
 
 // @ts-ignore
 @injectIntl
 @seoHoc('AssistanceDogPage')
 class AssistanceDog extends React.Component {
   render() {
+    // @ts-ignore
+    const { location } = this.props;
+    const event = {
+      page: {
+        type: 'Landing Page',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      }
+    };
     return (
       <DivWrapper>
+        <Canonical />
+        <GoogleTagManager key={location.key} additionalEvents={event} />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className={'rc-content--fixed-header'}>
           <div className="bg-rc-f6 grid grid-cols-12">
