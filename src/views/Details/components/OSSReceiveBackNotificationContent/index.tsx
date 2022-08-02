@@ -39,11 +39,10 @@ const OssReceiveBackNotificationContent = ({
   const [consentCheckedStatus, setConsentCheckedStatus] = useState(false);
   console.log('listlistlist', list);
   useEffect(() => {
-    if (notifyMeConsent.length) {
+    if (notifyMeConsent?.length) {
       setList(notifyMeConsent);
     }
   }, [notifyMeConsent]);
-
   useEffect(() => {
     if (!isLogin || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
@@ -65,12 +64,10 @@ const OssReceiveBackNotificationContent = ({
     req();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSpecItem?.goodsInfoId]);
-
+  if (!visible) return null;
   const sendList = (list: List[]) => {
     setList([...list]);
   };
-
-  if (!visible) return null;
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
@@ -81,7 +78,6 @@ const OssReceiveBackNotificationContent = ({
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
-
     if (!isLogin) {
       const consentCheckedStatus = list!.every((item: any) => item.isChecked);
       if (!consentCheckedStatus) {
@@ -118,7 +114,7 @@ const OssReceiveBackNotificationContent = ({
     }
     setIsEdited(true);
   };
-
+  const submitBtnClickable = email.length > 0;
   return (
     <div className="p-6 mb-3 border-rc-ddd border-l border-r border-t border-b">
       <h2 className="text-base">
@@ -178,6 +174,7 @@ const OssReceiveBackNotificationContent = ({
             <Button
               type="primary"
               size="small"
+              disabled={!submitBtnClickable}
               className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               onClick={handleSubmit}
             >
