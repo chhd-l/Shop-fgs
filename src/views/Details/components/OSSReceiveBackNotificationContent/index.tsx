@@ -43,7 +43,6 @@ const OssReceiveBackNotificationContent = ({
       setList(notifyMeConsent);
     }
   }, [notifyMeConsent]);
-
   useEffect(() => {
     const consentCheckedStatus = list.every((item: any) => item.isChecked)
       setConsentChecked(consentCheckedStatus)
@@ -70,12 +69,10 @@ const OssReceiveBackNotificationContent = ({
     req();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSpecItem?.goodsInfoId]);
-
+  if (!visible) return null;
   const sendList = (list: List[]) => {
     setList([...list]);
   };
-
-  if (!visible) return null;
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const emailTest = EMAIL_REGEXP.test(value);
@@ -88,7 +85,6 @@ const OssReceiveBackNotificationContent = ({
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
-
     if (!isLogin) {
       const consentCheckedStatus = list!.every((item: any) => item.isChecked);
       if (!consentCheckedStatus) {
