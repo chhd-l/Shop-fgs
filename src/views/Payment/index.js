@@ -3540,10 +3540,18 @@ class Payment extends React.Component {
 
   // 编辑
   handleClickPaymentPanelEdit = async () => {
-    this.props.paymentStore.setStsToCompleted({
-      key: 'deliveryAddr',
-      onlyGa: true
-    });
+    if (this.props.checkoutStore.isShowBindPet) {
+      this.props.paymentStore.setStsToCompleted({
+        key: 'bindPet',
+        onlyGa: true
+      });
+    } else {
+      this.props.paymentStore.setStsToCompleted({
+        key: 'deliveryAddr',
+        onlyGa: true
+      });
+    }
+
     const {
       checkoutStore,
       paymentStore: {
