@@ -1,0 +1,27 @@
+.input:not(.rc-input--full-width),
+.rc-input:not(.rc-input--full-width),
+.rc-select:not(.rc-input--full-width),
+.select:not(.rc-input--full-width) {
+  max-width: 400px;
+}
+.rc-input__label.cardOwner::before {
+  height: 0 !important;
+}
+
+.ru-cardFrom.cardFormBox {
+  border-bottom: 0;
+}
+
+@media (max-width: 768.98px) {
+  .ru-cardFrom .cardForm .form-group {
+    border-bottom: 0;
+  }
+}
+
+.ru-cardFrom .cardImage .img {
+  height: 25px;
+}
+
+.borderBottomLightGreen {
+  border-bottom: 1px solid #50d184 !important;
+}
