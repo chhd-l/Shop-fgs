@@ -36,7 +36,6 @@ import {
   cancelAllSub,
   orderNowSub,
   updateNextDeliveryTime,
-  changeSubscriptionGoods,
   updateSubGoodsInfo,
   checkSubscriptionAddressPickPoint
 } from '@/api/subscription';

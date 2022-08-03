@@ -26,7 +26,8 @@ function ListItemH5ForGlobalStyle(props) {
     link,
     showBorder,
     targetType,
-    className
+    className,
+    notUpdateRouter
   } = props;
 
   return item && item.productFinder ? (
@@ -192,15 +193,19 @@ function ListItemH5ForGlobalStyle(props) {
           className="ui-cursor-pointer-pure"
           target={targetType}
           to={
-            link || {
-              pathname: item
-                ? `/${
-                    item.lowGoodsName?.split(' ').join('-').replace('/', '') ||
-                    ''
-                  }-${item.goodsNo}` + sourceParam
-                : '',
-              state: { GAListParam, historyBreads: breadListByDeco }
-            }
+            notUpdateRouter
+              ? null
+              : link || {
+                  pathname: item
+                    ? `/${
+                        item.lowGoodsName
+                          ?.split(' ')
+                          .join('-')
+                          .replace('/', '') || ''
+                      }-${item.goodsNo}` + sourceParam
+                    : '',
+                  state: { GAListParam, historyBreads: breadListByDeco }
+                }
           }
           onClick={props.onClick}
         >
@@ -888,6 +893,7 @@ export default class PLPCover extends React.Component {
         breadListByDeco={breadListByDeco}
         target={this.props.targetType}
         link={link}
+        notUpdateRouter={this.props.notUpdateRouter}
       >
         <ListItemBodyH5ForGlobalStyle
           targetType={this.props.targetType}
