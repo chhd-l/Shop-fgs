@@ -139,7 +139,7 @@ const QuantityPicker = ({
       : max;
 
     setAddBtnStatus(quantity !== tmpMax);
-  }, [quantity, restTotalLimitConf?.num]);
+  }, [quantity, restTotalLimitConf?.num, max]);
 
   useEffect(() => {
     if (showError) showError(errorMsg);

@@ -201,9 +201,9 @@ const SubGoodsInfos = ({
                       <HandledSpecSelect
                         details={el}
                         defaultSkuId={el.skuId}
-                        disabledGoodsInfoIds={subDetail.goodsInfo.map(
-                          (g) => g.goodsInfoVO.goodsInfoId
-                        )}
+                        // disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                        //   (g) => g.goodsInfoVO.goodsInfoId
+                        // )}
                         onIsSpecAvailable={(status) => {
                           setIsSpecAvailable(status);
                         }}
@@ -435,9 +435,9 @@ const SubGoodsInfos = ({
                             <HandledSpecSelect
                               details={el}
                               defaultSkuId={el.skuId}
-                              disabledGoodsInfoIds={subDetail.goodsInfo.map(
-                                (g) => g.goodsInfoVO.goodsInfoId
-                              )}
+                              // disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                              //   (g) => g.goodsInfoVO.goodsInfoId
+                              // )}
                               onIsSpecAvailable={(status) => {
                                 setIsSpecAvailable(status);
                               }}
