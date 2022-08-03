@@ -91,6 +91,7 @@ class ShippingAddressFrom extends React.Component {
       });
       this.getAddressById(this.props.addressId);
     } else {
+      myAccountActionPushEvent('Add Address');
       this.setState({
         loading: false
       });
@@ -119,6 +120,7 @@ class ShippingAddressFrom extends React.Component {
           curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
         },
         () => {
+          !this.state.isAdd && myAccountActionPushEvent('Edit Address');
           this.validFormData();
         }
       );
@@ -268,7 +270,7 @@ class ShippingAddressFrom extends React.Component {
 
       let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
 
-      myAccountActionPushEvent('Add Address'); // GA
+      // this.state.isAdd ? myAccountActionPushEvent('Add Address') : myAccountActionPushEvent('Edit Address'); // GA
       this.handleCancel();
       // this.props.upateSuccessMsg(res?.message);
       this.props.upateSuccessMsg(this.props.intl.messages.saveSuccessfullly3);

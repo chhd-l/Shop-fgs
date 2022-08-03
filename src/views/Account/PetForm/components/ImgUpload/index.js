@@ -51,6 +51,9 @@ export default class ImgUpload extends React.Component {
       formData.append('multipartFile', files[0]);
       // 这里要抽出去一个方法，父组件拿到petId后再调用
       this.props.getFormData(formData);
+      if (!petId) {
+        myAccountActionPushEvent('Add picture');
+      }
       // upLoadToParent(formData);
       if (petId) {
         formData.append('petId', petId);
