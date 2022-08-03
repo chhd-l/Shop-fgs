@@ -239,7 +239,10 @@ const RecommendationListModal = ({ intl }) => {
             {Object.keys(productDetail?.mainProduct).length && (
               <div id="recommendation-more-products-box" className="my-8">
                 <p className="bg-gray-100 h-2 w-full" />
-                <RelateProductList mainProduct={productDetail?.mainProduct} />
+                <RelateProductList
+                  goodsInfoFlag={subDetail.goodsInfo[0]?.goodsInfoFlag}
+                  mainProduct={productDetail?.mainProduct}
+                />
               </div>
             )}
           </>
