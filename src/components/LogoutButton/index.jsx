@@ -76,7 +76,7 @@ const LogoutButton = (props) => {
             postLogoutRedirectUri: window.__.env.REACT_APP_ACCESS_PATH
           });
         } else {
-          localItemRoyal.set('logout-redirect-url', location.href);
+          sessionItemRoyal.set('logout-redirect-url', location.href);
           oktaAuth.revokeAccessToken();
           oktaAuth.signOut({
             postLogoutRedirectUri: window.__.env.REACT_APP_ACCESS_PATH

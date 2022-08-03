@@ -69,6 +69,9 @@ const initPanelStatus = [
 
 class PaymentStore {
   @observable isLogin = !!localItemRoyal.get('rc-token');
+  @observable subForm = {
+    buyWay: 'once'
+  };
   @observable deliveryAddress = null;
   @observable billingAddress = null;
   @observable defaultCardDataFromAddr = null;
@@ -600,6 +603,11 @@ class PaymentStore {
   @action.bound
   setSubscriptionDetail(data) {
     this.subscriptionDetail = data;
+  }
+
+  @action.bound
+  setSubForm(data) {
+    this.subForm = data;
   }
 }
 export default PaymentStore;

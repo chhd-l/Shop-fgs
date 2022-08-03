@@ -626,9 +626,9 @@ class Home extends React.Component {
       window.location.href = callOktaCallBack;
     }
 
-    if (localItemRoyal.get('logout-redirect-url')) {
-      const url = localItemRoyal.get('logout-redirect-url');
-      // localItemRoyal.remove('logout-redirect-url');
+    if (sessionItemRoyal.get('logout-redirect-url')) {
+      const url = sessionItemRoyal.get('logout-redirect-url');
+      sessionItemRoyal.remove('logout-redirect-url');
       if (location.href !== url) {
         location.href = url;
       }

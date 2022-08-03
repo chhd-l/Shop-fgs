@@ -58,6 +58,7 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
 @inject('paymentStoreNew', 'checkoutStore')
 @observer
 class Cover extends React.Component {
+  componentDidMount() {}
   get paymentMethodPanelStatus() {
     return this.props.paymentStoreNew.paymentMethodPanelStatus;
   }
@@ -88,7 +89,7 @@ class Cover extends React.Component {
   render() {
     const { paymentMethodPanelStatus } = this;
     const {
-      paymentStoreNew: { payWayNameArr, curPayWayInfo }
+      paymentStoreNew: { payWayNameArr, curPayWayInfo, subForm }
     } = this.props;
 
     //支付方式圆形单选框
