@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@adyen/adyen-web": "^5.0.0",
     "@babel/core": "7.9.0",
     "@babel/helper-builder-react-jsx": "^7.16.0",
     "@babel/plugin-proposal-decorators": "^7.10.1",
@@ -117,8 +118,7 @@
     "webpack": "4.42.0",
     "webpack-dev-server": "3.10.3",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1",
-    "@adyen/adyen-web": "^5.0.0"
+    "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
     "test": "node scripts/test.js",
@@ -199,7 +199,8 @@
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      "^@/(.*)$": "<rootDir>/src/$1"
     },
     "moduleFileExtensions": [
       "web.js",
@@ -239,6 +240,8 @@
     "copy-webpack-plugin": "^5.1.2",
     "customize-cra": "^0.9.1",
     "dotenv-cli": "^3.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "http-proxy-middleware": "0.19.1",
