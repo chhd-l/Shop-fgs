@@ -27,7 +27,6 @@ import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 const loginStore = stores.loginStore;
 
 const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
-  console.log(inModal, 'inModal==');
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
@@ -67,7 +66,6 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  console.log(currentGoodsItems, 'currentGoodsItems--');
   const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
     useState(null);
   const [currentUnitPrice, setCurrentUnitPrice] = useState(null);
@@ -163,18 +161,21 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       }
       let buyWay = parseInt(form.buyWay);
+      let clubBuyWay = details.promotions?.includes('club');
+      let AutoShipBuyWay = details.promotions?.includes('autoship');
       let goodsInfoFlag =
-        buyWay && details.promotions?.includes('club') ? 2 : buyWay;
+        buyWay && clubBuyWay ? 2 : buyWay && AutoShipBuyWay ? 1 : buyWay;
       let subscribeId = subDetail.subscribeId;
       let addGoodsItemsSku = currentSelectedSize.goodsInfoId;
       if (!addGoodsItemsSku) {
         console.info('err:请选择目标商品替换');
         return;
       }
+      console.log(details, form, goodsInfoFlag, buyWay, 'goodsInfoFlag==');
       let addGoodsItems = {
         skuId: currentSelectedSize.goodsInfoId,
         subscribeNum: quantity,
-        goodsInfoFlag: 2,
+        goodsInfoFlag: goodsInfoFlag,
         periodTypeId: form.frequencyId
 
         // productFinderFlag: currentSelectedSize.productFinderFlag

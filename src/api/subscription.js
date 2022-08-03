@@ -178,7 +178,7 @@ export function queryStockNotice(params) {
 export function updateSubGoodsInfo(params) {
   return axios({
     url: `${api.updateSubGoodsInfo}${params.subscribeId}`,
-    method: 'post',
+    method: 'put',
     data: params
   });
 }
