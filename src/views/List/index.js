@@ -2071,6 +2071,7 @@ class List extends React.Component {
                               prefnParamListSearch={
                                 this.state.prefnParamListFromSearch
                               }
+                              handleFilterApply={this.handleFilterApplyChange}
                             />
                           ) : (
                             <FiltersPC
