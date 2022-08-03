@@ -154,7 +154,9 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
       const subscriptionSize = {
         size: currentValue.goodsInfoWeight,
         price: currentValue.subscriptionPrice,
-        pricePerUnit: currentValue.basePrice,
+        pricePerUnit: (
+          currentValue.subscriptionPrice / currentValue.goodsInfoWeight
+        ).toFixed(2),
         localUnit: currentValue.goodsInfoUnit
       };
       return [...previousValue, normalSize, subscriptionSize];

@@ -439,7 +439,6 @@ const PetForms = ({
     return newObj;
   };
   const savePet = async () => {
-    GAForChangePetinfoBtn();
     // 这里的'weight'是size字段
     if (petForm.isPurebred == 1) {
       setNewPetForm('weight', '');
@@ -591,6 +590,9 @@ const PetForms = ({
       let isLinkedSubLength = subList.filter((el) => el.petsId)?.length;
       let petsIdLinkedSub = isLinkedSub?.petsId;
       let subscribeId = location.state?.subscribeId || isLinkedSub?.subscribeId;
+      if (pets.petsId) {
+        GAForChangePetinfoBtn();
+      }
       if (!pets.petsId) {
         myAccountActionPushEvent('Add pet');
         let petsType = location.state?.petsType;
@@ -603,7 +605,8 @@ const PetForms = ({
             .then((res) => {
               handelImgChange(res.context);
               setState({ loading: false });
-              myAccountActionPushEvent('Add picture');
+              // 等客户回复，Add picture先按照之前的逻辑
+              // myAccountActionPushEvent('Add picture');
             })
             .catch((err) => {
               console.log(err);

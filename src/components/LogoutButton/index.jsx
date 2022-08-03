@@ -38,11 +38,6 @@ const LogoutButton = (props) => {
     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // 该token的旧值存在，新值不存在，表示登出
       if (e.oldValue && !e.newValue) {
-        console.log(
-          11111111122222,
-          e.key,
-          `${window.__.env.REACT_APP_COUNTRY}-rc-token`
-        );
         clickLogoff();
       }
     }
@@ -55,10 +50,6 @@ const LogoutButton = (props) => {
       oktaAuth?.options?.clientId === window.__.env.REACT_APP_CLIENT_ID
     );
     try {
-      localStorage.setItem(
-        'country-code-current-operated',
-        window.__.env.REACT_APP_COUNTRY
-      );
       const idToken = authState.idToken;
       if (idToken) {
         if (location.pathname.includes('/account')) {
@@ -98,6 +89,9 @@ const LogoutButton = (props) => {
   const clickLogoff = async () => {
     try {
       loginStore.changeLoginModal(true);
+      if (!location.pathname.includes('/account')) {
+        sessionItemRoyal.set('logout-redirect-url', location.href);
+      }
       await doLogout();
       localItemRoyal.remove('rc-token');
       localItemRoyal.remove('rc-register');
