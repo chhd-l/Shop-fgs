@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { ChangeProductContext } from './index';
 import { Modal, Button } from '@/components/Common';
 import RelateProductList from './RecommendationListModal/RelateProductList';
+import { SubDetailHeaderContext } from '../SubDetailHeader';
 
 const NotPetChangeProduct = () => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
