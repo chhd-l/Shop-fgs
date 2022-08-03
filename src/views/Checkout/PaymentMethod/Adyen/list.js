@@ -7,7 +7,7 @@ import EditForm from '@/components/Adyen/form';
 import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import { Popover } from '@/components/Common';
-import { scrollPaymentPanelIntoView } from '../../modules/utils';
+import { scrollPaymentPanelIntoView } from '../../Modules/utils';
 import LazyLoad from 'react-lazyload';
 import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';

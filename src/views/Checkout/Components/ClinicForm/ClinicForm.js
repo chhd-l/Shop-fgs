@@ -5,20 +5,18 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import SearchSelection from '@/components/SearchSelection';
 import { getPrescriberByCode } from '@/api/clinic';
-import { searchNextConfirmPanel } from '../modules/utils';
+import { searchNextConfirmPanel } from '../../Modules/utils';
 import ClinicPanelContainer from './ClinicPanelContainer';
 import { Button, Popover } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 let flag;
 
 @inject('clinicStore', 'configStore', 'paymentStoreNew', 'checkoutStore')
 @injectIntl
 @observer
 class ClinicForm extends React.Component {
-  static defaultProps = {
-    needPrescriber: false
-  };
   constructor(props) {
     super(props);
     this.state = {
@@ -79,7 +77,7 @@ class ClinicForm extends React.Component {
   get checkoutWithClinic() {
     return (
       window.__.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-      this.props.needPrescriber
+      localItemRoyal.get('checkOutNeedShowPrescriber') === 'true' //isNeed clinic：商品Need prescriber或者已经有了prescriber信息
     );
   }
   gotoPrescriptionPage = (e) => {

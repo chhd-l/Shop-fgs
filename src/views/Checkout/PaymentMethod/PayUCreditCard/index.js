@@ -6,7 +6,7 @@ import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { queryIsSupportInstallMents } from '@/api/payment';
-import { scrollPaymentPanelIntoView } from '../../modules/utils';
+import { scrollPaymentPanelIntoView } from '../../Modules/utils';
 import MemberCardList from './MemberCardList';
 import CardItemCover from './CardItemCover';
 import InstallmentTable from './InstallmentTable';

@@ -16,7 +16,7 @@ import {
 } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { scrollPaymentPanelIntoView } from '@/views/Checkout/modules/utils';
+import { scrollPaymentPanelIntoView } from '@/views/Checkout/Modules/utils';
 import InstallmentTable from '../InstallmentTable';
 import CardItemCover from '../CardItemCover';
 import getCardImg from '@/lib/get-card-img';

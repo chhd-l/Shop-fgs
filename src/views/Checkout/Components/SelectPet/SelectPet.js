@@ -7,7 +7,7 @@ import PetItemDone from './PetItemDone';
 import { usePetLists } from '@/framework/pet';
 import { PanelContainer } from '../../Common';
 import { toJS } from 'mobx';
-import { searchNextConfirmPanel, isPrevReady } from '../../modules/utils';
+import { searchNextConfirmPanel, isPrevReady } from '../../Modules/utils';
 import { Button } from '@/components/Common';
 
 const curKey = 'bindPet';

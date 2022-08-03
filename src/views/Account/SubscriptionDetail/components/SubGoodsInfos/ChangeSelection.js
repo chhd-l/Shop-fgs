@@ -36,7 +36,7 @@ const ChangeSelection = ({ el, idx }) => {
   const isClub = el.promotions?.toLowerCase().includes('club');
 
   const girdConf = ['col-span-5 md:col-span-6', 'col-span-7 md:col-span-6'];
-
+  console.log(el.promotions, 'ooo');
   return (
     <>
       <div className="rc-card-content overflow-hidden grid grid-cols-12 items-center px-3 md:px-0 mt-3 md:mt-0 mb-2 gap-1">

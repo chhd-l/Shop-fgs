@@ -15,7 +15,8 @@ import {
   SelectPet,
   Confirmation,
   Point,
-  Progress
+  Progress,
+  ClinicForm
 } from './Components';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
@@ -30,8 +31,9 @@ import {
 import { withOktaAuth } from '@okta/okta-react';
 import {
   searchNextConfirmPanel,
-  handleRecoProductParamByItem
-} from './modules/utils';
+  handleRecoProductParamByItem,
+  openPromotionBox
+} from './Modules/utils';
 import {
   getDeviceType,
   payCountDown,
@@ -56,13 +58,10 @@ import {
   adyenPaymentsDetails,
   swishCancelOrRefund,
   valetGuestOrderPaymentResponse,
-  queryPosOrder,
-  cancelPosOrder,
-  rePayPos
+  queryPosOrder
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
-import { batchAddPets } from '@/api/pet';
 import { editAddress } from '@/api/address';
 import {
   PayUCreditCard,
@@ -80,8 +79,7 @@ import {
   Ideal,
   Cover as PaymentMethodCover
 } from './PaymentMethod';
-import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
-import './modules/adyenCopy.css';
+import './Modules/adyenCopy.css';
 import './index.css';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
@@ -101,11 +99,7 @@ import QRCode from 'qrcode.react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import base64 from 'base-64';
 import cn from 'classnames';
-import {
-  PanelContainer,
-  PayInfoPreview,
-  PaymentPanelInfoPreview
-} from './Common';
+import { PanelContainer, PaymentPanelInfoPreview } from './Common';
 import {
   radioTypes,
   supportPoint,
@@ -115,7 +109,6 @@ import {
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
 import { Canonical, Button, Modal } from '@/components/Common';
-import { openPromotionBox } from '@/views/Checkout/modules/utils';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -290,8 +283,6 @@ class Checkout extends React.Component {
       isAdd: 0,
       listData: [],
       requiredList: [],
-      needPrescriber:
-        localItemRoyal.get('checkOutNeedShowPrescriber') === 'true', //isNeed clinic：商品Need prescriber或者已经有了prescriber信息
       unLoginBackPets: [],
       guestEmail: '',
       validSts: { billingAddr: true },
@@ -4119,30 +4110,6 @@ class Checkout extends React.Component {
     );
   };
 
-  updateGuestEmail = ({ email: guestEmail }) => {
-    const {
-      paymentStoreNew: { setGuestEmail },
-      checkoutStore: { updateUnloginCart }
-    } = this.props;
-    setGuestEmail(guestEmail);
-    const { deliveryAddress } = this.state;
-    this.setState({ guestEmail }, () => {
-      updateUnloginCart({
-        guestEmail,
-        purchaseFlag: false, // 购物车: true，checkout: false
-        taxFeeData: {
-          country: window.__.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-          region: deliveryAddress.provinceNo, // 省份简写
-          city: deliveryAddress.city,
-          street: deliveryAddress.address1,
-          postalCode: deliveryAddress.postCode,
-          customerAccount: guestEmail
-        },
-        shippingFeeAddress: this.state.shippingFeeAddress
-      });
-    });
-  };
-
   updateAdyenPayParam = (data) => {
     this.setState({ adyenPayParam: data });
   };
@@ -4268,16 +4235,7 @@ class Checkout extends React.Component {
                 ) : (
                   <>
                     <div className="shipping-form" id="J_checkout_panel_email">
-                      <OnePageClinicForm
-                        key={this.state.needPrescriber}
-                        needPrescriber={this.state.needPrescriber}
-                        history={history}
-                      />
-                      <OnePageEmailForm
-                        history={history}
-                        currentEmailVal={guestEmail}
-                        onChange={this.updateGuestEmail}
-                      />
+                      <ClinicForm history={history} />
 
                       {/* 地址模块 */}
                       {this.renderAddressPanel()}

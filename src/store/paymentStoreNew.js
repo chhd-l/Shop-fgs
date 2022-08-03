@@ -21,16 +21,6 @@ const initPanelStatus = [
     }
   },
   {
-    key: 'email',
-    order: 2,
-    status: {
-      isPrepare: true,
-      isEdit: false,
-      isCompleted: false,
-      hasCompleted: false
-    }
-  },
-  {
     key: 'deliveryAddr',
     order: 3,
     status: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanelContainer } from '../Common';
+import { PanelContainer } from '../../Common';
 import { FormattedMessage } from 'react-intl-phraseapp';
 
 const ClinicPanelContainer = ({

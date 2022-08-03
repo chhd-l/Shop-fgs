@@ -11,7 +11,7 @@ import './Point.less';
 import {
   openPromotionBox,
   disabledPromotionBox
-} from '@/views/Checkout/modules/utils';
+} from '@/views/Checkout/Modules/utils';
 
 const Point = ({ checkoutStore }) => {
   const { setSelectDiscountWay, setInputPoint } = checkoutStore;
