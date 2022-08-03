@@ -8,7 +8,7 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import { Popover } from '@/components/Common';
 import { loadJS } from '@/utils/utils';
-import { scrollPaymentPanelIntoView } from '../modules/utils';
+import { scrollPaymentPanelIntoView } from '../Modules/utils';
 import LazyLoad from 'react-lazyload';
 import './list.css';
 

@@ -6,7 +6,7 @@ import Skeleton from 'react-skeleton-loader';
 import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import { Popover } from '@/components/Common';
-import { scrollPaymentPanelIntoView } from '../../modules/utils';
+import { scrollPaymentPanelIntoView } from '../../Modules/utils';
 import LazyLoad from 'react-lazyload';
 import { usPaymentInfo } from '@/api/payment';
 import './list.css';

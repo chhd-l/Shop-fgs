@@ -11,7 +11,7 @@ import { getAddressBykeyWord, getDeliveryDateAndTimeSlot } from '@/api/address';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
-} from '../modules/utils';
+} from '../Modules/utils';
 import AddressPreview from './Preview';
 import AddressPanelContainer from './AddressPanelContainer';
 import { Button } from '@/components/Common';
