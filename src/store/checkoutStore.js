@@ -71,7 +71,7 @@ class CheckoutStore {
     '';
   // @observable clixRayPromotionCode = localItemRoyal.get('rc-clixRay-promotionCode')||'';// 是fr breeder的特殊code，需要主动默认填充
   @observable couponCodeFitFlag =
-    localItemRoyal.get('rc-couponCodeFitFlag') || false;
+    localItemRoyal.get('rc-couponCodeFitFlag') || false; //true-coupon折扣 false-promotion折扣
   @observable pr_petsInfo = localItemRoyal.get('pr-petsInfo') || {};
 
   @observable installMentParam = null; // 分期参数
@@ -554,7 +554,10 @@ class CheckoutStore {
         !purchasesRes.promotionFlag ||
         purchasesRes.couponCodeFlag
       ) {
+        // 去掉此判断，永远为true
+        // 判断是coupon折扣，还是promotion折扣
         if (
+          false &&
           purchasesRes.couponCodeFlag &&
           !purchasesRes.couponCodeDiscount &&
           !purchasesRes.freeShippingDiscountPrice
