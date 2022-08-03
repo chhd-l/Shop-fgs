@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { getClubLogo } from '@/utils/utils';
-import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { ChangeProductContext } from './index';
-import InstockStatusComp from '@/components/InstockStatusComp';
-import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { Modal, Button } from '@/components/Common';
 import RelateProductList from './RecommendationListModal/RelateProductList';
 
