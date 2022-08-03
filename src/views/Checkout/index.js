@@ -117,7 +117,6 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const hideBillingAddr = Boolean(
   +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
 );
-
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const sleep = (time) => {
@@ -259,9 +258,6 @@ class Checkout extends React.Component {
         email: '',
         phoneNumber: '',
         identifyNumber: '111'
-      },
-      subForm: {
-        buyWay: 'once'
       },
       paymentTypeVal: '',
       errorMsg: '',
@@ -551,7 +547,8 @@ class Checkout extends React.Component {
     const {
       history,
       checkoutStore: { resetPriceData, generateGuestUUID },
-      configStore: { getSystemFormConfig, paymentAuthority }
+      configStore: { getSystemFormConfig, paymentAuthority },
+      paymentStoreNew: { setSubForm }
     } = this.props;
 
     // 游客不能checkout 且 没有登录
@@ -577,23 +574,35 @@ class Checkout extends React.Component {
         await this.queryAppointInfo();
       }
 
-      this.setState(
-        {
-          subForm: {
-            buyWay: this.computedCartData.filter((el) => el.goodsInfoFlag)
-              .length
-              ? 'frequency'
-              : 'once'
-          }
-        },
-        () => {
-          this.setState({
-            cyberPaymentForm: Object.assign({}, this.state.cyberPaymentForm, {
-              isSaveCard: true
-            })
-          });
-        }
-      );
+      // this.setState(
+      //   {
+      //     subForm: {
+      //       buyWay: this.computedCartData.filter((el) => el.goodsInfoFlag)
+      //         .length
+      //         ? 'frequency'
+      //         : 'once'
+      //     }
+      //   },
+      //   () => {
+      //     this.setState({
+      //       cyberPaymentForm: Object.assign({}, this.state.cyberPaymentForm, {
+      //         isSaveCard: true
+      //       })
+      //     });
+      //   }
+      // );
+
+      setSubForm({
+        buyWay: this.computedCartData.filter((el) => el.goodsInfoFlag).length
+          ? 'frequency'
+          : 'once'
+      });
+      // todo 待确认回调是什么意思
+      this.setState({
+        cyberPaymentForm: Object.assign({}, this.state.cyberPaymentForm, {
+          isSaveCard: true
+        })
+      });
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
       if (!recommendProductJson) {
@@ -783,10 +792,13 @@ class Checkout extends React.Component {
 
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
+    const {
+      paymentStoreNew: { subForm }
+    } = this.props;
     const { tid } = this.state;
     return tid
       ? !!this.state.orderDetails?.subscriptionResponseVO
-      : this.state.subForm?.buyWay === 'frequency';
+      : subForm?.buyWay === 'frequency';
   }
 
   /**
@@ -1028,7 +1040,6 @@ class Checkout extends React.Component {
   //获取支付方式
   initPaymentWay = async () => {
     try {
-      const { tid, orderDetails } = this.state;
       const {
         paymentStoreNew: { setPayWayNameArr }
       } = this.props;
@@ -1145,12 +1156,11 @@ class Checkout extends React.Component {
   //计算ServiceFeeAndLoyaltyPoints
   confirmCalculateServiceFeeAndLoyaltyPoints = (loyaltyPoints = 0) => {
     const {
-      paymentStoreNew: { curPayWayInfo }
+      paymentStoreNew: { curPayWayInfo, subForm }
     } = this.props;
     this.props.checkoutStore.calculateServiceFeeAndLoyaltyPoints({
       loyaltyPoints,
-      subscriptionFlag:
-        this.state.subForm?.buyWay === 'frequency' ? true : false,
+      subscriptionFlag: subForm?.buyWay === 'frequency' ? true : false,
       ownerId: this.props.loginStore?.userInfo?.customerId || '',
       paymentCode: curPayWayInfo?.code
     });
@@ -1651,7 +1661,7 @@ class Checkout extends React.Component {
         action.forEach(([key, value]) => value.call(this));
       };
       const {
-        paymentStoreNew: { petList, petSelectedIds, curPayWayInfo },
+        paymentStoreNew: { petList, petSelectedIds, curPayWayInfo, subForm },
         checkoutStore: { isShowBindPet, generateGuestUUID }
       } = this.props;
 
@@ -1677,12 +1687,7 @@ class Checkout extends React.Component {
         parameters.orderSource = orderSource;
       }
       let isRepay = this.state.tid ? true : false;
-      payFun(
-        isRepay,
-        this.isLogin,
-        this.state.subForm.buyWay,
-        this.state.isFromFelin
-      );
+      payFun(isRepay, this.isLogin, subForm.buyWay, this.state.isFromFelin);
 
       /* 4)调用支付 */
       const res = await action(parameters);
@@ -3797,8 +3802,8 @@ class Checkout extends React.Component {
                           showIcon={false}
                         />
                         {/* 校验状态
-                    1 校验邮箱
-                    2 billing校验 */}
+                      1 校验邮箱
+                      2 billing校验 */}
                       </>
                     )}
                   {COUNTRY === 'de' &&
@@ -3819,8 +3824,8 @@ class Checkout extends React.Component {
                           showIcon={false}
                         />
                         {/* {payConfirmBtn({
-                          disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                        })} */}
+                            disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                          })} */}
                       </>
                     )}
                 </>
@@ -3995,8 +4000,8 @@ class Checkout extends React.Component {
                       })}
                     />
                     {/* 校验状态
-                      1 卡校验，从adyen form传入校验状态
-                      2 billing校验 */}
+                        1 卡校验，从adyen form传入校验状态
+                        2 billing校验 */}
                     {payConfirmBtn({
                       disabled: !validSts.adyenCard || validForBilling,
                       loading: saveBillingLoading,
@@ -4023,8 +4028,8 @@ class Checkout extends React.Component {
                       showIcon={true}
                     />
                     {/* 校验状态
-                    1 校验邮箱
-                    2 billing校验 */}
+                      1 校验邮箱
+                      2 billing校验 */}
                     {payConfirmBtn({
                       disabled: !EMAIL_REGEXP.test(email) || validForBilling
                     })}
@@ -4165,7 +4170,7 @@ class Checkout extends React.Component {
       history,
       location,
       checkoutStore,
-      paymentStoreNew: { curPayWayInfo }
+      paymentStoreNew: { curPayWayInfo, subForm }
     } = this.props;
     const {
       loading,
@@ -4174,7 +4179,7 @@ class Checkout extends React.Component {
       orderDetails,
       listData,
       recommend_data,
-      subForm,
+
       promotionCode,
       guestEmail,
       deliveryAddress,
@@ -4252,8 +4257,8 @@ class Checkout extends React.Component {
                   />
                 )}
 
-                <PaymentMethodCover />
                 {/* 支付模块 */}
+                <PaymentMethodCover />
                 <PanelContainer
                   panelStatus={paymentMethodPanelStatus}
                   containerConf={{
