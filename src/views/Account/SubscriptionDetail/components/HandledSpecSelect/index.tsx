@@ -16,7 +16,7 @@ interface Props {
   canSelectedWhenAllSpecDisabled?: boolean; //是否规格禁用了，仍然可以被选中，eg:规格被禁用了，一般情况不默认选中了；然而，PDP，即使规格被禁用了，仍需被选中，原因是需要返回对应的price信息，以便页面展示用
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   defaultSkuNo?: string;
-  updatedChangeSku?:Function;
+  updatedChangeSku?: Function;
 }
 
 const HandledSpecSelect = ({
@@ -29,7 +29,7 @@ const HandledSpecSelect = ({
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo,
-  updatedChangeSku=()=>{}
+  updatedChangeSku = () => { }
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } =
     details;
@@ -121,7 +121,7 @@ const HandledSpecSelect = ({
         }
         return item;
       });
-      const specDetailId = goodsSpecs.map((item: any) =>
+    const specDetailId = goodsSpecs.map((item: any) =>
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.specDetailId;
     const skuInfo = goodsInfos.find((item: any) =>
@@ -143,14 +143,14 @@ const HandledSpecSelect = ({
       canSelectedWhenAllSpecDisabled,
       canSelectedOutOfStock
     });
-    goodsSpecs.forEach((el: any) => el.chidren.forEach((it: any) => {
-      it.value = it.detailName
-      it.name = it.detailName
+    goodsSpecs?.forEach((el: any) => el?.chidren?.forEach((it: any) => {
+      it.value = it?.detailName
+      it.name = it?.detailName
       it.name2 = 'details.inStock'
-      if(it.isEmpty) {
+      if (it?.isEmpty) {
         it.name2 = 'details.outStock'
       }
-      it.disabled = !canSelectedOutOfStock && it.isEmpty
+      it.disabled = !canSelectedOutOfStock && it?.isEmpty
     }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);

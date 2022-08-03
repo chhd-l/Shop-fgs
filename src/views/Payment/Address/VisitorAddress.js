@@ -331,6 +331,7 @@ class VisitorAddress extends React.Component {
   // 下一个最近的未complete的panel
   showNextPanel = () => {
     const { paymentStore } = this.props;
+    const { isShowBindPet } = this.props.checkoutStore;
     const { form, billingChecked } = this.state;
     const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
 
@@ -352,7 +353,7 @@ class VisitorAddress extends React.Component {
 
         //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
         let nextConfirmPanel;
-        if (COUNTRY !== 'jp') {
+        if (!isShowBindPet) {
           nextConfirmPanel = searchNextConfirmPanel({
             list: toJS(
               paymentStore?.panelStatus?.filter(
@@ -450,6 +451,7 @@ class VisitorAddress extends React.Component {
   // 确认 pickup
   clickConfirmPickup = async () => {
     const { paymentStore } = this.props;
+    const { isShowBindPet } = this.props.checkoutStore;
     const { form, pickupFormData, billingChecked } = this.state;
     this.setState({
       btnConfirmLoading: true
@@ -522,7 +524,7 @@ class VisitorAddress extends React.Component {
           }
           //好像是ga bindPet推送影响了，目前除了日本其他国家没有bindPet推送
           let nextConfirmPanel;
-          if (COUNTRY !== 'jp') {
+          if (!isShowBindPet) {
             nextConfirmPanel = searchNextConfirmPanel({
               list: toJS(
                 paymentStore?.panelStatus?.filter(

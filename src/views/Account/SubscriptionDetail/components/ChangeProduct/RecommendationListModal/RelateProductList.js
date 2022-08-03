@@ -567,6 +567,13 @@ const RelateProductList = ({ mainProduct }) => {
     setFilterModalVisible(status);
   };
 
+  const handleFilterApplyChange = () => {
+    // sessionItemRoyal.set(
+    //   'plpGoodsFilterVOList',
+    //   // JSON.stringify(this.state.goodsFilterVOList)
+    // );
+  };
+
   const hanldePageNumChange = ({ currentPage }) => {
     setCurrentPage(currentPage);
     getProductLists(currentPage - 1);
@@ -660,6 +667,7 @@ const RelateProductList = ({ mainProduct }) => {
                   getProductList={initProductList}
                   prefnParamListSearch={prefnParamListFromSearch}
                   selectedFilterPref={handleSelectedFilterPref}
+                  handleFilterApply={handleFilterApplyChange}
                 />
               ) : (
                 <FiltersPC
@@ -681,6 +689,7 @@ const RelateProductList = ({ mainProduct }) => {
                   notUpdateRouter={true}
                   selectedFilterPref={handleSelectedFilterPref}
                   getProductList={initProductList}
+                  handleFilterApply={handleFilterApplyChange}
                 />
               )}
             </aside>

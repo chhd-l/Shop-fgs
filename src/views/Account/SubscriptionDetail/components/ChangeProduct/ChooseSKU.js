@@ -27,7 +27,6 @@ import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 const loginStore = stores.loginStore;
 
 const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
-  console.log(inModal, 'inModal==');
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
@@ -162,18 +161,21 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       }
       let buyWay = parseInt(form.buyWay);
+      let clubBuyWay = details.promotions?.includes('club');
+      let AutoShipBuyWay = details.promotions?.includes('autoship');
       let goodsInfoFlag =
-        buyWay && details.promotions?.includes('club') ? 2 : buyWay;
+        buyWay && clubBuyWay ? 2 : buyWay && AutoShipBuyWay ? 1 : buyWay;
       let subscribeId = subDetail.subscribeId;
       let addGoodsItemsSku = currentSelectedSize.goodsInfoId;
       if (!addGoodsItemsSku) {
         console.info('err:请选择目标商品替换');
         return;
       }
+      console.log(details, form, goodsInfoFlag, buyWay, 'goodsInfoFlag==');
       let addGoodsItems = {
         skuId: currentSelectedSize.goodsInfoId,
         subscribeNum: quantity,
-        goodsInfoFlag: 2,
+        goodsInfoFlag: goodsInfoFlag,
         periodTypeId: form.frequencyId
 
         // productFinderFlag: currentSelectedSize.productFinderFlag
@@ -347,6 +349,31 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
     );
   };
 
+  const goodNameBox = () => {
+    return (
+      <div>
+        <h3
+          className="text-xl"
+          style={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            overflowWrap: 'normal',
+            color: '#e2001a'
+          }}
+        >
+          {details.goodsName}
+        </h3>
+        {getFoodType(details) ? (
+          <p className="rc-card__meta rc-padding-bottom--xs ui-text-overflow-line2">
+            <FormattedMessage
+              id={`product.plp.foodtype.${getFoodType(details)}`}
+            />
+          </p>
+        ) : null}{' '}
+      </div>
+    );
+  };
+
   const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
   let seleced = quantity < stock && (skuPromotions === 'club' || autoshipType);
   let outOfStockStatus = quantity > stock;
@@ -355,8 +382,8 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
       <ErrorMessage msg={errorMsgSureChange} />
       <div
         className={`d-flex ${
-          inModal ? 'md:justify-center' : 'md:justify-between'
-        } md:items-center py-4 px-4 md:px-0 w-full md:w-auto `}
+          inModal ? 'md:justify-center  py-6' : 'md:justify-between'
+        } md:items-center px-4 md:px-0 w-full md:w-auto `}
       >
         <div
           className={`d-flex flex-col md:flex-row  w-full md:w-auto items-center`}
@@ -373,41 +400,25 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
               </div>
               <img
                 src={details.goodsImg}
-                className={cn(`h-32 object-contain w-auto`, {
-                  'md:h-64 md:mr-16': inModal
+                className={cn(`w-28 object-contain h-auto`, {
+                  'md:w-64 mr-2': inModal
                 })}
                 alt={details.goodsName}
               />
             </div>
-            {isMobile ? quantityBox() : null}
+            <div>
+              {inModal && isMobile ? goodNameBox() : null}
+              {isMobile ? quantityBox() : null}
+            </div>
           </div>
           <div
             className={`d-flex ${
-              inModal ? 'flex-col' : 'flex-col w-full md:w-auto md:flex-row'
+              inModal
+                ? 'flex-col w-11/12 md:ml-16'
+                : 'flex-col w-full md:w-auto md:flex-row'
             }`}
           >
-            {inModal ? (
-              <>
-                <h3
-                  className="text-xl"
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    overflowWrap: 'normal',
-                    color: '#e2001a'
-                  }}
-                >
-                  {details.goodsName}
-                </h3>
-                {getFoodType(details) ? (
-                  <p className="rc-card__meta rc-padding-bottom--xs ui-text-overflow-line2">
-                    <FormattedMessage
-                      id={`product.plp.foodtype.${getFoodType(details)}`}
-                    />
-                  </p>
-                ) : null}{' '}
-              </>
-            ) : null}
+            {inModal && !isMobile ? goodNameBox() : null}
             {!isMobile ? quantityBox() : null}
             <div className="cart-and-ipay md:max-w-xs w-full md:w-auto">
               <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6 md:mt-0">
@@ -463,10 +474,11 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
             </div>
             <div
               className={cn(
-                `frequency subscription-detail-frequency w-full md:w-auto mt-5 md:mt-0`,
+                `frequency subscription-detail-frequency w-full md:w-auto mt-5 md:mt-0 max-w-xs`,
                 {
                   'subscriptionDetail-choose-frequency': isMobile,
-                  'md:px-8': !inModal
+                  'md:px-8': !inModal,
+                  'modal-subscription-frequency': inModal
                 }
               )}
             >
@@ -505,114 +517,129 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
           </div>
         </div>
       </div>
-      {outOfStockStatus ? (
-        <div className="mb-6 mt-5 md:mt-0 flex flex-col items-center md:justify-end md:items-end md:flex-row">
-          <span className="text-base font-normal">
-            <FormattedMessage
-              id={
-                alreadyNotice
-                  ? '<Back to stock> notification is activated for'
-                  : 'Receive "back in stock" notification'
-              }
-            />
-          </span>
-          <div
-            className={`md:ml-4 ${
-              correctEmail
-                ? 'correct-format-input-box mt-3 md:mt-0'
-                : 'active-input-box mt-3 md:mt-0'
-            }`}
-          >
-            <input
-              className={`email-input font-light text-base ${
-                alreadyNotice ? ' w-60' : 'border-b-2 pb-1 md:w-80'
-              }`}
-              onChange={handleEmailChange}
-              maxLength="50"
-              disabled={alreadyNotice}
-              value={userEmail}
-            />
-            {correctEmail ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 absolute right-1 top-0"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            ) : null}
-          </div>
-          {alreadyNotice ? (
-            <Button
-              size="small"
-              className="md:ml-6 mt-3 md:mt-0"
-              onClick={handleModifyEmail}
-            >
-              <FormattedMessage id="Modify e-mail" />
-            </Button>
-          ) : null}
-        </div>
-      ) : null}
       <div
         className={cn(
-          `d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row`,
+          // `d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row`,
+          `d-flex  mt-3 md:mt-0 flex-col`,
           {
             'justify-center w-full pt-3 modal-change-btn': inModal
           }
         )}
       >
-        <span
-          className={cn(`text-plain rc-styled-link my-2 md:my-0 mt-5 md:mt-0`, {
-            'ui-btn-loading': productListLoading,
-            hidden: inModal
-          })}
-          onClick={() => {
-            setState({
-              triggerShowChangeProduct: Object.assign(
-                {},
-                triggerShowChangeProduct,
-                {
-                  firstShow: !triggerShowChangeProduct.firstShow,
-                  goodsInfo: [...subDetail.goodsInfo],
-                  isShowModal: true
+        {outOfStockStatus ? (
+          <div
+            className={`mb-6 mt-5 md:mt-0 flex flex-col items-center ${
+              inModal ? 'md:justify-center' : 'md:justify-end'
+            }  md:items-end md:flex-row`}
+          >
+            <span className="text-base font-normal">
+              <FormattedMessage
+                id={
+                  alreadyNotice
+                    ? '<Back to stock> notification is activated for'
+                    : 'Receive "back in stock" notification'
                 }
-              )
-            });
-          }}
+              />
+            </span>
+            <div
+              className={`md:ml-4 ${
+                correctEmail
+                  ? 'correct-format-input-box mt-3 md:mt-0 w-11/12 md:w-auto'
+                  : 'active-input-box mt-3 md:mt-0 '
+              }`}
+            >
+              <input
+                className={`email-input font-light text-base ${
+                  alreadyNotice ? ' w-60' : 'border-b-2 pb-1 w-full md:w-80'
+                }`}
+                onChange={handleEmailChange}
+                maxLength="50"
+                disabled={alreadyNotice}
+                value={userEmail}
+              />
+              {correctEmail ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 absolute right-1 top-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              ) : null}
+            </div>
+            {alreadyNotice ? (
+              <Button
+                size="small"
+                className="md:ml-6 mt-3 md:mt-0"
+                onClick={handleModifyEmail}
+              >
+                <FormattedMessage id="Modify e-mail" />
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
+        <div
+          className={`flex items-center flex-col-reverse md:flex-row ${
+            inModal ? 'justify-center' : 'justify-between'
+          } `}
         >
-          <FormattedMessage id="subscription.seeOtherRecommendation" />
-        </span>
-        <div className="for-mobile-colum d-flex for-mobile-colum d-flex md:flex-row w-11/12 md:w-auto">
-          <Button onClick={() => showProdutctDetail(0)} size="small">
-            <FormattedMessage id="subscription.productDetails" />
-          </Button>
-          {outOfStockStatus && !alreadyNotice ? (
-            <Button
-              size="small"
-              type="primary"
-              disabled={!correctEmail || alreadyNotice}
-              onClick={handleNotifyMe}
-            >
-              <FormattedMessage id="Notify me" />
+          <span
+            className={cn(
+              `text-plain rc-styled-link my-2 md:my-0 mt-5 md:mt-0 block`,
+              {
+                'ui-btn-loading': productListLoading,
+                hidden: inModal
+              }
+            )}
+            onClick={() => {
+              setState({
+                triggerShowChangeProduct: Object.assign(
+                  {},
+                  triggerShowChangeProduct,
+                  {
+                    firstShow: !triggerShowChangeProduct.firstShow,
+                    goodsInfo: [...subDetail.goodsInfo],
+                    isShowModal: true
+                  }
+                )
+              });
+            }}
+          >
+            <FormattedMessage id="subscription.seeOtherRecommendation" />
+          </span>
+          <div className="for-mobile-colum d-flex for-mobile-colum d-flex md:flex-row w-11/12 md:w-auto flex-col-reverse md:flex-row">
+            <Button onClick={() => showProdutctDetail(0)} size="small">
+              <FormattedMessage id="subscription.productDetails" />
             </Button>
-          ) : isNotInactive && !alreadyNotice ? (
-            <Button
-              size="small"
-              type="primary"
-              onClick={() => changePets(seleced)}
-              loading={changeNowLoading}
-              disabled={!isSpecAvailable || !seleced}
-            >
-              <FormattedMessage id="subscription.changeNow" />
-            </Button>
-          ) : null}
+            {outOfStockStatus && !alreadyNotice ? (
+              <Button
+                size="small"
+                type="primary"
+                disabled={!correctEmail || alreadyNotice}
+                onClick={handleNotifyMe}
+                className="mb-2 md:mb-0"
+              >
+                <FormattedMessage id="Notify me" />
+              </Button>
+            ) : isNotInactive && !alreadyNotice ? (
+              <Button
+                size="small"
+                type="primary"
+                onClick={() => changePets(seleced)}
+                loading={changeNowLoading}
+                disabled={!isSpecAvailable || !seleced}
+              >
+                <FormattedMessage id="subscription.changeNow" />
+              </Button>
+            ) : null}
+          </div>
         </div>
       </div>
     </React.Fragment>

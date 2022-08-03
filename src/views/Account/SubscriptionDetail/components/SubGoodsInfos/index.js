@@ -42,6 +42,14 @@ const SubGoodsInfos = ({
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
   const [isSpecAvailable, setIsSpecAvailable] = useState(false);
+  const [renderAgin, setRenderAgin] = useState(true);
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
+    useState(null);
+  const [currentUnitPrice, setCurrentUnitPrice] = useState(null);
+
+  useEffect(() => {
+    setRenderAgin(!renderAgin);
+  }, [subDetail]);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
@@ -79,7 +87,8 @@ const SubGoodsInfos = ({
           firstShow: !triggerShowChangeProduct.firstShow,
           goodsInfo: subDetail?.goodsInfo,
           isShowModal: true,
-          notPet: autoshipSubStatus ? true : false
+          notPet: autoshipSubStatus ? true : false,
+          showLoading: true
         })
       });
     } else {
@@ -90,6 +99,10 @@ const SubGoodsInfos = ({
   const matchGoods = (data, sizeList) => {
     console.info('data1', data);
     console.info('sizeList1', sizeList);
+    setCurrentSubscriptionPrice(
+      data.currentSubscriptionPrice || data.selectPrice
+    );
+    setCurrentUnitPrice(data.currentUnitPrice);
   };
 
   const propsObj = {
@@ -110,7 +123,6 @@ const SubGoodsInfos = ({
     isShowClub,
     handleClickChangeProduct
   };
-  console.log(subDetail, 'subDetail==22');
   return (
     // true?null:
     <SubGoodsInfosContext.Provider value={propsObj}>
@@ -202,6 +214,7 @@ const SubGoodsInfos = ({
                             skuInfo.goodsInfoId || '';
                           onSubChange();
                         }}
+                        renderAgin={renderAgin}
                         canSelectedWhenAllSpecDisabled={true}
                       />
                     ) : null}
@@ -230,7 +243,7 @@ const SubGoodsInfos = ({
                         height: '25px'
                       }}
                     >
-                      {formatMoney(el.subscribePrice * el.subscribeNum)}
+                      {formatMoney(currentSubscriptionPrice * el.subscribeNum)}
                     </span>
                     {disCountPriceVisible && (
                       <span
@@ -247,7 +260,7 @@ const SubGoodsInfos = ({
                           fontSize: '.875rem'
                         }}
                       >
-                        {formatMoney(el.originalPrice * el.subscribeNum)}
+                        {formatMoney(currentUnitPrice * el.subscribeNum)}
                       </span>
                     )}
                   </div>
@@ -255,6 +268,7 @@ const SubGoodsInfos = ({
                     <Button
                       className="w-full"
                       onClick={() => handleClickChangeProduct(index)}
+                      loading={triggerShowChangeProduct.showLoading}
                     >
                       <FormattedMessage id="subscriptionDetail.changeProduct" />
                     </Button>
@@ -434,6 +448,7 @@ const SubGoodsInfos = ({
                                   skuInfo.goodsInfoId || '';
                                 onSubChange();
                               }}
+                              renderAgin={renderAgin}
                               canSelectedWhenAllSpecDisabled={true}
                             />
                           ) : null}
@@ -479,7 +494,7 @@ const SubGoodsInfos = ({
                                 }}
                               >
                                 {formatMoney(
-                                  el.subscribePrice * el.subscribeNum
+                                  currentSubscriptionPrice * el.subscribeNum
                                 )}
                               </span>
                               {showDiscountPrice && (
@@ -498,7 +513,7 @@ const SubGoodsInfos = ({
                                   }}
                                 >
                                   {formatMoney(
-                                    el.originalPrice * el.subscribeNum
+                                    currentUnitPrice * el.subscribeNum
                                   )}
                                 </span>
                               )}
@@ -508,6 +523,7 @@ const SubGoodsInfos = ({
                             <Button
                               className=" mt-cs-16"
                               onClick={() => handleClickChangeProduct(index)}
+                              loading={triggerShowChangeProduct.showLoading}
                             >
                               <FormattedMessage id="subscriptionDetail.changeProduct" />
                             </Button>

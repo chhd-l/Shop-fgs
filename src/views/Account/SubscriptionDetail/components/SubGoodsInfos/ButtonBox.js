@@ -141,7 +141,7 @@ const ButtonBox = () => {
           type="primary"
           className={cn(`md:mx-4 mt-2 w-full md:w-auto`)}
           disabled={!isDataChange}
-          onClick={() => handleSaveChange(subDetail)}
+          onClick={() => handleSaveChange(subDetail, false, true)}
         >
           <FormattedMessage id="saveChange" />
         </Button>

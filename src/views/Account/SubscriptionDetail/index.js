@@ -36,7 +36,7 @@ import {
   cancelAllSub,
   orderNowSub,
   updateNextDeliveryTime,
-  changeSubscriptionGoods,
+  updateSubGoodsInfo,
   checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
 
@@ -72,7 +72,8 @@ class SubscriptionDetail extends React.Component {
         goodsInfo: [],
         firstShow: false,
         isShowModal: false,
-        showBox: false // 只有一个商品的情况下都需要添加被动更换商品
+        showBox: false, // 只有一个商品的情况下都需要添加被动更换商品
+        showLoading: false // change product button loading status
       },
       currentChangeProductIdx: 0, // 默认只有一个产品时，设置change product idx为0
       isGift: false,
@@ -237,7 +238,6 @@ class SubscriptionDetail extends React.Component {
     const { intl } = this.props;
     let changeField = '';
     this.scrollToWhere('page-top');
-    // console.log('this.state.addressType:', this.state.addressType);
     let param = {
       subscribeId: subDetail.subscribeId,
       goodsItems: subDetail.goodsInfo.map((el) => {
@@ -335,7 +335,7 @@ class SubscriptionDetail extends React.Component {
       funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
-      if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
         this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
       }
       // 邮件展示需要绑定宠物
@@ -359,7 +359,7 @@ class SubscriptionDetail extends React.Component {
           }
         });
       !isIndv &&
-        goodsInfo?.length == 1 &&
+        goodsInfo?.length === 1 &&
         this.state.isNotInactive &&
         isAddedPet &&
         this.setState({
@@ -484,12 +484,6 @@ class SubscriptionDetail extends React.Component {
       // change product状态
       const cPStatus =
         isShowChangeProductStatus && !isIndv && subscribeStatusVal === 'ACTIVE';
-      console.log(
-        isShowChangeProductStatus,
-        cPStatus,
-        subDetail?.goodsInfo?.length,
-        'kkk'
-      );
       subDetail.canChangeProduct = cPStatus;
       // change product按钮放在商品行,不再区分单个多个
       subDetail.canChangeProductAtGoodsLine =
@@ -622,7 +616,6 @@ class SubscriptionDetail extends React.Component {
         }
       );
     } catch (err) {
-      console.log(22222, err);
       this.showErrMsg(err.message || err);
       let status = this.fromEmailStatus();
       if (status) {
@@ -825,7 +818,7 @@ class SubscriptionDetail extends React.Component {
       this.handleSaveChange(subDetail, true);
     }
   };
-  async handleSaveChange(subDetail, isChangeTimeslot) {
+  async handleSaveChange(subDetail, isChangeTimeslot, isChangeSubGoods) {
     if (!this.state.isDataChange && !isChangeTimeslot) {
       return false;
     }
@@ -844,7 +837,6 @@ class SubscriptionDetail extends React.Component {
         })
       };
       let changeField = [];
-      let skuChange = false;
       let goodsItems = subDetail.goodsInfo?.map((el) => {
         if (
           el.subscribeNum !== el.oldSubscribeNum &&
@@ -857,9 +849,6 @@ class SubscriptionDetail extends React.Component {
           !changeField.includes('frequency')
         ) {
           changeField.push('frequency');
-        }
-        if (el.oldSkuId !== el.skuId) {
-          skuChange = true;
         }
         return {
           skuId: el.skuId,
@@ -876,8 +865,8 @@ class SubscriptionDetail extends React.Component {
         changeField: changeField.length > 0 ? changeField.join(',') : ''
       });
       this.setState({ loading: true });
-      if (skuChange) {
-        this.subSkuChange(subDetail);
+      if (isChangeSubGoods) {
+        this.subGoodsChange(subDetail);
       } else {
         await updateDetail(param);
       }
@@ -901,29 +890,32 @@ class SubscriptionDetail extends React.Component {
     }
   }
 
-  subSkuChange = async (subDetail) => {
-    let addGoodsItems = [];
-    let deleteGoodsItems = [];
-    subDetail.goodsInfo.forEach((el) => {
-      addGoodsItems.push({
-        goodsInfoFlag: el.goodsInfoFlag,
-        nextDeliveryTime: el.nextDeliveryTime,
-        periodTypeId: el.periodTypeId,
+  subGoodsChange = async (subDetail) => {
+    let goodsItems = subDetail.goodsInfo?.map((el) => {
+      let changeField = [];
+      if (el.subscribeNum !== el.oldSubscribeNum) {
+        changeField.push('productNumber');
+      }
+      if (el.periodTypeId !== el.oldPeriodTypeId) {
+        changeField.push('frequency');
+      }
+      if (el.oldSkuId !== el.skuId) {
+        changeField.push('sku');
+      }
+      return {
         skuId: el.skuId,
-        subscribeNum: el.subscribeNum
-      });
-      deleteGoodsItems.push({
-        skuId: el.oldSkuId,
-        subscribeId: subDetail.subscribeId,
-        subscribeNum: el.subscribeNum
-      });
+        subscribeNum: el.subscribeNum,
+        subscribeGoodsId: el.subscribeGoodsId,
+        periodTypeId: el.periodTypeId,
+        nextDeliveryTime: el.nextDeliveryTime,
+        changeField: changeField.length > 0 ? changeField.join(',') : ''
+      };
     });
     const params = {
-      subscribeId: subDetail.subscribeId,
-      addGoodsItems,
-      deleteGoodsItems
+      goodsItems,
+      subscribeId: subDetail.subscribeId
     };
-    await changeSubscriptionGoods(params);
+    await updateSubGoodsInfo(params);
   };
 
   render() {

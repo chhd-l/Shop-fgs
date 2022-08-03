@@ -35,14 +35,19 @@ const OssReceiveBackNotificationContent = ({
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
-  const [list, setList] = useState<List[]>();
-  const [consentCheckedStatus, setConsentCheckedStatus] = useState(false);
-  console.log('listlistlist', list);
+  const [correctEmail,setCorrectEmail] = useState(false);
+  const [consentChecked,setConsentChecked] = useState(false);
+  const [list, setList] = useState<List[]>([]);
   useEffect(() => {
     if (notifyMeConsent?.length) {
       setList(notifyMeConsent);
     }
   }, [notifyMeConsent]);
+  useEffect(() => {
+    const consentCheckedStatus = list.every((item: any) => item.isChecked)
+      setConsentChecked(consentCheckedStatus)
+  }, [list])
+
   useEffect(() => {
     if (!isLogin || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
@@ -70,6 +75,8 @@ const OssReceiveBackNotificationContent = ({
   };
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    const emailTest = EMAIL_REGEXP.test(value);
+    setCorrectEmail(emailTest)
     setEmail(value);
   };
   const handleSubmit = async () => {
@@ -114,7 +121,9 @@ const OssReceiveBackNotificationContent = ({
     }
     setIsEdited(true);
   };
-  const submitBtnClickable = email.length > 0;
+
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+const btnStatus = Ru? consentChecked && correctEmail : correctEmail;
   return (
     <div className="p-6 mb-3 border-rc-ddd border-l border-r border-t border-b">
       <h2 className="text-base">
@@ -174,8 +183,8 @@ const OssReceiveBackNotificationContent = ({
             <Button
               type="primary"
               size="small"
-              disabled={!submitBtnClickable}
               className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
+              disabled={!btnStatus}
               onClick={handleSubmit}
             >
               <FormattedMessage id="Notify me" />
@@ -183,7 +192,7 @@ const OssReceiveBackNotificationContent = ({
           </>
         )}
       </div>
-      {list?.length && (
+      {list?.length > 0 && (
         <div className="mt-3 ml-5">
           <Consent list={list} sendList={sendList} pageType="pdp page" />
         </div>
