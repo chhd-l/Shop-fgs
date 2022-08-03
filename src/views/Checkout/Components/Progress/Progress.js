@@ -12,7 +12,7 @@ class Progress extends React.Component {
       paymentStoreNew: { panelStatus }
     } = this.props;
     return (
-      <DivWrapper className="rc-padding--sm rc-padding-top--none mt-4 bg-white shadow">
+      <DivWrapper className="rc-padding--sm rc-padding-top--none mt-4 bg-white shadow-lg">
         <div
           className="checkout-steps rc-layout-container rc-margin-top--lg--mobile"
           data-loc="checkout-steps"

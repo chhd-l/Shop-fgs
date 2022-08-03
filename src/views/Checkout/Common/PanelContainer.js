@@ -30,7 +30,7 @@ const PanelContainer = ({
   return (
     <div
       className={cn(
-        'card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border',
+        'card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border shadow-lg',
         panelStatus.isEdit ? 'border-333' : 'border-transparent',
         cClassName
       )}
