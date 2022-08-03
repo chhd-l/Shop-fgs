@@ -10,9 +10,9 @@ import Footer from '@/components/Footer';
 import RePayProductInfo from '@/components/PayProductInfo';
 import {
   Faq,
+  AdvantageTip,
   PayProductInfo,
   UpdatModal,
-  SelectPet,
   Confirmation,
   Point,
   Progress,
@@ -911,22 +911,12 @@ class Checkout extends React.Component {
         isFirstLoad: true
       });
       let nextConfirmPanel;
-      if (COUNTRY !== 'jp') {
-        nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(
-            paymentStoreNew?.panelStatus?.filter(
-              (item) => item.key !== 'bindPet'
-            )
-          ),
-          curKey: 'deliveryAddr'
-        });
-      } else {
-        // 下一个最近的未complete的panel
-        nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStoreNew.panelStatus),
-          curKey: 'deliveryAddr'
-        });
-      }
+
+      // 下一个最近的未complete的panel
+      nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStoreNew.panelStatus),
+        curKey: 'deliveryAddr'
+      });
       paymentStoreNew.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
@@ -3560,10 +3550,9 @@ class Checkout extends React.Component {
    */
   renderPayTab = () => {
     const {
-      paymentStoreNew: { curPayWayInfo }
+      paymentStoreNew: { curPayWayInfo, subForm }
     } = this.props;
     const {
-      subForm,
       payWayErr,
       billingChecked,
       email,
@@ -3679,28 +3668,29 @@ class Checkout extends React.Component {
                     )}
                   </div>
                   {/* 选择了某种支付方式后，当前支付方式的详情页 */}
-                  {curPayWayInfo?.code === 'adyen_credit_card' && (
-                    <>
-                      <AdyenCreditCard
-                        {...this.props}
-                        ref={this.adyenCardRef}
-                        subBuyWay={subForm.buyWay}
-                        showErrorMsg={this.showErrorMsg}
-                        updateAdyenPayParam={this.updateAdyenPayParam}
-                        updateFormValidStatus={this.updateValidStatus.bind(
-                          this,
-                          {
-                            key: 'adyenCard'
-                          }
-                        )}
-                        billingJSX={this.renderBillingJSX({
-                          type: 'adyenCard'
-                        })}
-                        supportPaymentMethodsVisibleAtForm={false}
-                        supportPoint={isSupportPoint(this.isLogin)}
-                      />
-                    </>
-                  )}
+                  {item.code === 'adyen_credit_card' &&
+                    curPayWayInfo?.code === 'adyen_credit_card' && (
+                      <>
+                        <AdyenCreditCard
+                          {...this.props}
+                          ref={this.adyenCardRef}
+                          subBuyWay={subForm.buyWay}
+                          showErrorMsg={this.showErrorMsg}
+                          updateAdyenPayParam={this.updateAdyenPayParam}
+                          updateFormValidStatus={this.updateValidStatus.bind(
+                            this,
+                            {
+                              key: 'adyenCard'
+                            }
+                          )}
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyenCard'
+                          })}
+                          supportPaymentMethodsVisibleAtForm={false}
+                          supportPoint={isSupportPoint(this.isLogin)}
+                        />
+                      </>
+                    )}
                   {item.code === 'adyen_paypal' &&
                     curPayWayInfo?.code === 'adyen_paypal' && (
                       <>
@@ -4224,7 +4214,7 @@ class Checkout extends React.Component {
         </div>
         <main className="rc-content--fixed-header not-include-navigation rc-bg-colour--brand4">
           <Progress type="payment" />
-          <div className="rc-bottom-spacing rc-max-width--lg">
+          <div className="rc-bottom-spacing rc-max-width--lg mt-8">
             <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3">
               <div className="rc-column rc-double-width shipping__address order-3 md:order-1">
                 {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
@@ -4247,18 +4237,9 @@ class Checkout extends React.Component {
                     </div>
                   </>
                 )}
-                {COUNTRY === 'jp' && (
-                  <SelectPet
-                    recommendData={this.state.recommend_data}
-                    updateRecommendData={(data) => {
-                      this.setState({ recommend_data: data });
-                    }}
-                    isRepay={tid}
-                  />
-                )}
 
                 {/* 支付模块 */}
-                <PaymentMethodCover />
+                {/* <PaymentMethodCover /> */}
                 <PanelContainer
                   panelStatus={paymentMethodPanelStatus}
                   containerConf={{
@@ -4305,6 +4286,7 @@ class Checkout extends React.Component {
                       : this.tradePrice
                   }
                 />
+                <AdvantageTip />
               </div>
               <div className="rc-column md:pl-0 order-2">
                 {tid ? (

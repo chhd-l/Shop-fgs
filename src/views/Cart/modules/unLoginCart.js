@@ -25,7 +25,7 @@ import {
 } from '@/utils/GA';
 import { getMixFeedings } from '@/api/details';
 import { getGoodsRelationBatch, valetGuestMiniCars } from '@/api/cart';
-import PayProductInfo from '../../Payment/PayProductInfo';
+import PayProductInfo from '@/views/Payment/PayProductInfo';
 import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';

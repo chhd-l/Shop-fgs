@@ -700,39 +700,44 @@ class PayProductInfo extends React.Component {
     const { productList } = this.state;
     return (
       <div
-        className="product-summary__itemnbr border-bottom d-flex align-items-center justify-content-between md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3"
+        className="border-bottom flex items-center justify-between py-2 md:p-3"
         onClick={this.props.onClickHeader}
       >
         {headerIcon}
-        <span className="medium">
-          {window.__.env.REACT_APP_COUNTRY === 'us' && this.props.isCheckOut ? (
-            <FormattedMessage
-              id="payment.totalProduct2"
-              values={{
-                val:
-                  productList[0]?.goodsInfoFlag === 3
-                    ? 1
-                    : productList.reduce(
-                        (total, item) => total + item.buyCount,
-                        0
-                      )
-              }}
-            />
-          ) : (
-            <FormattedMessage
-              id="payment.totalProduct"
-              values={{
-                val:
-                  productList[0]?.goodsInfoFlag === 3 || isFromFelin
-                    ? 1
-                    : productList.reduce(
-                        (total, item) => total + item.buyCount,
-                        0
-                      )
-              }}
-            />
-          )}
-        </span>
+        <div>
+          <p className="medium text-xl">{formatMoney(this.tradePrice)}</p>
+          <p className="">
+            {window.__.env.REACT_APP_COUNTRY === 'us' &&
+            this.props.isCheckOut ? (
+              <FormattedMessage
+                id="payment.totalProduct2"
+                values={{
+                  val:
+                    productList[0]?.goodsInfoFlag === 3
+                      ? 1
+                      : productList.reduce(
+                          (total, item) => total + item.buyCount,
+                          0
+                        )
+                }}
+              />
+            ) : (
+              <FormattedMessage
+                id="payment.totalProduct"
+                values={{
+                  val:
+                    productList[0]?.goodsInfoFlag === 3 || isFromFelin
+                      ? 1
+                      : productList.reduce(
+                          (total, item) => total + item.buyCount,
+                          0
+                        )
+                }}
+              />
+            )}
+          </p>
+        </div>
+
         {/*goodsInfoFlag为3的时候是indv需要隐藏edit按钮*/}
         {!localItemRoyal.get('rc-iframe-from-storepotal') &&
         this.props.operateBtnVisible &&
@@ -785,22 +790,6 @@ class PayProductInfo extends React.Component {
           {this.getTotalItems()}
           <div className="product-summary__recap__content">
             <div className="checkout--padding">
-              {/* <div style={{ padding: '1.25rem 0' }}> */}
-              {!needHideProductList && List}
-              {this.giftList.map((el, i) => (
-                <GiftList {...this.props} pitem={el} key={i} />
-              ))}
-              {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
-              {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-              this.isLogin &&
-              isFirstOrder &&
-              !isStudentPurchase ? (
-                <WelcomeBox
-                  welcomeBoxChange={(value) => {
-                    this.props.welcomeBoxChange(value);
-                  }}
-                />
-              ) : null}
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between items-center">
                 <span
@@ -963,6 +952,24 @@ class PayProductInfo extends React.Component {
 
           {/* show Loyalty point */}
           <LoyaltyPoint />
+
+          <div className="checkout--padding border-top">
+            {!needHideProductList && List}
+            {this.giftList.map((el, i) => (
+              <GiftList {...this.props} pitem={el} key={i} />
+            ))}
+            {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
+            {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
+            this.isLogin &&
+            isFirstOrder &&
+            !isStudentPurchase ? (
+              <WelcomeBox
+                welcomeBoxChange={(value) => {
+                  this.props.welcomeBoxChange(value);
+                }}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     );

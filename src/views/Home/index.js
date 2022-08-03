@@ -28,8 +28,9 @@ import { Button, Canonical } from '@/components/Common';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 import renderLinkLang from './hreflang';
+import advantageIconList from './modules/advantageIconList';
+
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -484,45 +485,6 @@ function Share() {
 }
 
 function AdvantageTips() {
-  const defaultIconList = [
-    {
-      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
-      langKey: 'home.point1'
-    },
-    {
-      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/reimbursed@2x.png`,
-      langKey: 'home.point2'
-    },
-    {
-      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
-      langKey: 'home.point3'
-    },
-    {
-      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`,
-      langKey: 'home.point4'
-    }
-  ];
-  const iconList =
-    {
-      us: [
-        {
-          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
-          langKey: 'home.point1'
-        },
-        {
-          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
-          langKey: 'home.point2'
-        },
-        {
-          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
-          langKey: 'home.point3'
-        },
-        {
-          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
-          langKey: 'home.point4'
-        }
-      ]
-    }[window.__.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
@@ -535,7 +497,7 @@ function AdvantageTips() {
               }}
               className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center"
             >
-              {iconList.map((ele, i) => (
+              {advantageIconList.map((ele, i) => (
                 <div className="col-6 centered-icon-list__icon" key={i}>
                   <FormattedMessage id={ele.langKey}>
                     {(txt) => (
@@ -562,7 +524,7 @@ function AdvantageTips() {
           </div>
           <div className="rc-sm-up">
             <div className="d-flex justify-content-center bottom-content__icon-list text-center">
-              {iconList.map((ele, i) => (
+              {advantageIconList.map((ele, i) => (
                 <div
                   style={{ width: '6rem' }}
                   className="centered-icon-list__icon"
