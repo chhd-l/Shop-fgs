@@ -214,7 +214,6 @@ const RecommendationListModal = ({ intl }) => {
     (item) => item.goodsInfoVO
   );
   const subDetailStock = subDetailGoodsInfo?.some((el) => el.stock);
-
   return (
     <div
       className={`change-product-modal ${
@@ -237,10 +236,12 @@ const RecommendationListModal = ({ intl }) => {
               productDetail={productDetail}
               goMoreProducts={goMoreProducts}
             />
-            <div id="recommendation-more-products-box" className="my-8">
-              <p className="bg-gray-100 h-2 w-full" />
-              <RelateProductList mainProduct={productDetail?.mainProduct} />
-            </div>
+            {Object.keys(productDetail?.mainProduct).length && (
+              <div id="recommendation-more-products-box" className="my-8">
+                <p className="bg-gray-100 h-2 w-full" />
+                <RelateProductList mainProduct={productDetail?.mainProduct} />
+              </div>
+            )}
           </>
         ) : (
           <div className="text-center px-2 md:px-60">
