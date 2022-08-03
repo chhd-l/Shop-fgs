@@ -150,7 +150,7 @@ const HandledSpecSelect = ({
       if (it?.isEmpty) {
         it.name2 = 'details.outStock'
       }
-      it.disabled = !canSelectedOutOfStock && it?.isEmpty
+      it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||it?.isDisabled
     }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
