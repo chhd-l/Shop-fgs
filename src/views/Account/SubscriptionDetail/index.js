@@ -892,15 +892,15 @@ class SubscriptionDetail extends React.Component {
 
   subGoodsChange = async (subDetail) => {
     let goodsItems = subDetail.goodsInfo?.map((el) => {
-      let changeField = [];
+      let changeFields = [];
       if (el.subscribeNum !== el.oldSubscribeNum) {
-        changeField.push('productNumber');
+        changeFields.push('productNumber');
       }
       if (el.periodTypeId !== el.oldPeriodTypeId) {
-        changeField.push('frequency');
+        changeFields.push('frequency');
       }
       if (el.oldSkuId !== el.skuId) {
-        changeField.push('sku');
+        changeFields.push('sku');
       }
       return {
         skuId: el.skuId,
@@ -908,7 +908,7 @@ class SubscriptionDetail extends React.Component {
         subscribeGoodsId: el.subscribeGoodsId,
         periodTypeId: el.periodTypeId,
         nextDeliveryTime: el.nextDeliveryTime,
-        changeField: changeField.length > 0 ? changeField.join(',') : ''
+        changeFields: changeFields.length > 0 ? changeFields.join(',') : ''
       };
     });
     const params = {
