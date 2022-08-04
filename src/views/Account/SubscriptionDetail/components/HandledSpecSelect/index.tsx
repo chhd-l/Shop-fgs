@@ -112,7 +112,7 @@ const HandledSpecSelect = ({
     updatedSku(handledValues, sizeList);
   };
 
-  const handleChooseSize = (sId: any, sdId: any) => {
+  const handleChooseSize = async(sId: any, sdId: any) => {
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -129,8 +129,9 @@ const HandledSpecSelect = ({
     const skuInfo = goodsInfos.find((item: any) =>
       item.mockSpecDetailIds.includes(specDetailId)
     );
+    await matchGoods();
     updatedChangeSku(skuInfo)
-    matchGoods();
+
   };
 
   useEffect(() => {

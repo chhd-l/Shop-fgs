@@ -465,13 +465,13 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   };
 
   const handleSelectedFilterPref = (search) => {
+    if (defaultFilterSearchForm?.attrList?.length === 0) {
+      setResetList(true);
+    }
     setSearchFilter(search);
     let filters = [];
     // 解析prefn/prefv, 匹配filter, 设置默认选中值
     const prefnNum = (search.match(/prefn/gi) || []).length;
-    if (prefnNum === 0) {
-      setResetList(true);
-    }
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(
         funcUrl({ name: `prefn${index + 1}`, customSearch: search.substr(1) })
@@ -607,6 +607,8 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
         </span>
       </ListItemForDefault>
     ));
+
+  console.log(defaultFilterSearchForm, 'defaultFilterSearchForm==');
 
   return (
     <>
