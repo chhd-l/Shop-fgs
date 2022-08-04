@@ -1054,10 +1054,8 @@ const App = () => {
                     switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'de':
                         return <AboutUsDe {...props} />;
-                        break;
                       case 'ru':
                         return <RuLocalAboutUs {...props} />;
-                        break;
                       default:
                         return <AboutUs {...props} />;
                     }
