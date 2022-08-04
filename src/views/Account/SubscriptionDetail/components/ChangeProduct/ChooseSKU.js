@@ -453,6 +453,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
                       disabledGoodsInfoIds={subDetail.goodsInfo.map(
                         (g) => g.goodsInfoVO.goodsInfoId
                       )}
+                      inModal={inModal}
                       onIsSpecAvailable={(status) => {
                         setIsSpecAvailable(status);
                       }}
