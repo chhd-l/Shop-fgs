@@ -813,6 +813,7 @@ class Details extends React.Component {
         ? buyFromRetailerConfig.idVetProducts
         : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
     const id = goodsType === 3 ? vetWidgetId : widgetId;
+    const dataEventGtm = 'data-eventgtm';
     if (widgetId || vetWidgetId) {
       loadJS({
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
@@ -826,7 +827,7 @@ class Details extends React.Component {
           ean: barcode,
           subid: '',
           trackingid: buyFromRetailerConfig.trackingIdPrefix,
-          'data-eventgtm': true
+          eventgtm: 'true'
         }
       });
     }
