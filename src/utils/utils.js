@@ -753,8 +753,7 @@ export async function fetchHeaderNavigations() {
   if (ret) {
     ret = JSON.parse(ret);
   } else {
-    // const res = await queryHeaderNavigations();
-    const res = ruLocalNavigation;
+    const res = await queryHeaderNavigations();
     if (res.context) {
       ret = res.context;
       ret.navigationResponseList = (ret?.navigationResponseList || []).filter(
