@@ -866,7 +866,7 @@ class SubscriptionDetail extends React.Component {
       });
       this.setState({ loading: true });
       if (isChangeSubGoods) {
-        this.subGoodsChange(subDetail);
+        await this.subGoodsChange(subDetail);
       } else {
         await updateDetail(param);
       }
