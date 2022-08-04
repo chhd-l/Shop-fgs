@@ -6,5 +6,5 @@ jest.mock('@/store', () => {
 
 it('flat', () => {
   expect(flat([''])).not.toBe('');
-  expect(flat([[123]])).not.toBe('');
+  expect(flat([[12345]])).not.toBe('');
 });
