@@ -107,6 +107,8 @@ const subType = {
   2: 'club'
 };
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productList, setProductList] = useState(Array(1).fill(null));
@@ -128,6 +130,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   const [filterListRes, setFilterListRes] = useState([]);
   const [searchFilter, setSearchFilter] = useState('');
   const [resetList, setResetList] = useState(false);
+  const [goodsFilterVOList, setGoodsFilterVOList] = useState([]);
   const ChangeProductValue = useContext(ChangeProductContext);
   const { showProdutctDetail, errMsg } = ChangeProductValue;
 
@@ -365,10 +368,25 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
     let _goodsInfoFlag = goodsInfoFlag || mainProduct.goodsInfoFlag;
     let promotions = '';
     promotions = subType[_goodsInfoFlag];
+
     let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
     let goodsFilterRelList = initingList
       ? [...defaultFilterSearchForm.filterList]
       : [];
+    const _goodsAttributesValueRelVOList = cloneDeep(
+      goodsAttributesValueRelVOList
+    );
+    const goodsFilterVOList =
+      JSON.parse(sessionItemRoyal.get('plpGoodsFilterVOList')) || [];
+    _goodsAttributesValueRelVOList.forEach((items) => {
+      goodsFilterVOList.forEach((ele) => {
+        if (items.attributeId === ele.attributeId) {
+          items.plpDisplayAttributeValueIdList = ele.attributesValueList.map(
+            (el) => el.id
+          );
+        }
+      });
+    });
 
     setInitingFilter(true);
     setLoading(true);
@@ -378,10 +396,12 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
       sortFlag: 11,
       pageSize: 9,
       promotions,
-      goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
-        const { attributeValues, ...otherParam } = el;
-        return otherParam;
-      }),
+      goodsAttributesValueRelVOList: _goodsAttributesValueRelVOList.map(
+        (el) => {
+          const { attributeValues, ...otherParam } = el;
+          return otherParam;
+        }
+      ),
       goodsFilterRelList: goodsFilterRelList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -389,6 +409,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
     };
     const res = await getList(params);
     if (res.code === 'K-000000') {
+      sessionItemRoyal.remove('plpGoodsFilterVOList');
       const esGoodsStoreGoodsFilterVOList = handledAttributeDetailNameEn(
         res.context?.esGoodsStoreGoodsFilterVOList || []
       );
@@ -431,6 +452,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
         setCurrentPage(esGoodsPage.number + 1);
         setTotalPage(esGoodsPage.totalPages);
         setCurrentPageProductNum(esGoodsPage.numberOfElements);
+        setGoodsFilterVOList(esGoodsStoreGoodsFilterVOList);
         // this.handleCanonicalLink();
       } else {
         setProductList([]);
@@ -550,10 +572,10 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   };
 
   const handleFilterApplyChange = () => {
-    // sessionItemRoyal.set(
-    //   'plpGoodsFilterVOList',
-    //   // JSON.stringify(this.state.goodsFilterVOList)
-    // );
+    sessionItemRoyal.set(
+      'plpGoodsFilterVOList',
+      JSON.stringify(goodsFilterVOList)
+    );
   };
 
   const hanldePageNumChange = ({ currentPage }) => {
