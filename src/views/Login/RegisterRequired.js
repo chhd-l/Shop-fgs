@@ -202,7 +202,6 @@ class RegisterRequired extends Component {
         loginStore.userInfo?.customerId,
         localItemRoyal.get('rc-userinfo')?.customerId
       );
-      debugger;
       if (!customerId) {
         return;
       }

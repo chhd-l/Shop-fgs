@@ -353,7 +353,7 @@ const ChangeProduct = () => {
   return (
     <>
       <ChangeProductContext.Provider value={propsObj}>
-        <NotPetChangeProduct />
+        {autoshipType && <NotPetChangeProduct />}
         <RecommendationListModal />
         <div className="product-detail-modal">
           <Modal

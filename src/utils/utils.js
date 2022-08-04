@@ -20,8 +20,8 @@ import {
   ruLocalNavigation,
   ruLocalFooter
 } from '@/utils/constant/ru-local-data';
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const clinicStore = stores.clinicStore;
 const formatjpWeek = {

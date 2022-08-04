@@ -102,7 +102,12 @@ function bSort(arr) {
 
 const isMobilePhone = getDeviceType() === 'H5';
 
-const RelateProductList = ({ mainProduct }) => {
+const subType = {
+  1: 'club',
+  2: 'autoship'
+};
+
+const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productList, setProductList] = useState(Array(1).fill(null));
   const [results, setResults] = useState(0);
@@ -357,8 +362,9 @@ const RelateProductList = ({ mainProduct }) => {
   };
 
   const getProductLists = async (pageNum) => {
-    let promotions = mainProduct.goodsInfoFlag === 2 ? 'club' : '';
-    promotions = mainProduct.goodsInfoFlag === 1 ? 'autoship' : '';
+    let _goodsInfoFlag = goodsInfoFlag || mainProduct.goodsInfoFlag;
+    let promotions = '';
+    promotions = subType[_goodsInfoFlag];
     let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
     let goodsFilterRelList = initingList
       ? [...defaultFilterSearchForm.filterList]
