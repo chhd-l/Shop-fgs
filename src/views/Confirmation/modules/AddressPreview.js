@@ -5,7 +5,8 @@ import {
   matchNamefromDict,
   handleFelinAppointTime,
   formatDate,
-  formatJPDate
+  formatJPDate,
+  formatJPTime
 } from '@/utils/utils';
 import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
