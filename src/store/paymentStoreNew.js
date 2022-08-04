@@ -31,16 +31,6 @@ const initPanelStatus = [
     }
   },
   {
-    key: 'bindPet',
-    order: 4,
-    status: {
-      isPrepare: true,
-      isEdit: false,
-      isCompleted: false,
-      hasCompleted: false
-    }
-  },
-  {
     key: 'paymentMethod',
     order: 5,
     status: {

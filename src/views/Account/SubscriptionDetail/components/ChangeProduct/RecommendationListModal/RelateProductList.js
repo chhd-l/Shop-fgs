@@ -102,7 +102,12 @@ function bSort(arr) {
 
 const isMobilePhone = getDeviceType() === 'H5';
 
-const RelateProductList = ({ mainProduct }) => {
+const subType = {
+  1: 'club',
+  2: 'autoship'
+};
+
+const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productList, setProductList] = useState(Array(1).fill(null));
   const [results, setResults] = useState(0);
@@ -143,12 +148,6 @@ const RelateProductList = ({ mainProduct }) => {
   }, [resetList, defaultFilterSearchForm]);
 
   useEffect(() => {
-    // console.log(
-    //   resetList,
-    //   defaultFilterSearchForm,
-    //   mainProduct,
-    //   'defaultFilterSearchForm=='
-    // );
     if (
       resetList &&
       (defaultFilterSearchForm?.attrList?.length < 1 ||
@@ -159,7 +158,6 @@ const RelateProductList = ({ mainProduct }) => {
   }, [resetList, defaultFilterSearchForm]);
 
   useEffect(() => {
-    // console.log(filterListRes, 'filterListRes--');
     // Filter the product list by the attribute of the main product
     if (filterListRes) {
       let _list = cloneDeep(
@@ -196,17 +194,6 @@ const RelateProductList = ({ mainProduct }) => {
           }
         }
       }
-      // const prefnP = _prefnParamList.reduce((pre, cur, i) => {
-      //   newData.push(cur);
-      //   if (pre?.prefn === cur?.prefn) {
-      //     cur.prefvs.push(pre.prefvs[0]);
-      //     console.log(cur, pre.prefvs, ' 1111111 ');
-      //     newData[i] = cur;
-      //     delete _prefnParamList[i - 1];
-      //   }
-      //   return cur;
-      // }, []);
-      // console.log('prefnP', newData, prefnP);
       const _decoParam = prefnParamNewList?.reduce(
         (pre, cur) => {
           return {
@@ -220,16 +207,7 @@ const RelateProductList = ({ mainProduct }) => {
         },
         { i: 1, ret: '' }
       );
-      console.log(_decoParam, '_decoParam==');
       const _search = `?${_decoParam.ret.substr(1)}`;
-      // console.log(
-      //   mainProduct,
-      //   _list,
-      //   _prefnParamList,
-      //   _decoParam,
-      //   _search,
-      //   '_search--'
-      // );
       handleSelectedFilterPref(_search);
     }
   }, [filterListRes]);
@@ -384,6 +362,9 @@ const RelateProductList = ({ mainProduct }) => {
   };
 
   const getProductLists = async (pageNum) => {
+    let _goodsInfoFlag = goodsInfoFlag || mainProduct.goodsInfoFlag;
+    let promotions = '';
+    promotions = subType[_goodsInfoFlag];
     let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
     let goodsFilterRelList = initingList
       ? [...defaultFilterSearchForm.filterList]
@@ -396,6 +377,7 @@ const RelateProductList = ({ mainProduct }) => {
       pageNum: pageNum || currentPage - 1,
       sortFlag: 11,
       pageSize: 9,
+      promotions,
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -602,14 +584,6 @@ const RelateProductList = ({ mainProduct }) => {
         </span>
       </ListItemForDefault>
     ));
-
-  // console.log(
-  //   filterListRes,
-  //   resetList,
-  //   defaultFilterSearchForm,
-  //   mainProduct,
-  //   'defaultFilterSearchForm=='
-  // );
 
   return (
     <>

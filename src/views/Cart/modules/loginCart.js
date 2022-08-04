@@ -37,7 +37,7 @@ import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
 import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
-import PayProductInfo from '../../Payment/PayProductInfo';
+import PayProductInfo from '@/views/Payment/PayProductInfo';
 import BannerTip from '@/components/BannerTip';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
