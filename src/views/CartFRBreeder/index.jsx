@@ -44,7 +44,7 @@ const CartFRBreeder = ({
     }
     let res = await requestName(params);
     const productLists =
-      res.context.recommendationGoodsInfoRels?.filter(
+      res?.context.recommendationGoodsInfoRels?.filter(
         (product) => product.goodsInfo?.stock
       ) || [];
     if (res.context.structureType != 'breeder') {

@@ -771,7 +771,7 @@ class AddressList extends React.Component {
     // 代客下单
     if (isUserGroup && localItemRoyal.get('rc-promotionCode')) {
       // 如果是日本
-      if (COUNTRY === 'jp') {
+      if (false && COUNTRY === 'jp') {
         nextConfirmPanel = paymentStore?.panelStatus?.filter(
           (item) => item.key === 'bindPet'
         )[0];

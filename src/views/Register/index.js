@@ -37,36 +37,6 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
-const pass = 'pass' + 'word';
-
-const ErrorMessage = ({ msg, close, style = {} }) => {
-  return msg ? (
-    <aside
-      aria-hidden="true"
-      className={cn(
-        'ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm'
-      )}
-      role="alert"
-      style={style}
-    >
-      <p>{msg}</p>
-      <button
-        className="rc-btn rc-alert__close rc-close--xs rc-iconography"
-        data-close=""
-        aria-label=""
-      >
-        <span className="rc-screen-reader-text" />
-      </button>
-      <button
-        className="ciam-alert-close-error-popin rc-alert__close rc-icon rc-alert__close rc-close--xs rc-iconography"
-        data-close=""
-        onClick={close}
-      >
-        <span className="rc-screen-reader-text"></span>
-      </button>
-    </aside>
-  ) : null;
-};
 
 @injectIntl
 @inject('paymentStore')
@@ -105,15 +75,18 @@ class Register extends Component {
         email: '',
         password: ''
       },
+      regError: false,
+      regErrorMessage: '',
       passwordMessage: '',
       emailMessage: '',
       requiredConsentCount: 0,
+      hasError: false,
       errorMessage: '',
       firstNameValid: true,
       lastNameValid: true,
       phoneticFirstNameValid: true,
       phoneticLastNameValid: true,
-      passwordInputType: pass,
+      passwordInputType: 'password',
       illegalSymbol: false,
       showValidErrorMsg: false
     };
@@ -473,7 +446,8 @@ class Register extends Component {
             }
           });
         //GA 注册成功 end
-
+        let customerDetail = res.context.customerDetail;
+        let submitParam = bindSubmitParam(this.state.list);
         if (
           window.__.env.REACT_APP_FGS_SELF_REGISTER ||
           res.context.oktaSessionToken
@@ -522,43 +496,51 @@ class Register extends Component {
             this.props.history.push('/checkout');
           } else {
             if (window.__.env.REACT_APP_FGS_SELF_REGISTER) {
-              this.props.history.push(
-                localItemRoyal.get('okta-redirectUrl') || '/'
-              );
+              // await  localItemRoyal.set('oktaToken',  res.context.oktaSessionToken);
+              this.bindConsent(submitParam, customerDetail, () => {
+                this.props.history.push('/required');
+              });
             } else {
               window.location.href = callOktaCallBack; // 调用一次OKTA的登录
             }
           }
         } else {
           //发送邮件，跳转welcome页面
-          let customerDetail = res.context.customerDetail;
-          let submitParam = bindSubmitParam(this.state.list);
-          userBindConsent({
-            ...submitParam,
-            useBackendOktaTokenFlag: true,
-            customerId: customerDetail.customerId
-          })
-            .then((res) => {
-              loginStore.setUserInfo(customerDetail); // For compare email
-              this.props.history.push('/welcome/' + registerForm.email);
-            })
-            .catch((err) => {
-              window.scrollTo(0, 0);
-              this.setState({
-                circleLoading: false,
-                errorMessage: err.detailMessage || err.message
-              });
-            });
+          this.bindConsent(submitParam, customerDetail, () => {
+            loginStore.setUserInfo(customerDetail); // For compare email
+            this.props.history.push('/welcome/' + registerForm.email);
+          });
         }
       })
       .catch((err) => {
         window.scrollTo(0, 0);
         this.setState({
           circleLoading: false,
-          errorMessage: err.detailMessage || err.message
+          hasError: true,
+          errorMessage: null,
+          regErrorMessage: err.detailMessage,
+          regError: true
         });
       });
   };
+  bindConsent(submitParam, customerDetail, cb) {
+    userBindConsent({
+      ...submitParam,
+      useBackendOktaTokenFlag: true,
+      customerId: customerDetail.customerId
+    })
+      .then((res) => {
+        cb && cb();
+      })
+      .catch((err) => {
+        window.scrollTo(0, 0);
+        this.setState({
+          circleLoading: false,
+          hasError: true,
+          errorMessage: null
+        });
+      });
+  }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
@@ -628,8 +610,10 @@ class Register extends Component {
       passwordMessage,
       requiredConsentCount,
       list,
+      hasError,
       errorMessage,
       passwordInputType,
+      regError,
       formWarning
     } = this.state;
     const allValid =
@@ -703,16 +687,46 @@ class Register extends Component {
               </DistributeHubLinkOrATag>
             </div>
             {/* 注册重复错误提示 */}
-            <ErrorMessage
-              msg={errorMessage}
-              close={() => this.setState({ errorMessage: '' })}
-              style={{
-                padding: '.5rem',
-                width: '750px',
-                margin: '0px auto',
-                textAlign: 'center'
-              }}
-            />
+            {regError ? (
+              <aside
+                className="rc-alert rc-alert--error mb-2 rc-alert__close"
+                role="alert"
+                style={{
+                  padding: '.5rem',
+                  width: '750px',
+                  margin: '0px auto',
+                  textAlign: 'center'
+                }}
+              >
+                <span>
+                  {
+                    <FormattedMessage
+                      id="jp.regErrorMessage"
+                      values={{
+                        val: ''
+                      }}
+                      // values={{
+                      //   val: (
+                      //     <a
+                      //       className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                      //       href="https://shopsit.royalcanin.com/jp/help"
+                      //     >
+                      //       {<FormattedMessage id="jp.reghelp" />}
+                      //     </a>
+                      //   )
+                      // }}
+                    />
+                  }
+                </span>
+                <button
+                  class="rc-alert__close rc-icon rc-icon rc-alert__close rc-close--xs rc-iconography"
+                  data-close=""
+                  onClick={() => this.setState({ regError: false })}
+                >
+                  <span class="rc-screen-reader-text">Close</span>
+                </button>
+              </aside>
+            ) : null}
             {/* logo下标题 */}
             <div className="text-center logo-bottom-title">
               {/* <p>{<FormattedMessage id="jp.regtitle" />}</p>
@@ -746,25 +760,6 @@ class Register extends Component {
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>
               </p>
-              <p className="text-center">
-                {
-                  <FormattedMessage
-                    id="jp.goToAccount"
-                    values={{
-                      val: (
-                        <a
-                          className="ui-cursor-pointer text-cs-gray text-16"
-                          href="https://accountpreview.royalcanin.com/"
-                          target={'_blank'}
-                          style={{ borderBottom: '1px solid #666' }}
-                        >
-                          こちら
-                        </a>
-                      )
-                    }}
-                  />
-                }
-              </p>
             </div>
             {/* SocialRegister */}
             {window.__.env.REACT_APP_FaceBook_IDP ||
@@ -793,7 +788,7 @@ class Register extends Component {
                 <div className="regName">
                   <Input
                     id="registerName"
-                    autoComplete="off"
+                    autocomplete="off"
                     type="text"
                     maxLength="50"
                     name="lastName"
@@ -819,7 +814,7 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autoComplete="off"
+                    autocomplete="off"
                     type="text"
                     maxLength="50"
                     name="firstName"
@@ -845,7 +840,7 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autoComplete="off"
+                    autocomplete="off"
                     type="text"
                     maxLength="50"
                     name="phoneticLastName"
@@ -872,7 +867,7 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autoComplete="off"
+                    autocomplete="off"
                     type="text"
                     maxLength="50"
                     name="phoneticFirstName"
@@ -901,7 +896,7 @@ class Register extends Component {
                 <div className="regNameTwo">
                   <Input
                     id="registerEmail"
-                    autoComplete="off"
+                    autocomplete="off"
                     type="email"
                     maxLength="90"
                     name="email"
@@ -925,9 +920,9 @@ class Register extends Component {
 
                   <Input
                     id="registerPassword"
-                    type="password"
+                    type={passwordInputType}
                     maxLength="255"
-                    autoComplete="new-password"
+                    autocomplete="new-password"
                     minLength="8"
                     name="password"
                     valid={passwordValid}
@@ -1160,29 +1155,49 @@ class Register extends Component {
                 <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
                   <div className="rc-column rc-max-width--md rc-text--center">
                     <div className="rc-margin-bottom--sm">
-                      <ErrorMessage
-                        msg={
-                          errorMessage ? (
-                            <>
-                              {errorMessage}{' '}
-                              <strong>
-                                <Link
-                                  to="/help"
-                                  className="rc-text-colour--brand1"
-                                >
-                                  <FormattedMessage id="contactUs" />
-                                </Link>
-                              </strong>
-                            </>
-                          ) : (
-                            ''
-                          )
+                      <aside
+                        aria-hidden="true"
+                        className={
+                          (!hasError ? 'hidden ' : '') +
+                          'ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm'
                         }
-                        close={() => {
-                          this.setState({ errorMessage: '' });
-                        }}
-                      />
-
+                        role="alert"
+                      >
+                        <p>
+                          <div>
+                            {errorMessage ? (
+                              errorMessage + ' '
+                            ) : (
+                              <FormattedMessage id="registerErrorMessage" />
+                            )}
+                            <strong>
+                              9
+                              <Link
+                                to="/help"
+                                className="rc-text-colour--brand1"
+                              >
+                                <FormattedMessage id="contactUs" />
+                              </Link>
+                            </strong>
+                          </div>
+                        </p>
+                        <button
+                          className="rc-btn rc-alert__close rc-close--xs rc-iconography"
+                          data-close=""
+                          aria-label=""
+                        >
+                          <span className="rc-screen-reader-text" />
+                        </button>
+                        <button
+                          className="ciam-alert-close-error-popin rc-alert__close rc-icon rc-alert__close rc-close--xs rc-iconography"
+                          data-close=""
+                          onClick={() => {
+                            this.setState({ hasError: false });
+                          }}
+                        >
+                          <span className="rc-screen-reader-text"></span>
+                        </button>
+                      </aside>
                       <h2
                         className={`text-center rc-margin-bottom--sm`}
                         dangerouslySetInnerHTML={{
@@ -1194,16 +1209,20 @@ class Register extends Component {
                       </p>
                       <p className="text-center align-bottom">
                         <FormattedMessage id="registerHaveAccount" />{' '}
-                        <a
-                          onClick={() =>
-                            this.props.oktaAuth.signInWithRedirect(
-                              window.__.env.REACT_APP_HOMEPAGE
-                            )
-                          }
+                        <span
+                          onClick={() => {
+                            if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                              this.props.history.push('./login');
+                            } else {
+                              this.props.oktaAuth.signInWithRedirect(
+                                window.__.env.REACT_APP_HOMEPAGE
+                              );
+                            }
+                          }}
                           className="rc-styled-link"
                         >
                           <FormattedMessage id="registerLoginIn" />
-                        </a>
+                        </span>
                       </p>
                       {/* SocialRegister */}
                       {window.__.env.REACT_APP_FaceBook_IDP ||
@@ -1245,7 +1264,7 @@ class Register extends Component {
                                   id="registerName"
                                   valid={nameValid}
                                   isWarning={formWarning.name}
-                                  autoComplete="off"
+                                  autocomplete="off"
                                   onChange={this.registerChange}
                                   onBlur={this.inputBlur}
                                   value={registerForm.name}
@@ -1266,7 +1285,7 @@ class Register extends Component {
                               <>
                                 <Input
                                   id="registerName"
-                                  autoComplete="off"
+                                  autocomplete="off"
                                   type="text"
                                   maxLength="50"
                                   name="firstName"
@@ -1296,7 +1315,7 @@ class Register extends Component {
                                 />
                                 <Input
                                   id="registerName"
-                                  autoComplete="off"
+                                  autocomplete="off"
                                   type="text"
                                   maxLength="50"
                                   name="lastName"
@@ -1329,7 +1348,7 @@ class Register extends Component {
 
                             <Input
                               id="registerEmail"
-                              autoComplete="off"
+                              autocomplete="off"
                               type="email"
                               maxLength="90"
                               name="email"
@@ -1360,7 +1379,7 @@ class Register extends Component {
                               valid={passwordValid}
                               onChange={this.registerChange}
                               onFocus={this.inputFocus}
-                              autoComplete="new-password"
+                              autocomplete="new-password"
                               onBlur={this.inputBlur}
                               value={registerForm.password}
                               label={<FormattedMessage id="registerPassword" />}
