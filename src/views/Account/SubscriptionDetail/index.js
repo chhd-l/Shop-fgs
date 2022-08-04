@@ -599,33 +599,17 @@ class SubscriptionDetail extends React.Component {
         },
         () => {
           this.fromEmailGoToCart(subDetail.subscribeStatus);
-          console.log(this.state.subDetail.petsLifeStageFlag, 'sjowbox1');
-          debugger;
           if (!this.state.subDetail.petsLifeStageFlag) {
-            console.log(
-              this.state.subDetail,
-              this.state.triggerShowChangeProduct.showBox,
-              'sjowbox2'
-            );
-            this.setState(
-              {
-                triggerShowChangeProduct: Object.assign(
-                  {},
-                  this.state.triggerShowChangeProduct,
-                  {
-                    // isShowModal: false,
-                    showBox: false // 只有一个商品的情况下都需要添加被动更换商品
-                  }
-                )
-              },
-              () => {
-                console.log(
-                  this.state.subDetail,
-                  this.state.triggerShowChangeProduct.showBox,
-                  'sjowbox3'
-                );
-              }
-            );
+            this.setState({
+              triggerShowChangeProduct: Object.assign(
+                {},
+                this.state.triggerShowChangeProduct,
+                {
+                  // isShowModal: false,
+                  showBox: false // 只有一个商品的情况下都需要添加被动更换商品
+                }
+              )
+            });
           }
 
           fn && fn(subDetail);
