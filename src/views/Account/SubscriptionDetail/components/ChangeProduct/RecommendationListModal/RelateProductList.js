@@ -103,8 +103,8 @@ function bSort(arr) {
 const isMobilePhone = getDeviceType() === 'H5';
 
 const subType = {
-  1: 'club',
-  2: 'autoship'
+  1: 'autoship',
+  2: 'club'
 };
 
 const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
