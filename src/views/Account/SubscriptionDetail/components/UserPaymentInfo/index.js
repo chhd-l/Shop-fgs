@@ -361,6 +361,7 @@ const UserPaymentInfo = ({
       {/* fr ru tr  us: 368369*/}
       {/* ['fr', 'ru', 'tr'].includes(country) */}
       {promotionsArr?.length > 0 &&
+        ['fr', 'ru', 'tr'].includes(country) &&
         ['club'].includes(subDetail?.subscriptionType?.toLowerCase()) && (
           <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
             <div className="h-100 border border-d7d7d7 p-5">
