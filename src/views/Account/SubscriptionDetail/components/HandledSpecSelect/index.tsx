@@ -17,6 +17,7 @@ interface Props {
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   defaultSkuNo?: string;
   updatedChangeSku?: Function;
+  inModal?:boolean;
 }
 
 const HandledSpecSelect = ({
@@ -29,6 +30,7 @@ const HandledSpecSelect = ({
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo,
+  inModal,
   updatedChangeSku = () => { }
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } =
@@ -150,7 +152,7 @@ const HandledSpecSelect = ({
       if (it?.isEmpty) {
         it.name2 = 'details.outStock'
       }
-      it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||it?.isDisabled
+      it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||(inModal && it?.isDisabled)
     }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
