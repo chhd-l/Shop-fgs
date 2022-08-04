@@ -343,6 +343,7 @@ class Form extends React.Component {
       if (res?.context?.timeSlots?.length) {
         flag = true; // 标记
         let robj = res.context.timeSlots;
+        console.log({ robj });
 
         const isBelongDelievryDate = () => {
           let result = find(robj, (item) => item.date == obj.deliveryDate)
