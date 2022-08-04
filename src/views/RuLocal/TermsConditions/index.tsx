@@ -49,7 +49,7 @@ const TermsConditions = () => {
             </p>
             <p>
               «Политики конфиденциальности», постоянно находящейся по адресу:{' '}
-              <a href="http://www.mars.com/global/policies/privacy/pp-russian.aspx">
+              <a href="//www.mars.com/global/policies/privacy/pp-russian.aspx">
                 <strong>
                   http://www.mars.com/global/policies/privacy/pp-russian.aspx
                 </strong>
@@ -59,7 +59,7 @@ const TermsConditions = () => {
             <p>
               «Условий пользования web-сайтов группы компаний Марс», постоянно
               находящихся по адресу: <br />
-              <a href="http://www.mars.com/global/policies/legal/ld-russian.aspx">
+              <a href="//www.mars.com/global/policies/legal/ld-russian.aspx">
                 <strong>
                   http://www.mars.com/global/policies/legal/ld-russian.aspx
                 </strong>
@@ -249,7 +249,7 @@ const TermsConditions = () => {
             </p>
             <p>
               «Политикой конфиденциальности», постоянно находящейся по адресу:{' '}
-              <a href="http://www.mars.com/global/policies/privacy/pp-russian.aspx">
+              <a href="//www.mars.com/global/policies/privacy/pp-russian.aspx">
                 <strong>
                   http://www.mars.com/global/policies/privacy/pp-russian.aspx
                 </strong>
@@ -258,7 +258,7 @@ const TermsConditions = () => {
             <p>
               «Условиями пользования web-сайтов группы компаний Марс», постоянно
               находящимися по адресу: <br />
-              <a href="http://www.mars.com/global/policies/legal/ld-russian.aspx">
+              <a href="//www.mars.com/global/policies/legal/ld-russian.aspx">
                 <strong>
                   http://www.mars.com/global/policies/legal/ld-russian.aspx
                 </strong>
@@ -1089,7 +1089,7 @@ const TermsConditions = () => {
               полученных персональных данных. Сведения о реализуемых требованиях
               к защите персональных данных изложены в виде отдельного документа
               «Политика конфиденциальности», постоянно находящегося по адресу{' '}
-              <a href="http://www.mars.com/global/policies/privacy/pp-russian.aspx">
+              <a href="//www.mars.com/global/policies/privacy/pp-russian.aspx">
                 <strong>
                   http://www.mars.com/global/policies/privacy/pp-russian.aspx
                 </strong>

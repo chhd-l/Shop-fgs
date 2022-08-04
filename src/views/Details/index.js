@@ -461,7 +461,6 @@ class Details extends React.Component {
         });
       }
     });
-
     // bundle商品的ga初始化填充
     if (!details.goodsSpecs) {
       this.getPdpScreenLoadData();
@@ -483,13 +482,12 @@ class Details extends React.Component {
       clinicStore,
       selectPrice
     };
-    // cc.js加载
-    this.loadWidgetIdBtn(barcode);
-
     //hubGa初始化页面埋点,不是点击的事件才调用
     if (!clickEvent) {
       hubGAProductDetailPageView(details, pdpScreenLoadData);
     }
+    // cc.js加载
+    this.loadWidgetIdBtn(barcode);
 
     this.setState({
       barcode

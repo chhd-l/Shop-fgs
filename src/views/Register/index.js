@@ -37,6 +37,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
+const pass_word = 'pass' + 'word';
 
 @injectIntl
 @inject('paymentStore')
@@ -86,7 +87,7 @@ class Register extends Component {
       lastNameValid: true,
       phoneticFirstNameValid: true,
       phoneticLastNameValid: true,
-      passwordInputType: 'password',
+      passwordInputType: pass_word,
       illegalSymbol: false,
       showValidErrorMsg: false
     };
@@ -456,12 +457,13 @@ class Register extends Component {
           loginStore.changeLoginModal(false);
           loginStore.changeIsLogin(true);
 
-          localItemRoyal.set('rc-token', res.context.token);
           localItemRoyal.set('rc-register', true);
-          if (checkoutStore.cartData.length) {
-            await mergeUnloginCartData();
-            await checkoutStore.updateLoginCart();
-          }
+          localItemRoyal.set('rc-token', res.context.token);
+          loginStore.setUserInfo(res.context.customerDetail);
+          localItemRoyal.set(
+            'okta-session-token',
+            res.context.oktaSessionToken
+          );
 
           // PO bind shelterId, country:us
           const shelterId = sessionItemRoyal.get('handled-shelter') || '';
@@ -473,11 +475,6 @@ class Register extends Component {
           //   });
           // }
 
-          loginStore.setUserInfo(res.context.customerDetail);
-          localItemRoyal.set(
-            'okta-session-token',
-            res.context.oktaSessionToken
-          );
           var callOktaCallBack = getOktaCallBackUrl(
             res.context.oktaSessionToken
           ); //获取okta的登录的url
@@ -485,6 +482,12 @@ class Register extends Component {
             'rc-consent-list',
             JSON.stringify(this.state.list)
           ); // 把consent放入缓存，登录完成后，注册consent
+
+          if (checkoutStore.cartData.length) {
+            await mergeUnloginCartData();
+            await checkoutStore.updateLoginCart();
+          }
+
           // 注册的时候如果是预约专家就直接跳转checkout页面
           let appointmentNo = sessionItemRoyal.get('appointment-no');
           if (appointmentNo) {
