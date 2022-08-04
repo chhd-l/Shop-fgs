@@ -193,6 +193,7 @@ class RegisterRequired extends Component {
       styleObj: { display: 'none' },
       isLoading: true
     });
+    localItemRoyal.remove('rc-register');
     try {
       let customerId =
         loginStore.userInfo?.customerId ||
