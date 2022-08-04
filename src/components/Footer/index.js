@@ -39,7 +39,7 @@ class Footer extends React.Component {
       intl: { messages }
     } = this.props;
 
-    if (isHub || window.__.env.REACT_APP_IS_RULOCAL) {
+    if (isHub || window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) {
       queryApiFromSessionCache({
         sessionKey: 'footer-hub',
         api: getFooter
@@ -126,7 +126,9 @@ class Footer extends React.Component {
   }
   get showHubFooter() {
     const { hubFooterInfo } = this.state;
-    return (isHub || window.__.env.REACT_APP_IS_RULOCAL) && hubFooterInfo;
+    return (
+      (isHub || window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) && hubFooterInfo
+    );
   }
   scrollToTop = () => {
     const widget = document.querySelector('#page-top');
@@ -144,7 +146,12 @@ class Footer extends React.Component {
     const { showFooter } = this.props;
     return showFooter ? (
       <FooterWrapper
-        className={cn('rc-bg-colour--interface-dark')}
+        className={cn(
+          'rc-bg-colour--interface-dark',
+          window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
+            ? 'ui-custom-hub ru-local-footer'
+            : ''
+        )}
         id="footer"
         data-tms="Footer"
       >
@@ -178,7 +185,7 @@ class Footer extends React.Component {
             )
           ) : null}
         </div>
-        {window.__.env.REACT_APP_IS_RULOCAL ? (
+        {window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
           <div
             className="col-span-12"
             dangerouslySetInnerHTML={{ __html: marsFooter }}
@@ -189,7 +196,11 @@ class Footer extends React.Component {
         {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) && (
           <div
             className="cookieSettingBox bg-white"
-            style={{ visibility: 'hidden' }}
+            style={{
+              visibility: window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
+                ? 'visible'
+                : 'hidden'
+            }}
           >
             <button id="ot-sdk-btn" className="ot-sdk-show-settings">
               <FormattedMessage id="footer.cookieSettings" />
