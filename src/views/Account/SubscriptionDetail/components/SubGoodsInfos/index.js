@@ -34,7 +34,8 @@ const SubGoodsInfos = ({
   getMinDate,
   isShowClub,
   intl,
-  configStore
+  configStore,
+  showLoading
 }) => {
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const isActive = subDetail.subscribeStatus === 'ACTIVE';
@@ -87,9 +88,9 @@ const SubGoodsInfos = ({
           firstShow: !triggerShowChangeProduct.firstShow,
           goodsInfo: subDetail?.goodsInfo,
           isShowModal: true,
-          notPet: autoshipSubStatus ? true : false,
-          showLoading: true
-        })
+          notPet: autoshipSubStatus ? true : false
+        }),
+        showLoading: true
       });
     } else {
       setState({ triggerShowAddNewPet: true });
@@ -268,7 +269,7 @@ const SubGoodsInfos = ({
                     <Button
                       className="w-full"
                       onClick={() => handleClickChangeProduct(index)}
-                      loading={triggerShowChangeProduct.showLoading}
+                      loading={showLoading}
                     >
                       <FormattedMessage id="subscriptionDetail.changeProduct" />
                     </Button>
@@ -523,7 +524,7 @@ const SubGoodsInfos = ({
                             <Button
                               className=" mt-cs-16"
                               onClick={() => handleClickChangeProduct(index)}
-                              loading={triggerShowChangeProduct.showLoading}
+                              loading={showLoading}
                             >
                               <FormattedMessage id="subscriptionDetail.changeProduct" />
                             </Button>

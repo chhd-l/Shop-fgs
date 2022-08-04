@@ -118,60 +118,6 @@ export const ruLocalNavigation = {
     },
     {
       MenuItems: [
-        // {
-        //     "Image":{
-        //         "Url":"https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=320\u0026auto=compress 320w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=360\u0026auto=compress 360w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=640\u0026auto=compress 640w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=720\u0026auto=compress 720w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=960\u0026auto=compress 960w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=1280\u0026auto=compress 1280w,https://cdn.royalcanin-weshare-online.io/EFakeXkBBKJuub5qRK_T/v3/960x690-2?w=1440\u0026auto=compress 1440w",
-        //         "AltText":""
-        //     },
-        //     "PrimaryLink":{
-        //         "Url":"/ru/shop/club-subscription",
-        //         "Text":"Вступить"
-        //     },
-        //     "Title":"Программа ROYAL CANIN® КЛУБ",
-        //     "Subtitle":"",
-        //     "Type":"PromotionalMenuItem"
-        // },
-        {
-          Icon: '',
-          Link: {
-            Url: '/ru/shop/dogs',
-            Text: 'Интернет-магазин ROYAL CANIN®'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/local/',
-            Text: 'Найти зоомагазин '
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/vc/',
-            Text: 'Найти ветеринарную клинику'
-          },
-          Type: 'MenuItem'
-        },
-        {
-          Icon: '',
-          Link: {
-            Url: 'https://stores.royal-canin.ru/stores/',
-            Text: 'Найти интернет-магазин партнера '
-          },
-          Type: 'MenuItem'
-        }
-      ],
-      Link: {
-        Url: '##',
-        Text: 'Где купить'
-      },
-      Type: 'MenuGroup'
-    },
-    {
-      MenuItems: [
         {
           Title: 'Остались вопросы?',
           Content:
@@ -186,7 +132,7 @@ export const ruLocalNavigation = {
         },
         {
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
+            Url: '/contact-us',
             Text: null
           },
           Subtitle: 'По e-mail ',
@@ -195,7 +141,7 @@ export const ruLocalNavigation = {
         },
         {
           Link: {
-            Url: 'https://stgwedding.royalcanin.com/ru/about-us/faq',
+            Url: '/about-us/faq',
             Text: null
           },
           Subtitle: 'Часто задаваемые вопросы ',
@@ -278,7 +224,7 @@ export const ruLocalFooter = {
     {
       Icon: 'user',
       Link: {
-        Url: '/ru/shop/account',
+        Url: '/account',
         Text: 'Личный кабинет'
       },
       Type: 'MenuItem'
@@ -286,7 +232,7 @@ export const ruLocalFooter = {
     {
       Icon: 'cart',
       Link: {
-        Url: '/ru/shop/cart',
+        Url: '/cart',
         Text: 'Корзина'
       },
       Type: 'MenuItem'
@@ -315,7 +261,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/cats/retail-products',
-            Text: 'Повседневные корма для кошек'
+            Text: 'Ассортимент продуктов для кошек'
           },
           Type: 'MenuItem'
         },
@@ -323,7 +269,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/dogs/retail-products',
-            Text: 'Повседневные корма для собак'
+            Text: 'Ассортимент продуктов для собак'
           },
           Type: 'MenuItem'
         },
@@ -356,7 +302,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/club',
-            Text: 'Клуб*'
+            Text: 'Клуб'
           },
           Type: 'MenuItem'
         },
@@ -364,7 +310,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/about-us/our-history',
-            Text: 'Наша история*'
+            Text: 'Наша история'
           },
           Type: 'MenuItem'
         },
@@ -372,7 +318,7 @@ export const ruLocalFooter = {
           Icon: '',
           Link: {
             Url: '/about-us/special-works-conditions',
-            Text: 'Специальная оценка условий труда*'
+            Text: 'Специальная оценка условий труда'
           },
           Type: 'MenuItem'
         },
@@ -395,51 +341,9 @@ export const ruLocalFooter = {
       ],
       Type: 'MenuGroup'
     },
-
-    // {
-    //   Link: {
-    //     Url: 'https://stores.royal-canin.ru/stores/',
-    //     Text: 'Где купить'
-    //   },
-    //   MenuItems: [
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: 'https://stores.royal-canin.ru/stores/local/',
-    //         Text: 'Найти зоомагазин '
-    //       },
-    //       Type: 'MenuItem'
-    //     },
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: 'https://stores.royal-canin.ru/stores/vc/',
-    //         Text: 'Найти ветеринарную клинику'
-    //       },
-    //       Type: 'MenuItem'
-    //     },
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: '/ru/shop',
-    //         Text: 'Интернет-магазин ROYAL CANIN®'
-    //       },
-    //       Type: 'MenuItem'
-    //     },
-    //     {
-    //       Icon: '',
-    //       Link: {
-    //         Url: '/ru/shop/club-subscription',
-    //         Text: 'Клуб'
-    //       },
-    //       Type: 'MenuItem'
-    //     }
-    //   ],
-    //   Type: 'MenuGroup'
-    // },
     {
       Link: {
-        Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
+        Url: '/contact-us',
         Text: 'Связаться с нами'
       },
       MenuItems: [
@@ -487,18 +391,7 @@ export const ruLocalFooter = {
       Type: 'MenuGroup'
     }
   ],
-  LocalMarketSettings: {
-    // ContactUsUrl: {
-    //   Url: 'https://stgwedding.royalcanin.com/ru/contact-us',
-    //   Text: 'Связаться с нами'
-    // },
-    // EnableWeChat: false,
-    // WeChatQrCode: {
-    //   Url: null,
-    //   AltText: ''
-    // },
-    // ContactPhone: '8 800 200 37 35'
-  }
+  LocalMarketSettings: {}
 };
 
 export const marsFooter = `<div class="col-span-12 ru-local-marsfooter">

@@ -45,10 +45,7 @@ const ChangeProduct = () => {
     }
     setShowModalArr(newArr);
     setState({
-      triggerShowChangeProduct: {
-        ...triggerShowChangeProduct,
-        showLoading: false
-      }
+      showLoading: false
     });
   };
   const [goodsDetails, setGoodsDetails] = useState({});

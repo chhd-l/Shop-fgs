@@ -1,0 +1,87 @@
+.ru-local-contact-us {
+    .content-wrap {
+        background-color: #ffffff;
+        margin-top: 0px;
+        margin-bottom: 0.5em;
+    }
+
+    .content-inner {
+        margin-top: 0px;
+        margin-bottom: 0.5em;
+    }
+
+    .content-block-variation-1 {
+        padding: 35px 0 45px;
+        .content-container {
+            max-width: 900px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            margin: auto;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            .text-container {
+                -webkit-box-flex: 1;
+                -ms-flex-positive: 1;
+                flex-grow: 1;
+                margin-left: 20px;
+            }
+            .img-container {
+                -ms-flex-negative: 0;
+                flex-shrink: 0;
+                max-width: 300px;
+                height: 180px;
+            }
+        }
+    
+    }
+    .a-link-color {
+        color: -webkit-link;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    main a:-webkit-any-link {
+        color: -webkit-link;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    p {
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    }
+
+    @media (max-width: 768px) {
+        .content-block-variation-1.rc_center_on_mobile .rc-container-text {
+            text-align: center;
+        }
+        .content-block-variation-1 .content-container {
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: reverse;
+            -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+            -webkit-box-align: unset;
+            -ms-flex-align: unset;
+            align-items: unset;
+            .img-container {
+                max-width: unset;
+                height: unset;
+                width: 100%;
+                margin-top: 10px;
+                padding: 0 30px;
+                img{
+                    margin: auto;
+                    width: auto;
+                    height: auto;
+                }
+            }
+        }
+    }
+}

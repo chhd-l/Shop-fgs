@@ -71,7 +71,7 @@ const LoginButton = ({
       getUserInfoDownCallback
     );
     // }
-    if (isGetUserInfoDown && getUserInfoDownCallback) {
+    if ((isGetUserInfoDown || window.__.env.REACT_APP_FGS_SELF_REGISTER) && getUserInfoDownCallback) {
       getUserInfoDownCallback();
     }
   }, [isGetUserInfoDown, getUserInfoDownCallback]);

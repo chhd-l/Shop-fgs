@@ -207,7 +207,7 @@ class RegisterRequired extends Component {
       }
       const result = await findUserConsentList({
         customerId,
-        oktaToken: localItemRoyal.get('oktaToken')
+        oktaToken: localItemRoyal.get('oktaToken') || ''
       });
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
