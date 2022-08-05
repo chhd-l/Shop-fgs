@@ -103,10 +103,8 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
     }
   };
 
-  const updatedPriceOrCode = ({ clickEvent }) => {
-    if (clickEvent) {
-      checkStockNotice(details);
-    }
+  const updatedChangeSku = () => {
+    checkStockNotice(details);
   };
 
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
@@ -375,7 +373,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
   };
 
   const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
-  let seleced = quantity < stock && (skuPromotions === 'club' || autoshipType);
+  let seleced = quantity < stock && (skuPromotions == 'club' || autoshipType);
   let outOfStockStatus = quantity > stock;
   return (
     <React.Fragment>
@@ -453,6 +451,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
                       disabledGoodsInfoIds={subDetail.goodsInfo.map(
                         (g) => g.goodsInfoVO.goodsInfoId
                       )}
+                      inModal={inModal}
                       onIsSpecAvailable={(status) => {
                         setIsSpecAvailable(status);
                       }}
@@ -460,6 +459,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
                       updatedSku={matchGoods}
                       canSelectedOutOfStock={true}
                       canSelectedWhenAllSpecDisabled={true}
+                      updatedChangeSku={updatedChangeSku}
                     />
                     {/* <div className="absolute bottom-4 right-12">
                       <InstockStatusComp
@@ -628,7 +628,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
               >
                 <FormattedMessage id="Notify me" />
               </Button>
-            ) : isNotInactive && !alreadyNotice ? (
+            ) : isNotInactive && !outOfStockStatus ? (
               <Button
                 size="small"
                 type="primary"

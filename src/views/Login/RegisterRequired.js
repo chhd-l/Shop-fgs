@@ -193,6 +193,7 @@ class RegisterRequired extends Component {
       styleObj: { display: 'none' },
       isLoading: true
     });
+    localItemRoyal.remove('rc-register');
     try {
       let customerId =
         loginStore.userInfo?.customerId ||
@@ -202,13 +203,12 @@ class RegisterRequired extends Component {
         loginStore.userInfo?.customerId,
         localItemRoyal.get('rc-userinfo')?.customerId
       );
-      debugger;
       if (!customerId) {
         return;
       }
       const result = await findUserConsentList({
         customerId,
-        oktaToken: localItemRoyal.get('oktaToken')
+        oktaToken: localItemRoyal.get('oktaToken') || ''
       });
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {

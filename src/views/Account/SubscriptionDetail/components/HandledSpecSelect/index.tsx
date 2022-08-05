@@ -17,6 +17,8 @@ interface Props {
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   defaultSkuNo?: string;
   updatedChangeSku?: Function;
+  inModal?:boolean;
+  showCurrentOutOfStockSku?:string;
 }
 
 const HandledSpecSelect = ({
@@ -29,12 +31,12 @@ const HandledSpecSelect = ({
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo,
+  inModal,
   updatedChangeSku = () => { }
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } =
     details;
   const [sizeList, setSizeList] = useState<any[]>([]);
-
   const matchGoods = () => {
     let handledValues = {
       currentUnitPrice: 0,
@@ -110,7 +112,7 @@ const HandledSpecSelect = ({
     updatedSku(handledValues, sizeList);
   };
 
-  const handleChooseSize = (sId: any, sdId: any) => {
+  const handleChooseSize = async(sId: any, sdId: any) => {
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -127,8 +129,9 @@ const HandledSpecSelect = ({
     const skuInfo = goodsInfos.find((item: any) =>
       item.mockSpecDetailIds.includes(specDetailId)
     );
+    await matchGoods();
     updatedChangeSku(skuInfo)
-    matchGoods();
+
   };
 
   useEffect(() => {
@@ -150,7 +153,10 @@ const HandledSpecSelect = ({
       if (it?.isEmpty) {
         it.name2 = 'details.outStock'
       }
-      it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||it?.isDisabled
+      const mockSpecDetailIds = goodsInfos.filter((item: any) => item.goodsInfoId ===defaultSkuId)?.[0]?.mockSpecDetailIds
+      const specId = mockSpecDetailIds.includes(it.specDetailId)
+      it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||(inModal && it?.isDisabled)
+      it.selected = it.selected || specId
     }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);

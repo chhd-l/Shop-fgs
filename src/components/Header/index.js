@@ -43,7 +43,12 @@ const isFromStorePortal = sessionItemRoyal.get('rc-iframe-from-storepotal');
 
 function HeaderContainer({ isScroll, children }) {
   return isScroll ? (
-    <header className={`rc-header`} data-js-header-scroll>
+    <header
+      className={`rc-header ${
+        window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? 'ui-custom-hub' : ''
+      }`}
+      data-js-header-scroll
+    >
       {children}
     </header>
   ) : (
@@ -227,7 +232,8 @@ class Header extends React.Component {
     //         }[this.props.match && this.props.match.path] || ''
     // });
 
-    (window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_IS_RULOCAL
+    (window.__.env.REACT_APP_HUB ||
+      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
       ? this.initNavigationsForHub
       : this.initNavigations)();
   }
@@ -366,6 +372,15 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    // ru header transition
+    if (window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) {
+      const svgLogo = document.querySelector(
+        '.rc-header__nav.rc-header__nav--primary svg'
+      );
+      document.scrollingElement.scrollTop > document.body.offsetTop + 100
+        ? svgLogo.classList.add('rc-logo--scrolled')
+        : svgLogo.classList.remove('rc-logo--scrolled');
+    }
     // debugger;
     const headerNavigationDom = document.querySelector(
       '.rc-header__nav.rc-header__nav--secondary'
@@ -387,7 +402,6 @@ class Header extends React.Component {
     if (headerNavigationDom) {
       headerNavigationDom.style.display = scrolledDom ? 'none' : 'flex';
     }
-
     let baseEl = document.querySelector('#J_sidecart_container');
     if (!baseEl) {
       return false;
@@ -611,6 +625,7 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top" />
+        {/* ru local header with hub,and hub css */}
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
@@ -666,7 +681,8 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  {window.__.env.REACT_APP_HUB ? (
+                  {window.__.env.REACT_APP_HUB ||
+                  window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
                       handleClickNavItem={this.handleClickNavItem}
@@ -708,7 +724,9 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center mr-0">
                 {showMiniIcons ? (
                   <>
-                    {window.__.env.REACT_APP_HUB && isMobile ? (
+                    {(window.__.env.REACT_APP_HUB ||
+                      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) &&
+                    isMobile ? (
                       <span
                         className={`iconfont icon-search mr-2 icon-search-mini ${
                           showSearchIcon ? 'show-search-icon' : ''
@@ -756,7 +774,8 @@ class Header extends React.Component {
               </nav>
             )}
 
-          {window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_IS_RULOCAL ? (
+          {window.__.env.REACT_APP_HUB ||
+          window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}

@@ -78,7 +78,7 @@ const Cart = loadable(() => import('@/views/Cart'));
 const CartFRBreeder = loadable(() => import('@/views/CartFRBreeder'));
 // const CartInStock = loadable(() => import('@/views/CartInStock'));
 const Payment = loadable(() => import('@/views/Payment'));
-const Checkout = loadable(() => import('@/views/Checkout'));
+// const Checkout = loadable(() => import('@/views/Checkout'));
 const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
@@ -301,6 +301,28 @@ const AssistanceDog = loadable(() =>
 );
 
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
+const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
+const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
+const RuLocalFindProduct = loadable(() =>
+  import('@/views/RuLocal/FindProduct')
+);
+const RuLocalTailoredNutrition = loadable(() =>
+  import('@/views/RuLocal/TailoredNutrition')
+);
+
+const RULocalSpecialWorksConditions = loadable(() =>
+  import('@/views/RuLocal/SpecialWorksConditions')
+);
+
+const RULocalShipmentConditions = loadable(() =>
+  import('@/views/RuLocal/ShipmentConditions')
+);
+
+const RULocalTermsConditions = loadable(() =>
+  import('@/views/RuLocal/TermsConditions')
+);
+
+const RULocalFaq = loadable(() => import('@/views/RuLocal/Faq'));
 
 const YandexMap = loadable(() => import('@/views/YandexMap'));
 const localItemRoyal = window.__.localItemRoyal;
@@ -400,10 +422,6 @@ const RegisterRequired = loadable(() =>
   import('@/views/Login/RegisterRequired')
 );
 
-const SpecialWorksConditions = loadable(() =>
-  import('@/views/RuLocal/SpecialWorksConditions')
-);
-
 const Test = loadable(() => import('@/views/Test'));
 const Survey = loadable(() => import('@/views/Survey'));
 const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
@@ -411,7 +429,11 @@ const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 const RU_Local_OurHistory = loadable(() =>
   import('@/views/RuLocal/OurHistory')
 );
+const RU_Local_Sustainability = loadable(() =>
+  import('@/views/RuLocal/Sustainability')
+);
 
+const RU_Local_OurValues = loadable(() => import('@/views/RuLocal/OurValues'));
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
@@ -535,14 +557,14 @@ const App = () => {
                     return <Cart {...props} />;
                   }}
                 />
-                <Route
+                {/* <Route
                   exact
                   path="/checkoutnew"
                   sensitive
                   render={(props) => (
                     <Checkout key={props.match.params.type} {...props} />
                   )}
-                />
+                /> */}
                 <Route
                   exact
                   path="/checkout"
@@ -573,7 +595,6 @@ const App = () => {
                 />
 
                 <Route exact path="/PayResult" component={PayResult} />
-                <Route exact path="/about-us" component={RuLocalAboutUs} />
                 <Route
                   exact
                   path="/Payu3dsPayResult"
@@ -982,14 +1003,69 @@ const App = () => {
                   exact
                   component={TR_GeneralConditions}
                 />
+
+                <Route
+                  path="/tailored-nutrition"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalTailoredNutrition {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/contact-us"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalContactUs {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/club"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalClub {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/club/find-product"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RuLocalFindProduct {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   path="/About-Us"
                   exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY === 'de'
-                      ? AboutUsDe
-                      : AboutUs
-                  }
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'de':
+                        return <AboutUsDe {...props} />;
+                      case 'ru':
+                        return <RuLocalAboutUs {...props} />;
+                      default:
+                        return <AboutUs {...props} />;
+                    }
+                  }}
+                  // component={
+                  //   window.__.env.REACT_APP_COUNTRY === 'de'
+                  //     ? AboutUsDe
+                  //     : AboutUs
+                  // }
                 />
                 <Route
                   path="/myroyalcanin"
@@ -1207,7 +1283,18 @@ const App = () => {
                   exact
                   path="/about-us/our-history"
                   component={RU_Local_OurHistory}
-                ></Route>
+                />
+                <Route
+                  exact
+                  path="/about-us/our-values"
+                  component={RU_Local_OurValues}
+                />
+                <Route
+                  exact
+                  path="/about-us/sustainability"
+                  component={RU_Local_Sustainability}
+                />
+
                 <Route
                   path="/list/:category"
                   render={(props) => (
@@ -1219,7 +1306,47 @@ const App = () => {
                 />
                 <Route
                   path="/about-us/special-works-conditions"
-                  component={SpecialWorksConditions}
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalSpecialWorksConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/about-us/shipment-conditions"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalShipmentConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/about-us/terms-and-conditions"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalTermsConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/about-us/faq"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <RULocalFaq {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route

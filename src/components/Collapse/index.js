@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './index.css';
+import './index.less';
 
 const getCollapsedHeight = function getCollapsedHeight() {
   return {
@@ -19,43 +19,55 @@ const getRealHeight = function getRealHeight(node) {
 const Icon = ({ isActive }) => {
   if (isActive) {
     return (
-      <svg
-        className="icon"
-        style={{
-          width: '1em',
-          height: '1em',
-          verticalAlign: 'middle',
-          fill: 'currentColor',
-          overflow: 'hidden'
-        }}
-        viewBox="0 0 1024 1024"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
+      <span
+        className={`rc-vertical-align h4 icon iconfont collapse-icon`}
+        style={{ right: '0.5rem', height: '28px' }}
       >
-        <path
-          d="M801.171 547.589H222.83c-17.673 0-32-14.327-32-32s14.327-32 32-32h578.341c17.673 0 32 14.327 32 32s-14.327 32-32 32z"
-          fill=""
-        />
-      </svg>
+        &#xe604;
+      </span>
+      // <svg
+      //   className="icon"
+      //   style={{
+      //     width: '1em',
+      //     height: '1em',
+      //     verticalAlign: 'middle',
+      //     fill: 'currentColor',
+      //     overflow: 'hidden'
+      //   }}
+      //   viewBox="0 0 1024 1024"
+      //   version="1.1"
+      //   xmlns="http://www.w3.org/2000/svg"
+      // >
+      //   <path
+      //     d="M801.171 547.589H222.83c-17.673 0-32-14.327-32-32s14.327-32 32-32h578.341c17.673 0 32 14.327 32 32s-14.327 32-32 32z"
+      //     fill=""
+      //   />
+      // </svg>
     );
   }
 
   return (
-    <svg
-      className="icon"
-      style={{
-        width: '1em',
-        height: '1em',
-        verticalAlign: 'middle',
-        fill: 'currentColor',
-        overflow: 'hidden'
-      }}
-      viewBox="0 0 1024 1024"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
+    <span
+      className={` rc-vertical-align h4 icon iconfont collapse-icon`}
+      style={{ right: '1rem', height: '28px' }}
     >
-      <path d="M800 480l-256 0L544 224c0-17.664-14.336-32-32-32s-32 14.336-32 32l0 256L224 480c-17.664 0-32 14.336-32 32s14.336 32 32 32l256 0 0 256c0 17.696 14.336 32 32 32s32-14.304 32-32l0-256 256 0c17.696 0 32-14.336 32-32S817.696 480 800 480z" />
-    </svg>
+      &#xe60f;
+    </span>
+    // <svg
+    //   className="icon"
+    //   style={{
+    //     width: '1em',
+    //     height: '1em',
+    //     verticalAlign: 'middle',
+    //     fill: 'currentColor',
+    //     overflow: 'hidden'
+    //   }}
+    //   viewBox="0 0 1024 1024"
+    //   version="1.1"
+    //   xmlns="http://www.w3.org/2000/svg"
+    // >
+    //   <path d="M800 480l-256 0L544 224c0-17.664-14.336-32-32-32s-32 14.336-32 32l0 256L224 480c-17.664 0-32 14.336-32 32s14.336 32 32 32l256 0 0 256c0 17.696 14.336 32 32 32s32-14.304 32-32l0-256 256 0c17.696 0 32-14.336 32-32S817.696 480 800 480z" />
+    // </svg>
   );
 };
 
@@ -81,7 +93,9 @@ class Panel extends React.Component {
     return (
       <div className="collapse-item">
         <div className="collapse-header" onClick={this.handleClick}>
-          <div style={{ flex: 1 }}>{header}</div>
+          <div style={{ flex: 1 }} className={isActive ? 'active' : ''}>
+            {header}
+          </div>
           <Icon isActive={isActive} />
         </div>
         <div className={`collapse-content`} style={style}>
@@ -152,7 +166,7 @@ class Collapse extends React.Component {
   };
 
   render() {
-    return <div className="collapse">{this.renderItem()}</div>;
+    return <div className="collapse show">{this.renderItem()}</div>;
   }
 }
 

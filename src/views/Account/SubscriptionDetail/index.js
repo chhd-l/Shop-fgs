@@ -72,9 +72,9 @@ class SubscriptionDetail extends React.Component {
         goodsInfo: [],
         firstShow: false,
         isShowModal: false,
-        showBox: false, // 只有一个商品的情况下都需要添加被动更换商品
-        showLoading: false // change product button loading status
+        showBox: false // 只有一个商品的情况下都需要添加被动更换商品
       },
+      showLoading: false, // change product button loading status
       currentChangeProductIdx: 0, // 默认只有一个产品时，设置change product idx为0
       isGift: false,
       remainingsList: [],
@@ -866,7 +866,7 @@ class SubscriptionDetail extends React.Component {
       });
       this.setState({ loading: true });
       if (isChangeSubGoods) {
-        this.subGoodsChange(subDetail);
+        await this.subGoodsChange(subDetail);
       } else {
         await updateDetail(param);
       }
@@ -961,7 +961,8 @@ class SubscriptionDetail extends React.Component {
       errorMsg,
       successMsg,
       slotTimeChanged,
-      currentChangeProductIdx
+      currentChangeProductIdx,
+      showLoading
     } = this.state;
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
@@ -1139,6 +1140,7 @@ class SubscriptionDetail extends React.Component {
                           getMinDate={this.getMinDate}
                           showErrMsg={this.showErrMsg.bind(this)}
                           subDetail={subDetail}
+                          showLoading={showLoading}
                         />
                       </>
 

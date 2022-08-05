@@ -121,7 +121,7 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "test": "node scripts/test.js",
+    "test": "jest --watchAll",
     "start": "dotenv -e .env node scripts/start.js",
     "build": "node scripts/build.js",
     "build:dev": "dotenv -e .env -e .env.development node scripts/build.js",
@@ -132,7 +132,6 @@
     "pub:dev_fr": "npm run build:dev && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@121.36.199.41:/data/nginx/html_fr && rm -rf build_tmp",
     "pub:dev_ru": "npm run build:dev && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@121.36.199.41:/data/nginx/html_ru && rm -rf build_tmp",
     "pub:dev_tr": "npm run build:dev && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@121.36.199.41:/data/nginx/html_tr && rm -rf build_tmp",
-    "jest": "jest --watchAll",
     "cov": "jest --coverage"
   },
   "husky": {
@@ -168,57 +167,6 @@
       "ie 11"
     ]
   },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
-    ],
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jest-environment-jsdom-fourteen",
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "modulePaths": [],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "web.ts",
-      "ts",
-      "web.tsx",
-      "tsx",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ],
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
-    ]
-  },
   "babel": {
     "plugins": [
       "@babel/plugin-syntax-dynamic-import",
@@ -236,6 +184,7 @@
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.18.10",
+    "@types/react-slick": "^0.23.10",
     "autoprefixer": "^9.8.8",
     "compression-webpack-plugin": "^1.1.12",
     "copy-webpack-plugin": "^5.1.2",
