@@ -109,7 +109,7 @@ const CartFRBreeder = ({
   const handleAddCart = async (productLists) => {
     if (loginStore.isLogin) {
       await AddCartItemsMember({
-        paramList: productLists.map((ritem) => ({
+        paramList: productLists.map((item) => ({
           goodsInfoId: item.goodsInfo.goodsInfoId,
           goodsNum: item.recommendationNumber,
           goodsCategory: '',

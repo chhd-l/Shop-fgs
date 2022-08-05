@@ -373,7 +373,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
   };
 
   const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
-  let seleced = quantity < stock && (skuPromotions === 'club' || autoshipType);
+  let seleced = quantity < stock && (skuPromotions == 'club' || autoshipType);
   let outOfStockStatus = quantity > stock;
   return (
     <React.Fragment>
