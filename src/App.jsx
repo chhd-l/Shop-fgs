@@ -53,7 +53,8 @@ import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 // import register from '@/views/Register';
 import Welcome from '@/views/Register/welcome.js';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
-
+// import RCInput from './components/Form/Input';
+// import RCSelect from './components/Form/Downselect';
 const FelinTermsConditions = loadable(() =>
   import('@/views/StaticPage/FelinTermsConditions')
 );
