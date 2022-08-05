@@ -127,7 +127,7 @@ const HandledSpecSelect = ({
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.specDetailId;
     const skuInfo = goodsInfos.find((item: any) =>
-      item.mockSpecDetailIds.includes(specDetailId)
+      item.mockSpecDetailIds?.includes(specDetailId)
     );
     await matchGoods();
     updatedChangeSku(skuInfo)
@@ -154,7 +154,7 @@ const HandledSpecSelect = ({
         it.name2 = 'details.outStock'
       }
       const mockSpecDetailIds = goodsInfos.filter((item: any) => item.goodsInfoId ===defaultSkuId)?.[0]?.mockSpecDetailIds
-      const specId = mockSpecDetailIds.includes(it.specDetailId)
+      const specId = mockSpecDetailIds?.includes(it.specDetailId)
       it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||(inModal && it?.isDisabled)
       it.selected = it.selected || specId
     }))
