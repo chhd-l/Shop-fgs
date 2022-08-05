@@ -18,6 +18,7 @@ interface Props {
   defaultSkuNo?: string;
   updatedChangeSku?: Function;
   inModal?:boolean;
+  showCurrentOutOfStockSku?:string;
 }
 
 const HandledSpecSelect = ({
@@ -36,7 +37,6 @@ const HandledSpecSelect = ({
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } =
     details;
   const [sizeList, setSizeList] = useState<any[]>([]);
-
   const matchGoods = () => {
     let handledValues = {
       currentUnitPrice: 0,
@@ -153,7 +153,10 @@ const HandledSpecSelect = ({
       if (it?.isEmpty) {
         it.name2 = 'details.outStock'
       }
+      const mockSpecDetailIds = goodsInfos.filter((item: any) => item.goodsInfoId ===defaultSkuId)?.[0]?.mockSpecDetailIds
+      const specId = mockSpecDetailIds.includes(it.specDetailId)
       it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||(inModal && it?.isDisabled)
+      it.selected = it.selected || specId
     }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
