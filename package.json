@@ -121,7 +121,7 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest",
     "start": "dotenv -e .env node scripts/start.js",
     "build": "node scripts/build.js",
     "build:dev": "dotenv -e .env -e .env.development node scripts/build.js",
