@@ -24,7 +24,6 @@ interface Aa {
   cyberPayParam: any;
   isFromFelin: any;
   convenienceStore: any;
-  subForm: any;
 }
 
 /**
@@ -32,7 +31,7 @@ interface Aa {
  * 不同情况预览不同规则
  */
 const PaymentPanelInfoPreview = ({
-  paymentStoreNew: { curPayWayInfo },
+  paymentStoreNew: { curPayWayInfo, subForm },
   checkoutStore,
   ...rest
 }: Props) => {
@@ -54,9 +53,7 @@ const PaymentPanelInfoPreview = ({
     // @ts-ignore
     isFromFelin,
     // @ts-ignore
-    convenienceStore,
-    // @ts-ignore
-    subForm
+    convenienceStore
   } = rest;
 
   //this.props.paymentStoreNew.saveBillingAddressInfo(form)

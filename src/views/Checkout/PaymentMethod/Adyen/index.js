@@ -8,7 +8,6 @@ import { scrollPaymentPanelIntoView } from '../../Modules/utils';
 @observer
 class AdyenCreditCard extends React.Component {
   static defaultProps = {
-    subBuyWay: '', // once/frequence
     billingJSX: null,
     updateFormValidStatus: () => {},
     supportPaymentMethodsVisibleAtForm: true,
@@ -37,7 +36,6 @@ class AdyenCreditCard extends React.Component {
     }, 3000);
   };
   render() {
-    const { subBuyWay, paymentStoreNew } = this.props;
     const { errorMsg } = this.state;
     const _errJSX = (
       <div
@@ -74,9 +72,7 @@ class AdyenCreditCard extends React.Component {
           ref={this.cardListRef}
           updateSelectedCardInfo={this.updateSelectedCardInfo}
           showErrorMsg={this.showErrorMsg}
-          subBuyWay={subBuyWay}
           supportPaymentMethods={this.props.supportPaymentMethods}
-          paymentStoreNew={paymentStoreNew}
           billingJSX={this.props.billingJSX}
           updateFormValidStatus={this.props.updateFormValidStatus}
           supportPoint={this.props.supportPoint}

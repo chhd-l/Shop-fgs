@@ -51,7 +51,6 @@ class AdyenCreditCardList extends React.Component {
   static defaultProps = {
     updateFormValidStatus: () => {},
     updateSelectedCardInfo: () => {},
-    subBuyWay: '', // once/fre
     billingJSX: null,
     supportPoint: false
   };
@@ -584,9 +583,8 @@ class AdyenCreditCardList extends React.Component {
   renderEditForm = () => {
     const {
       showErrorMsg,
-      subBuyWay,
       supportPaymentMethodsVisibleAtForm,
-      paymentStoreNew: { curPayWayInfo }
+      paymentStoreNew: { curPayWayInfo, subForm }
     } = this.props;
     const { cardList } = this.state;
     return (
@@ -599,8 +597,8 @@ class AdyenCreditCardList extends React.Component {
         showSaveBtn={false}
         isOnepageCheckout={true}
         isShowEnableStoreDetails={this.isLogin}
-        mustSaveForFutherPayments={subBuyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
-        key={`${subBuyWay}|${curPayWayInfo?.code}`}
+        mustSaveForFutherPayments={subForm.buyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
+        key={`${subForm.buyWay}|${curPayWayInfo?.code}`}
         showCancelBtn={false}
         updateFormVisible={(val) => {
           this.setState({ formVisible: val });

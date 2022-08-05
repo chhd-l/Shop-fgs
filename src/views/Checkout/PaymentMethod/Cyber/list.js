@@ -47,7 +47,6 @@ class CyberCardList extends React.Component {
   static defaultProps = {
     updateFormValidStatus: () => {},
     updateSelectedCardInfo: () => {},
-    subBuyWay: '', // once/fre
     billingJSX: null
   };
   constructor(props) {
