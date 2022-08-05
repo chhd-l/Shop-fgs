@@ -10,3 +10,4 @@ package-lock.json
 .vscode
 demo_index.html
 .templates
+jest.config.js
