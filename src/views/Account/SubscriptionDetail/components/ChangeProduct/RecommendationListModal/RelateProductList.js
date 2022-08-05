@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { ChangeProductContext } from '../index';
 
 function ListItemForDefault(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
+  const { item } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -131,6 +131,8 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   const [searchFilter, setSearchFilter] = useState('');
   const [resetList, setResetList] = useState(false);
   const [goodsFilterVOList, setGoodsFilterVOList] = useState([]);
+  const [isClearItem, setIsClearItem] = useState(false);
+
   const ChangeProductValue = useContext(ChangeProductContext);
   const { showProdutctDetail, errMsg } = ChangeProductValue;
 
@@ -157,6 +159,12 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
       getProductLists();
     }
   }, [resetList, defaultFilterSearchForm]);
+
+  useEffect(() => {
+    if (isClearItem && defaultFilterSearchForm?.attrList?.length < 1) {
+      setResetList(true);
+    }
+  }, [isClearItem, defaultFilterSearchForm]);
 
   useEffect(() => {
     // Filter the product list by the attribute of the main product
@@ -464,14 +472,12 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
     setInitingFilter(false);
   };
 
-  const handleSelectedFilterPref = (search) => {
+  const handleSelectedFilterPref = (search, isClearItemClick) => {
+    setIsClearItem(isClearItemClick);
     setSearchFilter(search);
     let filters = [];
     // 解析prefn/prefv, 匹配filter, 设置默认选中值
     const prefnNum = (search.match(/prefn/gi) || []).length;
-    if (prefnNum === 0) {
-      setResetList(true);
-    }
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(
         funcUrl({ name: `prefn${index + 1}`, customSearch: search.substr(1) })
@@ -608,6 +614,8 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
       </ListItemForDefault>
     ));
 
+  console.log(defaultFilterSearchForm, 'defaultFilterSearchForm==');
+
   return (
     <>
       <div>
@@ -654,13 +662,6 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
                   key={`2-${filterList.length}`}
                   notUpdateRouter={true}
                   inputLabelKey={2}
-                  // hanldePriceSliderChange={
-                  //   this.hanldePriceSliderChange
-                  // }
-                  // markPriceAndSubscriptionLangDict={
-                  //   markPriceAndSubscriptionLangDict
-                  // }
-                  // baseSearchStr={baseSearchStr}
                   getProductList={initProductList}
                   prefnParamListSearch={prefnParamListFromSearch}
                   selectedFilterPref={handleSelectedFilterPref}

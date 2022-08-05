@@ -267,7 +267,7 @@ class Filter extends React.Component {
   };
 
   handleClearItemFilter = (router) => {
-    this.props.selectedFilterPref(router?.search);
+    this.props.selectedFilterPref(router?.search, true);
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
