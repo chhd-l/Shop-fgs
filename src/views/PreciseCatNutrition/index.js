@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
 import './index.less';
@@ -18,8 +18,6 @@ import HelpComponents from './Components/HelpComponents';
 import LongBanner from './Components/LongBanner';
 import AboutPet from './aboutPet';
 import { Canonical } from '@/components/Common';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Divider() {
   return (

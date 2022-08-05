@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import {
   getFrequencyDict,
-  getDeviceType,
+  isMobile,
   getClubLogo,
   formatDate
 } from '@/utils/utils';
@@ -10,7 +10,7 @@ import LazyLoad from 'react-lazyload';
 import { getSubListForPet } from '@/api/subscription';
 import { changeSubscriptionGoodsByPets } from '@/api/pet';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { Button } from '@/components/Common';
@@ -23,7 +23,6 @@ const LinkedSubs = (props) => {
   let [btnLoading, setBtnLoading] = useState(false);
   let [isShowAll, setIsShowAll] = useState(false);
   const { loading, errorMsg } = props;
-  const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
     props.setState({ loading: true });
     // let param = {

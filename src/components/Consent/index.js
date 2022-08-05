@@ -83,9 +83,6 @@ const TrGuestCheckoutText = () => {
 class Consent extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isMobile: true
-    };
     this.renderCheckBox = this.renderCheckBox.bind(this);
   }
   componentDidMount() {}

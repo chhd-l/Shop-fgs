@@ -1,8 +1,5 @@
 import React from 'react';
-import { getDeviceType } from '@/utils/utils';
-
-const isMobilePhone = getDeviceType() === 'H5';
-
+import { isMobile as isMobilePhone } from '@/utils/utils';
 class Index extends React.Component {
   constructor(props) {
     super(props);

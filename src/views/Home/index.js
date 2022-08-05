@@ -13,11 +13,7 @@ import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
 import { TopAds, Ads } from './ad';
 import { Advantage, JpAdvantage } from './advantage';
-import {
-  getDeviceType,
-  getOktaCallBackUrl,
-  optimizeImage
-} from '@/utils/utils';
+import { isMobile, getOktaCallBackUrl, optimizeImage } from '@/utils/utils';
 import './index.css';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
@@ -33,7 +29,6 @@ import advantageIconList from './modules/advantageIconList';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
 function Divider() {

@@ -5,14 +5,17 @@ import { inject } from 'mobx-react';
 import { Button } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
+import {
+  isMobile as isMobilePhone,
+  formatMoney,
+  optimizeImage
+} from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import InlineRatings from '@/components/BazaarVoice/inlineRatings';
 import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
 import './index.less';
 import catSpecImg from '@/assets/images/cats-spec.png';
 
-const isMobilePhone = getDeviceType() === 'H5';
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=175&auto=compress&fm=jpg';
 

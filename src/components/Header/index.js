@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
 import { toJS } from 'mobx';
-import { getDeviceType, generateOptions, unique } from '@/utils/utils';
+import { isMobile, generateOptions, unique } from '@/utils/utils';
 import {
   getPrescriptionById,
   getPrescriberByEncryptCode,
@@ -37,7 +37,6 @@ import { isCountryMx } from '@/utils/country';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const isFromStorePortal = sessionItemRoyal.get('rc-iframe-from-storepotal');
 

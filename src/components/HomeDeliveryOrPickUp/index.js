@@ -17,7 +17,7 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
-import { validData, formatMoney, getDeviceType } from '@/utils/utils';
+import { validData, formatMoney, isMobile } from '@/utils/utils';
 import {
   pickupQueryCity,
   pickupQueryCityFee,
@@ -27,7 +27,6 @@ import IMask from 'imask';
 import { Button } from '@/components/Common';
 import './index.less';
 
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('configStore', 'paymentStore')
 @injectIntl

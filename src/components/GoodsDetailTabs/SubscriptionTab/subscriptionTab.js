@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { optimizeImage } from '@/utils/utils';
 
@@ -21,7 +21,6 @@ export default function SubscriptionTab() {
   const scrollToTop = () => {
     window && window.scrollTo(0, 0);
   };
-  const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
   return (
     <div className="new-subscription-tab">

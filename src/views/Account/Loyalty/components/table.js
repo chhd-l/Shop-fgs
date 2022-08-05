@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { getDeviceType } from '@/utils/utils';
-import { format } from 'date-fns';
-const isMobile = getDeviceType() !== 'PC';
+import { isMobile } from '@/utils/utils';
 import './table.less';
 
 const Table = ({ data }) => {

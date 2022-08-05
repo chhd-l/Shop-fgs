@@ -19,7 +19,7 @@ import { changeSubscriptionDetailPets } from '@/api/subscription';
 import { addPet, delPets, editPets, upLoadPetsImage } from '@/api/pet';
 import {
   getZoneTime,
-  getDeviceType,
+  isMobile,
   getDictionary,
   handleDateForIos
 } from '@/utils/utils';
@@ -111,7 +111,6 @@ const PetForms = ({
   const notUsUk =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
     window.__.env.REACT_APP_COUNTRY !== 'uk';
-  const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
   const isInputDisabled =
     currentPetParam?.petsBreed === 'unknown Breed' ? true : false;

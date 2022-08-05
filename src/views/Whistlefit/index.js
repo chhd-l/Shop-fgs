@@ -25,14 +25,13 @@ import {
 import { GAWhistleFitButtonClick } from '@/utils/GA';
 import './index.less';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import HeroCarousel from './components/carousel/index2';
 import { seoHoc } from '@/framework/common';
 import { Canonical, Button } from '@/components/Common';
 //import HeroCarousel from '@/components/HeroCarousel';
 
 const PAGE_NUM = '121313';
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')

@@ -20,12 +20,11 @@ import { getDetailsBySpuNo } from '@/api/details';
 import Loading from '@/components/Loading';
 import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import { getDeliveryDateAndTimeSlot, checkPickUpActive } from '@/api/address';
-
 import {
   getRation,
   handleDateForIos,
   findKeyFromObject,
-  getDeviceType
+  isMobile
 } from '@/utils/utils';
 import GiftList from './components/GiftList';
 import { Link } from 'react-router-dom';
@@ -52,7 +51,6 @@ import { Canonical, Button, Modal } from '@/components/Common';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 @inject('configStore', 'paymentStore', 'loginStore')
 @injectIntl

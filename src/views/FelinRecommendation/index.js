@@ -11,7 +11,6 @@ import recommendation2 from '@/assets/images/fr_recommendation2.png';
 import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
 import ImageMagnifier from '@/components/ImageMagnifierForUS';
-import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
@@ -22,7 +21,11 @@ import {
 } from '@/framework/cart';
 import Modal from './components/Modal';
 import { funcUrl } from '@/lib/url-utils';
-import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
+import {
+  distributeLinktoPrecriberOrPaymentPage,
+  isMobile,
+  formatMoney
+} from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
@@ -81,7 +84,6 @@ class FelinRecommendation extends React.Component {
       },
       outOfStockProducts: [],
       inStockProducts: [],
-      isMobile: false,
       currentBenefit: ''
     };
     this.helpContentText = {
@@ -100,11 +102,8 @@ class FelinRecommendation extends React.Component {
       phoneDes2: '8h30-12h30/14h-17h'
     };
   }
-
-  componentWillUnmount() {}
   async componentDidMount() {
     let id = this.props.match.params.id;
-    this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
     let couponCode = funcUrl({ name: 'couponCode' });
     let noLink = funcUrl({ name: 'noLink' }); //兼容不跳转页面方便调试
@@ -552,7 +551,7 @@ class FelinRecommendation extends React.Component {
     console.log('props', this.props);
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
-    let { productList, activeIndex, currentModalObj, isMobile } = this.state;
+    let { productList, activeIndex, currentModalObj } = this.state;
     let MaxPrice = productList[activeIndex]?.goodsInfo.marketPrice;
     let MinPrice = productList[activeIndex]?.goodsInfo.salePrice;
     console.info('productList[activeIndex]', productList[activeIndex]);

@@ -15,8 +15,7 @@ import gifticonnew from '../../ClubLandingPageNew/image/pictosgiftsnew@4x.png';
 import phoneicon from '../../ClubLandingPageNew/image/phoneicon@4x.png';
 import iconsix from '../../ClubLandingPageNew/image/iconsix.png';
 import { isMobileDevice } from 'react-select/dist/index-fe3694ff.cjs.dev';
-import { getDeviceType } from '../../../utils/utils';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { isMobile } from '@/utils/utils';
 
 const toScroll = (anchorName) => {
   let anchorElement = document.getElementById(anchorName);

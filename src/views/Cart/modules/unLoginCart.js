@@ -12,7 +12,7 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
   unique,
-  getDeviceType,
+  isMobile,
   handleRecommendation,
   isShowMixFeeding,
   optimizeImage,
@@ -59,7 +59,6 @@ import { Button, Popover } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 @injectIntl

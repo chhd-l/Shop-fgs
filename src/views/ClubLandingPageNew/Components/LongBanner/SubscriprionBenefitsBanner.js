@@ -1,9 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import './index.css';
-import { getDeviceType, optimizeImage } from '@/utils/utils';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { isMobile, optimizeImage } from '@/utils/utils';
 
 const SubscriptionBenefitsBanner = ({
   SubscriptionItem,

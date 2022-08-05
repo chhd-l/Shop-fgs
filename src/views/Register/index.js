@@ -12,7 +12,7 @@ import {
   mergeUnloginCartData,
   getOktaCallBackUrl,
   bindSubmitParam,
-  getDeviceType
+  isMobile as isMobilePhone
 } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -31,8 +31,7 @@ import './components/notification.less';
 
 // 日本logo
 import jpLogo from '@/assets/images/register/jp_logo.svg';
-const isMobilePhone = getDeviceType() === 'H5';
-console.log(isMobilePhone, 'isMobilePhone');
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;

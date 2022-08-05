@@ -5,7 +5,7 @@ import SideMenu from '@/components/SideMenu';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Canonical } from '@/components/Common';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Table from './components/table';
 import Pagination from './components/pagination';
@@ -17,7 +17,6 @@ import './index.less';
 import { ownerTotalPoints } from '@/api/payment';
 import { myAccountPushEvent } from '@/utils/GA';
 
-const isMobile = getDeviceType() !== 'PC';
 const country = window.__.env.REACT_APP_GA_COUNTRY;
 
 const Loyalty = (props) => {

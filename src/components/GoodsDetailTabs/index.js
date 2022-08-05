@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getDeviceType, optimizeImage } from '@/utils/utils';
+import { isMobile, optimizeImage } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import LazyLoad from 'react-lazyload';
 import landingBanner from './image/landing-banner.jpg';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
@@ -396,7 +395,6 @@ const GoodsDetailTabs = function (props) {
     }
   ];
   let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
-  let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
   let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
   // console.log(goodsDetailSpace, '🐕※');
   if (activeTabIdxList === undefined) {

@@ -24,7 +24,6 @@ import {
   validData,
   matchNamefromDict,
   formatMoney,
-  getDeviceType,
   isCanVerifyBlacklistPostCode,
   formatDate,
   formatJPDate,

@@ -22,7 +22,7 @@ import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import {
   formatMoney,
-  getDeviceType,
+  isMobile,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
@@ -96,8 +96,7 @@ class Help extends React.Component {
       },
       outOfStockProducts: [],
       inStockProducts: [],
-      needLogin: false,
-      isMobile: getDeviceType() == 'PC' ? false : true
+      needLogin: false
     };
   }
 
@@ -539,7 +538,7 @@ class Help extends React.Component {
           <section className="rc-layout-container rc-three-column recommendProduct re-custom p-0 md:py-12	md:px-28">
             {this.state.loading ? (
               <Skeleton color="#f5f5f5" width="100%" height="100%" count="3" />
-            ) : getDeviceType() === 'PC' ? (
+            ) : !isMobile ? (
               productList.length && (
                 <>
                   {/* PC端 begin */}

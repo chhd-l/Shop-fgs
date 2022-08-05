@@ -4,14 +4,12 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import LazyLoad from 'react-lazyload';
-import { getDeviceType, formatMoney } from '@/utils/utils';
+import { isMobile, formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import {
   AddItemMember as AddCartItemMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
   mixFeedingData?: any;

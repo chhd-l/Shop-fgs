@@ -1,11 +1,10 @@
 import React from 'react';
-import { getDeviceType, getElementToPageTop } from '@/utils/utils';
+import { isMobile, getElementToPageTop } from '@/utils/utils';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel';
 import Rate from '@/components/Rate';
 import InstockStatusComp from '@/components/InstockStatusComp';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const createMarkup = (text: 'string') => ({ __html: text });
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 

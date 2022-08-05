@@ -11,7 +11,7 @@ import {
 import HandledSpec from '@/components/HandledSpec/index.tsx';
 import HandledSpecSelect from '../HandledSpecSelect';
 import InstockStatusComp from '@/components/InstockStatusComp';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { formatMoney, isMobile } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import find from 'lodash/find';
 import { ChangeProductContext } from './index';
@@ -27,7 +27,6 @@ import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 const loginStore = stores.loginStore;
 
 const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);

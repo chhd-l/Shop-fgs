@@ -6,7 +6,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { inject, observer } from 'mobx-react';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
@@ -27,7 +27,6 @@ import cn from 'classnames';
 import { handleSizeList } from '@/framework/product';
 
 const localItemRoyal = window.__.localItemRoyal;
-let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const kittyData = [
   {

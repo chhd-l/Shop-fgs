@@ -4,11 +4,9 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { getPrescriberByCode } from '@/api/clinic';
 import './index.less';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import cn from 'classnames';
 import { Button } from '@/components/Common';
-
-const isMobile = getDeviceType() === 'H5';
 
 @inject('clinicStore')
 @injectIntl

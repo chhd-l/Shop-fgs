@@ -9,7 +9,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { getSearch } from '@/api/hub';
 import querySearch from '../mock/search';
 import axios from 'axios';
-import { cancelPrevRequest, optimizeImage, getDeviceType } from '@/utils/utils';
+import { cancelPrevRequest, optimizeImage, isMobile } from '@/utils/utils';
 
 import {
   GAInstantSearchFieldClick,
@@ -107,7 +107,7 @@ export default class Search extends React.Component {
   }
 
   setIosSafariSearchContainerHeight = () => {
-    if (getDeviceType() === 'H5' && !isHub) {
+    if (isMobile && !isHub) {
       let suggestionResults =
         window.document.getElementsByClassName('suggestions');
       for (let i = 0; i < suggestionResults.length; i++) {
@@ -204,7 +204,7 @@ export default class Search extends React.Component {
         });
       })
       .finally(() => {
-        if (getDeviceType() === 'H5' && !isHub) {
+        if (isMobile && !isHub) {
           this.enterResultBox();
         }
       });
@@ -216,7 +216,7 @@ export default class Search extends React.Component {
       result: null
     });
     this.props.onClose();
-    if (getDeviceType() === 'H5' && !isHub) {
+    if (isMobile && !isHub) {
       this.leaveResultBox();
     }
   }
@@ -336,11 +336,7 @@ export default class Search extends React.Component {
           id="mainSuggestions"
           onMouseOver={() => this.enterResultBox()}
           onMouseOut={() => this.leaveResultBox()}
-          style={
-            getDeviceType() === 'H5' && !isHub
-              ? { maxHeight: resultHeight }
-              : {}
-          }
+          style={isMobile && !isHub ? { maxHeight: resultHeight } : {}}
         >
           <div className="container">
             <div className="row d-flex flex-sm-row">
@@ -509,7 +505,6 @@ export default class Search extends React.Component {
   render() {
     const { showSearchInput, result, keywords, loading, hiddenResult } =
       this.state;
-    const isMobile = getDeviceType() !== 'PC';
     return (
       <div
         className="inlineblock w-100"

@@ -5,7 +5,7 @@ import {
   formatDate,
   optimizeImage,
   filterOrderId,
-  getDeviceType,
+  isMobile,
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
@@ -16,7 +16,6 @@ import { useHistory } from 'react-router-dom';
 import autoshipIcon from '@/assets/images/autoship.png';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC';
 
 const ItemContainer = ({ subItem, className }) => {
   const isShowSpecLogo = Boolean(subItem.itemSpecLogoConf);

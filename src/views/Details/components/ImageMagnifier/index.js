@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import './index.css';
-import { getDeviceType, optimizeImage } from '@/utils/utils';
+import { isMobile, optimizeImage } from '@/utils/utils';
 import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
-
-let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function getMuntiImg(img) {
   if (img) {
@@ -485,7 +483,7 @@ class ImageMagnifier extends Component {
             )}
             {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
 
-            {!videoShow && getDeviceType() === 'PC' && (
+            {!videoShow && !isMobile && (
               <div
                 style={cssStyle.maskBlock}
                 onMouseEnter={this.mouseEnter}

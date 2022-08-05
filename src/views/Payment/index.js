@@ -28,7 +28,7 @@ import {
   handleRecoProductParamByItem
 } from './modules/utils';
 import {
-  getDeviceType,
+  isMobile,
   payCountDown,
   formatMoney,
   generatePayUScript,
@@ -117,7 +117,6 @@ import Moto from './PaymentMethod/Moto';
 import Ideal from './PaymentMethod/Ideal/indes';
 import { openPromotionBox } from '@/views/Payment/modules/utils';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;

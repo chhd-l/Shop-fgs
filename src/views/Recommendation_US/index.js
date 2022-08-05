@@ -10,7 +10,7 @@ import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
 import {
   formatMoney,
-  getDeviceType,
+  isMobile,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
@@ -120,7 +120,6 @@ class Recommendation extends React.Component {
       outOfStockProducts: [],
       inStockProducts: [],
       needLogin: false,
-      isMobile: false,
       currentBenefit: '',
       checkPromotionCodeAndCopy: false, // 控制点击查看promotion code并复制按钮
       viewShoppingCartWidth: 0
@@ -158,7 +157,6 @@ class Recommendation extends React.Component {
     let promotionCodeText = promotionCode?.toUpperCase() || '';
     let prescription = funcUrl({ name: 'prescription' });
     this.setState({
-      isMobile: getDeviceType() === 'H5',
       promotionCodeText,
       loading: true
     });
@@ -804,7 +802,7 @@ class Recommendation extends React.Component {
     <div>
       <section
         className="text-center"
-        style={{ width: this.state.isMobile ? '95%' : '60%', margin: '0 auto' }}
+        style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
       >
         <h1
           style={{ color: '#E2001A', margin: '1.25rem' }}
@@ -846,7 +844,6 @@ class Recommendation extends React.Component {
   commonUp = () => {
     const {
       promotionCodeText,
-      isMobile,
       checkPromotionCodeAndCopy,
       viewShoppingCartWidth
     } = this.state;
@@ -1104,7 +1101,6 @@ class Recommendation extends React.Component {
       productList,
       activeIndex,
       currentModalObj,
-      isMobile,
       promotionCode,
       promotionCodeText,
       isSPT,

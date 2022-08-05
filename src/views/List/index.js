@@ -30,7 +30,7 @@ import {
   getParentNodesByChild,
   getDictionary,
   setSeoConfig,
-  getDeviceType,
+  isMobile as isMobilePhone,
   loadJS,
   filterObjectValue,
   stgShowAuth,
@@ -53,7 +53,6 @@ import { canonicalRedirect } from '@/redirect/utils';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
 const isHub = window.__.env.REACT_APP_HUB;
-const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =

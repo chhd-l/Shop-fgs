@@ -5,7 +5,7 @@ import Loading from '@/components/Loading';
 import {
   getDictionary,
   matchNamefromDict,
-  getDeviceType,
+  isMobile,
   getAddressPostalCodeAlertMessage,
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
@@ -26,7 +26,6 @@ import { AddressPreview } from '@/components/Address';
 import { Button, Popover } from '@/components/Common';
 import './AddressList.less';
 
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 

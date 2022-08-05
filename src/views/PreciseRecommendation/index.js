@@ -16,14 +16,13 @@ import DetailsDisplay from './DetailsDisplay';
 import ProductSpecialities from './ProductSpecialities';
 import Banner from './components/Banner';
 import productList from './productList.json';
-import { getDeviceType } from '../../utils/utils';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const sessionItemRoyal = window.__.sessionItemRoyal;
-import { getRecommendationInfo } from '@/api/productFinder';
+import { isMobile } from '@/utils/utils';
 import Loading from '@/components/Loading';
 import GroupOne from './image/GroupOne.png';
 import { inject, observer } from 'mobx-react';
 import { Canonical } from '@/components/Common';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @seoHoc('preciseRecommendation')
 @inject('configStore')

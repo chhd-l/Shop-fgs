@@ -8,7 +8,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import shopbannerNew from './deimage/ShopBannerNEW.jpg';
 import vetdeimage from './deimage/Product-composition.png';
-import { getDeviceType } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
@@ -47,7 +46,6 @@ import { Canonical } from '@/components/Common';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
-const deviceType = getDeviceType();
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
 function Divider() {

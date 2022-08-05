@@ -3,14 +3,13 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import {
-  getDeviceType,
+  isMobile,
   formatMoney,
   formatDate,
   optimizeImage
 } from '@/utils/utils';
 
 const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
     .includes('individualization');

@@ -21,7 +21,7 @@ import {
   getDictionary,
   validData,
   getZoneTime,
-  getDeviceType,
+  isMobile,
   isCanVerifyBlacklistPostCode,
   formatDate
 } from '@/utils/utils';
@@ -49,7 +49,6 @@ import { format } from 'date-fns';
 import { DatePickerComponent, Input } from '@/components/Common';
 import { phoneNumberMask } from '@/utils/constant';
 
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
 var compositionFlag = true;

@@ -12,7 +12,7 @@ import {
   mergeUnloginCartData,
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType,
+  isMobile,
   unique,
   handleRecommendation,
   isShowMixFeeding,
@@ -64,7 +64,6 @@ import { Button, Popover } from '@/components/Common';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 let preventChangeSize = false; // 修改bug: 先选中数量框，再直接点击切换规则，引起的购物车数据重复
 

@@ -15,7 +15,7 @@ import { petsById, getRecommendProducts, getPetList } from '@/api/pet';
 import Loading from '@/components/Loading';
 import {
   getDictionary,
-  getDeviceType,
+  isMobile,
   getElementToPageTop,
   getClubFlag
 } from '@/utils/utils';
@@ -57,7 +57,7 @@ class PetForm extends React.Component {
       currentPet: {},
       isEdit: false,
       errorMsg: '',
-      isMobile: false,
+
       recommendData: []
     };
   }
@@ -71,7 +71,7 @@ class PetForm extends React.Component {
       let isCat = petsType?.toLowerCase() === 'cat';
       this.petTypeChange(isCat);
     }
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
+
     getDictionary({ type: 'dogSize' })
       .then((res) => {
         this.setState({
@@ -362,8 +362,7 @@ class PetForm extends React.Component {
         filters: ''
       }
     };
-    const { currentPet, selectedSizeObj, isMobile, isCat, petList } =
-      this.state;
+    const { currentPet, selectedSizeObj, isCat, petList } = this.state;
     let isChoosePetType = isCat !== null;
     const isPrescriptiongGate = this.props.location.search
       .substring(1)

@@ -25,7 +25,7 @@ import Reviews from './components/Reviews';
 import Loading from '@/components/Loading';
 import DailyPortion from './components/DailyPortion';
 import {
-  getDeviceType,
+  isMobile,
   getFrequencyDict,
   queryStoreCateList,
   loadJS,
@@ -83,8 +83,7 @@ import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotifi
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
+const PC = !isMobile;
 const isHub = window.__.env.REACT_APP_HUB;
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
@@ -1561,7 +1560,6 @@ class Details extends React.Component {
                                       <PurchaseMethodB
                                         form={form}
                                         fromPrice={fromPrice}
-                                        isMobile={isMobile}
                                         specAndQuantityDom={() =>
                                           this.specAndQuantityDom(
                                             selectedSpecItem

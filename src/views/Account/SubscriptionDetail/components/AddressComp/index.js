@@ -13,7 +13,7 @@ import {
   getDictionary,
   validData,
   matchNamefromDict,
-  getDeviceType,
+  isMobile,
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import { AddressForm } from '@/components/Address';
@@ -27,7 +27,6 @@ import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 function CardItem(props) {

@@ -12,7 +12,7 @@ import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
-import { getDeviceType, getDictionary, formatDate } from '@/utils/utils';
+import { isMobile, getDictionary, formatDate } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
@@ -31,7 +31,6 @@ class Pet extends React.Component {
     super(props);
     this.state = {
       petList: [],
-      isMobile: false,
       loading: true,
       catBreedList: [],
       dogBreedList: []
@@ -47,7 +46,6 @@ class Pet extends React.Component {
         myAccountPushEvent('Pets');
         break;
     }
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
     this.getBreedList();
   }
 
@@ -125,7 +123,7 @@ class Pet extends React.Component {
         filters: ''
       }
     };
-    let { isMobile, petList, loading } = this.state;
+    let { petList, loading } = this.state;
     console.log('petList', petList);
     return (
       <div id="Pets">

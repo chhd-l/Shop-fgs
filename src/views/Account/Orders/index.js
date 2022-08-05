@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import {
   formatMoney,
   getDictionary,
-  getDeviceType,
+  isMobile,
   judgeIsIndividual,
   formatDate,
   optimizeImage,
@@ -73,7 +73,6 @@ class AccountOrders extends React.Component {
     };
 
     this.pageSize = 6;
-    this.deviceType = getDeviceType();
     this.changeTab = this.changeTab.bind(this);
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
     this.handleDownInvoice = this.handleDownInvoice.bind(this);
@@ -283,8 +282,7 @@ class AccountOrders extends React.Component {
     );
   }
   handleClickCardItem(item) {
-    console.log(this.deviceType);
-    if (this.deviceType === 'PC') return false;
+    if (!isMobile) return false;
     this.props.history.push(`/account/orders/detail/${item.id}`);
     return false;
   }

@@ -6,7 +6,7 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType,
+  isMobile,
   optimizeImage
 } from '@/utils/utils';
 import { toJS } from 'mobx';
@@ -183,7 +183,7 @@ class LoginCart extends React.Component {
               </div>
             </div>
           </div>
-        ) : getDeviceType() === 'PC' ? (
+        ) : !isMobile ? (
           <div
             className={`popover popover-bottom ${
               headerCartStore.visible ? 'show' : ''

@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { formatMoney, isMobile } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
 import giftsImg from './images/gifts@2x.png';
@@ -130,7 +130,6 @@ class Recommendation extends React.Component {
       outOfStockProducts: [],
       inStockProducts: [],
       needLogin: false,
-      isMobile: false,
       currentBenefit: '',
       checkPromotionCodeAndCopy: false, // 控制点击查看promotion code并复制按钮
       viewShoppingCartWidth: 0
@@ -170,7 +169,6 @@ class Recommendation extends React.Component {
     let prescription = funcUrl({ name: 'prescription' });
 
     this.setState({
-      isMobile: getDeviceType() === 'H5',
       promotionCodeText,
       loading: true
     });
@@ -230,7 +228,7 @@ class Recommendation extends React.Component {
               try {
                 let tempContentMobile = [];
                 let tempContent = [];
-                let redSpanIconMargin = this.state.isMobile ? '10px' : '20px';
+                let redSpanIconMargin = isMobile ? '10px' : '20px';
 
                 switch (g.descriptionName) {
                   case 'Benefits':
