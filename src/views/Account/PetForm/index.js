@@ -1,18 +1,20 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  Loading
+} from '@/components';
 import { inject, observer } from 'mobx-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
 import { Link } from 'react-router-dom';
 import './index.less';
 import LinkedSubs from './components/LinkedSubs';
 import LazyLoad from 'react-lazyload';
 import PetForms from './components/PetForms';
 import { petsById, getRecommendProducts, getPetList } from '@/api/pet';
-import Loading from '@/components/Loading';
 import {
   getDictionary,
   isMobile,

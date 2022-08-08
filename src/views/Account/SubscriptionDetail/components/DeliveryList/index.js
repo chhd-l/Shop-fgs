@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
 import NextDelivery from './NextDelivery';
 import CompletedDelivery from './CompletedDelivery';
 import { isMobile } from '@/utils/utils';

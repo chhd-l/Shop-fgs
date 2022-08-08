@@ -1,8 +1,7 @@
 import React from 'react';
-import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { FrequencyMatch, NormalSkeleton as Skeleton } from '@/components';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
@@ -292,7 +291,7 @@ class LoginCart extends React.Component {
                 <div className="product-summary limit">
                   {!cartData.length && loading ? (
                     <div className="pt-2 pb-2">
-                      <Skeleton color="#f5f5f5" width="100%" count={2} />
+                      <Skeleton count={2} />
                     </div>
                   ) : (
                     cartData.map((item, index) => {

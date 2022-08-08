@@ -1,13 +1,16 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  Header,
+  Footer,
+  BannerTip,
+  GoogleTagManager,
+  Loading,
+  LoginButton
+} from '@/components';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import BannerTip from '@/components/BannerTip';
 import { formatMoney, isMobile } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import Loading from '@/components/Loading';
 import giftsImg from './images/gifts@2x.png';
 import discountImg from './images/discount@2x.svg';
 import petadviserimg from './images/petadviser@2x.png';
@@ -38,7 +41,6 @@ import {
   AddItemsMember as AddCartItemsMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
-import LoginButton from '@/components/LoginButton';
 import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;

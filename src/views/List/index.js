@@ -5,15 +5,17 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  Header,
+  Footer,
+  Pagination,
+  BannerTip,
+  GoogleTagManager,
+  Selection,
+  BreadCrumbsNavigation
+} from '@/components';
 // import PLPCover from '@/components/PLPCover';
 import { PLPCover } from '@/components/Product';
-import BannerTip from '@/components/BannerTip';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
-import Pagination from '@/components/Pagination';
-import Selection from '@/components/Selection';
 import { Filters, FiltersPC } from './modules';
 import cloneDeep from 'lodash/cloneDeep';
 import flatMap from 'lodash/flatMap';

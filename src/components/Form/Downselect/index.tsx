@@ -10,7 +10,7 @@ const RCInput = (props: any) => {
   //下拉选择是否显示
   const [show, setShow] = useState(false);
   //下拉选择框的内容
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   //输入框的内容
   const [val, setVal] = useState('');
   RCInputProps = { ...props };

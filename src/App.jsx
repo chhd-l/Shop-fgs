@@ -30,17 +30,19 @@ import { PDP_Regex } from '@/utils/constant';
 // import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth, getRandom } from '@/utils/utils';
-import ScrollToTop from '@/components/ScrollToTop';
+import {
+  ScrollToTop,
+  RouteFilter,
+  RouteFilterHook,
+  GoogleMapMakerHandle as MakerHandle
+} from '@/components';
 import { useDynamicLanguage } from '@/framework/common';
-import RouteFilter from '@/components/RouteFilter';
-import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
 
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
-import MakerHandle from '@/components/GoogleMap/makerHandle';
 
 // import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';

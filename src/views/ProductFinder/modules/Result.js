@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import LoginButton from '@/components/LoginButton';
+import {
+  Header,
+  Footer,
+  BreadCrumbs,
+  BannerTip,
+  GoogleTagManager,
+  LoginButton
+} from '@/components';
 import Help from './Help';
 import { formatMoney, getRation } from '@/utils/utils';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import { seoHoc } from '@/framework/common';
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';

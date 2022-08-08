@@ -1,5 +1,6 @@
 import React from 'react';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
+
 class RadioAnswer extends React.Component {
   static defaultProps = {
     defaultData: []

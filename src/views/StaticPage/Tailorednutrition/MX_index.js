@@ -1,13 +1,15 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import {
+  Header,
+  BreadCrumbs,
+  Footer,
+  BannerTip,
+  GoogleTagManager
+} from '@/components';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 
 import { inject, observer } from 'mobx-react';
-import BreadCrumbs from '@/components/BreadCrumbs';
 import { seoHoc } from '@/framework/common';
 import './index.css';
 import { Canonical } from '@/components/Common';

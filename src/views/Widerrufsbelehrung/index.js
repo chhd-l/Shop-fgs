@@ -1,8 +1,5 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import { Footer, Header, BannerTip, GoogleTagManager } from '@/components';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { Link } from 'react-router-dom';

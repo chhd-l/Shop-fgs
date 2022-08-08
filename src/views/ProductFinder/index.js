@@ -1,9 +1,11 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import BreadCrumbs from '@/components/BreadCrumbs';
+import {
+  Header,
+  Footer,
+  BreadCrumbs,
+  BannerTip,
+  GoogleTagManager
+} from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import Question from './modules/Question';
 import LazyLoad from 'react-lazyload';

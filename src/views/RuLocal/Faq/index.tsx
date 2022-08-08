@@ -1,7 +1,6 @@
 import BreadCrumbs from '../components/BreadCrumbs';
 import Collapse from '@/components/Collapse';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { Header, Footer } from '@/components';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { RulocalFaq_contents } from '../modules/RulocalFaq';

@@ -1,6 +1,5 @@
 import React from 'react';
-import Loading from '@/components/Loading';
-import LoginButton from '@/components/LoginButton';
+import { Loading, LoginButton } from '@/components';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 

@@ -14,7 +14,7 @@ import { GAInitUnLogin, GAInitLogin, GACheckoutScreenLoad } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import './index.css';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { FrequencyMatch } from '@/components';
 import WelcomeBox from '../WelcomeBox';
 import PromotionCodeText from './components/promotionCodeText';
 import GiftList from '../GiftList/index.tsx';

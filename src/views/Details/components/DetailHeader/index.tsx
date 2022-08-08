@@ -1,9 +1,8 @@
 import React from 'react';
 import { isMobile, getElementToPageTop } from '@/utils/utils';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel';
-import Rate from '@/components/Rate';
-import InstockStatusComp from '@/components/InstockStatusComp';
-import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
+import { Rate, InstockStatusComp } from '@/components';
+import { RatingSummary as BazaarVoiceRatingSummary } from '@/components/BazaarVoice';
 
 const createMarkup = (text: 'string') => ({ __html: text });
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
@@ -15,9 +14,9 @@ interface Props {
   productRate: string | number;
   replyNum: string | number;
   selectedSpecItem: any;
-  instockStatus:any;
+  instockStatus: any;
   vet: any;
-  skuOffShelves:any;
+  skuOffShelves: any;
 }
 const DetailHeader = ({
   checkOutErrMsg,
@@ -41,65 +40,66 @@ const DetailHeader = ({
     }
   };
 
-  const stockDom = () =>{
+  const stockDom = () => {
     return (
       <div className="align-left flex rc-margin-bottom--xs">
-      <p className="rc-margin-right--xs" aria-hidden="true">
-        <InstockStatusComp status={instockStatus} />
-      </p>
-      {window.__.env.REACT_APP_COUNTRY === 'ru' && selectedSpecItem ? (
-        <p>Артикул:{selectedSpecItem?.externalSku}</p>
-      ) : null}
-    </div>
-    )
-  }
+        <p className="rc-margin-right--xs" aria-hidden="true">
+          <InstockStatusComp status={instockStatus} />
+        </p>
+        {window.__.env.REACT_APP_COUNTRY === 'ru' && selectedSpecItem ? (
+          <p>Артикул:{selectedSpecItem?.externalSku}</p>
+        ) : null}
+      </div>
+    );
+  };
   return isMobile ? (
     <div className="detailHeader">
       {/* <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} /> */}
       <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-      {!vet?<>
-      <div className="desAndStars">
-        <div className="des">
-          <h2 className="text-break mb-1" style={{ fontSize: '1.17rem' }}>
-            {details.goodsSubtitle}
-          </h2>
-        </div>
-        {(window.__.env.REACT_APP_COUNTRY === 'de' ||
-          window.__.env.REACT_APP_COUNTRY === 'mx') && (
-          <div className="stars">
-            <div className="rc-card__price flex-inline">
-              <div
-                className="display-inline"
-                style={{ verticalAlign: 'middle' }}
-              >
-                <Rate
-                  key={productRate}
-                  def={productRate}
-                  disabled={true}
-                  marginSize="sRate"
-                />
-              </div>
-              <span
-                className="comments rc-margin-left--xs rc-text-colour--text"
-                onClick={handleAClick.bind(this)}
-              >
-                ({replyNum}){/* <FormattedMessage id="reviews" /> */}
-              </span>
+      {!vet ? (
+        <>
+          <div className="desAndStars">
+            <div className="des">
+              <h2 className="text-break mb-1" style={{ fontSize: '1.17rem' }}>
+                {details.goodsSubtitle}
+              </h2>
             </div>
+            {(window.__.env.REACT_APP_COUNTRY === 'de' ||
+              window.__.env.REACT_APP_COUNTRY === 'mx') && (
+              <div className="stars">
+                <div className="rc-card__price flex-inline">
+                  <div
+                    className="display-inline"
+                    style={{ verticalAlign: 'middle' }}
+                  >
+                    <Rate
+                      key={productRate}
+                      def={productRate}
+                      disabled={true}
+                      marginSize="sRate"
+                    />
+                  </div>
+                  <span
+                    className="comments rc-margin-left--xs rc-text-colour--text"
+                    onClick={handleAClick.bind(this)}
+                  >
+                    ({replyNum}){/* <FormattedMessage id="reviews" /> */}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <div
-        className="description"
-        dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
-      />
-      {skuOffShelves?stockDom():null}
-      {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
-        !!details.goodsNo && (
-          <BazaarVoiceRatingSummary productId={details.goodsNo} />
-        )}
-      </>
-      :null}
+          <div
+            className="description"
+            dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
+          />
+          {skuOffShelves ? stockDom() : null}
+          {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+            !!details.goodsNo && (
+              <BazaarVoiceRatingSummary productId={details.goodsNo} />
+            )}
+        </>
+      ) : null}
     </div>
   ) : (
     <div className="detailHeader">
@@ -108,48 +108,53 @@ const DetailHeader = ({
           __html: goodHeading
         }}
       />
-      {!vet?<>
-      {!isMobile &&
-        !!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
-        !!details.goodsNo && (
-          <BazaarVoiceRatingSummary productId={details.goodsNo} />
-        )}
-          {(window.__.env.REACT_APP_COUNTRY === 'mx') && (
-          <div className="stars text-nowrap">
-            <div className="rc-card__price flex">
-              <div
-                className="display-inline"
-                style={{ verticalAlign: 'middle' }}
-              >
-                <Rate
-                  def={productRate}
-                  key={productRate}
-                  disabled={true}
-                  marginSize="sRate"
-                />
+      {!vet ? (
+        <>
+          {!isMobile &&
+            !!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+            !!details.goodsNo && (
+              <BazaarVoiceRatingSummary productId={details.goodsNo} />
+            )}
+          {window.__.env.REACT_APP_COUNTRY === 'mx' && (
+            <div className="stars text-nowrap">
+              <div className="rc-card__price flex">
+                <div
+                  className="display-inline"
+                  style={{ verticalAlign: 'middle' }}
+                >
+                  <Rate
+                    def={productRate}
+                    key={productRate}
+                    disabled={true}
+                    marginSize="sRate"
+                  />
+                </div>
+                <a
+                  className="comments rc-margin-left--xs rc-text-colour--text"
+                  onClick={handleAClick.bind(this)}
+                >
+                  ({replyNum}){/* <FormattedMessage id="reviews" /> */}
+                </a>
               </div>
-              <a
-                className="comments rc-margin-left--xs rc-text-colour--text"
-                onClick={handleAClick.bind(this)}
+            </div>
+          )}
+          {skuOffShelves ? stockDom() : null}
+          <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
+            <div className="des">
+              <h2
+                className="text-break mb-1 mt-2"
+                style={{ fontSize: '1.17rem' }}
               >
-                ({replyNum}){/* <FormattedMessage id="reviews" /> */}
-              </a>
+                {details.goodsSubtitle}
+              </h2>
             </div>
           </div>
-        )}
-        {skuOffShelves?stockDom():null}
-      <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
-        <div className="des">
-          <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
-            {details.goodsSubtitle}
-          </h2>
-        </div>
-      </div>
-      <div
-        className="description"
-        dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
-      />
-      </>:null}
+          <div
+            className="description"
+            dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
+          />
+        </>
+      ) : null}
     </div>
   );
 };

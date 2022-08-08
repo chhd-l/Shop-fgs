@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import './index.less';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 import { login, getQuestions, register } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { getDictionary } from '@/utils/utils';

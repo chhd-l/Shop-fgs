@@ -1,6 +1,5 @@
 import React from 'react';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { Footer, Header } from '@/components';
 import BreadCrumbs from '../components/BreadCrumbs';
 import './index.less';
 import HrLine from '../components/HrLine';

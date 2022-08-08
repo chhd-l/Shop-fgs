@@ -2,12 +2,9 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import AdyenEditForm from '@/components/Adyen/form';
 import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import LazyLoad from 'react-lazyload';
-import CyberPaymentForm from '@/components/CyberPaymentForm';
-import CyberBillingAddress from '@/components/CyberBillingAddress';
 import { getProvincesList } from '@/api/address';
 import {
   usPaymentInfo,
@@ -15,8 +12,13 @@ import {
   addOrUpdatePaymentMethod,
   addOrUpdatePaymentMethodRu
 } from '@/api/payment';
-import Loading from '@/components/Loading';
-import ValidationAddressModal from '@/components/validationAddressModal';
+import {
+  Loading,
+  ValidationAddressModal,
+  AdyenEditForm,
+  CyberPaymentForm,
+  CyberBillingAddress
+} from '@/components';
 import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';

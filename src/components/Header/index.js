@@ -2,8 +2,7 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
-import Loading from '@/components/Loading';
-import Logo from '@/components/Logo';
+import { Loading, Logo, Language } from '@/components';
 import { toJS } from 'mobx';
 import { isMobile, generateOptions, unique } from '@/utils/utils';
 import {
@@ -18,7 +17,6 @@ import DropDownMenu from './modules/DropDownMenu';
 import DropDownMenuForHub from './hub/DropDownMenuForHub';
 import MegaMenuMobile from './modules/MegaMenuMobile';
 import MegaMenuMobileForHub from './hub/MegaMenuMobileForHub';
-import Language from '@/components/Language';
 import Search from './modules/Search';
 import UserJSX from './jsx/user';
 import { inject, observer } from 'mobx-react';

@@ -1,10 +1,7 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import { Header, Footer, BannerTip, GoogleTagManager } from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
 

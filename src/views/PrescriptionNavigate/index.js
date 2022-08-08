@@ -1,17 +1,19 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import Footer from '@/components/Footer';
-import Pagination from '@/components/Pagination';
+import {
+  Footer,
+  BannerTip,
+  Pagination,
+  GoogleMap,
+  PageBaseInfo
+} from '@/components';
 import MapFlag from '@/components/MapFlag';
-import GoogleMap from '@/components/GoogleMap';
-import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import initLocation from './location';
 import LazyLoad from 'react-lazyload';
 import '../Prescription/index.css';
-import PageBaseInfo from '@/components/PageBaseInfo';
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {

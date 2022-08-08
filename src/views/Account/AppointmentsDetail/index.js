@@ -1,15 +1,17 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
-import BannerTip from '@/components/BannerTip';
+import {
+  Footer,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  BannerTip,
+  PageBaseInfo,
+  NormalSkeleton as Skeleton
+} from '@/components';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
-import PageBaseInfo from '@/components/PageBaseInfo';
 import AppointmentInfo from './modules/AppointmentInfo';
 import { getWays } from '@/api/payment';
 import { getMemberAppointDetail, cancelAppointByNo } from '@/api/appointment';
@@ -223,12 +225,7 @@ class AccountOrders extends React.Component {
                 </Link>
                 <div className="card confirm-details orderDetailsPage mx-0 border-0">
                   {this.state.loading ? (
-                    <Skeleton
-                      color="#f5f5f5"
-                      width="100%"
-                      height="50%"
-                      count={5}
-                    />
+                    <Skeleton height="50%" count={5} />
                   ) : details ? (
                     <div className="card-body p-0">
                       {this.renderFelineHeadTip()}

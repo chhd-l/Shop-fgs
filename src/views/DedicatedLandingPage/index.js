@@ -1,10 +1,7 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-import BannerTip from '@/components/BannerTip';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { BannerTip, GoogleTagManager, Header, Footer } from '@/components';
 import { inject, observer } from 'mobx-react';
 import { isMobile } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';

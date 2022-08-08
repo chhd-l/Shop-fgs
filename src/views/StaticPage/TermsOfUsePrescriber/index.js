@@ -1,8 +1,6 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { seoHoc } from '@/framework/common';
-import BannerTip from '@/components/BannerTip';
+import { Header, Footer, BannerTip } from '@/components';
 import './index.less';
 import { dataList } from './data';
 import { Canonical } from '@/components/Common';

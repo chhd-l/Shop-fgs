@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import SearchSelection from '@/components/SearchSelection';
+import { SearchSelection } from '@/components';
 import RadioAnswer from './RadioAnswer';
 
 class SearchAnswer extends React.Component {

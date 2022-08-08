@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getFrequencyDict } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types';
-import Selection from '@/components/Selection/index.js';
+import { Selection } from '@/components';
 import cn from 'classnames';
 interface Props {
   frequencyType: SubscriptionType;

@@ -1,7 +1,6 @@
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import React from 'react';
-import Rate from '@/components/Rate';
-import ImgUpload from '@/components/ImgUpload';
+import { Rate, ImgUpload } from '@/components';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
 

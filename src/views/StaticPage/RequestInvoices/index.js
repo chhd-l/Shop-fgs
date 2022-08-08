@@ -1,6 +1,5 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer } from '@/components';
 import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { seoHoc } from '@/framework/common';

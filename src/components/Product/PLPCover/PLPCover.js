@@ -11,8 +11,8 @@ import {
   optimizeImage
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
-import InlineRatings from '@/components/BazaarVoice/inlineRatings';
-import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
+import { InstockStatusComp } from '@/components';
+import { InlineRatings } from '@/components/BazaarVoice';
 import './index.less';
 import catSpecImg from '@/assets/images/cats-spec.png';
 

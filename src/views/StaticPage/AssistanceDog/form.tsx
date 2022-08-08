@@ -10,7 +10,7 @@ import { ErrorMessage, SuccessMessage } from '@/components/Message';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { submitEvent } from './GA';
 import { DivWrapper } from './style';
-// import Selection from '@/components/Selection';
+// import { Selection } from '@/components';
 
 interface Props {
   intl: any;
