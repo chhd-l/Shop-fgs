@@ -110,7 +110,7 @@ const PayInfoPreview = ({
     case 'adyen_convenience_store':
       return (
         <>
-          <div className="col-12 col-md-6">
+          <div className="col-12">
             <ConvenienceStorePayReview convenienceStore={convenienceStore} />
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
