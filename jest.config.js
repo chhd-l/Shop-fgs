@@ -3,9 +3,9 @@ const config = {
       "<rootDir>/src"
     ],
     "collectCoverageFrom": [
-      //"src/**/*.{js,jsx,ts,tsx}",
-      //"!src/**/*.d.ts"
-      "src/views/CartFRBreeder/__tests__/**/*.{js,jsx,ts,tsx}"
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+      //"src/views/CartFRBreeder/__tests__/**/*.{js,jsx,ts,tsx}"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"
