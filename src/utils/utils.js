@@ -170,6 +170,7 @@ export async function mergeUnloginCartData() {
   console.info('unloginCartData', unloginCartData);
   // 线下店orderSource埋点L_ATELIER_FELIN
   let orderSource = sessionItemRoyal.get('orderSource') || '';
+  console.log({ orderSource });
   let params = {
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {

@@ -3,9 +3,9 @@ const config = {
       "<rootDir>/src"
     ],
     "collectCoverageFrom": [
-      //"src/**/*.{js,jsx,ts,tsx}",
-      //"!src/**/*.d.ts"
-      "src/utils/utils.js"
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+      //"src/utils/utils.js"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"
