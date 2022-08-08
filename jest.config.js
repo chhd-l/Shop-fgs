@@ -12,6 +12,7 @@ const config = {
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.js",
+      "<rootDir>/src/utils/testSetup.js",
       "<rootDir>/node_modules/jest-enzyme/lib/index.js"
     ],
     "testMatch": [
