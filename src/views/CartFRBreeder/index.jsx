@@ -107,7 +107,7 @@ export const CartFRBreeder = ({
     }
   };
   const req1 = () => {
-    console.log(123);
+    //console.log(123);
   };
   const handleAddCart = async (productLists) => {
     if (loginStore.isLogin) {
