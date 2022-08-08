@@ -1,6 +1,5 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Footer, Header } from '@/components';
 import { loadJS } from '@/utils/utils';
 
 const surveyUrlMap = {

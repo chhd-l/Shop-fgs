@@ -1,13 +1,15 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import BannerTip from '@/components/BannerTip';
-import SideMenu from '@/components/SideMenu';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BreadCrumbs,
+  BannerTip,
+  AccountSideMenu as SideMenu,
+  NormalSkeleton as Skeleton
+} from '@/components';
 import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
@@ -158,12 +160,7 @@ class Pet extends React.Component {
                 </div> */}
                 <div className="content-asset">
                   {loading ? (
-                    <Skeleton
-                      color="#f5f5f5"
-                      width="100%"
-                      height="50%"
-                      count={5}
-                    />
+                    <Skeleton height="50%" count={5} />
                   ) : petList.length <= 0 ? (
                     <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                       <div className="rc-column rc-md-down">

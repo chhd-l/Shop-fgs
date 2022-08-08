@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import find from 'lodash/find';
 import { getList, getSearchSuggestion } from '@/api/list';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getSearch } from '@/api/hub';

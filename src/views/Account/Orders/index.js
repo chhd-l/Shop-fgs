@@ -1,15 +1,17 @@
 import React from 'react';
-import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
-import TimeCount from '@/components/TimeCount';
-import Selection from '@/components/Selection';
-import Pagination from '@/components/Pagination';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BannerTip,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  Selection,
+  Pagination,
+  TimeCount,
+  NormalSkeleton as Skeleton
+} from '@/components';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import {
@@ -467,12 +469,7 @@ class AccountOrders extends React.Component {
               >
                 {this.state.initLoading ? (
                   <div className="mt-4">
-                    <Skeleton
-                      color="#f5f5f5"
-                      width="100%"
-                      height="50%"
-                      count={4}
-                    />
+                    <Skeleton height="50%" count={4} />
                   </div>
                 ) : errMsg ? (
                   <div className="text-center mt-5">
@@ -568,12 +565,7 @@ class AccountOrders extends React.Component {
                       <div className="order-list-container">
                         {this.state.loading ? (
                           <div className="mt-4">
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="50%"
-                              count={4}
-                            />
+                            <Skeleton height="50%" count={4} />
                           </div>
                         ) : this.state.tabErrMsg ? (
                           <div className="text-center mt-5">

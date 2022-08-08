@@ -1,11 +1,15 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  Header,
+  Footer,
+  Loading,
+  BannerTip,
+  GoogleTagManager,
+  LoginButton,
+  ImageMagnifierForUS as ImageMagnifier
+} from '@/components';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import BannerTip from '@/components/BannerTip';
-import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
 import {
@@ -15,7 +19,6 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import Loading from '@/components/Loading';
 import { DivWrapper } from './style';
 import './index.css';
 import { inject, observer } from 'mobx-react';
@@ -36,7 +39,6 @@ import {
   AddItemsMember as AddCartItemsMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
-import LoginButton from '@/components/LoginButton';
 import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;

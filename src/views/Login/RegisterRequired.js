@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import Footer from '@/components/Footer';
+import { Consent, Footer, LoginButton, Loading } from '@/components';
 import './index.less';
 import { findUserConsentList, userBindConsent } from '@/api/consent';
-import Consent from '@/components/Consent';
 import { withOktaAuth } from '@okta/okta-react';
-import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
-import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
 import { Modal, Button } from '@/components/Common';
 import { addEventListenerArr } from './addEventListener';

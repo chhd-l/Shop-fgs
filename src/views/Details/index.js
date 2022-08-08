@@ -1,14 +1,24 @@
 import React from 'react';
-import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
 import { toJS } from 'mobx';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import HandledSpec from '@/components/HandledSpec/index.tsx';
-import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
-import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
+import {
+  Header,
+  Footer,
+  HandledSpec,
+  BreadCrumbsNavigation,
+  InstockStatusComp,
+  ImageMagnifier,
+  BannerTip,
+  Loading,
+  GoodsDetailTabs,
+  NormalSkeleton as Skeleton
+} from '@/components';
+import {
+  Reviews as BazaarVoiceReviews,
+  addSchemaOrgMarkup
+} from '@/components/BazaarVoice';
 import SingleBuyMethod from './components/SingleBuyMethod/index.tsx';
 import AutoshipBuyMethod from './components/AutoshipBuyMethod/index.tsx';
 import ClubBuyMethod from './components/ClubBuyMethod/index.tsx';
@@ -17,12 +27,9 @@ import ButtonGroup from './components/ButtonGroup/index.tsx';
 import ErrMsgForCheckoutPanel from './components/ErrMsgForCheckoutPanel/index.tsx';
 import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
 import DetailHeader from './components/DetailHeader/index.tsx';
-import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
-import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
-import Loading from '@/components/Loading';
 import DailyPortion from './components/DailyPortion';
 import {
   isMobile,
@@ -59,13 +66,10 @@ import {
 } from '@/framework/cart';
 import './index.css';
 import './index.less';
-import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import AdvantageTips from './components/AdvantageTips';
 import Advantage from './components/Advantage';
 import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
-import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
-import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 import { getAppointPageSelected } from '@/api/consent';
 import {
   setGoogleProductStructuredDataMarkup,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import Loading from '@/components/Loading';
+import { Loading, HomeDeliveryOrPickUp } from '@/components';
 import {
   getDictionary,
   matchNamefromDict,
@@ -20,7 +20,6 @@ import {
 } from '@/api/address';
 // import { queryCityNameById } from '@/api/address';
 import AddressEditForm from '../ShippingAddressForm';
-import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { AddressPreview } from '@/components/Address';
 import { Button, Popover } from '@/components/Common';

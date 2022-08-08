@@ -7,8 +7,7 @@ import {
 } from '@/utils/GA';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
-import Selection from '@/components/Selection';
-import SelectMultiple from '@/components/SelectMultiple';
+import { Selection, SelectMultiple } from '@/components';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import InputBox from '../FormItem/InputBox';

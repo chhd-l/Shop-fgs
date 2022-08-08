@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './index.less';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { FormContext } from '../QuestionnaireForm';
 import Tooltips from '../tooltips';

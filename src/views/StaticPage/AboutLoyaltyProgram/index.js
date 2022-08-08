@@ -1,8 +1,6 @@
 import React, { Component, useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import Loading from '@/components/Loading';
+import { Footer, Header, Loading } from '@/components';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 

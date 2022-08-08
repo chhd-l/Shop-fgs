@@ -15,8 +15,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import Loading from '@/components/Loading';
-import SearchSelection from '@/components/SearchSelection';
+import { Loading, SearchSelection } from '@/components';
 import { validData, formatMoney, isMobile } from '@/utils/utils';
 import {
   pickupQueryCity,

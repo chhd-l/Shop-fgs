@@ -1,6 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import FrequencySelection from '@/components/FrequencySelection';
+import {
+  FrequencySelection,
+  InstockStatusComp,
+  HandledSpec
+} from '@/components';
 import { ErrorMessage } from '@/components/Message';
 import {
   changeSubscriptionGoods,
@@ -8,9 +12,7 @@ import {
   stockNoticeModify,
   queryStockNotice
 } from '@/api/subscription';
-import HandledSpec from '@/components/HandledSpec/index.tsx';
 import HandledSpecSelect from '../HandledSpecSelect';
-import InstockStatusComp from '@/components/InstockStatusComp';
 import { formatMoney, isMobile } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import find from 'lodash/find';

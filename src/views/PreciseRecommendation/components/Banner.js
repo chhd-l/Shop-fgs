@@ -9,7 +9,7 @@ import {
   AddItemMember as AddCartItemMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
-import LoginButton from '@/components/LoginButton';
+import { LoginButton } from '@/components';
 import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
 import product1 from '../image/product1.png';

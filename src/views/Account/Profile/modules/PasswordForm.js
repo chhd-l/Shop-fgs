@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 import { modifyPassword } from '@/api/login';
 import { Button } from '@/components/Common';
 

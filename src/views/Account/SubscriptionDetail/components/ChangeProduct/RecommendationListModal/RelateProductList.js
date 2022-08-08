@@ -10,7 +10,7 @@ import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 import { Filters, FiltersPC, SelectFilters } from '@/views/List/modules';
-import Pagination from '@/components/Pagination';
+import { Pagination } from '@/components';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
 import { ChangeProductContext } from '../index';

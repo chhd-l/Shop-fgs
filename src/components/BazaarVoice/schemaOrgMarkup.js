@@ -1,6 +1,10 @@
 import { loadJS } from '../../utils/utils';
 
-export function addSchemaOrgMarkup(details, instockStatus, homePageText) {
+export default function addSchemaOrgMarkup(
+  details,
+  instockStatus,
+  homePageText
+) {
   const avgRatingComponent = document.getElementsByClassName(
     'bv_avgRating_component_container'
   );
