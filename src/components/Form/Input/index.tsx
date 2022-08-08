@@ -67,6 +67,7 @@ const RCInput = (props: any) => {
         <label className="flex">
           <span className="min-w-min text-sm my-5 mx-6">{ltext}</span>
           <input
+            data-testid="inputTest"
             className={
               'border-b-2 w-auto text-base my-4' +
               (zhengque ? ' border-yellow-700' : ' border-red-800') +

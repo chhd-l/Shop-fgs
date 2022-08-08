@@ -1,3 +1,11 @@
+/*
+ * @Author: mingyi.tang@effem.com mingyi.tang@effem.com
+ * @Date: 2022-08-04 14:13:05
+ * @LastEditors: mingyi.tang@effem.com mingyi.tang@effem.com
+ * @LastEditTime: 2022-08-08 17:03:37
+ * @FilePath: \shop-front\src\components\Form\Downselect\index.tsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import React, { useState } from 'react';
 import './index.less';
 let RCInputProps = {
@@ -6,7 +14,7 @@ let RCInputProps = {
   tips: ''
 };
 
-const RCInput = (props: any) => {
+const RCDownselect = (props: any) => {
   //下拉选择是否显示
   const [show, setShow] = useState(false);
   //下拉选择框的内容
@@ -32,6 +40,7 @@ const RCInput = (props: any) => {
       <div className="p-3 w-80 downselect">
         <i className="iconfont iconSearch absolute top-5 text-gray-400"></i>
         <input
+          data-testid="downSelect"
           placeholder={placeholder}
           className={'border-b-2 border-gray-400 py-3 pl-8 w-80'}
           onFocus={() => setShow(true)}
@@ -66,4 +75,4 @@ const RCInput = (props: any) => {
     </>
   );
 };
-export default RCInput;
+export default RCDownselect;
