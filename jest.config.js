@@ -3,9 +3,9 @@ const config = {
       "<rootDir>/src"
     ],
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
-      //"src/utils/utils.js"
+      //"src/**/*.{js,jsx,ts,tsx}",
+      //"!src/**/*.d.ts"
+      "src/views/CartFRBreeder/__tests__/**/*.{js,jsx,ts,tsx}"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"
@@ -16,8 +16,9 @@ const config = {
       "<rootDir>/node_modules/jest-enzyme/lib/index.js"
     ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+      //"<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      //"<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+      "<rootDir>/src/views/CartFRBreeder/__tests__/**/*.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jest-environment-jsdom-fourteen",
     "transform": {

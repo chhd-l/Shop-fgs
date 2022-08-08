@@ -1,11 +1,19 @@
-import React from 'react';
-import CartFRBreeder from '../index.jsx';
-//import { render } from '@testing-library/react';
+import React, { useState, useEffect } from 'react';
+import CartFRBreeder, { CartFRBreeder as CC } from '../index.jsx';
+import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
-// console.info(' jest.mock', jest.mock);
-// jest.mock('../Cart', () => () => <div></div>);
+jest.mock('react-slick', () => {
+  return {};
+});
+
+jest.mock('react-intl-phraseapp', () => {
+  return {
+    injectIntl: () => {}
+  };
+});
+
 describe('CartFRBreeder', () => {
   it('render test', () => {
-    const wrapper = shallow(<CartFRBreeder />);
+    const wrapper = shallow(<CC />);
   });
 });

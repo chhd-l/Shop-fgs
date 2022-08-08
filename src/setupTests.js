@@ -5,12 +5,17 @@
 import '@testing-library/jest-dom/extend-expect';
 
 const sessionItem = {};
+const localItem = {};
 
 Object.defineProperty(window, '__', {
   value: {
     sessionItemRoyal: {
       get: (key) => sessionItem[key],
       set: (key, value) => (sessionItem[key] = value)
+    },
+    localItemRoyal: {
+      get: (key) => localItem[key],
+      set: (key, value) => (localItem[key] = value)
     },
     env: 'REACT_APP_STOREID'
   }

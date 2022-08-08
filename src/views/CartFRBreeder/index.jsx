@@ -15,7 +15,7 @@ import { handleSizeList } from '@/framework/product';
 import { getFrequencyDict } from '@/utils/utils';
 const localItemRoyal = window.__.localItemRoyal;
 
-const CartFRBreeder = ({
+export const CartFRBreeder = ({
   loginStore,
   clinicStore,
   checkoutStore,
@@ -26,7 +26,7 @@ const CartFRBreeder = ({
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
   const [isSPT, setIsSPT] = useState(false);
   useEffect(() => {
-    req();
+    req1();
   }, []);
   const req = async () => {
     let frequencyList = [];
@@ -105,6 +105,9 @@ const CartFRBreeder = ({
       setLoadingRecommendation(false);
       return;
     }
+  };
+  const req1 = () => {
+    console.log(123);
   };
   const handleAddCart = async (productLists) => {
     if (loginStore.isLogin) {
