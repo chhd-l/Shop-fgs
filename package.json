@@ -60,6 +60,7 @@
     "is-promise": "^4.0.0",
     "jest": "26.0.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
+    "jest-enzyme": "^7.1.2",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "js-md5": "^0.7.3",
