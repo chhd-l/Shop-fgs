@@ -421,11 +421,12 @@ class Hcexperts extends React.Component {
     });
     let apptNo = context.appointmentVO.apptNo;
     let appointmentVO = context.appointmentVO;
+    debugger;
     if (apptNo) {
       sessionItemRoyal.set('appointment-no', apptNo);
       if (this.state.userInfo) {
         await this.queryAppointInfo(apptNo);
-        this.props.history.push('/checkout');
+        this.props.history.push('/checkoutnew');
       } else {
         window?.dataLayer?.push({
           event: 'AtelierFelinStepLoad',
@@ -611,6 +612,7 @@ class Hcexperts extends React.Component {
   postUpdate = async (params) => {
     try {
       let id = funcUrl({ name: 'id' });
+      debugger;
       const { code, context } = await postUpdate(params);
       if (code === 'K-000000') {
         await this.queryAppointInfo(context.appointmentVO.apptNo);
