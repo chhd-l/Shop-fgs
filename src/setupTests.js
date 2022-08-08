@@ -4,9 +4,25 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 
+const sessionItem = {};
+const localItem = {};
+
 Object.defineProperty(window, '__', {
   value: {
-    sessionItemRoyal: jest.fn(),
+    sessionItemRoyal: {
+      get: (key) => sessionItem[key],
+      set: (key, value) => (sessionItem[key] = value)
+    },
+    localItemRoyal: {
+      get: (key) => localItem[key],
+      set: (key, value) => (localItem[key] = value)
+    },
     env: 'REACT_APP_STOREID'
   }
 });
+
+// Object.defineProperty(stores, {
+//   value: {
+//     checkoutStore: {cartData: {}},
+//   }
+// });
