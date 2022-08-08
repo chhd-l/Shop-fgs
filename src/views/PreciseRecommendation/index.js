@@ -1,9 +1,7 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, Loading, GoogleTagManager } from '@/components';
 import { getOtherSpecies } from '@/utils/GA';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Helmet } from 'react-helmet';
@@ -17,7 +15,6 @@ import ProductSpecialities from './ProductSpecialities';
 import Banner from './components/Banner';
 import productList from './productList.json';
 import { isMobile } from '@/utils/utils';
-import Loading from '@/components/Loading';
 import GroupOne from './image/GroupOne.png';
 import { inject, observer } from 'mobx-react';
 import { Canonical } from '@/components/Common';

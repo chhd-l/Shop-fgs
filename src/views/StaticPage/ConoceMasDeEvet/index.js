@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import { Loading, GoogleTagManager } from '@/components';
 import './index.less';
 import { customerInfoSave } from '@/api/staticPageApi';
-import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import { Canonical, Button } from '@/components/Common';

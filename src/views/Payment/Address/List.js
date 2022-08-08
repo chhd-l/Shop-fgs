@@ -18,7 +18,6 @@ import {
   dimensionsByPackage
 } from '@/api/payment';
 import { shippingCalculation } from '@/api/cart';
-// import SearchSelection from '@/components/SearchSelection';
 import {
   getDictionary,
   validData,
@@ -33,8 +32,11 @@ import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import { AddressForm } from '@/components/Address';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
-import Loading from '@/components/Loading';
-import ValidationAddressModal from '@/components/validationAddressModal';
+import {
+  Loading,
+  // SearchSelection
+  ValidationAddressModal
+} from '@/components';
 import AddressPreview from './Preview';
 import './list.less';
 import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';

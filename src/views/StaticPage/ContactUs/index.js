@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import Selection from '@/components/Selection';
-import Loading from '@/components/Loading';
+import { Header, Footer, Loading, Selection } from '@/components';
 import { ADDRESS_RULE } from './utils/constant';
 import { backSpacerUP, backSpacerDOWN } from './utils/usPhone';
 import { validData } from '@/utils/utils';

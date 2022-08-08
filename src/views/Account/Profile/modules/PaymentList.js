@@ -2,7 +2,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-import Loading from '@/components/Loading';
+import { Loading, PaymentEditForm } from '@/components';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import classNames from 'classnames';
@@ -16,7 +16,6 @@ import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
-import PaymentEditForm from '@/components/PaymentEditForm';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import getCardImg from '@/lib/get-card-img';
 import { handleEmailShow } from '@/utils/utils';

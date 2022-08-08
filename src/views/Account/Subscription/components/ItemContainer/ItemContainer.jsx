@@ -8,7 +8,7 @@ import {
   isMobile,
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { FrequencyMatch } from '@/components';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Button } from '@/components/Common';

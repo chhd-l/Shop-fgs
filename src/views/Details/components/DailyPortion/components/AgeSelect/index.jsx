@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 
 import './index.less';

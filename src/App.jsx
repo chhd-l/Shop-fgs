@@ -30,17 +30,19 @@ import { PDP_Regex } from '@/utils/constant';
 // import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth, getRandom } from '@/utils/utils';
-import ScrollToTop from '@/components/ScrollToTop';
+import {
+  ScrollToTop,
+  RouteFilter,
+  RouteFilterHook,
+  GoogleMapMakerHandle as MakerHandle
+} from '@/components';
 import { useDynamicLanguage } from '@/framework/common';
-import RouteFilter from '@/components/RouteFilter';
-import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
 
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
-import MakerHandle from '@/components/GoogleMap/makerHandle';
 
 // import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
@@ -78,7 +80,7 @@ const Cart = loadable(() => import('@/views/Cart'));
 const CartFRBreeder = loadable(() => import('@/views/CartFRBreeder'));
 // const CartInStock = loadable(() => import('@/views/CartInStock'));
 const Payment = loadable(() => import('@/views/Payment'));
-// const Checkout = loadable(() => import('@/views/Checkout'));
+const Checkout = loadable(() => import('@/views/Checkout'));
 const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
@@ -557,14 +559,14 @@ const App = () => {
                     return <Cart {...props} />;
                   }}
                 />
-                {/* <Route
+                <Route
                   exact
                   path="/checkoutnew"
                   sensitive
                   render={(props) => (
                     <Checkout key={props.match.params.type} {...props} />
                   )}
-                /> */}
+                />
                 <Route
                   exact
                   path="/checkout"

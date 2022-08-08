@@ -1,8 +1,5 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import { Header, Footer, BannerTip, GoogleTagManager } from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';

@@ -1,11 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import image from '@/assets/images/500.png';
 import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, GoogleTagManager } from '@/components';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
 import { isMobile } from '@/utils/utils';

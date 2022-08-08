@@ -1,8 +1,6 @@
 import React, { Component, useState } from 'react';
-import Consent from '@/components/Consent';
-import Footer from '@/components/Footer';
+import { Footer, GoogleTagManager, Loading, Consent } from '@/components';
 import { getStoreOpenConsentList } from '@/api/consent';
-import Loading from '@/components/Loading';
 import './index.less';
 import SocialRegister from './components/socialRegister';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
@@ -15,7 +13,6 @@ import {
   isMobile as isMobilePhone
 } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import { userBindConsent } from '@/api/consent';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';

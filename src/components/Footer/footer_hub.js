@@ -1,9 +1,8 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import PaymentLogos from './paymentLogos';
-import LoginButton from '@/components/LoginButton';
+import { LoginButton, Language } from '@/components';
 import { withRouter } from 'react-router-dom';
-import Language from '@/components/Language';
 
 @injectIntl
 class FooterHub extends React.Component {

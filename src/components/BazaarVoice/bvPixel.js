@@ -3,7 +3,7 @@ import { loadJS } from '../../utils/utils';
 //type:
 //1、Transactions—Product purchases.
 // These events are captured if you implement BV Pixel on the order confirmation page.
-export function transactionPixel(details) {
+export default function transactionPixel(details) {
   console.log(details);
   const items = details.tradeItems.map((item) => {
     return {

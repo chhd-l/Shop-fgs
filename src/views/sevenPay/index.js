@@ -2,7 +2,7 @@ import React from 'react';
 import { seoHoc } from '@/framework/common';
 // import axios from '@/utils/request';
 import { renderScriptOrLinkHtmlStr } from '@/utils/utils';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 import qs from 'qs';
 import { sevenPayApi } from '@/api/payment';
 

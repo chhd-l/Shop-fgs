@@ -1,16 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  Loading,
+  BannerTip,
+  ImageMagnifierForUS as ImageMagnifier
+} from '@/components';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import BannerTip from '@/components/BannerTip';
 import Help from '../SmartFeederSubscription/modules/Help';
 import recommendation2 from '@/assets/images/fr_recommendation2.png';
 import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
-import ImageMagnifier from '@/components/ImageMagnifierForUS';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
@@ -27,7 +30,6 @@ import {
   formatMoney
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.css';
 import { Canonical, Button } from '@/components/Common';

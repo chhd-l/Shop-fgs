@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import TimeCount from '@/components/TimeCount';
+import { TimeCount } from '@/components';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Button } from '@/components/Common';

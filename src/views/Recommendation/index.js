@@ -1,10 +1,14 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  Header,
+  Footer,
+  LoginButton,
+  BannerTip,
+  GoogleTagManager,
+  ImageMagnifier
+} from '@/components';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
@@ -19,7 +23,6 @@ import de_recommendation2 from '@/assets/images/de_recommendation2.png';
 import de_recommendation3 from '@/assets/images/de_recommendation3.png';
 import de_recommendation4 from '@/assets/images/de_recommendation4.png';
 import storeLogo from '@/assets/images/storeLogo.png';
-import ImageMagnifier from '@/components/ImageMagnifier';
 import {
   formatMoney,
   isMobile,
@@ -30,7 +33,6 @@ import { seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import LoginButton from '@/components/LoginButton';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import {

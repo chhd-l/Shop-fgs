@@ -5,15 +5,17 @@ import { inject, observer } from 'mobx-react';
 import { toJS, reaction } from 'mobx';
 import Cookies from 'cookies-js';
 import md5 from 'js-md5';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import {
+  Header,
+  Footer,
+  Loading,
+  GoogleTagManager,
+  PayProductInfo as RePayProductInfo,
+  ValidationAddressModal
+} from '@/components';
 import PayProductInfo from './PayProductInfo';
-import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq';
-import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
-import ValidationAddressModal from '@/components/validationAddressModal';
 import {
   VisitorAddress,
   AddressList,

@@ -3,10 +3,8 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, Loading, BannerTip } from '@/components';
 import { Link } from 'react-router-dom';
-import Loading from '@/components/Loading';
 import {
   formatMoney,
   mergeUnloginCartData,
@@ -38,7 +36,6 @@ import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
 import PayProductInfo from '@/views/Payment/PayProductInfo';
-import BannerTip from '@/components/BannerTip';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';

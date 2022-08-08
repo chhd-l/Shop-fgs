@@ -3,7 +3,7 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
 import {
   isMobile,
   formatMoney,

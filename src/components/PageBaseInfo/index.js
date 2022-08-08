@@ -3,8 +3,7 @@
  * 封装GoogleTagManager、Header、Helmet组件，再以组件方式使用，达到优化代码目的
  */
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
+import { GoogleTagManager, Header } from '@/components';
 import { Helmet } from 'react-helmet';
 import { setSeoConfig } from '@/utils/utils';
 import { observer } from 'mobx-react';

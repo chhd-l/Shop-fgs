@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
-import EditForm from '@/components/Adyen/form';
+import { AdyenEditForm as EditForm } from '@/components';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import { Popover } from '@/components/Common';

@@ -1,6 +1,5 @@
 import React from 'react';
-import Pagination from '@/components/Pagination';
-import Rate from '@/components/Rate';
+import { Pagination, Rate } from '@/components';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details';
 import LazyLoad from 'react-lazyload';
