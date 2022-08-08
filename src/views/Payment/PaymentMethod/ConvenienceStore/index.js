@@ -12,10 +12,7 @@ const convenienceStoreList = [
   {
     label: (
       <>
-        <FormattedMessage id="Lawson" />、
-        <FormattedMessage id="Family Mart" />、
-        <FormattedMessage id="Seiko Mart" />、
-        <FormattedMessage id="Ministop" />
+        <FormattedMessage id="Lawson,Family Mart,Seiko Mart,Ministop" />
       </>
     ),
     value: 'Lawson,Family Mart,Seiko Mart,Ministop'

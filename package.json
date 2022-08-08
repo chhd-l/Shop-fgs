@@ -60,6 +60,7 @@
     "is-promise": "^4.0.0",
     "jest": "26.0.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
+    "jest-enzyme": "^7.1.2",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "js-md5": "^0.7.3",
@@ -121,7 +122,7 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest",
     "start": "dotenv -e .env node scripts/start.js",
     "build": "node scripts/build.js",
     "build:dev": "dotenv -e .env -e .env.development node scripts/build.js",
