@@ -1234,6 +1234,13 @@ class Payment extends React.Component {
       consumerEmail: params.email,
       consumerPhone: params.phone
     });
+    // 修复felin 填完电话号码不显示下个模块
+    this.props.paymentStore.setStsToCompleted({
+      key: 'paymentMethod',
+      isFirstLoad: true
+    });
+    this.props.paymentStore.setStsToEdit({ key: 'paymentMethod' });
+
     this.setState({
       visibleUpdate: false
     });
