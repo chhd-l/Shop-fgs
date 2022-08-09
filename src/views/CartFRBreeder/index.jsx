@@ -26,7 +26,7 @@ export const CartFRBreeder = ({
   const [loadingRecommendation, setLoadingRecommendation] = useState(true);
   const [isSPT, setIsSPT] = useState(false);
   useEffect(() => {
-    req1();
+    req();
   }, []);
   const req = async () => {
     let frequencyList = [];
@@ -105,9 +105,6 @@ export const CartFRBreeder = ({
       setLoadingRecommendation(false);
       return;
     }
-  };
-  const req1 = () => {
-    //console.log(123);
   };
   const handleAddCart = async (productLists) => {
     if (loginStore.isLogin) {

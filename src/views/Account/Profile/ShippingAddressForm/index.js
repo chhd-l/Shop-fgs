@@ -44,6 +44,7 @@ class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      bugData: '',
       formAddressValid: false,
       loading: true,
       saveLoading: false,
@@ -167,6 +168,9 @@ class ShippingAddressFrom extends React.Component {
       this.showNextPanel();
     }
   };
+  updateBugData = (bugData) => {
+    this.setState({ bugData });
+  };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
     const { addressForm, selectValidationOption, validationAddress } =
@@ -266,6 +270,16 @@ class ShippingAddressFrom extends React.Component {
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {
         //日本需求store portal用的是region字段，shop新增地址用area字段
         params.area = data.region;
+      }
+
+      //临时处理bug-不是莫斯科地址传的莫斯科地址的问题
+      if (Object.keys(this.state.bugData).length > 0) {
+        params = Object.assign(params, {
+          city: this.state.bugData.city,
+          cityIdStr: this.state.bugData.cityIdStr,
+          province: this.state.bugData.province,
+          provinceIdStr: this.state.bugData.provinceIdStr
+        });
       }
 
       let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
@@ -469,6 +483,7 @@ class ShippingAddressFrom extends React.Component {
                     initData={addressForm}
                     isLogin={true}
                     updateData={this.handleEditFormChange}
+                    updateBugData={this.updateBugData}
                     getFormAddressValidFlag={this.getFormAddressValidFlag}
                   />
 
