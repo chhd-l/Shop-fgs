@@ -321,10 +321,7 @@ class AddressList extends React.Component {
     this.deleteConfirmTooltipVisible(data, true);
   }
 
-  async deleteCard(el, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+  async deleteCard(el) {
     let { allAddressList } = this.state;
     el.confirmTooltipVisible = false;
     this.scrollToTop();
