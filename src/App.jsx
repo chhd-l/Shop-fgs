@@ -30,19 +30,23 @@ import { PDP_Regex } from '@/utils/constant';
 // import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth, getRandom } from '@/utils/utils';
-import {
-  ScrollToTop,
-  RouteFilter,
-  RouteFilterHook,
-  GoogleMapMakerHandle as MakerHandle
-} from '@/components';
 import { useDynamicLanguage } from '@/framework/common';
+import ScrollToTop from '@/components/ScrollToTop';
+import RouteFilter from '@/components/RouteFilter';
+import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
+// import {
+//   ScrollToTop,
+//   RouteFilter,
+//   RouteFilterHook,
+//   GoogleMapMakerHandle as MakerHandle
+// } from '@/components';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
 
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
+import MakerHandle from '@/components/GoogleMap/makerHandle';
 
 // import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
@@ -54,7 +58,8 @@ import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
 import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 // import register from '@/views/Register';
 import Welcome from '@/views/Register/welcome.js';
-import CancelEmail from '@/views/StaticPage/CancelEmail';
+// import CancelEmail from '@/views/StaticPage/CancelEmail';
+const CancelEmail = loadable(() => import('@/views/StaticPage/CancelEmail'));
 // import RCInput from './components/Form/Input';
 // import RCSelect from './components/Form/Downselect';
 const FelinTermsConditions = loadable(() =>
