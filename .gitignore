@@ -2,6 +2,7 @@ node_modules
 build
 .idea
 debug.log
+coverage
 # .env.development.local
 feature_0523_sprint12
 build_tmp
