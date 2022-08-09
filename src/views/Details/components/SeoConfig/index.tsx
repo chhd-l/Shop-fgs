@@ -19,6 +19,7 @@ const SeoConfig = ({ errMsg, goodsId, pageLink, setHeadingTag }: Props) => {
   });
   useEffect(() => {
     if (goodsId) {
+      // @ts-ignore
       setSeoConfig({
         goodsId: goodsId,
         categoryId: '',
