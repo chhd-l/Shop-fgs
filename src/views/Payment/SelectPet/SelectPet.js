@@ -70,9 +70,8 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
           curKey
         });
         paymentStore.setStsToCompleted({ key: curKey });
+        isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
       }
-
-      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }, [isRepay, isShowBindPet]);
 
