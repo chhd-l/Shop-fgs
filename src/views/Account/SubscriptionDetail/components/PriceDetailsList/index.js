@@ -26,7 +26,7 @@ const PriceDetailsList = ({
   const priceList = sortPriceList([
     {
       key: 'totalPrice',
-      val: totalPrice + gifts?.marketPrice,
+      val: totalPrice + (gifts?.marketPrice ?? 0),
       visible: true,
       title: <FormattedMessage id="subscription.total" />
     },
