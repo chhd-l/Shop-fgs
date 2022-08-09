@@ -1835,7 +1835,7 @@ class Form extends React.Component {
     let show = false,
       zhengque = true,
       ltext = null,
-      borcolor = 'border-gray-500';
+      borcolor = ' border-gray-500';
     return (
       <>
         <div className="w-full">
