@@ -319,10 +319,7 @@ class PaymentList extends React.Component {
       });
     }, 5000);
   };
-  async deleteCard(el, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+  async deleteCard(el) {
     let { creditCardList } = this.state;
     el.confirmTooltipVisible = false;
     this.setState({
