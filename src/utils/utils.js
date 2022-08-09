@@ -445,7 +445,7 @@ export function getParentNodesByChild({ data: arr1, id, matchIdName }) {
 }
 
 export async function setSeoConfig(
-  obj = { goodsId: '', categoryId: '', pageName: '' }
+  obj = { goodsId: '', categoryId: '', pageName: '', navigationLink: '' }
 ) {
   // 如果页面调用了这个方法，就需要移除html里默认的字段
   document.getElementsByTagName('meta')[(name = 'description')] &&
@@ -459,9 +459,13 @@ export async function setSeoConfig(
   if (obj.goodsId && obj.pageName) {
     goodsSeo = await getGoodsSeo(obj.goodsId, obj.pageName);
   } else if (obj.categoryId && obj.pageName) {
-    cateSeo = await getCateSeo(obj.categoryId, obj.pageName);
+    cateSeo = await getCateSeo(
+      obj.categoryId,
+      obj.pageName,
+      obj.navigationLink
+    );
   } else if (obj.pageName) {
-    pageSeo = await getPageSeo(obj.pageName);
+    pageSeo = await getPageSeo(obj.pageName, obj.navigationLink);
   } else if (!sessionStorage.getItem('seoInfo')) {
     siteSeo = await getSiteSeo();
   } else {
@@ -505,11 +509,12 @@ async function getSiteSeo() {
   }
 }
 
-async function getPageSeo(pageName) {
+async function getPageSeo(pageName, navigationLink) {
   try {
     const res = await getSeoConfig({
       type: 3,
-      pageName: pageName,
+      pageName,
+      navigationLink,
       storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
@@ -517,12 +522,13 @@ async function getPageSeo(pageName) {
     return {};
   }
 }
-async function getCateSeo(categoryId, pageName) {
+async function getCateSeo(categoryId, pageName, navigationLink) {
   try {
     const res = await getSeoConfig({
       type: 2,
       pageName,
       storeCateId: categoryId,
+      navigationLink,
       storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;

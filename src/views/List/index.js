@@ -1251,6 +1251,7 @@ class List extends React.Component {
       });
   }
   setSEO({ cateIds = [] } = {}) {
+    const { pathname } = this.props.history.location;
     const { keywords } = this.state;
     if (keywords) {
       setSeoConfig({ pageName: 'Search Results Page' }).then((res) => {
@@ -1262,12 +1263,16 @@ class List extends React.Component {
     } else if (cateIds && cateIds.length) {
       setSeoConfig({
         categoryId: cateIds[0],
-        pageName: 'Product List Page'
+        pageName: 'Product List Page',
+        navigationLink: pathname
       }).then((res) => {
         this.setState({ seoConfig: res });
       });
     } else {
-      setSeoConfig({ pageName: 'Product List Page' }).then((res) => {
+      setSeoConfig({
+        pageName: 'Product List Page',
+        navigationLink: pathname
+      }).then((res) => {
         this.setState({ seoConfig: res });
       });
     }
