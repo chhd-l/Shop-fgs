@@ -1,7 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import Loading from '@/components/Loading';
-import SearchSelection from '@/components/SearchSelection';
+import { SearchSelection, Loading } from '@/components';
 import { updateCustomerBaseInfo } from '@/api/user';
 import { getPrescriberByKeyWord, getPrescriberByCode } from '@/api/clinic';
 import { inject, observer } from 'mobx-react';

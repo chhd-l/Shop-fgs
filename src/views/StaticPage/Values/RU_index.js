@@ -1,16 +1,17 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import {
+  Header,
+  BreadCrumbs,
+  Footer,
+  BannerTip,
+  GoogleTagManager
+} from '@/components';
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
 

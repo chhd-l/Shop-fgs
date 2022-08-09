@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { funcUrl } from '@/lib/url-utils';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;

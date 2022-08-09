@@ -7,9 +7,8 @@ import './index.less';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { stgShowAuth, optimizeImage, getDeviceType } from '@/utils/utils';
+import { stgShowAuth, optimizeImage, isMobile } from '@/utils/utils';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const country = window.__.env.REACT_APP_COUNTRY;
 
 function ATagContainer({

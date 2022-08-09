@@ -64,14 +64,15 @@ const LoginButton = ({
 
   // 拿到userinfo信息后，执行传入该组件的init方法
   useEffect(() => {
-    // if (isGetUserInfoDown) {
     console.log(
       'getUserInfoDownCallback',
       isGetUserInfoDown,
       getUserInfoDownCallback
     );
-    // }
-    if (isGetUserInfoDown && getUserInfoDownCallback) {
+    if (
+      (isGetUserInfoDown || window.__.env.REACT_APP_FGS_SELF_REGISTER) &&
+      getUserInfoDownCallback
+    ) {
       getUserInfoDownCallback();
     }
   }, [isGetUserInfoDown, getUserInfoDownCallback]);
@@ -211,32 +212,12 @@ const LoginButton = ({
   }, [authState, oktaAuth]); // Update if authState changes
 
   const storageHandler = (e: StorageEvent) => {
-    // console.log('loginbutton storage change', e.key, `${window.__.env.REACT_APP_COUNTRY}-rc-token`);
-    // if (e.key.includes('rc-token')) {
-    // debugger;
-    // }
-    // 当打开多个tab时，同步登录登出状态
     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // 该token的旧值不存在，新值存在，表示登录
-      if (!e.oldValue && e.newValue) {
-        console.log(
-          111111111,
-          e.key,
-          `${window.__.env.REACT_APP_COUNTRY}-rc-token`
-        );
+      if (!e.oldValue && e.newValue && !localItemRoyal.get('rc-register')) {
         login();
       }
     }
-    // if (
-    //   e.key ===
-    //   `${localStorage.getItem('country-code-current-operated')}-rc-token`
-    // ) {
-    //   // debugger;
-    //   // 该token的旧值不存在，新值存在，表示登录
-    //   if (!e.oldValue && e.newValue) {
-    //     login();
-    //   }
-    // }
   };
 
   const login = async () => {

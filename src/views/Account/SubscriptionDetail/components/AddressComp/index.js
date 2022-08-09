@@ -13,21 +13,21 @@ import {
   getDictionary,
   validData,
   matchNamefromDict,
-  getDeviceType,
+  isMobile,
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
-import { AddressForm } from '@/components/Address';
-import Loading from '@/components/Loading';
-import ValidationAddressModal from '@/components/validationAddressModal';
-import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
-import { AddressPreview } from '@/components/Address';
+import { AddressForm, AddressPreview } from '@/components/Address';
+import {
+  Loading,
+  ValidationAddressModal,
+  HomeDeliveryOrPickUp
+} from '@/components';
 import { getConsigneeNameByCountry } from '@/utils/constant';
 import { Button } from '@/components/Common';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 function CardItem(props) {

@@ -1,11 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import Header from '@/components/Header';
-import Loading from '@/components/Loading';
-import Logo from '@/components/Logo';
-import { getDeviceType, generateOptions, getDictionary } from '@/utils/utils';
-import LoginButton from '@/components/LoginButton';
-import LogoutButton from '@/components/LogoutButton';
+import { Loading, LogoutButton } from '@/components';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 
@@ -13,7 +7,6 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore')
-@injectIntl
 @observer
 class OktaLogoutPage extends React.Component {
   constructor(props) {

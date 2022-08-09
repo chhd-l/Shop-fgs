@@ -190,7 +190,6 @@ class Cover extends React.Component {
                 <AdyenCreditCard
                   {...this.props}
                   // ref={this.adyenCardRef}
-                  subBuyWay={subForm.buyWay}
                   showErrorMsg={this.showErrorMsg}
                   updateAdyenPayParam={this.updateAdyenPayParam}
                   updateFormValidStatus={this.updateValidStatus.bind(this, {

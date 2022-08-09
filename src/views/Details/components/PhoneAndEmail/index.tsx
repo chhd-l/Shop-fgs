@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getDeviceType, optimizeImage } from '@/utils/utils';
+import { isMobile, optimizeImage } from '@/utils/utils';
 import Skeleton from '@/components/NormalSkeleton';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 interface Props {
   loading: boolean;
   details: any;

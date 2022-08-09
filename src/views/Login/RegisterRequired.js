@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import Footer from '@/components/Footer';
+import { Consent, Footer, LoginButton, Loading } from '@/components';
 import './index.less';
 import { findUserConsentList, userBindConsent } from '@/api/consent';
-import Consent from '@/components/Consent';
 import { withOktaAuth } from '@okta/okta-react';
-import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
-import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
 import { Modal, Button } from '@/components/Common';
 import { addEventListenerArr } from './addEventListener';
@@ -193,6 +190,7 @@ class RegisterRequired extends Component {
       styleObj: { display: 'none' },
       isLoading: true
     });
+    localItemRoyal.remove('rc-register');
     try {
       let customerId =
         loginStore.userInfo?.customerId ||
@@ -202,13 +200,12 @@ class RegisterRequired extends Component {
         loginStore.userInfo?.customerId,
         localItemRoyal.get('rc-userinfo')?.customerId
       );
-      debugger;
       if (!customerId) {
         return;
       }
       const result = await findUserConsentList({
         customerId,
-        oktaToken: localItemRoyal.get('oktaToken')
+        oktaToken: localItemRoyal.get('oktaToken') || ''
       });
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {

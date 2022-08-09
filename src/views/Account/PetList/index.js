@@ -1,9 +1,11 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
-import BannerTip from '@/components/BannerTip';
+import {
+  Header,
+  Footer,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  BannerTip
+} from '@/components';
 import './index.css';
 import edit from '@/assets/images/edit.svg';
 import LazyLoad from 'react-lazyload';

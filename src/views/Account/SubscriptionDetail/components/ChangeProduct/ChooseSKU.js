@@ -1,6 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import FrequencySelection from '@/components/FrequencySelection';
+import {
+  FrequencySelection,
+  InstockStatusComp,
+  HandledSpec
+} from '@/components';
 import { ErrorMessage } from '@/components/Message';
 import {
   changeSubscriptionGoods,
@@ -8,10 +12,8 @@ import {
   stockNoticeModify,
   queryStockNotice
 } from '@/api/subscription';
-import HandledSpec from '@/components/HandledSpec/index.tsx';
 import HandledSpecSelect from '../HandledSpecSelect';
-import InstockStatusComp from '@/components/InstockStatusComp';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { formatMoney, isMobile } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import find from 'lodash/find';
 import { ChangeProductContext } from './index';
@@ -27,7 +29,6 @@ import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 const loginStore = stores.loginStore;
 
 const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -103,10 +104,8 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
     }
   };
 
-  const updatedPriceOrCode = ({ clickEvent }) => {
-    if (clickEvent) {
-      checkStockNotice(details);
-    }
+  const updatedChangeSku = () => {
+    checkStockNotice(details);
   };
 
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
@@ -375,7 +374,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
   };
 
   const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
-  let seleced = quantity < stock && (skuPromotions === 'club' || autoshipType);
+  let seleced = quantity < stock && (skuPromotions == 'club' || autoshipType);
   let outOfStockStatus = quantity > stock;
   return (
     <React.Fragment>
@@ -453,6 +452,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
                       disabledGoodsInfoIds={subDetail.goodsInfo.map(
                         (g) => g.goodsInfoVO.goodsInfoId
                       )}
+                      inModal={inModal}
                       onIsSpecAvailable={(status) => {
                         setIsSpecAvailable(status);
                       }}
@@ -460,6 +460,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
                       updatedSku={matchGoods}
                       canSelectedOutOfStock={true}
                       canSelectedWhenAllSpecDisabled={true}
+                      updatedChangeSku={updatedChangeSku}
                     />
                     {/* <div className="absolute bottom-4 right-12">
                       <InstockStatusComp
@@ -628,7 +629,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
               >
                 <FormattedMessage id="Notify me" />
               </Button>
-            ) : isNotInactive && !alreadyNotice ? (
+            ) : isNotInactive && !outOfStockStatus ? (
               <Button
                 size="small"
                 type="primary"

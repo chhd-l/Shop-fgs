@@ -2,13 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
+import {
+  Header,
+  Footer,
+  BreadCrumbs,
+  BannerTip,
+  LoginButton
+} from '@/components';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
 import Help from './Help';
-import LoginButton from '@/components/LoginButton';
 import LazyLoad from 'react-lazyload';
 import { Button } from '@/components/Common';
 import catImg from '@/assets/images/product-finder-cat2.jpg';

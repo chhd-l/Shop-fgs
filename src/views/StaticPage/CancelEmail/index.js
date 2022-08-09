@@ -1,8 +1,7 @@
 import React from 'react';
 import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Footer, Header } from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { cancelEmailBind } from '@/api';
 import { Canonical } from '@/components/Common';

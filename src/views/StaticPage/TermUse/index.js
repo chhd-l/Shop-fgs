@@ -1,8 +1,6 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, BannerTip } from '@/components';
 import { seoHoc } from '@/framework/common';
-import BannerTip from '@/components/BannerTip';
 import { Canonical } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;

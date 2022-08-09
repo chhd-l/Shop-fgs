@@ -7,11 +7,10 @@ import { getRecommendationInfo } from '@/api/productFinder';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function getScrollTop() {
   let scrollTop = 0;

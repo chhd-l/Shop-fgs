@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, BannerTip } from '@/components';
 import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
 import { injectIntl } from 'react-intl-phraseapp';
 import CATSPng from './images/CATS2@2x.jpg';
 import catAndPhone from './images/catAndPhone.png';

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import { getMarketingBanner } from '@/api/home';
 import { DistributeLinkOrATag } from '@/components/DistributeLink';
 import MktMessage from './MktMessage';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Container({ children }) {
   return isMobile ? (

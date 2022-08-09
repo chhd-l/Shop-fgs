@@ -1,12 +1,9 @@
 import React from 'react';
-import Pagination from '@/components/Pagination';
-import Selection from '@/components/Selection';
-import Rate from '@/components/Rate';
+import { Pagination, Selection, Rate } from '@/components';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import Skeleton from 'react-skeleton-loader';
-
 import { getServiceEvaluate, gitDict } from '@/api/felin';
 
 @injectIntl

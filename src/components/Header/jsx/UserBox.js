@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LoginButton from '@/components/LoginButton';
-import LogoutButton from '@/components/LogoutButton';
+import { LoginButton, LogoutButton } from '@/components';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import '../css/user.less';

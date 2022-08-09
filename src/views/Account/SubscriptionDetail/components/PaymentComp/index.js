@@ -12,7 +12,7 @@ import {
   getWays,
   setDefaltCard
 } from '@/api/payment';
-import Loading from '@/components/Loading';
+import { Loading, PaymentEditForm } from '@/components';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE,
@@ -23,7 +23,6 @@ import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
 import getCardImg from '@/lib/get-card-img';
 import cn from 'classnames';
-import PaymentEditForm from '@/components/PaymentEditForm';
 import { handleEmailShow } from '@/utils/utils';
 import { Button, Popover } from '@/components/Common';
 

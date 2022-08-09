@@ -753,8 +753,7 @@ export async function fetchHeaderNavigations() {
   if (ret) {
     ret = JSON.parse(ret);
   } else {
-    // const res = await queryHeaderNavigations();
-    const res = ruLocalNavigation;
+    const res = await queryHeaderNavigations();
     if (res.context) {
       ret = res.context;
       ret.navigationResponseList = (ret?.navigationResponseList || []).filter(
@@ -794,7 +793,7 @@ export function unique(arr) {
 
 export async function queryApiFromSessionCache({ sessionKey, api }) {
   let ret = sessionItemRoyal.get(sessionKey);
-  if (ret && sessionKey != 'footer-hub') {
+  if (ret) {
     ret = JSON.parse(ret);
   } else {
     console.info('ruLocalNavigation', ruLocalNavigation);
@@ -802,9 +801,17 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
     //处理ru local header&footer逻辑
     if (
       sessionKey == 'header-navigations-hub' &&
-      window.__.env.REACT_APP_IS_RULOCAL
+      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
     ) {
       ruLocalNavigation.MenuGroups.forEach((outerItem) => {
+        let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
+        if (
+          outterisOtherUrl === false &&
+          !outerItem?.Link?.Url?.includes('#')
+        ) {
+          outerItem.Link.Url =
+            window.__.env.REACT_APP_URLPREFIX + outerItem.Link.Url;
+        }
         outerItem.MenuItems?.forEach((innerItem) => {
           let isOtherUrl = innerItem?.Link?.Url?.includes('http');
           if (isOtherUrl === false) {
@@ -816,9 +823,9 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       res = ruLocalNavigation;
     } else if (
       sessionKey == 'footer-hub' &&
-      window.__.env.REACT_APP_IS_RULOCAL
+      window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
     ) {
-      res = ruLocalFooter?.MenuGroups.forEach((outerItem) => {
+      ruLocalFooter?.MenuGroups.forEach((outerItem) => {
         let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
         if (outterisOtherUrl === false) {
           outerItem.Link.Url =
@@ -832,6 +839,7 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
           }
         });
       });
+      res = ruLocalFooter;
     } else {
       res = await api();
     }
@@ -1429,3 +1437,5 @@ export const getRandom = () => {
   var array = new Uint32Array(1);
   return crypto.getRandomValues(array)[0];
 };
+
+export const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';

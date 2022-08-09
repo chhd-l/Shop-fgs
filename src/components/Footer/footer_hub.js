@@ -1,9 +1,8 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import PaymentLogos from './paymentLogos';
-import LoginButton from '@/components/LoginButton';
+import { LoginButton, Language } from '@/components';
 import { withRouter } from 'react-router-dom';
-import Language from '@/components/Language';
 
 @injectIntl
 class FooterHub extends React.Component {
@@ -128,7 +127,11 @@ class FooterHub extends React.Component {
             </div>
           </div>
         ) : null}
-        <div className="rc-divider hidden md:block order-4 col-span-12" />
+        <div
+          className={`rc-divider hidden md:block order-4 col-span-12 ${
+            window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? 'mt-8 mb-4' : ''
+          }`}
+        />
         {/*MenuInfoItems */}
         {MenuInfoItems && MenuInfoItems[0] ? (
           <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile order-5 col-span-12 md:col-span-8">

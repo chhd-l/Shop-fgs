@@ -1,14 +1,24 @@
 import React from 'react';
-import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
 import { toJS } from 'mobx';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import HandledSpec from '@/components/HandledSpec/index.tsx';
-import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
-import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
+import {
+  Header,
+  Footer,
+  HandledSpec,
+  BreadCrumbsNavigation,
+  InstockStatusComp,
+  ImageMagnifier,
+  BannerTip,
+  Loading,
+  GoodsDetailTabs,
+  NormalSkeleton as Skeleton
+} from '@/components';
+import {
+  Reviews as BazaarVoiceReviews,
+  addSchemaOrgMarkup
+} from '@/components/BazaarVoice';
 import SingleBuyMethod from './components/SingleBuyMethod/index.tsx';
 import AutoshipBuyMethod from './components/AutoshipBuyMethod/index.tsx';
 import ClubBuyMethod from './components/ClubBuyMethod/index.tsx';
@@ -17,15 +27,12 @@ import ButtonGroup from './components/ButtonGroup/index.tsx';
 import ErrMsgForCheckoutPanel from './components/ErrMsgForCheckoutPanel/index.tsx';
 import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
 import DetailHeader from './components/DetailHeader/index.tsx';
-import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
-import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
-import Loading from '@/components/Loading';
 import DailyPortion from './components/DailyPortion';
 import {
-  getDeviceType,
+  isMobile,
   getFrequencyDict,
   queryStoreCateList,
   loadJS,
@@ -59,13 +66,10 @@ import {
 } from '@/framework/cart';
 import './index.css';
 import './index.less';
-import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import AdvantageTips from './components/AdvantageTips';
 import Advantage from './components/Advantage';
 import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
-import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
-import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 import { getAppointPageSelected } from '@/api/consent';
 import {
   setGoogleProductStructuredDataMarkup,
@@ -83,8 +87,7 @@ import OssReceiveBackNotificationContent from './components/OSSReceiveBackNotifi
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
+const PC = !isMobile;
 const isHub = window.__.env.REACT_APP_HUB;
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
@@ -461,7 +464,6 @@ class Details extends React.Component {
         });
       }
     });
-
     // bundle商品的ga初始化填充
     if (!details.goodsSpecs) {
       this.getPdpScreenLoadData();
@@ -483,13 +485,12 @@ class Details extends React.Component {
       clinicStore,
       selectPrice
     };
-    // cc.js加载
-    this.loadWidgetIdBtn(barcode);
-
     //hubGa初始化页面埋点,不是点击的事件才调用
     if (!clickEvent) {
       hubGAProductDetailPageView(details, pdpScreenLoadData);
     }
+    // cc.js加载
+    this.loadWidgetIdBtn(barcode);
 
     this.setState({
       barcode
@@ -815,6 +816,7 @@ class Details extends React.Component {
         ? buyFromRetailerConfig.idVetProducts
         : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
     const id = goodsType === 3 ? vetWidgetId : widgetId;
+    const dataEventGtm = 'data-eventgtm';
     if (widgetId || vetWidgetId) {
       loadJS({
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
@@ -828,7 +830,7 @@ class Details extends React.Component {
           ean: barcode,
           subid: '',
           trackingid: buyFromRetailerConfig.trackingIdPrefix,
-          'data-eventgtm': true
+          eventgtm: 'true'
         }
       });
     }
@@ -1562,7 +1564,6 @@ class Details extends React.Component {
                                       <PurchaseMethodB
                                         form={form}
                                         fromPrice={fromPrice}
-                                        isMobile={isMobile}
                                         specAndQuantityDom={() =>
                                           this.specAndQuantityDom(
                                             selectedSpecItem

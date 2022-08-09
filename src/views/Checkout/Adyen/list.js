@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
-import EditForm from '@/components/Adyen/form';
+import { AdyenEditForm as EditForm } from '@/components';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import { Popover } from '@/components/Common';
@@ -48,7 +48,6 @@ class AdyenCreditCardList extends React.Component {
   static defaultProps = {
     updateFormValidStatus: () => {},
     updateSelectedCardInfo: () => {},
-    subBuyWay: '', // once/fre
     billingJSX: null
   };
   constructor(props) {
@@ -586,7 +585,10 @@ class AdyenCreditCardList extends React.Component {
     scrollPaymentPanelIntoView();
   };
   renderEditForm = () => {
-    const { showErrorMsg, subBuyWay } = this.props;
+    const {
+      showErrorMsg,
+      paymentStoreNew: { subForm }
+    } = this.props;
     const { cardList } = this.state;
     return (
       <EditForm
@@ -596,8 +598,8 @@ class AdyenCreditCardList extends React.Component {
         showSaveBtn={false}
         isOnepageCheckout={true}
         enableStoreDetails={this.isLogin}
-        mustSaveForFutherPayments={subBuyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
-        key={subBuyWay}
+        mustSaveForFutherPayments={subForm.buyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
+        key={subForm.buyWay}
         showCancelBtn={false}
         updateFormVisible={(val) => {
           this.setState({ formVisible: val });

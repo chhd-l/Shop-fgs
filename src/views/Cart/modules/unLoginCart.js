@@ -2,9 +2,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import LoginButton from '@/components/LoginButton';
+import { Header, Footer, LoginButton, Loading, BannerTip } from '@/components';
 import { Link } from 'react-router-dom';
 import { FOOD_DISPENSER_PIC, IMG_DEFAULT } from '@/utils/constant';
 import {
@@ -12,7 +10,7 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
   unique,
-  getDeviceType,
+  isMobile,
   handleRecommendation,
   isShowMixFeeding,
   optimizeImage,
@@ -26,14 +24,12 @@ import {
 import { getMixFeedings } from '@/api/details';
 import { getGoodsRelationBatch, valetGuestMiniCars } from '@/api/cart';
 import PayProductInfo from '@/views/Payment/PayProductInfo';
-import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
 import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
-import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import './index.less';
 import SubscriptionSelection from '../components/SubscriptionSelection';
@@ -59,7 +55,6 @@ import { Button, Popover } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 @injectIntl

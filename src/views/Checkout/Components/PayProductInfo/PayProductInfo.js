@@ -7,7 +7,8 @@ import {
   formatMoney,
   getFrequencyDict,
   getClubLogo,
-  formatDate
+  formatDate,
+  isMobile
 } from '@/utils/utils';
 import { GAInitUnLogin, GAInitLogin, GACheckoutScreenLoad } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
@@ -19,9 +20,12 @@ import GiftList from '../GiftList';
 import { isFirstOrder } from '@/api/user';
 import cloneDeep from 'lodash/cloneDeep';
 import { IMG_DEFAULT } from '@/utils/constant';
-import LoyaltyPoint from './components/loyaltyPoint';
 import cn from 'classnames';
-import { PriceDetailsList } from './components';
+import {
+  PriceDetailsList,
+  ProductDetailItem,
+  LoyaltyPoint
+} from './components';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -29,6 +33,15 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
+
+const ProductCatogeryTitle = ({ title, icon }) => {
+  return (
+    <div className="flex justify-between items-center pt-3">
+      <p className="medium text-lg">{title}</p>
+      {icon}
+    </div>
+  );
+};
 
 @inject(
   'checkoutStore',
@@ -67,9 +80,11 @@ class PayProductInfo extends React.Component {
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
       isFirstOrder: false, //是否是首单
-      isStudentPurchase: false //是否填写了学生购student promotion 50% discount
+      isStudentPurchase: false, //是否填写了学生购student promotion 50% discount
+      cartDetailVisible: isMobile ? false : true
     };
     this.handleClickProName = this.handleClickProName.bind(this);
+    this.toggleCartFlod = this.toggleCartFlod.bind(this);
   }
   get isPromotionCodeInputFocus() {
     return this.props.checkoutStore.promotionCodeInputFocus;
@@ -306,10 +321,15 @@ class PayProductInfo extends React.Component {
   get giftList() {
     return this.props.checkoutStore.giftList || [];
   }
+  toggleCartFlod() {
+    this.setState((cur) => ({
+      cartDetailVisible: !cur.cartDetailVisible
+    }));
+  }
   getProducts(plist) {
     const List = plist.map((el, i) => {
       return (
-        <div className="product-summary__products__item" key={i}>
+        <div className="product-summary__products__item p-0 m-0" key={i}>
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
@@ -328,7 +348,7 @@ class PayProductInfo extends React.Component {
                     title={el.goodsName}
                     onClick={this.handleClickProName.bind(this, el)}
                   >
-                    <span className="light">{el.goodsName}</span>
+                    <span className="font-medium">{el.goodsName}</span>
                     {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
                     el.promotions &&
                     el?.goodsInfoFlag > 0 &&
@@ -355,11 +375,12 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 <div className="line-item-total-price justify-content-end pull-right">
-                  <div>{formatMoney(el.marketPrice * el.buyCount)}</div>
+                  <span className="font-medium">
+                    {formatMoney(el.marketPrice * el.buyCount)}
+                  </span>
                 </div>
               </div>
             </div>
-            <div className="item-options"></div>
           </div>
         </div>
       );
@@ -386,10 +407,108 @@ class PayProductInfo extends React.Component {
       let recommendateInfo = JSON.parse(paramsString);
       IndvPetInfo = recommendateInfo.customerPetsVo;
     }
+
+    // 将单次购买、订阅购买分开
+    const singleProducts = plist.filter((p) => !this.isSubscription(p));
+    const SingleList = this.loginItemList(singleProducts);
+
+    const subProducts = plist.filter((p) => this.isSubscription(p));
+    const SubscriptionList = this.loginItemList(subProducts);
+    const subTotleSaved = subProducts.reduce((prev, cur) => {
+      return (
+        prev +
+        cur.buyCount * cur.subscriptionPrice -
+        cur.buyCount * cur.salePrice
+      );
+    }, 0);
+    return (
+      <>
+        <div>
+          <ProductCatogeryTitle
+            title={`Sinlge purchase(${singleProducts.reduce((prev, cur) => {
+              return prev + cur.buyCount;
+            }, 0)})`}
+          />
+
+          {SingleList}
+        </div>
+        <div>
+          <ProductCatogeryTitle
+            title={`Subscription purchase(${subProducts.reduce((prev, cur) => {
+              return prev + cur.buyCount;
+            }, 0)})`}
+            // icon={}
+          />
+
+          {SubscriptionList}
+          <div className="text-center border-top py-2">
+            <span
+              className="iconfont font-weight-bold iconrefresh green mr-1"
+              style={{ fontSize: '.8em' }}
+            />
+            节省了
+            {formatMoney(subTotleSaved)}钱
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  loginItemList = (list) => {
     // 线下店数量展示和正常流程有区别（没区别）
     let orderSource = sessionItemRoyal.get('orderSource') && false;
 
-    const List = plist.map((el, i) => {
+    return list.map((el, i) => (
+      <ProductDetailItem
+        el={Object.assign({}, el, {
+          displayGoodsName:
+            el?.goodsInfoFlag === 3 ? (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: IndvPetInfo?.name }}
+              />
+            ) : (
+              el.goodsName || el.goods.goodsName
+            ),
+          logo:
+            el?.goodsInfoFlag > 0 && el?.goods?.promotions?.includes('club') ? (
+              <img
+                className="clubLogo"
+                src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
+                alt="club logo"
+              />
+            ) : null
+        })}
+        customContentDetail={
+          isFromFelin ? (
+            <div className="d-flex flex-column">
+              <span>
+                {el.expertName} – {el.minutes}
+                <FormattedMessage id="min" /> – {el.appointType}
+              </span>
+              <span>
+                <FormattedMessage id="Appointment time" />
+              </span>
+              <span>
+                {el.appointStartTime
+                  ? formatDate({
+                      date: el.appointStartTime,
+                      formatOption: {
+                        day: '2-digit',
+                        month: 'short',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      }
+                    })
+                  : ''}
+              </span>
+            </div>
+          ) : null
+        }
+        key={i}
+      />
+    ));
+    return list.map((el, i) => {
       // 是否是订阅产品
       const isSubscription = this.isSubscription(el);
       const renderAutoshipSavedtipContent = () => {
@@ -442,22 +561,37 @@ class PayProductInfo extends React.Component {
             : el.buyCount * el.salePrice
         );
         return (
-          <div className="line-item-total-price text-nowrap">
+          <div className="line-item-total-price">
             {topContent}
-            <span>{endContent}</span>
+            <span className="medium inline-block text-nowrap">
+              {endContent}
+            </span>
+            {/* 订阅折扣的金额 */}
+            <span className="green inline-block text-nowrap">
+              {formatMoney(
+                el.buyCount * el.subscriptionPrice - el.buyCount * el.salePrice
+              )}
+            </span>
           </div>
         );
       };
       return (
-        <div className="product-summary__products__item" key={i}>
+        <div
+          className={cn('product-summary__products__item p-0 m-0', {
+            'border-bottom': i !== list.length - 1
+          })}
+          key={i}
+        >
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <img
-                  className="product-image"
-                  src={el.goodsInfoImg || el.goodsImg || IMG_DEFAULT}
-                  alt="product image"
-                />
+                <LazyLoad>
+                  <img
+                    className="product-image"
+                    src={el.goodsInfoImg || el.goodsImg || IMG_DEFAULT}
+                    alt="product image"
+                  />
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -474,7 +608,7 @@ class PayProductInfo extends React.Component {
                       )
                     }
                   >
-                    <span className="light 11111">
+                    <span className="font-medium">
                       {el?.goodsInfoFlag === 3 ? (
                         <FormattedMessage
                           id="subscription.personalized"
@@ -557,16 +691,15 @@ class PayProductInfo extends React.Component {
 
                   {renderPriceContent()}
                 </div>
-                {renderAutoshipSavedtipContent()}
+                {/* {renderAutoshipSavedtipContent()} */}
               </div>
             </div>
-            <div className="item-options" />
           </div>
         </div>
       );
     });
-    return List;
-  }
+  };
+
   handleClickPromotionApply = async (falseCodeAndReRequest) => {
     let { discount } = this.state;
     try {
@@ -700,12 +833,12 @@ class PayProductInfo extends React.Component {
     const { productList } = this.state;
     return (
       <div
-        className="border-bottom flex items-center justify-between py-2 md:p-3"
+        className="border-bottom flex items-center justify-between px-5 py-2"
         onClick={this.props.onClickHeader}
       >
         {headerIcon}
         <div>
-          <p className="medium text-xl">{formatMoney(this.tradePrice)}</p>
+          <p className="medium text-2xl">{formatMoney(this.tradePrice)}</p>
           <p className="">
             {window.__.env.REACT_APP_COUNTRY === 'us' &&
             this.props.isCheckOut ? (
@@ -745,7 +878,7 @@ class PayProductInfo extends React.Component {
         !isFromFelin ? (
           <Link
             to="/cart"
-            className="font-medium hover:underline hover:text-rc-red"
+            className="font-medium underline hover:text-rc-red hidden md:block"
           >
             <FormattedMessage id="edit2" />
           </Link>
@@ -755,11 +888,18 @@ class PayProductInfo extends React.Component {
         {isFromFelin ? (
           <Link
             to="/felin"
-            className="product-summary__cartlink rc-styled-link"
+            className="product-summary__cartlink rc-styled-link hidden md:block"
           >
             <FormattedMessage id="re-book" />
           </Link>
         ) : null}
+
+        <div
+          className="block md:hidden underline"
+          onClick={this.toggleCartFlod}
+        >
+          Unfold it!
+        </div>
       </div>
     );
   }
@@ -771,7 +911,8 @@ class PayProductInfo extends React.Component {
       isShowValidCode,
       validPromotionCodeErrMsg,
       isFirstOrder,
-      isStudentPurchase
+      isStudentPurchase,
+      cartDetailVisible
     } = this.state;
     const { checkoutStore } = this.props;
     const { installMentParam } = checkoutStore;
@@ -786,11 +927,31 @@ class PayProductInfo extends React.Component {
         style={{ ...style }}
         id={id}
       >
-        <div className="product-summary__recap mt-0 mb-0 222">
+        <div className="product-summary__recap mt-0 mb-0 222 text-cs-black">
           {this.getTotalItems()}
-          <div className="product-summary__recap__content">
-            <div className="checkout--padding">
-              {/* 支付新增promotionCode(选填) */}
+          <div className={cn({ hidden: false && !cartDetailVisible })}>
+            <div className="product-summary__recap__content">
+              <div className="checkout--padding">
+                <div className="product-summary__fees order-total-summary">
+                  <PriceDetailsList
+                    data={{
+                      totalPrice: this.totalPrice,
+                      taxFeePrice: this.taxFeePrice,
+                      subscriptionDiscountPrice: this.subscriptionDiscountPrice,
+                      deliveryPrice: this.deliveryPrice,
+                      freeShippingDiscountPrice: this.freeShippingDiscountPrice,
+                      freeShippingFlag: this.freeShippingFlag,
+                      promotionVOList: this.promotionVOList,
+                      isShowValidCode,
+                      installMentParam
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* 支付新增promotionCode(选填) */}
+            <div className="px-5 border-top border-bottom">
               <div className="mb-3 d-flex justify-content-between items-center">
                 <span
                   className="rc-input rc-input--inline rc-input--label mr-0"
@@ -905,25 +1066,10 @@ class PayProductInfo extends React.Component {
                     </div>
                   </>
                 ))}
-              <div className="product-summary__fees order-total-summary">
-                <PriceDetailsList
-                  data={{
-                    totalPrice: this.totalPrice,
-                    taxFeePrice: this.taxFeePrice,
-                    subscriptionDiscountPrice: this.subscriptionDiscountPrice,
-                    deliveryPrice: this.deliveryPrice,
-                    freeShippingDiscountPrice: this.freeShippingDiscountPrice,
-                    freeShippingFlag: this.freeShippingFlag,
-                    promotionVOList: this.promotionVOList,
-                    isShowValidCode,
-                    installMentParam
-                  }}
-                />
-              </div>
             </div>
-          </div>
+            {/* 支付新增promotionCode(选填) end */}
 
-          <div className="product-summary__total px-5 grand-total row leading-lines border-top md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3">
+            {/* <div className="product-summary__total px-5 grand-total row leading-lines border-top md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3">
             <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
@@ -934,41 +1080,58 @@ class PayProductInfo extends React.Component {
                 {formatMoney(this.tradePrice)}
               </span>
             </div>
-          </div>
+          </div> */}
 
-          {window.__.env.REACT_APP_COUNTRY == 'de' ? (
-            <div
-              style={{
-                fontSize: '.75rem',
-                paddingLeft: '1.375rem',
-                paddingBottom: '.625rem',
-                color: '#999',
-                marginTop: '-5px'
-              }}
-            >
-              {<FormattedMessage id="totalIncluMessage" />}
-            </div>
-          ) : null}
-
-          {/* show Loyalty point */}
-          <LoyaltyPoint />
-
-          <div className="checkout--padding border-top">
-            {!needHideProductList && List}
-            {this.giftList.map((el, i) => (
-              <GiftList {...this.props} pitem={el} key={i} />
-            ))}
-            {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
-            {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-            this.isLogin &&
-            isFirstOrder &&
-            !isStudentPurchase ? (
-              <WelcomeBox
-                welcomeBoxChange={(value) => {
-                  this.props.welcomeBoxChange(value);
+            {window.__.env.REACT_APP_COUNTRY == 'de' ? (
+              <div
+                style={{
+                  fontSize: '.75rem',
+                  paddingLeft: '1.375rem',
+                  paddingBottom: '.625rem',
+                  color: '#999',
+                  marginTop: '-5px'
                 }}
-              />
+              >
+                {<FormattedMessage id="totalIncluMessage" />}
+              </div>
             ) : null}
+
+            {/* show Loyalty point */}
+            <LoyaltyPoint />
+
+            <div className="px-5 border-top">
+              {!needHideProductList && List}
+              {this.giftList.length > 0 ? (
+                <>
+                  <ProductCatogeryTitle
+                    title={`Gift(${this.giftList.reduce((prev, cur) => {
+                      return prev + cur.buyCount;
+                    }, 0)})`}
+                  />
+                  {this.giftList.map((el, i) => (
+                    <GiftList {...this.props} pitem={el} key={i} />
+                  ))}
+                </>
+              ) : null}
+
+              {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
+              {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
+              this.isLogin &&
+              isFirstOrder &&
+              !isStudentPurchase ? (
+                <WelcomeBox
+                  welcomeBoxChange={(value) => {
+                    this.props.welcomeBoxChange(value);
+                  }}
+                />
+              ) : null}
+            </div>
+            <div
+              className="text-center underline block md:hidden border-top py-2"
+              onClick={this.toggleCartFlod}
+            >
+              Fold it
+            </div>
           </div>
         </div>
       </div>

@@ -1,17 +1,19 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
-import Selection from '@/components/Selection';
-import Pagination from '@/components/Pagination';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BannerTip,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  Selection,
+  Pagination
+} from '@/components';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
-import { getDictionary, getDeviceType, getClubLogo } from '@/utils/utils';
+import { getDictionary, isMobile, getClubLogo } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import LazyLoad from 'react-lazyload';
@@ -154,7 +156,6 @@ class Subscription extends React.Component {
       ],
       subscriptionTypeList: [],
       subscriptionType: 'All',
-      isMobile: getDeviceType() !== 'PC',
       testNumber: 0
     };
     this.pageSize = 6;
@@ -321,8 +322,7 @@ class Subscription extends React.Component {
   };
 
   getPageBox = (isGift) => {
-    const { isMobile, subList, loading, errMsg, currentPage, totalPage } =
-      this.state;
+    const { subList, loading, errMsg, currentPage, totalPage } = this.state;
     let subscription = 'subscription';
 
     return (
@@ -438,7 +438,6 @@ class Subscription extends React.Component {
         filters: ''
       }
     };
-    const { isMobile } = this.state;
     return (
       <DivWrapper className="subscription">
         <GoogleTagManager

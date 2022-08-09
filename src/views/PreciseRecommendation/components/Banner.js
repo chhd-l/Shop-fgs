@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getDeviceType, formatMoney } from '@/utils/utils';
+import { isMobile, formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
@@ -9,7 +9,7 @@ import {
   AddItemMember as AddCartItemMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
-import LoginButton from '@/components/LoginButton';
+import { LoginButton } from '@/components';
 import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
 import product1 from '../image/product1.png';
@@ -26,7 +26,6 @@ import { Button } from '@/components/Common';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const BannerFour = ({ intl }) => {
   const bannerList = [
     {

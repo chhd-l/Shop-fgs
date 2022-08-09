@@ -1,14 +1,12 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import image from '@/assets/images/500.png';
 import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, GoogleTagManager } from '@/components';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
 import './index.less';
@@ -18,8 +16,6 @@ import HelpComponents from './Components/HelpComponents';
 import LongBanner from './Components/LongBanner';
 import AboutPet from './aboutPet';
 import { Canonical } from '@/components/Common';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Divider() {
   return (

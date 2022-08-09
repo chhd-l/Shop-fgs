@@ -1,20 +1,22 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import Pagination from '@/components/Pagination';
+import {
+  Pagination,
+  Footer,
+  GoogleMap,
+  BannerTip,
+  PageBaseInfo,
+  YandexMap
+} from '@/components';
 import './index.css';
 import MapFlag from '@/components/MapFlag';
-import GoogleMap from '@/components/GoogleMap';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import LazyLoad from 'react-lazyload';
 import Modal from './components/Modal';
 import initLocation from '../PrescriptionNavigate/location';
-import PageBaseInfo from '@/components/PageBaseInfo';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import YandexMap from '@/components/YandexMap';
 import { Button } from '@/components/Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

@@ -5,18 +5,18 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getList } from '@/api/list';
 import cloneDeep from 'lodash/cloneDeep';
-import { getDeviceType, fetchFilterList } from '@/utils/utils';
+import { isMobile as isMobilePhone, fetchFilterList } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 import { Filters, FiltersPC, SelectFilters } from '@/views/List/modules';
-import Pagination from '@/components/Pagination';
+import { Pagination } from '@/components';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
 import { ChangeProductContext } from '../index';
 
 function ListItemForDefault(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
+  const { item } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -100,12 +100,12 @@ function bSort(arr) {
   return arr;
 }
 
-const isMobilePhone = getDeviceType() === 'H5';
-
 const subType = {
-  1: 'club',
-  2: 'autoship'
+  1: 'autoship',
+  2: 'club'
 };
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,6 +128,9 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   const [filterListRes, setFilterListRes] = useState([]);
   const [searchFilter, setSearchFilter] = useState('');
   const [resetList, setResetList] = useState(false);
+  const [goodsFilterVOList, setGoodsFilterVOList] = useState([]);
+  const [isClearItem, setIsClearItem] = useState(false);
+
   const ChangeProductValue = useContext(ChangeProductContext);
   const { showProdutctDetail, errMsg } = ChangeProductValue;
 
@@ -145,9 +148,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
     ) {
       getProductLists();
     }
-  }, [resetList, defaultFilterSearchForm]);
 
-  useEffect(() => {
     if (
       resetList &&
       (defaultFilterSearchForm?.attrList?.length < 1 ||
@@ -156,6 +157,12 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
       getProductLists();
     }
   }, [resetList, defaultFilterSearchForm]);
+
+  useEffect(() => {
+    if (isClearItem && defaultFilterSearchForm?.attrList?.length < 1) {
+      setResetList(true);
+    }
+  }, [isClearItem, defaultFilterSearchForm]);
 
   useEffect(() => {
     // Filter the product list by the attribute of the main product
@@ -210,7 +217,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
       const _search = `?${_decoParam.ret.substr(1)}`;
       handleSelectedFilterPref(_search);
     }
-  }, [filterListRes]);
+  }, [filterListRes, mainProduct]);
 
   const getFilterList = async () => {
     const filterListRes = await fetchFilterList();
@@ -365,10 +372,25 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
     let _goodsInfoFlag = goodsInfoFlag || mainProduct.goodsInfoFlag;
     let promotions = '';
     promotions = subType[_goodsInfoFlag];
+
     let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
     let goodsFilterRelList = initingList
       ? [...defaultFilterSearchForm.filterList]
       : [];
+    const _goodsAttributesValueRelVOList = cloneDeep(
+      goodsAttributesValueRelVOList
+    );
+    const goodsFilterVOList =
+      JSON.parse(sessionItemRoyal.get('plpGoodsFilterVOList')) || [];
+    _goodsAttributesValueRelVOList.forEach((items) => {
+      goodsFilterVOList.forEach((ele) => {
+        if (items.attributeId === ele.attributeId) {
+          items.plpDisplayAttributeValueIdList = ele.attributesValueList.map(
+            (el) => el.id
+          );
+        }
+      });
+    });
 
     setInitingFilter(true);
     setLoading(true);
@@ -378,10 +400,12 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
       sortFlag: 11,
       pageSize: 9,
       promotions,
-      goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
-        const { attributeValues, ...otherParam } = el;
-        return otherParam;
-      }),
+      goodsAttributesValueRelVOList: _goodsAttributesValueRelVOList.map(
+        (el) => {
+          const { attributeValues, ...otherParam } = el;
+          return otherParam;
+        }
+      ),
       goodsFilterRelList: goodsFilterRelList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -389,6 +413,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
     };
     const res = await getList(params);
     if (res.code === 'K-000000') {
+      sessionItemRoyal.remove('plpGoodsFilterVOList');
       const esGoodsStoreGoodsFilterVOList = handledAttributeDetailNameEn(
         res.context?.esGoodsStoreGoodsFilterVOList || []
       );
@@ -431,6 +456,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
         setCurrentPage(esGoodsPage.number + 1);
         setTotalPage(esGoodsPage.totalPages);
         setCurrentPageProductNum(esGoodsPage.numberOfElements);
+        setGoodsFilterVOList(esGoodsStoreGoodsFilterVOList);
         // this.handleCanonicalLink();
       } else {
         setProductList([]);
@@ -444,7 +470,8 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
     setInitingFilter(false);
   };
 
-  const handleSelectedFilterPref = (search) => {
+  const handleSelectedFilterPref = (search, isClearItemClick) => {
+    setIsClearItem(isClearItemClick);
     setSearchFilter(search);
     let filters = [];
     // 解析prefn/prefv, 匹配filter, 设置默认选中值
@@ -550,10 +577,10 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
   };
 
   const handleFilterApplyChange = () => {
-    // sessionItemRoyal.set(
-    //   'plpGoodsFilterVOList',
-    //   // JSON.stringify(this.state.goodsFilterVOList)
-    // );
+    sessionItemRoyal.set(
+      'plpGoodsFilterVOList',
+      JSON.stringify(goodsFilterVOList)
+    );
   };
 
   const hanldePageNumChange = ({ currentPage }) => {
@@ -584,6 +611,8 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
         </span>
       </ListItemForDefault>
     ));
+
+  console.log(defaultFilterSearchForm, 'defaultFilterSearchForm==');
 
   return (
     <>
@@ -631,13 +660,6 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
                   key={`2-${filterList.length}`}
                   notUpdateRouter={true}
                   inputLabelKey={2}
-                  // hanldePriceSliderChange={
-                  //   this.hanldePriceSliderChange
-                  // }
-                  // markPriceAndSubscriptionLangDict={
-                  //   markPriceAndSubscriptionLangDict
-                  // }
-                  // baseSearchStr={baseSearchStr}
                   getProductList={initProductList}
                   prefnParamListSearch={prefnParamListFromSearch}
                   selectedFilterPref={handleSelectedFilterPref}

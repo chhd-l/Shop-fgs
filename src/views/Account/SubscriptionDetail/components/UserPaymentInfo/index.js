@@ -360,99 +360,101 @@ const UserPaymentInfo = ({
       {/* promotion save */}
       {/* fr ru tr  us: 368369*/}
       {/* ['fr', 'ru', 'tr'].includes(country) */}
-      {promotionsArr?.length > 0 && (
-        <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
-          <div className="h-100 border border-d7d7d7 p-5">
-            {/* 头部标题和 more */}
-            <div className="align-items-center">
-              <span className="iconfont iconpoint-logo mr-3" />
-              <span>
-                <FormattedMessage id="subscription.Promotions" />
-              </span>
-              <a
-                className="rc-styled-link text-rc-red float-right"
-                style={{ marginTop: '5px', overflow: 'visible' }}
-                onClick={() => setVisible(true)}
-              >
-                <FormattedMessage id="subscription.Seemore" />
-              </a>
-            </div>
-
-            <div className="subscription_detail_userinfo">
-              {/* 省下来的钱 */}
-              <p className="money flex mt-4">
-                <span
-                  className="iconfont iconrefresh mr-3 font-semibold"
-                  style={{ color: '#009700' }}
-                />
+      {promotionsArr?.length > 0 &&
+        ['fr', 'ru', 'tr'].includes(country) &&
+        ['club'].includes(subDetail?.subscriptionType?.toLowerCase()) && (
+          <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
+            <div className="h-100 border border-d7d7d7 p-5">
+              {/* 头部标题和 more */}
+              <div className="align-items-center">
+                <span className="iconfont iconpoint-logo mr-3" />
                 <span>
-                  <FormattedMessage
-                    id="Subscription.SaveTitle"
-                    values={{
-                      money: (
-                        <span style={{ color: '#009700' }}>
-                          {formatMoney(
-                            subDetail?.promotionResponse
-                              ?.totalSubscriptionPrice ?? 0
-                          )}
-                        </span>
-                      )
-                    }}
-                  />
+                  <FormattedMessage id="subscription.Promotions" />
                 </span>
-              </p>
-              {/* 使用的code */}
-              <p className="code flex mt-4">
-                <span
-                  className="iconfont iconrefresh mr-3 font-semibold"
-                  style={{ color: '#009700' }}
-                />
-                <span>
-                  {/* marketingType 0 满减 1 满折 */}
-                  <FormattedMessage
-                    id="Subscription.SavePrice"
-                    values={{
-                      money: (
-                        <span style={{ color: '#009700' }}>
-                          {formatMoney(promotionsArr[0].value ?? 0)}
-                        </span>
-                      ),
-                      code: (
-                        <span
-                          className="text-22 font-semibold"
-                          style={{ color: '#009700' }}
-                        >
-                          {promotionsArr[0].publicStatus === '1' ? (
-                            <FormattedMessage id="subscription.PROMOTION" />
-                          ) : (
-                            promotionsArr[0]?.code
-                          )}
-                        </span>
-                      )
-                    }}
+                <a
+                  className="rc-styled-link text-rc-red float-right"
+                  style={{ marginTop: '5px', overflow: 'visible' }}
+                  onClick={() => setVisible(true)}
+                >
+                  <FormattedMessage id="subscription.Seemore" />
+                </a>
+              </div>
+
+              <div className="subscription_detail_userinfo">
+                {/* 省下来的钱 */}
+                <p className="money flex mt-4">
+                  <span
+                    className="iconfont iconrefresh mr-3 font-semibold"
+                    style={{ color: '#009700' }}
                   />
-                  <br />
                   <span>
-                    {/* 日本是年 月 日  -----其他国家是日 月 年 */}
                     <FormattedMessage
-                      id="Subscription.AddOn"
+                      id="Subscription.SaveTitle"
                       values={{
-                        time: (
-                          <span>
-                            {getFormatDate(promotionsArr[0].useTime) ||
-                              getFormatDate(new Date())}
+                        money: (
+                          <span style={{ color: '#009700' }}>
+                            {formatMoney(
+                              subDetail?.promotionResponse
+                                ?.totalSubscriptionPrice ?? 0
+                            )}
                           </span>
                         )
                       }}
                     />
-                    {/* {format(new Date("2022-7-29"), "MMMM do yyyy", { locale: date_fns_locale[window.__.env.REACT_APP_LANG_LOCALE] })} */}
                   </span>
-                </span>
-              </p>
+                </p>
+                {/* 使用的code */}
+                <p className="code flex mt-4">
+                  <span
+                    className="iconfont iconrefresh mr-3 font-semibold"
+                    style={{ color: '#009700' }}
+                  />
+                  <span>
+                    {/* marketingType 0 满减 1 满折 */}
+                    <FormattedMessage
+                      id="Subscription.SavePrice"
+                      values={{
+                        money: (
+                          <span style={{ color: '#009700' }}>
+                            {formatMoney(promotionsArr[0].value ?? 0)}
+                          </span>
+                        ),
+                        code: (
+                          <span
+                            className="text-22 font-semibold"
+                            style={{ color: '#009700' }}
+                          >
+                            {promotionsArr[0].publicStatus === '1' ? (
+                              <FormattedMessage id="subscription.PROMOTION" />
+                            ) : (
+                              promotionsArr[0]?.code
+                            )}
+                          </span>
+                        )
+                      }}
+                    />
+                    <br />
+                    <span>
+                      {/* 日本是年 月 日  -----其他国家是日 月 年 */}
+                      <FormattedMessage
+                        id="Subscription.AddOn"
+                        values={{
+                          time: (
+                            <span>
+                              {getFormatDate(promotionsArr[0].useTime) ||
+                                getFormatDate(new Date())}
+                            </span>
+                          )
+                        }}
+                      />
+                      {/* {format(new Date("2022-7-29"), "MMMM do yyyy", { locale: date_fns_locale[window.__.env.REACT_APP_LANG_LOCALE] })} */}
+                    </span>
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       {/* promotion modal */}
       <Modal
         modalTitle={

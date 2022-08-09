@@ -1,4 +1,4 @@
-import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
+import { isMobile, formatMoney, optimizeImage } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
 import React, { useEffect, useState, createContext } from 'react';
@@ -34,12 +34,12 @@ const SubGoodsInfos = ({
   getMinDate,
   isShowClub,
   intl,
-  configStore
+  configStore,
+  showLoading
 }) => {
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const isIndv = subDetail.subscriptionType === 'Individualization';
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
   const [isSpecAvailable, setIsSpecAvailable] = useState(false);
   const [renderAgin, setRenderAgin] = useState(true);
@@ -87,9 +87,9 @@ const SubGoodsInfos = ({
           firstShow: !triggerShowChangeProduct.firstShow,
           goodsInfo: subDetail?.goodsInfo,
           isShowModal: true,
-          notPet: autoshipSubStatus ? true : false,
-          showLoading: true
-        })
+          notPet: autoshipSubStatus ? true : false
+        }),
+        showLoading: true
       });
     } else {
       setState({ triggerShowAddNewPet: true });
@@ -268,7 +268,7 @@ const SubGoodsInfos = ({
                     <Button
                       className="w-full"
                       onClick={() => handleClickChangeProduct(index)}
-                      loading={triggerShowChangeProduct.showLoading}
+                      loading={showLoading}
                     >
                       <FormattedMessage id="subscriptionDetail.changeProduct" />
                     </Button>
@@ -523,7 +523,7 @@ const SubGoodsInfos = ({
                             <Button
                               className=" mt-cs-16"
                               onClick={() => handleClickChangeProduct(index)}
-                              loading={triggerShowChangeProduct.showLoading}
+                              loading={showLoading}
                             >
                               <FormattedMessage id="subscriptionDetail.changeProduct" />
                             </Button>

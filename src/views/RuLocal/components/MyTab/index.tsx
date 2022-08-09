@@ -1,5 +1,4 @@
 import React from 'react';
-
 type MyTabProps = {
   tabList: {
     tab: string;
@@ -11,13 +10,13 @@ const MyTab = ({ tabList }: MyTabProps) => {
     <div>
       <nav className="rc-tabs__controller  rc-fade--x" data-toggle-group="">
         <ul
-          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-tab--centered"
+          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank md:justify-center "
           role="tablist"
         >
           {tabList.map((item, index) => (
             <li key={item.tab}>
               <button
-                className="rc-tab rc-btn rc-btn--sm"
+                className="rc-tab rc-btn rc-btn--sm whitespace-nowrap"
                 data-toggle={`tab__panel-${
                   index + 1
                 }--single-4e432196-9e94-47a0-9de3-b4e3caf507ec`}

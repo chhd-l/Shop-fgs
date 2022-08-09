@@ -52,6 +52,12 @@ const localEnv = {
     }
     return ret;
   },
+  ruLocal: ({ countryFromLink }) => {
+    return {
+      REACT_APP_BASEURL: `https://shop.d2cgo.com/api`,
+      REACT_APP_HUB_APIURL: `https://shop.d2cgo.com/api`
+    };
+  },
   productionHub: ({ countryFromLink }) => {
     if (process.env.NODE_ENV === 'production') {
       const host = window.location.host;
