@@ -264,7 +264,7 @@ class Subscription extends React.Component {
             },
             Club: { src: getClubLogo({}), alt: 'club logo' }
           }[sItem.subscriptionType];
-          sItem.goodsInfo = sItem.goodsInfo.map((gItem) => {
+          sItem.goodsInfo = sItem.goodsInfo?.map((gItem) => {
             gItem.displayGoodsName =
               sItem.subscriptionType === 'Individualization'
                 ? formatMessage(
