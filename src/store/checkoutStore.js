@@ -815,7 +815,9 @@ class CheckoutStore {
         !sitePurchasesRes.promotionFlag ||
         sitePurchasesRes.couponCodeFlag
       ) {
+        // 去掉此判断，永远为true
         if (
+          false &&
           sitePurchasesRes.couponCodeFlag &&
           !sitePurchasesRes.couponCodeDiscount &&
           !sitePurchasesRes.freeShippingDiscountPrice
