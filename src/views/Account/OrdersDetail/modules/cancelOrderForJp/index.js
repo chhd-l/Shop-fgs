@@ -54,7 +54,7 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
                 setCancelJpOrderModalVisible(true);
                 switch (country?.toLowerCase()) {
                   case 'jp':
-                    myAccountActionPushEvent('Cancel order');
+                    // myAccountActionPushEvent('Cancel order');
                     break;
                   default:
                     break;
