@@ -103,6 +103,51 @@ export async function hanldePurchases(goodsInfoDTOList) {
   }
 }
 
+/**
+ * 获取字典并存入session
+ * @param {type, name} type - 字典名
+ */
+export async function getDictionary({ type, name = '' }) {
+  let ret = [];
+  const tmpKey = `dict-${type}`;
+  if (sessionItemRoyal.get(tmpKey)) {
+    ret = JSON.parse(sessionItemRoyal.get(tmpKey));
+  } else {
+    let sysDictionaryVOS = [];
+    if (type === 'appointment_type' || type === 'expert_type') {
+      let res = await getAppointDict({ type });
+      sysDictionaryVOS = res?.context?.goodsDictionaryVOS || [];
+    } else {
+      let res = await getDict({
+        delFlag: 0,
+        storeId: window.__.env.REACT_APP_STOREID,
+        type,
+        name
+      });
+      sysDictionaryVOS = res?.context?.sysDictionaryVOS || [];
+    }
+    sessionItemRoyal.set(tmpKey, JSON.stringify(sysDictionaryVOS));
+    ret = sysDictionaryVOS;
+  }
+  return ret;
+}
+
+/**
+ * 数组扁平化
+ * @param {Array} array - 数组
+ */
+export function flat(arr) {
+  var res = [];
+  for (let el of arr) {
+    if (Array.isArray(el)) {
+      res = res.concat(flat(el));
+    } else {
+      res.push(el);
+    }
+  }
+  return res;
+}
+
 export function stgShowAuth() {
   return true; // 放开用户限制
   // charles_dw@139.com fr sit  以及anhao的三个环境账号
@@ -161,86 +206,6 @@ export function stgShowAuth() {
   // }
   // return false;
 }
-/**
- * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
- */
-export async function mergeUnloginCartData() {
-  let unloginCartData = checkoutStore.cartData;
-  unloginCartData = toJS(unloginCartData);
-  console.info('unloginCartData', unloginCartData);
-  // 线下店orderSource埋点L_ATELIER_FELIN
-  let orderSource = sessionItemRoyal.get('orderSource') || '';
-  console.log({ orderSource });
-  let params = {
-    purchaseMergeDTOList: unloginCartData.map((ele) => {
-      return {
-        goodsInfoId: ele.goodsInfoId,
-        goodsNum: ele.buyCount,
-        goodsInfoFlag: ele.goodsInfoFlag,
-        periodTypeId: ele.periodTypeId,
-        invalid: false,
-        recommendationInfos: ele.recommendationInfos,
-        recommendationId: ele.recommendationId,
-        recommendationName: ele.recommendationName,
-        goodsCategory: ele.goodsCategory,
-        petsId: find(ele.sizeList, (s) => s.selected).petsId,
-        questionParams: ele.questionParams,
-        prefixFn: ele.prefixFn === 'shelter-page' ? ele.prefixFn : ''
-      };
-    })
-  };
-  if (orderSource) {
-    params.orderSource = orderSource;
-  }
-
-  await mergePurchase(params);
-  checkoutStore.removeCartData();
-}
-
-/**
- * 获取字典并存入session
- * @param {type, name} type - 字典名
- */
-export async function getDictionary({ type, name = '' }) {
-  let ret = [];
-  const tmpKey = `dict-${type}`;
-  if (sessionItemRoyal.get(tmpKey)) {
-    ret = JSON.parse(sessionItemRoyal.get(tmpKey));
-  } else {
-    let sysDictionaryVOS = [];
-    if (type === 'appointment_type' || type === 'expert_type') {
-      let res = await getAppointDict({ type });
-      sysDictionaryVOS = res?.context?.goodsDictionaryVOS || [];
-    } else {
-      let res = await getDict({
-        delFlag: 0,
-        storeId: window.__.env.REACT_APP_STOREID,
-        type,
-        name
-      });
-      sysDictionaryVOS = res?.context?.sysDictionaryVOS || [];
-    }
-    sessionItemRoyal.set(tmpKey, JSON.stringify(sysDictionaryVOS));
-    ret = sysDictionaryVOS;
-  }
-  return ret;
-}
-
-/**
- * 数组扁平化
- * @param {Array} array - 数组
- */
-export function flat(arr) {
-  var res = [];
-  for (let el of arr) {
-    if (Array.isArray(el)) {
-      res = res.concat(flat(el));
-    } else {
-      res.push(el);
-    }
-  }
-  return res;
-}
 
 export function getElementToPageTop(el) {
   if (el.parentElement) {
@@ -290,6 +255,42 @@ export async function validData({ rule, data, intl }) {
       }
     }
   }
+}
+
+/**
+ * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
+ */
+export async function mergeUnloginCartData() {
+  let unloginCartData = checkoutStore.cartData;
+  unloginCartData = toJS(unloginCartData);
+  console.info('unloginCartData', unloginCartData);
+  // 线下店orderSource埋点L_ATELIER_FELIN
+  let orderSource = sessionItemRoyal.get('orderSource') || '';
+  console.log({ orderSource });
+  let params = {
+    purchaseMergeDTOList: unloginCartData.map((ele) => {
+      return {
+        goodsInfoId: ele.goodsInfoId,
+        goodsNum: ele.buyCount,
+        goodsInfoFlag: ele.goodsInfoFlag,
+        periodTypeId: ele.periodTypeId,
+        invalid: false,
+        recommendationInfos: ele.recommendationInfos,
+        recommendationId: ele.recommendationId,
+        recommendationName: ele.recommendationName,
+        goodsCategory: ele.goodsCategory,
+        petsId: find(ele.sizeList, (s) => s.selected).petsId,
+        questionParams: ele.questionParams,
+        prefixFn: ele.prefixFn === 'shelter-page' ? ele.prefixFn : ''
+      };
+    })
+  };
+  if (orderSource) {
+    params.orderSource = orderSource;
+  }
+
+  await mergePurchase(params);
+  checkoutStore.removeCartData();
 }
 
 export function generatePayUScript(deviceSessionId) {
