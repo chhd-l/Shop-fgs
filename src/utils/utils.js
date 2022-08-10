@@ -104,6 +104,22 @@ export async function hanldePurchases(goodsInfoDTOList) {
 }
 
 /**
+ * 数组扁平化
+ * @param {Array} array - 数组
+ */
+export function flat(arr) {
+  var res = [];
+  for (let el of arr) {
+    if (Array.isArray(el)) {
+      res = res.concat(flat(el));
+    } else {
+      res.push(el);
+    }
+  }
+  return res;
+}
+
+/**
  * 获取字典并存入session
  * @param {type, name} type - 字典名
  */
@@ -130,22 +146,6 @@ export async function getDictionary({ type, name = '' }) {
     ret = sysDictionaryVOS;
   }
   return ret;
-}
-
-/**
- * 数组扁平化
- * @param {Array} array - 数组
- */
-export function flat(arr) {
-  var res = [];
-  for (let el of arr) {
-    if (Array.isArray(el)) {
-      res = res.concat(flat(el));
-    } else {
-      res.push(el);
-    }
-  }
-  return res;
 }
 
 export function stgShowAuth() {
