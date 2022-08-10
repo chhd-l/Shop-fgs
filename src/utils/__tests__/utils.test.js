@@ -3,7 +3,8 @@ import {
   translateHtmlCharater,
   hanldePurchases,
   stgShowAuth,
-  mergeUnloginCartData
+  mergeUnloginCartData,
+  getDictionary
 } from '@/utils/utils';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 // import { toJS } from 'mobx';
@@ -47,6 +48,23 @@ jest.mock('@/api/cart', () => {
   };
 });
 
+jest.mock('@/api/dict', () => {
+  return {
+    getAppointDict: () =>
+      Promise.resolve({
+        context: {
+          goodsDictionaryVOS: []
+        }
+      }),
+    getDict: () =>
+      Promise.resolve({
+        context: {
+          sysDictionaryVOS: []
+        }
+      })
+  };
+});
+
 describe('utils 功能函数测试', () => {
   it('flat 函数测试', () => {
     expect(flat([''])).not.toBe('');
@@ -74,5 +92,21 @@ describe('utils 功能函数测试', () => {
   it('mergeUnloginCartData 函数测试2', async () => {
     sessionItemRoyal.set('orderSource', 123);
     await mergeUnloginCartData();
+  });
+
+  it('getDictionary 函数测试', async () => {
+    sessionItemRoyal.set(
+      'dict-city',
+      '[{"name": "Chongqing"},{"name":"Chengdu"}]'
+    );
+    expect(await getDictionary({ type: 'city', name: '' })).toEqual([
+      { name: 'Chongqing' },
+      { name: 'Chengdu' }
+    ]);
+    expect(await getDictionary({ type: 'appointment_type', name: '' })).toEqual(
+      []
+    );
+    expect(await getDictionary({ type: 'expert_type', name: '' })).toEqual([]);
+    expect(await getDictionary({ type: '', name: '' })).toEqual([]);
   });
 });
