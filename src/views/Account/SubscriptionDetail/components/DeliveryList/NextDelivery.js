@@ -177,7 +177,7 @@ const NextDelivery = ({
     });
     switch (country?.toLowerCase()) {
       case 'jp':
-        myAccountActionPushEvent('Change order time');
+        // myAccountActionPushEvent('Change order time');
         break;
       default:
         break;
