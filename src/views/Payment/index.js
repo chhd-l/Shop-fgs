@@ -935,7 +935,6 @@ class Payment extends React.Component {
         });
       }
 
-      debugger;
       // }
       paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
