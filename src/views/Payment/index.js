@@ -893,7 +893,7 @@ class Payment extends React.Component {
   }
 
   initPanelStatus() {
-    const { paymentStore } = this.props;
+    const { paymentStore, checkoutStore } = this.props;
     const { tid, isFromFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
@@ -923,10 +923,19 @@ class Payment extends React.Component {
       //   });
       // } else {
       // 下一个最近的未complete的panel
-      nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: 'deliveryAddr'
-      });
+      if (checkoutStore?.isShowBindPet) {
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: 'bindPet'
+        });
+      } else {
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: 'bindPet'
+        });
+      }
+
+      debugger;
       // }
       paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
