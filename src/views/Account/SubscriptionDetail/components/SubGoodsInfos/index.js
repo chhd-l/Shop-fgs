@@ -245,7 +245,9 @@ const SubGoodsInfos = ({
                         }}
                       >
                         {formatMoney(
-                          currentSubscriptionPrice * el.subscribeNum
+                          isIndv
+                            ? el.subscribePrice * el.subscribeNum
+                            : currentSubscriptionPrice * el.subscribeNum
                         )}
                       </span>
                       {disCountPriceVisible && (
@@ -501,7 +503,10 @@ const SubGoodsInfos = ({
                                   }}
                                 >
                                   {formatMoney(
-                                    currentSubscriptionPrice * el.subscribeNum
+                                    isIndv
+                                      ? el.subscribePrice * el.subscribeNum
+                                      : currentSubscriptionPrice *
+                                          el.subscribeNum
                                   )}
                                 </span>
                                 {showDiscountPrice && (

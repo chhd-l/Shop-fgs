@@ -27,7 +27,8 @@ export function Ads() {
                     <Link
                       // to="/dogs/retail-products?prefn1=Technology&prefv1=Aliment-humide"
                       // to="/cats/retail-products?prefn1=New%20Products&prefv1=La-Semaine-Du-Chat"
-                      to="/retail-products?prefn1=Samples%20bundles%20for%20banners&prefv1=Offre-Echantillons-Care-Chien"
+                      // to="/retail-products?prefn1=Samples%20bundles%20for%20banners&prefv1=Offre-Echantillons-Care-Chien"
+                      to="/cats/retail-products?prefn1=Technology&prefv1=Aliment-humide"
                     >
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
