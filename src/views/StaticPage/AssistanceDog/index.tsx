@@ -9,7 +9,7 @@ import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { Button, Canonical } from '@/components/Common';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import images from './img/AssistanceDog/dog-2@2x.png';
+import imagesUrl from './img/AssistanceDog/dog-2@2x.png';
 // @ts-ignore
 @injectIntl
 @seoHoc('AssistanceDogPage')
@@ -129,7 +129,7 @@ class AssistanceDog extends React.Component {
             <div className="col-span-12 md:col-span-6">
               <LazyLoad>
                 <img
-                  src={images}
+                  src={imagesUrl}
                   alt="assistance dog"
                   className="w-80 mx-auto mb-4 md:mb-0"
                 />
