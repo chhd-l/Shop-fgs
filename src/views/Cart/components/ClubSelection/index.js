@@ -19,8 +19,8 @@ const ClubSelection = function (props) {
           <span
             style={{
               color: '#333',
-              marginTop: '5px',
-              whiteSpace: 'nowrap'
+              marginTop: '5px'
+              // whiteSpace: 'nowrap'
             }}
             className="font-normal inline-block"
           >
