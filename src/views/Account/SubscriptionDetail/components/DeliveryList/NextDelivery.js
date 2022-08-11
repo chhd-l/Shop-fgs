@@ -175,13 +175,13 @@ const NextDelivery = ({
         };
       })
     });
-    switch (country?.toLowerCase()) {
-      case 'jp':
-        // myAccountActionPushEvent('Change order time');
-        break;
-      default:
-        break;
-    }
+    // switch (country?.toLowerCase()) {
+    //   case 'jp':
+    //     // myAccountActionPushEvent('Change order time');
+    //     break;
+    //   default:
+    //     break;
+    // }
   };
   const skipNext = (el) => {
     setState({
