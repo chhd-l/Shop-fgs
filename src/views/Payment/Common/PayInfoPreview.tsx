@@ -37,7 +37,7 @@ const PayInfoPreview = ({
     case 'payu_ru':
     case 'payu_tu':
     case 'adyen_credit_card':
-    case 'CYBER':
+    case 'pc_web':
       return (
         <>
           <div className="col-12 col-md-6">
@@ -65,7 +65,6 @@ const PayInfoPreview = ({
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
         </>
       );
-
     case 'cod':
       return (
         <div className="col-12 col-md-6">

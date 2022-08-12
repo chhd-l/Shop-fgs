@@ -61,6 +61,8 @@ import {
 } from '@/utils/GA/cart';
 import cn from 'classnames';
 import { Button, Popover } from '@/components/Common';
+import { getCustomerInfo } from '@/api/user';
+import { funcUrl } from '@/lib/url-utils';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -123,7 +125,15 @@ class LoginCart extends React.Component {
   }
   async componentDidMount() {
     try {
-      if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
+      const { loginStore } = this.props;
+      if (
+        sessionItemRoyal.get('rc-iframe-from-storepotal') &&
+        funcUrl({ name: 'scustomerId' })
+      ) {
+        const customerInfoRes = await getCustomerInfo({
+          customerId: funcUrl({ name: 'scustomerId' })
+        });
+        loginStore.setUserInfo(customerInfoRes.context);
         this.setState({ circleLoading: true });
       }
 
@@ -198,7 +208,7 @@ class LoginCart extends React.Component {
       }
       //给代客下单用 end
     } catch (err) {
-      console.log(666);
+      console.log(666, err);
     }
   }
   get loginCartData() {
