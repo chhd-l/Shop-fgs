@@ -4,8 +4,11 @@
  */
 import React from 'react';
 import { injectIntl } from 'react-intl-phraseapp';
+import { inject, observer } from 'mobx-react';
 
+@inject('paymentStoreNew')
 @injectIntl
+@observer
 class InfosPreview extends React.Component {
   constructor(props) {
     super(props);
@@ -24,11 +27,11 @@ class InfosPreview extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.welcomeBoxChange(this.state.checkedBox);
+    this.props.paymentStoreNew.setWelcomeBoxValue(this.state.checkedBox);
   }
   welcomeBoxCheckedChange = (e, value) => {
     this.setState({ checkedBox: value });
-    this.props.welcomeBoxChange(value);
+    this.props.paymentStoreNew.setWelcomeBoxValue(value);
   };
   render() {
     const { welcomeList, checkedBox } = this.state;

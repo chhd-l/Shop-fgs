@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import {
   formatMoney,
@@ -11,21 +9,22 @@ import {
   isMobile
 } from '@/utils/utils';
 import { GAInitUnLogin, GAInitLogin, GACheckoutScreenLoad } from '@/utils/GA';
-import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
-import './index.css';
-import FrequencyMatch from '@/components/FrequencyMatch';
 import WelcomeBox from '../WelcomeBox';
-import GiftList from '../GiftList';
 import { isFirstOrder } from '@/api/user';
+import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
-import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
 import {
   PriceDetailsList,
   ProductDetailItem,
-  LoyaltyPoint
+  LoyaltyPoint,
+  ProductCatogeryItemBox,
+  ProductCatogeryTitle,
+  EditCartBtn,
+  PromotionCode
 } from './components';
+import { DivWrapper } from './style';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -34,22 +33,14 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
 
-const ProductCatogeryTitle = ({ title, icon }) => {
-  return (
-    <div className="flex justify-between items-center pt-3">
-      <p className="medium text-lg">{title}</p>
-      {icon}
-    </div>
+const countTotalBuyCounts = (list) => {
+  return list.reduce(
+    (total, item) => total + (item.goodsInfoFlag === 3 ? 1 : item.buyCount),
+    0
   );
 };
 
-@inject(
-  'checkoutStore',
-  'loginStore',
-  'paymentStoreNew',
-  'clinicStore',
-  'configStore'
-)
+@inject('checkoutStore', 'loginStore', 'paymentStoreNew')
 @injectIntl
 @observer
 class PayProductInfo extends React.Component {
@@ -65,7 +56,6 @@ class PayProductInfo extends React.Component {
     isGuestCart: false,
     isCheckOut: false,
     deliveryAddress: [],
-    welcomeBoxChange: () => {}, //welcomeBoxValue值改变事件
     confirmCalculateServiceFeeAndLoyaltyPoints: () => {}
   };
   constructor(props) {
@@ -73,24 +63,17 @@ class PayProductInfo extends React.Component {
     this.state = {
       productList: [],
       needHideProductList: props.needHideProductList,
-      discount: [], //促销码的折扣信息汇总
-      promotionInputValue: this.props.checkoutStore.promotionCode || '', //输入的促销码
-      lastPromotionInputValue: '', //上一次输入的促销码
-      isClickApply: false, //是否点击apply按钮
-      isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
       isFirstOrder: false, //是否是首单
-      isStudentPurchase: false, //是否填写了学生购student promotion 50% discount
       cartDetailVisible: isMobile ? false : true
     };
-    this.handleClickProName = this.handleClickProName.bind(this);
     this.toggleCartFlod = this.toggleCartFlod.bind(this);
-  }
-  get isPromotionCodeInputFocus() {
-    return this.props.checkoutStore.promotionCodeInputFocus;
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
+  }
+  get isIndv() {
+    return this.state.productList[0]?.goodsInfoFlag === 3;
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     let productList;
@@ -231,16 +214,6 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
-    //监听Point组件选择积分的时候触发删除coupon
-    reaction(
-      () => this.props.checkoutStore.selectDiscountWay,
-      () => {
-        if (this.props.checkoutStore.promotionCode) {
-          this.handleClickDeletePromotion();
-        }
-      }
-    );
-    //
     if (this.isLogin) {
       //判断该会员是否是第一次下单
       isFirstOrder().then((res) => {
@@ -249,7 +222,6 @@ class PayProductInfo extends React.Component {
         }
       });
     }
-    this.refs.applyButtton.click();
     let productList;
 
     if (this.props.data.length) {
@@ -288,12 +260,6 @@ class PayProductInfo extends React.Component {
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
-  get discountPrice() {
-    return this.props.checkoutStore.discountPrice;
-  }
-  get promotionDiscountPrice() {
-    return this.props.checkoutStore.promotionDiscountPrice;
-  }
   get subscriptionDiscountPrice() {
     return this.props.checkoutStore.subscriptionDiscountPrice;
   }
@@ -309,12 +275,6 @@ class PayProductInfo extends React.Component {
   get taxFeePrice() {
     return this.props.checkoutStore.taxFeePrice;
   }
-  get subscriptionPrice() {
-    return this.props.checkoutStore.subscriptionPrice;
-  }
-  get promotionDesc() {
-    return this.props.checkoutStore.promotionDesc;
-  }
   get promotionVOList() {
     return this.props.checkoutStore.promotionVOList;
   }
@@ -326,94 +286,16 @@ class PayProductInfo extends React.Component {
       cartDetailVisible: !cur.cartDetailVisible
     }));
   }
-  getProducts(plist) {
-    const List = plist.map((el, i) => {
-      return (
-        <div className="product-summary__products__item p-0 m-0" key={i}>
-          <div className="product-line-item">
-            <div className="product-line-item-details d-flex flex-row">
-              <div className="item-image">
-                <LazyLoad>
-                  <img
-                    className="product-image"
-                    src={el.goodsInfoImg || el.goodsImg || IMG_DEFAULT}
-                    alt="product image"
-                  />
-                </LazyLoad>
-              </div>
-              <div className="wrap-item-title">
-                <div className="item-title">
-                  <div
-                    className="line-item-name ui-text-overflow-line2 text-break"
-                    title={el.goodsName}
-                    onClick={this.handleClickProName.bind(this, el)}
-                  >
-                    <span className="font-medium">{el.goodsName}</span>
-                    {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
-                    el.promotions &&
-                    el?.goodsInfoFlag > 0 &&
-                    el.promotions.includes('club') ? (
-                      <img
-                        className="clubLogo"
-                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
-                        alt="club logo"
-                      />
-                    ) : null}
-                  </div>
-                </div>
-                <div className="line-item-total-price justify-content-start pull-left">
-                  <div className="item-attributes">
-                    <p className="line-item-attributes">
-                      <FormattedMessage
-                        id="quantityText"
-                        values={{
-                          specText: el.specText || '',
-                          buyCount: el.buyCount
-                        }}
-                      />
-                    </p>
-                  </div>
-                </div>
-                <div className="line-item-total-price justify-content-end pull-right">
-                  <span className="font-medium">
-                    {formatMoney(el.marketPrice * el.buyCount)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    });
-    return List;
-  }
   isSubscription(el) {
     return el.goodsInfoFlag && el.goodsInfoFlag != 3;
   }
-  handleClickProName(item) {
-    sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
-    this.props.history.push(
-      `/${item?.goodsName
-        ?.toLowerCase()
-        .split(' ')
-        .join('-')
-        .replace('/', '')}-${item?.goods?.goodsNo}`
-    );
-  }
-  getProductsForLogin(plist) {
-    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
-    let IndvPetInfo = {};
-    if (paramsString) {
-      let recommendateInfo = JSON.parse(paramsString);
-      IndvPetInfo = recommendateInfo.customerPetsVo;
-    }
-
+  renderProducts(plist) {
     // 将单次购买、订阅购买分开
     const singleProducts = plist.filter((p) => !this.isSubscription(p));
-    const SingleList = this.loginItemList(singleProducts);
+    const SingleList = this.renderItemList(singleProducts);
 
     const subProducts = plist.filter((p) => this.isSubscription(p));
-    const SubscriptionList = this.loginItemList(subProducts);
+    const SubscriptionList = this.renderItemList(subProducts);
     const subTotleSaved = subProducts.reduce((prev, cur) => {
       return (
         prev +
@@ -423,40 +305,66 @@ class PayProductInfo extends React.Component {
     }, 0);
     return (
       <>
-        <div>
-          <ProductCatogeryTitle
-            title={`Sinlge purchase(${singleProducts.reduce((prev, cur) => {
-              return prev + cur.buyCount;
-            }, 0)})`}
-          />
-
-          {SingleList}
-        </div>
-        <div>
-          <ProductCatogeryTitle
-            title={`Subscription purchase(${subProducts.reduce((prev, cur) => {
-              return prev + cur.buyCount;
-            }, 0)})`}
-            // icon={}
-          />
-
-          {SubscriptionList}
-          <div className="text-center border-top py-2">
-            <span
-              className="iconfont font-weight-bold iconrefresh green mr-1"
-              style={{ fontSize: '.8em' }}
+        {SingleList.length > 0 ? (
+          <ProductCatogeryItemBox>
+            <ProductCatogeryTitle
+              title={`Sinlge purchase(${countTotalBuyCounts(singleProducts)})`}
             />
-            节省了
-            {formatMoney(subTotleSaved)}钱
-          </div>
-        </div>
+
+            {SingleList}
+          </ProductCatogeryItemBox>
+        ) : null}
+
+        {SubscriptionList.length > 0 ? (
+          <ProductCatogeryItemBox>
+            <ProductCatogeryTitle
+              title={`Subscription purchase(${countTotalBuyCounts(
+                subProducts
+              )})`}
+              // 订阅产品中，有一个属于club，则显示club logo
+              icon={
+                find(
+                  subProducts,
+                  (el) =>
+                    el?.goodsInfoFlag > 0 &&
+                    el?.goods?.promotions?.includes('club')
+                ) ? (
+                  <img
+                    className="clubLogo w-16"
+                    src={getClubLogo()}
+                    alt="club logo"
+                  />
+                ) : null
+              }
+            />
+
+            {SubscriptionList}
+            <div className="text-center border-top py-2">
+              <span
+                className="iconfont font-weight-bold iconrefresh green mr-1"
+                style={{ fontSize: '.8em' }}
+              />
+              <FormattedMessage
+                id="product.totalSavedMoneyThanksToSubscription"
+                values={{
+                  discount: formatMoney(-subTotleSaved)
+                }}
+              />
+            </div>
+          </ProductCatogeryItemBox>
+        ) : null}
       </>
     );
   }
 
-  loginItemList = (list) => {
-    // 线下店数量展示和正常流程有区别（没区别）
-    let orderSource = sessionItemRoyal.get('orderSource') && false;
+  renderItemList = (list) => {
+    // get indv pet information
+    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
+    let IndvPetInfo = {};
+    if (paramsString) {
+      let recommendateInfo = JSON.parse(paramsString);
+      IndvPetInfo = recommendateInfo.customerPetsVo;
+    }
 
     return list.map((el, i) => (
       <ProductDetailItem
@@ -469,15 +377,15 @@ class PayProductInfo extends React.Component {
               />
             ) : (
               el.goodsName || el.goods.goodsName
-            ),
-          logo:
-            el?.goodsInfoFlag > 0 && el?.goods?.promotions?.includes('club') ? (
-              <img
-                className="clubLogo"
-                src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
-                alt="club logo"
-              />
-            ) : null
+            )
+          // logo:
+          //   el?.goodsInfoFlag > 0 && el?.goods?.promotions?.includes('club') ? (
+          //     <img
+          //       className="clubLogo"
+          //       src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
+          //       alt="club logo"
+          //     />
+          //   ) : null
         })}
         customContentDetail={
           isFromFelin ? (
@@ -508,329 +416,11 @@ class PayProductInfo extends React.Component {
         key={i}
       />
     ));
-    return list.map((el, i) => {
-      // 是否是订阅产品
-      const isSubscription = this.isSubscription(el);
-      const renderAutoshipSavedtipContent = () => {
-        // 如果不是订阅状态 或者是订阅状态并且是日本并且价格一致不显示
-        if (
-          !isSubscription ||
-          (window.__.env.REACT_APP_COUNTRY === 'jp' &&
-            el.salePrice === el.subscriptionPrice)
-        ) {
-          return null;
-        }
-        return (
-          <div>
-            <span
-              className="iconfont font-weight-bold iconrefresh green"
-              style={{ fontSize: '.8em' }}
-            />
-            <FormattedMessage
-              id="cart.autoshipSavedtip"
-              values={{
-                discount: (
-                  <span className="green">
-                    {formatMoney(
-                      el.buyCount * el.salePrice -
-                        el.buyCount * el.subscriptionPrice
-                    )}
-                  </span>
-                )
-              }}
-            />
-          </div>
-        );
-      };
-      const renderPriceContent = () => {
-        // 如果不是订阅状态 或者是订阅状态并且是日本并且价格一致不显示
-        let topContent =
-          !isSubscription ||
-          (window.__.env.REACT_APP_COUNTRY === 'jp' &&
-            el.salePrice === el.subscriptionPrice) ? null : (
-            <>
-              <span className="text-line-through">
-                {formatMoney(el.buyCount * el.salePrice)}
-              </span>
-              <br />
-            </>
-          );
-        const endContent = formatMoney(
-          isSubscription
-            ? el.buyCount * el.subscriptionPrice
-            : el.buyCount * el.salePrice
-        );
-        return (
-          <div className="line-item-total-price">
-            {topContent}
-            <span className="medium inline-block text-nowrap">
-              {endContent}
-            </span>
-            {/* 订阅折扣的金额 */}
-            <span className="green inline-block text-nowrap">
-              {formatMoney(
-                el.buyCount * el.subscriptionPrice - el.buyCount * el.salePrice
-              )}
-            </span>
-          </div>
-        );
-      };
-      return (
-        <div
-          className={cn('product-summary__products__item p-0 m-0', {
-            'border-bottom': i !== list.length - 1
-          })}
-          key={i}
-        >
-          <div className="product-line-item">
-            <div className="product-line-item-details d-flex flex-row">
-              <div className="item-image">
-                <LazyLoad>
-                  <img
-                    className="product-image"
-                    src={el.goodsInfoImg || el.goodsImg || IMG_DEFAULT}
-                    alt="product image"
-                  />
-                </LazyLoad>
-              </div>
-              <div className="wrap-item-title">
-                <div className="item-title">
-                  <div
-                    className="line-item-name ui-text-overflow-line2 text-break"
-                    title={
-                      el?.goodsInfoFlag === 3 ? (
-                        <FormattedMessage
-                          id="subscription.personalized"
-                          values={{ val1: IndvPetInfo?.name }}
-                        />
-                      ) : (
-                        el.goodsName || el.goods.goodsName
-                      )
-                    }
-                  >
-                    <span className="font-medium">
-                      {el?.goodsInfoFlag === 3 ? (
-                        <FormattedMessage
-                          id="subscription.personalized"
-                          values={{ val1: IndvPetInfo?.name }}
-                        />
-                      ) : (
-                        el.goodsName || el.goods.goodsName
-                      )}
-                    </span>
-                    {el?.goods?.promotions &&
-                    el?.goodsInfoFlag > 0 &&
-                    el.goods.promotions.includes('club') ? (
-                      <img
-                        className="clubLogo"
-                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
-                        alt="club logo"
-                      />
-                    ) : null}
-                  </div>
-                </div>
-                {isFromFelin ? (
-                  <div className="d-flex flex-column">
-                    <span>
-                      {el.expertName} – {el.minutes}
-                      <FormattedMessage id="min" /> – {el.appointType}
-                    </span>
-                    <span>
-                      <FormattedMessage id="Appointment time" />
-                    </span>
-                    <span>
-                      {el.appointStartTime
-                        ? formatDate({
-                            date: el.appointStartTime,
-                            formatOption: {
-                              day: '2-digit',
-                              month: 'short',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            }
-                          })
-                        : ''}
-                    </span>
-                  </div>
-                ) : null}
-
-                <div
-                  className={`${
-                    isFromFelin
-                      ? 'justify-content-end'
-                      : 'justify-content-between'
-                  } d-flex align-items-center`}
-                >
-                  {!isFromFelin ? (
-                    <div
-                      className="line-item-total-price"
-                      style={{ width: '77%' }}
-                    >
-                      <p className="mb-0">
-                        {orderSource == 'L_ATELIER_FELIN' ? (
-                          `${10 * el.buyCount}g`
-                        ) : (
-                          <FormattedMessage
-                            id="quantityText"
-                            values={{
-                              specText: el.specText,
-                              buyCount: el.goodsInfoFlag === 3 ? 1 : el.buyCount
-                            }}
-                          />
-                        )}
-                      </p>
-                      {el.goodsInfoFlag ? (
-                        <p className="mb-0 ">
-                          <FormattedMessage id="subscription.frequencyDelivery" />
-                          <FormattedMessage id="subscription.deliveryEvery" />{' '}
-                          <FrequencyMatch currentId={el.periodTypeId} />
-                        </p>
-                      ) : null}
-                    </div>
-                  ) : null}
-
-                  {renderPriceContent()}
-                </div>
-                {/* {renderAutoshipSavedtipContent()} */}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    });
   };
 
-  handleClickPromotionApply = async (falseCodeAndReRequest) => {
-    let { discount } = this.state;
-    try {
-      let result = {};
-      if (!this.state.promotionInputValue && !falseCodeAndReRequest) return;
-      this.setState({
-        isClickApply: !falseCodeAndReRequest,
-        isShowValidCode: false,
-        lastPromotionInputValue: this.state.promotionInputValue
-      });
-      // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
-      let purchasesPara =
-        localItemRoyal.get('rc-payment-purchases-param') || {};
-      purchasesPara.promotionCode = this.state.promotionInputValue;
-      purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
-      purchasesPara.address1 = this.props.deliveryAddress?.address1;
-      let tmpParam = Object.assign(purchasesPara, {
-        ...this.props,
-        isThrowValidPromotionCodeErr: true,
-        promotionCode: this.state.promotionInputValue //以现在promotionCode为主
-      });
-
-      if (!this.isLogin) {
-        purchasesPara.guestEmail = this.props.guestEmail;
-
-        tmpParam = Object.assign(tmpParam, {
-          transactionId: sessionItemRoyal.get('guest-uuid')
-        });
-        //游客
-        result = await this.props.checkoutStore.updateUnloginCart(tmpParam);
-      } else {
-        purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
-        //会员
-        result = await this.props.checkoutStore.updateLoginCart(tmpParam);
-      }
-
-      console.log(result);
-
-      if (!result?.context?.promotionFlag || result?.context?.couponCodeFlag) {
-        //表示输入apply promotionCode成功
-        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-        this.setState({ discount });
-        this.props.sendPromotionCode(this.state.promotionInputValue);
-        this.setState({
-          isStudentPurchase: result?.context?.promotionSubType === 8
-        });
-        if (result?.context?.promotionSubType === 8) {
-          this.props.welcomeBoxChange('no');
-        }
-      } else {
-        this.setState({
-          isShowValidCode: true
-        });
-        this.props.sendPromotionCode('');
-        this.setState({ isStudentPurchase: false });
-        setTimeout(() => {
-          this.setState({
-            isShowValidCode: false
-          });
-        }, 5000);
-      }
-      this.setState(
-        {
-          isClickApply: false,
-          promotionInputValue: localItemRoyal.get('rc-promotionCode')
-        },
-        () => {
-          result.code === 'K-000000' && this.handleClickPromotionApply(true);
-        }
-      );
-
-      //this.props.paymentStoreNew.serCurPayWayVal('');
-      if (window.__.env.REACT_APP_COUNTRY == 'jp') {
-        this.props.confirmCalculateServiceFeeAndLoyaltyPoints();
-      }
-    } catch (err) {
-      console.info('....', err);
-      this.setState({
-        validPromotionCodeErrMsg: err.message
-      });
-      this.props.sendPromotionCode('');
-      this.setState({ isStudentPurchase: false });
-      setTimeout(() => {
-        this.setState({
-          validPromotionCodeErrMsg: ''
-        });
-      }, 5000);
-      this.setState({
-        isClickApply: false
-      });
-    }
-  };
-  handleClickDeletePromotion = async () => {
-    try {
-      const { checkoutStore } = this.props;
-      const { discount } = this.state;
-      let result = {};
-      await checkoutStore.removePromotionCode();
-      await checkoutStore.removeCouponCode();
-      // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
-      let purchasesPara =
-        localItemRoyal.get('rc-payment-purchases-param') || {};
-      purchasesPara.promotionCode = '';
-      const param = Object.assign(purchasesPara);
-      if (!this.props.loginStore.isLogin) {
-        // 游客
-        result = await checkoutStore.updateUnloginCart(param);
-      } else {
-        purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
-        // 会员
-        result = await checkoutStore.updateLoginCart(param);
-      }
-      discount.pop();
-      this.props.sendPromotionCode('');
-      this.setState({
-        discount: [],
-        isShowValidCode: false,
-        lastPromotionInputValue: '',
-        promotionInputValue: '',
-        isStudentPurchase: false
-      });
-      if (window.__.env.REACT_APP_COUNTRY == 'jp') {
-        this.props.confirmCalculateServiceFeeAndLoyaltyPoints();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
   getTotalItems() {
     const { headerIcon } = this.props;
-    const { productList } = this.state;
+    const { productList, cartDetailVisible } = this.state;
     return (
       <div
         className="border-bottom flex items-center justify-between px-5 py-2"
@@ -839,19 +429,23 @@ class PayProductInfo extends React.Component {
         {headerIcon}
         <div>
           <p className="medium text-2xl">{formatMoney(this.tradePrice)}</p>
+          {window.__.env.REACT_APP_COUNTRY === 'de' ? (
+            <p
+              className="text-cs-gray"
+              style={{
+                fontSize: '.75rem'
+              }}
+            >
+              {<FormattedMessage id="totalIncluMessage" />}
+            </p>
+          ) : null}
           <p className="">
             {window.__.env.REACT_APP_COUNTRY === 'us' &&
             this.props.isCheckOut ? (
               <FormattedMessage
                 id="payment.totalProduct2"
                 values={{
-                  val:
-                    productList[0]?.goodsInfoFlag === 3
-                      ? 1
-                      : productList.reduce(
-                          (total, item) => total + item.buyCount,
-                          0
-                        )
+                  val: this.isIndv ? 1 : countTotalBuyCounts(productList)
                 }}
               />
             ) : (
@@ -859,46 +453,26 @@ class PayProductInfo extends React.Component {
                 id="payment.totalProduct"
                 values={{
                   val:
-                    productList[0]?.goodsInfoFlag === 3 || isFromFelin
+                    this.isIndv || isFromFelin
                       ? 1
-                      : productList.reduce(
-                          (total, item) => total + item.buyCount,
-                          0
-                        )
+                      : countTotalBuyCounts(productList)
                 }}
               />
             )}
           </p>
         </div>
-
-        {/*goodsInfoFlag为3的时候是indv需要隐藏edit按钮*/}
-        {!localItemRoyal.get('rc-iframe-from-storepotal') &&
-        this.props.operateBtnVisible &&
-        productList[0]?.goodsInfoFlag != 3 &&
-        !isFromFelin ? (
-          <Link
-            to="/cart"
-            className="font-medium underline hover:text-rc-red hidden md:block"
-          >
-            <FormattedMessage id="edit2" />
-          </Link>
-        ) : null}
-
-        {/* from-frlin的时候需要将edit换成re-book按钮 */}
-        {isFromFelin ? (
-          <Link
-            to="/felin"
-            className="product-summary__cartlink rc-styled-link hidden md:block"
-          >
-            <FormattedMessage id="re-book" />
-          </Link>
-        ) : null}
-
+        <EditCartBtn
+          className="hidden md:block underline"
+          operateBtnVisible={this.props.operateBtnVisible}
+          isIndv={this.isIndv}
+        />
         <div
           className="block md:hidden underline"
           onClick={this.toggleCartFlod}
         >
-          Unfold it!
+          <FormattedMessage
+            id={cartDetailVisible ? 'cart.showLessDetails' : 'cart.showDetails'}
+          />
         </div>
       </div>
     );
@@ -906,30 +480,25 @@ class PayProductInfo extends React.Component {
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const {
       productList,
-      discount,
       needHideProductList,
-      isShowValidCode,
-      validPromotionCodeErrMsg,
       isFirstOrder,
-      isStudentPurchase,
       cartDetailVisible
     } = this.state;
-    const { checkoutStore } = this.props;
-    const { installMentParam } = checkoutStore;
-    const List =
-      this.isLogin || this.props.data.length
-        ? this.getProductsForLogin(productList)
-        : this.getProducts(productList);
+    const {
+      checkoutStore: { installMentParam },
+      paymentStoreNew: { isStudentPurchase }
+    } = this.props;
+    const List = this.renderProducts(productList);
 
     return (
-      <div
-        className={`product-summary__inner ${className}`}
+      <DivWrapper
+        className={cn(`product-summary__inner`, className)}
         style={{ ...style }}
         id={id}
       >
-        <div className="product-summary__recap mt-0 mb-0 222 text-cs-black">
+        <div className="product-summary__recap my-0 222 text-cs-black">
           {this.getTotalItems()}
-          <div className={cn({ hidden: false && !cartDetailVisible })}>
+          <div className={cn({ hidden: !cartDetailVisible })}>
             <div className="product-summary__recap__content">
               <div className="checkout--padding">
                 <div className="product-summary__fees order-total-summary">
@@ -942,7 +511,6 @@ class PayProductInfo extends React.Component {
                       freeShippingDiscountPrice: this.freeShippingDiscountPrice,
                       freeShippingFlag: this.freeShippingFlag,
                       promotionVOList: this.promotionVOList,
-                      isShowValidCode,
                       installMentParam
                     }}
                   />
@@ -950,168 +518,27 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
 
-            {/* 支付新增promotionCode(选填) */}
-            <div className="px-5 border-top border-bottom">
-              <div className="mb-3 d-flex justify-content-between items-center">
-                <span
-                  className="rc-input rc-input--inline rc-input--label mr-0"
-                  style={{ width: '150px' }}
-                >
-                  <FormattedMessage id="promotionCode">
-                    {(txt) => (
-                      <input
-                        className="rc-input__control"
-                        id="id-promotionCode"
-                        type="text"
-                        autoComplete="off"
-                        name="text"
-                        placeholder={txt}
-                        value={this.state.promotionInputValue}
-                        onChange={this.handlerChange}
-                        style={{ background: '#eee' }}
-                      />
-                    )}
-                  </FormattedMessage>
-
-                  <label
-                    className="rc-input__label"
-                    htmlFor="id-promotionCode"
-                  />
-                </span>
-                <div className="promo-code-submit">
-                  <button
-                    ref="applyButtton"
-                    id="promotionApply"
-                    className={cn(`rc-btn rc-btn--md rc-btn--two`, {
-                      'ui-btn-loading ui-btn-loading-border-red':
-                        this.state.isClickApply
-                    })}
-                    disabled={sessionItemRoyal.get('recommend_product')}
-                    style={{ marginTop: '5px', float: 'right' }}
-                    onClick={() => this.handleClickPromotionApply(false)}
-                  >
-                    <FormattedMessage id="apply" />
-                  </button>
-                </div>
-              </div>
-              {validPromotionCodeErrMsg ? (
-                <div className="red" style={{ fontSize: '.875rem' }}>
-                  {validPromotionCodeErrMsg}
-                </div>
-              ) : null}
-              {isShowValidCode ? (
-                <div className="red" style={{ fontSize: '.875rem' }}>
-                  <FormattedMessage id="validPromotionCode" />
-                </div>
-              ) : null}
-              {!isShowValidCode &&
-                this.state.discount.map((el) => (
-                  <>
-                    <div
-                      className={`row leading-lines shipping-item d-flex`}
-                      style={{
-                        border: '1px solid #ccc',
-                        height: '60px',
-                        lineHeight: '60px',
-                        overflow: 'hidden',
-                        marginBottom: '.625rem'
-                      }}
-                    >
-                      <div
-                        className={`${
-                          !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
-                        }`}
-                      >
-                        <p
-                          style={{
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden'
-                          }}
-                        >
-                          {this.promotionDesc || (
-                            <FormattedMessage id="NoPromotionDesc" />
-                          )}
-                        </p>
-                      </div>
-                      <div
-                        className={`${
-                          !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                        } red`}
-                        style={{ padding: 0 }}
-                      >
-                        <p>
-                          {!checkoutStore.couponCodeFitFlag && (
-                            <FormattedMessage id="Non appliqué" />
-                          )}
-                        </p>
-                      </div>
-                      <div
-                        className="col-2"
-                        style={{ padding: '0 .9375rem 0 0' }}
-                      >
-                        <p className="text-right shipping-cost">
-                          <span
-                            className="rc-icon rc-close--sm rc-iconography"
-                            style={{
-                              fontSize: '1.125rem',
-                              marginLeft: '.625rem',
-                              lineHeight: '1.25rem',
-                              cursor: 'pointer'
-                            }}
-                            onClick={this.handleClickDeletePromotion}
-                          />
-                        </p>
-                      </div>
-                    </div>
-                  </>
-                ))}
-            </div>
-            {/* 支付新增promotionCode(选填) end */}
-
-            {/* <div className="product-summary__total px-5 grand-total row leading-lines border-top md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3">
-            <div className="col-6 start-lines">
-              <span>
-                <FormattedMessage id="totalIncluIVA" />
-              </span>
-            </div>
-            <div className="col-6 end-lines text-right">
-              <span className="grand-total-sum">
-                {formatMoney(this.tradePrice)}
-              </span>
-            </div>
-          </div> */}
-
-            {window.__.env.REACT_APP_COUNTRY == 'de' ? (
-              <div
-                style={{
-                  fontSize: '.75rem',
-                  paddingLeft: '1.375rem',
-                  paddingBottom: '.625rem',
-                  color: '#999',
-                  marginTop: '-5px'
-                }}
-              >
-                {<FormattedMessage id="totalIncluMessage" />}
-              </div>
-            ) : null}
+            <PromotionCode {...this.props} />
 
             {/* show Loyalty point */}
             <LoyaltyPoint />
 
-            <div className="px-5 border-top">
+            <div className="border-top">
               {!needHideProductList && List}
               {this.giftList.length > 0 ? (
-                <>
+                <ProductCatogeryItemBox>
                   <ProductCatogeryTitle
-                    title={`Gift(${this.giftList.reduce((prev, cur) => {
-                      return prev + cur.buyCount;
-                    }, 0)})`}
+                    title={`Gift(${countTotalBuyCounts(this.giftList)})`}
                   />
                   {this.giftList.map((el, i) => (
-                    <GiftList {...this.props} pitem={el} key={i} />
+                    <ProductDetailItem
+                      el={Object.assign({}, el, {
+                        isGift: true
+                      })}
+                      key={i}
+                    />
                   ))}
-                </>
+                </ProductCatogeryItemBox>
               ) : null}
 
               {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
@@ -1119,35 +546,20 @@ class PayProductInfo extends React.Component {
               this.isLogin &&
               isFirstOrder &&
               !isStudentPurchase ? (
-                <WelcomeBox
-                  welcomeBoxChange={(value) => {
-                    this.props.welcomeBoxChange(value);
-                  }}
-                />
+                <WelcomeBox />
               ) : null}
             </div>
-            <div
-              className="text-center underline block md:hidden border-top py-2"
-              onClick={this.toggleCartFlod}
-            >
-              Fold it
-            </div>
+            <EditCartBtn
+              className="text-center underline border-top py-2"
+              operateBtnVisible={this.props.operateBtnVisible}
+              isIndv={this.isIndv}
+            />
           </div>
         </div>
-      </div>
+      </DivWrapper>
     );
   }
-  handlerChange = (e) => {
-    let promotionInputValue = e.target.value;
-    this.setState(
-      {
-        promotionInputValue
-      },
-      () => {
-        this.props.sendPromotionCode(this.state.promotionInputValue);
-      }
-    );
-  };
+
   render() {
     const { className, fixToHeader, style } = this.props;
     return fixToHeader ? (

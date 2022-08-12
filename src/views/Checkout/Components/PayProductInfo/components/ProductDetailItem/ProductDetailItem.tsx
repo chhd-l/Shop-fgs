@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import cn from 'classnames';
 import { IMG_DEFAULT } from '@/utils/constant';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { FrequencyMatch } from '@/components';
 import { formatMoney } from '@/utils/utils';
 
 interface Props {
@@ -14,32 +14,30 @@ interface Props {
 const ProductDetailItem = ({ el, customContentDetail }: Props) => {
   const isSubscription = el.goodsInfoFlag && el.goodsInfoFlag != 3;
   const renderPriceContent = () => {
-    // 如果不是订阅状态 或者是订阅状态并且是价格一致不显示
-    let topContent =
-      !isSubscription || el.salePrice === el.subscriptionPrice ? null : (
-        <>
-          <span className="text-line-through">
-            {formatMoney(el.buyCount * el.salePrice)}
-          </span>
-          <br />
-        </>
-      );
-    const endContent = formatMoney(
-      isSubscription
-        ? el.buyCount * el.subscriptionPrice
-        : el.buyCount * el.salePrice
-    );
+    // 1.gift商品 2.是订阅状态并且是价格不一致 -> 才显示划线价
+    const topContent =
+      el.isGift || (isSubscription && el.salePrice !== el.subscriptionPrice)
+        ? formatMoney(el.buyCount * el.salePrice)
+        : null;
+    // gift商品，不展示实际价格
+    const endContent = el.isGift
+      ? null
+      : formatMoney(
+          isSubscription
+            ? el.buyCount * el.subscriptionPrice
+            : el.buyCount * el.salePrice
+        );
     return (
-      <div className="line-item-total-price">
-        {topContent}
-        <span className="medium inline-block text-nowrap">{endContent}</span>
+      <div className="line-item-total-price text-right text-nowrap">
+        <p className="text-line-through">{topContent}</p>
+        <p className="medium">{endContent}</p>
         {/* 订阅折扣的金额 */}
         {isSubscription ? (
-          <span className="green inline-block text-nowrap">
+          <p className="green">
             {formatMoney(
               el.buyCount * el.subscriptionPrice - el.buyCount * el.salePrice
             )}
-          </span>
+          </p>
         ) : null}
       </div>
     );
@@ -57,31 +55,29 @@ const ProductDetailItem = ({ el, customContentDetail }: Props) => {
               />
             </LazyLoad>
           </div>
-          <div className="wrap-item-title">
-            <div className="item-title">
-              <div
-                className="line-item-name ui-text-overflow-line2 text-break"
-                title={
-                  el.displayGoodsName || el.goodsName || el.goods.goodsName
-                }
-              >
-                <span className="font-medium">
-                  {el.displayGoodsName || el.goodsName || el.goods.goodsName}
-                </span>
-                {el.logo}
+          <div className="wrap-item-title flex justify-between">
+            <div>
+              <div className="item-title">
+                <div
+                  className="line-item-name ui-text-overflow-line2 text-break"
+                  title={
+                    el.displayGoodsName || el.goodsName || el.goods.goodsName
+                  }
+                >
+                  <span className="font-medium">
+                    {el.displayGoodsName || el.goodsName || el.goods.goodsName}
+                  </span>
+                  {el.logo}
+                </div>
               </div>
-            </div>
-            {/* 商品title下方展示什么：
+              {/* 商品title下方展示什么：
             1felin，展示预约时间地点 
             2非felin，展示商品购买规格+数量；订阅周期 */}
 
-            {customContentDetail ? (
-              customContentDetail
-            ) : (
-              <div
-                className={`justify-content-between d-flex align-items-center`}
-              >
-                <div className="line-item-total-price" style={{ width: '77%' }}>
+              {customContentDetail ? (
+                customContentDetail
+              ) : (
+                <div>
                   <p className="mb-0">
                     <FormattedMessage
                       id="quantityText"
@@ -99,11 +95,20 @@ const ProductDetailItem = ({ el, customContentDetail }: Props) => {
                     </p>
                   ) : null}
                 </div>
-
-                {renderPriceContent()}
-              </div>
-            )}
+              )}
+            </div>
+            {renderPriceContent()}
           </div>
+        </div>
+        <div className="text-right">
+          {el.isGift ? (
+            <span
+              className="text-center text-white rounded-full px-2 py-1 text-xs"
+              style={{ backgroundColor: '#008900' }}
+            >
+              <FormattedMessage id="giftList" />
+            </span>
+          ) : null}
         </div>
       </div>
     </div>

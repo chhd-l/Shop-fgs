@@ -113,6 +113,9 @@ class PaymentStore {
   @observable curPayWayVal = '';
   @observable addCardDirectToPayFlag = false; //是否新增卡直接下单
 
+  @observable welcomeBoxValue = 'no'; //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
+  @observable isStudentPurchase = false; //是否填写了学生购student promotion 50% discount
+
   @observable subscriptionDetail = [];
 
   @computed get clinicPanelStatus() {
@@ -598,6 +601,16 @@ class PaymentStore {
   @action.bound
   setSubForm(data) {
     this.subForm = data;
+  }
+
+  @action.bound
+  setWelcomeBoxValue(val) {
+    this.welcomeBoxValue = val;
+  }
+
+  @action.bound
+  setIsStudentPurchase(val) {
+    this.isStudentPurchase = val;
   }
 }
 export default PaymentStore;

@@ -326,7 +326,6 @@ class Checkout extends React.Component {
         postalCode: '',
         address1: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
-      welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
       isFromFelin: false, //是否是felin下单
       appointNo: null, //felin的预约单号
@@ -505,10 +504,10 @@ class Checkout extends React.Component {
             key: 'billingAddr',
             isFirstLoad: true
           });
-          this.props.paymentStoreNew.setStsToCompleted({
-            key: 'email',
-            isFirstLoad: true
-          });
+          // this.props.paymentStoreNew.setStsToCompleted({
+          //   key: 'email',
+          //   isFirstLoad: true
+          // });
         }
       );
     }
@@ -2304,7 +2303,7 @@ class Checkout extends React.Component {
     const cartData = this.cartData.filter((ele) => ele.selected);
     const { clinicStore, paymentStoreNew, checkoutStore, loginStore } =
       this.props;
-    const { addCardDirectToPayFlag } = paymentStoreNew;
+    const { addCardDirectToPayFlag, welcomeBoxValue } = paymentStoreNew;
     let {
       deliveryAddress,
       billingAddress,
@@ -2388,7 +2387,7 @@ class Checkout extends React.Component {
           calculationParam?.minDeliveryTime || deliveryAddress?.minDeliveryTime,
         promotionCode,
         guestEmail,
-        selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
+        selectWelcomeBoxFlag: welcomeBoxValue === 'yes', //first order welcome box
         surveyId, //us cart survey
         goodWillFlag:
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
@@ -4305,7 +4304,6 @@ class Checkout extends React.Component {
                     ref="payProductInfo"
                     location={location}
                     history={history}
-                    buyWay={subForm.buyWay}
                     sendPromotionCode={this.savePromotionCode}
                     promotionCode={promotionCode}
                     operateBtnVisible={!tid}
@@ -4313,9 +4311,6 @@ class Checkout extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
-                    welcomeBoxChange={(value) => {
-                      this.setState({ welcomeBoxValue: value });
-                    }}
                     confirmCalculateServiceFeeAndLoyaltyPoints={
                       this.confirmCalculateServiceFeeAndLoyaltyPoints
                     }

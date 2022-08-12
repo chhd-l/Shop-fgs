@@ -972,10 +972,11 @@ export function getZoneTime(date) {
   return new Date(date);
 }
 
-export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
+export function getClubLogo({ goodsInfoFlag, subscriptionType } = {}) {
   let logo = LOGO_CLUB;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
     logo = LOGO_CLUB_RU;
+    return logo;
   }
   if (goodsInfoFlag == 3 || subscriptionType == 'Individualization') {
     logo = indvLogo;

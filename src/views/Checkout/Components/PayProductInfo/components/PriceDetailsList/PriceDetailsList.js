@@ -12,7 +12,6 @@ const PriceDetailsList = ({
     taxFeePrice,
     subscriptionDiscountPrice,
     promotionVOList,
-    isShowValidCode,
     deliveryPrice,
     freeShippingDiscountPrice,
     freeShippingFlag,
@@ -51,7 +50,7 @@ const PriceDetailsList = ({
       rowHtml: promotionVOList?.map((el, i) => (
         <PromotionCodeText el={el} i={i} key={i} />
       )),
-      visible: !isShowValidCode,
+      visible: promotionVOList.length > 0,
       className: 'green'
     },
     {
