@@ -7,7 +7,7 @@ import cn from 'classnames';
 
 const AdvantageTip = () => {
   return (
-    <div className="my-14 md:w-4/5 mx-auto">
+    <div className="mt-14 md:w-4/5 mx-auto">
       <ul className="rc-list rc-list--blank grid grid-cols-12">
         {advantageIconList.map((ele: any, idx: number) => (
           <li

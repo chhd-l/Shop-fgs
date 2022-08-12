@@ -576,7 +576,7 @@ class PayProductInfo extends React.Component {
                 onClick={this.togglePCCartFlod}
               >
                 <FormattedMessage
-                  id={cartMinimized ? 'minimize' : 'maximize'}
+                  id={cartMinimized ? 'maximize' : 'minimize'}
                 />
               </span>
             </div>
