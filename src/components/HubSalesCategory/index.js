@@ -107,7 +107,7 @@ export default class HubSalesCategory extends Component {
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
                   <div style={{ width: '100%' }}>
-                    <NormalSkeleton height="10%" count={4} />
+                    <Skeleton height="10%" count={4} />
                   </div>
                 ) : (
                   this.state.cateGoryList_cat.map((item, index) => {
