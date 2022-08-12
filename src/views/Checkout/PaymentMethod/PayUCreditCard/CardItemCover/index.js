@@ -67,7 +67,7 @@ class CardItemCover extends React.Component {
         <div className="pt-4 pb-4">
           {canEdit && (
             <div
-              className="position-absolute ui-cursor-pointer-pure"
+              className="position-absolute cursor-pointer"
               style={{
                 right: '3%',
                 top: '2%'
@@ -90,9 +90,7 @@ class CardItemCover extends React.Component {
               <span
                 className={cn(
                   `pull-right position-relative pl-2`,
-                  el.paddingFlag
-                    ? 'ui-cursor-not-allowed'
-                    : 'ui-cursor-pointer-pure'
+                  el.paddingFlag ? 'ui-cursor-not-allowed' : 'cursor-pointer'
                 )}
               >
                 <Popover

@@ -10,8 +10,6 @@ import {
 } from '@/utils/utils';
 import { GAInitUnLogin, GAInitLogin, GACheckoutScreenLoad } from '@/utils/GA';
 import { v4 as uuidv4 } from 'uuid';
-import WelcomeBox from '../WelcomeBox';
-import { isFirstOrder } from '@/api/user';
 import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
 import cn from 'classnames';
@@ -64,10 +62,16 @@ class PayProductInfo extends React.Component {
       productList: [],
       needHideProductList: props.needHideProductList,
       frequencyList: [],
-      isFirstOrder: false, //是否是首单
-      cartDetailVisible: isMobile ? false : true
+      cartDetailVisible: isMobile ? false : true,
+      // pc minimize logic:
+      // 若存在一次+订阅 -> 展示一个一次+一个订阅
+      // 若只存在一次，不存在订阅 -> 展示最多两个一次
+      // 若只存在订阅，不存在一次 -> 展示最多两个订阅
+      // gift不展示
+      cartMinimized: false
     };
-    this.toggleCartFlod = this.toggleCartFlod.bind(this);
+    this.toggleMobileCartFlod = this.toggleMobileCartFlod.bind(this);
+    this.togglePCCartFlod = this.togglePCCartFlod.bind(this);
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -214,14 +218,6 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
-    if (this.isLogin) {
-      //判断该会员是否是第一次下单
-      isFirstOrder().then((res) => {
-        if (res.context == 0) {
-          this.setState({ isFirstOrder: true });
-        }
-      });
-    }
     let productList;
 
     if (this.props.data.length) {
@@ -281,15 +277,22 @@ class PayProductInfo extends React.Component {
   get giftList() {
     return this.props.checkoutStore.giftList || [];
   }
-  toggleCartFlod() {
+  toggleMobileCartFlod() {
     this.setState((cur) => ({
       cartDetailVisible: !cur.cartDetailVisible
+    }));
+  }
+  togglePCCartFlod() {
+    this.setState((cur) => ({
+      cartMinimized: !cur.cartMinimized
     }));
   }
   isSubscription(el) {
     return el.goodsInfoFlag && el.goodsInfoFlag != 3;
   }
   renderProducts(plist) {
+    const { cartMinimized } = this.state;
+
     // 将单次购买、订阅购买分开
     const singleProducts = plist.filter((p) => !this.isSubscription(p));
     const SingleList = this.renderItemList(singleProducts);
@@ -303,6 +306,21 @@ class PayProductInfo extends React.Component {
         cur.buyCount * cur.salePrice
       );
     }, 0);
+
+    // 若存在一次+订阅 -> 展示一个一次+一个订阅
+    // 若只存在一次，不存在订阅 -> 展示最多两个一次
+    // 若只存在订阅，不存在一次 -> 展示最多两个订阅
+    const singleSplitIdx = cartMinimized
+      ? subProducts.length > 0
+        ? 1
+        : 2
+      : singleProducts.length;
+    const subSplitIdx = cartMinimized
+      ? singleProducts.length > 0
+        ? 1
+        : 2
+      : subProducts.length;
+
     return (
       <>
         {SingleList.length > 0 ? (
@@ -311,7 +329,7 @@ class PayProductInfo extends React.Component {
               title={`Sinlge purchase(${countTotalBuyCounts(singleProducts)})`}
             />
 
-            {SingleList}
+            <div>{SingleList.splice(0, singleSplitIdx)}</div>
           </ProductCatogeryItemBox>
         ) : null}
 
@@ -338,7 +356,7 @@ class PayProductInfo extends React.Component {
               }
             />
 
-            {SubscriptionList}
+            <div>{SubscriptionList.splice(0, subSplitIdx)}</div>
             <div className="text-center border-top py-2">
               <span
                 className="iconfont font-weight-bold iconrefresh green mr-1"
@@ -468,7 +486,7 @@ class PayProductInfo extends React.Component {
         />
         <div
           className="block md:hidden underline"
-          onClick={this.toggleCartFlod}
+          onClick={this.toggleMobileCartFlod}
         >
           <FormattedMessage
             id={cartDetailVisible ? 'cart.showLessDetails' : 'cart.showDetails'}
@@ -481,12 +499,11 @@ class PayProductInfo extends React.Component {
     const {
       productList,
       needHideProductList,
-      isFirstOrder,
-      cartDetailVisible
+      cartDetailVisible,
+      cartMinimized
     } = this.state;
     const {
-      checkoutStore: { installMentParam },
-      paymentStoreNew: { isStudentPurchase }
+      checkoutStore: { installMentParam }
     } = this.props;
     const List = this.renderProducts(productList);
 
@@ -525,35 +542,44 @@ class PayProductInfo extends React.Component {
 
             <div className="border-top">
               {!needHideProductList && List}
-              {this.giftList.length > 0 ? (
+              {this.giftList.length > 0 && !cartMinimized ? (
                 <ProductCatogeryItemBox>
                   <ProductCatogeryTitle
                     title={`Gift(${countTotalBuyCounts(this.giftList)})`}
                   />
-                  {this.giftList.map((el, i) => (
-                    <ProductDetailItem
-                      el={Object.assign({}, el, {
-                        isGift: true
-                      })}
-                      key={i}
-                    />
-                  ))}
+                  <div>
+                    {this.giftList.map((el, i) => (
+                      <ProductDetailItem
+                        el={Object.assign({}, el, {
+                          isGift: true
+                        })}
+                        key={i}
+                      />
+                    ))}
+                  </div>
                 </ProductCatogeryItemBox>
               ) : null}
-
-              {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
-              {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-              this.isLogin &&
-              isFirstOrder &&
-              !isStudentPurchase ? (
-                <WelcomeBox />
-              ) : null}
             </div>
+            {/* mobile Edit cart button */}
             <EditCartBtn
-              className="text-center underline border-top py-2"
+              className="text-center underline border-top py-2 block md:hidden"
               operateBtnVisible={this.props.operateBtnVisible}
               isIndv={this.isIndv}
             />
+            {/* pc Minimize button */}
+            <div
+              className="text-center underline border-top py-2 hidden md:block"
+              style={{ color: 'rgb(68, 68, 68)' }}
+            >
+              <span
+                class="font-medium underline hover:text-rc-red cursor-pointer"
+                onClick={this.togglePCCartFlod}
+              >
+                <FormattedMessage
+                  id={cartMinimized ? 'minimize' : 'maximize'}
+                />
+              </span>
+            </div>
           </div>
         </div>
       </DivWrapper>

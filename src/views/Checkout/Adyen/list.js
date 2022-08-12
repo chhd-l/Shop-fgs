@@ -21,7 +21,7 @@ function CardItemCover({
 }) {
   return (
     <div
-      className={`rounded creditCompleteInfoBox position-relative ui-cursor-pointer-pure border p-4 ${
+      className={`rounded creditCompleteInfoBox position-relative cursor-pointer border p-4 ${
         selectedSts ? 'active border-blue' : ''
       }`}
       onClick={hanldeClickCardItem}
@@ -503,7 +503,7 @@ class AdyenCreditCardList extends React.Component {
           top: '2%'
         }}
       >
-        <span className={`position-relative pl-2 ui-cursor-pointer-pure`}>
+        <span className={`position-relative pl-2 cursor-pointer`}>
           <Popover
             display={el.confirmTooltipVisible}
             confirm={this.handleClickConfirmDeleteBtn.bind(this, { el, idx })}
@@ -522,7 +522,7 @@ class AdyenCreditCardList extends React.Component {
   renderCardEditBtnJSX = () => {
     return (
       <div
-        className="position-absolute ui-cursor-pointer-pure"
+        className="position-absolute cursor-pointer"
         style={{
           right: '3%',
           top: '2%'

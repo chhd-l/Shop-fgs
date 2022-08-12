@@ -19,7 +19,7 @@ const EditCartBtn = ({ operateBtnVisible, className, isIndv }) => {
   const editInFelinBtnVisible = isFromFelin;
 
   return editInCartBtnVisible || editInFelinBtnVisible ? (
-    <div className={className}>
+    <div className={className} style={{ color: '#444' }}>
       {editInCartBtnVisible ? (
         <Link to="/cart" className="font-medium underline hover:text-rc-red">
           <FormattedMessage id="edit2" />

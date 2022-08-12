@@ -16,7 +16,8 @@ import {
   Confirmation,
   Point,
   Progress,
-  ClinicForm
+  ClinicForm,
+  WelcomeBox
 } from './Components';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
@@ -109,6 +110,7 @@ import {
 } from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
 import { Canonical, Button, Modal } from '@/components/Common';
+import { DivWrapper } from './style';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -4157,7 +4159,7 @@ class Checkout extends React.Component {
       history,
       location,
       checkoutStore,
-      paymentStoreNew: { curPayWayInfo, subForm }
+      paymentStoreNew: { curPayWayInfo }
     } = this.props;
     const {
       loading,
@@ -4166,7 +4168,6 @@ class Checkout extends React.Component {
       orderDetails,
       listData,
       recommend_data,
-
       promotionCode,
       guestEmail,
       deliveryAddress,
@@ -4189,7 +4190,7 @@ class Checkout extends React.Component {
     };
 
     return (
-      <div>
+      <DivWrapper>
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}
@@ -4211,7 +4212,7 @@ class Checkout extends React.Component {
         </div>
         <main className="rc-content--fixed-header not-include-navigation rc-bg-colour--brand4">
           <Progress type="payment" />
-          <div className="rc-bottom-spacing rc-max-width--lg mt-8">
+          <div className="rc-bottom-spacing rc-max-width--lg mt-5 md:mt-8">
             <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3">
               <div className="rc-column rc-double-width shipping__address order-3 md:order-1">
                 {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
@@ -4228,6 +4229,8 @@ class Checkout extends React.Component {
                   <>
                     <div className="shipping-form" id="J_checkout_panel_email">
                       <ClinicForm history={history} />
+
+                      <WelcomeBox />
 
                       {/* 地址模块 */}
                       {this.renderAddressPanel()}
@@ -4325,7 +4328,7 @@ class Checkout extends React.Component {
               key={curPayWayInfo?.code}
             />
           </div>
-          <div className="md:-mt-6">
+          <div className="mt-10">
             <Faq />
           </div>
 
@@ -4426,7 +4429,7 @@ class Checkout extends React.Component {
             </div>
           )}
         </Modal>
-      </div>
+      </DivWrapper>
     );
   }
 }

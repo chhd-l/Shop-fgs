@@ -58,7 +58,7 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
               key={index}
             >
               <input
-                className="rc-input__checkbox ui-cursor-pointer-pure"
+                className="rc-input__checkbox cursor-pointer"
                 id={`id-convenience-store-${index}`}
                 onChange={(e) => conStoreChange(e, item.value)}
                 type="checkbox"

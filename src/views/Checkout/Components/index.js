@@ -6,3 +6,4 @@ export { default as Confirmation } from './Confirmation';
 export { default as Point } from './Point';
 export { default as Progress } from './Progress';
 export { default as ClinicForm } from './ClinicForm';
+export { default as WelcomeBox } from './WelcomeBox';

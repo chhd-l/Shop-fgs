@@ -34,8 +34,8 @@ const initPanelStatus = [
     key: 'paymentMethod',
     order: 5,
     status: {
-      isPrepare: false,
-      isEdit: true,
+      isPrepare: true,
+      isEdit: false,
       isCompleted: false,
       hasCompleted: false
     }

@@ -192,14 +192,14 @@
   margin-bottom: 2rem;
 }
 
-.product-summary__products__item {
+/* .product-summary__products__item {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-}
-
-/* .product-summary__products__item:not(:first-child) {
-  border-top: 1px solid #d7d7d7;
 } */
+
+.product-summary__products__item:not(:first-child) {
+  border-top: 1px solid #d7d7d7;
+}
 
 .ui-lighter {
   opacity: 0.7;
