@@ -2528,6 +2528,7 @@ class Payment extends React.Component {
               clinicStore.linkClinicRecommendationInfos.recommenderId
           });
         });
+        param.clinicsName = '';
       } else {
         param.tradeItems = cartData.map((ele) => {
           const recoProductParam = handleRecoProductParamByItem({
