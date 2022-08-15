@@ -1,6 +1,10 @@
 const config = {
   // roots: ['<rootDir>/src'],
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
+  collectCoverageFrom: [
+    // 'src/**/*.{js,jsx,ts,tsx}',
+    // '!src/**/*.d.ts',
+    'src/views/Checkout/Components/PayProductInfo/components/**/*.{js,jsx,ts,tsx}'
+  ],
   setupFiles: ['react-app-polyfill/jsdom'],
   setupFilesAfterEnv: [
     '<rootDir>/src/setupTests.js',
