@@ -41,6 +41,17 @@ const ButtonGroup = ({
   const handleBuyFromRetailer = () => {
     buyFromRetailer();
   };
+  let dataTestid = ''
+  switch(form.buyWay){
+    case 1:
+      dataTestid = 'pdp_autoship'
+      break;
+    case 2:
+      dataTestid = 'pdp_club'
+      break;
+    default:
+      dataTestid="pdp_single_purchase"
+  }
   return (
     <div>
       <div className="rc-md-up">
@@ -50,6 +61,7 @@ const ButtonGroup = ({
           })}
         >
           <Button
+            data-testid={`${dataTestid}_add_cart`}
             type="primary"
             className={cn(
               `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile w-full py-2 md:py-0.5 md:px-7`

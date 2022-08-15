@@ -179,6 +179,9 @@ class Consent extends Component {
               >
                 <input
                   style={{ zoom: zoom }}
+                  data-testid={
+                    item.isRequired ? 'consent_required' : 'consent_no_required'
+                  }
                   className={[
                     'form-check-input',
                     'ui-cursor-pointer-pure',

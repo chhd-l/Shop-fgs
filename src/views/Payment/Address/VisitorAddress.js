@@ -651,7 +651,14 @@ class VisitorAddress extends React.Component {
               {selectDeliveryOrPickUp == 1 && <>{_editForm}</>}
 
               {showConfirmBtn && (
-                <div className="d-flex justify-content-end mb-2">
+                <div
+                  className="d-flex justify-content-end mb-2"
+                  data-testid={
+                    pickupFormData?.receiveType == 'PICK_UP'
+                      ? ''
+                      : 'payment_address_confirm'
+                  }
+                >
                   {pickupFormData?.receiveType == 'PICK_UP' ? (
                     <>
                       <Button

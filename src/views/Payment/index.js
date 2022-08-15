@@ -3637,7 +3637,10 @@ class Payment extends React.Component {
 
     const payConfirmBtn = ({ disabled, loading = false } = {}) => {
       return (
-        <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
+        <div
+          data-testid="payment_confirm_btn"
+          className="d-flex justify-content-end mt-3 rc_btn_payment_confirm"
+        >
           <Button
             type="primary"
             disabled={disabled}
@@ -3723,6 +3726,7 @@ class Payment extends React.Component {
                         ? 'border-green'
                         : 'border-gray-300'
                     )}
+                    data-testid={`payment_${item.code}`}
                     key={index}
                     onClick={() => this.handlePaymentTypeClick(item.code)}
                   >

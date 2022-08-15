@@ -525,6 +525,7 @@ export default class Search extends React.Component {
             >
               <form
                 role="search"
+                data-testid="header_search_input"
                 name="simpleSearch"
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -590,6 +591,7 @@ export default class Search extends React.Component {
                   showSearchInput ? '' : 'rc-hidden'
                 }`}
                 role="search"
+                data-testid="header_search_input"
                 name="simpleSearch"
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -643,6 +645,7 @@ export default class Search extends React.Component {
                   showSearchInput ? '' : 'rc-hidden'
                 }`}
                 role="search"
+                data-testid="header_search_input"
                 name="simpleSearch"
                 style={{ position: 'fixed' }}
                 onSubmit={(e) => {

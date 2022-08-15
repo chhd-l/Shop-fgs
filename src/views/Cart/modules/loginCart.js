@@ -1107,7 +1107,10 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
+              <p
+                className="text-right grand-total-sum medium mb-0 text-nowrap"
+                data-testid="price_group_pay_price"
+              >
                 {this.props.configStore?.customTaxSettingOpenFlag &&
                 this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                   <>
@@ -1126,7 +1129,7 @@ class LoginCart extends React.Component {
 
           <div className="row checkout-proccess rc-md-up">
             <div className="col-lg-12 checkout-continue">
-              <a onClick={this.handleCheckout}>
+              <a onClick={this.handleCheckout} data-testid="cart_buy_now">
                 <div className="rc-padding-y--xs rc-column">
                   <Button
                     data-oauthlogintargetendpoint="2"
@@ -1183,7 +1186,7 @@ class LoginCart extends React.Component {
               }
             />
             <div className="col-lg-12">
-              <a onClick={this.handleCheckout}>
+              <a onClick={this.handleCheckout} data-testid="cart_buy_now">
                 <div className="rc-padding-y--xs rc-column">
                   <Button
                     type="primary"

@@ -36,6 +36,7 @@ interface Props {
   btnStyle?: object;
   buttonRef?: any;
   children?: any;
+  dataTestid?:string;
 }
 
 const LoginButton = ({
@@ -43,6 +44,7 @@ const LoginButton = ({
   callbackUrl,
   beforeLoginCallback,
   btnClass,
+  dataTestid="login_btn",
   className,
   btnStyle,
   buttonRef,
@@ -249,6 +251,7 @@ const LoginButton = ({
     <>
       <LimitLoginModal />
       <button
+        data-testid={dataTestid}
         className={cn(btnClass || className || 'rc-btn rc-btn--one bg-rc-red')}
         style={btnStyle || {}}
         onClick={login}

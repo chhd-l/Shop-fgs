@@ -20,10 +20,11 @@ export const UnLoginUserBox = ({ history, className, intl }) => {
         <FormattedMessage id="header.User.alreadyRegistered" />
       </div>
       <LoginButton
+        dataTestid="header_login_btn"
         className="rc-btn rc-btn--one mt-1 mb-1 bg-rc-red"
         btnStyle={{ width: '14rem', padding: '5px 0' }}
       />
-      <div className="newUser">
+      <div className="newUser" data-testid="header_register_btn">
         <FormattedMessage id="header.User.newUser" />
         <Link
           className="medium pl-2 ui-cursor-pointer 1212"

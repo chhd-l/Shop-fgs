@@ -2486,7 +2486,7 @@ class AddressList extends React.Component {
             <div>{this.isDeliverAddress ? _defaultCheckBox : null}</div>
             {showOperateBtn ? (
               <>
-                <div className="rc-md-up">
+                <div className="rc-md-up" data-testid="payment_address_confirm">
                   {allAddressList.length > 0 ? (
                     <>
                       <span
@@ -2518,7 +2518,10 @@ class AddressList extends React.Component {
                   </Button>
                 </div>
 
-                <div className="rc-md-down rc-full-width text-right">
+                <div
+                  className="rc-md-down rc-full-width text-right"
+                  data-testid="payment_address_confirm"
+                >
                   {addressList.length > 0 && (
                     <>
                       <span
@@ -2849,7 +2852,10 @@ class AddressList extends React.Component {
 
                         {/* 该按钮，只用来确认地址列表 */}
                         {this.isDeliverAddress && (
-                          <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
+                          <div
+                            className="d-flex justify-content-end mt-3 rc_btn_list_js"
+                            data-testid="payment_address_confirm"
+                          >
                             {/* 取消按钮 */}
                             {addOrEditPickup && (
                               <div className="rc-padding-y--none d-flex align-items-center mr-4">
