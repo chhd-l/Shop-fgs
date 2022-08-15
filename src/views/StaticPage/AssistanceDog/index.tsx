@@ -45,8 +45,8 @@ class AssistanceDog extends React.Component {
                   bénéficier des avantages Royal Canin.
                 </span>{' '}
                 <span>
-                  Inscrivez-vous dès maintenant pour bénéficier des avantages
-                  Royal Canin.
+                  {/* Inscrivez-vous dès maintenant pour bénéficier des avantages
+                  Royal Canin. */}
                 </span>
               </p>
               <p className="text-rc-red my-7 text-xl">
@@ -171,7 +171,7 @@ class AssistanceDog extends React.Component {
             {[
               {
                 img: {
-                  src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/mechanism-1@2x.png`
+                  src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/mechanism-1-1@2x.png`
                 },
                 desc: "Fédération Française des Associations de Chiens Guides d'Aveugles"
               },
