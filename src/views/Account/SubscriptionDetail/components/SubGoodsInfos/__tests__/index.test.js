@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SubGoodsInfos from '../index.js';
 import { render } from '@testing-library/react';
 import { shallow, mount } from 'enzyme';
-const subDetail = {
+let subDetail = {
   subscribeId: 'SRCFRU000003245',
   subscribeStatus: '0',
   customerAccount: 'adat09@yopmail.com',
@@ -2278,8 +2278,9 @@ jest.mock('react-slick', () => {
   return {};
 });
 
-jest.mock('../HandledSpecSelect', () => () => <div></div>);
-jest.mock('./ButtonBoxGift', () => () => <div></div>);
+jest.mock('../../HandledSpecSelect', () => () => <div></div>);
+jest.mock('../ChangeSelection', () => () => <div></div>);
+jest.mock('../ButtonBoxGift', () => () => <div>{console.info(1111111)}</div>);
 jest.mock('react-intl-phraseapp', () => {
   return {
     injectIntl: () => {},
@@ -2304,7 +2305,19 @@ jest.mock('@/utils/utils', () => {
 });
 
 describe('SubGoodsInfos index', () => {
-  it('render test', async () => {
+  it('render isIndv test', async () => {
+    const wrapper = await render(
+      <SubGoodsInfos
+        subDetail={subDetail}
+        configStore={{ info: { skuLimitThreshold: {} } }}
+        getMinDate={(nextDeliveryTime) => {
+          return new Date(new Date() + 1 * 24 * 60 * 60 * 1000);
+        }}
+      />
+    );
+  });
+  it('render not isIndv test', async () => {
+    subDetail.subscriptionType = 'AutoShip';
     const wrapper = await render(
       <SubGoodsInfos
         subDetail={subDetail}
