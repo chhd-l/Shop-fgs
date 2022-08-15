@@ -2093,6 +2093,7 @@ class Form extends React.Component {
                     className={`11111 form-group ${
                       item.requiredFlag == 1 ? 'required' : ''
                     }`}
+                    data-testid={`address_${item.fieldKey}_shipping`}
                   >
                     <label
                       className="form-control-label"

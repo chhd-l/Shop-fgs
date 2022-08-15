@@ -602,7 +602,10 @@ class Confirmation extends React.Component {
               <div
                 className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}
               >
-                <div className="d-flex align-items-center justify-content-center">
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                  data-testid="confirmation_continueshopping"
+                >
                   {this.state.oxxoPayUrl || this.state.adyenOxxoAction ? (
                     <>
                       <Button

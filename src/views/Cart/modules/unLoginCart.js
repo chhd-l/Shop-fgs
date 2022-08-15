@@ -964,6 +964,7 @@ class UnLoginCart extends React.Component {
         <div className="rc-padding-y--xs rc-column">
           {this.totalNum > 0 ? (
             <LoginButton
+              dataTestid="cart_buy_now"
               beforeLoginCallback={async () => {
                 try {
                   await this.handleCheckout({ needLogin: true });
@@ -1150,7 +1151,10 @@ class UnLoginCart extends React.Component {
                 </strong>
               </div>
               <div className="col-5">
-                <p className="text-right grand-total-sum medium mb-0">
+                <p
+                  className="text-right grand-total-sum medium mb-0"
+                  data-testid="price_group_pay_price"
+                >
                   {this.props.configStore?.customTaxSettingOpenFlag &&
                   this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                     <>

@@ -37,7 +37,7 @@ const ClubBuyMethod = ({
     .sub(new Decimal(currentSubscriptionPrice))
     .toNumber();
   const discountAmountUnit = formatMoney(discountAmount);
-
+  
   return (
     <div
       className={`buy-method-box pb-2 ${form.buyWay === 2 ? 'border-red' : ''}`}
@@ -46,6 +46,7 @@ const ClubBuyMethod = ({
         className={`buyMethod club-buy-method d-flex row 3 ml-0 mr-0 justify-content-between ui-cursor-pointer-pure ${
           form.buyWay === 2 ? 'border-solid border-b border-d7d7d7' : ''
         }`}
+        data-tetsid="pdp_club_btn"
         onClick={changeMethod.bind(this)}
       >
         <div className="radioBox order-1 md:order-1 col-8 px-0">
