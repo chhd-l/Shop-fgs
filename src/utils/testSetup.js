@@ -33,7 +33,15 @@ Object.defineProperty(window, '__DEV__', {
   value: true
 });
 Object.defineProperty(window, '__', {
-  set: () => {},
-  get: () => {},
-  remove: () => {}
+  value: {
+    sessionItemRoyal: {
+      get: (key) => sessionItem[key],
+      set: (key, value) => (sessionItem[key] = value)
+    },
+    localItemRoyal: {
+      get: (key) => localItem[key],
+      set: (key, value) => (localItem[key] = value)
+    },
+    env: 'REACT_APP_STOREID'
+  }
 });
