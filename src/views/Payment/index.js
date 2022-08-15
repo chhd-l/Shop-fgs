@@ -611,6 +611,7 @@ class Payment extends React.Component {
       );
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
+      console.log('yyy');
       if (!recommendProductJson) {
         if (!this.computedCartData.length && !tid && !appointNo) {
           sessionItemRoyal.remove('rc-iframe-from-storepotal');
