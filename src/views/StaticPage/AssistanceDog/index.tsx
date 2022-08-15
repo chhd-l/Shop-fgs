@@ -9,7 +9,6 @@ import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { Button, Canonical } from '@/components/Common';
 import GoogleTagManager from '@/components/GoogleTagManager';
-
 // @ts-ignore
 @injectIntl
 @seoHoc('AssistanceDogPage')
@@ -32,20 +31,22 @@ class AssistanceDog extends React.Component {
         <Canonical />
         <GoogleTagManager key={location.key} additionalEvents={event} />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
-        <main className={'rc-content--fixed-header'}>
+        <main className={'rc-content--fixed-header'} data-testid="assisTest">
           <div className="bg-rc-f6 grid grid-cols-12">
             <div className="col-span-12 md:col-span-6 px-5 md:px-0 py-8 md:pl-24 md:pr-6">
               <p className="text-rc-red text-3xl md:text-4xl md:leading-snug">
-                Profitez de notre offre partenaire Chiens Guides d’Aveugles
+                Profitez de notre offre partenaire Chiens Guides France
               </p>
               <p className="mt-4 leading-loose">
                 <span className="font-light">
-                  Vous êtes porteur d’une carte Handicap et d’une carte
-                  d’identité de Chien Guide ?
+                  Vous êtes porteur d’une Carte Mobilité Inclusion ou
+                  d’Invalidité et d’un Certificat National d’Identification de
+                  Chien Guide Eduqué ? Inscrivez-vous dès maintenant pour
+                  bénéficier des avantages Royal Canin.
                 </span>{' '}
                 <span>
-                  Inscrivez-vous dès maintenant pour bénéficier des avantages
-                  Royal Canin.
+                  {/* Inscrivez-vous dès maintenant pour bénéficier des avantages
+                  Royal Canin. */}
                 </span>
               </p>
               <p className="text-rc-red my-7 text-xl">
@@ -100,11 +101,16 @@ class AssistanceDog extends React.Component {
                 Royal Canin s’engage auprès des Chiens Guides d’Aveugles
               </p>
               <p className="text-lg mt-5 leading-relaxed">
-                Royal Canin, partenaire depuis de nombreuses années de la
+                {/* Royal Canin, partenaire depuis de nombreuses années de la
                 Fédération Française des Chiens Guides d’Aveugles, et de
                 nombreuses écoles de Chiens Guides, poursuit son engagement avec
                 des actions concrètes à destination des personnes déficientes
-                visuelles.
+                visuelles. */}
+                Royal Canin, partenaire depuis de nombreuses années de la
+                Fédération Française des Chiens guides d’aveugles (FFAC), et de
+                nombreuses Ecoles de chiens guides fédérées, poursuit son
+                engagement avec des actions concrètes à destination des
+                personnes déficientes visuelles.
               </p>
             </div>
             <div className="col-span-12 md:col-span-6 order-1 md:order-3">
@@ -124,7 +130,7 @@ class AssistanceDog extends React.Component {
                 <img
                   src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/dog-2@2x.png`}
                   alt="assistance dog"
-                  className="w-2/3 mx-auto mb-4 md:mb-0"
+                  className="w-80 mx-auto mb-4 md:mb-0"
                 />
               </LazyLoad>
             </div>
@@ -134,8 +140,8 @@ class AssistanceDog extends React.Component {
               </p>
               <p className="mt-5">
                 L'accueil d'un Chien Guide est une étape importante pour lui
-                comme pour vous. Royal Canin met à disposition un service
-                reservé permettant de :
+                comme pour vous. Royal Canin met à disposition un
+                service réservé permettant de :
               </p>
               <ul className="mt-5">
                 {[
@@ -149,7 +155,7 @@ class AssistanceDog extends React.Component {
                   },
                   {
                     icon: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/icon03@2x.png`,
-                    desc: "Réserver un tarif exclusif de nos aliments aux maitres Chien Guide d'aveugle"
+                    desc: 'Réserver un tarif exclusif de nos aliments aux maîtres de chiens guides'
                   }
                 ].map((item, i) => (
                   <li className="flex items-center my-2 font-medium" key={i}>
@@ -165,9 +171,9 @@ class AssistanceDog extends React.Component {
             {[
               {
                 img: {
-                  src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/mechanism-1@2x.png`
+                  src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/mechanism-1-1@2x.png`
                 },
-                desc: 'Fédération Française des Associations de Chiens Guides'
+                desc: "Fédération Française des Associations de Chiens Guides d'Aveugles"
               },
               {
                 img: {
@@ -179,7 +185,7 @@ class AssistanceDog extends React.Component {
                 img: {
                   src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/mechanism-3@2x.png`
                 },
-                desc: 'Ecoles Chiens Guides'
+                desc: 'Ecoles de chiens guides fédérées'
               }
             ].map((item, i) => (
               <div className="col-span-12 md:col-span-4 mb-3 md:mb-0" key={i}>

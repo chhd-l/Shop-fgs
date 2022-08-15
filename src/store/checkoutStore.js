@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createIntl, createIntlCache } from 'react-intl';
 import { getDynamicLanguage } from '@/lang';
 
-let intl;
+let intl = {};
 
 async function initIntl() {
   const lang = await getDynamicLanguage();
@@ -417,7 +417,7 @@ class CheckoutStore {
     notSeableProNames = this.notSeableProNames,
     purchasesRes = {}
   } = {}) {
-    const { formatMessage } = intl;
+    const { formatMessage = () => {} } = intl;
     // 没达到下单额度，不能下单
     if (purchasesRes.canShipped === false && purchasesRes.cantShippedMessage) {
       throw new Error(purchasesRes.cantShippedMessage);

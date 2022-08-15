@@ -15,6 +15,7 @@ const ConsentToolTip = ({ consentInnerHtml, pageType }) => {
   return (
     <div class="se-consent-text">
       <a
+        data-testid="consentTest"
         class={`se-consent-desc ${
           pageType === 'account' ? 'account-consent' : ''
         }`}

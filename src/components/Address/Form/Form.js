@@ -331,7 +331,7 @@ class Form extends React.Component {
     let res = null;
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
-      const cutOffTime = Number(res.context.cutOffTime.substring(0, 2));
+      const cutOffTime = Number(res.context.cutOffTime?.substring(0, 2));
       localStorage.setItem('cutOffTime', cutOffTime);
       let flag = false;
       let alldata = {}; // 全部数据
@@ -1986,9 +1986,20 @@ class Form extends React.Component {
         {/* email */}
         <div className="col-md-6">
           <div className="form-group require">
-            <label className="form-control-label" htmlFor="emailShipping">
-              <FormattedMessage id="account.Email" />
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="form-control-label" htmlFor="emailShipping">
+                <FormattedMessage id="account.Email" />
+              </label>
+              {COUNTRY === 'jp' ? (
+                <a
+                  href="https://ncv.microsoft.com/23fH9DIr5C"
+                  className="underline"
+                  target="_blank"
+                >
+                  <FormattedMessage id="changeEmail" />
+                </a>
+              ) : null}
+            </div>
 
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
               <input
