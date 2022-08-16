@@ -18,18 +18,11 @@ jest.mock('@/components/Selection', () => {
     return (
       <div
         id="selection-component"
-        //onClick={() => selectedItemChange?.(params)}
-        onClick={() => {}}
+        onClick={() => selectedItemChange?.(params)}
       >
         Selection
       </div>
     )
-  };
-});
-
-jest.mock('@/framework/product', () => {
-  return {
-    handleSizeList: e => e
   };
 });
 
