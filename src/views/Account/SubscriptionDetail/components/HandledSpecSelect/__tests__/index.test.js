@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, getByTestId, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import HandledSpecSelect from '../index';
 
 jest.mock('react-intl-phraseapp', () => {
@@ -11,20 +11,18 @@ jest.mock('react-intl-phraseapp', () => {
 
 jest.mock('@/components/Selection', () => {
   return ({selectedItemChange}) => {
+    const params = {
+      specId: 669125945,
+      specDetailId: 267933385
+    }
     return (
       <div
         data-testid="selection-component"
-        onClick={() => selectedItemChange("specId", "specDetailId")}
+        onClick={() => selectedItemChange?.(params)}
       >
         Selection
       </div>
     )
-  };
-});
-
-jest.mock('@/framework/product', () => {
-  return {
-    handleSizeList: e => e
   };
 });
 
@@ -862,9 +860,9 @@ const testProps = {
 describe('Handled Spec Select Comp Test', () => {
   it('handled spec select', async () => {
     await render(<HandledSpecSelect {...testProps}/>);
-
-    const Selection = getByTestId("selection-component");
-
+    const Selection = screen.getByTestId("selection-component");
     fireEvent.click(Selection);
+
+    await render(<HandledSpecSelect {...testProps} details={{...details, goodsSpecDetails: []}}/>);
   });
 });
