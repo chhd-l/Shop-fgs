@@ -1,6 +1,23 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import HandledSpecSelect from '..';
+import HandledSpecSelect from '../index';
+
+jest.mock('react-intl-phraseapp', () => {
+  return {
+    injectIntl: () => {},
+    FormattedMessage: () => <div>phraseapp</div>
+  };
+});
+
+jest.mock('@/components/Selection', () => {
+  return () => <div>Selection</div>;
+});
+
+jest.mock('@/framework/product', () => {
+  return {
+    handleSizeList: e => e
+  };
+});
 
 const details = {
   subscribeGoodsId: 'SD202208050127194011265',
@@ -823,16 +840,18 @@ const details = {
   promotions: 'autoship'
 };
 
-jest.mock('react-intl-phraseapp', () => {
-  return {
-    injectIntl: () => {},
-    FormattedMessage: () => <div></div>
-  };
-});
+const testProps = {
+  renderAgin: false,
+  details: details,
+  updatedSku: () => {},
+  defaultSkuId: "defaultSkuId",
+  defaultSkuNo: "defaultSkuNo",
+  inModal: false,
+}
+
 
 describe('Handled Spec Select Comp Test', () => {
   it('handled spec select', async () => {
-    const wrapper = await render(<HandledSpecSelect details={details} />);
-    expect(screen.getByTestId('specSelectTest')).toBeInTheDocument();
+    const wrapper = await render(<HandledSpecSelect {...testProps}/>);
   });
 });
