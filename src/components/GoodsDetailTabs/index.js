@@ -867,6 +867,7 @@ const GoodsDetailTabs = function (props) {
                 {goodsDetailTabsData.map((ele, index) => (
                   <li key={index}>
                     <button
+                      data-auto-testid={`pdp_tab_${ele.descriptionName}`}
                       className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                       data-toggle={`tab__panel-${index}`}
                       aria-selected={

@@ -999,6 +999,7 @@ class UnLoginCart extends React.Component {
             ) : paymentAuthority === 'MEMBER_AND_VISITOR' ? (
               <div
                 className="text-center"
+                data-auto-testid="cart_guestCheckout"
                 onClick={() => this.handleCheckout()}
               >
                 <div
@@ -1049,6 +1050,7 @@ class UnLoginCart extends React.Component {
                 <FormattedMessage id="promotionCode">
                   {(txt) => (
                     <input
+                      data-auto-testid="cart_promotion_input"
                       className="rc-input__control"
                       id="id-text2"
                       type="text"
@@ -1066,6 +1068,7 @@ class UnLoginCart extends React.Component {
               <p className="text-right sub-total">
                 <button
                   id="promotionApply"
+                  data-auto-testid="cart_promotion_btn"
                   className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
                     this.state.isClickApply
                       ? 'ui-btn-loading ui-btn-loading-border-red my-2.5 float-right'
@@ -1153,7 +1156,7 @@ class UnLoginCart extends React.Component {
               <div className="col-5">
                 <p
                   className="text-right grand-total-sum medium mb-0"
-                  data-testid="price_group_pay_price"
+                  data-auto-testid="price_group_pay_price"
                 >
                   {this.props.configStore?.customTaxSettingOpenFlag &&
                   this.props.configStore?.enterPriceType === 'NO_TAX' ? (

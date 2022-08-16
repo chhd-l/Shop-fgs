@@ -408,7 +408,10 @@ class PayProductInfo extends React.Component {
                   </span>
                 </div>
                 <div className="col-6 end-lines text-right">
-                  <span className="grand-total-sum">
+                  <span
+                    className="grand-total-sum"
+                    data-auto-testid="payment_info_total_sum"
+                  >
                     {formatMoney(this.totalPrice)}
                   </span>
                 </div>
@@ -421,7 +424,10 @@ class PayProductInfo extends React.Component {
                     </span>
                   </div>
                   <div className="col-6 end-lines text-right">
-                    <span className="grand-total-sum">
+                    <span
+                      className="grand-total-sum"
+                      data-auto-testid="payment_info_total_sum"
+                    >
                       {details?.tradePrice?.loyaltyPointsEarned + 'pt'}
                     </span>
                   </div>

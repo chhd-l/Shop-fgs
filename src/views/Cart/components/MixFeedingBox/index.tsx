@@ -261,6 +261,7 @@ const MixFeedingBox = function ({
                       {/* todo 需改为使用QuantityPicker组件 */}
                       <div className="rc-quantity d-flex">
                         <span
+                          data-auto-testid="minus-quantity-btn"
                           className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                           onClick={() => {
                             hanldeAmountChange('minus');
@@ -271,12 +272,14 @@ const MixFeedingBox = function ({
                           value={quantity}
                           name="quantity"
                           min="1"
+                          data-auto-testid="edit-quantity-input"
                           max="10"
                           onChange={(e) => handleAmountInput(e)}
                         />
                         <span
                           className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                           data-quantity-error-msg="Вы не можете заказать больше 10"
+                          data-auto-testid="plus-quantity-btn"
                           onClick={() => {
                             hanldeAmountChange('plus');
                           }}

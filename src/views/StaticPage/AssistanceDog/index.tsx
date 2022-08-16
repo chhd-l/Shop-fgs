@@ -31,7 +31,7 @@ class AssistanceDog extends React.Component {
         <Canonical />
         <GoogleTagManager key={location.key} additionalEvents={event} />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
-        <main className={'rc-content--fixed-header'} data-testid="assisTest">
+        <main className={'rc-content--fixed-header'} data-auto-testid="assisTest">
           <div className="bg-rc-f6 grid grid-cols-12">
             <div className="col-span-12 md:col-span-6 px-5 md:px-0 py-8 md:pl-24 md:pr-6">
               <p className="text-rc-red text-3xl md:text-4xl md:leading-snug">

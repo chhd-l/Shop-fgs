@@ -486,6 +486,7 @@ class AdyenCreditCardList extends React.Component {
               node.style.setProperty('border-style', 'dashed', 'important');
             }
           }}
+          data-auto-testid="payment_add_payment"
           onClick={this.handleClickAddBtn}
         >
           <a className="rc-styled-link">
@@ -512,7 +513,10 @@ class AdyenCreditCardList extends React.Component {
               this.updateConfirmTooltipVisible(el, status)
             }
           >
-            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+            <span
+              onClick={this.handleClickDeleteBtn.bind(this, el)}
+              data-auto-testid="payment_delete_payment"
+            >
               <FormattedMessage id="delete" />
             </span>
           </Popover>

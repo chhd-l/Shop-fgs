@@ -44,7 +44,9 @@ export default function PromotionCodeText({ el, i }) {
       <div className="col-5 end-lines">
         <p className="text-right">
           <span className="shipping-total-cost">
-            <strong>-{formatMoney(el.discountPrice)}</strong>
+            <strong data-auto-testid="shipping_total_cost">
+              -{formatMoney(el.discountPrice)}
+            </strong>
           </span>
         </p>
       </div>

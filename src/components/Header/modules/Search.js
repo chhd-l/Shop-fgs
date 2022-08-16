@@ -525,13 +525,13 @@ export default class Search extends React.Component {
             >
               <form
                 role="search"
-                data-testid="header_search_input"
                 name="simpleSearch"
                 onSubmit={(e) => {
                   e.preventDefault();
                 }}
               >
                 <button
+                  data-auto-testid="header_search_btn"
                   className="iconfont icon-search"
                   type="submit"
                   onClick={this.handleSearch}
@@ -553,6 +553,7 @@ export default class Search extends React.Component {
                       className="search-field rc-bg-colour--brand4 ui-cursor-pointer-pure font-weight-light limit-md-width"
                       type="search"
                       autoComplete="off"
+                      data-auto-testid="header_search_input"
                       placeholder={txt}
                       onFocus={this.hanldeSearchFocus}
                       onChange={this.handleSearchInputChange}
@@ -591,7 +592,6 @@ export default class Search extends React.Component {
                   showSearchInput ? '' : 'rc-hidden'
                 }`}
                 role="search"
-                data-testid="header_search_input"
                 name="simpleSearch"
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -604,6 +604,7 @@ export default class Search extends React.Component {
                   <button
                     className="rc-input__submit rc-input__submit--search"
                     type="submit"
+                    data-auto-testid="header_search_btn"
                     onClick={this.handleSearch}
                   >
                     <span className="rc-screen-reader-text" />
@@ -611,6 +612,7 @@ export default class Search extends React.Component {
                   <FormattedMessage id="header.startTypingToSearch">
                     {(txt) => (
                       <input
+                        data-auto-testid="header_search_input"
                         id="startTypingToSearch"
                         ref={this.inputRef}
                         className="search-field"
@@ -645,7 +647,6 @@ export default class Search extends React.Component {
                   showSearchInput ? '' : 'rc-hidden'
                 }`}
                 role="search"
-                data-testid="header_search_input"
                 name="simpleSearch"
                 style={{ position: 'fixed' }}
                 onSubmit={(e) => {
@@ -662,6 +663,7 @@ export default class Search extends React.Component {
                   <button
                     className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
                     type="submit"
+                    data-auto-testid="header_search_btn"
                     aria-label="Search"
                   >
                     <span className="screen-reader-text">
@@ -675,6 +677,7 @@ export default class Search extends React.Component {
                     <input
                       ref={this.inputRefMobile}
                       type="search"
+                      data-auto-testid="header_search_input"
                       className="form-control search-field rc-header__input"
                       placeholder={txt}
                       autoComplete="off"

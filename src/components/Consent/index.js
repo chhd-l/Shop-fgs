@@ -179,7 +179,7 @@ class Consent extends Component {
               >
                 <input
                   style={{ zoom: zoom }}
-                  data-testid={
+                  data-auto-testid={
                     item.isRequired ? 'consent_required' : 'consent_no_required'
                   }
                   className={[

@@ -60,6 +60,7 @@ const PanelContainer = ({
         {panelStatus.isCompleted && onEdit ? (
           <p
             onClick={onEdit}
+            data-auto-testid="payment_edit_payment"
             className="rc-styled-link mb-1 leading-tight edit_payment_method cursor-pointer qhx"
           >
             {edit || <FormattedMessage id="edit" />}
