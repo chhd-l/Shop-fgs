@@ -497,6 +497,7 @@ class PaymentList extends React.Component {
                       title={txt}
                       alt={txt}
                       onClick={this.handleClickEditBtn}
+                      data-auto-testid="PaymenListEdit"
                     >
                       {txt}
                     </button>
@@ -567,7 +568,10 @@ class PaymentList extends React.Component {
                       </div>
                     ))}
                   {this.getOnlyCardTypeArr().slice(0, 2).length < 2 && (
-                    <div className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer">
+                    <div
+                      data-auto-testid="PaymentListAdd"
+                      className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer"
+                    >
                       {this.addBtnJSX({ fromPage: 'cover' })}
                     </div>
                   )}
