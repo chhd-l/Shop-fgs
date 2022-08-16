@@ -22,6 +22,12 @@ module.exports = {
   },
   theme: {
     extend: {
+      placeholderColor: {
+        'primary': '#666666',
+      },
+      borderColor: {
+        'form': '#808285'
+      },
       colors: {
         'rc-red': 'var(--rc-red)',
         orange: 'var(--orange)',

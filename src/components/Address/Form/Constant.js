@@ -1,0 +1,3 @@
+export const InputMsg = {
+  firstName: {}
+};

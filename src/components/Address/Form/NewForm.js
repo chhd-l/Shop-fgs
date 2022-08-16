@@ -1832,57 +1832,63 @@ class Form extends React.Component {
   };
   newInputJSX = (item) => {
     const { caninForm } = this.state;
+    let styleObj = {
+      show: true
+    };
     let show = false,
-      zhengque = true,
-      ltext = null,
-      borcolor = ' border-gray-500';
+      isOk = true,
+      labelText = 'email',
+      bordercolor = 'border-form',
+      tips = 'error';
     return (
       <>
         <div className="w-full">
-          <label className="flex">
-            <span
-              className={cn('min-w-min text-sm my-5 mx-6', { hidden: !ltext })}
-            >
-              {ltext}
+          <label className="flex flex-col">
+            <span className={cn('min-w-min text-sm my-1', { hidden: false })}>
+              {/* <FormattedMessage id={`payment.${item.fieldKey}`} /> */}
+              {item.fieldKey}
             </span>
-            <input
-              data-testid="inputTest"
-              className={
-                'border-b-2 w-auto text-base my-4' +
-                (zhengque ? ' border-yellow-700' : ' border-red-800') +
-                (show ? '' : borcolor)
-              }
-              onFocus={() => {
-                show = true;
-                zhengque = false;
-              }}
-              id={`${item.fieldKey}Shipping`}
-              type={item.filedType}
-              value={caninForm[item.fieldKey] || ''}
-              onChange={this.inputChange}
-              onCompositionStart={this.compositionStart}
-              onCompositionEnd={this.compositionEnd}
-              onBlur={this.inputBlur}
-              name={item.fieldKey}
-              disabled={item?.disabled ? true : false}
-              maxLength={this.maxLengthFun(item)}
-              autoComplete="off"
-            />
-            {!zhengque ? (
+            <div className="relative">
+              <input
+                className={`border-b w-full text-14 py-2 placeholder-primary placeholder-opacity-50 ${bordercolor}`}
+                onFocus={() => {}}
+                id={`${item.fieldKey}Shipping`}
+                type={item.filedType}
+                value={caninForm[item.fieldKey] || ''}
+                onChange={this.inputChange}
+                onCompositionStart={this.compositionStart}
+                onCompositionEnd={this.compositionEnd}
+                onBlur={this.inputBlur}
+                name={item.fieldKey}
+                disabled={item?.disabled ? true : false}
+                maxLength={this.maxLengthFun(item)}
+                autoComplete="off"
+                placeholder={item.fieldKey}
+              />
+              <i
+                className={
+                  'absolute right-0 top-1 iconfont iconchenggong text-green'
+                }
+              ></i>
+            </div>
+
+            {/* {!isOk ? (
               <div className="absolute top-12 text-sm left-14 text-red-800">
                 {tips}
               </div>
-            ) : null}
-            {show ? (
+            ) : null} */}
+            <div className="mt-2 text-sm left-14 text-red-800">error</div>
+
+            {/* {show ? (
               <i
                 className={
                   'iconfont relative -left-8 top-4' +
-                  (zhengque
+                  (isOk
                     ? ' iconchenggong text-yellow-700'
                     : ' iconchahao text-red-800')
                 }
               ></i>
-            ) : null}
+            ) : null} */}
           </label>
         </div>
       </>
@@ -2091,22 +2097,7 @@ class Form extends React.Component {
                   }`}
                 >
                   {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
-                  <div
-                    className={`form-group ${
-                      item.requiredFlag == 1 ? 'required' : ''
-                    }`}
-                  >
-                    <label
-                      className="form-control-label"
-                      htmlFor={`${item.fieldKey}Shipping`}
-                    >
-                      {item.fieldKey == 'deliveryDate' ? (
-                        <FormattedMessage id={`payment.deliveryDateText`} />
-                      ) : (
-                        <FormattedMessage id={`payment.${item.fieldKey}`} />
-                      )}
-                    </label>
-
+                  <div className="form-group">
                     {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
                     {item.inputFreeTextFlag == 1 &&
                     item.inputSearchBoxFlag == 0 ? (
