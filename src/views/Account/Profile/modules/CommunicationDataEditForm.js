@@ -410,6 +410,7 @@ class CommunicationDataEditForm extends React.Component {
                   title={txt}
                   alt={txt}
                   onClick={this.handleClickEditBtn}
+                  data-auto-testid="CommunicationDataEditFormEdit"
                 >
                   {txt}
                 </button>

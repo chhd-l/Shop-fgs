@@ -75,6 +75,7 @@ class DeleteMyAccount extends React.Component {
                 //   {txt}
                 // </button>
                 <a
+                  data-auto-testid="DeleteMyAccount"
                   className="editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0"
                   style={{
                     // minWidth: '52px',

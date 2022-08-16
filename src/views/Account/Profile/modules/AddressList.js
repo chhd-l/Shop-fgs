@@ -842,7 +842,10 @@ class AddressList extends React.Component {
                           ))}
 
                         {/* 新增地址按钮 */}
-                        <div className="col-12 p-2 rounded text-center p-2 ui-cursor-pointer">
+                        <div
+                          className="col-12 p-2 rounded text-center p-2 ui-cursor-pointer"
+                          data-auto-testid="AddressListAdd"
+                        >
                           {this.addBtnJSX('')}
                         </div>
 
