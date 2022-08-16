@@ -10,7 +10,8 @@ export default (props) => {
     disabled = false,
     name,
     value,
-    handleChange
+    handleChange,
+    dataAutoTestid
   } = props;
   return (
     <>
@@ -22,6 +23,7 @@ export default (props) => {
         input-setup="true"
       >
         <input
+          data-auto-testid={dataAutoTestid}
           style={{ padding: '.5rem 0' }}
           type="text"
           autoComplete="off"

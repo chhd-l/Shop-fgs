@@ -33,14 +33,16 @@ const purebredOpitons = [
     name: 'Is Purebred',
     label: 'account.yes',
     id: 'purebred',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'Purebred-yes'
   },
   {
     value: 0,
     name: 'Is Purebred',
     id: 'noPurebred',
     label: 'account.no',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'Purebred-no'
   }
 ];
 const genderOptions = [
@@ -49,14 +51,16 @@ const genderOptions = [
     name: 'gender',
     label: 'petFemale',
     id: 'female',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'gender-left'
   },
   {
     value: 0,
     name: 'gender',
     id: 'male',
     label: 'petMale',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'gender-right'
   }
 ];
 const sterilizedOptions = [
@@ -708,6 +712,7 @@ const PetForms = ({
         <div className="formBox row">
           <div className="form-group col-12 col-lg-6 pull-left required">
             <InputBox
+              dataAutoTestid={'firstName'}
               htmlFor="name"
               FormattedMsg="petName"
               name="firstName"
@@ -734,6 +739,7 @@ const PetForms = ({
             <span
               className="rc-input rc-input--label rc-margin--none rc-input--full-width"
               input-setup="true"
+              data-auto-testid={'DatePicker-receiveDate'}
             >
               <DatePickerComponent
                 className="receiveDate"
@@ -777,6 +783,7 @@ const PetForms = ({
               />
             ) : (
               <Selection
+                dataAutoTestid={'petForm-sensitivity'}
                 optionList={sensitivityLists}
                 selectedItemChange={(el) => specialNeedsOptionsChange(el)}
                 selectedItemData={{
