@@ -3,3 +3,4 @@ FROM nginx:1.20.2
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY build/ /usr/share/nginx/html
 COPY seo/ /usr/share/nginx/html/seo/
+COPY robots.txt sitemap.xml /usr/share/nginx/html/
