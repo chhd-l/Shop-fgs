@@ -862,5 +862,7 @@ describe('Handled Spec Select Comp Test', () => {
     await render(<HandledSpecSelect {...testProps}/>);
     const Selection = document.getElementById("selection-component");
     fireEvent.click(Selection);
+
+    await render(<HandledSpecSelect {...testProps} details={{...details, goodsSpecDetails: []}}/>);
   });
 });
