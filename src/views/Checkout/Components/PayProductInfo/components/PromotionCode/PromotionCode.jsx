@@ -73,7 +73,6 @@ class PromotionCode extends React.Component {
         isThrowInterfaceErr: true,
         promotionCode: this.state.promotionInputValue //以现在promotionCode为主
       });
-
       if (!this.isLogin) {
         purchasesPara.guestEmail = this.props.guestEmail;
 
@@ -250,6 +249,7 @@ class PromotionCode extends React.Component {
               <Button
                 ref={this.applyButtton}
                 id="promotionApply"
+                data-testid="PromotionApplyBtn"
                 loading={this.state.isClickApply}
                 disabled={sessionItemRoyal.get('recommend_product')}
                 style={{ marginTop: '5px', float: 'right' }}

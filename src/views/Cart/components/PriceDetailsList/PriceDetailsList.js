@@ -24,23 +24,27 @@ const PriceDetailsList = ({
       key: 'totalPrice',
       val: totalPrice,
       visible: true,
+      dataTestid: 'price_group_totolprice',
       title: <FormattedMessage id="total2" />
     },
     {
       key: 'consumptionTax',
       val: taxFeePrice,
+      dataTestid: 'price_group_consumptiontax',
       visible: window.__.env.REACT_APP_COUNTRY === 'jp' && taxFeePrice > 0,
       title: <FormattedMessage id="order.consumptionTax" />
     },
     {
       key: 'subscriptionDiscountPrice',
       title: <FormattedMessage id="promotion" />,
+      dataTestid: 'price_group_discountprice',
       val: -subscriptionDiscountPrice,
       visible: parseFloat(subscriptionDiscountPrice) > 0,
       className: 'green'
     },
     {
       key: 'promotionCode',
+      dataTestid: 'price_group_promotioncode',
       rowHtml: promotionVOList?.map((el, i) => (
         <PromotionCodeText el={el} i={i} key={i} />
       )),
@@ -50,12 +54,14 @@ const PriceDetailsList = ({
     {
       key: 'deliveryPrice',
       title: <FormattedMessage id="cart.delivery" />,
+      dataTestid: ' ',
       val: deliveryPrice || <FormattedMessage id="free" />,
       visible: true
     },
     {
       key: 'freeShippingDiscountPrice',
       title: <FormattedMessage id="payment.shippingDiscount" />,
+      dataTestid: 'price_group_freeshipping_discountprice',
       val:
         freeShippingDiscountPrice > 0
           ? -freeShippingDiscountPrice
@@ -67,6 +73,7 @@ const PriceDetailsList = ({
       key: 'estimatedTax',
       title: <FormattedMessage id="estimatedTax" />,
       val: taxFeePrice > 0 ? taxFeePrice : '-',
+      dataTestid: 'price_group_estimatedtax',
       visible:
         configStore?.customTaxSettingOpenFlag &&
         configStore?.enterPriceType === 'NO_TAX'
@@ -79,7 +86,10 @@ const PriceDetailsList = ({
       <div className={cn('row', item.className)} key={idx}>
         <div className="col-7">{item.title}</div>
         <div className="col-5 no-padding-left">
-          <p className="text-right sub-total mb-4">
+          <p
+            className="text-right sub-total mb-4"
+            data-testid={item.dataTestid}
+          >
             {typeof item.val === 'number' ? formatMoney(item.val) : item.val}
           </p>
         </div>

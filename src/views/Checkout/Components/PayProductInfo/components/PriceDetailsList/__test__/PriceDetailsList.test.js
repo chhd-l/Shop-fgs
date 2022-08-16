@@ -22,7 +22,7 @@ describe('PriceDetailsList Test', () => {
       totalPrice: '',
       taxFeePrice: '',
       subscriptionDiscountPrice: '',
-      promotionVOList: [{ 1: 1 }],
+      promotionVOList: [],
       deliveryPrice: '',
       freeShippingDiscountPrice: '',
       freeShippingFlag: '',

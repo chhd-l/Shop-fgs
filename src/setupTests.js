@@ -11,11 +11,13 @@ Object.defineProperty(window, '__', {
   value: {
     sessionItemRoyal: {
       get: (key) => sessionItem[key],
-      set: (key, value) => (sessionItem[key] = value)
+      set: (key, value) => (sessionItem[key] = value),
+      remove: (key) => (localItem[key] = null)
     },
     localItemRoyal: {
       get: (key) => localItem[key],
-      set: (key, value) => (localItem[key] = value)
+      set: (key, value) => (localItem[key] = value),
+      remove: (key) => (localItem[key] = null)
     },
     env: 'REACT_APP_STOREID'
   }
@@ -46,3 +48,12 @@ Object.defineProperty(window, 'localStorage', {
 Object.defineProperty(window, 'sessionStorage', {
   value: localStorageMock
 });
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      addListener: function () {},
+      removeListener: function () {}
+    };
+  };
