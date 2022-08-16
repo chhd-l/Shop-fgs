@@ -57,7 +57,7 @@ const OssReceiveBackNotificationContent = ({
       const params = {
         customerId: userInfo.customerId,
         goodsId,
-        goodsInfoId: selectedSpecItem.goodsInfoId,
+        goodsInfoId: selectedSpecItem?.goodsInfoId,
         fromAddress: '2'
       };
       const {
