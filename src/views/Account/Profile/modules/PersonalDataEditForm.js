@@ -425,6 +425,7 @@ class PersonalDataEditForm extends React.Component {
               className="ui-cursor-pointer text-xl"
               style={{ display: curPageAtCover ? 'none' : 'block' }}
               onClick={this.handleClickGoBack}
+              data-auto-testid="BackToMyDetails"
             >
               <span>&larr; </span>
               {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
@@ -443,6 +444,7 @@ class PersonalDataEditForm extends React.Component {
                   title={txt}
                   alt={txt}
                   onClick={this.handleClickEditBtn}
+                  data-auto-testid="PersonalDataEditForm"
                 >
                   {txt}
                 </button>

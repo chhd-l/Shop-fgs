@@ -94,6 +94,7 @@ class SideMenu extends React.Component {
           .filter((m) => m.isShow)
           .map((item, i) => (
             <h2
+              data-auto-testid="SideMenu-HomeContainer"
               key={i}
               className={cn(
                 'nav_item text-lg leading-none medium ui-cursor-pointer mb-4',
