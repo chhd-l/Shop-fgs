@@ -84,6 +84,15 @@ class PetForm extends React.Component {
     this.petsById();
     this.getPetList();
   }
+  componentWillUnmount() {
+    const isPrescriptiongGate = this.props.location.search
+      .substring(1)
+      .split('=')
+      .includes('isPrescriptiongGate');
+    if (isPrescriptiongGate) {
+      localItemRoyal.set('okta-redirectUrl', '/');
+    }
+  }
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
       delete ele.value;
@@ -367,7 +376,8 @@ class PetForm extends React.Component {
     let isChoosePetType = isCat !== null;
     const isPrescriptiongGate = this.props.location.search
       .substring(1)
-      .split('=')[1];
+      .split('=')
+      .includes('isPrescriptiongGate');
     console.log('isPrescriptiongGate', isPrescriptiongGate);
     return (
       <div className="petForm">
