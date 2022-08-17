@@ -279,6 +279,7 @@ class AdyenCreditCardForm extends React.Component {
         )}
         <div
           id="adyen-card-container"
+          data-auto-testid="adyen-card-container"
           ref={this.containerEl}
           className={`payment-method__container ${
             !isCheckoutPage ||
@@ -307,7 +308,10 @@ class AdyenCreditCardForm extends React.Component {
               </span>
             )}
             {showSetAsDefaultCheckobx ? (
-              <div className="rc-input rc-input--inline w-100 mw-100">
+              <div
+                className="rc-input rc-input--inline w-100 mw-100"
+                data-auto-testid="SetDefaultPayment"
+              >
                 <input
                   id="addr-default-checkbox"
                   type="checkbox"
@@ -331,6 +335,7 @@ class AdyenCreditCardForm extends React.Component {
               {showCancelBtn && (
                 <span>
                   <span
+                    data-auto-testid="editPersonalInfoBtn"
                     className="rc-styled-link editPersonalInfoBtn"
                     name="contactInformation"
                     onClick={this.handleClickCancel}
@@ -344,6 +349,7 @@ class AdyenCreditCardForm extends React.Component {
               )}
               {showSaveBtn && (
                 <Button
+                  data-auto-testid="submitBtn"
                   className={`submitBtn editAddress`}
                   loading={saveLoading}
                   data-sav="false"

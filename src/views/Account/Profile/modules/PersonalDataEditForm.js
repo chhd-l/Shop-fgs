@@ -583,6 +583,7 @@ class PersonalDataEditForm extends React.Component {
               </span>
               <div className="text-right">
                 <span
+                  data-auto-testid="editPersonalInfoBtn"
                   className="rc-styled-link editPersonalInfoBtn"
                   name="personalInformation"
                   onClick={this.handleCancel}
@@ -593,6 +594,7 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="or" />
                 &nbsp;
                 <Button
+                  data-auto-testid="submitBtn"
                   type="primary"
                   loading={this.state.loading}
                   className="submitBtn"

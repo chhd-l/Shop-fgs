@@ -30,6 +30,7 @@ const Input = ({
       )}
     >
       <div
+        data-auto-testid="SetDefaultPayment"
         className={cn(
           'rc-input rc-input--full-width relative rc-input-overwrite',
           {
@@ -38,7 +39,6 @@ const Input = ({
             'rc-input--error': isWarning
           }
         )}
-        data-rc-feature-forms-setup="true"
       >
         <input
           className={cn('rc-input__control-overwrite')}

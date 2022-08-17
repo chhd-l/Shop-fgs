@@ -504,6 +504,7 @@ class AccountOrders extends React.Component {
                               href=""
                               to="/"
                               className="rc-btn rc-btn--one"
+                              data-auto-testid="BuyNow"
                             >
                               <FormattedMessage id="account.orders.btns" />
                             </DistributeHubLinkOrATag>

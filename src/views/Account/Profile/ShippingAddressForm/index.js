@@ -492,6 +492,7 @@ class ShippingAddressFrom extends React.Component {
                       <div
                         className="rc-input rc-input--inline"
                         onClick={this.isDefalt}
+                        data-auto-testid="SetDefaultAddress"
                       >
                         <input
                           type="checkbox"
@@ -515,6 +516,7 @@ class ShippingAddressFrom extends React.Component {
                 </span>
                 <div className="text-right">
                   <span
+                    data-auto-testid="editPersonalInfoBtn"
                     className="rc-styled-link editPersonalInfoBtn"
                     name="contactInformation"
                     onClick={this.handleCancel}
@@ -525,6 +527,7 @@ class ShippingAddressFrom extends React.Component {
                   <FormattedMessage id="or" />
                   &nbsp;
                   <Button
+                    data-auto-testid="SaveAddress"
                     type="primary"
                     className={classNames('editAddress')}
                     loading={this.state.saveLoading}

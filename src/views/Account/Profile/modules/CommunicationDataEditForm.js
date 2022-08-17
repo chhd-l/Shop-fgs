@@ -392,6 +392,7 @@ class CommunicationDataEditForm extends React.Component {
               <FormattedMessage id="account.myCommunicationPreferencesTitle" />
             </h5>
             <h5
+              data-auto-testid="BackToMyCommunications "
               className="ui-cursor-pointer text-xl"
               style={{ display: curPageAtCover ? 'none' : 'block' }}
               onClick={this.handleClickGoBack}
