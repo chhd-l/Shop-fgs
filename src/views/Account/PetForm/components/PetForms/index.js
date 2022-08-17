@@ -69,14 +69,16 @@ const sterilizedOptions = [
     name: 'sterilized',
     id: 'sterilized',
     label: 'account.yes',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'sterilized-yes'
   },
   {
     value: 0,
     name: 'sterilized',
     label: 'account.no',
     id: 'noSterilized',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'sterilized-no'
   }
 ];
 
@@ -820,6 +822,7 @@ const PetForms = ({
                   <FormattedMessage id="Size" />
                 </label>
                 <Selection
+                  dataAutoTestid={'petForm-selectedSizeObj'}
                   optionList={sizeOptions}
                   selectedItemChange={(el) => sizeOptionsChange(el)}
                   selectedItemData={{
@@ -843,6 +846,7 @@ const PetForms = ({
                 style={{ marginBottom: '.625rem' }}
               >
                 <input
+                  data-auto-testid="breedName"
                   type="text"
                   autoComplete="off"
                   id="dog-breed"
@@ -1067,6 +1071,7 @@ const PetForms = ({
               <p style={{ textAlign: 'right' }}>
                 {paramsId && currentPetParam.sourceType != 'individual' && (
                   <span
+                    data-auto-testid="deletePet"
                     className="rc-styled-link md:mr-9"
                     onClick={() => {
                       handleDelPets(false);
@@ -1099,7 +1104,11 @@ const PetForms = ({
                       <span className="md:mr-2">&nbsp;or&nbsp;</span>
                     </>
                   )}
-                <Button type="primary" onClick={() => savePet()}>
+                <Button
+                  data-auto-testid="saveChange-Pet"
+                  type="primary"
+                  onClick={() => savePet()}
+                >
                   <FormattedMessage id="saveChange" />
                 </Button>
               </p>
