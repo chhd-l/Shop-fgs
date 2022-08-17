@@ -651,19 +651,13 @@ class VisitorAddress extends React.Component {
               {selectDeliveryOrPickUp == 1 && <>{_editForm}</>}
 
               {showConfirmBtn && (
-                <div
-                  className="d-flex justify-content-end mb-2"
-                  data-testid={
-                    pickupFormData?.receiveType == 'PICK_UP'
-                      ? ''
-                      : 'payment_address_confirm'
-                  }
-                >
+                <div className="d-flex justify-content-end mb-2">
                   {pickupFormData?.receiveType == 'PICK_UP' ? (
                     <>
                       <Button
                         type="primary"
                         size="small"
+                        data-auto-testid="payment_address_confirm"
                         loading={this.state.btnConfirmLoading}
                         disabled={confirmBtnDisabled}
                         onClick={this.clickConfirmPickup}
@@ -676,6 +670,7 @@ class VisitorAddress extends React.Component {
                       <Button
                         type="primary"
                         size="small"
+                        data-auto-testid="payment_address_confirm"
                         className={`visitor_address_confirm`}
                         loading={this.state.btnConfirmLoading}
                         disabled={isValid && formAddressValid ? false : true}

@@ -3638,13 +3638,14 @@ class Payment extends React.Component {
     const payConfirmBtn = ({ disabled, loading = false } = {}) => {
       return (
         <div
-          data-testid="payment_confirm_btn"
+          data-auto-testid="payment_confirm_btn"
           className="d-flex justify-content-end mt-3 rc_btn_payment_confirm"
         >
           <Button
             type="primary"
             disabled={disabled}
             loading={loading}
+            data-auto-testid="payment_confirm_payment_method"
             className="rc_btn_payment_confirm"
             onClick={this.clickConfirmPaymentPanel}
           >
@@ -3726,7 +3727,7 @@ class Payment extends React.Component {
                         ? 'border-green'
                         : 'border-gray-300'
                     )}
-                    data-testid={`payment_${item.code}`}
+                    data-auto-testid={`payment_${item.code}`}
                     key={index}
                     onClick={() => this.handlePaymentTypeClick(item.code)}
                   >
@@ -4488,6 +4489,7 @@ class Payment extends React.Component {
                 <FormattedMessage id="payment.yourOrder" />
               </span>
               <span
+                data-auto-testid="payment_info_trade_price"
                 className={`grand-total-sum ${
                   COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
                 }`}

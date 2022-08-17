@@ -81,6 +81,7 @@ const SubscriptionSelection = function (props) {
         borderColor: parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
         maxWidth: `${isGift ? '22rem' : 'initial'}`
       }}
+      data-auto-tetsid="cart_subscription_btn"
       onClick={props.chooseSubscription}
     >
       <div className="buyMethodInnerBox d-flex justify-content-between">

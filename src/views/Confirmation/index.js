@@ -604,7 +604,7 @@ class Confirmation extends React.Component {
               >
                 <div
                   className="d-flex align-items-center justify-content-center"
-                  data-testid="confirmation_continueshopping"
+                  data-auto-testid="confirmation_continueshopping"
                 >
                   {this.state.oxxoPayUrl || this.state.adyenOxxoAction ? (
                     <>

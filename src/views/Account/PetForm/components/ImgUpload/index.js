@@ -109,6 +109,7 @@ export default class ImgUpload extends React.Component {
             style={{ marginTop: '.625rem', width: '100%', textAlign: 'center' }}
           >
             <a
+              data-auto-testid="petUpImg"
               className="rc-styled-link"
               href="#/"
               onClick={(e) => {

@@ -2283,6 +2283,7 @@ class AddressList extends React.Component {
             </div>
             <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
               <span
+                data-auto-testid="payment_edit_address"
                 className="border-bottom-2"
                 onClick={this.addOrEditAddress.bind(this, i)}
               >
@@ -2377,6 +2378,7 @@ class AddressList extends React.Component {
             <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
               <span
                 className="border-bottom-2"
+                data-auto-testid="payment_edit_address"
                 onClick={this.addOrEditAddress.bind(this, i)}
               >
                 <FormattedMessage id="edit" />
@@ -2428,6 +2430,7 @@ class AddressList extends React.Component {
         <input
           id="addr-default-checkbox"
           type="checkbox"
+          data-auto-testid="set-default-checkbox"
           className="rc-input__checkbox"
           style={{ zIndex: '1', width: '90%', height: '100%' }}
           onChange={this.handleDefaultChange}
@@ -2486,12 +2489,13 @@ class AddressList extends React.Component {
             <div>{this.isDeliverAddress ? _defaultCheckBox : null}</div>
             {showOperateBtn ? (
               <>
-                <div className="rc-md-up" data-testid="payment_address_confirm">
+                <div className="rc-md-up">
                   {allAddressList.length > 0 ? (
                     <>
                       <span
                         className="rc-styled-link"
                         onClick={this.handleClickCancel}
+                        data-auto-testid="payment_address_cancel"
                         style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="cancel" />
@@ -2504,6 +2508,7 @@ class AddressList extends React.Component {
                     type="primary"
                     className="submitBtn"
                     name="contactPreference"
+                    data-auto-testid="payment_address_save"
                     htmlType="submit"
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
@@ -2518,14 +2523,12 @@ class AddressList extends React.Component {
                   </Button>
                 </div>
 
-                <div
-                  className="rc-md-down rc-full-width text-right"
-                  data-testid="payment_address_confirm"
-                >
+                <div className="rc-md-down rc-full-width text-right">
                   {addressList.length > 0 && (
                     <>
                       <span
                         className="rc-styled-link"
+                        data-auto-testid="payment_address_cancel"
                         onClick={this.handleClickCancel}
                         style={{ cursor: 'pointer' }}
                       >
@@ -2540,6 +2543,7 @@ class AddressList extends React.Component {
                     className="submitBtn"
                     name="contactPreference"
                     htmlType="submit"
+                    data-auto-testid="payment_address_save"
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
@@ -2746,6 +2750,7 @@ class AddressList extends React.Component {
                                   className={`font-weight-bold red m-0 align-items-center text-nowrap flex ${
                                     addOrEdit ? 'hidden' : ''
                                   }`}
+                                  data-auto-testid="payment_add_address"
                                   onClick={this.addOrEditAddress.bind(this, -1)}
                                 >
                                   <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
@@ -2834,6 +2839,7 @@ class AddressList extends React.Component {
                                               onClick={this.addOrEditPickupAddress.bind(
                                                 'add'
                                               )}
+                                              data-auto-testid="payment_add_pickup_address"
                                             >
                                               <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
                                               <span>
@@ -2852,15 +2858,13 @@ class AddressList extends React.Component {
 
                         {/* 该按钮，只用来确认地址列表 */}
                         {this.isDeliverAddress && (
-                          <div
-                            className="d-flex justify-content-end mt-3 rc_btn_list_js"
-                            data-testid="payment_address_confirm"
-                          >
+                          <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
                             {/* 取消按钮 */}
                             {addOrEditPickup && (
                               <div className="rc-padding-y--none d-flex align-items-center mr-4">
                                 <span
                                   className="rc-styled-link"
+                                  data-auto-testid="payment_address_CancelAddOrEditPickup"
                                   onClick={this.handleCancelAddOrEditPickup.bind()}
                                   style={{
                                     cursor: 'pointer',
@@ -2875,6 +2879,7 @@ class AddressList extends React.Component {
                             {/* 确认地址按钮 */}
                             <Button
                               type="primary"
+                              data-auto-testid="payment_address_homedelivery_confirm"
                               className={`rc_btn_homedelivery_confirm`}
                               loading={this.state.btnConfirmLoading}
                               disabled={confirmBtnDisabled}

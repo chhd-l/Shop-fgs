@@ -182,6 +182,7 @@ class Confirmation extends React.Component {
                 className={`submit-payment`}
                 htmlType="submit"
                 name="submit"
+                data-auto-testid="payment_submit_pay"
                 value="submit-shipping"
                 disabled={!isValid}
                 onClick={this.clickPay}

@@ -142,7 +142,7 @@ class EmailForm extends React.Component {
                     placeholder={`${intl.messages.mailAddress}*`}
                     className="form-control"
                     value={form.email}
-                    data-testid="payment_email_input"
+                    data-auto-testid="payment_email_input"
                     name="email"
                     onChange={this.handleInputChange}
                   />
@@ -153,7 +153,7 @@ class EmailForm extends React.Component {
                 <Button
                   type="primary"
                   size="small"
-                  data-testid="payment_email_confirm"
+                  data-auto-testid="payment_email_confirm"
                   onClick={this.handleClickConfirm}
                   disabled={!isValid}
                 >

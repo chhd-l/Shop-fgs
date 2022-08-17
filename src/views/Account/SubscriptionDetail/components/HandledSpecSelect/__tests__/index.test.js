@@ -10,11 +10,11 @@ jest.mock('react-intl-phraseapp', () => {
 });
 
 jest.mock('@/components/Selection', () => {
-  return ({selectedItemChange}) => {
+  return ({ selectedItemChange }) => {
     const params = {
       specId: 669125945,
       specDetailId: 267933385
-    }
+    };
     return (
       <div
         data-testid="selection-component"
@@ -22,7 +22,7 @@ jest.mock('@/components/Selection', () => {
       >
         Selection
       </div>
-    )
+    );
   };
 });
 
@@ -851,18 +851,22 @@ const testProps = {
   renderAgin: false,
   details: details,
   updatedSku: () => {},
-  defaultSkuId: "defaultSkuId",
-  defaultSkuNo: "defaultSkuNo",
-  inModal: false,
-}
-
+  defaultSkuId: 'defaultSkuId',
+  defaultSkuNo: 'defaultSkuNo',
+  inModal: false
+};
 
 describe('Handled Spec Select Comp Test', () => {
   it('handled spec select', async () => {
-    await render(<HandledSpecSelect {...testProps}/>);
-    const Selection = screen.getByTestId("selection-component");
+    await render(<HandledSpecSelect {...testProps} />);
+    const Selection = screen.getByTestId('selection-component');
     fireEvent.click(Selection);
 
-    await render(<HandledSpecSelect {...testProps} details={{...details, goodsSpecDetails: []}}/>);
+    await render(
+      <HandledSpecSelect
+        {...testProps}
+        details={{ ...details, goodsSpecDetails: [] }}
+      />
+    );
   });
 });

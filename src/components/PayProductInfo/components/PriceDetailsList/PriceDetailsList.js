@@ -27,12 +27,14 @@ const PriceDetailsList = ({
       key: 'totalPrice',
       val: totalPrice,
       visible: true,
+      dataTestid: 'price_group_totolprice',
       title: <FormattedMessage id="total2" />
     },
     // 日本税费显示, 仅显示不参与总价计算
     {
       key: 'consumptionTax',
       val: taxFeePrice,
+      dataTestid: 'price_group_consumptiontax',
       visible: window.__.env.REACT_APP_COUNTRY === 'jp' && taxFeePrice > 0,
       title: <FormattedMessage id="order.consumptionTax" />
     },
@@ -42,6 +44,7 @@ const PriceDetailsList = ({
       title: <FormattedMessage id="promotion" />,
       val: -subscriptionDiscountPrice,
       visible: parseFloat(subscriptionDiscountPrice) > 0,
+      dataTestid: 'price_group_discountprice',
       className: 'green'
     },
     {
@@ -50,18 +53,21 @@ const PriceDetailsList = ({
         <PromotionCodeText el={el} i={i} key={i} />
       )),
       visible: true,
+      dataTestid: 'price_group_promotioncode',
       className: 'green'
     },
     {
       key: 'deliveryPrice',
       title: <FormattedMessage id="cart.delivery" />,
       val: deliveryPrice || <FormattedMessage id="free" />,
+      dataTestid: 'price_group_deliveryprice',
       visible: true
     },
     // 运费折扣 俄罗斯
     {
       key: 'freeShippingDiscountPrice',
       title: <FormattedMessage id="payment.shippingDiscount" />,
+      dataTestid: 'price_group_freeshipping_discountprice',
       val:
         freeShippingDiscountPrice > 0
           ? -freeShippingDiscountPrice
@@ -72,6 +78,7 @@ const PriceDetailsList = ({
     {
       key: 'estimatedTax',
       title: <FormattedMessage id="estimatedTax" />,
+      dataTestid: 'price_group_estimatedtax',
       val: taxFeePrice > 0 ? taxFeePrice : '-',
       visible:
         configStore?.customTaxSettingOpenFlag &&
@@ -81,12 +88,14 @@ const PriceDetailsList = ({
       title: <FormattedMessage id="installMent.additionalFee" />,
       val: installMentAdditionalFee,
       className: 'red',
+      dataTestid: 'price_group_installMentAdditionalFee',
       visible: isShowInstallMent,
       key: 'installMentAdditionalFee'
     },
     {
       title: <FormattedMessage id="payment.serviceFee" />,
       val: serviceFeePrice,
+      dataTestid: 'price_group_serviceFee',
       visible:
         configStore?.info?.serviceFeeFlag &&
         COUNTRY == 'jp' &&
@@ -100,6 +109,7 @@ const PriceDetailsList = ({
       val: -loyaltyPointsPrice,
       className: 'green',
       visible: loyaltyPointsPrice,
+      dataTestid: 'price_group_pointDiscount',
       key: 'pointDiscount'
     }
   ]).filter((el) => el.visible);
@@ -118,7 +128,7 @@ const PriceDetailsList = ({
         </div>
         <div className="col-4 end-lines">
           <p className="text-right">
-            <span className="sub-total">
+            <span className="sub-total" data-auto-testid={item.dataTestid}>
               {typeof item.val === 'number' ? formatMoney(item.val) : item.val}
             </span>
           </p>

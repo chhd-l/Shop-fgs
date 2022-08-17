@@ -1006,6 +1006,7 @@ class LoginCart extends React.Component {
                     className="rc-input__control"
                     id="id-text2"
                     type="text"
+                    data-auto-testid="cart_promotion_input"
                     name="text"
                     placeholder={txt}
                     value={this.state.promotionInputValue}
@@ -1021,6 +1022,7 @@ class LoginCart extends React.Component {
             <p className="text-right sub-total mb-4">
               <button
                 id="promotionApply"
+                data-auto-testid="cart_promotion_btn"
                 className={`rc-btn rc-btn--sm rc-btn--two mr-0 my-2.5 float-right ${
                   this.state.isClickApply
                     ? 'ui-btn-loading ui-btn-loading-border-red'
@@ -1109,7 +1111,7 @@ class LoginCart extends React.Component {
             <div className="col-5">
               <p
                 className="text-right grand-total-sum medium mb-0 text-nowrap"
-                data-testid="price_group_pay_price"
+                data-auto-testid="price_group_pay_price"
               >
                 {this.props.configStore?.customTaxSettingOpenFlag &&
                 this.props.configStore?.enterPriceType === 'NO_TAX' ? (
@@ -1129,7 +1131,7 @@ class LoginCart extends React.Component {
 
           <div className="row checkout-proccess rc-md-up">
             <div className="col-lg-12 checkout-continue">
-              <a onClick={this.handleCheckout} data-testid="cart_buy_now">
+              <a onClick={this.handleCheckout} data-auto-testid="cart_buy_now">
                 <div className="rc-padding-y--xs rc-column">
                   <Button
                     data-oauthlogintargetendpoint="2"
@@ -1186,7 +1188,7 @@ class LoginCart extends React.Component {
               }
             />
             <div className="col-lg-12">
-              <a onClick={this.handleCheckout} data-testid="cart_buy_now">
+              <a onClick={this.handleCheckout} data-auto-testid="cart_buy_now">
                 <div className="rc-padding-y--xs rc-column">
                   <Button
                     type="primary"

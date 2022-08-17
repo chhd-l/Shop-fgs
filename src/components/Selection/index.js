@@ -16,6 +16,7 @@ export default class Selection extends React.Component {
     emptyFirstItem: '',
     selectedItemData: null,
     customCls: '',
+    dataAutoTestid: 'select_options_item',
     hasBorder: false,
     selectedItemChange: () => {}
   };
@@ -213,7 +214,7 @@ export default class Selection extends React.Component {
     }
   };
   render() {
-    const { optionList, customStyleType, wider } = this.props;
+    const { optionList, customStyleType, wider, dataAutoTestid } = this.props;
     const {
       dataList,
       selectedItem,
@@ -244,6 +245,7 @@ export default class Selection extends React.Component {
           data-type={customStyleType || (wider ? 'select-wider' : '')}
           style={{ cursor: this.props.disabled ? 'auto' : 'pointer' }}
           onClick={this.toggleShowOptions}
+          data-auto-testid={dataAutoTestid || ''}
         >
           <div
             className={cn('choices__inner')}
@@ -315,6 +317,7 @@ export default class Selection extends React.Component {
               {dataList.map((item, i) =>
                 item.value == '' ? (
                   <div
+                    data-auto-testid={this.props.dataAutoTestid}
                     className={`choices__item choices__item--choice choices__item--selectable ${
                       hoveredIdx === i ? 'is-highlighted' : ''
                     }`}

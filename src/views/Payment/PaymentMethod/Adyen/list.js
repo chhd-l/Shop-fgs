@@ -469,6 +469,7 @@ class AdyenCreditCardList extends React.Component {
         {unSavedCardListJSX}
         {cardListJSX}
         <div
+          data-auto-testid="payment_add_payment"
           className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
           ref={(node) => {
             if (node) {
@@ -502,7 +503,10 @@ class AdyenCreditCardList extends React.Component {
               this.updateConfirmTooltipVisible(el, status)
             }
           >
-            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+            <span
+              data-auto-testid="payment_delete_payment"
+              onClick={this.handleClickDeleteBtn.bind(this, el)}
+            >
               <FormattedMessage id="delete" />
             </span>
           </Popover>
