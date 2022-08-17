@@ -17,10 +17,10 @@ import cn from 'classnames';
 import {
   Selection,
   CitySearchSelection,
-  DqeSearchSelection as SearchSelection,
   Loading,
   NormalSkeleton as Skeleton
 } from '@/components';
+import { DqeSearchSelection2 as SearchSelection } from '@/components';
 import {
   getDictionary,
   validData,
@@ -1726,8 +1726,6 @@ class Form extends React.Component {
                 (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
-              debugger;
-              // inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
                 Object.assign(item, {
@@ -1938,7 +1936,7 @@ class Form extends React.Component {
     //checkout大改造
     if (tvalue == 0) {
       this.clearErrMsgObj(tname);
-      this.setFormItemStatus(tname, 'normal');
+      this.setFormItemStatus(tname, 'empty');
       return;
     }
 

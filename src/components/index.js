@@ -7,6 +7,7 @@ export { default as GoogleMapMakerHandle } from './GoogleMap/makerHandle';
 export { default as Selection } from './Selection';
 export { default as CitySearchSelection } from './CitySearchSelection';
 export { default as DqeSearchSelection } from './DqeSearchSelection';
+export { default as DqeSearchSelection2 } from './DqeSearchSelection/index2';
 export { default as SearchSelection } from './SearchSelection';
 export { default as Loading } from './Loading';
 export { default as LoginButton } from './LoginButton';

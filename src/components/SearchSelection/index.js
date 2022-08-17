@@ -4,19 +4,6 @@ import './index.less';
  * 带有远程搜索功能的下拉选择组件
  */
 
-function throttle(fn, delay) {
-  let timer = null;
-  let nextFlag = true; //用标志位来判断是否结束了一次执行
-  return function () {
-    if (nextFlag) {
-      nextFlag = false;
-      timer = setTimeout(function () {
-        fn();
-        nextFlag = true;
-      }, delay);
-    }
-  };
-}
 class SearchSelection extends React.Component {
   static defaultProps = {
     customStyle: false,
