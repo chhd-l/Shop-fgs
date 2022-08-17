@@ -155,13 +155,61 @@ const NextDelivery = ({
       //   };
       // });
     }
-
-    console.log({ timeSlotList });
+    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      let list = [];
+      deliveryDateList.forEach((el) => {
+        el.dateTimeInfos.forEach((cel) => {
+          console.info('/.......', cel.startTime);
+          list.push(cel.startTime + (cel.endTime ? '-' + cel.endTime : ''));
+        });
+      });
+      console.info('list', list);
+      let uniList = distinct(list).map((el) => {
+        let startTimeStr = el.split('-')[0];
+        let timeSlotObj = {
+          startTime: startTimeStr,
+          name: startTimeStr,
+          value: startTimeStr
+        };
+        let endTimeStr = el.split('-')[1];
+        if (endTimeStr) {
+          let valueStr = startTimeStr + '-' + endTimeStr;
+          timeSlotObj.endTime = endTimeStr;
+          timeSlotObj.name = valueStr;
+          timeSlotObj.value = valueStr;
+        }
+        return timeSlotObj;
+      });
+      timeSlotList = uniList.sort((a, b) => {
+        console.info('aaaa', a, b);
+        return Number(a.startTime) - Number(b.startTime);
+      });
+      console.info('timeSlotList', timeSlotList);
+    }
+    debugger;
+    console.log(
+      timeSlotList,
+      '.........................account/subscription/order/detail/SRCFJP000000956'
+    );
 
     setDeliveryDateList(deliveryDateList);
     setTimeSlotList(timeSlotList);
     // setTimeSlot(subDetail.timeSlot);
     setDeliveryDate(subDetail.deliveryDate);
+  };
+  const distinct = (arr) => {
+    let i,
+      obj = {},
+      result = [],
+      len = arr.length;
+    for (i = 0; i < arr.length; i++) {
+      if (!obj[arr[i]]) {
+        //如果能查找到，证明数组元素重复了
+        obj[arr[i]] = 1;
+        result.push(arr[i]);
+      }
+    }
+    return result;
   };
   const dateChange = (date) => {
     setState({
@@ -232,6 +280,13 @@ const NextDelivery = ({
     handleSaveChange(subDetail, true);
   };
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+  console.info(
+    'showTimeSlot && subDetail.timeSlot,',
+    showTimeSlot,
+    subDetail.timeSlot,
+    showTimeSlot && subDetail.timeSlot,
+    timeSlotList
+  );
   return (
     <div className="card-container border rounded border-d7d7d7">
       <div className="card rc-margin-y--none ml-0 border-0">
