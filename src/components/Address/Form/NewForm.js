@@ -51,6 +51,7 @@ import './index.less';
 import { format } from 'date-fns';
 import { DatePickerComponent, Input } from '@/components/Common';
 import { phoneNumberMask } from '@/utils/constant';
+import { InitFormStatus } from './Constant';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
@@ -156,7 +157,8 @@ class Form extends React.Component {
       deliveryDateList: [], // delivery date
       timeSlotList: [], // time slot
       postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
-      errMsgObj: {}
+      errMsgObj: {},
+      curItemStatus: {}
     };
     this.timer = null;
   }
@@ -802,6 +804,10 @@ class Form extends React.Component {
       item.regExp = regExp;
       item.errMsg = errMsg;
 
+      //增加表单初始状态
+      item.Status = 'empty';
+      item.InitFormStatus = { ...InitFormStatus };
+
       // 组装rule
       let ruleItem = {
         regExp: regExp,
@@ -1412,6 +1418,17 @@ class Form extends React.Component {
           [tname]: ''
         })
       });
+      const { caninForm } = this.state;
+
+      //checkout大改造
+      const formList = [...this.state.formList];
+      formList.forEach((list) => {
+        if (list.fieldKey == tname) {
+          list.Status = 'inputOk';
+        }
+      });
+
+      this.setState({ formList });
       if (COUNTRY != 'ru') {
         // 俄罗斯需要先校验 DuData 再校验所有表单数据
         this.validFormAllData(); // 验证表单所有数据
@@ -1433,7 +1450,6 @@ class Form extends React.Component {
     try {
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
-        console.log(888, caninForm);
         await validData({ rule: caninForm.formRuleRu, data: caninForm, intl });
       } else {
         //console.log(444,caninForm.formRule)
@@ -1830,35 +1846,118 @@ class Form extends React.Component {
       </>
     );
   };
+
+  newInputCommon = (e) => {};
+
+  //checkout大改造
+  newInputFous = (e) => {};
+  //checkout大改造
+  newInputBlur = (e) => {
+    const tname = e.target.name;
+    const { caninForm } = this.state;
+    const formList = [...this.state.formList];
+
+    formList.forEach((list) => {
+      if (list.fieldKey == tname && caninForm[tname] == '') {
+        list.Status = 'empty';
+      }
+    });
+    this.setState({ formList });
+  };
+  //checkout大改造
+  newInputChange = (e) => {
+    const { caninForm, postCodeFiledType } = this.state;
+    const target = e.target;
+    let tvalue = target.type === 'checkbox' ? target.checked : target.value;
+    const tname = target.name;
+
+    switch (tname) {
+      case 'postCode':
+        if (COUNTRY == 'jp') {
+          if (compositionFlag) {
+            if (tvalue.length < 6) {
+              tvalue = tvalue
+                .replace(/\s/g, '')
+                .replace(/-$/, '')
+                .replace(/(\d{3})(?:\d)/g, '$1-');
+            }
+          }
+        }
+        // 可以输入字母+数字
+        if (COUNTRY != 'jp' && postCodeFiledType !== 2) {
+          tvalue = tvalue.replace(/\s+/g, '');
+          if (!this.isNumber(tvalue)) {
+            tvalue = '';
+            return;
+          }
+        }
+        switch (COUNTRY) {
+          case 'us':
+            tvalue = tvalue
+              .replace(/\s/g, '')
+              .replace(/-$/, '')
+              .replace(/(\d{5})(?:\d)/g, '$1-');
+            break;
+          case 'jp':
+            break;
+          default:
+            if (postCodeFiledType !== 2) {
+              tvalue = tvalue.replace(/\s+/g, '');
+            } else {
+              // 添加字母+数字格式限制
+            }
+            break;
+        }
+        break;
+    }
+    caninForm[tname] = tvalue;
+
+    //checkout大改造
+    this.newInputCommon(e);
+
+    this.setState({ caninForm }, () => {
+      this.updateDataToProps();
+      if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
+        this.debounceValidvalidationData(tname, tvalue);
+      } else {
+        this.validvalidationData(tname, tvalue);
+      }
+    });
+  };
+  //checkout大改造
   newInputJSX = (item) => {
     const { caninForm } = this.state;
-    let styleObj = {
-      show: true
-    };
-    let show = false,
-      isOk = true,
-      labelText = 'email',
-      bordercolor = 'border-form',
-      tips = 'error';
+
+    const statusObj = item.InitFormStatus[item.Status];
     return (
       <>
         <div className="w-full">
           <label className="flex flex-col">
-            <span className={cn('min-w-min text-sm my-1', { hidden: false })}>
-              {/* <FormattedMessage id={`payment.${item.fieldKey}`} /> */}
-              {item.fieldKey}
-            </span>
+            {
+              <span
+                className={cn('min-w-min text-sm my-1', {
+                  visible: statusObj['showLabel'],
+                  invisible: !statusObj['showLabel']
+                })}
+              >
+                {/* <FormattedMessage id={`payment.${item.fieldKey}`} /> */}
+                {item.fieldKey}
+              </span>
+            }
+
             <div className="relative">
               <input
-                className={`border-b w-full text-14 py-2 placeholder-primary placeholder-opacity-50 ${bordercolor}`}
-                onFocus={() => {}}
+                className={`${statusObj['border']} w-full text-14 py-2 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`}
+                onFocus={this.newInputFous}
                 id={`${item.fieldKey}Shipping`}
                 type={item.filedType}
                 value={caninForm[item.fieldKey] || ''}
-                onChange={this.inputChange}
+                //onChange={this.inputChange}
+                onChange={this.newInputChange}
                 onCompositionStart={this.compositionStart}
                 onCompositionEnd={this.compositionEnd}
-                onBlur={this.inputBlur}
+                //onBlur={this.inputBlur}
+                onBlur={this.newInputBlur}
                 name={item.fieldKey}
                 disabled={item?.disabled ? true : false}
                 maxLength={this.maxLengthFun(item)}
@@ -1866,29 +1965,15 @@ class Form extends React.Component {
                 placeholder={item.fieldKey}
               />
               <i
-                className={
-                  'absolute right-0 top-1 iconfont iconchenggong text-green'
-                }
+                className={cn(
+                  'absolute right-0 top-1 iconfont',
+                  statusObj['iconCss']
+                )}
               ></i>
             </div>
-
-            {/* {!isOk ? (
-              <div className="absolute top-12 text-sm left-14 text-red-800">
-                {tips}
-              </div>
-            ) : null} */}
-            <div className="mt-2 text-sm left-14 text-red-800">error</div>
-
-            {/* {show ? (
-              <i
-                className={
-                  'iconfont relative -left-8 top-4' +
-                  (isOk
-                    ? ' iconchenggong text-yellow-700'
-                    : ' iconchahao text-red-800')
-                }
-              ></i>
-            ) : null} */}
+            {statusObj['showErr'] ? (
+              <div className="mt-2 text-sm left-14 text-form-err">error</div>
+            ) : null}
           </label>
         </div>
       </>
