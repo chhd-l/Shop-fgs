@@ -770,7 +770,14 @@ class Register extends Component {
                       val: (
                         <a
                           className="ui-cursor-pointer text-cs-gray text-16"
-                          href="https://accountpreview.royalcanin.com/"
+                          // href="https://accountpreview.royalcanin.com/"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            this.props.oktaAuth.signInWithRedirect(
+                              window.__.env.REACT_APP_HOMEPAGE
+                            );
+                          }}
                           target={'_blank'}
                           style={{ borderBottom: '1px solid #666' }}
                         >
