@@ -1866,46 +1866,36 @@ class Form extends React.Component {
   };
 
   //checkout大改造
-  newInputFous = (e) => {
-    // const tname = e.target.name;
-    // const { caninForm } = this.state;
-    // const formList = [...this.state.formList]
-    // formList.forEach((list) => {
-    //   if(list.fieldKey==tname && caninForm[tname]==''){
-    //       list.Status = 'empty'
-    //   }
-    // })
-    // this.setState({formList})
-  };
+  newInputFous = (e) => {};
   //checkout大改造
   newInputBlur = (e) => {};
   //checkout大改造
   newInputChange = (e) => {
-    const { caninForm, postCodeFiledType } = this.state;
+    const { caninForm, postCodeFiledType, errMsgObj } = this.state;
     const target = e.target;
     let tvalue = target.type === 'checkbox' ? target.checked : target.value;
     const tname = target.name;
 
     switch (tname) {
       case 'postCode':
-        if (COUNTRY == 'jp') {
-          if (compositionFlag) {
-            if (tvalue.length < 6) {
-              tvalue = tvalue
-                .replace(/\s/g, '')
-                .replace(/-$/, '')
-                .replace(/(\d{3})(?:\d)/g, '$1-');
-            }
-          }
-        }
+        // if (COUNTRY == 'jp') {
+        //   if (compositionFlag) {
+        //     if (tvalue.length < 6) {
+        //       tvalue = tvalue
+        //         .replace(/\s/g, '')
+        //         .replace(/-$/, '')
+        //         .replace(/(\d{3})(?:\d)/g, '$1-');
+        //     }
+        //   }
+        // }
         // 可以输入字母+数字
-        if (COUNTRY != 'jp' && postCodeFiledType !== 2) {
-          tvalue = tvalue.replace(/\s+/g, '');
-          if (!this.isNumber(tvalue)) {
-            tvalue = '';
-            return;
-          }
-        }
+        // if (COUNTRY != 'jp' && postCodeFiledType !== 2) {
+        //   tvalue = tvalue.replace(/\s+/g, '');
+        //   if (!this.isNumber(tvalue)) {
+        //     tvalue = '';
+        //     return;
+        //   }
+        // }
         switch (COUNTRY) {
           case 'us':
             tvalue = tvalue
@@ -1914,12 +1904,19 @@ class Form extends React.Component {
               .replace(/(\d{5})(?:\d)/g, '$1-');
             break;
           case 'jp':
+            if (compositionFlag) {
+              //日本圆角输入
+              if (tvalue.length < 6) {
+                tvalue = tvalue
+                  .replace(/\s/g, '')
+                  .replace(/-$/, '')
+                  .replace(/(\d{3})(?:\d)/g, '$1-');
+              }
+            }
             break;
           default:
             if (postCodeFiledType !== 2) {
               tvalue = tvalue.replace(/\s+/g, '');
-            } else {
-              // 添加字母+数字格式限制
             }
             break;
         }
@@ -1986,9 +1983,6 @@ class Form extends React.Component {
                 )}
               ></i>
             </div>
-            {statusObj['showErr'] ? (
-              <div className="mt-2 text-sm left-14 text-form-err">error</div>
-            ) : null}
           </label>
         </div>
       </>
@@ -2238,7 +2232,7 @@ class Form extends React.Component {
                       : null}
 
                     {/* 输入邮编提示 */}
-                    {item.fieldKey == 'postCode' && (
+                    {/* {item.fieldKey == 'postCode' && (
                       <span className="ui-lighter">
                         <FormattedMessage id="example" />:{' '}
                         <FormattedMessage id="examplePostCode" />
@@ -2262,16 +2256,16 @@ class Form extends React.Component {
                           </>
                         ) : null}
                       </span>
-                    )}
+                    )} */}
                     {/* 输入电话号码提示 */}
-                    {item.fieldKey == 'phoneNumber' && (
+                    {/* {item.fieldKey == 'phoneNumber' && (
                       <span className="ui-lighter">
                         <FormattedMessage id="examplePhone" />
                       </span>
-                    )}
+                    )} */}
                     {/* 输入提示 */}
                     {errMsgObj[item.fieldKey] && item.requiredFlag == 1 ? (
-                      <div className="text-danger-2">
+                      <div className="text-form-err">
                         {errMsgObj[item.fieldKey]}
                       </div>
                     ) : null}
