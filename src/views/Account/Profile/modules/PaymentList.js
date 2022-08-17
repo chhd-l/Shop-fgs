@@ -403,6 +403,7 @@ class PaymentList extends React.Component {
   addBtnJSX = ({ fromPage }) => {
     return (
       <div
+        data-auto-testid="AddPayment"
         className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
         onClick={this.handleClickAddBtn.bind(this, fromPage)}
         ref={(node) => {
@@ -478,6 +479,7 @@ class PaymentList extends React.Component {
                   <FormattedMessage id="account.myPayments" />
                 </h5>
                 <h5
+                  data-auto-testid="BackToPaymenList"
                   className="ui-cursor-pointer text-xl"
                   style={{ display: curPageAtCover ? 'none' : 'block' }}
                   onClick={this.handleClickGoBack}
