@@ -233,6 +233,7 @@ export default class Selection extends React.Component {
       >
         <div
           id="Selection"
+          data-auto-testid="country"
           className={cn(`choices`, {
             'is-open': optionsVisible,
             disabled: this.props.disabled,

@@ -277,6 +277,7 @@ class SearchSelection extends React.Component {
           >
             {this.props.prefixIcon}
             <input
+              data-auto-testid="city"
               disabled={this.props.disabled}
               type="text"
               placeholder={this.state.placeholder}
