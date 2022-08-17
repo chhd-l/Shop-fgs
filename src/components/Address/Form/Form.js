@@ -1823,7 +1823,6 @@ class Form extends React.Component {
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <input
-            data-auto-testid={`${item.fieldKey}Shipping`}
             className={`rc-input__control ${item.fieldKey}Shipping`}
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
