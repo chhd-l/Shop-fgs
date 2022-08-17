@@ -757,8 +757,7 @@ class Register extends Component {
                       window.__.env.REACT_APP_HOMEPAGE
                     )
                   }
-                  className="jp-reg-to-login-btn cursor-pointer text-rc-red text-22 md:text-30"
-                  // style={{ color: '#e2001a', fontSize: '1.875rem' }}
+                  className="jp-reg-to-login-btn cursor-pointer text-rc-red text-30"
                 >
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>
