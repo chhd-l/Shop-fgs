@@ -1,2 +1,1 @@
-//export { default } from './Form';
-export { default } from './NewForm';
+export { default } from './Form';

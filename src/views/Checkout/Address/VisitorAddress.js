@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
-import { AddressForm } from '@/components/Address';
+import { AddressForm } from '@/components/Address/index2';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { validData } from '@/utils/utils';
 import { getAddressBykeyWord, getDeliveryDateAndTimeSlot } from '@/api/address';
