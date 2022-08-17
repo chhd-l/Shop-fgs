@@ -896,6 +896,7 @@ class MemberCardList extends React.Component {
               );
             })}
             <div
+              data-auto-testid="payment_add_payment"
               className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
               ref={(node) => {
                 if (node) {

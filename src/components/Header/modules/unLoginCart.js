@@ -142,7 +142,7 @@ class UnloginCart extends React.Component {
         <Link
           to="/cart"
           className="minicart-link"
-          data-testid="header_cart_btn"
+          data-auto-testid="header_cart_btn"
           data-loc="miniCartOrderBtn"
           onClick={this.clickBasket}
         >

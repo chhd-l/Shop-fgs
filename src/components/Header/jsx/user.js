@@ -41,7 +41,7 @@ const UserJSX = (props) => {
             className="minicart inlineblock"
             onMouseOver={self.handleCenterMouseOver}
             onMouseOut={self.handleCenterMouseOut}
-            data-testid="header_cart_btn"
+            data-auto-testid="header_cart_btn"
             onClick={self.loginIcon}
           >
             {isLogin && !isMobile ? (
@@ -62,7 +62,7 @@ const UserJSX = (props) => {
                 {(txt) => (
                   <div
                     className="minicart-link"
-                    data-testid="header_cart_btn"
+                    data-auto-testid="header_cart_btn"
                     data-loc="miniCartOrderBtn"
                     title={txt}
                   >
@@ -188,7 +188,7 @@ const UserJSX = (props) => {
       onMouseOver={self.handleMouseOver}
       onMouseOut={self.handleMouseOut}
       onClick={self.loginIcon}
-      data-testid="header_userinfo_btn"
+      data-auto-testid="header_userinfo_btn"
     >
       {/* 未登录 */}
       {!isLogin && (

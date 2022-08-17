@@ -123,7 +123,7 @@ const PriceDetailsList = ({
         <div className="col-5 end-lines">
           <p className="text-right">
             <span className="shipping-total-cost">
-              <strong>
+              <strong data-auto-testid="shipping_total_cost">
                 {typeof item.val === 'number'
                   ? formatMoney(item.val)
                   : item.val}

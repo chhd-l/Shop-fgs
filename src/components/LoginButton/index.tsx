@@ -251,7 +251,7 @@ const LoginButton = ({
     <>
       <LimitLoginModal />
       <button
-        data-testid={dataTestid}
+        data-auto-testid={dataTestid}
         className={cn(btnClass || className || 'rc-btn rc-btn--one bg-rc-red')}
         style={btnStyle || {}}
         onClick={login}

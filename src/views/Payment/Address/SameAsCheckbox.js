@@ -35,6 +35,7 @@ class SameAsCheckbox extends React.Component {
         <div className="rc-input rc-input--inline mw-100">
           <input
             className="rc-input__checkbox"
+            data-auto-testid={`checkbox_billing_${type}`}
             id={`id-checkbox-billing-${type}`}
             onChange={this.billingCheckedChange}
             type="checkbox"

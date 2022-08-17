@@ -43,7 +43,7 @@ const Input = ({
         <input
           className={cn('rc-input__control-overwrite')}
           id={id}
-          data-testid={dataTestid}
+          data-auto-testid={dataTestid}
           type={type}
           maxLength={maxLength}
           name={name}
