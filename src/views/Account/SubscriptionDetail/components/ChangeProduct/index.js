@@ -322,6 +322,7 @@ const ChangeProduct = () => {
         ) : null}
         <div className="text-center">
           <button
+            data-auto-testid="modalFooterCancel"
             id="modalFooterCancel"
             type="button"
             className="btn btn-outline-primary rc-btn--sm mr-6"
@@ -332,6 +333,7 @@ const ChangeProduct = () => {
           </button>
           {productStock && (
             <button
+              data-auto-testid="modalFooterConfirm"
               id="modalFooterConfirm"
               type="button"
               className={`btn btn-primary rc-btn--sm`}

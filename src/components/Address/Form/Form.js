@@ -1714,6 +1714,7 @@ class Form extends React.Component {
       <>
         <SearchSelection
           {...this.props}
+          dataAutoTestid={`address_${item.fieldKey}_shipping`}
           queryList={async ({ inputVal }) => {
             let res = null;
             let robj = null;
@@ -1825,6 +1826,7 @@ class Form extends React.Component {
             className={`rc-input__control ${item.fieldKey}Shipping`}
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
+            data-auto-testid={`address_${item.fieldKey}_shipping`}
             //value={getInputValue(item)}
             value={caninForm[item.fieldKey] || ''}
             onChange={this.inputChange}
@@ -1882,6 +1884,7 @@ class Form extends React.Component {
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <textarea
+            data-auto-testid={`address_${item.fieldKey}_shipping`}
             className="rc_input_textarea"
             placeholder={`${this.props.intl.messages['payment.comment']}`}
             id={`${item.fieldKey}Shipping`}
@@ -1912,6 +1915,7 @@ class Form extends React.Component {
             defaultValue={caninForm[item.fieldKey]}
             key={caninForm[item.fieldKey]}
             name={item.fieldKey}
+            dataAutoTestid={`address_${item.fieldKey}_shipping`}
             freeText={item.inputFreeTextFlag == 1 ? true : false}
             onChange={this.handleCityInputChange}
             searchSelectionBlur={this.handleCitySearchSelectionBlur}
@@ -1940,6 +1944,7 @@ class Form extends React.Component {
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
+              dataAutoTestid={`address_${item.fieldKey}_shipping`}
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               emptyFirstItem={'State'}
@@ -1952,6 +1957,7 @@ class Form extends React.Component {
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
+              dataAutoTestid={`address_${item.fieldKey}_shipping`}
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               name={item.fieldKey}
@@ -1994,6 +2000,7 @@ class Form extends React.Component {
                 <a
                   href="https://ncv.microsoft.com/23fH9DIr5C"
                   className="underline"
+                  data-auto-testid="checkout_changeEmail"
                   target="_blank"
                 >
                   <FormattedMessage id="changeEmail" />
@@ -2004,6 +2011,7 @@ class Form extends React.Component {
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
               <input
                 type="email"
+                data-auto-testid="checkout_birthday_email_input"
                 className="rc-input__control emailShipping"
                 id="email"
                 data-name="profile_personalInfo"
@@ -2093,7 +2101,6 @@ class Form extends React.Component {
                     className={`11111 form-group ${
                       item.requiredFlag == 1 ? 'required' : ''
                     }`}
-                    data-testid={`address_${item.fieldKey}_shipping`}
                   >
                     <label
                       className="form-control-label"

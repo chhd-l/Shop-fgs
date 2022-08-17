@@ -61,7 +61,7 @@ const ButtonGroup = ({
           })}
         >
           <Button
-            data-testid={`${dataTestid}_add_cart`}
+            data-auto-testid={`${dataTestid}_add_cart`}
             type="primary"
             className={cn(
               `add-to-cart-btn js-sticky-cta rc-margin-right--xs--mobile w-full py-2 md:py-0.5 md:px-7`

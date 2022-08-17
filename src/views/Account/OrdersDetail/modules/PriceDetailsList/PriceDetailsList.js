@@ -125,6 +125,7 @@ const PriceDetailsList = ({
                   {item.title}
                 </div>
                 <div
+                  data-auto-testid={item.key}
                   className={cn(
                     'col-6 col-md-3 text-right text-nowrap',
                     item.className

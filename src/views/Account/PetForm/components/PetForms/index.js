@@ -33,14 +33,16 @@ const purebredOpitons = [
     name: 'Is Purebred',
     label: 'account.yes',
     id: 'purebred',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'Purebred-yes'
   },
   {
     value: 0,
     name: 'Is Purebred',
     id: 'noPurebred',
     label: 'account.no',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'Purebred-no'
   }
 ];
 const genderOptions = [
@@ -49,14 +51,16 @@ const genderOptions = [
     name: 'gender',
     label: 'petFemale',
     id: 'female',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'gender-left'
   },
   {
     value: 0,
     name: 'gender',
     id: 'male',
     label: 'petMale',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'gender-right'
   }
 ];
 const sterilizedOptions = [
@@ -65,14 +69,16 @@ const sterilizedOptions = [
     name: 'sterilized',
     id: 'sterilized',
     label: 'account.yes',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'sterilized-yes'
   },
   {
     value: 0,
     name: 'sterilized',
     label: 'account.no',
     id: 'noSterilized',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'sterilized-no'
   }
 ];
 
@@ -708,6 +714,7 @@ const PetForms = ({
         <div className="formBox row">
           <div className="form-group col-12 col-lg-6 pull-left required">
             <InputBox
+              dataAutoTestid={'firstName'}
               htmlFor="name"
               FormattedMsg="petName"
               name="firstName"
@@ -734,6 +741,7 @@ const PetForms = ({
             <span
               className="rc-input rc-input--label rc-margin--none rc-input--full-width"
               input-setup="true"
+              data-auto-testid={'DatePicker-receiveDate'}
             >
               <DatePickerComponent
                 className="receiveDate"
@@ -777,6 +785,7 @@ const PetForms = ({
               />
             ) : (
               <Selection
+                dataAutoTestid={'petForm-sensitivity'}
                 optionList={sensitivityLists}
                 selectedItemChange={(el) => specialNeedsOptionsChange(el)}
                 selectedItemData={{
@@ -813,6 +822,7 @@ const PetForms = ({
                   <FormattedMessage id="Size" />
                 </label>
                 <Selection
+                  dataAutoTestid={'petForm-selectedSizeObj'}
                   optionList={sizeOptions}
                   selectedItemChange={(el) => sizeOptionsChange(el)}
                   selectedItemData={{
@@ -836,6 +846,7 @@ const PetForms = ({
                 style={{ marginBottom: '.625rem' }}
               >
                 <input
+                  data-auto-testid="breedName"
                   type="text"
                   autoComplete="off"
                   id="dog-breed"
@@ -1060,6 +1071,7 @@ const PetForms = ({
               <p style={{ textAlign: 'right' }}>
                 {paramsId && currentPetParam.sourceType != 'individual' && (
                   <span
+                    data-auto-testid="deletePet"
                     className="rc-styled-link md:mr-9"
                     onClick={() => {
                       handleDelPets(false);
@@ -1092,7 +1104,11 @@ const PetForms = ({
                       <span className="md:mr-2">&nbsp;or&nbsp;</span>
                     </>
                   )}
-                <Button type="primary" onClick={() => savePet()}>
+                <Button
+                  data-auto-testid="saveChange-Pet"
+                  type="primary"
+                  onClick={() => savePet()}
+                >
                   <FormattedMessage id="saveChange" />
                 </Button>
               </p>

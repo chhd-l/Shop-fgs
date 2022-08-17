@@ -8,7 +8,7 @@ function Item({ className, onClick, to, children }) {
       {children}
     </Link>
   ) : (
-    <span className={className} onClick={onClick}>
+    <span data-auto-test="page" className={className} onClick={onClick}>
       {children}
     </span>
   );
@@ -96,6 +96,7 @@ export default class Pagination extends Component {
         <div className="d-flex justify-content-between align-items-center">
           {currentPage <= 1 || this.props.loading ? (
             <div
+              data-auto-testid="page"
               disabled
               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
               aria-label="Previous step"
@@ -124,6 +125,7 @@ export default class Pagination extends Component {
           </div>
           {currentPage >= totalPage || this.props.loading ? (
             <span
+              data-auto-testid="page"
               disabled
               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
             />

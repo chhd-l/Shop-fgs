@@ -533,6 +533,7 @@ const SubGoodsInfos = ({
                             </div>
                             {subDetail?.canChangeProductAtGoodsLine ? (
                               <Button
+                                data-auto-testid="subscriptionDetail-changeProduct"
                                 className=" mt-cs-16"
                                 onClick={() => handleClickChangeProduct(index)}
                                 loading={showLoading}

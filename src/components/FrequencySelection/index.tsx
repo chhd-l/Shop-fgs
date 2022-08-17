@@ -18,11 +18,13 @@ interface Props {
   selectionStyle?: any;
   selectionCustomInnerStyle?: any;
   childrenGridCls?: any;
+  dataAutoTestid?:string
 }
 
 const FrequencyMatch = ({
   frequencyType,
   currentFrequencyId,
+  dataAutoTestid,
   disabled = false,
   className = '',
   contentClassName = '',
@@ -85,6 +87,7 @@ const FrequencyMatch = ({
         <FormattedMessage id="subscription.deliveryEvery" />
         <Selection
           disabled={disabled}
+          dataAutoTestid={dataAutoTestid}
           customContainerStyle={{
             flex: 1,
             marginLeft: '.3rem',

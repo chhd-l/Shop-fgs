@@ -128,7 +128,7 @@ class AssistanceDog extends React.Component {
             <div className="col-span-12 md:col-span-6">
               <LazyLoad>
                 <img
-                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/dog-2@2x.png`}
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/AssistanceDog/dog-2-1@2x.png`}
                   alt="assistance dog"
                   className="w-80 mx-auto mb-4 md:mb-0"
                 />

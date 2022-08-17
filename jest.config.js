@@ -5,7 +5,7 @@ const config = {
     "collectCoverageFrom": [
       // "src/**/*.{js,jsx,ts,tsx}",
       // "!src/**/*.d.ts",
-      "src/views/Account/SubscriptionDetail/components/SubGoodsInfos/**/*.{js,jsx,ts,tsx}"
+      "src/views/Account/SubscriptionDetail/components/HandledSpecSelect/**/*.{js,jsx,ts,tsx}"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"
@@ -18,7 +18,7 @@ const config = {
     "testMatch": [
       // "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
       // "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-      "<rootDir>/src/views/Account/SubscriptionDetail/components/SubGoodsInfos/__tests__/**/*.{js,jsx,ts,tsx}"
+      "<rootDir>/src/views/Account/SubscriptionDetail/components/HandledSpecSelect/__tests__/**/*.{js,jsx,ts,tsx}"
       //"<rootDir>/src/utils/__tests__/**/*.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jest-environment-jsdom-fourteen",

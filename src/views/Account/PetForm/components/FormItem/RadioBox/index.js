@@ -28,6 +28,7 @@ export default ({
             return (
               <div className="rc-input rc-input--inline">
                 <input
+                  data-auto-testid={item?.dataAutoTestid}
                   className="rc-input__radio"
                   value={item.value}
                   id={item.id}

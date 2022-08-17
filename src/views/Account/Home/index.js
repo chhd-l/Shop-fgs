@@ -20,7 +20,12 @@ import { Canonical } from '@/components/Common';
 
 function Container({ className, item, children }) {
   return item.isOuter ? (
-    <a className={className} href={item.href} target="_blank">
+    <a
+      className={className}
+      href={item.href}
+      target="_blank"
+      data-auto-testid="HomeContainer"
+    >
       {children}
     </a>
   ) : item.isHubOuterLink ? (
@@ -28,11 +33,12 @@ function Container({ className, item, children }) {
       className={className}
       to={item.link}
       href={item.href}
+      data-auto-testid="HomeContainer"
     >
       {children}
     </DistributeHubLinkOrATag>
   ) : (
-    <Link to={item.link} className={className}>
+    <Link to={item.link} className={className} data-auto-testid="HomeContainer">
       {children}
     </Link>
   );

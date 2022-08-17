@@ -403,6 +403,7 @@ class PaymentList extends React.Component {
   addBtnJSX = ({ fromPage }) => {
     return (
       <div
+        data-auto-testid="AddPayment"
         className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
         onClick={this.handleClickAddBtn.bind(this, fromPage)}
         ref={(node) => {
@@ -478,6 +479,7 @@ class PaymentList extends React.Component {
                   <FormattedMessage id="account.myPayments" />
                 </h5>
                 <h5
+                  data-auto-testid="BackToPaymenList"
                   className="ui-cursor-pointer text-xl"
                   style={{ display: curPageAtCover ? 'none' : 'block' }}
                   onClick={this.handleClickGoBack}
@@ -497,6 +499,7 @@ class PaymentList extends React.Component {
                       title={txt}
                       alt={txt}
                       onClick={this.handleClickEditBtn}
+                      data-auto-testid="PaymenListEdit"
                     >
                       {txt}
                     </button>
@@ -567,7 +570,10 @@ class PaymentList extends React.Component {
                       </div>
                     ))}
                   {this.getOnlyCardTypeArr().slice(0, 2).length < 2 && (
-                    <div className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer">
+                    <div
+                      data-auto-testid="PaymentListAdd"
+                      className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer"
+                    >
                       {this.addBtnJSX({ fromPage: 'cover' })}
                     </div>
                   )}

@@ -88,7 +88,7 @@ const PriceDetailsList = ({
         <div className="col-5 no-padding-left">
           <p
             className="text-right sub-total mb-4"
-            data-testid={item.dataTestid}
+            data-auto-testid={item.dataTestid}
           >
             {typeof item.val === 'number' ? formatMoney(item.val) : item.val}
           </p>

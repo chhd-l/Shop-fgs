@@ -614,8 +614,12 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
           >
             <FormattedMessage id="subscription.seeOtherRecommendation" />
           </span>
-          <div className="for-mobile-colum d-flex for-mobile-colum d-flex md:flex-row w-11/12 md:w-auto flex-col-reverse md:flex-row">
-            <Button onClick={() => showProdutctDetail(0)} size="small">
+          <div className="for-mobile-colum d-flex md:flex-row w-11/12 md:w-auto flex-col-reverse md:flex-row">
+            <Button
+              data-auto-testid="ProductDetails"
+              onClick={() => showProdutctDetail(0)}
+              size="small"
+            >
               <FormattedMessage id="subscription.productDetails" />
             </Button>
             {outOfStockStatus && !alreadyNotice ? (
@@ -630,6 +634,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
               </Button>
             ) : isNotInactive && !outOfStockStatus ? (
               <Button
+                data-auto-testid="ChangeNow"
                 size="small"
                 type="primary"
                 onClick={() => changePets(seleced)}

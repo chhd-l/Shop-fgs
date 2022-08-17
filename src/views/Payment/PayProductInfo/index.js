@@ -814,6 +814,7 @@ class PayProductInfo extends React.Component {
                   <FormattedMessage id="promotionCode">
                     {(txt) => (
                       <input
+                        data-auto-testid="cart_promotion_input"
                         className="rc-input__control"
                         id="id-promotionCode"
                         type="text"
@@ -834,6 +835,7 @@ class PayProductInfo extends React.Component {
                 </span>
                 <div className="promo-code-submit">
                   <button
+                    data-auto-testid="cart_promotion_btn"
                     ref="applyButtton"
                     id="promotionApply"
                     className={cn(`rc-btn rc-btn--md rc-btn--two`, {
@@ -945,7 +947,10 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
             <div className="col-6 end-lines text-right">
-              <span className="grand-total-sum">
+              <span
+                className="grand-total-sum"
+                data-auto-testid="payment_info_trade_price"
+              >
                 {formatMoney(this.tradePrice)}
               </span>
             </div>

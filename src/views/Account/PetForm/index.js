@@ -434,6 +434,7 @@ class PetForm extends React.Component {
                     </p>
                     <div>
                       <Button
+                        data-auto-testid="addDogPet"
                         type="primary"
                         size="small"
                         className="mr-5"
@@ -444,6 +445,7 @@ class PetForm extends React.Component {
                         <FormattedMessage id="Dog" />
                       </Button>
                       <Button
+                        data-auto-testid="addCatPet"
                         type="primary"
                         size="small"
                         onClick={() => {
@@ -460,6 +462,7 @@ class PetForm extends React.Component {
                         isPrescriptiongGate && (
                           <>
                             <a
+                              data-auto-testid="isPrescriptiongGate"
                               href="javascript;:"
                               className="font-medium text-16 md:mr-2 pt-4"
                               style={{

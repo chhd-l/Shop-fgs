@@ -504,6 +504,7 @@ class AccountOrders extends React.Component {
                               href=""
                               to="/"
                               className="rc-btn rc-btn--one"
+                              data-auto-testid="BuyNow"
                             >
                               <FormattedMessage id="account.orders.btns" />
                             </DistributeHubLinkOrATag>
@@ -587,6 +588,7 @@ class AccountOrders extends React.Component {
                             {orderList.map((order) => {
                               return (
                                 <div
+                                  data-auto-testid="Orders-card-list"
                                   className="card-container border-b border-d7d7d7"
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
@@ -685,6 +687,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.orderDetails">
                                           {(txt) => (
                                             <Link
+                                              data-auto-testid="OrderDetails"
                                               className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >

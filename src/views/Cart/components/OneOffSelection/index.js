@@ -11,6 +11,7 @@ const OneOffSelection = function (props) {
         borderColor: !parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
         display: `${isGift ? 'none' : 'block'}`
       }}
+      data-auto-tetsid="cart_single_purchase_btn"
       onClick={props.chooseOneOff}
     >
       <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break flex-wrap">
