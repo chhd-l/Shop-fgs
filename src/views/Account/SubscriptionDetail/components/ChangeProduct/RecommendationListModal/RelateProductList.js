@@ -734,6 +734,7 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
                     : productList.map((item, i) => {
                         return (
                           <div
+                            data-auto-testid="PLP-list"
                             className="col-12 pr-0 md:pl-2 md:pr-2 mb-3 pl-0 BoxFitMonileScreen col-md-4"
                             key={i}
                           >

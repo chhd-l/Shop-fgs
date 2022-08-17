@@ -25,6 +25,7 @@ const ItemContainer = ({ subItem, className }) => {
 
   return (
     <div
+      data-auto-testid="Subscriptions-card-list"
       className={cn(
         'card-container autoshipBox AutoshipItem-wrap mt-0 mb-5 border border-d7d7d7 rounded',
         className
@@ -161,6 +162,7 @@ const ItemContainer = ({ subItem, className }) => {
           }`}
         >
           <Button
+            data-auto-testid="Subscriptions-card-list-Manage"
             size="small"
             className="truncate md:w-11/12"
             onClick={() => {

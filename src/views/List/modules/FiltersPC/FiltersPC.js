@@ -570,6 +570,7 @@ class Filter extends React.Component {
               this.props.prefnParamListSearch.length ? (
                 <div className="filter-button-groups  text-center">
                   <button
+                    data-auto-testid="clearFilters"
                     className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs w-100`}
                     onClick={this.handleFilterClearBtn}
                   >
@@ -577,6 +578,7 @@ class Filter extends React.Component {
                   </button>
                   {filterList.length ? (
                     <Button
+                      data-auto-testid="applyFilters"
                       type="primary"
                       size="small"
                       className={`rc-margin-left--none rc-margin-bottom--xs w-100`}

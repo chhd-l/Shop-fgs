@@ -127,7 +127,7 @@ const PriceDetailsList = ({
           {item.title}
         </label>
         <div className="col-6 text-right">
-          <strong>
+          <strong data-auto-testid={item.key}>
             {typeof item.val === 'number' ? formatMoney(item.val) : item.val}
           </strong>
         </div>
