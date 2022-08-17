@@ -332,6 +332,7 @@ export default class Selection extends React.Component {
                   </div>
                 ) : (
                   <div
+                    data-auto-testid="select_options_item_one"
                     className={`choices__item choices__item--choice choices__item--selectable ${
                       hoveredIdx === i ? 'is-highlighted' : ''
                     } ${item.disabled ? 'disabled_item' : ''}`}
@@ -358,6 +359,7 @@ export default class Selection extends React.Component {
                       <>
                         <span>{item.name}</span>
                         <span
+                          data-auto-testid="select_options_item_one"
                           className={`sku-stock ml-8 ${
                             item.isEmpty ? 'sku-out-of-stock' : ''
                           }`}
