@@ -1413,27 +1413,17 @@ class Form extends React.Component {
         data: { [tname]: tvalue },
         intl: this.props.intl
       });
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          [tname]: ''
-        })
-      });
-      const { caninForm } = this.state;
 
       //checkout大改造
-      const formList = [...this.state.formList];
-      formList.forEach((list) => {
-        if (list.fieldKey == tname) {
-          list.Status = 'inputOk';
-        }
-      });
+      this.clearErrMsgObj(tname);
+      this.setFormItemStatus(tname, 'inputOk');
 
-      this.setState({ formList });
       if (COUNTRY != 'ru') {
         // 俄罗斯需要先校验 DuData 再校验所有表单数据
         this.validFormAllData(); // 验证表单所有数据
       }
     } catch (err) {
+      this.setFormItemStatus(tname, 'inputErr');
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: !!err.message
@@ -1736,6 +1726,7 @@ class Form extends React.Component {
                 (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
+              debugger;
               // inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
@@ -1846,7 +1837,26 @@ class Form extends React.Component {
       </>
     );
   };
+  //checkout大改造
+  clearErrMsgObj = (tname) => {
+    const { errMsgObj } = this.state;
+    const newErrMsgObj = { ...errMsgObj };
+    newErrMsgObj[tname] = '';
+    this.setState({ errMsgObj: newErrMsgObj });
+  };
+  //checkout大改造
+  setFormItemStatus = (tname, status) => {
+    const { caninForm } = this.state;
+    const formList = [...this.state.formList];
 
+    formList.forEach((list) => {
+      if (list.fieldKey == tname) {
+        list.Status = status;
+      }
+    });
+    this.setState({ formList });
+  };
+  //checkout大改造
   newInputCommon = (e) => {
     const tname = e.target.name;
     const { caninForm } = this.state;
@@ -1871,7 +1881,7 @@ class Form extends React.Component {
   newInputBlur = (e) => {};
   //checkout大改造
   newInputChange = (e) => {
-    const { caninForm, postCodeFiledType, errMsgObj } = this.state;
+    const { caninForm, postCodeFiledType } = this.state;
     const target = e.target;
     let tvalue = target.type === 'checkbox' ? target.checked : target.value;
     const tname = target.name;
@@ -1923,6 +1933,14 @@ class Form extends React.Component {
         break;
     }
     caninForm[tname] = tvalue;
+
+    console.log({ tvalue });
+    //checkout大改造
+    if (tvalue == 0) {
+      this.clearErrMsgObj(tname);
+      this.setFormItemStatus(tname, 'normal');
+      return;
+    }
 
     //checkout大改造
     this.newInputCommon(e);
