@@ -143,7 +143,7 @@ class Consent extends Component {
       <>
         {list?.map((item, index) => {
           return (
-            <div key={item.id}>
+            <div key={item.id} data-auto-testid="MyCommunicationsPreferences">
               {noIsRequired > -1 &&
               noIsRequired == index &&
               pageType === 'checkout' &&

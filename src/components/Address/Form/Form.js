@@ -2010,7 +2010,6 @@ class Form extends React.Component {
 
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
               <input
-                data-auto-testid="emailShipping"
                 type="email"
                 data-auto-testid="checkout_birthday_email_input"
                 className="rc-input__control emailShipping"
