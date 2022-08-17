@@ -1847,23 +1847,38 @@ class Form extends React.Component {
     );
   };
 
-  newInputCommon = (e) => {};
-
-  //checkout大改造
-  newInputFous = (e) => {};
-  //checkout大改造
-  newInputBlur = (e) => {
+  newInputCommon = (e) => {
     const tname = e.target.name;
     const { caninForm } = this.state;
     const formList = [...this.state.formList];
 
     formList.forEach((list) => {
-      if (list.fieldKey == tname && caninForm[tname] == '') {
-        list.Status = 'empty';
+      if (list.fieldKey == tname) {
+        if (caninForm[tname] == '') {
+          list.Status = 'empty';
+        }
+        if (caninForm[tname] != '') {
+          list.Status = 'normal';
+        }
       }
     });
     this.setState({ formList });
   };
+
+  //checkout大改造
+  newInputFous = (e) => {
+    // const tname = e.target.name;
+    // const { caninForm } = this.state;
+    // const formList = [...this.state.formList]
+    // formList.forEach((list) => {
+    //   if(list.fieldKey==tname && caninForm[tname]==''){
+    //       list.Status = 'empty'
+    //   }
+    // })
+    // this.setState({formList})
+  };
+  //checkout大改造
+  newInputBlur = (e) => {};
   //checkout大改造
   newInputChange = (e) => {
     const { caninForm, postCodeFiledType } = this.state;
