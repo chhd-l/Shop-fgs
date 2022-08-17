@@ -161,7 +161,7 @@ class PetForm extends React.Component {
     let weightObj = {
       measure: '',
       measureUnit: 'kg',
-      type: 2
+      type: 0
     };
     try {
       if (currentPet.weight) {
