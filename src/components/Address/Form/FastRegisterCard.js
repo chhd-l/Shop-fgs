@@ -2,7 +2,6 @@ import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-
 import PasswordInput from '@/components/Address/Form/PasswordInput';
 
 const FastRegisterCard = ({
@@ -15,7 +14,7 @@ const FastRegisterCard = ({
 
   const inputRef = useRef();
   useImperativeHandle(ref, () => ({
-    getAllState: inputRef.current.getInputState,
+    getInputState: inputRef.current.getInputState,
     setInputValue: inputRef.current.setInputValue
   }));
 
@@ -62,7 +61,7 @@ const FastRegisterCard = ({
       <div className="mb-4">
         Definissez votre mot depasse. votre compte sera automatiquement cree apres letapa de confirmation
       </div>
-      <div className="regester-pass">
+      <div className="register-pass">
         <PasswordInput
           ref={inputRef}
           onChange={onChange}
