@@ -21,6 +21,7 @@ export type OssReceiveBackNotificationContentProps = {
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
   notifyMeConsent: any;
+  border?:boolean;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -30,7 +31,8 @@ const OssReceiveBackNotificationContent = ({
   selectedSpecItem,
   userInfo,
   form,
-  notifyMeConsent
+  notifyMeConsent,
+  border=false,
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
@@ -125,7 +127,7 @@ const OssReceiveBackNotificationContent = ({
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const btnStatus = Ru? consentChecked && correctEmail : correctEmail;
   return (
-    <div className="p-6 mb-3 border-rc-ddd border-l border-r border-t border-b">
+    <div className={`p-6 mb-3 ${border?'border':''}`}>
       <h2 className="text-base">
         {
           <FormattedMessage
@@ -158,32 +160,26 @@ const btnStatus = Ru? consentChecked && correctEmail : correctEmail;
               </svg>
             </span>
 
-            <button
-              className="rc-btn rc-btn--two rc-btn--sm h-8 px-5 py-0 w-36 mt-4 md:mt-0"
+            <Button
+              size="small"
               onClick={() => setIsEdited(false)}
             >
               <FormattedMessage id="Modify e-mail" />
-            </button>
+            </Button>
           </>
         ) : (
           <>
-            <span className="rc-input rc-input--inline rc-input--label my-0">
               <input
-                className="rc-input__control p-0"
+                className="w-60 border-b-2"
                 id="id-text2"
                 type="email"
                 value={email}
                 name="text"
                 onChange={handleOnChange}
               />
-              <label className="rc-input__label" htmlFor="id-text2">
-                <span className="rc-input__label-text"></span>
-              </label>
-            </span>
             <Button
               type="primary"
               size="small"
-              className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
               disabled={!btnStatus}
               onClick={handleSubmit}
             >
