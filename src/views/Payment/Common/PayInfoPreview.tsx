@@ -143,7 +143,7 @@ const PayInfoPreview = ({
             </span>
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
-          <p className="text-red-500 ml-10">
+          <p className="ml-10">
             <FormattedMessage id="ForCashOnDelivery" />
           </p>
         </>
