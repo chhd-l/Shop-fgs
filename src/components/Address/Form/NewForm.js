@@ -574,6 +574,14 @@ class Form extends React.Component {
       configStore: { getSystemFormConfig, localAddressForm }
     } = this.props;
 
+    //过滤firstName 和 lastName
+    const filterAddressSetting = localAddressForm.settings.filter(
+      (addressItem) =>
+        addressItem.fieldKey !== 'firstName' &&
+        addressItem.fieldKey !== 'lastName' &&
+        addressItem.fieldKey !== 'country'
+    );
+
     await getSystemFormConfig();
 
     if (localAddressForm?.settings) {
@@ -1959,11 +1967,11 @@ class Form extends React.Component {
     const statusObj = item.InitFormStatus[item.Status];
     return (
       <>
-        <div className="w-full">
+        <div className="w-100">
           <label className="flex flex-col">
             {
               <span
-                className={cn('min-w-min text-sm my-1', {
+                className={cn('text-sm my-1', {
                   visible: statusObj['showLabel'],
                   invisible: !statusObj['showLabel']
                 })}
@@ -2172,10 +2180,7 @@ class Form extends React.Component {
         {formLoading ? (
           <Skeleton height="10%" count={4} />
         ) : (
-          <div
-            className="row rc_form_box"
-            style={{ display: isMobile ? 'block' : 'flex' }}
-          >
+          <div>
             {(formList || []).map((item, index) => (
               <Fragment key={index}>
                 <div
@@ -2197,8 +2202,11 @@ class Form extends React.Component {
                     <FormattedMessage id="payment.delivery.content" />
                   </div>
                 </div>
+
                 <div
-                  className={`col-md-${item.occupancyNum == 1 ? 6 : 12} ${
+                  className={`hidden col-md-${
+                    item.occupancyNum == 1 ? 6 : 12
+                  } ${
                     !isDeliveryDateAndTimeSlot &&
                     (item.fieldKey == 'deliveryDate' ||
                       item.fieldKey == 'timeSlot')
@@ -2247,38 +2255,6 @@ class Form extends React.Component {
                       ? this.dropDownBoxJSX(item)
                       : null}
 
-                    {/* 输入邮编提示 */}
-                    {/* {item.fieldKey == 'postCode' && (
-                      <span className="ui-lighter">
-                        <FormattedMessage id="example" />:{' '}
-                        <FormattedMessage id="examplePostCode" />
-                        {COUNTRY === 'jp' ? (
-                          <>
-                            <br />
-                            <FormattedMessage
-                              id="examplePostCodeTips"
-                              values={{
-                                val: (
-                                  <a
-                                    className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
-                                    href="https://www.post.japanpost.jp/zipcode/"
-                                    target="_blank"
-                                  >
-                                    <FormattedMessage id="examplePostCode.this" />
-                                  </a>
-                                )
-                              }}
-                            />
-                          </>
-                        ) : null}
-                      </span>
-                    )} */}
-                    {/* 输入电话号码提示 */}
-                    {/* {item.fieldKey == 'phoneNumber' && (
-                      <span className="ui-lighter">
-                        <FormattedMessage id="examplePhone" />
-                      </span>
-                    )} */}
                     {/* 输入提示 */}
                     {errMsgObj[item.fieldKey] && item.requiredFlag == 1 ? (
                       <div className="text-form-err">
@@ -2286,6 +2262,11 @@ class Form extends React.Component {
                       </div>
                     ) : null}
                   </div>
+                </div>
+
+                <div className="flex">
+                  {item.fieldKey == 'firstName' && this.newInputJSX(item)}
+                  {item.fieldKey == 'lastName' && this.newInputJSX(item)}
                 </div>
 
                 {/* 这是一个空的div，deliveryDate和timeSlot存在时显示 */}

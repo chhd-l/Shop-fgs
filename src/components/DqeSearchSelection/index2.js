@@ -1,5 +1,6 @@
 import React from 'react';
 import { getRandom } from '@/utils/utils';
+import cn from 'classnames';
 
 /**
  * 带有远程搜索功能的下拉选择组件
@@ -240,44 +241,24 @@ class SearchSelection extends React.Component {
       this.props.selectedItemChange(item);
     }
   };
-  hanldeScroll = (e) => {
-    let { form } = this.state;
-    const target = e.target;
-    let wholeHeight = target.scrollHeight;
-    let scrollTop = target.scrollTop;
-    let divHeight = target.clientHeight;
-    // 滚动到容器底部
-    // if (scrollTop + divHeight >= wholeHeight && this.props.isBottomPaging) {
-    //   form.pageNum++;
-    //   this.setState(
-    //     {
-    //       form: form
-    //     },
-    //     () => {
-    //       this.queryList();
-    //     }
-    //   );
-    // }
-  };
   render() {
     const { optionList, form, random } = this.state;
+    const { name } = this.props;
     return (
       <form className={`fullWidth dqeFormSpace_${random}`} autoComplete="off">
         <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
+          {
+            <span className={cn('min-w-min text-sm my-1')}>
+              {/* <FormattedMessage id={`payment.${name}`} /> */}
+              {name}
+            </span>
+          }
           <div
             className={`${this.props.customCls} ${
               this.props.customStyle
-                ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
+                ? 'w-full'
                 : 'rc-input rc-input--full-width rc-margin-y--xs'
             } searchSelection`}
-            // onBlur={() => {
-            //   setTimeout(() => {
-            //     this.setState({
-            //       optionList: [],
-            //       optionPanelVisible: false
-            //     });
-            //   }, 500);
-            // }}
           >
             {this.props.prefixIcon}
             {/* 解决表单只有一个input元素时按下enter自动提交问题，添加一个隐藏的input输入框即可 */}
@@ -286,7 +267,9 @@ class SearchSelection extends React.Component {
               type="text"
               placeholder={this.state.placeholder}
               className={`${
-                this.props.customStyle ? 'rc-input__control' : 'form-control'
+                this.props.customStyle
+                  ? 'w-full text-14 py-2 placeholder-primary placeholder-opacity-50 border-b border-form'
+                  : 'form-control'
               }`}
               value={form.value || ''}
               onChange={(e) => this.handleInputChange(e)}
@@ -296,25 +279,26 @@ class SearchSelection extends React.Component {
               name={this.props.name}
               autoComplete="off"
             />
-            {this.props.customStyle && <label className="rc-input__label" />}
+            {/* {this.props.customStyle && <label className="rc-input__label" />} */}
             {this.state.optionPanelVisible && (
-              <div className="border mt-1 position-absolute w-100 bg-white rounded z-50">
-                <ul
-                  className="m-0 clinic-item-container test-scroll"
-                  onScroll={this.hanldeScroll}
-                >
+              <div className="border bg-white rounded-b-2xl z-50">
+                <ul className="m-0 clinic-item-container test-scroll">
                   {optionList.map((item, idx) => (
                     <li
-                      className={`clinic-item pl-2 pr-2 ${
-                        idx !== optionList.length - 1 ? 'border-bottom' : ''
-                      }`}
+                      className={`clinic-item p-2 cs-black`}
                       key={`${item.label}_${idx}`}
                       onClick={(e) => this.handleClickClinicItem(e, item)}
                     >
                       {item.name}
                     </li>
                   ))}
+                  {optionList.length > 0 && (
+                    <div className="p-2 border-t">
+                      Saisir l’adresse manuellement
+                    </div>
+                  )}
                 </ul>
+
                 {this.state.loadingList && (
                   <div className="text-center p-2">
                     <span className="ui-btn-loading ui-btn-loading-border-red" />

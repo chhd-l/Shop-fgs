@@ -595,12 +595,9 @@ class VisitorAddress extends React.Component {
         getFormAddressValidFlag={this.getFormAddressValidFlag}
         updateData={this.updateDeliveryAddress}
         calculateFreight={this.calculateFreight}
-        // onSearchSelectionFocus={this.onSearchSelectionFocus}
-        // onSearchSelectionChange={this.onSearchSelectionChange}
-        // onSearchSelectionError={this.onSearchSelectionError}
-        // {...this.props}
       />
     );
+
     return (
       <AddressPanelContainer
         panelStatus={panelStatus}
