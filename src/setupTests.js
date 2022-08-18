@@ -17,7 +17,10 @@ Object.defineProperty(window, '__', {
       get: (key) => localItem[key],
       set: (key, value) => (localItem[key] = value)
     },
-    env: 'REACT_APP_STOREID'
+    // env: 'REACT_APP_STOREID'
+    env: {
+      REACT_APP_COUNTRY: 'jp'
+    }
   }
 });
 

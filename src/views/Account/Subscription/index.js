@@ -332,23 +332,25 @@ class Subscription extends React.Component {
             <h4 className="rc-delta rc-margin--none pb-2">
               <FormattedMessage id={subscription} />
             </h4>
-            <div style={{ width: isMobile ? '100px' : '200px' }}>
-              <Selection
-                optionList={this.state.subscriptionTypeList}
-                selectedItemChange={(el) => {
-                  this.setState(
-                    { subscriptionType: el.value, currentPage: 1 },
-                    () => {
-                      this.getSubList();
-                    }
-                  );
-                }}
-                selectedItemData={{
-                  value: this.state.subscriptionType
-                }}
-                customStyleType="select-one"
-              />
-            </div>
+            {!['jp'].includes(window.__.env.REACT_APP_COUNTRY) && (
+              <div style={{ width: isMobile ? '100px' : '200px' }}>
+                <Selection
+                  optionList={this.state.subscriptionTypeList}
+                  selectedItemChange={(el) => {
+                    this.setState(
+                      { subscriptionType: el.value, currentPage: 1 },
+                      () => {
+                        this.getSubList();
+                      }
+                    );
+                  }}
+                  selectedItemData={{
+                    value: this.state.subscriptionType
+                  }}
+                  customStyleType="select-one"
+                />
+              </div>
+            )}
           </div>
         ) : null}
         <div className="order__listing">

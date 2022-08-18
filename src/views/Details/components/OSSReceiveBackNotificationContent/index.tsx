@@ -37,8 +37,8 @@ const OssReceiveBackNotificationContent = ({
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
-  const [correctEmail,setCorrectEmail] = useState(false);
-  const [consentChecked,setConsentChecked] = useState(false);
+  const [correctEmail, setCorrectEmail] = useState(false);
+  const [consentChecked, setConsentChecked] = useState(false);
   const [list, setList] = useState<List[]>([]);
   useEffect(() => {
     if (notifyMeConsent?.length) {
@@ -47,7 +47,7 @@ const OssReceiveBackNotificationContent = ({
   }, [notifyMeConsent]);
   useEffect(() => {
     const consentCheckedStatus = list.every((item: any) => item.isChecked)
-      setConsentChecked(consentCheckedStatus)
+    setConsentChecked(consentCheckedStatus)
   }, [list])
 
   useEffect(() => {
@@ -124,8 +124,8 @@ const OssReceiveBackNotificationContent = ({
     setIsEdited(true);
   };
 
-const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
-const btnStatus = Ru? consentChecked && correctEmail : correctEmail;
+  const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+  const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
   return (
     <div className={`p-6 mb-3 ${border?'border':''}`}>
       <h2 className="text-base">

@@ -3,6 +3,7 @@ import { loadJS } from '@/utils/utils';
 import packageTranslations from './translations';
 import { inject, observer } from 'mobx-react';
 import getPaymentConf from '@/lib/get-payment-conf';
+import AdyenCheckout from '@adyen/adyen-web';
 
 @inject('paymentStore')
 @observer
@@ -41,24 +42,14 @@ class Adyen3DForm extends React.Component {
     } = this.props;
     const { translations } = packageTranslations({ messages });
     const { adyenOriginKeyConf } = this.state;
-    loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      callback: function () {
-        if (!!window.AdyenCheckout) {
-          const AdyenCheckout = window.AdyenCheckout;
-          const checkout = new AdyenCheckout({
-            environment: adyenOriginKeyConf?.env,
-            originKey: adyenOriginKeyConf?.originKey,
-            locale: adyenOriginKeyConf?.locale || 'en-US',
-            translations: {
-              [adyenOriginKeyConf?.locale || 'en-US']: translations
-            }
-          });
-
-          // 跳转到3DS页面
-          checkout.createFromAction(action).mount('#adyen-3d-form');
-        }
-      }
+    const configuration = {
+      environment: adyenOriginKeyConf?.environment,
+      clientKey: adyenOriginKeyConf?.openPlatformSecret,
+      locale: adyenOriginKeyConf?.locale || 'en-US'
+    };
+    // without async because: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
+    AdyenCheckout(configuration).then((checkout) => {
+      checkout.createFromAction(action).mount('#adyen-3d-form');
     });
   }
   render() {
