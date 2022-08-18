@@ -117,7 +117,7 @@ const PayInfoPreview = ({
             <p className="ml-4">
               <FormattedMessage
                 id="ForConvenienceStorePayment"
-                values={{ val: <span className="text-red-500">7</span> }}
+                values={{ val: <span>7</span> }}
               />
             </p>
           )}
