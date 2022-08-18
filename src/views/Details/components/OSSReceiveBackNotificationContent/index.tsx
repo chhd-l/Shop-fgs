@@ -35,8 +35,8 @@ const OssReceiveBackNotificationContent = ({
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
-  const [correctEmail,setCorrectEmail] = useState(false);
-  const [consentChecked,setConsentChecked] = useState(false);
+  const [correctEmail, setCorrectEmail] = useState(false);
+  const [consentChecked, setConsentChecked] = useState(false);
   const [list, setList] = useState<List[]>([]);
   useEffect(() => {
     if (notifyMeConsent?.length) {
@@ -45,7 +45,7 @@ const OssReceiveBackNotificationContent = ({
   }, [notifyMeConsent]);
   useEffect(() => {
     const consentCheckedStatus = list.every((item: any) => item.isChecked)
-      setConsentChecked(consentCheckedStatus)
+    setConsentChecked(consentCheckedStatus)
   }, [list])
 
   useEffect(() => {
@@ -122,8 +122,8 @@ const OssReceiveBackNotificationContent = ({
     setIsEdited(true);
   };
 
-const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
-const btnStatus = Ru? consentChecked && correctEmail : correctEmail;
+  const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+  const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
   return (
     <div className="p-6 mb-3 border-rc-ddd border-l border-r border-t border-b">
       <h2 className="text-base">
@@ -183,7 +183,7 @@ const btnStatus = Ru? consentChecked && correctEmail : correctEmail;
             <Button
               type="primary"
               size="small"
-              className="h-8 px-5 py-0 w-36 mt-4 md:mt-0"
+              className={`${Ru ? 'h-11' : 'h-8 w-36'} px-5 py-0  mt-4 md:mt-0`}
               disabled={!btnStatus}
               onClick={handleSubmit}
             >
