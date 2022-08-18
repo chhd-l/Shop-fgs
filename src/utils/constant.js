@@ -406,7 +406,7 @@ export const isSaveAddressBtnDisabled = (
 export const jpSetAddressFields = ({ province, city, area, address1 }) => {
   return [province, city, area, address1]
     .filter((item) => item && item.trim())
-    .join(', ');
+    .join('  ');
 };
 
 //null变为空
