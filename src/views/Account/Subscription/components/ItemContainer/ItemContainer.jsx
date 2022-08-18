@@ -157,7 +157,7 @@ const ItemContainer = ({ subItem, className }) => {
         </div>
         <div
           className={`col-span-6 md:col-span-2 text-center ${
-            subItem.goodsInfo?.length ? 'visible' : 'invisible'
+            subItem.showDetail ? 'visible' : 'invisible'
           }`}
         >
           <Button
