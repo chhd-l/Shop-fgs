@@ -117,7 +117,7 @@ const PayInfoPreview = ({
             <p className="ml-4">
               <FormattedMessage
                 id="ForConvenienceStorePayment"
-                values={{ val: <span className="text-red-500">7</span> }}
+                values={{ val: <span>7</span> }}
               />
             </p>
           )}
@@ -143,7 +143,7 @@ const PayInfoPreview = ({
             </span>
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
-          <p className="text-red-500 ml-10">
+          <p className="ml-10">
             <FormattedMessage id="ForCashOnDelivery" />
           </p>
         </>
