@@ -127,7 +127,7 @@ const OssReceiveBackNotificationContent = ({
   const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
   const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
   return (
-    <div className={`p-6 mb-3 ${border?'border':''}`}>
+    <div className={`p-4 mb-3 ${border?'border':''}`}>
       <h2 className="text-base">
         {
           <FormattedMessage
@@ -161,7 +161,7 @@ const OssReceiveBackNotificationContent = ({
             </span>
 
             <Button
-              size="small"
+              // size="small"
               onClick={() => setIsEdited(false)}
             >
               <FormattedMessage id="Modify e-mail" />
