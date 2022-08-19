@@ -86,7 +86,7 @@ class PromotionCode extends React.Component {
         //会员
         result = await this.props.checkoutStore.updateLoginCart(tmpParam);
       }
-
+      console.log(discount);
       //表示输入apply promotionCode成功
       const applyPromotionCodeSuccess =
         !result?.context?.promotionFlag || result?.context?.couponCodeFlag;
@@ -231,6 +231,7 @@ class PromotionCode extends React.Component {
               <FormattedMessage id="promotionCode">
                 {(txt) => (
                   <input
+                    data-testid="inpchange"
                     className="rc-input__control"
                     id="id-promotionCode"
                     type="text"
@@ -296,6 +297,7 @@ class PromotionCode extends React.Component {
                     </span>
                   )}
                   <button
+                    data-testid="btn"
                     className={cn(
                       deletingLoading
                         ? 'ui-btn-loading ui-btn-loading-border-red mb-4'
