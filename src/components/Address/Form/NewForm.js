@@ -52,10 +52,21 @@ import { format } from 'date-fns';
 import { DatePickerComponent, Input } from '@/components/Common';
 import { phoneNumberMask } from '@/utils/constant';
 import { InitFormStatus } from './Constant';
+import FastRegisterCard from './FastRegisterCard';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
 var compositionFlag = true;
+
+//因为email没有配置，额外前端手动加一项
+const addEmailItem = (ress) => {
+  const copyFirstNameItem = ress.filter((item) => item.fieldKey == 'firstName');
+  const emailItem = {
+    ...copyFirstNameItem[0],
+    ...{ fieldKey: 'email', fieldName: 'email', id: 1 }
+  };
+  return [...ress, emailItem].sort((item1, item2) => item1.id - item2.id);
+};
 
 function ToCDB(str) {
   var tmp = '';
@@ -92,6 +103,19 @@ class Form extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get emailItem() {
+    return this.state.formList.filter((item) => item.fieldKey == 'email');
+  }
+  get firstNameItem() {
+    return this.state.formList.filter((item) => item.fieldKey == 'firstName');
+  }
+  get lastNameItem() {
+    return this.state.formList.filter((item) => item.fieldKey == 'lastName');
+  }
+  get address1Item() {
+    return this.state.formList.filter((item) => item.fieldKey == 'address1');
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -611,6 +635,8 @@ class Form extends React.Component {
 
           // 格式化表单json
           let ress = this.formListFormat(narr);
+
+          ress = addEmailItem(ress);
 
           this.setState(
             {
@@ -2175,117 +2201,137 @@ class Form extends React.Component {
       errMsgObj,
       isDeliveryDateAndTimeSlot
     } = this.state;
+
     return (
       <>
         {formLoading ? (
           <Skeleton height="10%" count={4} />
         ) : (
           <div>
-            {(formList || []).map((item, index) => (
-              <Fragment key={index}>
-                <div
-                  className={`col-md-12 ${
-                    isDeliveryDateAndTimeSlot &&
-                    item.fieldKey == 'deliveryDate' &&
-                    COUNTRY === 'jp'
-                      ? ''
-                      : 'hidden'
-                  }`}
-                >
+            <div className="flex">
+              <div className="w-full md:w-80 flex flex-col mr-0 md:mr-20">
+                <div className="mb-10 w-100">
+                  {this.emailItem.length > 0 &&
+                    this.newInputJSX(this.emailItem[0])}
+                </div>
+                <div className="mb-10 w-100">
+                  {this.firstNameItem.length > 0 &&
+                    this.newInputJSX(this.firstNameItem[0])}
+                </div>
+                <div className="mb-10 w-100">
+                  {this.lastNameItem.length > 0 &&
+                    this.newInputJSX(this.lastNameItem[0])}
+                </div>
+              </div>
+              <FastRegisterCard />
+            </div>
+
+            <div className="mb-4 w-100">
+              {this.address1Item.length > 0 &&
+                this.addressSearchSelectionJSX(this.address1Item)}
+            </div>
+
+            {false &&
+              formList?.map((item, index) => (
+                <Fragment key={index}>
                   <div
-                    className="text-22 pt-4 pb-2"
-                    style={{ color: '#888888' }}
+                    className={`col-md-12 ${
+                      isDeliveryDateAndTimeSlot &&
+                      item.fieldKey == 'deliveryDate' &&
+                      COUNTRY === 'jp'
+                        ? ''
+                        : 'hidden'
+                    }`}
                   >
-                    <FormattedMessage id="payment.delivery.title" />
-                  </div>
-                  <div className="text-16 pb-8">
-                    <FormattedMessage id="payment.delivery.content" />
-                  </div>
-                </div>
-
-                <div
-                  className={`hidden col-md-${
-                    item.occupancyNum == 1 ? 6 : 12
-                  } ${
-                    !isDeliveryDateAndTimeSlot &&
-                    (item.fieldKey == 'deliveryDate' ||
-                      item.fieldKey == 'timeSlot')
-                      ? 'hidden'
-                      : ''
-                  }`}
-                >
-                  {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
-                  <div className="form-group">
-                    {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
-                    {item.inputFreeTextFlag == 1 &&
-                    item.inputSearchBoxFlag == 0 ? (
-                      <>
-                        {item.fieldKey == 'comment'
-                          ? this.textareaJSX(item)
-                          : //: item.fieldKey == 'phoneNumber'?this.phoneNumberInputJSX(item):this.inputJSX(item)}
-                            this.newInputJSX(item)}
-                      </>
-                    ) : null}
-
-                    {/* 只是 searchbox */}
-                    {item.inputFreeTextFlag == 0 &&
-                    item.inputDropDownBoxFlag == 0 &&
-                    item.inputSearchBoxFlag == 1
-                      ? this.citySearchSelectiontJSX(item)
-                      : null}
-                    {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                    {item.inputDropDownBoxFlag == 0 &&
-                    item.inputFreeTextFlag == 1 &&
-                    item.inputSearchBoxFlag == 1 ? (
-                      <>
-                        {item.fieldKey == 'address1'
-                          ? this.addressSearchSelectionJSX(item)
-                          : null}
-                        {item.fieldKey == 'city'
-                          ? this.citySearchSelectiontJSX(item)
-                          : null}
-                      </>
-                    ) : null}
-
-                    {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
-                    {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
-                    {item.inputFreeTextFlag == 0 &&
-                    item.inputSearchBoxFlag == 0 &&
-                    item.inputDropDownBoxFlag == 1
-                      ? this.dropDownBoxJSX(item)
-                      : null}
-
-                    {/* 输入提示 */}
-                    {errMsgObj[item.fieldKey] && item.requiredFlag == 1 ? (
-                      <div className="text-form-err">
-                        {errMsgObj[item.fieldKey]}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-
-                <div className="flex">
-                  {item.fieldKey == 'firstName' && this.newInputJSX(item)}
-                  {item.fieldKey == 'lastName' && this.newInputJSX(item)}
-                </div>
-
-                {/* 这是一个空的div，deliveryDate和timeSlot存在时显示 */}
-                {item.fieldKey == 'phoneNumber' ? (
-                  <>
                     <div
-                      className={`col-md-6 ${
-                        isDeliveryDateAndTimeSlot ? '' : 'hidden'
-                      }`}
-                    ></div>
-                  </>
-                ) : null}
+                      className="text-22 pt-4 pb-2"
+                      style={{ color: '#888888' }}
+                    >
+                      <FormattedMessage id="payment.delivery.title" />
+                    </div>
+                    <div className="text-16 pb-8">
+                      <FormattedMessage id="payment.delivery.content" />
+                    </div>
+                  </div>
 
-                {/* 个人中心添加 email 和 birthData */}
-                {this.props.personalData &&
-                  item.fieldKey == 'lastName' &&
-                  this.emailAndBirthDataJSX()}
-              </Fragment>
-            ))}
+                  <div
+                    className={`hidden col-md-${
+                      item.occupancyNum == 1 ? 6 : 12
+                    } ${
+                      !isDeliveryDateAndTimeSlot &&
+                      (item.fieldKey == 'deliveryDate' ||
+                        item.fieldKey == 'timeSlot')
+                        ? 'hidden'
+                        : ''
+                    }`}
+                  >
+                    {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
+                    <div className="form-group">
+                      {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
+                      {item.inputFreeTextFlag == 1 &&
+                      item.inputSearchBoxFlag == 0 ? (
+                        <>
+                          {item.fieldKey == 'comment'
+                            ? this.textareaJSX(item)
+                            : //: item.fieldKey == 'phoneNumber'?this.phoneNumberInputJSX(item):this.inputJSX(item)}
+                              this.newInputJSX(item)}
+                        </>
+                      ) : null}
+
+                      {/* 只是 searchbox */}
+                      {item.inputFreeTextFlag == 0 &&
+                      item.inputDropDownBoxFlag == 0 &&
+                      item.inputSearchBoxFlag == 1
+                        ? this.citySearchSelectiontJSX(item)
+                        : null}
+                      {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
+                      {item.inputDropDownBoxFlag == 0 &&
+                      item.inputFreeTextFlag == 1 &&
+                      item.inputSearchBoxFlag == 1 ? (
+                        <>
+                          {item.fieldKey == 'address1'
+                            ? this.addressSearchSelectionJSX(item)
+                            : null}
+                          {item.fieldKey == 'city'
+                            ? this.citySearchSelectiontJSX(item)
+                            : null}
+                        </>
+                      ) : null}
+
+                      {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
+                      {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
+                      {item.inputFreeTextFlag == 0 &&
+                      item.inputSearchBoxFlag == 0 &&
+                      item.inputDropDownBoxFlag == 1
+                        ? this.dropDownBoxJSX(item)
+                        : null}
+
+                      {/* 输入提示 */}
+                      {errMsgObj[item.fieldKey] && item.requiredFlag == 1 ? (
+                        <div className="text-form-err">
+                          {errMsgObj[item.fieldKey]}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  {/* 这是一个空的div，deliveryDate和timeSlot存在时显示 */}
+                  {item.fieldKey == 'phoneNumber' ? (
+                    <>
+                      <div
+                        className={`col-md-6 ${
+                          isDeliveryDateAndTimeSlot ? '' : 'hidden'
+                        }`}
+                      ></div>
+                    </>
+                  ) : null}
+
+                  {/* 个人中心添加 email 和 birthData */}
+                  {this.props.personalData &&
+                    item.fieldKey == 'lastName' &&
+                    this.emailAndBirthDataJSX()}
+                </Fragment>
+              ))}
 
             {/* 根据接口返回判断是否显示 DeliveryDate 和 TimeSlot */}
           </div>
