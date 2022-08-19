@@ -9,7 +9,7 @@ const config = {
     // "src/**/*.{js,jsx,ts,tsx}",
     "!src/**/*.d.ts",
     // "src/views/Account/SubscriptionDetail/components/HandledSpecSelect/**/*.{js,jsx,ts,tsx}",
-    "src/views/Details/components/OSSReceiveBackNotificationContent/**/*.{js,jsx,ts,tsx}"
+    "src/views/Account/Subscription/index.{js,jsx,ts,tsx}"
 
   ],
   "setupFiles": [
@@ -24,7 +24,8 @@ const config = {
     // "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
     // "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Account/SubscriptionDetail/components/HandledSpecSelect/__tests__/**/*.{js,jsx,ts,tsx}",
-    "<rootDir>src/views/Details/components/OSSReceiveBackNotificationContent/__test__/**/*.{js,jsx,ts,tsx}"
+    // "<rootDir>src/views/Details/components/OSSReceiveBackNotificationContent/__test__/**/*.{js,jsx,ts,tsx}"
+    "<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}"
     //"<rootDir>/src/utils/__tests__/**/*.{js,jsx,ts,tsx}"
   ],
   "testEnvironment": "jest-environment-jsdom-fourteen",
