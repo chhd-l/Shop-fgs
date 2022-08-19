@@ -56,6 +56,9 @@ import cn from 'classnames';
 import { AddItemsVisitor as AddCartItemsVisitor } from '@/framework/cart';
 import { handleSizeList } from '@/framework/product';
 import { Button, Popover } from '@/components/Common';
+import { toJS } from 'mobx';
+import { getAppointPageSelected } from '@/api/consent';
+import OssReceiveBackNotificationContent from '../../Details/components/OSSReceiveBackNotificationContent';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -105,7 +108,9 @@ class UnLoginCart extends React.Component {
       relatedGoodsList: [],
       mixFeedings: [],
       promotionsVisible: false,
-      circleLoading: false
+      circleLoading: false,
+      notifyMeStatus: false,
+      notifyMeConsent: []
     };
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
     this.showErrMsg = this.showErrMsg.bind(this);
@@ -188,6 +193,8 @@ class UnLoginCart extends React.Component {
     if (errMsg) {
       this.showErrMsg(errMsg);
     }
+
+    this.handleNotifyMeStatus();
   }
   get totalNum() {
     return this.state.productList
@@ -275,6 +282,31 @@ class UnLoginCart extends React.Component {
     });
     return numFlag;
   }
+
+  handleNotifyMeStatus = async () => {
+    const { configStore, loginStore } = this.props;
+    if (configStore?.info?.notifyMeStatus === '1') {
+      this.setState({
+        notifyMeStatus: true
+      });
+    }
+    const outOfStockGoods = this.unLoginCartData.filter((el) =>
+      el.sizeList?.some((it) => !it.stock)
+    );
+    const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+    if (!loginStore.isLogin && Ru && outOfStockGoods?.length) {
+      try {
+        const param = {
+          consentGroup: 'PDP-notifyme',
+          storeId: window.__.env.REACT_APP_STOREID
+        };
+        const res = await getAppointPageSelected(param);
+        this.setState({
+          notifyMeConsent: res?.context?.requiredList || []
+        });
+      } catch (e) {}
+    }
+  };
 
   getGoodsIdArr = () => {
     let goodsIdArr = this.unLoginCartData.map((item) => item.goodsId);
@@ -523,6 +555,7 @@ class UnLoginCart extends React.Component {
                 });
               }}
               showError={this.showErrMsg}
+              disabled={!pitem.stock}
             />
           </div>
         </div>
@@ -556,7 +589,10 @@ class UnLoginCart extends React.Component {
                           }}
                           className={cn(`rc-swatch__item`, {
                             selected: sdItem.selected,
-                            outOfStock: sdItem.isEmpty
+                            outOfStock:
+                              sdItem.isEmpty && !sdItem.canSelectedOutOfStock,
+                            canSelectedOutOfStockSku:
+                              sdItem.canSelectedOutOfStock
                           })}
                           key={i2}
                           onClick={() =>
@@ -577,7 +613,7 @@ class UnLoginCart extends React.Component {
     );
   };
   getProducts(plist) {
-    const { intl } = this.props;
+    const { intl, loginStore } = this.props;
     const { mixFeedings } = this.state;
 
     const Lists = plist.map((pitem, index) => {
@@ -724,82 +760,99 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             </div>
-            <div
-              className={cn(`buyMethodBox -mx-4`, {
-                'rc-two-column':
-                  pitem.subscriptionStatus && pitem.subscriptionPrice
-              })}
-            >
-              <div className="rc-column">
-                <OneOffSelection
-                  isGift={isGift}
-                  pitem={pitem}
-                  isLogin={false}
-                  chooseOneOff={this.hanldeToggleOneOffOrSub.bind(this, {
-                    goodsInfoFlag: 0,
-                    periodTypeId: null,
-                    pitem
-                  })}
-                />
-                {isGift && this.getSizeBox(pitem, index)}
-                {isGift && this.getQuantityBox(pitem, index)}
-              </div>
-              {pitem.subscriptionStatus &&
-              pitem.subscriptionPrice &&
-              this.tradePrice !== 0 ? (
-                <div className="rc-column  rc-padding-left--none--desktop">
-                  {!pitem.promotions || !pitem.promotions.includes('club') ? (
-                    <SubscriptionSelection
-                      isGift={isGift}
-                      pitem={pitem}
-                      activeToolTipIndex={this.state.activeToolTipIndex}
-                      index={index}
-                      toolTipVisible={this.state.toolTipVisible}
-                      computedList={this.computedList.filter(
-                        (el) => el.goodsInfoFlag === 1
-                      )}
-                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                        this,
-                        {
-                          goodsInfoFlag: 1,
-                          periodTypeId: pitem.form.frequencyId,
-                          pitem
-                        }
-                      )}
-                      changeFrequency={(pitem, data) =>
-                        this.handleSelectedItemChange(pitem, data)
-                      }
-                      isLogin={false}
-                      setState={this.setState.bind(this)}
-                    />
-                  ) : null}
-                  {pitem.promotions && pitem.promotions.includes('club') ? (
-                    <ClubSelection
-                      isGift={isGift}
-                      pitem={pitem}
-                      activeToolTipIndex={this.state.activeToolTipIndex}
-                      index={index}
-                      computedList={this.computedList.filter(
-                        (el) => el.goodsInfoFlag === 2
-                      )}
-                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                        this,
-                        {
-                          goodsInfoFlag: 2,
-                          periodTypeId: pitem.form.frequencyId,
-                          pitem
-                        }
-                      )}
-                      changeFrequency={(pitem, data) =>
-                        this.handleSelectedItemChange(pitem, data)
-                      }
-                      isLogin={false}
-                      setState={this.setState.bind(this)}
-                    />
-                  ) : null}
+            {pitem?.stock > 0 ? (
+              <div
+                className={cn(`buyMethodBox -mx-4`, {
+                  'rc-two-column':
+                    pitem.subscriptionStatus && pitem.subscriptionPrice
+                })}
+              >
+                <div className="rc-column">
+                  <OneOffSelection
+                    isGift={isGift}
+                    pitem={pitem}
+                    isLogin={false}
+                    chooseOneOff={this.hanldeToggleOneOffOrSub.bind(this, {
+                      goodsInfoFlag: 0,
+                      periodTypeId: null,
+                      pitem
+                    })}
+                  />
+                  {isGift && this.getSizeBox(pitem, index)}
+                  {isGift && this.getQuantityBox(pitem, index)}
                 </div>
-              ) : null}
-            </div>
+                {pitem.subscriptionStatus &&
+                pitem.subscriptionPrice &&
+                this.tradePrice !== 0 ? (
+                  <div className="rc-column  rc-padding-left--none--desktop">
+                    {!pitem.promotions || !pitem.promotions.includes('club') ? (
+                      <SubscriptionSelection
+                        isGift={isGift}
+                        pitem={pitem}
+                        activeToolTipIndex={this.state.activeToolTipIndex}
+                        index={index}
+                        toolTipVisible={this.state.toolTipVisible}
+                        computedList={this.computedList.filter(
+                          (el) => el.goodsInfoFlag === 1
+                        )}
+                        chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                          this,
+                          {
+                            goodsInfoFlag: 1,
+                            periodTypeId: pitem.form.frequencyId,
+                            pitem
+                          }
+                        )}
+                        changeFrequency={(pitem, data) =>
+                          this.handleSelectedItemChange(pitem, data)
+                        }
+                        isLogin={false}
+                        setState={this.setState.bind(this)}
+                      />
+                    ) : null}
+                    {pitem.promotions && pitem.promotions.includes('club') ? (
+                      <ClubSelection
+                        isGift={isGift}
+                        pitem={pitem}
+                        activeToolTipIndex={this.state.activeToolTipIndex}
+                        index={index}
+                        computedList={this.computedList.filter(
+                          (el) => el.goodsInfoFlag === 2
+                        )}
+                        chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                          this,
+                          {
+                            goodsInfoFlag: 2,
+                            periodTypeId: pitem.form.frequencyId,
+                            pitem
+                          }
+                        )}
+                        changeFrequency={(pitem, data) =>
+                          this.handleSelectedItemChange(pitem, data)
+                        }
+                        isLogin={false}
+                        setState={this.setState.bind(this)}
+                      />
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <div className="w-3/5">
+                <OssReceiveBackNotificationContent
+                  userInfo={loginStore.userInfo}
+                  details={pitem}
+                  form={pitem.form}
+                  isLogin={loginStore.isLogin}
+                  quantity={pitem.quantity}
+                  selectedSpecItem={
+                    pitem?.sizeList?.filter((el) => el.selected)?.[0]
+                  }
+                  notifyMeConsent={this.state.notifyMeConsent}
+                  visible={this.state.notifyMeStatus && !pitem.stock}
+                />
+              </div>
+            )}
           </div>
           {mixFeedings &&
           mixFeedings[index] &&
@@ -869,7 +922,10 @@ class UnLoginCart extends React.Component {
    */
   // tododo 有个bug是，存在两个sku，同spu，切换规格时，没有数量合并，只是删除操作的那条数据
   async handleChooseSize(sdItem, pitem, index) {
-    if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
+    if (
+      (sdItem.isEmpty && !sdItem.canSelectedOutOfStock) ||
+      sdItem.isUnitPriceZero
+    ) {
       return false;
     }
     pitem.goodsSpecs

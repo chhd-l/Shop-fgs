@@ -1220,6 +1220,7 @@ class Details extends React.Component {
               selectedSpecItem={selectedSpecItem}
               notifyMeConsent={this.state.notifyMeConsent}
               visible={this.state.ossReceiveBackNotificationContentVisible}
+              className={'mb-3 border'}
             />
           )}
           <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
@@ -1257,6 +1258,7 @@ class Details extends React.Component {
             notifyMeConsent={this.state.notifyMeConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
+            border={true}
           />
         )}
       </>
