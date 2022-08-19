@@ -555,6 +555,7 @@ class UnLoginCart extends React.Component {
                 });
               }}
               showError={this.showErrMsg}
+              disabled={!pitem.stock}
             />
           </div>
         </div>
@@ -837,7 +838,7 @@ class UnLoginCart extends React.Component {
                 ) : null}
               </div>
             ) : (
-              <div className="w-8/12">
+              <div className="w-3/5">
                 <OssReceiveBackNotificationContent
                   userInfo={loginStore.userInfo}
                   details={pitem}

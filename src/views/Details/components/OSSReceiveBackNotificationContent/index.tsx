@@ -21,7 +21,7 @@ export type OssReceiveBackNotificationContentProps = {
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
   notifyMeConsent: any;
-  border?:boolean;
+  className?:string;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -32,7 +32,7 @@ const OssReceiveBackNotificationContent = ({
   userInfo,
   form,
   notifyMeConsent,
-  border=false,
+  className,
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
@@ -127,7 +127,7 @@ const OssReceiveBackNotificationContent = ({
   const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
   const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
   return (
-    <div className={`p-4 mb-3 ${border?'border':''}`}>
+    <div className={`p-4 ${className}`}>
       <h2 className="text-base">
         {
           <FormattedMessage
@@ -161,7 +161,6 @@ const OssReceiveBackNotificationContent = ({
             </span>
 
             <Button
-              // size="small"
               onClick={() => setIsEdited(false)}
             >
               <FormattedMessage id="Modify e-mail" />
@@ -179,7 +178,6 @@ const OssReceiveBackNotificationContent = ({
               />
             <Button
               type="primary"
-              size="small"
               disabled={!btnStatus}
               onClick={handleSubmit}
             >
