@@ -838,20 +838,18 @@ class UnLoginCart extends React.Component {
                 ) : null}
               </div>
             ) : (
-              <div className="w-3/5">
-                <OssReceiveBackNotificationContent
-                  userInfo={loginStore.userInfo}
-                  details={pitem}
-                  form={pitem.form}
-                  isLogin={loginStore.isLogin}
-                  quantity={pitem.quantity}
-                  selectedSpecItem={
-                    pitem?.sizeList?.filter((el) => el.selected)?.[0]
-                  }
-                  notifyMeConsent={this.state.notifyMeConsent}
-                  visible={this.state.notifyMeStatus && !pitem.stock}
-                />
-              </div>
+              <OssReceiveBackNotificationContent
+                userInfo={loginStore.userInfo}
+                details={pitem}
+                form={pitem.form}
+                isLogin={loginStore.isLogin}
+                quantity={pitem.quantity}
+                selectedSpecItem={
+                  pitem?.sizeList?.filter((el) => el.selected)?.[0]
+                }
+                notifyMeConsent={this.state.notifyMeConsent}
+                visible={this.state.notifyMeStatus && !pitem.stock}
+              />
             )}
           </div>
           {mixFeedings &&
