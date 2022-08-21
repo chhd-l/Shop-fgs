@@ -7,8 +7,6 @@ import en_US from '@/lang/en_US';
 import { Provider } from 'mobx-react';
 import { IntlProvider } from 'react-intl';
 import Security from './Provider/Security';
-import { toRelativeUrl } from '@okta/okta-auth-js';
-import { TestOktaAuthProvider } from './Provider';
 
 const renderWithProvider = (
   ui: React.ReactElement,
@@ -19,8 +17,6 @@ const renderWithProvider = (
     stores?: any;
   }
 ) => {
-  const history = createMemoryHistory();
-
   const renderProvider: React.ComponentType = ({ children }) => {
     return (
       <Provider {...stores}>
