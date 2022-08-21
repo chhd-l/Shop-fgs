@@ -53,6 +53,7 @@ import { DatePickerComponent, Input } from '@/components/Common';
 import { phoneNumberMask } from '@/utils/constant';
 import { InitFormStatus } from './Constant';
 import FastRegisterCard from './FastRegisterCard';
+import SearchAddressPreview from './SearchAddressPreview';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
@@ -182,7 +183,8 @@ class Form extends React.Component {
       timeSlotList: [], // time slot
       postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
       errMsgObj: {},
-      curItemStatus: {}
+      curItemStatus: {},
+      showSearchAddressPreview: true
     };
     this.timer = null;
   }
@@ -597,14 +599,6 @@ class Form extends React.Component {
     const {
       configStore: { getSystemFormConfig, localAddressForm }
     } = this.props;
-
-    //过滤firstName 和 lastName
-    const filterAddressSetting = localAddressForm.settings.filter(
-      (addressItem) =>
-        addressItem.fieldKey !== 'firstName' &&
-        addressItem.fieldKey !== 'lastName' &&
-        addressItem.fieldKey !== 'country'
-    );
 
     await getSystemFormConfig();
 
@@ -1818,11 +1812,15 @@ class Form extends React.Component {
           value={caninForm[item.fieldKey] || ''}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
           name={item.fieldKey}
-          placeholder={
-            this.props.placeholder
-              ? this.props.intl.messages.inputSearchText
-              : ''
+          prefixIcon={
+            <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
           }
+          // placeholder={
+          //   this.props.placeholder
+          //     ? this.props.intl.messages.inputSearchText
+          //     : ''
+          // }
+          placeholder={item.fieldKey}
           customStyle={true}
           isLoadingList={false}
           isBottomPaging={true}
@@ -1966,7 +1964,6 @@ class Form extends React.Component {
     }
     caninForm[tname] = tvalue;
 
-    console.log({ tvalue });
     //checkout大改造
     if (tvalue == 0) {
       this.clearErrMsgObj(tname);
@@ -2227,8 +2224,12 @@ class Form extends React.Component {
             </div>
 
             <div className="mb-4 w-100">
-              {this.address1Item.length > 0 &&
-                this.addressSearchSelectionJSX(this.address1Item)}
+              {this.state.showSearchAddressPreview && (
+                <SearchAddressPreview data={this.state.caninForm} />
+              )}
+              {!this.state.showSearchAddressPreview &&
+                this.address1Item.length > 0 &&
+                this.addressSearchSelectionJSX(this.address1Item[0])}
             </div>
 
             {false &&
