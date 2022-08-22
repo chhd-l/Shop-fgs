@@ -198,7 +198,7 @@ class UnLoginCart extends React.Component {
   }
   get totalNum() {
     return this.state.productList
-      .filter((ele) => ele.selected)
+      .filter((ele) => ele.selected && !ele.stock)
       .reduce((pre, cur) => {
         return pre + cur.buyCount;
       }, 0);
