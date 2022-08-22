@@ -20,3 +20,10 @@ export const GAForChangeProductBtn = () => {
     myAccountActionName: 'Change product'
   });
 };
+
+export const GAForSeeMorePromotionBtn = () => {
+  window.dataLayer?.push({
+    event: 'myAccountAction', //String : constant
+    myAccountActionName: 'See more promotions' //String : constant
+  });
+};

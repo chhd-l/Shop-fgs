@@ -10,6 +10,7 @@ import {
   formatDate,
   getFormatDate
 } from '@/utils/utils';
+import { GAForSeeMorePromotionBtn } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
 import { AddressPreview } from '@/components/Address';
 import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
@@ -374,7 +375,10 @@ const UserPaymentInfo = ({
                 <a
                   className="rc-styled-link text-rc-red float-right"
                   style={{ marginTop: '5px', overflow: 'visible' }}
-                  onClick={() => setVisible(true)}
+                  onClick={() => {
+                    GAForSeeMorePromotionBtn();
+                    setVisible(true);
+                  }}
                 >
                   <FormattedMessage id="subscription.Seemore" />
                 </a>
