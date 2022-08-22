@@ -920,7 +920,7 @@ const App = () => {
                       case 'de':
                         return <DE_SubscriptionLanding {...props} />;
                       case 'uk':
-                        return <Redirect to={{ pathname: '/' }} {...props} />;
+                      // return <Redirect to={{ pathname: '/' }} {...props} />;
                       case 'se':
                       case 'us':
                         return <US_SubscriptionLanding {...props} />;
