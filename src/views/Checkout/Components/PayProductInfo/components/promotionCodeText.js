@@ -4,6 +4,7 @@ import { formatMoney } from '@/utils/utils';
 
 export default function PromotionCodeText({ el, i }) {
   const [promotionsVisible, setPromotionsVisible] = useState(false);
+  console.log(el);
   return (
     <div className="row leading-lines shipping-item green" key={i}>
       <div className="col-7 start-lines">

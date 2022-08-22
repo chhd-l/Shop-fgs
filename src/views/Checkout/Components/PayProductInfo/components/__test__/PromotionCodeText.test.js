@@ -1,16 +1,14 @@
 import React from 'react';
 import PromotionCodeText from '../promotionCodeText';
 import { render, act, screen, fireEvent } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import stores from '@/store';
+import renderWithProvider from '@/jest/renderWithProvider';
 describe('PromotionCodeText Test', () => {
   test('PromotionCodeText Test', async () => {
-    const el = { marketingName: '00.00' };
-    render(
-      <IntlProvider>
-        <PromotionCodeText el={el} />
-      </IntlProvider>
-    );
-    const promotionCodeText = screen.getByTestId('promotionCodeText');
+    const el = { marketingName: 100.123 };
+    renderWithProvider(<PromotionCodeText el={el} />, { stores });
+    const promotionCodeText1 = screen.getByTestId('promotionCodeText');
+    fireEvent.mouseEnter(promotionCodeText1);
+    fireEvent.mouseLeave(promotionCodeText1);
   });
 });
