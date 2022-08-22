@@ -23,6 +23,12 @@ Object.defineProperty(window, '__', {
     }
   }
 });
+// const location = { pathname: '', }
+// Object.defineProperty(window, 'location', {
+//   value: {
+//     ...location
+//   }
+// });
 
 // Object.defineProperty(stores, {
 //   value: {

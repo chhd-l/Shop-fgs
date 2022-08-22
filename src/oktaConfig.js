@@ -6,7 +6,24 @@ const ISSUER =
   'https://accountdev.royalcanin.com/oauth2/default';
 const OKTA_TESTING_DISABLEHTTPSCHECK =
   window.__.env.OKTA_TESTING_DISABLEHTTPSCHECK || false;
-
+export const oktaConfig = {
+  clientId: CLIENT_ID,
+  issuer: ISSUER,
+  // redirectUri: 'https://shopuat.466920.com/implicit/callback',
+  // redirectUri: window.__.env.REACT_APP_RedirectURL,
+  redirectUri: window.__.env.REACT_APP_RedirectURL,
+  scopes: [
+    'openid',
+    'profile',
+    'email',
+    'user.consent:read',
+    'user.profile:write',
+    'user.consent:delete',
+    'user.consent:collect'
+  ],
+  pkce: true,
+  disableHttpsCheck: OKTA_TESTING_DISABLEHTTPSCHECK
+};
 const oktaAuth = new OktaAuth({
   clientId: CLIENT_ID,
   issuer: ISSUER,

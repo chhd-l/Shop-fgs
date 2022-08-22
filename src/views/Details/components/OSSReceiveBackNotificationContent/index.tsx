@@ -21,7 +21,8 @@ export type OssReceiveBackNotificationContentProps = {
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
   notifyMeConsent: any;
-  border?:boolean;
+  className?:string;
+  pageType?:string;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -32,7 +33,8 @@ const OssReceiveBackNotificationContent = ({
   userInfo,
   form,
   notifyMeConsent,
-  border=false,
+  className,
+  pageType
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId } = details;
   const [email, setEmail] = useState<string>('');
@@ -82,8 +84,10 @@ const OssReceiveBackNotificationContent = ({
     setEmail(value);
   };
   const handleSubmit = async () => {
-    GABackInStockNotifyMeClick();
-    GABackToStockSubscription(details, { ...form, quantity });
+    if (pageType === 'pdp') {
+      GABackInStockNotifyMeClick();
+      GABackToStockSubscription(details, { ...form, quantity });
+    }
     if (!email || !EMAIL_REGEXP.test(email)) {
       return;
     }
@@ -126,8 +130,9 @@ const OssReceiveBackNotificationContent = ({
 
   const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
   const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
+  console.log(className,'className-')
   return (
-    <div className={`p-6 mb-3 ${border?'border':''}`}>
+    <div className={`p-4 ${className}`}>
       <h2 className="text-base">
         {
           <FormattedMessage
@@ -139,10 +144,10 @@ const OssReceiveBackNotificationContent = ({
           />
         }
       </h2>
-      <div className="mt-3 justify-between flex flex-col md:flex-row">
+      <div className="mt-3 flex flex-col md:flex-row">
         {isEdited ? (
           <>
-            <span className="rc-text-colour--success">
+            <span className="rc-text-colour--success mr-2">
               {email}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -162,6 +167,7 @@ const OssReceiveBackNotificationContent = ({
 
             <Button
               size="small"
+            className='mt-2'
               onClick={() => setIsEdited(false)}
             >
               <FormattedMessage id="Modify e-mail" />
@@ -170,7 +176,7 @@ const OssReceiveBackNotificationContent = ({
         ) : (
           <>
               <input
-                className="w-60 border-b-2"
+                className="w-60 border-b-2 mr-2"
                 id="id-text2"
                 type="email"
                 value={email}
@@ -178,8 +184,9 @@ const OssReceiveBackNotificationContent = ({
                 onChange={handleOnChange}
               />
             <Button
-              type="primary"
+            className='mt-2'
               size="small"
+              type="primary"
               disabled={!btnStatus}
               onClick={handleSubmit}
             >

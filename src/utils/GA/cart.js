@@ -87,7 +87,7 @@ export const GABackToStockSubscription = (item, form) => {
     goodsAttributesValueRelList,
     goodsType
   } = item;
-  const selectSku = item.sizeList.filter((i) => i.selected);
+  const selectSku = item.sizeList?.filter((i) => i.selected);
 
   let product = {
     pillar: pillarEnum[goodsType],
