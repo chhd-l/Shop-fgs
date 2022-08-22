@@ -7,9 +7,9 @@ import { RestoreOriginalUriFunction } from '@okta/okta-react/bundles/types/OktaC
 const testToken = <M extends Record<string, any>>(
   more: M
 ): AbstractToken & { claims: UserClaims } & Omit<
-    M,
-    keyof AbstractToken | 'claims'
-  > => {
+  M,
+  keyof AbstractToken | 'claims'
+> => {
   const {
     claims = { sub: 'test@test.com' },
     expiresAt = 999999999,
@@ -48,7 +48,7 @@ const restoreOriginalUri: RestoreOriginalUriFunction = async (
   _oktaAuth,
   originalUri
 ) => {
-  window.history.replace(toRelativeUrl(originalUri, window.location.origin));
+  (window.history as any).replace(toRelativeUrl(originalUri, window.location.origin));
 };
 const Security: React.FC<{ authorized?: boolean }> = ({
   authorized = true,
