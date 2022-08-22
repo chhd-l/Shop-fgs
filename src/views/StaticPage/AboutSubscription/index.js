@@ -56,9 +56,17 @@ function AboutSubscription(props) {
             </p>
             <div className="md:flex justify-evenly">
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center">
-                  Point 1
-                </h1>
+                <div className=" flex justify-center mb-2 md:mb-4">
+                  {/* <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center"> */}
+                  {/* Point 1 */}
+                  <img
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Subscription/Point1.png`}
+                    // src={Bitmap3}
+                    alt=""
+                    className="w-40"
+                  ></img>
+                  {/* </h1> */}
+                </div>
                 <p
                   className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
@@ -67,9 +75,17 @@ function AboutSubscription(props) {
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center">
-                  Point 2
-                </h1>
+                <div className=" flex justify-center mb-2 md:mb-4">
+                  {/* <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center"> */}
+                  {/* Point 1 */}
+                  <img
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Subscription/Point2.png`}
+                    // src={Bitmap3}
+                    alt=""
+                    className="w-40"
+                  ></img>
+                  {/* </h1> */}
+                </div>
                 <p
                   className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
@@ -78,9 +94,17 @@ function AboutSubscription(props) {
                 </p>
               </div>
               <div className="md:w-cs-320 mb-4 md:mb-0">
-                <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center">
-                  Point 3
-                </h1>
+                <div className=" flex justify-center mb-2 md:mb-4">
+                  {/* <h1 className="text-rc-red text-22 leading-7 mb-2 md:mb-4 md:text-40 md:leading-56 font-normal text-center"> */}
+                  {/* Point 1 */}
+                  <img
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Subscription/Point3.png`}
+                    // src={Bitmap3}
+                    alt=""
+                    className="w-40"
+                  ></img>
+                  {/* </h1> */}
+                </div>
                 <p
                   className="text-16 leading-6 font-PingFangSC md:leading-7 md:text-20 text-center"
                   style={{ color: '#666' }}
@@ -99,7 +123,7 @@ function AboutSubscription(props) {
           </div>
           <div className="throughLine"></div>
           {/* 2 */}
-          <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
+          {/* <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
             <h1 className="font-PingFangSC text-rc-red text-22 leading-8 md:text-30 md:leading-9 font-semibold text-center ">
               定期購入ご注文方法
             </h1>
@@ -109,18 +133,18 @@ function AboutSubscription(props) {
             >
               １）購入したい製品の詳細ページで「定期購入をする」ボタンをクリックしてください。
             </p>
-            <img src={Bitmap1} alt="" className="md:w-cs-920 md:h-cs-450" />
-            {/* pc */}
-            <p
+            <img src={Bitmap1} alt="" className="md:w-cs-920 md:h-cs-450" /> */}
+          {/* pc */}
+          {/* <p
               className="hidden md:block font-PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
               style={{ color: '#666' }}
             >
               ２）定期購入のショッピングカート画面で、「配送頻度」と「お届け回数」を選んでください。
               <br />
               ※お届け回数は、最低３回からお申込みいただけます。
-            </p>
-            {/* 手机 */}
-            <p
+            </p> */}
+          {/* 手机 */}
+          {/* <p
               className="block md:hidden font-PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
               style={{ color: '#666' }}
             >
@@ -135,7 +159,7 @@ function AboutSubscription(props) {
               ３）「レジへ進む」ボタンをクリックし、画面にしたがって購入完了まで進んでいただければ定期購入のご注文が完了します。
             </p>
           </div>
-          <div className="throughLine"></div>
+          <div className="throughLine"></div> */}
           <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
             <h1 className="font-PingFangSC text-rc-red text-22 leading-7 md:text-30 md:leading-10 font-semibold text-center mb-4 md:mb-6">
               会員ステージと保有ポイントの確認方法

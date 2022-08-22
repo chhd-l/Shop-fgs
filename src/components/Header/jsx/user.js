@@ -62,7 +62,7 @@ const UserJSX = (props) => {
                 {(txt) => (
                   <div
                     className="minicart-link"
-                    data-auto-testid="header_cart_btn"
+                    data-auto-testid="header_userinfo_btn"
                     data-loc="miniCartOrderBtn"
                     title={txt}
                   >
@@ -86,6 +86,7 @@ const UserJSX = (props) => {
                       <FormattedMessage id="account.notRegistred" />
                     </div>
                     <span
+                      data-auto-testid="header_register_btn"
                       // style="cursor:pointer"
                       className="rc-styled-link cursor-pointer inline-block"
                       // className="rc-styled-link"
