@@ -255,6 +255,7 @@ class SearchSelection extends React.Component {
         },
         () => {
           this.setFormItemStatus('inputOk');
+          this.props.showSearchAddressPreviewFun();
         }
       );
       this.otherValue = item?.newName || item.name;

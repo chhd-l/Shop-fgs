@@ -184,7 +184,7 @@ class Form extends React.Component {
       postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
       errMsgObj: {},
       curItemStatus: {},
-      showSearchAddressPreview: true
+      showSearchAddressPreview: false
     };
     this.timer = null;
   }
@@ -1824,6 +1824,9 @@ class Form extends React.Component {
           customStyle={true}
           isLoadingList={false}
           isBottomPaging={true}
+          showSearchAddressPreviewFun={() => {
+            this.setState({ showSearchAddressPreview: true });
+          }}
         />
       </>
     );
@@ -2225,7 +2228,15 @@ class Form extends React.Component {
 
             <div className="mb-4 w-100">
               {this.state.showSearchAddressPreview && (
-                <SearchAddressPreview data={this.state.caninForm} />
+                <SearchAddressPreview
+                  data={this.state.caninForm}
+                  setCaninForm={(caninForm) => {
+                    this.setState({ caninForm });
+                  }}
+                  hideSearchAddressPreview={() => {
+                    this.setState({ showSearchAddressPreview: false });
+                  }}
+                />
               )}
               {!this.state.showSearchAddressPreview &&
                 this.address1Item.length > 0 &&

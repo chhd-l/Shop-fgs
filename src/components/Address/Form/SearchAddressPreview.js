@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const SearchAddressPreview = (props) => {
   console.log(props.data);
+  const { data, hideSearchAddressPreview, setCaninForm } = props;
   const { address1, city, deliveryAddress, postCode, county } = props.data;
 
   const [isEditingAddr2, setIsEditingAddr2] = useState(false);
@@ -13,17 +14,24 @@ const SearchAddressPreview = (props) => {
 
   const inputChange = (e) => {
     setAdd2(e.target.value);
+    const caninForm = { ...data, ...{ address2: e.target.value } };
+    setCaninForm(caninForm);
   };
   return (
     <>
       <span className="ml-1 mr-2 text-cs-gray text-14">Address</span>
       <span className="iconfont iconchenggong text-form-ok"></span>
       <div className="relative pl-7 py-5 bg-gray-100 rounded-xl">
-        <span className="absolute right-4 top-2 text-14 font-medium underline">
+        <span
+          className="absolute right-4 top-2 text-14 font-medium underline cursor-pointer"
+          onClick={hideSearchAddressPreview}
+        >
           Modify
         </span>
-        <div className="text-cs-gray text-14">address1</div>
-        <div className="text-cs-gray text-14">postCode city</div>
+        <div className="text-cs-gray text-14">{address1}</div>
+        <div className="text-cs-gray text-14">
+          {postCode} {city}
+        </div>
         {!isEditingAddr2 ? (
           <div
             className="text-cs-black text-14 font-medium underline cursor-pointer"
