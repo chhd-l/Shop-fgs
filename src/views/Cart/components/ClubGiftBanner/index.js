@@ -2,6 +2,7 @@ import React from 'react';
 import ClubBanner_Logo_ru from '@/assets/images/club_banner_logo_ru.png';
 import ClubBanner_Logo_en from '@/assets/images/club_banner_logo_en.png';
 import ClubBanner_Logo_tr from '@/assets/images/club_banner_logo_tr.png';
+import ClubBanner_Logo_fr from '@/assets/images/club_banner_logo_fr.png';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 
@@ -10,13 +11,19 @@ if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   ClubBanner_Logo = ClubBanner_Logo_ru;
 } else if (window.__.env.REACT_APP_COUNTRY === 'tr') {
   ClubBanner_Logo = ClubBanner_Logo_tr;
+} else if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+  ClubBanner_Logo = ClubBanner_Logo_fr;
 }
 
 export default function ClubGiftBanner(props) {
   console.log(props, 'props');
   return (
     <div className="club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info row">
-      <div className="col-12 col-md-6 d-flex">
+      <div
+        className={`col-12 col-md-6 d-flex ${
+          ['fr'].includes(window.__.env.REACT_APP_COUNTRY) && 'justify-center'
+        }`}
+      >
         <LazyLoad>
           <img className="img w-100" src={ClubBanner_Logo} />
         </LazyLoad>
