@@ -24,6 +24,7 @@ export default function PromotionCodeText({ el, i }) {
           }
         >
           <p
+            data-testid="promotionCodeText"
             className="order-shipping-cost ui-text-overflow-line2"
             id={`marketingName${i}`}
             onMouseEnter={(e) => {
