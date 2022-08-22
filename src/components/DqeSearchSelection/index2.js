@@ -1,6 +1,7 @@
 import React from 'react';
 import { getRandom } from '@/utils/utils';
 import cn from 'classnames';
+import { InitFormStatus } from './Constant';
 
 /**
  * 带有远程搜索功能的下拉选择组件
@@ -31,7 +32,9 @@ class SearchSelection extends React.Component {
       loadingList: false,
       placeholder: this.props.placeholder,
       searchForNoResult: true,
-      random: getRandom()
+      random: getRandom(),
+      Status: 'empty',
+      InitFormStatus: { ...InitFormStatus }
     };
     this.timer = null;
     this.otherValue = '';
@@ -62,9 +65,21 @@ class SearchSelection extends React.Component {
       return;
     };
   };
+  //checkout大改造
+  setFormItemStatus = (Status) => {
+    this.setState({ Status });
+  };
+
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();
     const target = e.target;
+
+    if (target.value.length > 0) {
+      this.setFormItemStatus('normal');
+    } else {
+      this.setFormItemStatus('empty');
+    }
+
     const { form } = this.state;
     try {
       form.value = target.value;
@@ -230,47 +245,64 @@ class SearchSelection extends React.Component {
     } else {
       const form = { ...this.state.form };
       form.value = item?.newName || item.name;
-      this.setState({
-        form: form,
-        optionList: [],
-        optionPanelVisible: false,
-        currentItem: item?.newName || item.name,
-        otherValue: item?.newName || item.name
-      });
+      this.setState(
+        {
+          form: form,
+          optionList: [],
+          optionPanelVisible: false,
+          currentItem: item?.newName || item.name,
+          otherValue: item?.newName || item.name
+        },
+        () => {
+          this.setFormItemStatus('inputOk');
+          this.props.showSearchAddressPreviewFun();
+        }
+      );
       this.otherValue = item?.newName || item.name;
       this.props.selectedItemChange(item);
     }
   };
   render() {
-    const { optionList, form, random } = this.state;
+    const { optionList, form, random, Status, InitFormStatus } = this.state;
+    const statusObj = InitFormStatus[Status];
     const { name } = this.props;
     return (
       <form className={`fullWidth dqeFormSpace_${random}`} autoComplete="off">
         <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
           {
-            <span className={cn('min-w-min text-sm my-1')}>
-              {/* <FormattedMessage id={`payment.${name}`} /> */}
-              {name}
-            </span>
+            <>
+              <span
+                className={cn('min-w-min text-sm my-1 pr-3', {
+                  visible: statusObj.showLabel,
+                  invisible: !statusObj.showLabel
+                })}
+              >
+                {/* <FormattedMessage id={`payment.${name}`} /> */}
+                {name}
+              </span>
+            </>
           }
           <div
             className={`${this.props.customCls} ${
               this.props.customStyle
-                ? 'w-full'
+                ? 'w-full relative'
                 : 'rc-input rc-input--full-width rc-margin-y--xs'
             } searchSelection`}
           >
-            {this.props.prefixIcon}
             {/* 解决表单只有一个input元素时按下enter自动提交问题，添加一个隐藏的input输入框即可 */}
             <input type="text" className="hidden"></input>
+            {this.props.prefixIcon}
             <input
               type="text"
               placeholder={this.state.placeholder}
-              className={`${
-                this.props.customStyle
-                  ? 'w-full text-14 py-2 placeholder-primary placeholder-opacity-50 border-b border-form'
-                  : 'form-control'
-              }`}
+              className={cn(
+                {
+                  'w-full text-14 py-2 placeholder-primary placeholder-opacity-50 border-b border-form':
+                    this.props.customStyle
+                },
+                { 'form-control': !this.props.customStyle },
+                { 'pl-5': this.props.prefixIcon }
+              )}
               value={form.value || ''}
               onChange={(e) => this.handleInputChange(e)}
               onFocus={this.handleInputFocus}
@@ -278,7 +310,7 @@ class SearchSelection extends React.Component {
               ref={this.searchText}
               name={this.props.name}
               autoComplete="off"
-            />
+            ></input>
             {/* {this.props.customStyle && <label className="rc-input__label" />} */}
             {this.state.optionPanelVisible && (
               <div className="border bg-white rounded-b-2xl z-50">
