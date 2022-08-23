@@ -116,6 +116,15 @@ class Form extends React.Component {
   get address1Item() {
     return this.state.formList.filter((item) => item.fieldKey == 'address1');
   }
+  get address2Item() {
+    return this.state.formList.filter((item) => item.fieldKey == 'address2');
+  }
+  get postCodeItem() {
+    return this.state.formList.filter((item) => item.fieldKey == 'postCode');
+  }
+  get cityItem() {
+    return this.state.formList.filter((item) => item.fieldKey == 'city');
+  }
   get formListOption() {
     return this.state.formList.filter((item) => item.requiredFlag == 0);
   }
@@ -187,7 +196,8 @@ class Form extends React.Component {
       postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
       errMsgObj: {},
       curItemStatus: {},
-      showSearchAddressPreview: false
+      showSearchAddressPreview: false,
+      isManualInputAddress: false
     };
     this.timer = null;
   }
@@ -1739,8 +1749,26 @@ class Form extends React.Component {
     data.errMsgEn = errArrEn.join(',');
     return data;
   };
+
+  //手动输入提示
+  manualInputAddressJSX = () => {
+    return (
+      <div className="text-cs-gray text-14 pt-2">
+        Ou{' '}
+        <span
+          className="text-cs-black underline cursor-pointer text-14"
+          onClick={() => {
+            this.setState({ isManualInputAddress: true });
+          }}
+        >
+          saisir une adresse manuellment
+        </span>
+      </div>
+    );
+  };
+
   // 地址搜索框
-  addressSearchSelectionJSX = (item) => {
+  addressSearchSelectionJSX = (item, callback) => {
     const { caninForm, apiType } = this.state;
 
     return (
@@ -1831,6 +1859,7 @@ class Form extends React.Component {
             this.setState({ showSearchAddressPreview: true });
           }}
         />
+        {callback()}
       </>
     );
   };
@@ -2229,7 +2258,11 @@ class Form extends React.Component {
               <FastRegisterCard />
             </div>
 
-            <div className="mb-4 w-100">
+            <div
+              className={cn('mb-4 w-100', {
+                hidden: this.state.isManualInputAddress
+              })}
+            >
               {this.state.showSearchAddressPreview && (
                 <SearchAddressPreview
                   caninForm={this.state.caninForm}
@@ -2244,7 +2277,35 @@ class Form extends React.Component {
               )}
               {!this.state.showSearchAddressPreview &&
                 this.address1Item.length > 0 &&
-                this.addressSearchSelectionJSX(this.address1Item[0])}
+                this.addressSearchSelectionJSX(
+                  this.address1Item[0],
+                  this.manualInputAddressJSX
+                )}
+            </div>
+            <div
+              className={cn('py-2', {
+                hidden: !this.state.isManualInputAddress
+              })}
+            >
+              <div className="w-full mb-10">
+                {this.address1Item.length > 0 &&
+                  this.newInputJSX(this.address1Item[0])}
+              </div>
+              <div className="w-full mb-10">
+                {this.address2Item.length > 0 &&
+                  this.newInputJSX(this.address2Item[0])}
+              </div>
+              <div className="flex mb-10">
+                <div className="flex-1">
+                  {this.postCodeItem.length > 0 &&
+                    this.newInputJSX(this.postCodeItem[0])}
+                </div>
+                <div className="w-5"></div>
+                <div className="flex-1">
+                  {this.cityItem.length > 0 &&
+                    this.newInputJSX(this.cityItem[0])}
+                </div>
+              </div>
             </div>
 
             {false &&
