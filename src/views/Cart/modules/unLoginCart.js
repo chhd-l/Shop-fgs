@@ -197,8 +197,9 @@ class UnLoginCart extends React.Component {
     this.handleNotifyMeStatus();
   }
   get totalNum() {
+    console.log(toJS(this.state.productList), 'pppp');
     return this.state.productList
-      .filter((ele) => ele.selected && !ele.stock)
+      .filter((ele) => ele.selected && ele.stock)
       .reduce((pre, cur) => {
         return pre + cur.buyCount;
       }, 0);
