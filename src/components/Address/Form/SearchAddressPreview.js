@@ -1,22 +1,56 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
+import cn from 'classnames';
 
 const SearchAddressPreview = (props) => {
-  console.log(props.data);
-  const { data, hideSearchAddressPreview, setCaninForm } = props;
-  const { address1, city, deliveryAddress, postCode, county } = props.data;
+  const { caninForm, hideSearchAddressPreview, setCaninForm, formListOption } =
+    props;
+  const { address1, city, deliveryAddress, postCode, county } = props.caninForm;
 
   const [isEditingAddr2, setIsEditingAddr2] = useState(false);
-  const [add2, setAdd2] = useState('');
 
   const editAdd2 = () => {
     setIsEditingAddr2(!isEditingAddr2);
   };
 
-  const inputChange = (e) => {
-    setAdd2(e.target.value);
-    const caninForm = { ...data, ...{ address2: e.target.value } };
-    setCaninForm(caninForm);
+  const newInputChange = (e) => {
+    const target = e.target;
+    const name = target.name;
+    const value = target.value;
+    const newCaninForm = { ...caninForm, ...{ [name]: value } };
+    setCaninForm(newCaninForm);
   };
+
+  const newInputJSX = (item) => {
+    const statusObj = item.InitFormStatus[item.Status];
+    return (
+      <>
+        <div className="w-56">
+          <label className="flex flex-col">
+            <div className="relative">
+              <input
+                className={`${statusObj['border']} w-full bg-gray-100 text-14 py-2 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`}
+                id={`${item.fieldKey}Shipping`}
+                type={item.filedType}
+                value={caninForm[item.fieldKey] || ''}
+                onChange={newInputChange}
+                name={item.fieldKey}
+                disabled={item?.disabled ? true : false}
+                autoComplete="off"
+                placeholder={item.fieldKey}
+              />
+              <i
+                className={cn(
+                  'absolute right-0 top-1 iconfont',
+                  statusObj['iconCss']
+                )}
+              ></i>
+            </div>
+          </label>
+        </div>
+      </>
+    );
+  };
+
   return (
     <>
       <span className="ml-1 mr-2 text-cs-gray text-14">Address</span>
@@ -47,12 +81,19 @@ const SearchAddressPreview = (props) => {
             >
               Complement d'address
             </div>
-            <input
-              className="text-14 bg-gray-100 py-1 border-b border-black w-52 text-cs-gray"
-              type="text"
-              value={add2}
-              onChange={inputChange}
-            />
+            {formListOption.map((item, index) => {
+              return (
+                <Fragment key={index}>
+                  {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
+                  {item.inputFreeTextFlag == 1 &&
+                  item.inputSearchBoxFlag == 0 ? (
+                    <>
+                      {item.fieldKey == 'comment' ? <></> : newInputJSX(item)}
+                    </>
+                  ) : null}
+                </Fragment>
+              );
+            })}
           </div>
         )}
       </div>

@@ -116,6 +116,9 @@ class Form extends React.Component {
   get address1Item() {
     return this.state.formList.filter((item) => item.fieldKey == 'address1');
   }
+  get formListOption() {
+    return this.state.formList.filter((item) => item.requiredFlag == 0);
+  }
 
   constructor(props) {
     super(props);
@@ -2229,7 +2232,8 @@ class Form extends React.Component {
             <div className="mb-4 w-100">
               {this.state.showSearchAddressPreview && (
                 <SearchAddressPreview
-                  data={this.state.caninForm}
+                  caninForm={this.state.caninForm}
+                  formListOption={this.formListOption}
                   setCaninForm={(caninForm) => {
                     this.setState({ caninForm });
                   }}
