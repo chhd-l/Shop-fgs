@@ -2186,6 +2186,8 @@ class Payment extends React.Component {
         sessionItemRoyal.remove('guestInfo');
         //localItemRoyal.remove('rc-promotionCode');
         this.props.checkoutStore.removePromotionCode();
+        //清除支付方式
+        this.props.paymentStore.removePayWayNameArr();
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
