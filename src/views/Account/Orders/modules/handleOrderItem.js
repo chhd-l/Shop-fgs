@@ -26,8 +26,8 @@ export function handleOrderItem(ele, res) {
     // goodsInfoFlag=3是indv的商品，需要隐藏加入购物车这个按钮
     canRePurchase:
       !ele.appointmentNo &&
-      !ele.tradeItems?.find((el) => el.goodsInfoFlag === 3) &&
-      (tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID'),
+      !ele.tradeItems?.find((el) => el.goodsInfoFlag === 3),
+    //  && (tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID'),
     canReview:
       !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
       ele.orderType !== 'ORDER_SERVICE' &&
