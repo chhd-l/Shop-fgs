@@ -228,9 +228,11 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore;
   }
   get totalNum() {
-    return this.state.productList.reduce((prev, cur) => {
-      return prev + cur.buyCount;
-    }, 0);
+    return this.state.productList
+      .filter((ele) => !ele.stock)
+      .reduce((prev, cur) => {
+        return prev + cur.buyCount;
+      }, 0);
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;

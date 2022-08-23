@@ -72,6 +72,11 @@ const Ration = ({ goodsNo, setState }: Props) => {
   useEffect(() => {
     getRationInfos();
   }, []);
+
+  // ru local need hide product-finder
+  if(window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE){
+    return null;
+  }
   return (
     <div>
       {isFromPF ? (
