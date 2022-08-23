@@ -1251,7 +1251,7 @@ class List extends React.Component {
       });
   }
   setSEO({ cateIds = [] } = {}) {
-    const { pathname } = this.props.history.location;
+    const { pathname, search } = this.props.history.location;
     const { keywords } = this.state;
     if (keywords) {
       setSeoConfig({ pageName: 'Search Results Page' }).then((res) => {
@@ -1264,7 +1264,7 @@ class List extends React.Component {
       setSeoConfig({
         categoryId: cateIds[0],
         pageName: 'Product List Page',
-        navigationLink: pathname
+        navigationLink: pathname + search
       }).then((res) => {
         this.setState({ seoConfig: res });
       });
