@@ -17,7 +17,8 @@ import {
   GAInstantSearchResultClick
 } from '@/utils/GA';
 
-const isHub = window.__.env.REACT_APP_HUB;
+const isHub =
+  window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE; // ru local use hubHeader
 let sessionItemRoyal = window.__.sessionItemRoyal;
 
 const getSearchContainerMaxHeight = () => {
