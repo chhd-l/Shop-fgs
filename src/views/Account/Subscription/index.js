@@ -32,7 +32,7 @@ import { Canonical, Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const country = window.__.env.REACT_APP_GA_COUNTRY;
-
+const isRuLocal = window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE;
 //针对ru和tr noSubscription采用这个页面
 const clubNoSubscription = function () {
   let clubListData = [
@@ -84,7 +84,7 @@ const clubNoSubscription = function () {
           <FormattedMessage id="subscription.clubNoSubscription.tip2" />
         </p>
         <div className="rc-margin-top--sm">
-          <Link to="/club">
+          <Link to={isRuLocal ? '/club' : '/club-subscription'}>
             <Button type="primary">
               <FormattedMessage id="subscription.clubNoSubscription.getStart" />
             </Button>

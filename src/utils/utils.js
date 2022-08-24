@@ -839,6 +839,13 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       sessionKey == 'footer-hub' &&
       window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
     ) {
+      ruLocalFooter?.MenuItems.forEach((outerItem) => {
+        let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
+        if (outterisOtherUrl === false) {
+          outerItem.Link.Url =
+            window.__.env.REACT_APP_URLPREFIX + outerItem.Link.Url;
+        }
+      });
       ruLocalFooter?.MenuGroups.forEach((outerItem) => {
         let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
         if (outterisOtherUrl === false) {
