@@ -53,7 +53,7 @@ const SearchAddressPreview = (props) => {
 
   return (
     <>
-      <span className="ml-1 mr-2 text-cs-gray text-14">Address</span>
+      <span className="mb-1 ml-1 mr-2 text-cs-gray text-14">Address</span>
       <span className="iconfont iconchenggong text-form-ok"></span>
       <div className="relative pl-7 py-5 bg-gray-100 rounded-xl">
         <span

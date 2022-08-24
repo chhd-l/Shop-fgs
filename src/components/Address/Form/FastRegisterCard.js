@@ -37,7 +37,7 @@ const FastRegisterCard = ({ onChange = () => {} }, ref) => {
   return (
     <div
       className="fast-register-card p-4 border rounded border-gray-300"
-      style={{ maxWidth: 280, height: 300 }}
+      style={{ height: 300 }}
     >
       <div className="text-16 text-black font-medium">
         Vous voulez gagner du temps?

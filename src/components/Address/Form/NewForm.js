@@ -125,6 +125,9 @@ class Form extends React.Component {
   get cityItem() {
     return this.state.formList.filter((item) => item.fieldKey == 'city');
   }
+  get phoneNumberItem() {
+    return this.state.formList.filter((item) => item.fieldKey == 'phoneNumber');
+  }
   get formListOption() {
     return this.state.formList.filter((item) => item.requiredFlag == 0);
   }
@@ -1756,7 +1759,7 @@ class Form extends React.Component {
       <div className="text-cs-gray text-14 pt-2">
         Ou{' '}
         <span
-          className="text-cs-black underline cursor-pointer text-14"
+          className="text-cs-black underline cursor-pointer text-14 font-medium"
           onClick={() => {
             this.setState({ isManualInputAddress: true });
           }}
@@ -2041,7 +2044,7 @@ class Form extends React.Component {
 
             <div className="relative">
               <input
-                className={`${statusObj['border']} w-full text-14 py-2 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`}
+                className={`${statusObj['border']} w-full text-14 pt-2 pb-3 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`}
                 onFocus={this.newInputFous}
                 id={`${item.fieldKey}Shipping`}
                 type={item.filedType}
@@ -2240,22 +2243,27 @@ class Form extends React.Component {
           <Skeleton height="10%" count={4} />
         ) : (
           <div>
-            <div className="flex">
-              <div className="w-full md:w-80 flex flex-col mr-0 md:mr-20">
-                <div className="mb-10 w-100">
+            <div className="flex flex-col md:flex-row">
+              <div className="w-full md:w-1/2 flex flex-col mr-0 md:mr-20">
+                <div className="mb-1 md:mb-10 w-100">
                   {this.emailItem.length > 0 &&
                     this.newInputJSX(this.emailItem[0])}
                 </div>
-                <div className="mb-10 w-100">
+                <div className="md:hidden mb-3">
+                  <FastRegisterCard />
+                </div>
+                <div className="mb-1 md:mb-10 w-100">
                   {this.firstNameItem.length > 0 &&
                     this.newInputJSX(this.firstNameItem[0])}
                 </div>
-                <div className="mb-10 w-100">
+                <div className="mb-1 md:mb-10 w-100">
                   {this.lastNameItem.length > 0 &&
                     this.newInputJSX(this.lastNameItem[0])}
                 </div>
               </div>
-              <FastRegisterCard />
+              <div className="hidden md:flex md:w-1/2">
+                <FastRegisterCard />
+              </div>
             </div>
 
             <div
@@ -2287,15 +2295,15 @@ class Form extends React.Component {
                 hidden: !this.state.isManualInputAddress
               })}
             >
-              <div className="w-full mb-10">
+              <div className="w-full mb-1 md:mb-10">
                 {this.address1Item.length > 0 &&
                   this.newInputJSX(this.address1Item[0])}
               </div>
-              <div className="w-full mb-10">
+              <div className="w-full mb-1 md:mb-10">
                 {this.address2Item.length > 0 &&
                   this.newInputJSX(this.address2Item[0])}
               </div>
-              <div className="flex mb-10">
+              <div className="flex mb-1 md:mb-10">
                 <div className="flex-1">
                   {this.postCodeItem.length > 0 &&
                     this.newInputJSX(this.postCodeItem[0])}
@@ -2306,6 +2314,10 @@ class Form extends React.Component {
                     this.newInputJSX(this.cityItem[0])}
                 </div>
               </div>
+            </div>
+            <div className="mt-1 w-full md:w-1/2">
+              {this.phoneNumberItem.length > 0 &&
+                this.newInputJSX(this.phoneNumberItem[0])}
             </div>
 
             {false &&
