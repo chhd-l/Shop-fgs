@@ -215,6 +215,7 @@ class Form extends React.Component {
     };
     this.timer = null;
     this.add1ActionSheet = React.createRef();
+    this.dqeSearchSelection = React.createRef();
   }
   async componentDidMount() {
     const {
@@ -302,14 +303,6 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
-
-  handleOpen = () => {
-    this.add1ActionSheet.current.open();
-  };
-
-  handleClose = () => {
-    this.add1ActionSheet.current.close();
-  };
 
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
@@ -1719,11 +1712,16 @@ class Form extends React.Component {
     if (apiType === 'DADATA') {
       this.props.getFormAddressValidFlag(false);
     } else {
-      this.setState({
-        newAddress1: tvalue,
-        addrSearchSelectFlag: false,
-        caninForm
-      });
+      this.setState(
+        {
+          newAddress1: tvalue,
+          addrSearchSelectFlag: false,
+          caninForm
+        },
+        () => {
+          console.log(123, this.state.caninForm);
+        }
+      );
     }
     // 验证数据
     this.validvalidationData(tname, tvalue);
@@ -1792,13 +1790,20 @@ class Form extends React.Component {
   };
 
   // 地址搜索框
-  addressSearchSelectionJSX = ({ item, callback }) => {
+  addressSearchSelectionJSX = ({
+    item,
+    callback,
+    prefixIcon = '',
+    hideLabel = true,
+    afterFixIcon = ''
+  }) => {
     const { caninForm, apiType } = this.state;
 
     return (
       <>
         <SearchSelection
           {...this.props}
+          ref={this.dqeSearchSelection}
           queryList={async ({ inputVal }) => {
             let res = null;
             let robj = null;
@@ -1867,9 +1872,9 @@ class Form extends React.Component {
           value={caninForm[item.fieldKey] || ''}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
           name={item.fieldKey}
-          prefixIcon={
-            <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
-          }
+          prefixIcon={prefixIcon}
+          afterFixIcon={afterFixIcon}
+          hideLable={hideLabel}
           // placeholder={
           //   this.props.placeholder
           //     ? this.props.intl.messages.inputSearchText
@@ -1971,8 +1976,7 @@ class Form extends React.Component {
     const name = target.name;
     const value = target.value;
     if (name == 'address1') {
-      console.log(123);
-      this.handleOpen();
+      this.add1ActionSheet.current.open();
     }
   };
   //checkout大改造
@@ -2263,6 +2267,16 @@ class Form extends React.Component {
     );
   };
 
+  clearAddr1KeyWords = () => {
+    const { caninForm } = this.state;
+    const newCaninForm = {
+      ...caninForm,
+      ...{ address1: '', deliveryAddress: '' }
+    };
+    this.setState({ caninForm: newCaninForm, showSearchAddressPreview: false });
+    this.dqeSearchSelection.current.clearForm();
+  };
+
   render() {
     const {
       dataLoading,
@@ -2321,10 +2335,13 @@ class Form extends React.Component {
               {!this.state.showSearchAddressPreview &&
                 !isMobile &&
                 this.address1Item.length > 0 &&
-                this.addressSearchSelectionJSX(
-                  this.address1Item[0],
-                  this.manualInputAddressJSX
-                )}
+                this.addressSearchSelectionJSX({
+                  item: this.address1Item[0],
+                  callback: this.manualInputAddressJSX,
+                  prefixIcon: (
+                    <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
+                  )
+                })}
               {!this.state.showSearchAddressPreview &&
                 isMobile &&
                 this.address1Item.length > 0 &&
@@ -2369,11 +2386,29 @@ class Form extends React.Component {
                 this.newInputJSX({ item: this.phoneNumberItem[0] })}
             </div>
             <ActionSheet ref={this.add1ActionSheet} className="ACTION-SHEET">
-              <div className="">
-                <div className="text-16 text-cs-gray">Chercher une adresse</div>
+              <div className="relative">
+                <div className="px-2 py-5 text-16 font-medium text-cs-gray">
+                  Chercher une adresse
+                </div>
+                <span
+                  className="text-14 text-cs-gray absolute right-5 top-5 iconfont iconguan"
+                  onClick={() => {
+                    this.add1ActionSheet.current.close();
+                  }}
+                ></span>
                 {this.address1Item.length > 0 &&
                   this.addressSearchSelectionJSX({
-                    item: this.address1Item[0]
+                    item: this.address1Item[0],
+                    prefixIcon: <></>,
+                    hideLabel: false,
+                    afterFixIcon: (
+                      <span
+                        className="absolute text-14 right-3 top-2 text-gray-400"
+                        onClick={this.clearAddr1KeyWords}
+                      >
+                        Clear
+                      </span>
+                    )
                   })}
               </div>
             </ActionSheet>

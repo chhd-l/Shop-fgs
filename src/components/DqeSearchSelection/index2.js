@@ -18,7 +18,10 @@ class SearchSelection extends React.Component {
     name: '',
     isCitySearchSelection: false,
     searchSelectionBlur: () => {},
-    searchInputChange: () => {}
+    searchInputChange: () => {},
+    hideLabel: true,
+    afterFixIcon: '',
+    defaultValue: ''
   };
   constructor(props) {
     super(props);
@@ -64,6 +67,12 @@ class SearchSelection extends React.Component {
     this.setState = (state, callback) => {
       return;
     };
+  };
+  //
+  clearForm = () => {
+    const { form } = this.state;
+    const newForm = { ...form, ...{ value: '' } };
+    this.setState({ form: newForm });
   };
   //checkout大改造
   setFormItemStatus = (Status) => {
@@ -265,7 +274,7 @@ class SearchSelection extends React.Component {
   render() {
     const { optionList, form, random, Status, InitFormStatus } = this.state;
     const statusObj = InitFormStatus[Status];
-    const { name } = this.props;
+    const { name, hideLabel } = this.props;
     return (
       <form className={`fullWidth dqeFormSpace_${random}`} autoComplete="off">
         <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
@@ -274,7 +283,8 @@ class SearchSelection extends React.Component {
               <span
                 className={cn('min-w-min text-sm my-1 pr-3', {
                   visible: statusObj.showLabel,
-                  invisible: !statusObj.showLabel
+                  invisible: !statusObj.showLabel,
+                  hidden: hideLabel
                 })}
               >
                 {/* <FormattedMessage id={`payment.${name}`} /> */}
@@ -311,6 +321,7 @@ class SearchSelection extends React.Component {
               name={this.props.name}
               autoComplete="off"
             ></input>
+            {this.props.afterFixIcon}
             {/* {this.props.customStyle && <label className="rc-input__label" />} */}
             {this.state.optionPanelVisible && (
               <div className="border bg-white rounded-b-2xl z-50">
