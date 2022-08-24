@@ -11,7 +11,7 @@
  * 3、imask.js 插件，设置文本框输入内容格式。https://imask.js.org/
  *
  *********/
-import React, { Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import {
@@ -54,6 +54,8 @@ import { phoneNumberMask } from '@/utils/constant';
 import { InitFormStatus } from './Constant';
 import FastRegisterCard from './FastRegisterCard';
 import SearchAddressPreview from './SearchAddressPreview';
+import ActionSheet from 'actionsheet-react';
+import './ActionSheet.css';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
@@ -84,6 +86,15 @@ function ToCDB(str) {
   }
   return tmp;
 }
+
+const style = {
+  content: {
+    height: 600,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+};
 
 @inject('configStore', 'loginStore')
 @injectIntl
@@ -203,6 +214,7 @@ class Form extends React.Component {
       isManualInputAddress: false
     };
     this.timer = null;
+    this.add1ActionSheet = React.createRef();
   }
   async componentDidMount() {
     const {
@@ -290,6 +302,15 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
+
+  handleOpen = () => {
+    this.add1ActionSheet.current.open();
+  };
+
+  handleClose = () => {
+    this.add1ActionSheet.current.close();
+  };
+
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
     const { apiType } = this.state;
@@ -1771,7 +1792,7 @@ class Form extends React.Component {
   };
 
   // 地址搜索框
-  addressSearchSelectionJSX = (item, callback) => {
+  addressSearchSelectionJSX = ({ item, callback }) => {
     const { caninForm, apiType } = this.state;
 
     return (
@@ -1862,7 +1883,7 @@ class Form extends React.Component {
             this.setState({ showSearchAddressPreview: true });
           }}
         />
-        {callback()}
+        {callback && callback()}
       </>
     );
   };
@@ -1944,7 +1965,16 @@ class Form extends React.Component {
   };
 
   //checkout大改造
-  newInputFous = (e) => {};
+  newInputFous = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    const name = target.name;
+    const value = target.value;
+    if (name == 'address1') {
+      console.log(123);
+      this.handleOpen();
+    }
+  };
   //checkout大改造
   newInputBlur = (e) => {};
   //checkout大改造
@@ -2022,7 +2052,7 @@ class Form extends React.Component {
     });
   };
   //checkout大改造
-  newInputJSX = (item) => {
+  newInputJSX = ({ item, disabled = false, callback, prevIcon }) => {
     const { caninForm } = this.state;
 
     const statusObj = item.InitFormStatus[item.Status];
@@ -2043,8 +2073,12 @@ class Form extends React.Component {
             }
 
             <div className="relative">
+              {prevIcon && prevIcon()}
               <input
-                className={`${statusObj['border']} w-full text-14 pt-2 pb-3 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`}
+                className={cn(
+                  `${statusObj['border']} w-full text-14 pt-2 pb-3 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`,
+                  { 'pl-5': prevIcon }
+                )}
                 onFocus={this.newInputFous}
                 id={`${item.fieldKey}Shipping`}
                 type={item.filedType}
@@ -2058,7 +2092,7 @@ class Form extends React.Component {
                 name={item.fieldKey}
                 disabled={item?.disabled ? true : false}
                 maxLength={this.maxLengthFun(item)}
-                autoComplete="off"
+                autocomplete="new-password"
                 placeholder={item.fieldKey}
               />
               <i
@@ -2070,6 +2104,7 @@ class Form extends React.Component {
             </div>
           </label>
         </div>
+        {callback && callback()}
       </>
     );
   };
@@ -2247,18 +2282,18 @@ class Form extends React.Component {
               <div className="w-full md:w-1/2 flex flex-col mr-0 md:mr-20">
                 <div className="mb-1 md:mb-10 w-100">
                   {this.emailItem.length > 0 &&
-                    this.newInputJSX(this.emailItem[0])}
+                    this.newInputJSX({ item: this.emailItem[0] })}
                 </div>
                 <div className="md:hidden mb-3">
                   <FastRegisterCard />
                 </div>
                 <div className="mb-1 md:mb-10 w-100">
                   {this.firstNameItem.length > 0 &&
-                    this.newInputJSX(this.firstNameItem[0])}
+                    this.newInputJSX({ item: this.firstNameItem[0] })}
                 </div>
                 <div className="mb-1 md:mb-10 w-100">
                   {this.lastNameItem.length > 0 &&
-                    this.newInputJSX(this.lastNameItem[0])}
+                    this.newInputJSX({ item: this.lastNameItem[0] })}
                 </div>
               </div>
               <div className="hidden md:flex md:w-1/2">
@@ -2284,11 +2319,25 @@ class Form extends React.Component {
                 />
               )}
               {!this.state.showSearchAddressPreview &&
+                !isMobile &&
                 this.address1Item.length > 0 &&
                 this.addressSearchSelectionJSX(
                   this.address1Item[0],
                   this.manualInputAddressJSX
                 )}
+              {!this.state.showSearchAddressPreview &&
+                isMobile &&
+                this.address1Item.length > 0 &&
+                this.newInputJSX({
+                  item: this.address1Item[0],
+                  callback: this.manualInputAddressJSX,
+                  disabled: true,
+                  prevIcon: () => {
+                    return (
+                      <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
+                    );
+                  }
+                })}
             </div>
             <div
               className={cn('py-2', {
@@ -2297,28 +2346,37 @@ class Form extends React.Component {
             >
               <div className="w-full mb-1 md:mb-10">
                 {this.address1Item.length > 0 &&
-                  this.newInputJSX(this.address1Item[0])}
+                  this.newInputJSX({ item: this.address1Item[0] })}
               </div>
               <div className="w-full mb-1 md:mb-10">
                 {this.address2Item.length > 0 &&
-                  this.newInputJSX(this.address2Item[0])}
+                  this.newInputJSX({ item: this.address2Item[0] })}
               </div>
               <div className="flex mb-1 md:mb-10">
                 <div className="flex-1">
                   {this.postCodeItem.length > 0 &&
-                    this.newInputJSX(this.postCodeItem[0])}
+                    this.newInputJSX({ item: this.postCodeItem[0] })}
                 </div>
                 <div className="w-5"></div>
                 <div className="flex-1">
                   {this.cityItem.length > 0 &&
-                    this.newInputJSX(this.cityItem[0])}
+                    this.newInputJSX({ item: this.cityItem[0] })}
                 </div>
               </div>
             </div>
             <div className="mt-1 w-full md:w-1/2">
               {this.phoneNumberItem.length > 0 &&
-                this.newInputJSX(this.phoneNumberItem[0])}
+                this.newInputJSX({ item: this.phoneNumberItem[0] })}
             </div>
+            <ActionSheet ref={this.add1ActionSheet} className="ACTION-SHEET">
+              <div className="">
+                <div className="text-16 text-cs-gray">Chercher une adresse</div>
+                {this.address1Item.length > 0 &&
+                  this.addressSearchSelectionJSX({
+                    item: this.address1Item[0]
+                  })}
+              </div>
+            </ActionSheet>
 
             {false &&
               formList?.map((item, index) => (

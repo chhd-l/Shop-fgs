@@ -22,6 +22,7 @@
     "@types/react-router-dom": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
+    "actionsheet-react": "^1.0.14",
     "atob": "^2.1.2",
     "axios": "^0.19.2",
     "babel-eslint": "10.1.0",

@@ -2945,6 +2945,11 @@ acorn@^8.2.4, acorn@^8.5.0:
   resolved "https://registry.npmmirror.com/acorn/-/acorn-8.8.0.tgz#88c0187620435c7f6015803f5539dae05a9dbea8"
   integrity sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==
 
+actionsheet-react@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.npmmirror.com/actionsheet-react/-/actionsheet-react-1.0.14.tgz#28834812403162b479b53027d01ff5a70b44e395"
+  integrity sha512-bdZ4camgcdvLXvfE8/NaoV/MC70wWFLFd+/qmG2nS4dD1vK5qdtnQgMMnKDWxOkcmZQFWK6nqUHdMN+/h/mGnQ==
+
 address@1.1.2:
   version "1.1.2"
   resolved "https://registry.npmmirror.com/address/-/address-1.1.2.tgz#bf1116c9c758c51b7a933d296b72c221ed9428b6"
