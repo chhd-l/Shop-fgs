@@ -562,10 +562,8 @@ const SubGoodsInfos = ({
                           defalutGoodsId={el.spuId}
                           isLogin={true}
                           selectedSpecItem={ele.selected && ele}
-                          // notifyMeConsent={this.state.notifyMeConsent}
                           visible={ele.selected && !ele.stock}
                           className="border-t w-full px-0 flex items-center"
-                          // pageType="pdp"
                         />
                       ))}
                       {subDetail?.canChangeProductAtGoodsLine ? (

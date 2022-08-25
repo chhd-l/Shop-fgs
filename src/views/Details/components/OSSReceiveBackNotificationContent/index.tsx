@@ -11,6 +11,7 @@ import {
   GABackInStockNotifyMeClick,
   GABackToStockSubscription
 } from '@/utils/GA/cart';
+import cn from 'classnames';
 
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
@@ -38,11 +39,10 @@ const OssReceiveBackNotificationContent = ({
   pageType,
   defalutGoodsId
 }: OssReceiveBackNotificationContentProps) => {
-  console.log(selectedSpecItem,'selectedSpecItem')
   const { goodsId='' } = details;
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>(userInfo?.email || '');
   const [isEdited, setIsEdited] = useState(false);
-  const [correctEmail, setCorrectEmail] = useState(false);
+  const [correctEmail, setCorrectEmail] = useState(userInfo?.email?true:false);
   const [consentChecked, setConsentChecked] = useState(false);
   const [list, setList] = useState<List[]>([]);
   useEffect(() => {
@@ -59,19 +59,15 @@ const OssReceiveBackNotificationContent = ({
     if (!isLogin || !selectedSpecItem || selectedSpecItem?.stock !== 0) return;
 
     async function req() {
-      setIsEdited(false);
-      setEmail('');
       const params = {
         customerId: userInfo.customerId,
         goodsId:goodsId || defalutGoodsId,
         goodsInfoId: selectedSpecItem?.goodsInfoId,
         fromAddress: '2'
       };
-      const {
-        context: { email, stockNotice }
-      } = (await queryStockNotice(params)) as any;
-      setIsEdited(stockNotice);
-      setEmail(email);
+      const {context} = (await queryStockNotice(params)) as any;
+      setIsEdited(context?.stockNotice);
+      context?.email && setEmail(email);
     }
     req();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,28 +145,14 @@ const OssReceiveBackNotificationContent = ({
       <div className="mt-3 flex flex-col md:flex-row items-end">
         {isEdited ? (
           <>
-            <span className="rc-text-colour--success mr-2">
+            <span className=" rc-text-colour--success mr-2 text-base">
               {email}
-              
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="ml-2 h-5 w-5 inline-block"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+               <span className='iconfont iconchenggong font-bold icon-unsuscribe inline-block p-2 text-green'/>
             </span>
 
             <Button
               size="small"
-            className='mt-2'
+              className='mt-2'
               onClick={() => setIsEdited(false)}
             >
               <FormattedMessage id="Modify e-mail" />
@@ -178,16 +160,18 @@ const OssReceiveBackNotificationContent = ({
           </>
         ) : (
           <>
-          <div className='relative'>
+          <div className={cn('relative mb-0',{
+            'rc-input--success':correctEmail
+          })}>
               <input
-                className="w-60 border-b-2 mr-2"
+                className="rc-input py-2 w-60 border-b-2 mr-2"
                 id="id-text2"
                 type="email"
                 value={email}
                 name="text"
                 onChange={handleOnChange}
               />
-              {/* <span className='absolute right-0 bottom-0 iconfont iconchenggong font-bold icon-unsuscribe cursor-pointer inline-block py-3 px-2 text-green'/> */}
+            {correctEmail&& <span className='absolute right-0 bottom-0 iconfont iconchenggong font-bold icon-unsuscribe inline-block p-2 text-green'/>} 
             </div>
             <Button
             className='mt-2'
