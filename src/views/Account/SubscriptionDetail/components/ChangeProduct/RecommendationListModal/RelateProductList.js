@@ -614,8 +614,6 @@ const RelateProductList = ({ mainProduct, goodsInfoFlag }) => {
       </ListItemForDefault>
     ));
 
-  console.log(defaultFilterSearchForm, 'defaultFilterSearchForm==');
-
   return (
     <>
       <div>

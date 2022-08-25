@@ -15,14 +15,15 @@ import {
 export type OssReceiveBackNotificationContentProps = {
   visible?: boolean;
   details: Details;
-  form: Form;
+  form?: Form;
   isLogin: boolean;
-  quantity: number;
+  quantity?: number;
   userInfo: UserInfo;
   selectedSpecItem: SelectedSpecItem;
-  notifyMeConsent: any;
+  notifyMeConsent?: any;
   className?:string;
   pageType?:string;
+  defalutGoodsId?:string;
 };
 const OssReceiveBackNotificationContent = ({
   visible,
@@ -34,9 +35,11 @@ const OssReceiveBackNotificationContent = ({
   form,
   notifyMeConsent,
   className,
-  pageType
+  pageType,
+  defalutGoodsId
 }: OssReceiveBackNotificationContentProps) => {
-  const { goodsId } = details;
+  console.log(selectedSpecItem,'selectedSpecItem')
+  const { goodsId='' } = details;
   const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
   const [correctEmail, setCorrectEmail] = useState(false);
@@ -60,7 +63,7 @@ const OssReceiveBackNotificationContent = ({
       setEmail('');
       const params = {
         customerId: userInfo.customerId,
-        goodsId,
+        goodsId:goodsId || defalutGoodsId,
         goodsInfoId: selectedSpecItem?.goodsInfoId,
         fromAddress: '2'
       };
@@ -103,7 +106,7 @@ const OssReceiveBackNotificationContent = ({
     const goodsInfoId = selectedSpecItem.goodsInfoId;
     const params: any = {
       email,
-      goodsId,
+      goodsId:goodsId|| defalutGoodsId,
       stockNoticeGoodsInfoVOS: [
         {
           goodsInfoId,
@@ -132,7 +135,7 @@ const OssReceiveBackNotificationContent = ({
   const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
   return (
     <div className={`p-4 ${className}`}>
-      <h2 className="text-base">
+      <h2 className="text-base mr-2">
         {
           <FormattedMessage
             id={
@@ -143,11 +146,12 @@ const OssReceiveBackNotificationContent = ({
           />
         }
       </h2>
-      <div className="mt-3 flex flex-col md:flex-row">
+      <div className="mt-3 flex flex-col md:flex-row items-end">
         {isEdited ? (
           <>
             <span className="rc-text-colour--success mr-2">
               {email}
+              
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="ml-2 h-5 w-5 inline-block"
@@ -174,6 +178,7 @@ const OssReceiveBackNotificationContent = ({
           </>
         ) : (
           <>
+          <div className='relative'>
               <input
                 className="w-60 border-b-2 mr-2"
                 id="id-text2"
@@ -182,6 +187,8 @@ const OssReceiveBackNotificationContent = ({
                 name="text"
                 onChange={handleOnChange}
               />
+              {/* <span className='absolute right-0 bottom-0 iconfont iconchenggong font-bold icon-unsuscribe cursor-pointer inline-block py-3 px-2 text-green'/> */}
+            </div>
             <Button
             className='mt-2'
               size="small"

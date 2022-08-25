@@ -1013,6 +1013,7 @@ class LoginCart extends React.Component {
       mobileCartVisibleKey
     } = this.state;
     const subtractionSign = '-';
+    console.log(this.tradePrice, 'this.tradePrice99');
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
