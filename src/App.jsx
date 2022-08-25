@@ -911,7 +911,7 @@ const App = () => {
                   component={ProductFinderNoResult}
                 />
 
-                {/*11111111  subscription-landing 重定向*/}
+                {/*1111111111  subscription-landing 重定向*/}
                 <Route
                   exact
                   path="/subscription-landing"
@@ -920,7 +920,7 @@ const App = () => {
                       case 'de':
                         return <DE_SubscriptionLanding {...props} />;
                       case 'uk':
-                        return <Redirect to={{ pathname: '/' }} {...props} />;
+                      // return <Redirect to={{ pathname: '/' }} {...props} />;
                       case 'se':
                       case 'us':
                         return <US_SubscriptionLanding {...props} />;

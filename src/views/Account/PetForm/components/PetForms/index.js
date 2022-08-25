@@ -141,7 +141,7 @@ const PetForms = ({
     weightObj: {
       measure: '',
       measureUnit: 'kg',
-      type: 2
+      type: 0
     },
     activity: '',
     lifestyle: '',
@@ -486,12 +486,12 @@ const PetForms = ({
         showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
         return;
       }
-      for (let k in petForm.weightObj) {
-        if (!petForm.weightObj[k]) {
-          showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
-          return;
-        }
+      // for (let k in petForm.weightObj) {
+      if (!petForm.weightObj.measure) {
+        showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
+        return;
       }
+      // }
       if (['se'].includes(window.__.env.REACT_APP_COUNTRY)) {
         const isstr =
           /^(\d+[,])*(\d+)$/.test(petForm.weightObj.measure) ||
