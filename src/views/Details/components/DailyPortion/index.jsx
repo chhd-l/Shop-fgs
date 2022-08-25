@@ -938,7 +938,8 @@ export default function DailyPortion({
     if (!speciesValue) return [];
 
     let param = {
-      countryCode: window.__.env.REACT_APP_COUNTRY,
+      countryCode:
+        window.__.env.REACT_APP_COUNTRY_CODE || window.__.env.REACT_APP_COUNTRY,
       species: String(speciesValue).toLowerCase()
     };
     let res = await productFinderDailyPortion(param);

@@ -17,7 +17,9 @@ import {
   GAInstantSearchResultClick
 } from '@/utils/GA';
 
-const isHub = window.__.env.REACT_APP_HUB;
+const isHub =
+  window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE; // ru local use hubHeader;
+const isRuLocal = window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE; // ru local use hubHeader
 let sessionItemRoyal = window.__.sessionItemRoyal;
 
 const getSearchContainerMaxHeight = () => {
@@ -107,7 +109,7 @@ export default class Search extends React.Component {
   }
 
   setIosSafariSearchContainerHeight = () => {
-    if (getDeviceType() === 'H5' && !isHub) {
+    if (getDeviceType() === 'H5' && (!isHub || isRuLocal)) {
       let suggestionResults =
         window.document.getElementsByClassName('suggestions');
       for (let i = 0; i < suggestionResults.length; i++) {
@@ -131,7 +133,7 @@ export default class Search extends React.Component {
         minMarketPrice: 0,
         maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       }),
-      isHub && getSearch({ keywords })
+      isHub && !isRuLocal && getSearch({ keywords })
       // isHub && querySearch()
     ])
       .then((res) => {

@@ -64,7 +64,7 @@ const OssReceiveBackNotificationContent = ({
       const params = {
         customerId: userInfo.customerId,
         goodsId:goodsId || defalutGoodsId,
-        goodsInfoId: selectedSpecItem.goodsInfoId,
+        goodsInfoId: selectedSpecItem?.goodsInfoId,
         fromAddress: '2'
       };
       const {
@@ -133,7 +133,6 @@ const OssReceiveBackNotificationContent = ({
 
   const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
   const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
-  console.log(className,'className-')
   return (
     <div className={`p-4 ${className}`}>
       <h2 className="text-base mr-2">
