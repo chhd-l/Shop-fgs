@@ -2873,7 +2873,7 @@ class Payment extends React.Component {
     localItemRoyal.set('rc-payment-purchases-param', param);
     try {
       // 获取税额
-      if (this.isLogin) {
+      if (this.isLogin && !this.state.tid) {
         await this.props.checkoutStore.updateLoginCart(param);
         if (COUNTRY == 'jp' && this.props.paymentStore.curPayWayVal) {
           this.confirmCalculateServiceFeeAndLoyaltyPoints();
