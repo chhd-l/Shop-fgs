@@ -131,7 +131,7 @@ const OssReceiveBackNotificationContent = ({
   const btnStatus = Ru ? consentChecked && correctEmail : correctEmail;
   return (
     <div className={`p-4 ${className}`}>
-      <h2 className="text-base mr-2">
+      <h2 className="text-base md:mr-2">
         {
           <FormattedMessage
             id={
@@ -142,7 +142,7 @@ const OssReceiveBackNotificationContent = ({
           />
         }
       </h2>
-      <div className="mt-3 flex flex-col md:flex-row items-end">
+      <div className="mt-3 flex flex-col md:flex-row md:items-end w-full md:w-auto">
         {isEdited ? (
           <>
             <span className=" rc-text-colour--success mr-2 text-base">
@@ -164,7 +164,7 @@ const OssReceiveBackNotificationContent = ({
             'rc-input--success':correctEmail
           })}>
               <input
-                className="rc-input py-2 w-60 border-b-2 mr-2"
+                className="rc-input py-2 w-full md:w-60 border-b-2 mr-2"
                 id="id-text2"
                 type="email"
                 value={email}
