@@ -271,6 +271,65 @@ class SearchSelection extends React.Component {
       this.props.selectedItemChange(item);
     }
   };
+  optionWrapper = (children) => {
+    return (
+      <div className="border bg-white rounded-b-2xl z-50">
+        <ul className="m-0 clinic-item-container test-scroll">{children}</ul>
+        {this.state.loadingList && (
+          <div className="text-center p-2">
+            <span className="ui-btn-loading ui-btn-loading-border-red" />
+          </div>
+        )}
+      </div>
+    );
+  };
+  optionListJSX1 = (optionList) => {
+    return (
+      <div className="border bg-white rounded-b-2xl z-50">
+        <ul className="m-0 clinic-item-container test-scroll">
+          {optionList.map((item, idx) => (
+            <li
+              className={`clinic-item p-2 cs-black`}
+              key={`${item.label}_${idx}`}
+              onClick={(e) => this.handleClickClinicItem(e, item)}
+            >
+              {item.name}
+            </li>
+          ))}
+          {optionList.length > 0 && (
+            <div className="p-2 border-t">Saisir l’adresse manuellement</div>
+          )}
+        </ul>
+        {this.state.loadingList && (
+          <div className="text-center p-2">
+            <span className="ui-btn-loading ui-btn-loading-border-red" />
+          </div>
+        )}
+      </div>
+    );
+  };
+  optionListJSX2 = (optionList) => {
+    return (
+      <div className="rc-bg-colour--brand4 z-50">
+        <ul className="m-0 clinic-item-container test-scroll">
+          {optionList.map((item, idx) => (
+            <li
+              className={`text-16 font-medium clinic-item px-2 py-3 mx-4 cs-black border-b border-gray-300`}
+              key={`${item.label}_${idx}`}
+              onClick={(e) => this.handleClickClinicItem(e, item)}
+            >
+              {item.name}
+            </li>
+          ))}
+        </ul>
+        {this.state.loadingList && (
+          <div className="text-center p-2">
+            <span className="ui-btn-loading ui-btn-loading-border-red" />
+          </div>
+        )}
+      </div>
+    );
+  };
   render() {
     const { optionList, form, random, Status, InitFormStatus } = this.state;
     const statusObj = InitFormStatus[Status];
@@ -307,7 +366,7 @@ class SearchSelection extends React.Component {
               placeholder={this.state.placeholder}
               className={cn(
                 {
-                  'w-full text-14 py-2 placeholder-primary placeholder-opacity-50 border-b border-form':
+                  'w-full text-14 py-3 placeholder-primary placeholder-opacity-50 border-b border-form':
                     this.props.customStyle
                 },
                 { 'form-control': !this.props.customStyle },
@@ -323,32 +382,7 @@ class SearchSelection extends React.Component {
             ></input>
             {this.props.afterFixIcon}
             {/* {this.props.customStyle && <label className="rc-input__label" />} */}
-            {this.state.optionPanelVisible && (
-              <div className="border bg-white rounded-b-2xl z-50">
-                <ul className="m-0 clinic-item-container test-scroll">
-                  {optionList.map((item, idx) => (
-                    <li
-                      className={`clinic-item p-2 cs-black`}
-                      key={`${item.label}_${idx}`}
-                      onClick={(e) => this.handleClickClinicItem(e, item)}
-                    >
-                      {item.name}
-                    </li>
-                  ))}
-                  {optionList.length > 0 && (
-                    <div className="p-2 border-t">
-                      Saisir l’adresse manuellement
-                    </div>
-                  )}
-                </ul>
-
-                {this.state.loadingList && (
-                  <div className="text-center p-2">
-                    <span className="ui-btn-loading ui-btn-loading-border-red" />
-                  </div>
-                )}
-              </div>
-            )}
+            {this.state.optionPanelVisible && this.optionListJSX2(optionList)}
           </div>
           {!this.state.searchForNoResult &&
             optionList.length === 0 &&

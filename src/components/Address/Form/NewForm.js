@@ -2387,7 +2387,7 @@ class Form extends React.Component {
             </div>
             <ActionSheet ref={this.add1ActionSheet} className="ACTION-SHEET">
               <div className="relative">
-                <div className="px-2 py-5 text-16 font-medium text-cs-gray">
+                <div className="bg-white px-2 py-5 text-18 font-medium text-cs-gray">
                   Chercher une adresse
                 </div>
                 <span
@@ -2403,13 +2403,33 @@ class Form extends React.Component {
                     hideLabel: false,
                     afterFixIcon: (
                       <span
-                        className="absolute text-14 right-3 top-2 text-gray-400"
+                        className="absolute font-medium text-14 right-5 top-2 text-gray-400"
                         onClick={this.clearAddr1KeyWords}
                       >
                         Clear
                       </span>
                     )
                   })}
+              </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '192px',
+                  zIndex: 51,
+                  width: '100%',
+                  height: '50px',
+                  lineHeight: '50px',
+                  textAlign: 'center',
+                  background: 'white',
+                  textDecoration: 'underline',
+                  fontSize: '14px'
+                }}
+                onClick={() => {
+                  this.add1ActionSheet.current.close();
+                  this.setState({ isManualInputAddress: true });
+                }}
+              >
+                Saisirl'adresse manuellement
               </div>
             </ActionSheet>
 
