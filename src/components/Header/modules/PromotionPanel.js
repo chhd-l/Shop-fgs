@@ -6,8 +6,8 @@ export default function PromotionPanel({ item }) {
     <div className="px-4 pb-8 pt-6 pt-sm-0 pb-sm-0 dropdown-nav__ad__card">
       <div className="">
         <div className="d-flex align-items-center">
-          <div className="container-text">
-            <p className="title-text text-rc-red text-lg ui-text-overflow-line1">
+          <div className="container-text w-full md:w-auto">
+            <p className="title-text text-rc-red text-lg ui-text-overflow-line1 w-full md:w-auto">
               {item.Title}
             </p>
             <p

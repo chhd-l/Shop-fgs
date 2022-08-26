@@ -15,6 +15,10 @@ import { GAForChangeProductBtn } from '@/utils/GA';
 import { Button, Popover } from '@/components/Common';
 import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 import HandledSpecSelect from '../HandledSpecSelect';
+import stores from '@/store';
+import OssReceiveBackNotificationContent from '../../../../Details/components/OSSReceiveBackNotificationContent';
+
+const loginStore = stores.loginStore;
 
 export const SubGoodsInfosContext = createContext();
 
@@ -44,9 +48,6 @@ const SubGoodsInfos = ({
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
   const [isSpecAvailable, setIsSpecAvailable] = useState(false);
   const [renderAgin, setRenderAgin] = useState(true);
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
-    useState(null);
-  const [currentUnitPrice, setCurrentUnitPrice] = useState(null);
 
   useEffect(() => {
     setRenderAgin(!renderAgin);
@@ -58,11 +59,18 @@ const SubGoodsInfos = ({
 
   //subscription info change
   const onSubChange = async () => {
-    try {
-      setState({ isDataChange: true });
-    } catch (err) {
-      showErrMsg(err.message);
-    }
+    const subSkuStatus = subDetail.goodsInfo?.every(
+      (el) => el.oldSkuId === el.skuId
+    );
+    const chooseSkuStock = subDetail.goodsInfo?.some((el) => !el.stock);
+    console.log(chooseSkuStock, 'chooseSkuStock');
+    let isDataChange = true;
+    subDetail.goodsInfo.forEach((el) => {
+      if (el.oldSkuId !== el.skuId && !el.stock) {
+        isDataChange = false;
+      }
+    });
+    setState({ isDataChange });
   };
 
   const updateConfirmTooltipVisible = (el, status) => {
@@ -100,10 +108,12 @@ const SubGoodsInfos = ({
   const matchGoods = (data, sizeList) => {
     console.info('data1', data);
     console.info('sizeList1', sizeList);
-    setCurrentSubscriptionPrice(
-      data.currentSubscriptionPrice || data.selectPrice
-    );
-    setCurrentUnitPrice(data.currentUnitPrice);
+    subDetail.goodsInfo.forEach((el, i) => {
+      if (el.spuId === sizeList?.[0]?.goodsId) {
+        el.subscribePrice = data.currentSubscriptionPrice || data.selectPrice;
+        el.originalPrice = data.currentUnitPrice;
+      }
+    });
   };
 
   const propsObj = {
@@ -124,6 +134,7 @@ const SubGoodsInfos = ({
     isShowClub,
     handleClickChangeProduct
   };
+  console.log(subDetail.goodsInfo, 'subDetail.goodsInfo21');
   return (
     // true?null:
     <SubGoodsInfosContext.Provider value={propsObj}>
@@ -215,6 +226,7 @@ const SubGoodsInfos = ({
                           }}
                           renderAgin={renderAgin}
                           canSelectedWhenAllSpecDisabled={true}
+                          canSelectedOutOfStock={true}
                         />
                       ) : null}
                       <span
@@ -244,11 +256,7 @@ const SubGoodsInfos = ({
                           height: '25px'
                         }}
                       >
-                        {formatMoney(
-                          isIndv
-                            ? el.subscribePrice * el.subscribeNum
-                            : currentSubscriptionPrice * el.subscribeNum
-                        )}
+                        {formatMoney(el.subscribePrice * el.subscribeNum)}
                       </span>
                       {disCountPriceVisible && (
                         <span
@@ -265,10 +273,21 @@ const SubGoodsInfos = ({
                             fontSize: '.875rem'
                           }}
                         >
-                          {formatMoney(currentUnitPrice * el.subscribeNum)}
+                          {formatMoney(el.originalPrice * el.subscribeNum)}
                         </span>
                       )}
                     </div>
+                    {el?.goodsInfos.map((ele) => (
+                      <OssReceiveBackNotificationContent
+                        userInfo={loginStore.userInfo}
+                        details={el}
+                        defalutGoodsId={el.spuId}
+                        isLogin={true}
+                        selectedSpecItem={ele.selected && ele}
+                        visible={ele.selected && !ele.stock}
+                        className="border-t w-full px-0 flex items-center flex-col md:flex-row "
+                      />
+                    ))}
                     {subDetail?.canChangeProductAtGoodsLine ? (
                       <Button
                         className="w-full"
@@ -281,7 +300,12 @@ const SubGoodsInfos = ({
                   </div>
 
                   <div className="border-t">
-                    <ChangeSelection el={el} intl={intl} idx={index} />
+                    <ChangeSelection
+                      el={el}
+                      intl={intl}
+                      idx={index}
+                      onChange={onSubChange}
+                    />
                   </div>
                   {el.canDelete ? (
                     <div className="absolute right-2 top-2">
@@ -459,6 +483,7 @@ const SubGoodsInfos = ({
                                 }}
                                 renderAgin={renderAgin}
                                 canSelectedWhenAllSpecDisabled={true}
+                                canSelectedOutOfStock={true}
                               />
                             ) : null}
                             <div className="mt-2">
@@ -503,10 +528,7 @@ const SubGoodsInfos = ({
                                   }}
                                 >
                                   {formatMoney(
-                                    isIndv
-                                      ? el.subscribePrice * el.subscribeNum
-                                      : currentSubscriptionPrice *
-                                          el.subscribeNum
+                                    el.subscribePrice * el.subscribeNum
                                   )}
                                 </span>
                                 {showDiscountPrice && (
@@ -525,29 +547,48 @@ const SubGoodsInfos = ({
                                     }}
                                   >
                                     {formatMoney(
-                                      currentUnitPrice * el.subscribeNum
+                                      el.originalPrice * el.subscribeNum
                                     )}
                                   </span>
                                 )}
                               </div>
                             </div>
-                            {subDetail?.canChangeProductAtGoodsLine ? (
-                              <Button
-                                data-auto-testid="subscriptionDetail-changeProduct"
-                                className=" mt-cs-16"
-                                onClick={() => handleClickChangeProduct(index)}
-                                loading={showLoading}
-                              >
-                                <FormattedMessage id="subscriptionDetail.changeProduct" />
-                              </Button>
-                            ) : null}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="col-4 col-md-5">
-                      <ChangeSelection el={el} intl={intl} idx={index} />
+                      <ChangeSelection
+                        el={el}
+                        intl={intl}
+                        idx={index}
+                        onChange={onSubChange}
+                      />
                     </div>
+                    <div className="w-11/12 mt-cs-16 pl-36">
+                      {el?.goodsInfos.map((ele) => (
+                        <OssReceiveBackNotificationContent
+                          userInfo={loginStore.userInfo}
+                          details={el}
+                          defalutGoodsId={el.spuId}
+                          isLogin={true}
+                          selectedSpecItem={ele.selected && ele}
+                          visible={ele.selected && !ele.stock}
+                          className="border-t w-full px-0 flex items-center"
+                        />
+                      ))}
+                      {subDetail?.canChangeProductAtGoodsLine ? (
+                        <Button
+                          data-auto-testid="subscriptionDetail-changeProduct"
+                          className=" "
+                          onClick={() => handleClickChangeProduct(index)}
+                          loading={showLoading}
+                        >
+                          <FormattedMessage id="subscriptionDetail.changeProduct" />
+                        </Button>
+                      ) : null}
+                    </div>
+
                     {el.canDelete ? (
                       <div className="absolute right-4 top-4">
                         <Popover

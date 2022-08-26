@@ -36,7 +36,7 @@ export default function PromotionPanel({
         {/* <LazyLoad style={{ flex: 1, width: '100%', height: '100%' }}> */}
         <div style={{ width: '222px', height: '222px', flexShrink: 0 }}>
           <img
-            className="ad-img111 h-full"
+            className="ad-img111 h-full object-cover"
             style={{ margin: '0 auto' }}
             src={cItem.Image.Url}
             alt={cItem.Image.AltText}
