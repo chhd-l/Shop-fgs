@@ -466,8 +466,14 @@ const SubGoodsInfos = ({
                                 setState={setState}
                                 updatedSku={matchGoods}
                                 updatedChangeSku={(skuInfo) => {
+                                  console.log('skuInfo', skuInfo);
                                   subDetail.goodsInfo[index].skuId =
                                     skuInfo.goodsInfoId || '';
+                                  window.dataLayer &&
+                                    dataLayer.push({
+                                      event: 'myAccountAction',
+                                      myAccountActionName: skuInfo.packSize
+                                    });
                                   onSubChange();
                                 }}
                                 renderAgin={renderAgin}
