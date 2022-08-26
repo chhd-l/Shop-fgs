@@ -391,9 +391,7 @@ class Recommendation extends React.Component {
         );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
         if (!isRu || !isFr) {
-          this.props.clinicStore.setLinkClinicId(
-            res.context?.id || res.context.prescriberId
-          );
+          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
           this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
           this.props.clinicStore.setLinkClinicCode(
             res.context.recommendationCode || ''
@@ -435,9 +433,7 @@ class Recommendation extends React.Component {
       this.props.clinicStore.setLinkClinicRecommendationInfos(
         recommendationInfos
       );
-      this.props.clinicStore.setLinkClinicId(
-        res.context?.id || res.context?.prescriberId
-      );
+      this.props.clinicStore.setLinkClinicId(res.context?.prescriberId);
       this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       this.props.clinicStore.setLinkClinicCode(
         res.context?.recommendationCode || ''
