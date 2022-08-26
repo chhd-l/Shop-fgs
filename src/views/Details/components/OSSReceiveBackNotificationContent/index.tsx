@@ -40,7 +40,7 @@ const OssReceiveBackNotificationContent = ({
   defalutGoodsId
 }: OssReceiveBackNotificationContentProps) => {
   const { goodsId='' } = details;
-  const [email, setEmail] = useState<string>(userInfo?.email || '');
+  const [email, setEmail] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
   const [correctEmail, setCorrectEmail] = useState(userInfo?.email?true:false);
   const [consentChecked, setConsentChecked] = useState(false);
@@ -66,8 +66,9 @@ const OssReceiveBackNotificationContent = ({
         fromAddress: '2'
       };
       const {context} = (await queryStockNotice(params)) as any;
+      const _email = context?.email?context?.email:userInfo?.email 
       setIsEdited(context?.stockNotice);
-      context?.email && setEmail(email);
+      setEmail(_email);
     }
     req();
     // eslint-disable-next-line react-hooks/exhaustive-deps
