@@ -470,14 +470,15 @@ class Filter extends React.Component {
                             } ${parentItem.expand ? 'expand' : ''}`}
                             id={`accordion-content-${pIndex}`}
                           >
-                            {parentItem.attributeName === 'markPrice' ? (
-                              <PriceSlider
-                                max={this.props.maxGoodsPrice}
-                                defaultValue={[0, this.props.maxGoodsPrice]}
-                                // key={this.props.maxGoodsPrice}
-                                onChange={hanldePriceSliderChange}
-                              />
-                            ) : (
+                            {
+                              // parentItem.attributeName === 'markPrice' ? (
+                              //   <PriceSlider
+                              //     max={this.props.maxGoodsPrice}
+                              //     defaultValue={[0, this.props.maxGoodsPrice]}
+                              //     // key={this.props.maxGoodsPrice}
+                              //     onChange={hanldePriceSliderChange}
+                              //   />
+                              // ) : (
                               (
                                 parentItem.attributesValueList ||
                                 parentItem.storeGoodsFilterValueVOList ||
@@ -494,7 +495,8 @@ class Filter extends React.Component {
                                       childItem
                                     );
                               })
-                            )}
+                              // )
+                            }
                           </ul>
                         </>
                       </React.Fragment>
