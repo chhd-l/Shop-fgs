@@ -99,7 +99,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             key: 'phoneNumber',
             require: true
           }
-        ]
+        ],
+        contractNumber: '',
+        courier: '',
+        courierCode: ''
       },
       pickupErrMsgs: {
         firstName: '',
@@ -148,10 +151,14 @@ class HomeDeliveryOrPickUp extends React.Component {
           const { pickupForm, selectedItem } = this.state;
           // console.log('666 监听地图点的传值: ', e);
           let obj = e.data.content;
+
           pickupForm['pickupPrice'] = obj?.price || '';
           pickupForm['pickupDescription'] = obj?.description || '';
           pickupForm['pickupCode'] = obj?.code || '';
           pickupForm['pickupName'] = obj?.courier || '';
+          pickupForm['contractNumber'] = obj?.contractNumber || '';
+          pickupForm['courier'] = obj?.courier || '';
+          pickupForm['courierCode'] = obj?.courierCode || '';
 
           // ★★ 自提点返回支付方式：
           // 1. cod: cash & card，shop展示cod和卡支付

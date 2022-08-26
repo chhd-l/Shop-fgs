@@ -7,7 +7,8 @@ import {
   matchNamefromDict,
   getDeviceType,
   getAddressPostalCodeAlertMessage,
-  isCanVerifyBlacklistPostCode
+  isCanVerifyBlacklistPostCode,
+  getCurPickUpInfo
 } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import {
@@ -708,7 +709,10 @@ class AddressList extends React.Component {
           areaIdStr: pkaddr?.areaFias || pickupFormData.areaIdStr,
           settlementIdStr:
             pkaddr?.settlementFias || pickupFormData.settlementIdStr,
-          postalCode: pkaddr?.zip || pickupFormData.postCode
+          postalCode: pkaddr?.zip || pickupFormData.postCode,
+          contractNumber: getCurPickUpInfo('contractNumber'),
+          courier: getCurPickUpInfo('courier'),
+          courierCode: getCurPickUpInfo('courierCode')
         }
       );
 

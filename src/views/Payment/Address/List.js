@@ -28,7 +28,8 @@ import {
   isCanVerifyBlacklistPostCode,
   formatDate,
   formatJPDate,
-  formatJPTime
+  formatJPTime,
+  getCurPickUpInfo
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -2065,7 +2066,10 @@ class AddressList extends React.Component {
         areaIdStr: pkaddr?.areaFias || pickupFormData.areaIdStr,
         settlementIdStr:
           pkaddr?.settlementFias || pickupFormData.settlementIdStr,
-        postalCode: pkaddr?.zip || pickupFormData.postCode
+        postalCode: pkaddr?.zip || pickupFormData.postCode,
+        contractNumber: getCurPickUpInfo('contractNumber'),
+        courier: getCurPickUpInfo('courier'),
+        courierCode: getCurPickUpInfo('courierCode')
       });
 
       // 查询地址列表，筛选 pickup 地址
@@ -2073,6 +2077,7 @@ class AddressList extends React.Component {
       let pkup = addres.context.filter((e) => {
         return e.receiveType == 'PICK_UP';
       });
+      console.log({ pkup });
       // 判断是否存在有 pickup 地址
       const tmpPromise = pkup.length ? editAddress : saveAddress;
       if (pkup.length) {
