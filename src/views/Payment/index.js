@@ -4149,6 +4149,7 @@ class Payment extends React.Component {
                     renderBackToSavedPaymentsJSX={
                       this.renderBackToSavedPaymentsJSX
                     }
+                    curPayWayInfo={curPayWayInfo}
                     payConfirmBtn={payConfirmBtn}
                     saveBillingLoading={this.state.saveBillingLoading}
                     validForBilling={
