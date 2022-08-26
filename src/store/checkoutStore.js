@@ -702,9 +702,6 @@ class CheckoutStore {
       // }
       // 获取总价
       // debugger;
-      if (sessionItemRoyal.get('rc-tid')) {
-        return;
-      }
       let sitePurchasesRes = await sitePurchases({
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
           (ele) => ele.goodsInfoId
