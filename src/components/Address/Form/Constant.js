@@ -6,6 +6,7 @@ export const InitFormStatus = {
     iconCss: ''
   },
   normal: {
+    //现在没有这一项，只要有值 就inputOk
     showLabel: true,
     border: 'border-b',
     borderColorCss: 'border-form',

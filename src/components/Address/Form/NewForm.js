@@ -11,7 +11,7 @@
  * 3、imask.js 插件，设置文本框输入内容格式。https://imask.js.org/
  *
  *********/
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useRef, forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import {
@@ -110,7 +110,9 @@ class Form extends React.Component {
     updateData: () => {},
     calculateFreight: () => {},
     getFormAddressValidFlag: () => {},
-    getJpNameValidFlag: () => {}
+    getJpNameValidFlag: () => {},
+    isTriggerValidDataAll: false,
+    setTriggerValidData: () => {}
   };
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -216,6 +218,12 @@ class Form extends React.Component {
     this.timer = null;
     this.add1ActionSheet = React.createRef();
     this.dqeSearchSelection = React.createRef();
+  }
+  componentDidUpdate() {
+    if (this.props.isTriggerValidDataAll) {
+      this.props.setTriggerValidData(false);
+      this.validDataAll();
+    }
   }
   async componentDidMount() {
     const {
@@ -552,7 +560,6 @@ class Form extends React.Component {
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
     let element = document.getElementById('phoneNumberShipping');
-    console.log({ element });
     let maskOptions = [];
     let phoneReg = '';
     switch (COUNTRY) {
@@ -594,21 +601,6 @@ class Form extends React.Component {
       case 'tr':
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
-      // case 'jp':
-      //   phoneReg = /^[0]\d{0,10}$/;
-      //   // phoneReg = [
-      //   //   {
-      //   //     mask: 'Y0000000000',
-      //   //     lazy: true,
-      //   //     blocks: {
-      //   //       Y: {
-      //   //         mask: IMask.MaskedEnum,
-      //   //         enum: ['0']
-      //   //       }
-      //   //     }
-      //   //   }
-      //   // ];
-      //   break;
       default:
         phoneReg = [{ mask: '00000000000' }];
         break;
@@ -619,10 +611,6 @@ class Form extends React.Component {
     if (COUNTRY != 'jp') {
       IMask(element, maskOptions);
     }
-
-    // if (COUNTRY == 'ru' && this.isLogin) {
-    //   this.setState({ caninForm: phoneNumberMask(this.state.caninForm) });
-    // }
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
@@ -657,10 +645,11 @@ class Form extends React.Component {
             }
           }
 
+          //手动添加email
+          narr = addEmailItem(narr);
+
           // 格式化表单json
           let ress = this.formListFormat(narr);
-
-          ress = addEmailItem(ress);
 
           this.setState(
             {
@@ -865,6 +854,7 @@ class Form extends React.Component {
       //增加表单初始状态
       item.Status = 'empty';
       item.InitFormStatus = { ...InitFormStatus };
+      item.errMsg = '';
 
       // 组装rule
       let ruleItem = {
@@ -1105,7 +1095,6 @@ class Form extends React.Component {
         // newForm['phoneNumber'] = tvalue.replace(/0/, '');
         newForm['phoneNumber'] = tvalue.slice(0, 6) + tvalue.slice(7);
       }
-      console.log('luky111', newForm['phoneNumber']);
     }
 
     if (isDeliveryDateAndTimeSlot) {
@@ -1416,6 +1405,46 @@ class Form extends React.Component {
       }
     }
   };
+  findTargetRule = (tname) => {
+    const { caninForm } = this.state;
+    const targetRule = caninForm?.formRule.filter((e) => e.key === tname);
+    return targetRule;
+  };
+
+  getTotalErrMsg = () => {
+    const { caninForm, formList } = this.state;
+    return new Promise((resolve) => {
+      formList.forEach(async (item) => {
+        try {
+          if (item.requiredFlag) {
+            await validData({
+              rule: this.findTargetRule(item.fieldKey),
+              data: { [item.fieldKey]: caninForm[item.fieldKey] },
+              intl: this.props.intl
+            });
+          }
+        } catch (err) {
+          item.errMsg = err.message;
+        }
+      });
+      resolve(formList);
+    });
+  };
+
+  //滚动到输入指定id的位置
+  scrollTo = (positionId) => {
+    let anchorElement = document.getElementById(positionId);
+    window.scrollTo({
+      top: anchorElement.offsetTop,
+      behavior: 'smooth'
+    });
+  };
+
+  validDataAll = async () => {
+    const formList = await this.getTotalErrMsg();
+    this.setState({ formList });
+    this.scrollTo('emailShipping');
+  };
 
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
@@ -1472,16 +1501,11 @@ class Form extends React.Component {
         intl: this.props.intl
       });
 
-      //checkout大改造
-      this.clearErrMsgObj(tname);
-      this.setFormItemStatus(tname, 'inputOk');
-
       if (COUNTRY != 'ru') {
         // 俄罗斯需要先校验 DuData 再校验所有表单数据
         this.validFormAllData(); // 验证表单所有数据
       }
     } catch (err) {
-      this.setFormItemStatus(tname, 'inputErr');
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: !!err.message
@@ -1889,6 +1913,10 @@ class Form extends React.Component {
           }}
         />
         {callback && callback()}
+        {/* 输入提示 */}
+        {item.requiredFlag == 1 && item.errMsg && (
+          <div className="text-form-err">{item.errMsg}</div>
+        )}
       </>
     );
   };
@@ -1940,7 +1968,6 @@ class Form extends React.Component {
   };
   //checkout大改造
   setFormItemStatus = (tname, status) => {
-    const { caninForm } = this.state;
     const formList = [...this.state.formList];
 
     formList.forEach((list) => {
@@ -1950,22 +1977,22 @@ class Form extends React.Component {
     });
     this.setState({ formList });
   };
-  //checkout大改造
-  newInputCommon = (e) => {
-    const tname = e.target.name;
-    const { caninForm } = this.state;
+  //checkout大改造 查询输入状态 有值就Ok，没值就empty
+  queryInputStatusIsEmpty = (tname, tvalue) => {
     const formList = [...this.state.formList];
 
-    formList.forEach((list) => {
-      if (list.fieldKey == tname) {
-        if (caninForm[tname] == '') {
-          list.Status = 'empty';
+    for (let item of formList) {
+      if (item.fieldKey == tname) {
+        if (tvalue == '') {
+          item.Status = 'empty';
+          item.errMsg = `Please fill your ${tname}`;
+        } else {
+          item.Status = 'inputOk';
+          item.errMsg = '';
         }
-        if (caninForm[tname] != '') {
-          list.Status = 'normal';
-        }
+        break;
       }
-    });
+    }
     this.setState({ formList });
   };
 
@@ -1973,9 +2000,8 @@ class Form extends React.Component {
   newInputFous = (e) => {
     e.preventDefault();
     const target = e.target;
-    const name = target.name;
-    const value = target.value;
-    if (name == 'address1') {
+    const tname = target.name;
+    if (tname == 'address1' && isMobile) {
       this.add1ActionSheet.current.open();
     }
   };
@@ -1988,76 +2014,27 @@ class Form extends React.Component {
     let tvalue = target.type === 'checkbox' ? target.checked : target.value;
     const tname = target.name;
 
-    switch (tname) {
-      case 'postCode':
-        // if (COUNTRY == 'jp') {
-        //   if (compositionFlag) {
-        //     if (tvalue.length < 6) {
-        //       tvalue = tvalue
-        //         .replace(/\s/g, '')
-        //         .replace(/-$/, '')
-        //         .replace(/(\d{3})(?:\d)/g, '$1-');
-        //     }
-        //   }
-        // }
-        // 可以输入字母+数字
-        // if (COUNTRY != 'jp' && postCodeFiledType !== 2) {
-        //   tvalue = tvalue.replace(/\s+/g, '');
-        //   if (!this.isNumber(tvalue)) {
-        //     tvalue = '';
-        //     return;
-        //   }
-        // }
-        switch (COUNTRY) {
-          case 'us':
-            tvalue = tvalue
-              .replace(/\s/g, '')
-              .replace(/-$/, '')
-              .replace(/(\d{5})(?:\d)/g, '$1-');
-            break;
-          case 'jp':
-            if (compositionFlag) {
-              //日本圆角输入
-              if (tvalue.length < 6) {
-                tvalue = tvalue
-                  .replace(/\s/g, '')
-                  .replace(/-$/, '')
-                  .replace(/(\d{3})(?:\d)/g, '$1-');
-              }
-            }
-            break;
-          default:
-            if (postCodeFiledType !== 2) {
-              tvalue = tvalue.replace(/\s+/g, '');
-            }
-            break;
-        }
-        break;
-    }
     caninForm[tname] = tvalue;
 
     //checkout大改造
-    if (tvalue == 0) {
-      this.clearErrMsgObj(tname);
-      this.setFormItemStatus(tname, 'empty');
-      return;
-    }
-
-    //checkout大改造
-    this.newInputCommon(e);
+    this.queryInputStatusIsEmpty(tname, tvalue);
 
     this.setState({ caninForm }, () => {
       this.updateDataToProps();
-      if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
-        this.debounceValidvalidationData(tname, tvalue);
-      } else {
-        this.validvalidationData(tname, tvalue);
-      }
+      // if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
+      //   this.debounceValidvalidationData(tname, tvalue);
+      // } else {
+      //   this.validvalidationData(tname, tvalue);
+      // }
     });
   };
   //checkout大改造
   newInputJSX = ({ item, disabled = false, callback, prevIcon }) => {
     const { caninForm } = this.state;
+
+    if (caninForm[item.fieldKey]) {
+      item.Status = 'inputOk';
+    }
 
     const statusObj = item.InitFormStatus[item.Status];
     return (
@@ -2109,6 +2086,10 @@ class Form extends React.Component {
           </label>
         </div>
         {callback && callback()}
+        {/* 输入提示 */}
+        {item.requiredFlag == 1 && item.errMsg && (
+          <div className="text-form-err">{item.errMsg}</div>
+        )}
       </>
     );
   };
@@ -2274,6 +2255,8 @@ class Form extends React.Component {
       ...{ address1: '', deliveryAddress: '' }
     };
     this.setState({ caninForm: newCaninForm, showSearchAddressPreview: false });
+    console.log(this);
+    console.log(this.dqeSearchSelection);
     this.dqeSearchSelection.current.clearForm();
   };
 

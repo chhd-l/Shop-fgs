@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
-import { AddressForm } from '@/components/Address/index2';
+import AddressForm from '@/components/Address/Form/NewForm';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { validData } from '@/utils/utils';
 import { getAddressBykeyWord, getDeliveryDateAndTimeSlot } from '@/api/address';
@@ -16,6 +16,7 @@ import AddressPreview from './Preview';
 import AddressPanelContainer from './AddressPanelContainer';
 import { Button } from '@/components/Common';
 import './VisitorAddress.css';
+import Demo from './demo';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -75,8 +76,11 @@ class VisitorAddress extends React.Component {
       visitorValidationLoading: false, // 地址校验loading
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
-      visitorBtnLoading: false
+      visitorBtnLoading: false,
+      isTriggerValidDataAll: false
     };
+    this.addressForm = createRef();
+    this.addressForm2 = createRef();
     this.confirmVisitorValidationAddress =
       this.confirmVisitorValidationAddress.bind(this);
   }
@@ -201,42 +205,50 @@ class VisitorAddress extends React.Component {
     }
     return flag;
   };
+  handleClickConfirm2 = () => {
+    this.setState({
+      isTriggerValidDataAll: true
+    });
+  };
   // 游客确认 Delivery address
   handleClickConfirm = async () => {
     const { isValid, unConfirmedForm } = this.state;
     const { isValidationModal } = this.props;
     // console.log('666 游客确认 type： ', this.props.type);
-    if (!isValid) {
-      return false;
-    }
-    if (unConfirmedForm?.deliveryDate) {
-      this.setState({ btnConfirmLoading: true });
-      let yesOrNot = await this.deliveryDateStaleDateOrNot(unConfirmedForm);
-      this.setState({ btnConfirmLoading: false });
-      // 判断 deliveryDate 是否过期
-      if (!yesOrNot) {
-        return;
+
+    try {
+      if (unConfirmedForm?.deliveryDate) {
+        this.setState({ btnConfirmLoading: true });
+        let yesOrNot = await this.deliveryDateStaleDateOrNot(unConfirmedForm);
+        this.setState({ btnConfirmLoading: false });
+        // 判断 deliveryDate 是否过期
+        if (!yesOrNot) {
+          return;
+        }
       }
-    }
-    // qhx 只有在确认后才赋值给form字段
-    this.setState({ form: unConfirmedForm });
-    // 地址验证 visitorValidationModalVisible - 控制是否查询数据
-    if (isValidationModal) {
-      this.setState({
-        visitorValidationLoading: true
-      });
-      setTimeout(() => {
+
+      // qhx 只有在确认后才赋值给form字段
+      this.setState({ form: unConfirmedForm });
+      // 地址验证 visitorValidationModalVisible - 控制是否查询数据
+      if (isValidationModal) {
         this.setState({
-          visitorValidationModalVisible: true
+          visitorValidationLoading: true
         });
-        this.props.updateValidationStaus(false);
-      }, 800);
-    }
-    // 是否地址验证
-    const addressValidationFlag =
-      localItemRoyal.get('rc-address-validation-flag') || null;
-    if (this.props.type !== 'delivery' && addressValidationFlag) {
-      throw new Error('This Error No Display');
+        setTimeout(() => {
+          this.setState({
+            visitorValidationModalVisible: true
+          });
+          this.props.updateValidationStaus(false);
+        }, 800);
+      }
+      // 是否地址验证
+      const addressValidationFlag =
+        localItemRoyal.get('rc-address-validation-flag') || null;
+      if (this.props.type !== 'delivery' && addressValidationFlag) {
+        throw new Error('This Error No Display');
+      }
+    } catch (err) {
+      console.log(err.message);
     }
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
@@ -583,23 +595,14 @@ class VisitorAddress extends React.Component {
       pickupEditNumber
     } = this.state;
 
-    // console.log(234, form);
-
-    const _editForm = (
-      <AddressForm
-        {...this.props}
-        type="delivery"
-        initData={form}
-        isLogin={false}
-        showDeliveryDateTimeSlot={this.props.showDeliveryDateTimeSlot}
-        getFormAddressValidFlag={this.getFormAddressValidFlag}
-        updateData={this.updateDeliveryAddress}
-        calculateFreight={this.calculateFreight}
-      />
-    );
+    //console.log(234, toJS(panelStatus));
 
     return (
+      // <Demo
+      //   ref={this.addressForm}
+      // />
       <AddressPanelContainer
+        ref={this.addressForm}
         panelStatus={panelStatus}
         titleVisible={this.props.titleVisible}
         titleId={`J-address-title-${this.props.id}`}
@@ -645,7 +648,23 @@ class VisitorAddress extends React.Component {
                 />
               ) : null}
 
-              {selectDeliveryOrPickUp == 1 && <>{_editForm}</>}
+              {selectDeliveryOrPickUp == 1 && (
+                <AddressForm
+                  {...this.props}
+                  ref={this.addressForm2}
+                  type="delivery"
+                  initData={this.state.form}
+                  isLogin={false}
+                  showDeliveryDateTimeSlot={this.props.showDeliveryDateTimeSlot}
+                  getFormAddressValidFlag={this.getFormAddressValidFlag}
+                  updateData={this.updateDeliveryAddress}
+                  calculateFreight={this.calculateFreight}
+                  isTriggerValidDataAll={this.state.isTriggerValidDataAll}
+                  setTriggerValidData={(bool) => {
+                    this.setState({ isTriggerValidDataAll: bool });
+                  }}
+                />
+              )}
 
               {showConfirmBtn && (
                 <div className="d-flex justify-content-end mb-2">
@@ -668,8 +687,8 @@ class VisitorAddress extends React.Component {
                         size="small"
                         className={`visitor_address_confirm`}
                         loading={this.state.btnConfirmLoading}
-                        disabled={isValid && formAddressValid ? false : true}
-                        onClick={this.handleClickConfirm}
+                        //disabled={isValid && formAddressValid ? false : true}
+                        onClick={this.handleClickConfirm2}
                       >
                         <FormattedMessage id="clinic.confirm3" />
                       </Button>
