@@ -7,6 +7,7 @@ import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import LazyLoad from 'react-lazyload';
 import CyberPaymentForm from '@/components/CyberPaymentForm';
+import CyberPaymentFormNew from '@/components/CyberPaymentFormNew';
 import CyberBillingAddress from '@/components/CyberBillingAddress';
 import { getProvincesList } from '@/api/address';
 import {
@@ -32,7 +33,7 @@ const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'PAYU', // PAYU ADYEN CYBER(美国支付)
+    paymentWay: { name: 'PAYU' }, // PAYU ADYEN CYBER(美国支付)
     onCardTypeValChange: () => {},
     payuFormRule: []
   };
@@ -115,6 +116,7 @@ class PaymentEditForm extends React.Component {
       cardTypeVal: this.props.defaultCardTypeVal || '',
       btnLoading: false
     };
+    this.cyberCardRef = React.createRef();
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -196,7 +198,7 @@ class PaymentEditForm extends React.Component {
       }
     );
 
-    if (this.props.needPhone && this.props.paymentType == 'PAYU') {
+    if (this.props.needPhone && this.props.paymentWay.name == 'PAYU') {
       // 设置手机号输入限制
       this.setPhoneNumberReg();
     }
@@ -588,7 +590,10 @@ class PaymentEditForm extends React.Component {
     });
 
     try {
-      let res = await this.queryCyberCardType(subscriptionParams);
+      let res = await this.cyberCardRef.current.queryCyberCardTypeEvent(
+        subscriptionParams
+      );
+      // let res = await this.queryCyberCardType(subscriptionParams);
       let authorizationCode = res.context.requestToken;
       let subscriptionID = res.context.subscriptionID;
       let cyberCardType = res.context.cardType;
@@ -612,7 +617,8 @@ class PaymentEditForm extends React.Component {
       const newParams = Object.assign({}, params, {
         cardNumber: newCardNumber?.replace(/\d(?=\d{4})/g, 'X')
       });
-      await usPaymentInfo(newParams);
+      await this.cyberCardRef.current.usPaymentInfoEvent(newParams);
+      // await usPaymentInfo(newParams);
       this.handleCancel();
       // this.props.refreshList(res.message);
       this.props.refreshList({
@@ -766,7 +772,11 @@ class PaymentEditForm extends React.Component {
       errMsgObj,
       cardTypeVal
     } = this.state;
-    const { paymentType } = this.props;
+    const { paymentWay } = this.props;
+    console.info(
+      'paymentWaypaymentWaypaymentWay',
+      paymentWay.payPspItemVOList[0]?.paymentFormType
+    );
 
     const showPaymentMethodTipsRu = window.__.env.REACT_APP_COUNTRY === 'ru';
 
@@ -786,7 +796,7 @@ class PaymentEditForm extends React.Component {
     );
     return (
       <div className="credit-card-content">
-        {paymentType === 'ADYEN' && (
+        {paymentWay.name === 'ADYEN' && (
           <div>
             <div className="content-asset">
               <div
@@ -839,7 +849,7 @@ class PaymentEditForm extends React.Component {
           </div>
         )}
 
-        {paymentType === 'PAYU' && (
+        {paymentWay.name === 'PAYU' && (
           <div className={`credit-card-form`}>
             <div className="rc-margin-bottom--xs">
               <div className="content-asset">
@@ -1124,7 +1134,7 @@ class PaymentEditForm extends React.Component {
           </div>
         )}
 
-        {paymentType === 'CYBER' && (
+        {paymentWay.name === 'CYBER' && (
           <div>
             <div className="content-asset">
               <div
@@ -1190,14 +1200,30 @@ class PaymentEditForm extends React.Component {
                 );
               })}
             {/* ********************支付tab栏end********************************** */}
-            <CyberPaymentForm
-              cardTypeVal={this.state.cardTypeVal}
-              form={this.state.paymentForm}
-              errMsgObj={errMsgObj}
-              handleInputChange={this.handleInputChange}
-              handleSelectedItemChange={this.handleSelectedItemChange}
-              inputBlur={this.inputBlur}
-            />
+            {paymentWay.payPspItemVOList[0]?.paymentFormType == 'MICRO_FORM' ? (
+              <CyberPaymentFormNew
+                cardTypeVal={this.state.cardTypeVal}
+                form={this.state.paymentForm}
+                errMsgObj={errMsgObj}
+                ref={this.cyberCardRef}
+                curPayWayInfo={paymentWay.payPspItemVOList[0]}
+                handleInputChange={this.handleInputChange}
+                handleSelectedItemChange={this.handleSelectedItemChange}
+                inputBlur={this.inputBlur}
+              />
+            ) : (
+              <CyberPaymentForm
+                cardTypeVal={this.state.cardTypeVal}
+                form={this.state.paymentForm}
+                errMsgObj={errMsgObj}
+                ref={this.cyberCardRef}
+                curPayWayInfo={paymentWay.payPspItemVOList[0]}
+                handleInputChange={this.handleInputChange}
+                handleSelectedItemChange={this.handleSelectedItemChange}
+                inputBlur={this.inputBlur}
+              />
+            )}
+
             <CyberBillingAddress
               form={this.state.paymentForm}
               updateCyberBillingAddress={this.updateCyberBillingAddress}
