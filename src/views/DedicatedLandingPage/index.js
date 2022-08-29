@@ -94,7 +94,7 @@ class DedicatedLandingPage extends React.Component {
     ]);
     let productList = [res[0]?.context, res[1]?.context];
     console.info(' productList[selectLine]', productList);
-    debugger;
+    // debugger;
     this.handleGoodsGA(productList);
     // dataLayer.push({
     //   products: productList.map((el) => handleGoodsGA(el))

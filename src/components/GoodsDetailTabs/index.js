@@ -659,6 +659,24 @@ const GoodsDetailTabs = function (props) {
     if (urlHash !== '#ConnectedPackDailyPortion') {
       return;
     }
+    //扫码访问跳转到食量计划tab
+    const country = window.__.env.REACT_APP_COUNTRY;
+    if (
+      country === 'ru' ||
+      country === 'mx' ||
+      country === 'jp' ||
+      country === 'tr'
+    ) {
+      goodsDetailTabsData.forEach((item, i) => {
+        if (item.descriptionName === 'Guide') {
+          changeTab({
+            idx: i,
+            type: 'switch',
+            ele: item
+          });
+        }
+      });
+    }
     const lifeStagesAttr = (goodsAttributesValueRelList ?? [])
       .filter((item) => item.goodsAttributeName === 'Lifestages')
       .map((item) => item?.goodsAttributeValue);
