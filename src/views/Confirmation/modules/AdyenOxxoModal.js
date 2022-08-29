@@ -22,7 +22,7 @@ export default class AdyenOxxoModal extends Component {
       (t) => t.pspItemCode === this.props.pspItemCode
     )[0];
     console.info('111111oxxoconfigurationconfiguration', configuration);
-    debugger;
+    // debugger;
 
     const configuration = {
       environment: adyenOriginKeyConf?.environment,

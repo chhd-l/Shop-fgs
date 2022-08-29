@@ -1261,7 +1261,7 @@ class List extends React.Component {
         });
       });
     } else if (cateIds && cateIds.length) {
-      debugger;
+      // debugger;
       setSeoConfig({
         categoryId: cateIds[0],
         pageName: 'Product List Page',
