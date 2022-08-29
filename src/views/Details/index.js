@@ -1278,7 +1278,9 @@ class Details extends React.Component {
     } = this.state;
     const btnStatus = this.btnStatus;
     const vet =
-      (window.__.env.REACT_APP_HUB || Uk) &&
+      (window.__.env.REACT_APP_HUB ||
+        Uk ||
+        window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) &&
       !details.saleableFlag &&
       details.displayFlag;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
@@ -1352,7 +1354,9 @@ class Details extends React.Component {
       }) || [];
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      (window.__.env.REACT_APP_HUB || Uk) &&
+      (window.__.env.REACT_APP_HUB ||
+        Uk ||
+        window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
     const goodHeading = `<${headingTag || 'h1'}

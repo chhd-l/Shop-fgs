@@ -364,8 +364,8 @@ class List extends React.Component {
       selectedSortParam: null,
 
       searchForm: {
-        minMarketPrice: 0,
-        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
+        // minMarketPrice: 0,
+        // maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       },
       defaultFilterSearchForm: {
         // 初始化filter查询参数
@@ -1559,18 +1559,18 @@ class List extends React.Component {
         ]
       });
     }
-    if (searchForm.maxMarketPrice === null) {
-      getConfig()
-        .then((res) => {
-          this.MygetList(
-            { ...params, maxMarketPrice: res?.context?.maxGoodsPrice },
-            type
-          );
-        })
-        .catch((err) => console.log(err));
-    } else {
-      this.MygetList(params, type);
-    }
+    // if (searchForm.maxMarketPrice === null) {
+    //   getConfig()
+    //     .then((res) => {
+    //       this.MygetList(
+    //         { ...params, maxMarketPrice: res?.context?.maxGoodsPrice },
+    //         type
+    //       );
+    //     })
+    //     .catch((err) => console.log(err));
+    // } else {
+    this.MygetList(params, type);
+    // }
   }
 
   MygetList(params, type) {
@@ -2067,9 +2067,9 @@ class List extends React.Component {
                               filterList={filterList}
                               key={`2-${filterList.length}`}
                               inputLabelKey={2}
-                              hanldePriceSliderChange={
-                                this.hanldePriceSliderChange
-                              }
+                              // hanldePriceSliderChange={
+                              //   this.hanldePriceSliderChange
+                              // }
                               markPriceAndSubscriptionLangDict={
                                 markPriceAndSubscriptionLangDict
                               }
@@ -2088,9 +2088,9 @@ class List extends React.Component {
                               filterList={filterList}
                               key={`2-${filterList.length}`}
                               inputLabelKey={2}
-                              hanldePriceSliderChange={
-                                this.hanldePriceSliderChange
-                              }
+                              // hanldePriceSliderChange={
+                              //   this.hanldePriceSliderChange
+                              // }
                               markPriceAndSubscriptionLangDict={
                                 markPriceAndSubscriptionLangDict
                               }

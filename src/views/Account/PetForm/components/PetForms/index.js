@@ -765,6 +765,68 @@ const PetForms = ({
               radioChange={pruebredChange}
             />
           </div>
+          {['jp'].includes(window.__.env.REACT_APP_COUNTRY) && (
+            <div
+              className={`form-group col-12 col-lg-6 pull-left required ${
+                ['jp'].includes(window.__.env.REACT_APP_COUNTRY)
+                  ? 'block md:hidden'
+                  : ''
+              }`}
+            >
+              <label
+                className="form-control-label rc-full-width"
+                htmlFor="breed"
+              >
+                <FormattedMessage id="breed" />
+              </label>
+              <span
+                className="rc-input rc-input--label rc-input--full-width"
+                input-setup="true"
+                style={{ marginBottom: '.625rem' }}
+              >
+                <input
+                  data-auto-testid="breedName"
+                  type="text"
+                  autoComplete="off"
+                  id="dog-breed"
+                  placeholder={isCat ? enterCatBreed : enterDogBreed}
+                  className="form-control input-pet breed"
+                  value={petForm.breedName}
+                  onChange={inputBreed}
+                  style={{
+                    height: '40px',
+                    fontWeight: '300'
+                  }}
+                  disabled={isInputDisabled ? 'disabled' : null}
+                />
+                <ul
+                  className={`select-breed ${
+                    showBreedList ? '' : 'hidden no-border'
+                  }`}
+                >
+                  {breedListLoading ? (
+                    <div className="m-1">
+                      <Skeleton color="#f5f5f5" width="95%" count={2} />
+                    </div>
+                  ) : null}
+                  {breedList.map((item, i) => (
+                    <li
+                      value={item.value}
+                      key={item.id}
+                      className={`pl-2 pr-1 optionStyle ui-cursor-pointer ${
+                        i !== breedList.length - 1 ? 'border-bottom' : ''
+                      }`}
+                      onClick={() => selectedBreed(item)}
+                      style={{ whiteSpace: 'initial' }}
+                    >
+                      {item.name}
+                    </li>
+                  ))}
+                </ul>
+                <label className="rc-input__label" htmlFor="breed"></label>
+              </span>
+            </div>
+          )}
           <div className="form-group col-12 col-lg-6 pull-left required">
             <label
               className="form-control-label rc-full-width"
@@ -833,7 +895,13 @@ const PetForms = ({
               </div>
             ) : null
           ) : (
-            <div className="form-group col-12 col-lg-6 pull-left required">
+            <div
+              className={`form-group col-12 col-lg-6 pull-left required ${
+                ['jp'].includes(window.__.env.REACT_APP_COUNTRY)
+                  ? 'hidden md:block'
+                  : ''
+              }`}
+            >
               <label
                 className="form-control-label rc-full-width"
                 htmlFor="breed"

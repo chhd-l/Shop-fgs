@@ -164,9 +164,7 @@ class Help extends React.Component {
           this.checkoutStock();
         });
         getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
-          this.props.clinicStore.setLinkClinicId(
-            res2.context?.id || res2.context.prescriberId
-          );
+          this.props.clinicStore.setLinkClinicId(res2.context.prescriberId);
           this.props.clinicStore.setLinkClinicName(res2.context.prescriberName);
           this.props.clinicStore.setLinkClinicCode(
             res2.context?.recommendationCode || ''

@@ -81,6 +81,14 @@ export function sevenPayApi(tid) {
   });
 }
 
+export function cyberClient(pspItemId) {
+  return axios({
+    url: `/cyber/${pspItemId}/client-key`,
+    method: 'post'
+    // data: parameter
+  });
+}
+
 export function usPaymentInfo(parameter) {
   return axios({
     url: api.usPaymentInfo,
