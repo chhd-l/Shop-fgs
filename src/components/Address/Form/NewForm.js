@@ -213,7 +213,8 @@ class Form extends React.Component {
       errMsgObj: {},
       curItemStatus: {},
       showSearchAddressPreview: false,
-      isManualInputAddress: false
+      isManualInputAddress: false,
+      formErrMsgArr: []
     };
     this.timer = null;
     this.add1ActionSheet = React.createRef();
@@ -1413,6 +1414,7 @@ class Form extends React.Component {
 
   getTotalErrMsg = () => {
     const { caninForm, formList } = this.state;
+    let formErrMsgArr = [];
     return new Promise((resolve) => {
       formList.forEach(async (item) => {
         try {
@@ -1425,6 +1427,8 @@ class Form extends React.Component {
           }
         } catch (err) {
           item.errMsg = err.message;
+          formErrMsgArr.push(item.fieldKey);
+          this.setState({ formErrMsgArr });
         }
       });
       resolve(formList);
@@ -1433,17 +1437,14 @@ class Form extends React.Component {
 
   //滚动到输入指定id的位置
   scrollTo = (positionId) => {
-    let anchorElement = document.getElementById(positionId);
-    window.scrollTo({
-      top: anchorElement.offsetTop,
-      behavior: 'smooth'
-    });
+    document.getElementById(positionId).scrollIntoView(false);
   };
 
   validDataAll = async () => {
     const formList = await this.getTotalErrMsg();
-    this.setState({ formList });
-    this.scrollTo('emailShipping');
+    this.setState({ formList }, () => {
+      this.scrollTo(`${this.state.formErrMsgArr[0]}Shipping`);
+    });
   };
 
   // 验证数据
