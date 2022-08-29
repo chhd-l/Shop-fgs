@@ -1415,7 +1415,7 @@ class Form extends React.Component {
   getTotalErrMsg = () => {
     const { caninForm, formList } = this.state;
     let formErrMsgArr = [];
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       formList.forEach(async (item) => {
         try {
           if (item.requiredFlag) {
@@ -1428,10 +1428,9 @@ class Form extends React.Component {
         } catch (err) {
           item.errMsg = err.message;
           formErrMsgArr.push(item.fieldKey);
-          this.setState({ formErrMsgArr });
         }
       });
-      resolve(formList);
+      resolve([formList, formErrMsgArr]);
     });
   };
 
@@ -1441,10 +1440,17 @@ class Form extends React.Component {
   };
 
   validDataAll = async () => {
-    const formList = await this.getTotalErrMsg();
-    this.setState({ formList }, () => {
-      this.scrollTo(`${this.state.formErrMsgArr[0]}Shipping`);
-    });
+    try {
+      const [formList, formErrMsgArr] = await this.getTotalErrMsg();
+      if (formErrMsgArr.length > 0) {
+        this.setState({ formList });
+        this.scrollTo(`${formErrMsgArr[0]}Shipping`);
+      } else {
+        this.props.getFormAddressValidFlag(true);
+      }
+    } catch (err) {
+      console.log(222, err.message);
+    }
   };
 
   // 验证数据
@@ -1504,7 +1510,7 @@ class Form extends React.Component {
 
       if (COUNTRY != 'ru') {
         // 俄罗斯需要先校验 DuData 再校验所有表单数据
-        this.validFormAllData(); // 验证表单所有数据
+        //this.validFormAllData(); // 验证表单所有数据
       }
     } catch (err) {
       this.setState({
@@ -2036,6 +2042,9 @@ class Form extends React.Component {
     if (caninForm[item.fieldKey]) {
       item.Status = 'inputOk';
     }
+    if (item.errMsg) {
+      item.Status = 'inputErr';
+    }
 
     const statusObj = item.InitFormStatus[item.Status];
     return (
@@ -2267,7 +2276,8 @@ class Form extends React.Component {
       formLoading,
       formList,
       errMsgObj,
-      isDeliveryDateAndTimeSlot
+      isDeliveryDateAndTimeSlot,
+      caninForm: { email }
     } = this.state;
 
     return (
@@ -2283,7 +2293,7 @@ class Form extends React.Component {
                     this.newInputJSX({ item: this.emailItem[0] })}
                 </div>
                 <div className="md:hidden mb-3">
-                  <FastRegisterCard />
+                  {email && <FastRegisterCard />}
                 </div>
                 <div className="mb-1 md:mb-10 w-100">
                   {this.firstNameItem.length > 0 &&
@@ -2295,7 +2305,7 @@ class Form extends React.Component {
                 </div>
               </div>
               <div className="hidden md:flex md:w-1/2">
-                <FastRegisterCard />
+                {email && <FastRegisterCard />}
               </div>
             </div>
 

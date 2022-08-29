@@ -55,7 +55,7 @@ const SearchAddressPreview = (props) => {
     <>
       <span className="mb-1 ml-1 mr-2 text-cs-gray text-14">Address</span>
       <span className="iconfont iconchenggong text-form-ok"></span>
-      <div className="relative pl-7 pt-8 pb-5 bg-gray-100 rounded-xl">
+      <div className="relative pl-7 pt-8 pb-5 bg-gray-200 rounded-xl">
         <span
           className="absolute right-4 top-2 text-14 font-medium underline cursor-pointer"
           onClick={hideSearchAddressPreview}

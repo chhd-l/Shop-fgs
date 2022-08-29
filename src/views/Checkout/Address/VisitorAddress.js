@@ -93,6 +93,12 @@ class VisitorAddress extends React.Component {
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   }
+  componentDidUpdate() {
+    if (this.state.formAddressValid) {
+      this.setState({ formAddressValid: false });
+      this.handleClickConfirm();
+    }
+  }
   //props发生变化时触发
   componentWillReceiveProps(props) {
     // console.log(props);
@@ -205,17 +211,17 @@ class VisitorAddress extends React.Component {
     }
     return flag;
   };
-  handleClickConfirm2 = () => {
+  triggerHandleConfirm = () => {
     this.setState({
       isTriggerValidDataAll: true
     });
   };
+
   // 游客确认 Delivery address
   handleClickConfirm = async () => {
     const { isValid, unConfirmedForm } = this.state;
     const { isValidationModal } = this.props;
     // console.log('666 游客确认 type： ', this.props.type);
-
     try {
       if (unConfirmedForm?.deliveryDate) {
         this.setState({ btnConfirmLoading: true });
@@ -598,9 +604,6 @@ class VisitorAddress extends React.Component {
     //console.log(234, toJS(panelStatus));
 
     return (
-      // <Demo
-      //   ref={this.addressForm}
-      // />
       <AddressPanelContainer
         ref={this.addressForm}
         panelStatus={panelStatus}
@@ -688,7 +691,7 @@ class VisitorAddress extends React.Component {
                         className={`visitor_address_confirm`}
                         loading={this.state.btnConfirmLoading}
                         //disabled={isValid && formAddressValid ? false : true}
-                        onClick={this.handleClickConfirm2}
+                        onClick={this.triggerHandleConfirm}
                       >
                         <FormattedMessage id="clinic.confirm3" />
                       </Button>
