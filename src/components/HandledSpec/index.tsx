@@ -208,7 +208,7 @@ const HandledSpec = ({
       backgroundColor = '#ccc';
     } else if (
       shouldSkuGrayOutOfStock &&
-      sdItem.specDetailId === selectId &&
+      sdItem.selected &&
       sdItem.isEmpty
     ) {
       backgroundColor = '#ccc';
@@ -249,7 +249,6 @@ const HandledSpec = ({
                         sdItem.isDisabled && !sdItem.canSelectedOutOfStock
                     })}
                     onClick={() => {
-                      onClickSku();
                       setSelectId(sdItem.specDetailId);
                       if (
                         (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||
