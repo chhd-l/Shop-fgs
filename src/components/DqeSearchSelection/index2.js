@@ -1,5 +1,5 @@
 import React from 'react';
-import { getRandom } from '@/utils/utils';
+import { getRandom, isMobile } from '@/utils/utils';
 import cn from 'classnames';
 import { InitFormStatus } from './Constant';
 
@@ -308,7 +308,7 @@ class SearchSelection extends React.Component {
       </div>
     );
   };
-  optionListJSX2 = (optionList) => {
+  optionListJSXMobile = (optionList) => {
     return (
       <div className="rc-bg-colour--brand4 z-50">
         <ul className="m-0 clinic-item-container test-scroll">
@@ -318,7 +318,9 @@ class SearchSelection extends React.Component {
               key={`${item.label}_${idx}`}
               onClick={(e) => this.handleClickClinicItem(e, item)}
             >
-              {item.name}
+              <span>{item.street + ','}</span>
+              <br />
+              <span>{item.postCode + ' ' + item.city}</span>
             </li>
           ))}
         </ul>
@@ -382,7 +384,12 @@ class SearchSelection extends React.Component {
             ></input>
             {this.props.afterFixIcon}
             {/* {this.props.customStyle && <label className="rc-input__label" />} */}
-            {this.state.optionPanelVisible && this.optionListJSX2(optionList)}
+            {this.state.optionPanelVisible &&
+              !isMobile &&
+              this.optionListJSX(optionList)}
+            {this.state.optionPanelVisible &&
+              isMobile &&
+              this.optionListJSXMobile(optionList)}
           </div>
           {!this.state.searchForNoResult &&
             optionList.length === 0 &&

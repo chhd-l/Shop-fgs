@@ -2322,7 +2322,12 @@ class Form extends React.Component {
                     this.setState({ caninForm });
                   }}
                   hideSearchAddressPreview={() => {
-                    this.setState({ showSearchAddressPreview: false });
+                    const { caninForm } = this.state;
+                    const newCaninForm = { ...caninForm, ...{ address2: '' } };
+                    this.setState({
+                      showSearchAddressPreview: false,
+                      caninForm: newCaninForm
+                    });
                   }}
                 />
               )}
