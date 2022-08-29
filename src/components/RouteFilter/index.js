@@ -214,7 +214,6 @@ class RouteFilter extends Component {
     }
   }
   ifEsauCodeTo404() {
-    debugger;
     const hash = window.location.hash;
     const country = window.__.env.REACT_APP_COUNTRY;
     const counterlist = ['fr', 'uk', 'nl', 'us', 'se', 'de'];

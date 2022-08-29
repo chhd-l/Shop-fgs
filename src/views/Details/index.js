@@ -1224,7 +1224,13 @@ class Details extends React.Component {
               pageType="pdp"
             />
           )}
-          <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
+          <div
+            className={`${this.skuOffShelves ? '' : 'hidden'} Quantity ${
+              window.location.hash === '#ConnectedPackDailyPortion'
+                ? 'hidden'
+                : ''
+            }`}
+          >
             <span className="amount">
               <FormattedMessage id="amount" />:
             </span>
@@ -1660,7 +1666,10 @@ class Details extends React.Component {
                           ) : (
                             <div
                               className={classNames({
-                                hidden: this.isNullGoodsInfos,
+                                hidden:
+                                  this.isNullGoodsInfos ||
+                                  window.location.hash ===
+                                    '#ConnectedPackDailyPortion',
                                 'w-full': isMobile,
                                 'col-md-5': !isMobile && this.skuOffShelves
                               })}
