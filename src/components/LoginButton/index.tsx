@@ -21,6 +21,7 @@ import { userBindConsent } from '@/api/consent';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 import { useHistory } from 'react-router-dom';
 import cn from 'classnames';
+import { saveShelterId } from '@/api/recommendation';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -183,15 +184,15 @@ const LoginButton = ({
                     }); // indv登录的时候需要查询到相应的数据
                   }
 
-                  // PO bind shelterId, country:us
-                  // const shelterId =
-                  //   sessionItemRoyal.get('handled-shelter') || '';
-                  // if (shelterId) {
-                  //   await saveShelterId({
-                  //     shelterId,
-                  //     customerId
-                  //   });
-                  // }
+                  // PO bind shelterId, country:de
+                  const shelterId =
+                  localItemRoyal.get('customerId') || '';
+                  if (shelterId) {
+                    await saveShelterId({
+                      shelterId,
+                      customerId
+                    });
+                  }
                   console.log('setIsGetUserInfoDown33');
                   setIsGetUserInfoDown(true);
                 })
