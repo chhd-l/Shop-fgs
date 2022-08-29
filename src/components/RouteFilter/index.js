@@ -214,14 +214,14 @@ class RouteFilter extends Component {
     }
   }
   ifEsauCodeTo404() {
-    // debugger;
-    // const hash = window.location.hash;
-    // const country = window.__.env.REACT_APP_COUNTRY;
-    // const counterlist = ['fr', 'uk', 'nl', 'us', 'se', 'de'];
-    // const bool = counterlist.includes(country);
-    // if (hash === '#ConnectedPackDailyPortion' && bool) {
-    //   window.location.href = '/404';
-    // }
+    debugger;
+    const hash = window.location.hash;
+    const country = window.__.env.REACT_APP_COUNTRY;
+    const counterlist = ['fr', 'uk', 'nl', 'us', 'se', 'de'];
+    const bool = counterlist.includes(country);
+    if (hash === '#ConnectedPackDailyPortion' && bool) {
+      window.location.href = '/404';
+    }
   }
   render() {
     return <React.Fragment />;
