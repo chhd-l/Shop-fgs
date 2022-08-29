@@ -193,7 +193,7 @@ class PaymentList extends React.Component {
       listLoading: false,
       creditCardList: [], //绑定的银行卡列表
       fromPage: 'cover',
-      paymentType: 'PAYU', //PAYU,ADYEN,CYBER 支付方式
+      paymentWay: { name: 'PAYU' }, //PAYU,ADYEN,CYBER 支付方式
       errorMsg: '',
       successMsg: '',
       getPaymentMethodListFlag: false,
@@ -213,7 +213,7 @@ class PaymentList extends React.Component {
     this.getPaymentMethodList(); //获取绑卡列表
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name
+        paymentWay: res?.context
       });
       const payPspItemVOList = res?.context?.payPspItemVOList || [];
       const supportPaymentMethods =
@@ -677,7 +677,7 @@ class PaymentList extends React.Component {
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
-                    paymentType={this.state.paymentType}
+                    paymentWay={this.state.paymentWay}
                     needEmail={this.props.needEmail}
                     needPhone={this.props.needPhone}
                     paymentStore={this.props.paymentStore}

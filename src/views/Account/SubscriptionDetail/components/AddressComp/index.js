@@ -14,7 +14,8 @@ import {
   validData,
   matchNamefromDict,
   getDeviceType,
-  isCanVerifyBlacklistPostCode
+  isCanVerifyBlacklistPostCode,
+  getCurPickUpInfo
 } from '@/utils/utils';
 import { AddressForm } from '@/components/Address';
 import Loading from '@/components/Loading';
@@ -770,7 +771,10 @@ class AddressList extends React.Component {
         province: deliveryAddress.province,
         provinceId: deliveryAddress.provinceId,
         isValidated: deliveryAddress.validationResult,
-        type: this.props.type.toUpperCase()
+        type: this.props.type.toUpperCase(),
+        contractNumber: getCurPickUpInfo('contractNumber'),
+        courier: getCurPickUpInfo('courier'),
+        courierCode: getCurPickUpInfo('courierCode')
       });
 
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {

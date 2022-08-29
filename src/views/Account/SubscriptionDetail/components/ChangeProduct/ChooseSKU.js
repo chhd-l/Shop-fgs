@@ -245,6 +245,12 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
       //     setChangeNowLoading(false);
       //     changeErrorMsg(e && e.message);
       //   });
+
+      window.dataLayer &&
+        dataLayer.push({
+          event: 'myAccountAction',
+          myAccountActionName: details.goodsNo
+        });
     } catch (err) {
       changeErrorMsg(err && err.message);
 

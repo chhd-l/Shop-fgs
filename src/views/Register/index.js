@@ -465,15 +465,15 @@ class Register extends Component {
             res.context.oktaSessionToken
           );
 
-          // PO bind shelterId, country:us
-          const shelterId = sessionItemRoyal.get('handled-shelter') || '';
+          // PO bind shelterId, country:de
+          const shelterId = localItemRoyal.get('customerId') || '';
           const customerId = res.context?.customerId || '';
-          // if (shelterId) {
-          //   await saveShelterId({
-          //     shelterId,
-          //     customerId
-          //   });
-          // }
+          if (shelterId) {
+            await saveShelterId({
+              shelterId,
+              customerId
+            });
+          }
 
           var callOktaCallBack = getOktaCallBackUrl(
             res.context.oktaSessionToken
