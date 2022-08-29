@@ -219,7 +219,7 @@ class RouteFilter extends Component {
     const counterlist = ['fr', 'uk', 'nl', 'us', 'se', 'de'];
     const bool = counterlist.includes(country);
     if (hash === '#ConnectedPackDailyPortion' && bool) {
-      window.location.href = '/404';
+      window.location.href = `/${country}/404`;
     }
   }
   render() {
