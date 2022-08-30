@@ -87,7 +87,6 @@ const SubGoodsInfos = ({
 
   const handleClickChangeProduct = (idx) => {
     setState({ currentChangeProductIdx: idx });
-    GAForChangeProductBtn();
     const autoshipSubStatus =
       subDetail.subscriptionType?.toLowerCase() === 'autoship';
     if (!!subDetail.petsId || autoshipSubStatus) {
@@ -480,11 +479,7 @@ const SubGoodsInfos = ({
                                   console.log('skuInfo', skuInfo);
                                   subDetail.goodsInfo[index].skuId =
                                     skuInfo.goodsInfoId || '';
-                                  window.dataLayer &&
-                                    dataLayer.push({
-                                      event: 'myAccountAction',
-                                      myAccountActionName: skuInfo.packSize
-                                    });
+                                  GAForChangeProductBtn(skuInfo.packSize);
                                   onSubChange();
                                 }}
                                 renderAgin={renderAgin}
