@@ -361,8 +361,7 @@ const UserPaymentInfo = ({
       {/* promotion save */}
       {/* fr ru tr  us: 368369*/}
       {/* ['fr', 'ru', 'tr'].includes(country) */}
-      {promotionsArr?.length > 0 &&
-        ['fr', 'ru', 'tr'].includes(country) &&
+      {['fr', 'ru', 'tr'].includes(country) &&
         ['club'].includes(subDetail?.subscriptionType?.toLowerCase()) && (
           <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
             <div className="h-100 border border-d7d7d7 p-5">
@@ -420,7 +419,9 @@ const UserPaymentInfo = ({
                       values={{
                         money: (
                           <span style={{ color: '#009700' }}>
-                            {formatMoney(promotionsArr[0].value ?? 0)}
+                            {promotionsArr.length > 0
+                              ? formatMoney(promotionsArr[0].value ?? 0)
+                              : formatMoney(0)}
                           </span>
                         ),
                         code: (
@@ -428,10 +429,16 @@ const UserPaymentInfo = ({
                             className="text-22 font-semibold"
                             style={{ color: '#009700' }}
                           >
-                            {promotionsArr[0].publicStatus === '1' ? (
-                              <FormattedMessage id="subscription.PROMOTION" />
+                            {promotionsArr.length > 0 ? (
+                              <>
+                                {promotionsArr[0].publicStatus === '1' ? (
+                                  <FormattedMessage id="subscription.PROMOTION" />
+                                ) : (
+                                  promotionsArr[0]?.code
+                                )}
+                              </>
                             ) : (
-                              promotionsArr[0]?.code
+                              <FormattedMessage id="subscription.PROMOTION" />
                             )}
                           </span>
                         )
@@ -440,17 +447,20 @@ const UserPaymentInfo = ({
                     <br />
                     <span>
                       {/* 日本是年 月 日  -----其他国家是日 月 年 */}
-                      <FormattedMessage
-                        id="Subscription.AddOn"
-                        values={{
-                          time: (
-                            <span>
-                              {getFormatDate(promotionsArr[0].useTime) ||
-                                getFormatDate(new Date())}
-                            </span>
-                          )
-                        }}
-                      />
+                      {promotionsArr.length > 0 && (
+                        <FormattedMessage
+                          id="Subscription.AddOn"
+                          values={{
+                            time: (
+                              <span>
+                                {getFormatDate(promotionsArr[0].useTime) ||
+                                  getFormatDate(new Date())}
+                              </span>
+                            )
+                          }}
+                        />
+                      )}
+
                       {/* {format(new Date("2022-7-29"), "MMMM do yyyy", { locale: date_fns_locale[window.__.env.REACT_APP_LANG_LOCALE] })} */}
                     </span>
                   </span>
