@@ -465,6 +465,16 @@ class Details extends React.Component {
     if (!details.goodsSpecs) {
       this.getPdpScreenLoadData();
     }
+
+    if (!data.stock) {
+      this.setState({
+        ossReceiveBackNotificationContentVisible: true
+      });
+    } else {
+      this.setState({
+        ossReceiveBackNotificationContentVisible: false
+      });
+    }
   }
 
   updatedPriceOrCode = ({ barcode, selectPrice, clickEvent }) => {
@@ -1174,19 +1184,7 @@ class Details extends React.Component {
       </div>
     );
   };
-  handleClickSku = () => {
-    setTimeout(() => {
-      if (!this.state.instockStatus) {
-        this.setState({
-          ossReceiveBackNotificationContentVisible: true
-        });
-      } else {
-        this.setState({
-          ossReceiveBackNotificationContentVisible: false
-        });
-      }
-    }, 0);
-  };
+
   specAndQuantityDom = (selectedSpecItem) => {
     const {
       configStore: {
@@ -1206,7 +1204,6 @@ class Details extends React.Component {
             updatedPriceOrCode={this.updatedPriceOrCode}
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
-            onClickSku={this.handleClickSku}
             shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />

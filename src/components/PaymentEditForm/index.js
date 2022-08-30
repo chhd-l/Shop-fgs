@@ -773,10 +773,6 @@ class PaymentEditForm extends React.Component {
       cardTypeVal
     } = this.state;
     const { paymentWay } = this.props;
-    console.info(
-      'paymentWaypaymentWaypaymentWay',
-      paymentWay.payPspItemVOList[0]?.paymentFormType
-    );
 
     const showPaymentMethodTipsRu = window.__.env.REACT_APP_COUNTRY === 'ru';
 
