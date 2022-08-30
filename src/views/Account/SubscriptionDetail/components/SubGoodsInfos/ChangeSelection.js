@@ -4,7 +4,6 @@ import FrequencySelection from '@/components/FrequencySelection';
 import { SubGoodsInfosContext } from './index';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { getZoneTime, formatDate } from '@/utils/utils';
-import { GAForChangeProductBtn } from '@/utils/GA';
 import { DatePickerComponent } from '@/components/Common';
 import cn from 'classnames';
 
