@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import {
   Selection,
-  CitySearchSelection,
+  CitySearchSelection2 as CitySearchSelection,
   Loading,
   NormalSkeleton as Skeleton
 } from '@/components';
@@ -144,6 +144,15 @@ class Form extends React.Component {
   get formListOption() {
     return this.state.formList.filter((item) => item.requiredFlag == 0);
   }
+  get isManualInputAddressTotal() {
+    return this.state.isClickManualInputAddress || this.add1TobeInputJsx; //address1后台配置成inputJsx框，就直接展示手动输入地址
+  }
+  get add1TobeInputJsx() {
+    return (
+      this.address1Item[0]?.inputFreeTextFlag == 1 &&
+      this.address1Item[0]?.inputSearchBoxFlag == 0
+    );
+  }
 
   constructor(props) {
     super(props);
@@ -213,7 +222,7 @@ class Form extends React.Component {
       errMsgObj: {},
       curItemStatus: {},
       showSearchAddressPreview: false,
-      isManualInputAddress: false,
+      isClickManualInputAddress: false,
       formErrMsgArr: []
     };
     this.timer = null;
@@ -312,6 +321,32 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
+
+  formType = (item) => {
+    console.log(item);
+    const { inputFreeTextFlag, inputSearchBoxFlag, inputDropDownBoxFlag } =
+      item;
+    const option =
+      inputFreeTextFlag + '' + inputSearchBoxFlag + '' + inputDropDownBoxFlag;
+    let type = '';
+    switch (option) {
+      case '100':
+      case '101':
+        // 单一input框
+        type = 'input';
+        break;
+      case '010':
+        type = 'search';
+        break;
+      case '110':
+        type = 'inputAndSearch';
+        break;
+      case '001':
+        type = 'dropDown';
+        break;
+    }
+    return type;
+  };
 
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
@@ -1819,7 +1854,7 @@ class Form extends React.Component {
         <span
           className="text-cs-black underline cursor-pointer text-14 font-medium"
           onClick={() => {
-            this.setState({ isManualInputAddress: true });
+            this.setState({ isClickManualInputAddress: true });
           }}
         >
           saisir une adresse manuellment
@@ -2280,7 +2315,6 @@ class Form extends React.Component {
     console.log(this.dqeSearchSelection);
     this.dqeSearchSelection.current.clearForm();
   };
-
   render() {
     const {
       dataLoading,
@@ -2326,7 +2360,7 @@ class Form extends React.Component {
 
             <div
               className={cn('mb-4 w-100', {
-                hidden: this.state.isManualInputAddress
+                hidden: this.isManualInputAddressTotal
               })}
             >
               {this.state.showSearchAddressPreview && (
@@ -2372,7 +2406,7 @@ class Form extends React.Component {
             </div>
             <div
               className={cn('py-2', {
-                hidden: !this.state.isManualInputAddress
+                hidden: !this.isManualInputAddressTotal
               })}
             >
               <div className="w-full mb-1 md:mb-10">
@@ -2391,7 +2425,11 @@ class Form extends React.Component {
                 <div className="w-5"></div>
                 <div className="flex-1">
                   {this.cityItem.length > 0 &&
+                    this.formType(this.cityItem[0]) == 'input' &&
                     this.newInputJSX({ item: this.cityItem[0] })}
+                  {this.cityItem.length > 0 &&
+                    this.formType(this.cityItem[0]) == 'inputAndSearch' &&
+                    this.citySearchSelectiontJSX({ item: this.cityItem[0] })}
                 </div>
               </div>
             </div>
@@ -2440,7 +2478,7 @@ class Form extends React.Component {
                 }}
                 onClick={() => {
                   this.add1ActionSheet.current.close();
-                  this.setState({ isManualInputAddress: true });
+                  this.setState({ isClickManualInputAddress: true });
                 }}
               >
                 Saisirl'adresse manuellement

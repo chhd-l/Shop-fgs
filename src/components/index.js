@@ -6,6 +6,7 @@ export { default as YandexMap } from './YandexMap';
 export { default as GoogleMapMakerHandle } from './GoogleMap/makerHandle';
 export { default as Selection } from './Selection';
 export { default as CitySearchSelection } from './CitySearchSelection';
+export { default as CitySearchSelection2 } from './CitySearchSelection/index2';
 export { default as DqeSearchSelection } from './DqeSearchSelection';
 export { default as DqeSearchSelection2 } from './DqeSearchSelection/index2';
 export { default as SearchSelection } from './SearchSelection';
