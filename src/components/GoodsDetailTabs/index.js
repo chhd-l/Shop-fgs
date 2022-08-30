@@ -718,7 +718,7 @@ const GoodsDetailTabs = function (props) {
       }
     } else if (adultCheck) {
       window.setTimeout(() => {
-        scrollToTarget('j-details-dailyportion');
+        scrollToTarget('GoodsDetailTabs');
       }, 500);
     }
   };
