@@ -773,7 +773,7 @@ class AddressList extends React.Component {
         isValidated: deliveryAddress.validationResult,
         type: this.props.type.toUpperCase(),
         contractNumber: getCurPickUpInfo('contractNumber'),
-        courier: getCurPickUpInfo('courier'),
+        pickupName: getCurPickUpInfo('courier'),
         courierCode: getCurPickUpInfo('courierCode')
       });
 

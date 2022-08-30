@@ -7,8 +7,7 @@ import {
   matchNamefromDict,
   getDeviceType,
   getAddressPostalCodeAlertMessage,
-  isCanVerifyBlacklistPostCode,
-  getCurPickUpInfo
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import {
@@ -665,6 +664,8 @@ class AddressList extends React.Component {
   // 确认 pickup
   clickConfirmPickup = async () => {
     const { countryList, allAddressList, pickupFormData } = this.state;
+
+    debugger;
     this.setState({
       saveBtnLoading: true,
       loading: true
@@ -690,7 +691,6 @@ class AddressList extends React.Component {
           pickupPrice: pickupFormData?.pickupPrice,
           pickupDescription: pickupFormData?.pickupDescription,
           pickupCode: pickupFormData?.pickupCode, // 快递公司code
-          pickupName: pickupFormData?.pickupName, // 快递公司
           paymentMethods: pickupFormData?.paymentMethods, // 支付方式
           workTime: pickupFormData.workTime, // 快递公司上班时间
           receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
@@ -710,9 +710,9 @@ class AddressList extends React.Component {
           settlementIdStr:
             pkaddr?.settlementFias || pickupFormData.settlementIdStr,
           postalCode: pkaddr?.zip || pickupFormData.postCode,
-          contractNumber: getCurPickUpInfo('contractNumber'),
-          courier: getCurPickUpInfo('courier'),
-          courierCode: getCurPickUpInfo('courierCode')
+          contractNumber: pickupFormData?.contractNumber,
+          pickupName: pickupFormData?.pickupName, // 快递公司
+          courierCode: pickupFormData?.courierCode
         }
       );
 
