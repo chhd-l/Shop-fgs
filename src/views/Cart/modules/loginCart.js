@@ -63,7 +63,7 @@ import cn from 'classnames';
 import { Button, Popover } from '@/components/Common';
 import { getCustomerInfo } from '@/api/user';
 import { funcUrl } from '@/lib/url-utils';
-import { toJS } from 'mobx';
+import { reaction } from 'mobx';
 import OssReceiveBackNotificationContent from '../../Details/components/OSSReceiveBackNotificationContent';
 
 const guid = uuidv4();
@@ -127,6 +127,11 @@ class LoginCart extends React.Component {
     this.showErrMsg = this.showErrMsg.bind(this);
   }
   async componentDidMount() {
+    // Monitor the changes of logincartdata data in mobx
+    this._notificationsReaction = reaction(
+      () => this.props.checkoutStore.loginCartData,
+      this.handleLoginCartDataUpdates
+    );
     try {
       const { loginStore } = this.props;
       if (
@@ -184,9 +189,9 @@ class LoginCart extends React.Component {
           isReturnList: true
         })
       );
-      setTimeout(() => {
-        this.setData({ initPage: true });
-      }, 2000);
+      // setTimeout(() => {
+      //   this.setData({ initPage: true });
+      // }, 2000);
       // let indv = this.loginCartData.filter(el=>el.goodsInfoFlag==3)
       // if(indv.length){
       //   setTimeout(()=>{
@@ -215,6 +220,23 @@ class LoginCart extends React.Component {
     } catch (err) {
       console.log(666, err);
     }
+  }
+
+  handleLoginCartDataUpdates = (newLoginCartData) => {
+    // First execution
+    if (this.hasSetData) {
+      return false;
+    }
+    if (newLoginCartData.length > 0) {
+      // After the data of logincartdata in mobx changes, update the page data
+      this.setData({ initPage: true });
+      this.hasSetData = true;
+    }
+  };
+
+  componentWillUnmount() {
+    // The return value of reaction is a function. Updates that can be used to unsubscribe
+    this._notificationsReaction();
   }
   get loginCartData() {
     return this.props.checkoutStore.loginCartData.filter(
