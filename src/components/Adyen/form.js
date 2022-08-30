@@ -106,69 +106,104 @@ class AdyenCreditCardForm extends React.Component {
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
 
       const checkout = await new AdyenCheckout(configuration);
-      const card = checkout
-        .create('card', {
-          brands: ADYEN_CREDIT_CARD_BRANDS,
-          enableStoreDetails: _this.props.isShowEnableStoreDetails,
-          hasHolderName: true,
-          holderNameRequired: true,
-          showPayButton: false,
-          onBrand: (state) => {
-            adyenFormData = Object.assign(adyenFormData, {
-              adyenBrands: state.brand,
-              brand: state.brand,
-              brandImageUrl: state.brandImageUrl
-            });
-          },
-          // onFieldValid: (state: any) => {
-          //   updateFormData(
-          //     Object.assign(CardListStore.formData || {}, {
-          //       lastFourDigits: state.endDigits,
-          //     })
-          //   )
-          // },
-          onChange: (state) => {
-            try {
-              _this.getBrowserInfo(state);
-              console.log('adyen form state:', state);
-              console.log('adyen form card:', card);
-              const {
-                enableStoreDetails,
-                isShowEnableStoreDetails,
-                mustSaveForFutherPayments
-              } = _this.props;
-              let tmpValidSts;
-              if (isShowEnableStoreDetails && mustSaveForFutherPayments) {
-                tmpValidSts = card.data.storePaymentMethod && state.isValid;
-              } else {
-                tmpValidSts = state.isValid;
-              }
-              _this.setState({ isValid: tmpValidSts }, () => {
-                console.log('adyen form state.isValid:', state.isValid);
-              });
-              _this.props.updateClickPayBtnValidStatus(tmpValidSts);
-              if (tmpValidSts) {
-                adyenFormData = Object.assign(
-                  adyenFormData,
-                  getAdyenParam(card.data),
-                  {
-                    storePaymentMethod: isShowEnableStoreDetails
-                      ? card.data && card.data.storePaymentMethod
-                      : mustSaveForFutherPayments
-                      ? true
-                      : false
-                  }
-                );
-              }
-            } catch (err) {
-              console.log('set adyen form err', err);
-            }
-          },
-          onLoad: () => {
-            console.log('adyen form loaded');
-          }
-        })
-        .mount(this.containerEl.current);
+      const applePayConfiguration = {
+        //      onValidateMerchant: (resolve, reject, validationURL) => {
+        //     // Your server uses the validation URL to request a session from the Apple Pay server.
+        //     // Call resolve(MERCHANTSESSION) or reject() to complete merchant validation.
+        //     validateMerchant(validationURL)
+        //         .then(response => {
+        //         // Complete merchant validation with resolve(MERCHANTSESSION) after receiving an opaque merchant session object, MerchantSession
+        //         resolve(response);
+        //         })
+        //         .catch(error => {
+        //         // Complete merchant validation with reject() if any error occurs
+        //         reject();
+        //         });
+        // }
+        // amount: {
+        //     value: 1000,
+        //     currency: "EUR"
+        // },
+        // countryCode: "DE"
+      };
+      const applePayComponent = checkout.create(
+        'applepay',
+        applePayConfiguration
+      );
+      applePayComponent.mount('#applepay-container');
+
+      //     applePayComponent
+      //  .isAvailable()
+      //  .then(() => {
+      //      applePayComponent.mount("#applepay-container");
+      //  })
+      //  .catch(e => {
+      //   console.info('.....err',e)
+      //      //Apple Pay is not available
+      //  });
+      // const card = checkout
+      //   .create('card', {
+      //     brands: ADYEN_CREDIT_CARD_BRANDS,
+      //     enableStoreDetails: _this.props.isShowEnableStoreDetails,
+      //     hasHolderName: true,
+      //     holderNameRequired: true,
+      //     showPayButton: false,
+      //     onBrand: (state) => {
+      //       adyenFormData = Object.assign(adyenFormData, {
+      //         adyenBrands: state.brand,
+      //         brand: state.brand,
+      //         brandImageUrl: state.brandImageUrl
+      //       });
+      //     },
+      //     // onFieldValid: (state: any) => {
+      //     //   updateFormData(
+      //     //     Object.assign(CardListStore.formData || {}, {
+      //     //       lastFourDigits: state.endDigits,
+      //     //     })
+      //     //   )
+      //     // },
+      //     onChange: (state) => {
+      //       try {
+      //         _this.getBrowserInfo(state);
+      //         console.log('adyen form state:', state);
+      //         console.log('adyen form card:', card);
+      //         const {
+      //           enableStoreDetails,
+      //           isShowEnableStoreDetails,
+      //           mustSaveForFutherPayments
+      //         } = _this.props;
+      //         let tmpValidSts;
+      //         if (isShowEnableStoreDetails && mustSaveForFutherPayments) {
+      //           tmpValidSts = card.data.storePaymentMethod && state.isValid;
+      //         } else {
+      //           tmpValidSts = state.isValid;
+      //         }
+      //         _this.setState({ isValid: tmpValidSts }, () => {
+      //           console.log('adyen form state.isValid:', state.isValid);
+      //         });
+      //         _this.props.updateClickPayBtnValidStatus(tmpValidSts);
+      //         if (tmpValidSts) {
+      //           adyenFormData = Object.assign(
+      //             adyenFormData,
+      //             getAdyenParam(card.data),
+      //             {
+      //               storePaymentMethod: isShowEnableStoreDetails
+      //                 ? card.data && card.data.storePaymentMethod
+      //                 : mustSaveForFutherPayments
+      //                 ? true
+      //                 : false
+      //             }
+      //           );
+      //         }
+      //       } catch (err) {
+      //         console.log('set adyen form err', err);
+      //       }
+      //     },
+      //     onLoad: () => {
+      //       console.log('adyen form loaded');
+      //     }
+      //   })
+      //   .mount(this.containerEl.current);
     }
   }
   handleSavePromise = async () => {
@@ -278,7 +313,7 @@ class AdyenCreditCardForm extends React.Component {
           </p>
         )}
         <div
-          id="adyen-card-container"
+          id="applepay-container"
           data-auto-testid="adyen-card-container"
           ref={this.containerEl}
           className={`payment-method__container ${
