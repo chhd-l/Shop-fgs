@@ -74,9 +74,15 @@ class AdyenCreditCardForm extends React.Component {
 
     this.setState(
       {
-        adyenOriginKeyConf: tmp.filter(
-          (t) => t.pspItemCode === curPayWayInfo?.code
-        )[0]
+        adyenOriginKeyConf: {
+          appId: 'MarsIncorporated_ROYALCANIN_FRANCE_D2C_SIT_TEST',
+          environment: 'test',
+          locale: 'fr_FR',
+          openPlatformSecret: 'test_Y5XPLQLX2RBVZN5PZ7X4VKOEEE2OLBDF',
+          pspItemCode: 'adyen_credit_card',
+          pspName: 'ADYEN',
+          publicKey: '123456'
+        }
       },
       () => {
         this.initForm();
@@ -90,7 +96,7 @@ class AdyenCreditCardForm extends React.Component {
     const _this = this;
     const { translations } = packageTranslations({ messages });
     const { adyenOriginKeyConf } = this.state;
-    console.log({ adyenOriginKeyConf });
+    console.log(adyenOriginKeyConf, '==================');
 
     if (this.containerEl.current) {
       const configuration = {
@@ -107,30 +113,45 @@ class AdyenCreditCardForm extends React.Component {
 
       const checkout = await new AdyenCheckout(configuration);
       const applePayConfiguration = {
-        //      onValidateMerchant: (resolve, reject, validationURL) => {
-        //     // Your server uses the validation URL to request a session from the Apple Pay server.
-        //     // Call resolve(MERCHANTSESSION) or reject() to complete merchant validation.
-        //     validateMerchant(validationURL)
-        //         .then(response => {
-        //         // Complete merchant validation with resolve(MERCHANTSESSION) after receiving an opaque merchant session object, MerchantSession
-        //         resolve(response);
-        //         })
-        //         .catch(error => {
-        //         // Complete merchant validation with reject() if any error occurs
-        //         reject();
-        //         });
-        // }
+        onValidateMerchant: (resolve, reject, validationURL) => {
+          console.info('.....', resolve, reject, validationURL);
+          // Your server uses the validation URL to request a session from the Apple Pay server.
+          // Call resolve(MERCHANTSESSION) or reject() to complete merchant validation.
+          validateMerchant(validationURL)
+            .then((response) => {
+              console.info('response', response);
+              // Complete merchant validation with resolve(MERCHANTSESSION) after receiving an opaque merchant session object, MerchantSession
+              resolve(response);
+            })
+            .catch((error) => {
+              console.info('reject', error);
+              // Complete merchant validation with reject() if any error occurs
+              reject();
+            });
+        },
+        buttonType: 'buy',
+        buttonColor: 'black'
         // amount: {
         //     value: 1000,
         //     currency: "EUR"
         // },
-        // countryCode: "DE"
+        // countryCode: "FR"
       };
       const applePayComponent = checkout.create(
         'applepay',
         applePayConfiguration
       );
-      applePayComponent.mount('#applepay-container');
+      applePayComponent
+        .isAvailable()
+        .then(() => {
+          console.info('.......test');
+          applePayComponent.mount('#applepay-container');
+        })
+        .catch((e) => {
+          console.info('ApplePaySessionerror000000000', e);
+          //Apple Pay is not available
+        });
+      // applePayComponent.mount('#applepay-container');
 
       //     applePayComponent
       //  .isAvailable()
