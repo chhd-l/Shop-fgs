@@ -2304,7 +2304,10 @@ class Form extends React.Component {
                     this.newInputJSX({ item: this.emailItem[0] })}
                 </div>
                 <div className="md:hidden mb-3">
-                  {email && <FastRegisterCard />}
+                  {this.emailItem.length > 0 &&
+                    this.emailItem[0].Status == 'inputOk' && (
+                      <FastRegisterCard />
+                    )}
                 </div>
                 <div className="mb-1 md:mb-10 w-100">
                   {this.firstNameItem.length > 0 &&
@@ -2316,7 +2319,8 @@ class Form extends React.Component {
                 </div>
               </div>
               <div className="hidden md:flex md:w-1/2">
-                {email && <FastRegisterCard />}
+                {this.emailItem.length > 0 &&
+                  this.emailItem[0].Status == 'inputOk' && <FastRegisterCard />}
               </div>
             </div>
 
