@@ -223,14 +223,11 @@ class LoginCart extends React.Component {
   }
 
   handleLoginCartDataUpdates = (newLoginCartData) => {
-    // First execution
-    if (this.hasSetData) {
-      return false;
-    }
     if (newLoginCartData.length > 0) {
       // After the data of logincartdata in mobx changes, update the page data
       this.setData({ initPage: true });
-      this.hasSetData = true;
+      // The return value of reaction is a function. Updates that can be used to unsubscribe
+      this._notificationsReaction();
     }
   };
 
