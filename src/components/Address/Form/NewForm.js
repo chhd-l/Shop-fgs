@@ -1413,8 +1413,9 @@ class Form extends React.Component {
   };
 
   getTotalErrMsg = () => {
-    const { caninForm, formList } = this.state;
-    let formErrMsgArr = [];
+    const { caninForm, formList, errMsgObj } = this.state;
+    let formErrMsgArr = [],
+      newErrMsgObj = {};
     return new Promise((resolve, reject) => {
       formList.forEach(async (item) => {
         try {
@@ -1426,11 +1427,18 @@ class Form extends React.Component {
             });
           }
         } catch (err) {
-          item.errMsg = err.message;
           formErrMsgArr.push(item.fieldKey);
+          if (Object.keys(errMsgObj).includes(item.fieldKey)) {
+            newErrMsgObj = {
+              ...errMsgObj,
+              ...{ [item.fieldKey]: err.message }
+            };
+          } else {
+            newErrMsgObj[item.fieldKey] = err.message;
+          }
         }
       });
-      resolve([formList, formErrMsgArr]);
+      resolve([newErrMsgObj, formErrMsgArr]);
     });
   };
 
@@ -1441,9 +1449,9 @@ class Form extends React.Component {
 
   validDataAll = async () => {
     try {
-      const [formList, formErrMsgArr] = await this.getTotalErrMsg();
+      const [newErrMsgObj, formErrMsgArr] = await this.getTotalErrMsg();
       if (formErrMsgArr.length > 0) {
-        this.setState({ formList });
+        this.setState({ errMsgObj: newErrMsgObj });
         this.scrollTo(`${formErrMsgArr[0]}Shipping`);
       } else {
         this.props.getFormAddressValidFlag(true);
@@ -1828,7 +1836,7 @@ class Form extends React.Component {
     hideLabel = true,
     afterFixIcon = ''
   }) => {
-    const { caninForm, apiType } = this.state;
+    const { caninForm, apiType, errMsgObj } = this.state;
 
     return (
       <>
@@ -1921,8 +1929,8 @@ class Form extends React.Component {
         />
         {callback && callback()}
         {/* 输入提示 */}
-        {item.requiredFlag == 1 && item.errMsg && (
-          <div className="text-form-err">{item.errMsg}</div>
+        {item.requiredFlag == 1 && errMsgObj[item.fieldKey] && (
+          <div className="text-form-err">{errMsgObj[item.fieldKey]}</div>
         )}
       </>
     );
@@ -1986,21 +1994,23 @@ class Form extends React.Component {
   };
   //checkout大改造 查询输入状态 有值就Ok，没值就empty
   queryInputStatusIsEmpty = (tname, tvalue) => {
+    const { errMsgObj } = this.state;
     const formList = [...this.state.formList];
+    const newErrMsgObj = { ...errMsgObj };
 
     for (let item of formList) {
       if (item.fieldKey == tname) {
         if (tvalue == '') {
           item.Status = 'empty';
-          item.errMsg = `Please fill your ${tname}`;
+          newErrMsgObj[item.fieldKey] = `Please fill your ${tname}`;
         } else {
           item.Status = 'inputOk';
-          item.errMsg = '';
+          newErrMsgObj[item.fieldKey] = '';
         }
         break;
       }
     }
-    this.setState({ formList });
+    this.setState({ formList, errMsgObj: newErrMsgObj });
   };
 
   //checkout大改造
@@ -2028,21 +2038,22 @@ class Form extends React.Component {
 
     this.setState({ caninForm }, () => {
       this.updateDataToProps();
-      // if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
-      //   this.debounceValidvalidationData(tname, tvalue);
-      // } else {
-      //   this.validvalidationData(tname, tvalue);
-      // }
+      if (!tvalue) return;
+      if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
+        this.debounceValidvalidationData(tname, tvalue);
+      } else {
+        this.validvalidationData(tname, tvalue);
+      }
     });
   };
   //checkout大改造
   newInputJSX = ({ item, disabled = false, callback, prevIcon }) => {
-    const { caninForm } = this.state;
+    const { caninForm, errMsgObj } = this.state;
 
     if (caninForm[item.fieldKey]) {
       item.Status = 'inputOk';
     }
-    if (item.errMsg) {
+    if (errMsgObj[item.fieldKey]) {
       item.Status = 'inputErr';
     }
 
@@ -2097,8 +2108,8 @@ class Form extends React.Component {
         </div>
         {callback && callback()}
         {/* 输入提示 */}
-        {item.requiredFlag == 1 && item.errMsg && (
-          <div className="text-form-err">{item.errMsg}</div>
+        {item.requiredFlag == 1 && errMsgObj[item.fieldKey] && (
+          <div className="text-form-err">{errMsgObj[item.fieldKey]}</div>
         )}
       </>
     );

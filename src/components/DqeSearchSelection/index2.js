@@ -283,7 +283,7 @@ class SearchSelection extends React.Component {
       </div>
     );
   };
-  optionListJSX1 = (optionList) => {
+  optionListJSX = (optionList) => {
     return (
       <div className="border bg-white rounded-b-2xl z-50">
         <ul className="m-0 clinic-item-container test-scroll">
