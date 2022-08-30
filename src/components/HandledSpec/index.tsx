@@ -242,6 +242,7 @@ const HandledSpec = ({
                 .filter((el: any) => showOffShelvesSpecs || el.addedFlag)
                 .map((sdItem: any, i: number) => (
                   <div
+                    data-auto-testid="single-select-size"
                     key={i}
                     className={cn(`rc-swatch__item`, {
                       selected: sdItem.selected,
