@@ -85,7 +85,8 @@ class AdyenCreditCardForm extends React.Component {
   }
   async initForm() {
     const {
-      intl: { messages }
+      intl: { messages },
+      paymentStore
     } = this.props;
     const _this = this;
     const { translations } = packageTranslations({ messages });
@@ -104,11 +105,13 @@ class AdyenCreditCardForm extends React.Component {
         allowAddedLocales: true
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
-
+      const brands = paymentStore?.supportPaymentMethods?.map((el) =>
+        el.cardType?.toLowerCase()
+      ) || ['mc', 'visa', 'amex'];
       const checkout = await new AdyenCheckout(configuration);
       const card = checkout
         .create('card', {
-          brands: ADYEN_CREDIT_CARD_BRANDS,
+          brands,
           enableStoreDetails: _this.props.isShowEnableStoreDetails,
           hasHolderName: true,
           holderNameRequired: true,
