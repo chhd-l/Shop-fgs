@@ -28,8 +28,7 @@ import {
   isCanVerifyBlacklistPostCode,
   formatDate,
   formatJPDate,
-  formatJPTime,
-  getCurPickUpInfo
+  formatJPTime
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -2047,7 +2046,6 @@ class AddressList extends React.Component {
         pickupPrice: pickupFormData?.pickupPrice,
         pickupDescription: pickupFormData?.pickupDescription,
         pickupCode: pickupFormData?.pickupCode, // 快递公司code
-        pickupName: pickupFormData?.pickupName, // 快递公司
         paymentMethods: pickupFormData?.paymentMethods, // 支付方式
         workTime: pickupFormData.workTime, // 快递公司上班时间
         receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
@@ -2067,9 +2065,9 @@ class AddressList extends React.Component {
         settlementIdStr:
           pkaddr?.settlementFias || pickupFormData.settlementIdStr,
         postalCode: pkaddr?.zip || pickupFormData.postCode,
-        contractNumber: getCurPickUpInfo('contractNumber'),
-        courier: getCurPickUpInfo('courier'),
-        courierCode: getCurPickUpInfo('courierCode')
+        contractNumber: pickupFormData?.pickup?.contractNumber,
+        pickupName: pickupFormData?.pickupName, // 快递公司
+        courierCode: pickupFormData?.pickup?.courierCode
       });
 
       // 查询地址列表，筛选 pickup 地址

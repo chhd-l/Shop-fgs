@@ -202,7 +202,7 @@ class PaymentComp extends React.Component {
       currentCardInfo: {},
       completeCardShow: false,
       currentEditOriginCardInfo: null,
-      paymentType: 'PAYU', // PAYU ADYEN
+      paymentWay: { name: 'PAYU' }, // PAYU ADYEN
       supportPaymentMethods: [],
       defaultCardTypeVal: ''
     };
@@ -217,7 +217,7 @@ class PaymentComp extends React.Component {
     } = this.props;
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name
+        paymentWay: res?.context
       });
       const payPspItemVOList = res?.context?.payPspItemVOList || [];
       setPayWayNameArr(payPspItemVOList);
@@ -1014,7 +1014,7 @@ class PaymentComp extends React.Component {
             backPage={this.state.fromPage}
             hideMyself={this.handleHideEditForm}
             refreshList={this.getPaymentMethodList}
-            paymentType={this.state.paymentType}
+            paymentWay={this.state.paymentWay}
             supportPaymentMethods={supportPaymentMethods}
             needEmail={this.props.needEmail}
             needPhone={this.props.needPhone}

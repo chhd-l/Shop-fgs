@@ -660,6 +660,7 @@ const GoodsDetailTabs = function (props) {
       return;
     }
     //扫码访问跳转到食量计划tab
+
     const country = window.__.env.REACT_APP_COUNTRY;
     if (
       country === 'ru' ||
@@ -677,6 +678,7 @@ const GoodsDetailTabs = function (props) {
         }
       });
     }
+
     const lifeStagesAttr = (goodsAttributesValueRelList ?? [])
       .filter((item) => item.goodsAttributeName === 'Lifestages')
       .map((item) => item?.goodsAttributeValue);
@@ -691,6 +693,7 @@ const GoodsDetailTabs = function (props) {
     const guideTabIndex = (goodsDetailTabsData ?? []).findIndex(
       (item) => item.descriptionName === 'Guide'
     );
+
     console.log(
       'ConnectedPackDailyPortion hash check:',
       growingCheck,
@@ -718,7 +721,11 @@ const GoodsDetailTabs = function (props) {
       }
     } else if (adultCheck) {
       window.setTimeout(() => {
-        scrollToTarget('j-details-dailyportion');
+        scrollToTarget('GoodsDetailTabs');
+      }, 500);
+    } else if (country === 'mx') {
+      window.setTimeout(() => {
+        scrollToTarget('GoodsDetailTabs');
       }, 500);
     }
   };

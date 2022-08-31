@@ -93,8 +93,6 @@ class CyberPaymentForm extends React.Component {
     return this.props.loginStore.isLogin;
   }
   componentDidMount() {
-    // 应该监听编辑事件，然后load js 处理逻辑，暂时还没考虑好
-    // setTimeout(()=>{
     console.info('..........===', this.isLogin);
     if (this.isLogin) {
       loadJS({
@@ -104,7 +102,6 @@ class CyberPaymentForm extends React.Component {
         }
       });
     }
-    // },1000)
   }
   // 监听变化
   // 初始化 MicroForm 支付表单
@@ -115,15 +112,6 @@ class CyberPaymentForm extends React.Component {
     }
     let { context } = await cyberClient(pspItemId);
     console.info('...', context);
-    // let { keyInfo } = context;
-    // JWK is set up on the server side route for /
-    var form = document.querySelector('#my-sample-form');
-    var payButton = document.querySelector('#pay-button');
-    var flexResponse = document.querySelector('#flexresponse');
-    var expMonth = document.querySelector('#expMonth');
-    var expYear = document.querySelector('#expYear');
-    var errorsOutput = document.querySelector('#errors-output');
-    // the capture context that was requested server-side for this transaction
     var captureContext = context;
 
     // custom styles that will be applied to each field we create using Microform

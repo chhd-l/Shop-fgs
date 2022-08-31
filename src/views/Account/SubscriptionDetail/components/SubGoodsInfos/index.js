@@ -58,16 +58,15 @@ const SubGoodsInfos = ({
   }, [configStore?.info?.skuLimitThreshold]);
 
   //subscription info change
-  const onSubChange = async () => {
-    const subSkuStatus = subDetail.goodsInfo?.every(
-      (el) => el.oldSkuId === el.skuId
-    );
-    const chooseSkuStock = subDetail.goodsInfo?.some((el) => !el.stock);
-    console.log(chooseSkuStock, 'chooseSkuStock');
+  const onSubChange = () => {
     let isDataChange = true;
     subDetail.goodsInfo.forEach((el) => {
-      if (el.oldSkuId !== el.skuId && !el.stock) {
-        isDataChange = false;
+      if (el.oldSkuId !== el.skuId) {
+        el.goodsInfos.forEach((ele) => {
+          if (ele.selected && !ele.stock) {
+            isDataChange = false;
+          }
+        });
       }
     });
     setState({ isDataChange });
@@ -87,7 +86,6 @@ const SubGoodsInfos = ({
 
   const handleClickChangeProduct = (idx) => {
     setState({ currentChangeProductIdx: idx });
-    GAForChangeProductBtn();
     const autoshipSubStatus =
       subDetail.subscriptionType?.toLowerCase() === 'autoship';
     if (!!subDetail.petsId || autoshipSubStatus) {
@@ -134,7 +132,6 @@ const SubGoodsInfos = ({
     isShowClub,
     handleClickChangeProduct
   };
-  console.log(subDetail.goodsInfo, 'subDetail.goodsInfo21');
   return (
     // true?null:
     <SubGoodsInfosContext.Provider value={propsObj}>
@@ -222,6 +219,7 @@ const SubGoodsInfos = ({
                           updatedChangeSku={(skuInfo) => {
                             subDetail.goodsInfo[index].skuId =
                               skuInfo.goodsInfoId || '';
+                            GAForChangeProductBtn(skuInfo.packSize);
                             onSubChange();
                           }}
                           renderAgin={renderAgin}
@@ -477,14 +475,9 @@ const SubGoodsInfos = ({
                                 setState={setState}
                                 updatedSku={matchGoods}
                                 updatedChangeSku={(skuInfo) => {
-                                  console.log('skuInfo', skuInfo);
                                   subDetail.goodsInfo[index].skuId =
                                     skuInfo.goodsInfoId || '';
-                                  window.dataLayer &&
-                                    dataLayer.push({
-                                      event: 'myAccountAction',
-                                      myAccountActionName: skuInfo.packSize
-                                    });
+                                  GAForChangeProductBtn(skuInfo.packSize);
                                   onSubChange();
                                 }}
                                 renderAgin={renderAgin}
