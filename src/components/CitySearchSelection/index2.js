@@ -8,7 +8,8 @@ class CitySearchSelection extends React.Component {
   static defaultProps = {
     name: '',
     searchSelectionBlur: () => {},
-    placeholder: ''
+    placeholder: '',
+    searchInputChange: () => {}
   };
   render() {
     return (
@@ -37,6 +38,8 @@ class CitySearchSelection extends React.Component {
           isBottomPaging={true}
           isCitySearchSelection={true}
           searchSelectionBlur={(e) => this.props.searchSelectionBlur(e)}
+          errMsg={this.props.errMsg}
+          searchInputChange={this.props.searchInputChange}
         />
       </>
     );

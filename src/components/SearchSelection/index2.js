@@ -2,6 +2,7 @@ import React from 'react';
 import './index.less';
 import { InitFormStatus } from '@/utils/utils';
 import cn from 'classnames';
+import { preProcessFile } from 'typescript';
 /**
  * 带有远程搜索功能的下拉选择组件
  */
@@ -33,7 +34,7 @@ class SearchSelection extends React.Component {
       loadingList: false,
       placeholder: this.props.placeholder,
       searchForNoResult: true,
-      Status: 'empty',
+      Status: this.props.defaultValue ? 'inputOk' : 'empty',
       InitFormStatus: { ...InitFormStatus }
     };
     this.timer = null;
@@ -58,6 +59,12 @@ class SearchSelection extends React.Component {
         });
       }
     }
+
+    if (this.props.errMsg !== prevProps.errMsg) {
+      this.setState({
+        Status: 'inputErr'
+      });
+    }
   }
   componentWillUnmount = () => {
     this.setState = (state, callback) => {
@@ -71,6 +78,14 @@ class SearchSelection extends React.Component {
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();
     const target = e.target;
+    const tname = target.name;
+
+    if (target.value.length > 0) {
+      this.setFormItemStatus('inputOk');
+    } else {
+      this.setFormItemStatus('empty');
+    }
+
     const { form } = this.state;
     try {
       form.value = target.value;
@@ -228,6 +243,7 @@ class SearchSelection extends React.Component {
       currentItem: item?.newName || item.name,
       otherValue: item?.newName || item.name
     });
+    this.setFormItemStatus('inputOk');
     this.otherValue = item?.newName || item.name;
     this.props.selectedItemChange(item);
   };
@@ -276,19 +292,29 @@ class SearchSelection extends React.Component {
             {/* <FormattedMessage id={`payment.${item.fieldKey}`} /> */}
             {name}
           </span>
-          <input
-            disabled={this.props.disabled}
-            type="text"
-            placeholder={this.state.placeholder}
-            className="border-b w-full text-14 pt-2 pb-3 placeholder-primary placeholder-opacity-50 border-form"
-            value={form.value || ''}
-            onChange={(e) => this.handleInputChange(e)}
-            onFocus={this.handleInputFocus}
-            onBlur={this.handleInputBlur}
-            ref={this.searchText}
-            name={this.props.name}
-            autoComplete="off"
-          />
+          <div className="relative">
+            <input
+              disabled={this.props.disabled}
+              type="text"
+              placeholder={this.state.placeholder}
+              className={cn(
+                `${statusObj['border']} w-full text-14 pt-2 pb-3 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`
+              )}
+              value={form.value || ''}
+              onChange={(e) => this.handleInputChange(e)}
+              onFocus={this.handleInputFocus}
+              onBlur={this.handleInputBlur}
+              ref={this.searchText}
+              name={this.props.name}
+              autoComplete="off"
+            />
+            <i
+              className={cn(
+                'absolute right-0 top-1 iconfont',
+                statusObj['iconCss']
+              )}
+            ></i>
+          </div>
         </label>
         {this.state.optionPanelVisible && (
           <div className="border mt-1 w-full bg-white rounded z-50">

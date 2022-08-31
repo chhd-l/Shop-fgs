@@ -1450,7 +1450,7 @@ class Form extends React.Component {
   getTotalErrMsg = () => {
     const { caninForm, formList, errMsgObj } = this.state;
     let formErrMsgArr = [],
-      newErrMsgObj = {};
+      newErrMsgObj = { ...errMsgObj };
     return new Promise((resolve, reject) => {
       formList.forEach(async (item) => {
         try {
@@ -1586,9 +1586,17 @@ class Form extends React.Component {
   handleCitySearchSelectionBlur = (e) => {
     this.selectInputBlur(e);
   };
+  citySearchInputChange = () => {
+    // const { errMsgObj } = this.state;
+    // const newErrMsgObj = {...errMsgObj,...{city: ''}}
+    // this.setState({
+    //   errMsgObj: newErrMsgObj
+    // })
+  };
   // 城市搜索选择
   handleCityInputChange = (data) => {
     const { caninForm } = this.state;
+
     caninForm.cityId = data.id;
     caninForm.city = data.cityName;
     this.setState({ caninForm }, () => {
@@ -2173,7 +2181,7 @@ class Form extends React.Component {
   };
   // 城市搜索框
   citySearchSelectiontJSX = ({ item }) => {
-    const { caninForm } = this.state;
+    const { caninForm, errMsgObj } = this.state;
     return (
       <>
         {/* 城市搜索框 value = fieldkey */}
@@ -2184,9 +2192,15 @@ class Form extends React.Component {
           name={item.fieldKey}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
           onChange={this.handleCityInputChange}
+          searchInputChange={this.citySearchInputChange}
           searchSelectionBlur={this.handleCitySearchSelectionBlur}
+          errMsg={errMsgObj[item.fieldKey]}
           // {...this.props}
         />
+        {/* 输入提示 */}
+        {item.requiredFlag == 1 && errMsgObj[item.fieldKey] && (
+          <div className="text-form-err">{errMsgObj[item.fieldKey]}</div>
+        )}
       </>
     );
   };

@@ -36,7 +36,7 @@ class SearchSelection extends React.Component {
       placeholder: this.props.placeholder,
       searchForNoResult: true,
       random: getRandom(),
-      Status: 'empty',
+      Status: this.props.defaultValue.length ? 'inputOk' : 'empty',
       InitFormStatus: { ...InitFormStatus }
     };
     this.timer = null;
