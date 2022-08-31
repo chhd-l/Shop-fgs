@@ -304,10 +304,7 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <DistributeHubLinkOrATag
-                              href="/product-finder"
-                              to="/product-finder"
-                            >
+                            <DistributeHubLinkOrATag href="/" to="/">
                               <Button type="primary" className="mb-2 md:mb-0">
                                 {/*Shop Dog Formulas*/}
                                 <FormattedMessage id="SubscriptionLanding.BothFormulas" />
