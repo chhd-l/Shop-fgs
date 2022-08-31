@@ -132,6 +132,8 @@ class LoginCart extends React.Component {
       () => this.props.checkoutStore.loginCartData,
       this.handleLoginCartDataUpdates
     );
+    console.log('console', 1);
+    debugger;
     try {
       const { loginStore } = this.props;
       if (
@@ -144,7 +146,8 @@ class LoginCart extends React.Component {
         loginStore.setUserInfo(customerInfoRes.context);
         this.setState({ circleLoading: true });
       }
-
+      console.log('console11111', 3);
+      debugger;
       setSeoConfig({
         pageName: 'Cart page'
       }).then((res) => {
@@ -223,18 +226,20 @@ class LoginCart extends React.Component {
   }
 
   handleLoginCartDataUpdates = (newLoginCartData) => {
-    if (newLoginCartData.length > 0) {
-      // After the data of logincartdata in mobx changes, update the page data
-      this.setData({ initPage: true });
-      // The return value of reaction is a function. Updates that can be used to unsubscribe
-      this._notificationsReaction();
-    }
+    // if (newLoginCartData.length > 0) {
+    //   // After the data of logincartdata in mobx changes, update the page data
+    //   this.setData({ initPage: true });
+    //   this._notificationsReaction();
+    // }
+    this.setData({ initPage: true });
+    // The return value of reaction is a function. Updates that can be used to unsubscribe
+    his._notificationsReaction();
   };
 
-  componentWillUnmount() {
-    // The return value of reaction is a function. Updates that can be used to unsubscribe
-    this._notificationsReaction();
-  }
+  // componentWillUnmount() {
+  //   // The return value of reaction is a function. Updates that can be used to unsubscribe
+  //   this._notificationsReaction();
+  // }
   get loginCartData() {
     return this.props.checkoutStore.loginCartData.filter(
       (el) => !el.isNotShowCart
