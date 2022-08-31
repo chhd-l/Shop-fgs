@@ -206,10 +206,7 @@ const UserPaymentInfo = ({
       ) : null}
 
       {currentCardInfo ? (
-        <div
-          className="col-12 col-md-4 mb-2"
-          style={{ padding: '5px', paddingRight: '0' }}
-        >
+        <div className="col-12 col-md-4 mb-2" style={{ padding: '5px' }}>
           <div className="h-100 border border-d7d7d7 p-5">
             <div className="align-items-center">
               <img
@@ -363,7 +360,7 @@ const UserPaymentInfo = ({
       {/* ['fr', 'ru', 'tr'].includes(country) */}
       {['fr', 'ru', 'tr'].includes(country) &&
         ['club'].includes(subDetail?.subscriptionType?.toLowerCase()) && (
-          <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
+          <div className="col-12 col-md-4 mb-2" style={{ padding: '5px' }}>
             <div className="h-100 border border-d7d7d7 p-5">
               {/* 头部标题和 more */}
               <div className="align-items-center">
