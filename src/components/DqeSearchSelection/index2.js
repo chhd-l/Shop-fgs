@@ -334,7 +334,12 @@ class SearchSelection extends React.Component {
   };
   render() {
     const { optionList, form, random, Status, InitFormStatus } = this.state;
-    const statusObj = InitFormStatus[Status];
+    const { errMsg } = this.props;
+    let newStatus = Status;
+    if (errMsg) {
+      newStatus = 'inputErr';
+    }
+    const statusObj = InitFormStatus[newStatus];
     const { name, hideLabel } = this.props;
     return (
       <form className={`fullWidth dqeFormSpace_${random}`} autoComplete="off">
@@ -354,11 +359,7 @@ class SearchSelection extends React.Component {
             </>
           }
           <div
-            className={`${this.props.customCls} ${
-              this.props.customStyle
-                ? 'w-full relative'
-                : 'rc-input rc-input--full-width rc-margin-y--xs'
-            } searchSelection`}
+            className={`${this.props.customCls} w-full relative searchSelection`}
           >
             {/* 解决表单只有一个input元素时按下enter自动提交问题，添加一个隐藏的input输入框即可 */}
             <input type="text" className="hidden"></input>
@@ -367,11 +368,7 @@ class SearchSelection extends React.Component {
               type="text"
               placeholder={this.state.placeholder}
               className={cn(
-                {
-                  'w-full text-14 py-3 placeholder-primary placeholder-opacity-50 border-b border-form':
-                    this.props.customStyle
-                },
-                { 'form-control': !this.props.customStyle },
+                `${statusObj['border']} w-full text-14 pt-2 pb-3 placeholder-primary placeholder-opacity-50 ${statusObj['borderColorCss']}`,
                 { 'pl-5': this.props.prefixIcon }
               )}
               value={form.value || ''}
@@ -382,6 +379,12 @@ class SearchSelection extends React.Component {
               name={this.props.name}
               autoComplete="off"
             ></input>
+            <i
+              className={cn(
+                'absolute right-0 top-1 iconfont',
+                statusObj['iconCss']
+              )}
+            ></i>
             {this.props.afterFixIcon}
             {/* {this.props.customStyle && <label className="rc-input__label" />} */}
             {this.state.optionPanelVisible &&

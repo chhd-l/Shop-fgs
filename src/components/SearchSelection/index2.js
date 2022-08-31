@@ -59,12 +59,6 @@ class SearchSelection extends React.Component {
         });
       }
     }
-
-    if (this.props.errMsg !== prevProps.errMsg) {
-      this.setState({
-        Status: 'inputErr'
-      });
-    }
   }
   componentWillUnmount = () => {
     this.setState = (state, callback) => {
@@ -268,7 +262,12 @@ class SearchSelection extends React.Component {
   };
   render() {
     const { optionList, form, InitFormStatus, Status } = this.state;
-    const statusObj = InitFormStatus[Status];
+    const { errMsg } = this.props;
+    let newStatus = Status;
+    if (errMsg) {
+      newStatus = 'inputErr';
+    }
+    const statusObj = InitFormStatus[newStatus];
     const { name } = this.props;
     return (
       <div className="w-100">

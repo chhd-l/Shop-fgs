@@ -1587,11 +1587,11 @@ class Form extends React.Component {
     this.selectInputBlur(e);
   };
   citySearchInputChange = () => {
-    // const { errMsgObj } = this.state;
-    // const newErrMsgObj = {...errMsgObj,...{city: ''}}
-    // this.setState({
-    //   errMsgObj: newErrMsgObj
-    // })
+    const { errMsgObj } = this.state;
+    const newErrMsgObj = { ...errMsgObj, ...{ city: '' } };
+    this.setState({
+      errMsgObj: newErrMsgObj
+    });
   };
   // 城市搜索选择
   handleCityInputChange = (data) => {
@@ -1781,7 +1781,7 @@ class Form extends React.Component {
   };
   // 地址搜索框输入值接收，控制按钮状态 3
   getSearchInputChange = (e) => {
-    const { apiType, caninForm } = this.state;
+    const { apiType, caninForm, errMsgObj } = this.state;
     //fix bug start
     Object.assign(caninForm, {
       address1: e.target.value,
@@ -1791,6 +1791,10 @@ class Form extends React.Component {
     const target = e?.target;
     const tname = target?.name;
     const tvalue = target?.value;
+
+    let newErrMsgObj = { ...errMsgObj, ...{ [tname]: '' } };
+    this.setState({ errMsgObj: newErrMsgObj });
+
     if (apiType === 'DADATA') {
       this.props.getFormAddressValidFlag(false);
     } else {
@@ -1969,6 +1973,7 @@ class Form extends React.Component {
           showSearchAddressPreviewFun={() => {
             this.setState({ showSearchAddressPreview: true });
           }}
+          errMsg={errMsgObj[item.fieldKey]}
         />
         {callback && callback()}
         {/* 输入提示 */}
