@@ -11,6 +11,7 @@ import getPaymentConf from '@/lib/get-payment-conf';
 import packageTranslations from './translations';
 import { Button } from '@/components/Common';
 import '@adyen/adyen-web/dist/adyen.css';
+import { funcUrl } from '@/lib/url-utils';
 
 let adyenFormData = {};
 
@@ -44,6 +45,7 @@ class AdyenCreditCardForm extends React.Component {
       isValid: false,
       adyenOriginKeyConf: null
     };
+    this.country = '';
     this.containerEl = React.createRef();
   }
   componentDidMount() {
@@ -71,13 +73,16 @@ class AdyenCreditCardForm extends React.Component {
       paymentStore: { curPayWayInfo }
     } = this.props;
     const tmp = await getPaymentConf();
-
+    let country =
+      funcUrl({ name: 'country' }) || window.__.env.REACT_APP_COUNTRY || 'fr';
+    // this.country = country
+    console.info('countrycountry', country);
     this.setState(
       {
         adyenOriginKeyConf: {
           appId: 'MarsIncorporated_ROYALCANIN_FRANCE_D2C_SIT_TEST',
           environment: 'test',
-          locale: 'fr_FR',
+          locale: `${country.toLocaleLowerCase()}_${country.toLocaleUpperCase()}`,
           openPlatformSecret: 'test_Y5XPLQLX2RBVZN5PZ7X4VKOEEE2OLBDF',
           pspItemCode: 'adyen_credit_card',
           pspName: 'ADYEN',
@@ -93,6 +98,9 @@ class AdyenCreditCardForm extends React.Component {
     const {
       intl: { messages }
     } = this.props;
+    let country =
+      funcUrl({ name: 'country' }) || window.__.env.REACT_APP_COUNTRY || 'fr';
+
     const _this = this;
     const { translations } = packageTranslations({ messages });
     const { adyenOriginKeyConf } = this.state;
@@ -130,12 +138,16 @@ class AdyenCreditCardForm extends React.Component {
             });
         },
         buttonType: 'buy',
-        buttonColor: 'black'
-        // amount: {
-        //     value: 1000,
-        //     currency: "EUR"
-        // },
-        // countryCode: "FR"
+        buttonColor: 'black',
+        amount: {
+          value: 1000,
+          currency: 'EUR'
+        },
+        countryCode: country.toLocaleUpperCase(),
+        configuration: {
+          merchantName: 'MarsIncorporated_ROYALCANIN_NL_SIT_TEST',
+          merchantIdentifier: 'merchant.com.royalcanin.fgs'
+        }
       };
       const applePayComponent = checkout.create(
         'applepay',
