@@ -59,11 +59,6 @@ const SubGoodsInfos = ({
 
   //subscription info change
   const onSubChange = async () => {
-    const subSkuStatus = subDetail.goodsInfo?.every(
-      (el) => el.oldSkuId === el.skuId
-    );
-    const chooseSkuStock = subDetail.goodsInfo?.some((el) => !el.stock);
-    console.log(chooseSkuStock, 'chooseSkuStock');
     let isDataChange = true;
     subDetail.goodsInfo.forEach((el) => {
       if (el.oldSkuId !== el.skuId && !el.stock) {
