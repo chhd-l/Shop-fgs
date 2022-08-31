@@ -131,7 +131,7 @@ const HandledSpecSelect = ({
       item.mockSpecDetailIds?.includes(specDetailId)
     );
     await matchGoods();
-    updatedChangeSku(skuInfo)
+    await updatedChangeSku(skuInfo)
 
   };
 
@@ -156,10 +156,17 @@ const HandledSpecSelect = ({
       }
       const defaultSkuGoods = goodsInfos.filter((item: any) => item.goodsInfoId ===defaultSkuId)?.[0]
       const specId = defaultSkuGoods?.mockSpecDetailIds?.includes(it.specDetailId)
-      const skuHidden = defaultSkuGoods?.subscriptionStatus && defaultSkuGoods?.addedFlag
-      if(specId && !Boolean(skuHidden)){
-        it.needHidden = true  //goodInfo and goodsSpecDetails inconsistent,need delete goodsSpecDetails sku,because the current sku can no longer be subscribed
+      // addedFlag 是否上下架
+      const skuHidden = defaultSkuGoods?.subscriptionStatus && !defaultSkuGoods?.addedFlag
+
+      //defalutSubSku: goodInfo and goodsSpecDetails inconsistent,need delete goodsSpecDetails sku,because the current sku can no longer be subscribed
+      if(specId && Boolean(skuHidden)){
+        it.needHidden = true  
         setSubSkuItem(it)
+      }
+      //sku: addedFlag:0, don't display
+      if(!specId && !it.addedFlag){
+        it.needHidden = true  
       }
       it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||(inModal && it?.isDisabled)
       it.selected = it.selected || specId //specId:When the default subscription sku is out of stock, it need displayed
