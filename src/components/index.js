@@ -10,6 +10,7 @@ export { default as CitySearchSelection2 } from './CitySearchSelection/index2';
 export { default as DqeSearchSelection } from './DqeSearchSelection';
 export { default as DqeSearchSelection2 } from './DqeSearchSelection/index2';
 export { default as SearchSelection } from './SearchSelection';
+export { default as SearchSelection2 } from './SearchSelection/index2';
 export { default as Loading } from './Loading';
 export { default as LoginButton } from './LoginButton';
 export { default as LogoutButton } from './LogoutButton';

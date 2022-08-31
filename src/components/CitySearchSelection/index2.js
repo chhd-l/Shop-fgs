@@ -1,13 +1,14 @@
 import React from 'react';
 import { injectIntl } from 'react-intl-phraseapp';
-import { SearchSelection } from '@/components';
+import { SearchSelection2 as SearchSelection } from '@/components';
 import { queryCityByName } from '@/api/address';
 
 @injectIntl
 class CitySearchSelection extends React.Component {
   static defaultProps = {
     name: '',
-    searchSelectionBlur: () => {}
+    searchSelectionBlur: () => {},
+    placeholder: ''
   };
   render() {
     return (
@@ -29,8 +30,8 @@ class CitySearchSelection extends React.Component {
           name={this.props.name}
           placeholder={
             this.props.placeholder
-              ? this.props.intl.messages.inputSearchText
-              : ''
+            // ? this.props.intl.messages.inputSearchText
+            // : ''
           }
           customStyle={true}
           isBottomPaging={true}

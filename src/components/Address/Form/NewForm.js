@@ -2172,26 +2172,21 @@ class Form extends React.Component {
     );
   };
   // 城市搜索框
-  citySearchSelectiontJSX = (item) => {
+  citySearchSelectiontJSX = ({ item }) => {
     const { caninForm } = this.state;
     return (
       <>
-        <span
-          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-          style={{ marginTop: '0' }}
-        >
-          {/* 城市搜索框 value = fieldkey */}
-          <CitySearchSelection
-            placeholder={false}
-            defaultValue={caninForm[item.fieldKey]}
-            key={caninForm[item.fieldKey]}
-            name={item.fieldKey}
-            freeText={item.inputFreeTextFlag == 1 ? true : false}
-            onChange={this.handleCityInputChange}
-            searchSelectionBlur={this.handleCitySearchSelectionBlur}
-            // {...this.props}
-          />
-        </span>
+        {/* 城市搜索框 value = fieldkey */}
+        <CitySearchSelection
+          placeholder={item.fieldKey}
+          defaultValue={caninForm[item.fieldKey]}
+          key={caninForm[item.fieldKey]}
+          name={item.fieldKey}
+          freeText={item.inputFreeTextFlag == 1 ? true : false}
+          onChange={this.handleCityInputChange}
+          searchSelectionBlur={this.handleCitySearchSelectionBlur}
+          // {...this.props}
+        />
       </>
     );
   };
