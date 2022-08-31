@@ -665,7 +665,6 @@ class AddressList extends React.Component {
   clickConfirmPickup = async () => {
     const { countryList, allAddressList, pickupFormData } = this.state;
 
-    debugger;
     this.setState({
       saveBtnLoading: true,
       loading: true
@@ -710,9 +709,9 @@ class AddressList extends React.Component {
           settlementIdStr:
             pkaddr?.settlementFias || pickupFormData.settlementIdStr,
           postalCode: pkaddr?.zip || pickupFormData.postCode,
-          contractNumber: pickupFormData?.contractNumber,
+          contractNumber: pickupFormData?.pickup?.contractNumber,
           pickupName: pickupFormData?.pickupName, // 快递公司
-          courierCode: pickupFormData?.courierCode
+          courierCode: pickupFormData?.pickup?.courierCode
         }
       );
 

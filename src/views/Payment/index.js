@@ -34,7 +34,8 @@ import {
   generatePayUScript,
   validData,
   bindSubmitParam,
-  getAppointmentInfo
+  getAppointmentInfo,
+  getCurPickUpInfo
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP } from '@/utils/constant';
@@ -2324,7 +2325,12 @@ class Payment extends React.Component {
 
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
         ...param,
-        ...submitParam
+        ...submitParam,
+        ...{
+          contractNumber: getCurPickUpInfo('contractNumber') || '',
+          pickupName: getCurPickUpInfo('courier') || '', // 快递公司
+          courierCode: getCurPickUpInfo('courierCode') || ''
+        }
       });
 
       //游客绑定consent 一定要在游客注册之后 start

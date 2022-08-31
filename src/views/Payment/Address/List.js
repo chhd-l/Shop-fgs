@@ -2065,9 +2065,9 @@ class AddressList extends React.Component {
         settlementIdStr:
           pkaddr?.settlementFias || pickupFormData.settlementIdStr,
         postalCode: pkaddr?.zip || pickupFormData.postCode,
-        contractNumber: pickupFormData?.contractNumber,
+        contractNumber: pickupFormData?.pickup?.contractNumber,
         pickupName: pickupFormData?.pickupName, // 快递公司
-        courierCode: pickupFormData?.courierCode
+        courierCode: pickupFormData?.pickup?.courierCode
       });
 
       // 查询地址列表，筛选 pickup 地址
