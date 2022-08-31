@@ -111,7 +111,7 @@ class AdyenCreditCardForm extends React.Component {
       const checkout = await new AdyenCheckout(configuration);
       const card = checkout
         .create('card', {
-          brands,
+          brands: ADYEN_CREDIT_CARD_BRANDS,
           enableStoreDetails: _this.props.isShowEnableStoreDetails,
           hasHolderName: true,
           holderNameRequired: true,
