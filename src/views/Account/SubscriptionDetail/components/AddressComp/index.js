@@ -772,9 +772,12 @@ class AddressList extends React.Component {
         provinceId: deliveryAddress.provinceId,
         isValidated: deliveryAddress.validationResult,
         type: this.props.type.toUpperCase(),
-        contractNumber: getCurPickUpInfo('contractNumber'),
-        pickupName: getCurPickUpInfo('courier'),
-        courierCode: getCurPickUpInfo('courierCode')
+        // contractNumber: getCurPickUpInfo('contractNumber'),
+        // pickupName: getCurPickUpInfo('courier'),
+        // courierCode: getCurPickUpInfo('courierCode')
+        contractNumber: deliveryAddress?.pickup?.contractNumber,
+        pickupName: deliveryAddress?.pickupName, // 快递公司
+        courierCode: deliveryAddress?.pickup?.courierCode
       });
 
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {
