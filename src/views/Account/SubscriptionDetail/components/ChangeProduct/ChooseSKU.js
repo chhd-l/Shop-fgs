@@ -23,6 +23,7 @@ import cn from 'classnames';
 import { Button } from '@/components/Common';
 import { GABackInStockNotifyMeClick } from '@/utils/GA/cart';
 import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
+import { GAForChangeProductBtn } from '@/utils/GA';
 
 const loginStore = stores.loginStore;
 
@@ -245,12 +246,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
       //     setChangeNowLoading(false);
       //     changeErrorMsg(e && e.message);
       //   });
-
-      window.dataLayer &&
-        dataLayer.push({
-          event: 'myAccountAction',
-          myAccountActionName: details.goodsNo
-        });
+      GAForChangeProductBtn(details.goodsNo);
     } catch (err) {
       changeErrorMsg(err && err.message);
 

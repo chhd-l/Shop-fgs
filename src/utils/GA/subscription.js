@@ -14,10 +14,10 @@ export const GAForChangePetinfoBtn = () => {
   });
 };
 
-export const GAForChangeProductBtn = () => {
+export const GAForChangeProductBtn = (params) => {
   window.dataLayer?.push({
     event: 'myAccountAction',
-    myAccountActionName: 'Change product'
+    myAccountActionName: params
   });
 };
 
