@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl-phraseapp';
-import AdyenEditForm from '@/components/Adyen/form';
+import AdyenEditForm from '@/components/Adyen/formTest';
 
 @injectIntl
 class Test extends React.Component {
