@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createIntl, createIntlCache } from 'react-intl';
 import { getDynamicLanguage } from '@/lang';
 
-let intl = {};
+let intl;
 
 async function initIntl() {
   const lang = await getDynamicLanguage();
@@ -417,7 +417,7 @@ class CheckoutStore {
     notSeableProNames = this.notSeableProNames,
     purchasesRes = {}
   } = {}) {
-    const { formatMessage = () => {} } = intl;
+    const { formatMessage } = intl;
     // 没达到下单额度，不能下单
     if (purchasesRes.canShipped === false && purchasesRes.cantShippedMessage) {
       throw new Error(purchasesRes.cantShippedMessage);
@@ -467,7 +467,8 @@ class CheckoutStore {
     purchaseFlag,
     taxFeeData,
     guestEmail = '',
-    isThrowErr = false,
+    isThrowErr = false, //是否抛出错误，包括: 1.校验产品下单限制逻辑控制错误-validCheckoutLimitRule 2.接口非K-000000错误信息
+    isThrowInterfaceErr = false, //是否抛出接口非K-000000错误
     isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
@@ -634,7 +635,7 @@ class CheckoutStore {
       if (err.code === 'K-000071' && isThrowValidPromotionCodeErr) {
         throw new Error(err.message);
       }
-      if (isThrowErr) {
+      if (isThrowInterfaceErr || isThrowErr) {
         throw new Error(err.message);
       }
     }
@@ -652,7 +653,8 @@ class CheckoutStore {
     subscriptionFlag = false,
     purchaseFlag,
     taxFeeData,
-    isThrowErr = false,
+    isThrowErr = false, //是否抛出错误，包括: 1.校验产品下单限制逻辑控制错误-validCheckoutLimitRule 2.接口非K-000000错误信息
+    isThrowInterfaceErr = false, //是否抛出接口非K-000000错误
     isThrowValidPromotionCodeErr = false,
     deliverWay,
     shippingFeeAddress,
@@ -815,9 +817,7 @@ class CheckoutStore {
         !sitePurchasesRes.promotionFlag ||
         sitePurchasesRes.couponCodeFlag
       ) {
-        // 去掉此判断，永远为true
         if (
-          false &&
           sitePurchasesRes.couponCodeFlag &&
           !sitePurchasesRes.couponCodeDiscount &&
           !sitePurchasesRes.freeShippingDiscountPrice
@@ -877,7 +877,7 @@ class CheckoutStore {
       if (err.code === 'K-000071' && isThrowValidPromotionCodeErr) {
         throw new Error(err.message);
       }
-      if (isThrowErr) {
+      if (isThrowInterfaceErr || isThrowErr) {
         throw new Error(err.message);
       }
     }
