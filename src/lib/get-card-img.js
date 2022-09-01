@@ -2,7 +2,7 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 
 const getCardImg = ({ supportPaymentMethods = [], currentVendor }) => {
   return (
-    CREDIT_CARD_IMG_ENUM[currentVendor?.toUpperCase()] ||
+    CREDIT_CARD_IMG_ENUM[currentVendor?.replace(/\s/g, '').toUpperCase()] ||
     supportPaymentMethods.filter(
       (s) => s.cardType?.toUpperCase() === currentVendor?.toUpperCase()
     )[0]?.imgUrl ||
