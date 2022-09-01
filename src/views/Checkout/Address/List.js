@@ -31,7 +31,7 @@ import {
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../Modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
-import { AddressForm } from '@/components/Address';
+import { AddressForm } from '@/components/Address/index2';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';

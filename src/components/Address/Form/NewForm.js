@@ -2338,6 +2338,7 @@ class Form extends React.Component {
       isDeliveryDateAndTimeSlot,
       caninForm: { email }
     } = this.state;
+    const { isLogin } = this;
 
     return (
       <>
@@ -2345,8 +2346,27 @@ class Form extends React.Component {
           <Skeleton height="10%" count={4} />
         ) : (
           <div>
-            <div className="flex flex-col md:flex-row">
-              <div className="w-full md:w-1/2 flex flex-col mr-0 md:mr-20">
+            {/* 会员 firstName and lastName */}
+            <div
+              className={cn('flex flex-col md:flex-row', { hidden: !isLogin })}
+            >
+              <div className="mb-1 md:mb-10 w-100">
+                {this.firstNameItem.length > 0 &&
+                  this.newInputJSX({ item: this.firstNameItem[0] })}
+              </div>
+              <div className="w-0 md:w-20"></div>
+              <div className="mb-1 md:mb-10 w-100">
+                {this.lastNameItem.length > 0 &&
+                  this.newInputJSX({ item: this.lastNameItem[0] })}
+              </div>
+            </div>
+            {/* 游客 email,FastRegisterCard, firstName,lastName */}
+            <div
+              className={cn(`flex flex-col md:flex-row`, { hidden: isLogin })}
+            >
+              <div
+                className={cn(`w-full md:w-1/2 flex flex-col mr-0 md:mr-20`)}
+              >
                 <div className="mb-1 md:mb-10 w-100">
                   {this.emailItem.length > 0 &&
                     this.newInputJSX({ item: this.emailItem[0] })}
@@ -2372,11 +2392,13 @@ class Form extends React.Component {
               </div>
             </div>
 
+            {/* 地址自动输入 */}
             <div
               className={cn('mb-4 w-100', {
                 hidden: this.isManualInputAddressTotal
               })}
             >
+              {/* 地址自动preview */}
               {this.state.showSearchAddressPreview && (
                 <SearchAddressPreview
                   caninForm={this.state.caninForm}
@@ -2394,6 +2416,7 @@ class Form extends React.Component {
                   }}
                 />
               )}
+              {/* 地址自动搜索-PC */}
               {!this.state.showSearchAddressPreview &&
                 !isMobile &&
                 this.address1Item.length > 0 &&
@@ -2404,6 +2427,7 @@ class Form extends React.Component {
                     <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
                   )
                 })}
+              {/* 地址自动搜索-mobile */}
               {!this.state.showSearchAddressPreview &&
                 isMobile &&
                 this.address1Item.length > 0 &&
@@ -2418,6 +2442,7 @@ class Form extends React.Component {
                   }
                 })}
             </div>
+            {/* 手动输入地址 */}
             <div
               className={cn('py-2', {
                 hidden: !this.isManualInputAddressTotal
@@ -2447,6 +2472,7 @@ class Form extends React.Component {
                 </div>
               </div>
             </div>
+            {/* 电话号码 */}
             <div className="mt-1 w-full md:w-1/2">
               {this.phoneNumberItem.length > 0 &&
                 this.newInputJSX({ item: this.phoneNumberItem[0] })}
