@@ -466,7 +466,8 @@ class Details extends React.Component {
       this.getPdpScreenLoadData();
     }
 
-    if (!data.stock) {
+    const specDetailIds = details.goodsSpecs?.[0].specDetailIds || [];
+    if (!data.stock && specDetailIds.length) {
       this.setState({
         ossReceiveBackNotificationContentVisible: true
       });

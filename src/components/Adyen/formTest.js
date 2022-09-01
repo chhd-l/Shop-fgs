@@ -115,30 +115,30 @@ class AdyenCreditCardForm extends React.Component {
         translations: {
           [adyenOriginKeyConf?.locale || 'en-US']: translations
         },
-        allowAddedLocales: true
+        allowAddedLocales: true,
+        buttonType: 'buy',
+        buttonColor: 'black'
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
 
       const checkout = await new AdyenCheckout(configuration);
       const applePayConfiguration = {
-        onValidateMerchant: (resolve, reject, validationURL) => {
-          console.info('.....', resolve, reject, validationURL);
-          // Your server uses the validation URL to request a session from the Apple Pay server.
-          // Call resolve(MERCHANTSESSION) or reject() to complete merchant validation.
-          validateMerchant(validationURL)
-            .then((response) => {
-              console.info('response', response);
-              // Complete merchant validation with resolve(MERCHANTSESSION) after receiving an opaque merchant session object, MerchantSession
-              resolve(response);
-            })
-            .catch((error) => {
-              console.info('reject', error);
-              // Complete merchant validation with reject() if any error occurs
-              reject();
-            });
-        },
-        buttonType: 'buy',
-        buttonColor: 'black',
+        // onValidateMerchant: (resolve, reject, validationURL) => {
+        //   console.info('.....', resolve, reject, validationURL);
+        //   // Your server uses the validation URL to request a session from the Apple Pay server.
+        //   // Call resolve(MERCHANTSESSION) or reject() to complete merchant validation.
+        //   validateMerchant(validationURL)
+        //     .then((response) => {
+        //       console.info('response', response);
+        //       // Complete merchant validation with resolve(MERCHANTSESSION) after receiving an opaque merchant session object, MerchantSession
+        //       resolve(response);
+        //     })
+        //     .catch((error) => {
+        //       console.info('reject', error);
+        //       // Complete merchant validation with reject() if any error occurs
+        //       reject();
+        //     });
+        // },
         amount: {
           value: 1000,
           currency: 'EUR'
