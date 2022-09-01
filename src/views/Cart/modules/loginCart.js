@@ -233,7 +233,7 @@ class LoginCart extends React.Component {
     // }
     this.setData({ initPage: true });
     // The return value of reaction is a function. Updates that can be used to unsubscribe
-    his._notificationsReaction();
+    this._notificationsReaction();
   };
 
   // componentWillUnmount() {
