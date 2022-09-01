@@ -209,7 +209,7 @@ class AdyenCreditCardForm extends React.Component {
         onAuthorized: (e) => {
           console.info('......onAuthorized', e);
         },
-        countryCode: 'FR'
+        countryCode: country.toUpperCase()
         // configuration: {
         //   merchantName: 'MarsIncorporated_ROYALCANIN_NL_SIT_TEST',
         //   merchantIdentifier: 'merchant.com.royalcanin.fgs'
