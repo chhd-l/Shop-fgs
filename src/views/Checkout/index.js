@@ -347,6 +347,11 @@ class Checkout extends React.Component {
     this.confirmListValidationAddress =
       this.confirmListValidationAddress.bind(this);
   }
+  get isHidePayMethodAndConfirmationModule() {
+    return this.props.paymentStoreNew.panelStatus.filter(
+      (item) => item.key == 'deliveryAddr'
+    )[0].status.isEdit;
+  }
   handelQrcodeModalClose = async () => {
     try {
       this.startLoading();
@@ -549,8 +554,10 @@ class Checkout extends React.Component {
       history,
       checkoutStore: { resetPriceData, generateGuestUUID },
       configStore: { getSystemFormConfig, paymentAuthority },
-      paymentStoreNew: { setSubForm }
+      paymentStoreNew: { setSubForm, panelStatus }
     } = this.props;
+
+    console.log(123, panelStatus);
 
     // 游客不能checkout 且 没有登录
     if (paymentAuthority === 'MEMBER' && !this.isLogin) {
@@ -4240,52 +4247,58 @@ class Checkout extends React.Component {
 
                 {/* 支付模块 */}
                 {/* <PaymentMethodCover /> */}
-                <PanelContainer
-                  panelStatus={paymentMethodPanelStatus}
-                  containerConf={{
-                    className: cn('px-0', {
-                      hidden: this.isSkipPaymentPanel,
-                      'pb-0': !paymentMethodPanelStatus.isPrepare
-                    }),
-                    id: 'J_checkout_panel_paymentMethod'
-                  }}
-                  titleConf={{
-                    className: 'mx-5',
-                    icon: {
-                      defaultIcon: (
-                        <em
-                          className={`rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform`}
-                        />
-                      ),
-                      highlighIcon: (
-                        <em
-                          className={`rc-icon rc-payment--sm rc-brand1 inlineblock origin-left paymentIconTransform`}
-                        />
-                      )
-                    },
-                    text: {
-                      title: (
-                        <FormattedMessage id="payment.paymentInformation" />
-                      )
-                    },
-                    onEdit: this.handleClickPaymentPanelEdit
-                  }}
-                  previewJSX={<PaymentPanelInfoPreview {...this.state} />}
-                >
-                  {this.renderPayTab()}
-                </PanelContainer>
+                {this.isHidePayMethodAndConfirmationModule == false && (
+                  <PanelContainer
+                    panelStatus={paymentMethodPanelStatus}
+                    containerConf={{
+                      className: cn('px-0', {
+                        hidden: this.isSkipPaymentPanel,
+                        'pb-0': !paymentMethodPanelStatus.isPrepare
+                      }),
+                      id: 'J_checkout_panel_paymentMethod'
+                    }}
+                    titleConf={{
+                      className: 'mx-5',
+                      icon: {
+                        defaultIcon: (
+                          <em
+                            className={`rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform`}
+                          />
+                        ),
+                        highlighIcon: (
+                          <em
+                            className={`rc-icon rc-payment--sm rc-brand1 inlineblock origin-left paymentIconTransform`}
+                          />
+                        )
+                      },
+                      text: {
+                        title: (
+                          <FormattedMessage id="payment.paymentInformation" />
+                        )
+                      },
+                      onEdit: this.handleClickPaymentPanelEdit
+                    }}
+                    previewJSX={<PaymentPanelInfoPreview {...this.state} />}
+                  >
+                    {this.renderPayTab()}
+                  </PanelContainer>
+                )}
 
-                <Confirmation
-                  clickPay={this.clickPay}
-                  listData={listData}
-                  checkRequiredItem={this.checkRequiredItem}
-                  checkoutStore={checkoutStore}
-                  tradePrice={
-                    tid && orderDetails
-                      ? orderDetails.tradePrice.totalPrice
-                      : this.tradePrice
-                  }
-                />
+                {/* Confirmation模块 */}
+                {this.isHidePayMethodAndConfirmationModule == false && (
+                  <Confirmation
+                    clickPay={this.clickPay}
+                    listData={listData}
+                    checkRequiredItem={this.checkRequiredItem}
+                    checkoutStore={checkoutStore}
+                    tradePrice={
+                      tid && orderDetails
+                        ? orderDetails.tradePrice.totalPrice
+                        : this.tradePrice
+                    }
+                  />
+                )}
+
                 <AdvantageTip />
               </div>
               <div className="rc-column md:pl-0 order-2">
