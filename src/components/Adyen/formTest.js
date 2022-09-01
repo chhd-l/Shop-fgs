@@ -200,7 +200,7 @@ class AdyenCreditCardForm extends React.Component {
         //     });
         // },
         amount: {
-          value: 1000,
+          value: 3500,
           currency: 'EUR'
         },
         countryCode: 'FR'
