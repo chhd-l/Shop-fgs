@@ -104,7 +104,53 @@ class AdyenCreditCardForm extends React.Component {
     const _this = this;
     const { translations } = packageTranslations({ messages });
     const { adyenOriginKeyConf } = this.state;
-    console.log(adyenOriginKeyConf, '==================');
+    let paymentMethodsResponse = {
+      paymentMethods: [
+        {
+          brands: ['visa', 'mc'],
+          details: [
+            {
+              key: 'encryptedCardNumber',
+              type: 'cardToken'
+            },
+            {
+              key: 'encryptedSecurityCode',
+              type: 'cardToken'
+            },
+            {
+              key: 'encryptedExpiryMonth',
+              type: 'cardToken'
+            },
+            {
+              key: 'encryptedExpiryYear',
+              type: 'cardToken'
+            },
+            {
+              key: 'holderName',
+              optional: true,
+              type: 'text'
+            }
+          ],
+          name: 'Credit Card',
+          type: 'scheme'
+        },
+        {
+          configuration: {
+            merchantId: '000000000204759',
+            merchantName: 'MarsIncorporated_ApplePay_TEST'
+          },
+          details: [
+            {
+              key: 'applepay.token',
+              type: 'applePayToken'
+            }
+          ],
+          name: 'Apple Pay',
+          type: 'applepay'
+        }
+      ]
+    };
+    console.log(paymentMethodsResponse, '==================');
 
     if (this.containerEl.current) {
       const configuration = {
@@ -118,24 +164,7 @@ class AdyenCreditCardForm extends React.Component {
         allowAddedLocales: true,
         buttonType: 'buy',
         buttonColor: 'black',
-        paymentMethodsResponse: {
-          paymentMethods: [
-            {
-              configuration: {
-                merchantId: '000000000204717',
-                merchantName: 'MarsIncorporated_ROYALCANIN_NL_SIT_TEST'
-              },
-              details: [
-                {
-                  key: 'applepay.token',
-                  type: 'applePayToken'
-                }
-              ],
-              name: 'Apple Pay',
-              type: 'applepay'
-            }
-          ]
-        }
+        paymentMethodsResponse
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
 
@@ -161,7 +190,7 @@ class AdyenCreditCardForm extends React.Component {
           value: 1000,
           currency: 'EUR'
         },
-        countryCode: country.toLocaleUpperCase()
+        countryCode: 'FR'
         // configuration: {
         //   merchantName: 'MarsIncorporated_ROYALCANIN_NL_SIT_TEST',
         //   merchantIdentifier: 'merchant.com.royalcanin.fgs'
