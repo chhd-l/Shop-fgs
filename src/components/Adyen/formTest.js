@@ -171,10 +171,13 @@ class AdyenCreditCardForm extends React.Component {
         },
         onError: (error, component) => {
           console.error(
-            'onError',
+            'onError===name',
             error.name,
+            'onError===name',
             error.message,
+            'onError===message',
             error.stack,
+            'onError===stack',
             component
           );
         }
@@ -201,7 +204,10 @@ class AdyenCreditCardForm extends React.Component {
         // },
         amount: {
           value: 3500,
-          currency: 'EUR'
+          currency: 'USD'
+        },
+        onAuthorized: (e) => {
+          console.info('......onAuthorized', e);
         },
         countryCode: 'FR'
         // configuration: {
