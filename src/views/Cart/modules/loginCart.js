@@ -132,8 +132,6 @@ class LoginCart extends React.Component {
       () => this.props.checkoutStore.loginCartData,
       this.handleLoginCartDataUpdates
     );
-    console.log('console', 1);
-    debugger;
     try {
       const { loginStore } = this.props;
       if (
@@ -146,8 +144,6 @@ class LoginCart extends React.Component {
         loginStore.setUserInfo(customerInfoRes.context);
         this.setState({ circleLoading: true });
       }
-      console.log('console11111', 3);
-      debugger;
       setSeoConfig({
         pageName: 'Cart page'
       }).then((res) => {
