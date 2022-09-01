@@ -117,7 +117,25 @@ class AdyenCreditCardForm extends React.Component {
         },
         allowAddedLocales: true,
         buttonType: 'buy',
-        buttonColor: 'black'
+        buttonColor: 'black',
+        paymentMethodsResponse: {
+          paymentMethods: [
+            {
+              configuration: {
+                merchantId: '000000000204717',
+                merchantName: 'MarsIncorporated_ROYALCANIN_NL_SIT_TEST'
+              },
+              details: [
+                {
+                  key: 'applepay.token',
+                  type: 'applePayToken'
+                }
+              ],
+              name: 'Apple Pay',
+              type: 'applepay'
+            }
+          ]
+        }
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
 
@@ -143,11 +161,11 @@ class AdyenCreditCardForm extends React.Component {
           value: 1000,
           currency: 'EUR'
         },
-        countryCode: country.toLocaleUpperCase(),
-        configuration: {
-          merchantName: 'MarsIncorporated_ROYALCANIN_NL_SIT_TEST',
-          merchantIdentifier: 'merchant.com.royalcanin.fgs'
-        }
+        countryCode: country.toLocaleUpperCase()
+        // configuration: {
+        //   merchantName: 'MarsIncorporated_ROYALCANIN_NL_SIT_TEST',
+        //   merchantIdentifier: 'merchant.com.royalcanin.fgs'
+        // }
       };
       const applePayComponent = checkout.create(
         'applepay',
