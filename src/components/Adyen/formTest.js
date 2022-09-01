@@ -164,7 +164,20 @@ class AdyenCreditCardForm extends React.Component {
         allowAddedLocales: true,
         buttonType: 'buy',
         buttonColor: 'black',
-        paymentMethodsResponse
+        paymentMethodsResponse,
+        onPaymentCompleted: (result, component) => {
+          console.info('onPaymentCompleted', result);
+          console.info('......', component);
+        },
+        onError: (error, component) => {
+          console.error(
+            'onError',
+            error.name,
+            error.message,
+            error.stack,
+            component
+          );
+        }
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
 
