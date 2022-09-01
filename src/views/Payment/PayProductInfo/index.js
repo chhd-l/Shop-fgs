@@ -604,6 +604,10 @@ class PayProductInfo extends React.Component {
       } else {
         purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
         //会员
+        if (sessionItemRoyal.get('rc-tid')) {
+          //repay不执行
+          return;
+        }
         result = await this.props.checkoutStore.updateLoginCart(tmpParam);
       }
 
