@@ -471,7 +471,8 @@ class Register extends Component {
           if (shelterId) {
             await saveShelterId({
               shelterId,
-              customerId
+              customerId,
+              prescriberType: 'vet'
             });
           }
 

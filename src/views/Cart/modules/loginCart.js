@@ -132,8 +132,6 @@ class LoginCart extends React.Component {
       () => this.props.checkoutStore.loginCartData,
       this.handleLoginCartDataUpdates
     );
-    console.log('console', 1);
-    debugger;
     try {
       const { loginStore } = this.props;
       if (
@@ -146,8 +144,6 @@ class LoginCart extends React.Component {
         loginStore.setUserInfo(customerInfoRes.context);
         this.setState({ circleLoading: true });
       }
-      console.log('console11111', 3);
-      debugger;
       setSeoConfig({
         pageName: 'Cart page'
       }).then((res) => {
@@ -233,7 +229,7 @@ class LoginCart extends React.Component {
     // }
     this.setData({ initPage: true });
     // The return value of reaction is a function. Updates that can be used to unsubscribe
-    his._notificationsReaction();
+    this._notificationsReaction();
   };
 
   // componentWillUnmount() {
