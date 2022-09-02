@@ -1031,14 +1031,11 @@ class AddressList extends React.Component {
       this.setState({
         isValid: false
       });
-      console.log(8910, data);
       await validData({ rule: data.formRule, data, intl }); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
-        console.log(fn);
-        debugger;
         fn && fn();
       });
     } catch (err) {
@@ -1210,9 +1207,7 @@ class AddressList extends React.Component {
     }
     try {
       const { isValid, addOrEdit, deliveryAddress } = this.state;
-      debugger;
       if (!isValid || !addOrEdit) {
-        debugger;
         return false;
       }
 
