@@ -190,7 +190,8 @@ const LoginButton = ({
                   if (shelterId) {
                     await saveShelterId({
                       shelterId,
-                      customerId
+                      customerId,
+                      prescriberType: 'vet'
                     });
                   }
                   console.log('setIsGetUserInfoDown33');
