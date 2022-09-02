@@ -2732,25 +2732,24 @@ class AddressList extends React.Component {
 
                               {/* homeDelivery 地址 */}
                               {showDeliveryOrPickUp == 1 &&
-                              choiseHomeDeliveryOrPickUp == 1 ? (
-                                <>
-                                  {/* 地址列表 */}
-                                  <div className="addr-container-scroll">
-                                    {addressList.length ? (
-                                      addressListTypeFun(
-                                        window.__.env.REACT_APP_COUNTRY
-                                      )
-                                    ) : (
-                                      <div className="text-center">
-                                        <FormattedMessage id="order.noDataTip" />
-                                      </div>
-                                    )}
-                                  </div>
-
-                                  {/* 更多地址 */}
-                                  {addressList.length > 1 && _foldBtn}
-                                </>
-                              ) : null}
+                                choiseHomeDeliveryOrPickUp == 1 && (
+                                  <>
+                                    {/* 地址列表 */}
+                                    <div className="addr-container-scroll">
+                                      {addressList.length ? (
+                                        addressListTypeFun(
+                                          window.__.env.REACT_APP_COUNTRY
+                                        )
+                                      ) : (
+                                        <div className="text-center">
+                                          <FormattedMessage id="order.noDataTip" />
+                                        </div>
+                                      )}
+                                    </div>
+                                    {/* 更多地址 */}
+                                    {addressList.length > 1 && _foldBtn}
+                                  </>
+                                )}
                             </div>
 
                             {/* 新增 homeDelivery 地址 */}

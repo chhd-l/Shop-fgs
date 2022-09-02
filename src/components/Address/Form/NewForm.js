@@ -2343,8 +2343,6 @@ class Form extends React.Component {
     } = this.state;
     const { isLogin } = this;
 
-    console.log(333, this.userInfo);
-
     return (
       <>
         {formLoading ? (
@@ -2400,85 +2398,90 @@ class Form extends React.Component {
             )}
 
             {/* 地址自动输入 */}
-            <div
-              className={cn('mb-4 w-100', {
-                hidden: this.isManualInputAddressTotal
-              })}
-            >
-              {/* 地址自动preview */}
-              {this.state.showSearchAddressPreview && (
-                <SearchAddressPreview
-                  caninForm={this.state.caninForm}
-                  formListOption={this.formListOption}
-                  setCaninForm={(caninForm) => {
-                    this.setState({ caninForm });
-                  }}
-                  hideSearchAddressPreview={() => {
-                    const { caninForm } = this.state;
-                    const newCaninForm = { ...caninForm, ...{ address2: '' } };
-                    this.setState({
-                      showSearchAddressPreview: false,
-                      caninForm: newCaninForm
-                    });
-                  }}
-                />
-              )}
-              {/* 地址自动搜索-PC */}
-              {!this.state.showSearchAddressPreview &&
-                !isMobile &&
-                this.address1Item.length > 0 &&
-                this.addressSearchSelectionJSX({
-                  item: this.address1Item[0],
-                  callback: this.manualInputAddressJSX,
-                  prefixIcon: (
-                    <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
-                  )
-                })}
-              {/* 地址自动搜索-mobile */}
-              {!this.state.showSearchAddressPreview &&
-                isMobile &&
-                this.address1Item.length > 0 &&
-                this.newInputJSX({
-                  item: this.address1Item[0],
-                  callback: this.manualInputAddressJSX,
-                  disabled: true,
-                  prevIcon: () => {
-                    return (
+            {!this.isManualInputAddressTotal && (
+              <div className={cn('mb-4 w-100')}>
+                {/* 地址自动preview */}
+                {this.state.showSearchAddressPreview && (
+                  <SearchAddressPreview
+                    caninForm={this.state.caninForm}
+                    formListOption={this.formListOption}
+                    setCaninForm={(caninForm) => {
+                      this.setState({ caninForm });
+                    }}
+                    hideSearchAddressPreview={() => {
+                      const { caninForm } = this.state;
+                      const newCaninForm = {
+                        ...caninForm,
+                        ...{ address2: '' }
+                      };
+                      this.setState({
+                        showSearchAddressPreview: false,
+                        caninForm: newCaninForm
+                      });
+                    }}
+                  />
+                )}
+                {/* 地址自动搜索-PC */}
+                {!this.state.showSearchAddressPreview &&
+                  !isMobile &&
+                  this.address1Item.length > 0 &&
+                  this.addressSearchSelectionJSX({
+                    item: this.address1Item[0],
+                    callback: this.manualInputAddressJSX,
+                    prefixIcon: (
                       <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
-                    );
-                  }
-                })}
-            </div>
+                    )
+                  })}
+                {/* 地址自动搜索-mobile */}
+                {!this.state.showSearchAddressPreview &&
+                  isMobile &&
+                  this.address1Item.length > 0 &&
+                  this.newInputJSX({
+                    item: this.address1Item[0],
+                    callback: this.manualInputAddressJSX,
+                    disabled: true,
+                    prevIcon: () => {
+                      return (
+                        <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
+                      );
+                    }
+                  })}
+              </div>
+            )}
+
             {/* 手动输入地址 */}
-            <div
-              className={cn('py-2', {
-                hidden: !this.isManualInputAddressTotal
-              })}
-            >
-              <div className="w-full mb-1 md:mb-10">
-                {this.address1Item.length > 0 &&
-                  this.newInputJSX({ item: this.address1Item[0] })}
-              </div>
-              <div className="w-full mb-1 md:mb-10">
-                {this.address2Item.length > 0 &&
-                  this.newInputJSX({ item: this.address2Item[0] })}
-              </div>
-              <div className="flex mb-1 md:mb-10">
-                <div className="flex-1">
-                  {this.postCodeItem.length > 0 &&
-                    this.newInputJSX({ item: this.postCodeItem[0] })}
+            {this.isManualInputAddressTotal && (
+              <div
+                className={cn('py-2', {
+                  hidden: !this.isManualInputAddressTotal
+                })}
+              >
+                <div className="w-full mb-1 md:mb-10">
+                  {this.address1Item.length > 0 &&
+                    this.newInputJSX({ item: this.address1Item[0] })}
                 </div>
-                <div className="w-5"></div>
-                <div className="flex-1">
-                  {this.cityItem.length > 0 &&
-                    this.formType(this.cityItem[0]) == 'input' &&
-                    this.newInputJSX({ item: this.cityItem[0] })}
-                  {this.cityItem.length > 0 &&
-                    this.formType(this.cityItem[0]) == 'inputAndSearch' &&
-                    this.citySearchSelectiontJSX({ item: this.cityItem[0] })}
+                <div className="w-full mb-1 md:mb-10">
+                  {this.address2Item.length > 0 &&
+                    this.newInputJSX({ item: this.address2Item[0] })}
+                </div>
+                <div className="flex mb-1 md:mb-10">
+                  <div className="flex-1">
+                    {this.postCodeItem.length > 0 &&
+                      this.newInputJSX({ item: this.postCodeItem[0] })}
+                  </div>
+                  <div className="w-5"></div>
+                  <div className="flex-1">
+                    {this.cityItem.length > 0 &&
+                      this.formType(this.cityItem[0]) == 'input' &&
+                      this.newInputJSX({ item: this.cityItem[0] })}
+                    {this.cityItem.length > 0 &&
+                      this.formType(this.cityItem[0]) == 'inputAndSearch' &&
+                      this.citySearchSelectiontJSX({ item: this.cityItem[0] })}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+
             {/* 电话号码 */}
             <div className="mt-1 w-full md:w-1/2">
               {this.phoneNumberItem.length > 0 &&
