@@ -262,6 +262,8 @@ const Consent2TR = loadable(() =>
 );
 const Login = loadable(() => import('@/views/Login'));
 const register = loadable(() => import('@/views/Register'));
+const ForgetPassword = loadable(() => import('@/views/ForgetPassword'));
+const ForgotSuccessEmail = loadable(() => import('@/views/ForgotSuccessEmail'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
@@ -1222,6 +1224,28 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
                       return <Login {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/forgot"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ForgetPassword {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/forgot/success/email"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ForgotSuccessEmail {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }
