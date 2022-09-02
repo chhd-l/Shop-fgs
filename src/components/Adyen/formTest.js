@@ -12,7 +12,7 @@ import packageTranslations from './translations';
 import { Button } from '@/components/Common';
 import '@adyen/adyen-web/dist/adyen.css';
 import { funcUrl } from '@/lib/url-utils';
-import './index.less';
+import './form.less';
 let adyenFormData = {};
 
 @inject('loginStore', 'paymentStore')
@@ -168,19 +168,19 @@ class AdyenCreditCardForm extends React.Component {
         onPaymentCompleted: (result, component) => {
           console.info('onPaymentCompleted', result);
           console.info('......', component);
-        },
-        onError: (error, component) => {
-          console.error(
-            'onError===name',
-            error.name,
-            'onError===name',
-            error.message,
-            'onError===message',
-            error.stack,
-            'onError===stack',
-            component
-          );
         }
+        // onError: (error, component) => {
+        //   console.error(
+        //     'onError===name',
+        //     error.name,
+        //     'onError===name',
+        //     error.message,
+        //     'onError===message',
+        //     error.stack,
+        //     'onError===stack',
+        //     component
+        //   );
+        // }
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
       console.info('configuration adyen', configuration);
