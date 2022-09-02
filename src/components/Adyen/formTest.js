@@ -9,11 +9,12 @@ import LazyLoad from 'react-lazyload';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import getPaymentConf from '@/lib/get-payment-conf';
 import packageTranslations from './translations';
-import { Button } from '@/components/Common';
 import '@adyen/adyen-web/dist/adyen.css';
 import { funcUrl } from '@/lib/url-utils';
 import './form.less';
+import Form from '../Address/Form';
 let adyenFormData = {};
+import { Input, Button, Modal } from '@/components/Common';
 
 @inject('loginStore', 'paymentStore')
 @observer
@@ -47,9 +48,9 @@ class AdyenCreditCardForm extends React.Component {
     };
     this.country = '';
     this.containerEl = React.createRef();
+    this.applePayComponent = null;
   }
   componentDidMount() {
-    this.initAdyenConf();
     this.setState({
       adyenFormData: Object.assign(adyenFormData, {
         isDefault: 0
@@ -72,7 +73,11 @@ class AdyenCreditCardForm extends React.Component {
     const {
       paymentStore: { curPayWayInfo }
     } = this.props;
-    const tmp = await getPaymentConf();
+    // const tmp = await getPaymentConf();
+    if (this.applePayComponent) {
+      this.applePayComponent?.unmount?.();
+    }
+    console.info('this.applePayComponent', this.applePayComponent);
     let country =
       funcUrl({ name: 'country' }) || window.__.env.REACT_APP_COUNTRY || 'fr';
     // this.country = country
@@ -151,9 +156,14 @@ class AdyenCreditCardForm extends React.Component {
       ]
     };
     console.log(paymentMethodsResponse, '==================');
-
+    let session = {
+      id: this.state.adyenFormData.sessionId, // Unique identifier for the payment session.
+      sessionData: this.state.adyenFormData.sessionData // The payment session data.
+    };
+    console.info('sessionsession', session);
     if (this.containerEl.current) {
       const configuration = {
+        ...session,
         environment: adyenOriginKeyConf?.environment,
         clientKey: adyenOriginKeyConf?.openPlatformSecret,
         locale: adyenOriginKeyConf?.locale || 'en-US',
@@ -210,7 +220,7 @@ class AdyenCreditCardForm extends React.Component {
         //     });
         // },
         amount: {
-          value: 3500,
+          value: this.state.adyenFormData.amount || 3500,
           currency: 'USD'
         },
         onSelect: (activeComponent) => {
@@ -225,16 +235,17 @@ class AdyenCreditCardForm extends React.Component {
         //   merchantIdentifier: 'merchant.com.royalcanin.fgs'
         // }
       };
+      let that = this;
       console.info('applePayConfiguration applepay', applePayConfiguration);
-      const applePayComponent = checkout.create(
+      that.applePayComponent = checkout.create(
         'applepay',
         applePayConfiguration
       );
-      applePayComponent
+      that.applePayComponent
         .isAvailable()
         .then(() => {
           console.info('.......test');
-          applePayComponent.mount('#applepay-container');
+          that.applePayComponent.mount('#applepay-container');
         })
         .catch((e) => {
           console.info('ApplePaySessionerror000000000', e);
@@ -405,6 +416,55 @@ class AdyenCreditCardForm extends React.Component {
     const { supportPaymentMethods } = paymentStore;
     return (
       <div>
+        <div className="sessionData">
+          {/* <span>sessionData</span> */}
+          <Input
+            label="sessionData"
+            value={this.state.adyenFormData.sessionData}
+            onChange={(e) => {
+              let newAdyenFormData = Object.assign(this.state.adyenFormData, {
+                sessionData: e.target.value
+              });
+              this.setState({ adyenFormData: newAdyenFormData });
+            }}
+          />
+        </div>
+        <div className="sessionId">
+          {/* <span>sessionId</span> */}
+          <Input
+            label="sessionId"
+            value={this.state.adyenFormData.sessionId}
+            onChange={(e) => {
+              let newAdyenFormData = Object.assign(this.state.adyenFormData, {
+                sessionId: e.target.value
+              });
+              this.setState({ adyenFormData: newAdyenFormData });
+            }}
+          />
+        </div>
+        <div className="amount">
+          {/* <span>amount</span> */}
+          <Input
+            label="amount"
+            value={this.state.adyenFormData.amount}
+            onChange={(e) => {
+              console.info('e', e);
+              let newAdyenFormData = Object.assign(this.state.adyenFormData, {
+                amount: e.target.value
+              });
+              console.info('newAdyenFormData', newAdyenFormData);
+              this.setState({ adyenFormData: newAdyenFormData });
+            }}
+          />
+        </div>
+        <button
+          className="rc-btn rc-btn--one bg-rc-red"
+          onClick={() => {
+            this.initAdyenConf();
+          }}
+        >
+          init pay button
+        </button>
         {/* 支持卡的类型 Visa和master */}
         {supportPaymentMethodsVisible && supportPaymentMethods.length > 0 && (
           <p className="mb-2">
