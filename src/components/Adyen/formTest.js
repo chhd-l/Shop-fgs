@@ -221,7 +221,7 @@ class AdyenCreditCardForm extends React.Component {
         // },
         amount: {
           value: this.state.adyenFormData.amount || 3500,
-          currency: 'USD'
+          currency: this.state.adyenFormData.currency || 'USD'
         },
         onSelect: (activeComponent) => {
           console.info('....onSelect', activeComponent);
@@ -438,6 +438,21 @@ class AdyenCreditCardForm extends React.Component {
               let newAdyenFormData = Object.assign(this.state.adyenFormData, {
                 sessionId: e.target.value
               });
+              this.setState({ adyenFormData: newAdyenFormData });
+            }}
+          />
+        </div>
+        <div className="currency">
+          {/* <span>currency</span> */}
+          <Input
+            label="currency"
+            value={this.state.adyenFormData.currency}
+            onChange={(e) => {
+              console.info('e', e);
+              let newAdyenFormData = Object.assign(this.state.adyenFormData, {
+                currency: e.target.value
+              });
+              console.info('newAdyenFormData', newAdyenFormData);
               this.setState({ adyenFormData: newAdyenFormData });
             }}
           />
