@@ -897,7 +897,6 @@ class Payment extends React.Component {
   initPanelStatus() {
     const { paymentStore, checkoutStore } = this.props;
     const { tid, isFromFelin } = this.state;
-
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
     if (this.isSkipPaymentPanel && !tid) {
       paymentStore.setStsToCompleted({

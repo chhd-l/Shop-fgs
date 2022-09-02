@@ -780,6 +780,16 @@ class AddressList extends React.Component {
           (item) => item.key === 'confirmation'
         )[0];
       }
+      // 如果是日本的零元代客下单订单 需要显示支付方式，否则支付会报错
+      if (
+        this.props.checkoutStore.tradePrice === 0 &&
+        window.__.env.REACT_APP_COUNTRY === 'jp' &&
+        isUserGroup
+      ) {
+        nextConfirmPanel = paymentStore?.panelStatus?.filter(
+          (item) => item.key === 'paymentMethod'
+        )[0];
+      }
     } else {
       // 正常下单
       if (!isShowBindPet) {
@@ -1993,6 +2003,7 @@ class AddressList extends React.Component {
   };
   // 确认 pickup
   clickConfirmPickup = async () => {
+    //是否跳过支付
     const {
       deliveryAddress,
       pickupFormData,
