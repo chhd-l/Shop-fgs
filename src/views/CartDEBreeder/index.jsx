@@ -32,7 +32,8 @@ const CartDEBreeder = ({
       if (customerId && loginStore.isLogin) {
         await saveShelterId({
           shelterId: customerId,
-          customerId: loginStore.userInfo.customerId
+          customerId: loginStore.userInfo.customerId,
+          prescriberType: 'vet'
         });
       }
       if (deRecommendationGoodsId) {
