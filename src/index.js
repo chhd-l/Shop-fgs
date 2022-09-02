@@ -17,6 +17,25 @@ import '@/assets/css/checkout.css';
 //import registerServiceWorker from './registerServiceWorker';
 import { initShopConfig } from './env';
 
+const developerHelper = () => {
+  if (window.location.hostname === "localhost") {
+    let times = 0;
+    const timer = setInterval(() => {
+      times++;
+      if (times >= 10) {
+        clearInterval(timer);
+      }
+      document.getElementsByTagName("iframe")?.forEach?.(item => {
+        if (item.style.zIndex === "2147483647") {
+          item.style.display = "none";
+          clearInterval(timer);
+        }
+      });
+    }, 1000);
+  }
+}
+
+
 initShopConfig().then(() => {
   const App = require('./App.jsx').default;
   ReactDOM.render(
@@ -28,6 +47,7 @@ initShopConfig().then(() => {
   );
   console.log('★★★★★★★★★ 当前国家： ', window.__.env.REACT_APP_COUNTRY);
   console.log('★★★★★★★★★ 当前环境： ', window.__.env.REACT_APP_GA_ENV);
+  developerHelper();
 });
 
 // console.log('★★★★★★★★★ base url： ',window.__.env.REACT_APP_BASEURL);
