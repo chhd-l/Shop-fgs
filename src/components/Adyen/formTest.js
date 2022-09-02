@@ -12,7 +12,7 @@ import packageTranslations from './translations';
 import { Button } from '@/components/Common';
 import '@adyen/adyen-web/dist/adyen.css';
 import { funcUrl } from '@/lib/url-utils';
-
+import './index.less';
 let adyenFormData = {};
 
 @inject('loginStore', 'paymentStore')
@@ -183,7 +183,7 @@ class AdyenCreditCardForm extends React.Component {
         }
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
-
+      console.info('configuration adyen', configuration);
       const checkout = await new AdyenCheckout(configuration);
       const applePayConfiguration = {
         // onValidateMerchant: (resolve, reject, validationURL) => {
@@ -215,6 +215,7 @@ class AdyenCreditCardForm extends React.Component {
         //   merchantIdentifier: 'merchant.com.royalcanin.fgs'
         // }
       };
+      console.info('applePayConfiguration applepay', applePayConfiguration);
       const applePayComponent = checkout.create(
         'applepay',
         applePayConfiguration
