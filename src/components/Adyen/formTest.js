@@ -12,7 +12,7 @@ import packageTranslations from './translations';
 import { Button } from '@/components/Common';
 import '@adyen/adyen-web/dist/adyen.css';
 import { funcUrl } from '@/lib/url-utils';
-import './index.less';
+import './form.less';
 let adyenFormData = {};
 
 @inject('loginStore', 'paymentStore')
