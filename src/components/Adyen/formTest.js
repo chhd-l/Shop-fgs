@@ -168,19 +168,26 @@ class AdyenCreditCardForm extends React.Component {
         onPaymentCompleted: (result, component) => {
           console.info('onPaymentCompleted', result);
           console.info('......', component);
+        },
+        onChange: (state) => {
+          console.info('onChangestate', state);
+        },
+        onSubmit: (state, dropin) => {
+          console.info('onSubmitstate', state);
+          console.info('onSubmitdropin', dropin);
+        },
+        onError: (error, component) => {
+          console.error(
+            'onError===name',
+            error.name,
+            'onError===message',
+            error.message,
+            'onError===stack',
+            error.stack,
+            'onError===component',
+            component
+          );
         }
-        // onError: (error, component) => {
-        //   console.error(
-        //     'onError===name',
-        //     error.name,
-        //     'onError===name',
-        //     error.message,
-        //     'onError===message',
-        //     error.stack,
-        //     'onError===stack',
-        //     component
-        //   );
-        // }
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
       console.info('configuration adyen', configuration);
@@ -206,8 +213,11 @@ class AdyenCreditCardForm extends React.Component {
           value: 3500,
           currency: 'USD'
         },
+        onSelect: (activeComponent) => {
+          console.info('....onSelect', activeComponent);
+        },
         onAuthorized: (e) => {
-          console.info('......onAuthorized', e);
+          console.info('......onAuthorized', e.toString());
         },
         countryCode: country.toUpperCase()
         // configuration: {
