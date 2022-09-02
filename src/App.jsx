@@ -422,6 +422,7 @@ const RegisterRequired = loadable(() =>
 );
 
 const Test = loadable(() => import('@/views/Test'));
+const Test1 = loadable(() => import('@/views/Test1'));
 const Survey = loadable(() => import('@/views/Survey'));
 const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 
@@ -516,6 +517,7 @@ const App = () => {
                 />
                 <Route exact path={'/pickupmap'} component={PickupMap} />
                 <Route exact path={'/test/'} component={Test} />
+                <Route exact path={'/test1/'} component={Test1} />
                 <Route
                   exact
                   path="/implicit/callback"
