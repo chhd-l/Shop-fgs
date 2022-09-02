@@ -55,7 +55,13 @@ const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 /**
  * address list(delivery/billing) - member
  */
-@inject('checkoutStore', 'configStore', 'paymentStoreNew', 'addressStore')
+@inject(
+  'checkoutStore',
+  'configStore',
+  'paymentStoreNew',
+  'addressStore',
+  'loginStore'
+)
 // @injectIntl * 不能引入，引入后Payment中无法使用该组件 ref
 @observer
 class AddressList extends React.Component {
@@ -76,6 +82,9 @@ class AddressList extends React.Component {
     calculateFreight: () => {},
     updateData: () => {}
   };
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -98,8 +107,9 @@ class AddressList extends React.Component {
       pickupCalculation: null,
       allAddressList: [],
       deliveryAddress: {
-        firstName: '',
-        lastName: '',
+        firstName: this.userInfo.firstName || '',
+        lastName: this.userInfo.lastName || '',
+        email: this.userInfo.email || '',
         address1: '',
         address2: '',
         rfc: '',
@@ -130,7 +140,7 @@ class AddressList extends React.Component {
         pickupDescription: null,
         pickupPrice: null,
         DuData: null, // 俄罗斯DuData
-        email: ''
+        isTriggerValidDataAll: false
       },
       cityList: [],
       errMsg: '',
@@ -212,6 +222,11 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
+  triggerHandleConfirm = () => {
+    this.setState({
+      isTriggerValidDataAll: true
+    });
+  };
   // 对应的国际化字符串
   getIntlMsg = (str) => {
     return this.props.intlMessages[str];
@@ -1007,7 +1022,7 @@ class AddressList extends React.Component {
   updateBugData = (bugData) => {
     this.setState({ bugData });
   };
-  updateDeliveryAddress = async (data) => {
+  updateDeliveryAddress = async (data, fn) => {
     const { intl } = this.props;
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
@@ -1017,13 +1032,14 @@ class AddressList extends React.Component {
         isValid: false
       });
       console.log(8910, data);
-      console.log(8910, data.formRule);
       await validData({ rule: data.formRule, data, intl }); // 数据验证
-      console.log(8910);
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
+        console.log(fn);
+        debugger;
+        fn && fn();
       });
     } catch (err) {
       // console.warn(' err msg: ', err);
@@ -1062,7 +1078,11 @@ class AddressList extends React.Component {
       },
       () => {
         if (flag) {
-          this.updateDeliveryAddress(deliveryAddress);
+          this.updateDeliveryAddress(deliveryAddress, () => {
+            this.handleSave({
+              isThrowError: false
+            });
+          });
         }
       }
     );
@@ -1190,17 +1210,11 @@ class AddressList extends React.Component {
     }
     try {
       const { isValid, addOrEdit, deliveryAddress } = this.state;
+      debugger;
       if (!isValid || !addOrEdit) {
+        debugger;
         return false;
       }
-
-      // ★★★★★★ 自动更新deliveryDate和timeSlot后暂时用不到这段 ★★★★★★
-      // if (deliveryAddress?.deliveryDate) {
-      //   // 判断 deliveryDate 是否过期
-      //   if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
-      //     return;
-      //   }
-      // }
 
       // 地址验证
       this.setState({
@@ -2477,6 +2491,10 @@ class AddressList extends React.Component {
               );
             }}
             getJpNameValidFlag={this.getJpNameValidFlag}
+            isTriggerValidDataAll={this.state.isTriggerValidDataAll}
+            setTriggerValidData={(bool) => {
+              this.setState({ isTriggerValidDataAll: bool });
+            }}
           />
         )}
 
@@ -2485,10 +2503,11 @@ class AddressList extends React.Component {
         ) : null}
         <div className="rc-layout-container ml-1 mr-1">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center pl-0 pr-0">
-            <div>{this.isDeliverAddress ? _defaultCheckBox : null}</div>
+            {/* <div>{this.isDeliverAddress ? _defaultCheckBox : null}</div> */}
+            <div className="w-1/2"></div>
             {showOperateBtn ? (
               <>
-                <div className="rc-md-up">
+                <div className="rc-md-up w-1/2 text-right">
                   {allAddressList.length > 0 ? (
                     <>
                       <span
@@ -2501,20 +2520,21 @@ class AddressList extends React.Component {
                       <FormattedMessage id="or" />{' '}
                     </>
                   ) : null}
-                  {console.log({ isValid, formAddressValid, jpNameValid })}
+                  {console.log({ isValid, formAddressValid })}
                   <Button
                     type="primary"
                     className="submitBtn"
                     name="contactPreference"
                     htmlType="submit"
-                    onClick={this.handleSave.bind(this, {
-                      isThrowError: false
-                    })}
-                    disabled={isSaveAddressBtnDisabled(
-                      isValid,
-                      formAddressValid,
-                      jpNameValid
-                    )}
+                    // onClick={this.handleSave.bind(this, {
+                    //   isThrowError: false
+                    // })}
+                    onClick={this.triggerHandleConfirm}
+                    // disabled={isSaveAddressBtnDisabled(
+                    //   isValid,
+                    //   formAddressValid,
+                    //   jpNameValid
+                    // )}
                   >
                     <FormattedMessage id="save" />
                   </Button>
@@ -2542,11 +2562,11 @@ class AddressList extends React.Component {
                     onClick={this.handleSave.bind(this, {
                       isThrowError: false
                     })}
-                    disabled={isSaveAddressBtnDisabled(
-                      isValid,
-                      formAddressValid,
-                      jpNameValid
-                    )}
+                    // disabled={isSaveAddressBtnDisabled(
+                    //   isValid,
+                    //   formAddressValid,
+                    //   jpNameValid
+                    // )}
                   >
                     <FormattedMessage id="save" />
                   </Button>

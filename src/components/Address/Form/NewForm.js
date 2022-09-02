@@ -117,6 +117,9 @@ class Form extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   get emailItem() {
     return this.state.formList.filter((item) => item.fieldKey == 'email');
   }
@@ -2340,6 +2343,8 @@ class Form extends React.Component {
     } = this.state;
     const { isLogin } = this;
 
+    console.log(333, this.userInfo);
+
     return (
       <>
         {formLoading ? (
@@ -2347,50 +2352,52 @@ class Form extends React.Component {
         ) : (
           <div>
             {/* 会员 firstName and lastName */}
-            <div
-              className={cn('flex flex-col md:flex-row', { hidden: !isLogin })}
-            >
-              <div className="mb-1 md:mb-10 w-100">
-                {this.firstNameItem.length > 0 &&
-                  this.newInputJSX({ item: this.firstNameItem[0] })}
-              </div>
-              <div className="w-0 md:w-20"></div>
-              <div className="mb-1 md:mb-10 w-100">
-                {this.lastNameItem.length > 0 &&
-                  this.newInputJSX({ item: this.lastNameItem[0] })}
-              </div>
-            </div>
-            {/* 游客 email,FastRegisterCard, firstName,lastName */}
-            <div
-              className={cn(`flex flex-col md:flex-row`, { hidden: isLogin })}
-            >
-              <div
-                className={cn(`w-full md:w-1/2 flex flex-col mr-0 md:mr-20`)}
-              >
-                <div className="mb-1 md:mb-10 w-100">
-                  {this.emailItem.length > 0 &&
-                    this.newInputJSX({ item: this.emailItem[0] })}
-                </div>
-                <div className="md:hidden mb-3">
-                  {this.emailItem.length > 0 &&
-                    this.emailItem[0].Status == 'inputOk' && (
-                      <FastRegisterCard />
-                    )}
-                </div>
+            {isLogin && (
+              <div className={cn('flex flex-col md:flex-row')}>
                 <div className="mb-1 md:mb-10 w-100">
                   {this.firstNameItem.length > 0 &&
                     this.newInputJSX({ item: this.firstNameItem[0] })}
                 </div>
+                <div className="w-0 md:w-20"></div>
                 <div className="mb-1 md:mb-10 w-100">
                   {this.lastNameItem.length > 0 &&
                     this.newInputJSX({ item: this.lastNameItem[0] })}
                 </div>
               </div>
-              <div className="hidden md:flex md:w-1/2">
-                {this.emailItem.length > 0 &&
-                  this.emailItem[0].Status == 'inputOk' && <FastRegisterCard />}
+            )}
+            {/* 游客 email,FastRegisterCard, firstName,lastName */}
+            {!isLogin && (
+              <div className={cn(`flex flex-col md:flex-row`)}>
+                <div
+                  className={cn(`w-full md:w-1/2 flex flex-col mr-0 md:mr-20`)}
+                >
+                  <div className="mb-1 md:mb-10 w-100">
+                    {this.emailItem.length > 0 &&
+                      this.newInputJSX({ item: this.emailItem[0] })}
+                  </div>
+                  <div className="md:hidden mb-3">
+                    {this.emailItem.length > 0 &&
+                      this.emailItem[0].Status == 'inputOk' && (
+                        <FastRegisterCard />
+                      )}
+                  </div>
+                  <div className="mb-1 md:mb-10 w-100">
+                    {this.firstNameItem.length > 0 &&
+                      this.newInputJSX({ item: this.firstNameItem[0] })}
+                  </div>
+                  <div className="mb-1 md:mb-10 w-100">
+                    {this.lastNameItem.length > 0 &&
+                      this.newInputJSX({ item: this.lastNameItem[0] })}
+                  </div>
+                </div>
+                <div className="hidden md:flex md:w-1/2">
+                  {this.emailItem.length > 0 &&
+                    this.emailItem[0].Status == 'inputOk' && (
+                      <FastRegisterCard />
+                    )}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* 地址自动输入 */}
             <div

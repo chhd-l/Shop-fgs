@@ -1021,6 +1021,7 @@ class AddressList extends React.Component {
       console.log(8910);
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
+        debugger;
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
       });
