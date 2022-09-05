@@ -150,7 +150,7 @@ class AddressList extends React.Component {
       addOrEdit: false,
       addressList: [],
       countryList: [],
-      foledMore: true,
+      foledMore: false,
       successTipVisible: false,
       saveErrorMsg: '',
       selectedId: '',
@@ -166,7 +166,8 @@ class AddressList extends React.Component {
       jpCutOffTime: '',
       bugData: {},
       addressConfirmState: true,
-      jpNameValid: false
+      jpNameValid: false,
+      showMoreAddress: false
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
@@ -892,11 +893,76 @@ class AddressList extends React.Component {
       }
     }
   }
+  addNewAddress = () => {
+    const { deliveryAddress } = this.state;
+    this.props.isAddOrEdit(true); // payment中用来判断是否添加或者编辑地址
+    this.props.updateValidationStaus(true);
+    let tmpDeliveryAddress = {
+      firstName: '',
+      lastName: '',
+      address1: '',
+      address2: '',
+      areaId: '',
+      area: '',
+      rfc: '',
+      countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
+      country: '',
+      county: '',
+      cityId: '',
+      city: '',
+      provinceNo: '',
+      provinceId: '',
+      province: '',
+      postCode: '',
+      phoneNumber: '',
+      comment: '',
+      entrance: '',
+      apartment: '',
+      street: '',
+      house: '',
+      housing: '',
+      deliveryDate: '',
+      deliveryDateId: 0,
+      timeSlot: '',
+      timeSlotId: 0,
+      isDefalt: false,
+      firstNameKatakana: '',
+      lastNameKatakana: ''
+    };
+    this.setState({
+      typeForGA: 'Add'
+    });
+    // 新增时删除属性
+    if (isCanVerifyBlacklistPostCode) {
+      delete deliveryAddress.validFlag;
+      delete deliveryAddress.alert;
+    }
+
+    this.setState(
+      {
+        deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
+      },
+      () => {
+        this.setState({
+          addOrEdit: true
+        });
+        this.props.paymentStoreNew.setStsToEdit({
+          key: this.curPanelKey,
+          hideOthers: this.isDeliverAddress ? true : false
+        });
+        this.updateDeliveryAddress(this.state.deliveryAddress);
+      }
+    );
+    if (this.isDeliverAddress) {
+      this.scrollToTitle();
+    }
+  };
   // 编辑 homeDelivery 地址
   addOrEditAddress(idx = -1) {
     const { type } = this.props;
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
+    debugger;
     this.props.isAddOrEdit(true); // payment中用来判断是否添加或者编辑地址
     this.props.updateValidationStaus(true);
     let tmpDeliveryAddress = {
@@ -2292,7 +2358,7 @@ class AddressList extends React.Component {
                 <div className="address-item-forbid">{item.alert}</div>
               ) : null}
             </div>
-            <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
+            {/* <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
               <span
                 className="border-bottom-2"
                 onClick={this.addOrEditAddress.bind(this, i)}
@@ -2302,7 +2368,7 @@ class AddressList extends React.Component {
               <span className="select_this_address border-bottom-2">
                 <FormattedMessage id="selectThisAddress" />
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
       );
@@ -2490,6 +2556,7 @@ class AddressList extends React.Component {
             setTriggerValidData={(bool) => {
               this.setState({ isTriggerValidDataAll: bool });
             }}
+            handleClickCancel={this.handleClickCancel}
           />
         )}
 
@@ -2503,7 +2570,7 @@ class AddressList extends React.Component {
             {showOperateBtn ? (
               <>
                 <div className="rc-md-up w-1/2 text-right">
-                  {allAddressList.length > 0 ? (
+                  {/* {allAddressList.length > 0 ? (
                     <>
                       <span
                         className="rc-styled-link"
@@ -2514,7 +2581,7 @@ class AddressList extends React.Component {
                       </span>{' '}
                       <FormattedMessage id="or" />{' '}
                     </>
-                  ) : null}
+                  ) : null} */}
                   {console.log({ isValid, formAddressValid })}
                   <Button
                     type="primary"
@@ -2690,7 +2757,7 @@ class AddressList extends React.Component {
                         {showDeliveryOrPickUp == 1 &&
                         choiseHomeDeliveryOrPickUp != 0 ? (
                           <>
-                            <div className="home_delivery_box home_delivery_box_border">
+                            <div>
                               {/* 选择 homeDelivery */}
                               {window.__.env.REACT_APP_COUNTRY == 'ru' &&
                               homeAndPickup.length
@@ -2732,7 +2799,73 @@ class AddressList extends React.Component {
 
                               {/* homeDelivery 地址 */}
                               {showDeliveryOrPickUp == 1 &&
-                                choiseHomeDeliveryOrPickUp == 1 && (
+                                choiseHomeDeliveryOrPickUp == 1 &&
+                                !this.state.showMoreAddress && (
+                                  <>
+                                    <AddressForm
+                                      key={'hasSelectedAddr'}
+                                      isShowAdd1Preview={true}
+                                      ref={this.editFormRef}
+                                      type={this.props.type}
+                                      isLogin={true}
+                                      initData={
+                                        addressList.filter(
+                                          (item) => item.selected
+                                        )[0]
+                                      }
+                                      showDeliveryDateTimeSlot={
+                                        this.props.showDeliveryDateTimeSlot
+                                      }
+                                      getFormAddressValidFlag={
+                                        this.getFormAddressValidFlag
+                                      }
+                                      updateData={this.updateDeliveryAddress}
+                                      updateBugData={this.updateBugData}
+                                      calculateFreight={this.calculateFreight}
+                                      onSearchSelectionFocus={() => {
+                                        this.props.onSearchSelectionFocus(
+                                          this.state.typeForGA
+                                        );
+                                      }}
+                                      onSearchSelectionChange={() => {
+                                        this.props.onSearchSelectionChange(
+                                          this.state.typeForGA
+                                        );
+                                      }}
+                                      onSearchSelectionError={(
+                                        errorMessage
+                                      ) => {
+                                        this.props.onSearchSelectionError(
+                                          errorMessage,
+                                          this.state.typeForGA
+                                        );
+                                      }}
+                                      getJpNameValidFlag={
+                                        this.getJpNameValidFlag
+                                      }
+                                      isTriggerValidDataAll={
+                                        this.state.isTriggerValidDataAll
+                                      }
+                                      setTriggerValidData={(bool) => {
+                                        this.setState({
+                                          isTriggerValidDataAll: bool
+                                        });
+                                      }}
+                                      addNewAddress={this.addNewAddress}
+                                      handleClickCancel={this.handleClickCancel}
+                                      loadMoreAddress={() => {
+                                        this.setState({
+                                          showMoreAddress: true
+                                        });
+                                      }}
+                                    />
+                                  </>
+                                )}
+
+                              {/* homeDelivery 地址列表 */}
+                              {showDeliveryOrPickUp == 1 &&
+                                choiseHomeDeliveryOrPickUp == 1 &&
+                                this.state.showMoreAddress && (
                                   <>
                                     {/* 地址列表 */}
                                     <div className="addr-container-scroll">
@@ -2747,18 +2880,17 @@ class AddressList extends React.Component {
                                       )}
                                     </div>
                                     {/* 更多地址 */}
-                                    {addressList.length > 1 && _foldBtn}
+                                    {/* {addressList.length > 1 && _foldBtn} */}
                                   </>
                                 )}
                             </div>
 
                             {/* 新增 homeDelivery 地址 */}
-                            {choiseHomeDeliveryOrPickUp == 1 ? (
+                            {/* {choiseHomeDeliveryOrPickUp == 1 ? (
                               <div className="add_address_pk_btn">
                                 <p
-                                  className={`font-weight-bold red m-0 align-items-center text-nowrap flex ${
-                                    addOrEdit ? 'hidden' : ''
-                                  }`}
+                                  className={`font-weight-bold red m-0 align-items-center text-nowrap flex ${addOrEdit ? 'hidden' : ''
+                                    }`}
                                   onClick={this.addOrEditAddress.bind(this, -1)}
                                 >
                                   <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
@@ -2767,7 +2899,7 @@ class AddressList extends React.Component {
                                   </span>
                                 </p>
                               </div>
-                            ) : null}
+                            ) : null} */}
                           </>
                         ) : null}
 

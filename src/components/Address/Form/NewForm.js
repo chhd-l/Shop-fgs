@@ -56,6 +56,7 @@ import FastRegisterCard from './FastRegisterCard';
 import SearchAddressPreview from './SearchAddressPreview';
 import ActionSheet from 'actionsheet-react';
 import './ActionSheet.css';
+import './NewForm.less';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
@@ -112,7 +113,11 @@ class Form extends React.Component {
     getFormAddressValidFlag: () => {},
     getJpNameValidFlag: () => {},
     isTriggerValidDataAll: false,
-    setTriggerValidData: () => {}
+    setTriggerValidData: () => {},
+    isShowAdd1Preview: false,
+    addNewAddress: () => {},
+    handleClickCancel: () => {},
+    loadMoreAddress: () => {}
   };
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -224,7 +229,7 @@ class Form extends React.Component {
       postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
       errMsgObj: {},
       curItemStatus: {},
-      showSearchAddressPreview: false,
+      showSearchAddressPreview: this.props.isShowAdd1Preview,
       isClickManualInputAddress: false,
       formErrMsgArr: []
     };
@@ -1886,6 +1891,7 @@ class Form extends React.Component {
     hideLabel = true,
     afterFixIcon = ''
   }) => {
+    if (!item) return;
     const { caninForm, apiType, errMsgObj } = this.state;
 
     return (
@@ -1982,6 +1988,24 @@ class Form extends React.Component {
         {/* 输入提示 */}
         {item.requiredFlag == 1 && errMsgObj[item.fieldKey] && (
           <div className="text-form-err">{errMsgObj[item.fieldKey]}</div>
+        )}
+        {/* 取消or选择其他地址or添加地址 */}
+        {this.isLogin && (
+          <div className="text-right mt-1 button-group">
+            <span
+              className="p-1 cursor-pointer font-medium"
+              onClick={this.props.handleClickCancel}
+            >
+              <FormattedMessage id="cancel" />
+            </span>
+            <FormattedMessage id="or" />
+            <span
+              className="p-1 cursor-pointer font-medium"
+              onClick={this.props.loadMoreAddress}
+            >
+              More
+            </span>
+          </div>
         )}
       </>
     );
@@ -2099,6 +2123,7 @@ class Form extends React.Component {
   };
   //checkout大改造
   newInputJSX = ({ item, disabled = false, callback, prevIcon }) => {
+    if (!item) return;
     const { caninForm, errMsgObj } = this.state;
 
     if (caninForm[item.fieldKey]) {
@@ -2353,13 +2378,11 @@ class Form extends React.Component {
             {isLogin && (
               <div className={cn('flex flex-col md:flex-row')}>
                 <div className="mb-1 md:mb-10 w-100">
-                  {this.firstNameItem.length > 0 &&
-                    this.newInputJSX({ item: this.firstNameItem[0] })}
+                  {this.newInputJSX({ item: this.firstNameItem?.[0] })}
                 </div>
                 <div className="w-0 md:w-20"></div>
                 <div className="mb-1 md:mb-10 w-100">
-                  {this.lastNameItem.length > 0 &&
-                    this.newInputJSX({ item: this.lastNameItem[0] })}
+                  {this.newInputJSX({ item: this.lastNameItem?.[0] })}
                 </div>
               </div>
             )}
@@ -2370,29 +2393,24 @@ class Form extends React.Component {
                   className={cn(`w-full md:w-1/2 flex flex-col mr-0 md:mr-20`)}
                 >
                   <div className="mb-1 md:mb-10 w-100">
-                    {this.emailItem.length > 0 &&
-                      this.newInputJSX({ item: this.emailItem[0] })}
+                    {this.newInputJSX({ item: this.emailItem?.[0] })}
                   </div>
                   <div className="md:hidden mb-3">
-                    {this.emailItem.length > 0 &&
-                      this.emailItem[0].Status == 'inputOk' && (
-                        <FastRegisterCard />
-                      )}
+                    {this.emailItem?.[0]?.Status == 'inputOk' && (
+                      <FastRegisterCard />
+                    )}
                   </div>
                   <div className="mb-1 md:mb-10 w-100">
-                    {this.firstNameItem.length > 0 &&
-                      this.newInputJSX({ item: this.firstNameItem[0] })}
+                    {this.newInputJSX({ item: this.firstNameItem?.[0] })}
                   </div>
                   <div className="mb-1 md:mb-10 w-100">
-                    {this.lastNameItem.length > 0 &&
-                      this.newInputJSX({ item: this.lastNameItem[0] })}
+                    {this.newInputJSX({ item: this.lastNameItem?.[0] })}
                   </div>
                 </div>
                 <div className="hidden md:flex md:w-1/2">
-                  {this.emailItem.length > 0 &&
-                    this.emailItem[0].Status == 'inputOk' && (
-                      <FastRegisterCard />
-                    )}
+                  {this.emailItem?.[0]?.Status == 'inputOk' && (
+                    <FastRegisterCard />
+                  )}
                 </div>
               </div>
             )}
@@ -2402,31 +2420,49 @@ class Form extends React.Component {
               <div className={cn('mb-4 w-100')}>
                 {/* 地址自动preview */}
                 {this.state.showSearchAddressPreview && (
-                  <SearchAddressPreview
-                    caninForm={this.state.caninForm}
-                    formListOption={this.formListOption}
-                    setCaninForm={(caninForm) => {
-                      this.setState({ caninForm });
-                    }}
-                    hideSearchAddressPreview={() => {
-                      const { caninForm } = this.state;
-                      const newCaninForm = {
-                        ...caninForm,
-                        ...{ address2: '' }
-                      };
-                      this.setState({
-                        showSearchAddressPreview: false,
-                        caninForm: newCaninForm
-                      });
-                    }}
-                  />
+                  <>
+                    <SearchAddressPreview
+                      caninForm={this.state.caninForm}
+                      formListOption={this.formListOption}
+                      setCaninForm={(caninForm) => {
+                        this.setState({ caninForm });
+                      }}
+                      hideSearchAddressPreview={() => {
+                        const { caninForm } = this.state;
+                        const newCaninForm = {
+                          ...caninForm,
+                          ...{ address2: '' }
+                        };
+                        this.setState({
+                          showSearchAddressPreview: false,
+                          caninForm: newCaninForm
+                        });
+                      }}
+                    />
+                    {this.isLogin && (
+                      <div className="text-right mt-1 button-group">
+                        <span
+                          className="p-1 cursor-pointer font-medium"
+                          onClick={this.props.loadMoreAddress}
+                        >
+                          more
+                        </span>
+                        <FormattedMessage id="or" />
+                        <span
+                          className="p-1 cursor-pointer font-medium"
+                          onClick={this.props.addNewAddress}
+                        >
+                          Add
+                        </span>
+                      </div>
+                    )}
+                  </>
                 )}
                 {/* 地址自动搜索-PC */}
                 {!this.state.showSearchAddressPreview &&
                   !isMobile &&
-                  this.address1Item.length > 0 &&
                   this.addressSearchSelectionJSX({
-                    item: this.address1Item[0],
+                    item: this.address1Item?.[0],
                     callback: this.manualInputAddressJSX,
                     prefixIcon: (
                       <span className="absolute left-0 top-1 iconfont iconSearch text-gray-400"></span>
@@ -2435,9 +2471,8 @@ class Form extends React.Component {
                 {/* 地址自动搜索-mobile */}
                 {!this.state.showSearchAddressPreview &&
                   isMobile &&
-                  this.address1Item.length > 0 &&
                   this.newInputJSX({
-                    item: this.address1Item[0],
+                    item: this.address1Item?.[0],
                     callback: this.manualInputAddressJSX,
                     disabled: true,
                     prevIcon: () => {
@@ -2457,26 +2492,23 @@ class Form extends React.Component {
                 })}
               >
                 <div className="w-full mb-1 md:mb-10">
-                  {this.address1Item.length > 0 &&
-                    this.newInputJSX({ item: this.address1Item[0] })}
+                  {this.newInputJSX({ item: this.address1Item?.[0] })}
                 </div>
                 <div className="w-full mb-1 md:mb-10">
-                  {this.address2Item.length > 0 &&
-                    this.newInputJSX({ item: this.address2Item[0] })}
+                  {this.newInputJSX({ item: this.address2Item?.[0] })}
                 </div>
                 <div className="flex mb-1 md:mb-10">
                   <div className="flex-1">
-                    {this.postCodeItem.length > 0 &&
-                      this.newInputJSX({ item: this.postCodeItem[0] })}
+                    {this.newInputJSX({ item: this.postCodeItem?.[0] })}
                   </div>
                   <div className="w-5"></div>
                   <div className="flex-1">
-                    {this.cityItem.length > 0 &&
-                      this.formType(this.cityItem[0]) == 'input' &&
-                      this.newInputJSX({ item: this.cityItem[0] })}
-                    {this.cityItem.length > 0 &&
-                      this.formType(this.cityItem[0]) == 'inputAndSearch' &&
-                      this.citySearchSelectiontJSX({ item: this.cityItem[0] })}
+                    {this.formType(this.cityItem[0]) == 'input' &&
+                      this.newInputJSX({ item: this.cityItem?.[0] })}
+                    {this.formType(this.cityItem[0]) == 'inputAndSearch' &&
+                      this.citySearchSelectiontJSX({
+                        item: this.cityItem?.[0]
+                      })}
                   </div>
                 </div>
               </div>
@@ -2484,8 +2516,7 @@ class Form extends React.Component {
 
             {/* 电话号码 */}
             <div className="mt-1 w-full md:w-1/2">
-              {this.phoneNumberItem.length > 0 &&
-                this.newInputJSX({ item: this.phoneNumberItem[0] })}
+              {this.newInputJSX({ item: this.phoneNumberItem?.[0] })}
             </div>
             <ActionSheet ref={this.add1ActionSheet} className="ACTION-SHEET">
               <div className="relative">
@@ -2498,20 +2529,19 @@ class Form extends React.Component {
                     this.add1ActionSheet.current.close();
                   }}
                 ></span>
-                {this.address1Item.length > 0 &&
-                  this.addressSearchSelectionJSX({
-                    item: this.address1Item[0],
-                    prefixIcon: <></>,
-                    hideLabel: false,
-                    afterFixIcon: (
-                      <span
-                        className="absolute font-medium text-14 right-5 top-2 text-gray-400"
-                        onClick={this.clearAddr1KeyWords}
-                      >
-                        Clear
-                      </span>
-                    )
-                  })}
+                {this.addressSearchSelectionJSX({
+                  item: this.address1Item?.[0],
+                  prefixIcon: <></>,
+                  hideLabel: false,
+                  afterFixIcon: (
+                    <span
+                      className="absolute font-medium text-14 right-5 top-2 text-gray-400"
+                      onClick={this.clearAddr1KeyWords}
+                    >
+                      Clear
+                    </span>
+                  )
+                })}
               </div>
               <div
                 style={{
