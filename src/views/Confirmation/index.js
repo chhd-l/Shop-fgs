@@ -133,7 +133,8 @@ class Confirmation extends React.Component {
       setSelectClinicId(clinicsId);
       localItemRoyal.remove('deRecommendationGoodsId');
     }
-
+    this.props.clinicStore.removeLinkClinicInfo();
+    localItemRoyal.remove('customerId');
     const rcPrescriber = localItemRoyal.get('rc-prescriber') || '';
     const breedOrShelterId = sessionItemRoyal.get('BreedOrShelterId') || '';
     const handledShelter = sessionItemRoyal.get('handled-shelter') || '';
