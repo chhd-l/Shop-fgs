@@ -94,3 +94,11 @@ export function authToken(parameter) {
     data: parameter
   });
 }
+
+export function forgetPassworSendEmail(parameter) {
+  return axios({
+    url: '/employee/send-email',
+    method: 'post',
+    data: parameter
+  });
+}
