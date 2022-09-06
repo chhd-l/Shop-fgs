@@ -324,8 +324,8 @@ class CyberPaymentForm extends React.Component {
             className="rc-input__control"
             id="cardNumberJSX"
             value={form.cardholderName}
-            // onChange={this.props.handleInputChange}
-            onChange={(e) => this.onChange(e, 'input', 'cardholderName')}
+            onChange={this.props.handleInputChange}
+            // onChange={(e) => this.onChange(e, 'input', 'cardholderName')}
             onBlur={this.props.inputBlur}
             name="cardholderName"
             maxLength="254"

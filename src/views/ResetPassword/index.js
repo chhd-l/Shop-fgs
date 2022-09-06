@@ -7,9 +7,8 @@ import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
 import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 
-import './index.css';
 import { Button, Input } from '@/components/Common';
-
+//eg: https://shopuat.royalcanin.com/ru/reset?rc_content=eyJ0b2tlbiI6ICJkZnB6STZJNk
 class ForgetPassword extends React.Component {
   constructor(props) {
     super(props);
@@ -120,7 +119,7 @@ class ForgetPassword extends React.Component {
           </DistributeHubLinkOrATag>
         </div>
         <h1 className="text-3xl red text-center">
-          <FormattedMessage id="forgetPassword" />
+          <FormattedMessage id="setPassword" />
         </h1>
         <div className="miaa-body px-6 md:px-0">
           {errorMsg ? (
