@@ -61,6 +61,7 @@ const UserJSX = (props) => {
               <FormattedMessage id="personal">
                 {(txt) => (
                   <div
+                    id="main_mini_cart"
                     className="minicart-link"
                     data-auto-testid="header_userinfo_btn"
                     data-loc="miniCartOrderBtn"
@@ -190,6 +191,7 @@ const UserJSX = (props) => {
       onMouseOut={self.handleMouseOut}
       onClick={self.loginIcon}
       data-auto-testid="header_userinfo_btn"
+      id="main_mini_cart"
     >
       {/* 未登录 */}
       {!isLogin && (
