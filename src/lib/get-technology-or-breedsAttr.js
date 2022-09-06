@@ -59,10 +59,8 @@ const getTechnologyOrBreedsAttr = (product) => {
 };
 
 export const getFoodType = (product) => {
-  const {
-    goodsAttributesValueRelVOAllList = [],
-    goodsAttributesValueRelList = []
-  } = product;
+  const { goodsAttributesValueRelVOAllList, goodsAttributesValueRelList } =
+    product;
   let list = goodsAttributesValueRelVOAllList || goodsAttributesValueRelList;
   const technologyType =
     filterAttrValue(list, 'technology', 'goodsAttributeValue').findIndex(
