@@ -787,7 +787,7 @@ class AddressList extends React.Component {
         isUserGroup
       ) {
         nextConfirmPanel = paymentStore?.panelStatus?.filter(
-          (item) => item.key === 'paymentMethod'
+          (item) => item.key === 'bindPet'
         )[0];
       }
     } else {
