@@ -49,9 +49,10 @@ export const CREDIT_CARD_IMG_ENUM = {
 
 export const ADYEN_CREDIT_CARD_BRANDS = {
   fr: ['mc', 'visa', 'cartebancaire'],
+  uk: ['mc', 'visa', 'cartebancaire'],
   ru: ['mc', 'visa', 'amex', 'discover'],
   us: ['mc', 'visa', 'amex', 'discover'],
-  de: ['mc', 'visa'],
+  de: ['mc', 'visa', 'discover'],
   jp: ['mc', 'visa', 'amex', 'jcb', 'diners']
 }[window.__.env.REACT_APP_COUNTRY] || ['mc', 'visa', 'amex'];
 

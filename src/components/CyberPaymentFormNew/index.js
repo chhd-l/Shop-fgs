@@ -216,20 +216,22 @@ class CyberPaymentForm extends React.Component {
         if (err) {
           // handle error
           console.error(err);
+          that.flexresponse = '';
+          // throw new Error(err.message);
           // errorsOutput.textContent = err.message;
         } else {
           console.log(JSON.stringify(token), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
           that.flexresponse = token;
-          if (type == 'input') {
-            that.props.handleInputChange(e);
-          }
-          if (type == 'select') {
-            // e就是data
-            that.props.handleSelectedItemChange(name, e);
-          }
-          // At this point you may pass the token back to your server as you wish.
-          // In this example we append a hidden input to the form and submit it.
         }
+        if (type == 'input') {
+          that.props.handleInputChange(e);
+        }
+        if (type == 'select') {
+          // e就是data
+          that.props.handleSelectedItemChange(name, e);
+        }
+        // At this point you may pass the token back to your server as you wish.
+        // In this example we append a hidden input to the form and submit it.
       });
     } else {
       if (type == 'input') {
@@ -322,8 +324,8 @@ class CyberPaymentForm extends React.Component {
             className="rc-input__control"
             id="cardNumberJSX"
             value={form.cardholderName}
-            // onChange={this.props.handleInputChange}
-            onChange={(e) => this.onChange(e, 'input', 'cardholderName')}
+            onChange={this.props.handleInputChange}
+            // onChange={(e) => this.onChange(e, 'input', 'cardholderName')}
             onBlur={this.props.inputBlur}
             name="cardholderName"
             maxLength="254"
