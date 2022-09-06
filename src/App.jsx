@@ -264,6 +264,7 @@ const Login = loadable(() => import('@/views/Login'));
 const register = loadable(() => import('@/views/Register'));
 const ForgetPassword = loadable(() => import('@/views/ForgetPassword'));
 const ForgotSuccessEmail = loadable(() => import('@/views/ForgotSuccessEmail'));
+const ResetPassword = loadable(() => import('@/views/ResetPassword'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
@@ -1248,6 +1249,17 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
                       return <ForgotSuccessEmail {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/reset"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ResetPassword {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }
