@@ -27,7 +27,8 @@ class CyberPayment extends React.Component {
     sendCyberPaymentForm: () => {},
     cyberCardType: '001',
     cyberBtnLoading: false,
-    cyberPaymentForm: {}
+    cyberPaymentForm: {},
+    subscriptionID: ''
   };
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -249,7 +250,8 @@ class CyberPayment extends React.Component {
   render() {
     const { isShowCardList } = this.state;
     const {
-      paymentStore: { supportPaymentMethods }
+      paymentStore: { supportPaymentMethods },
+      subscriptionID
     } = this.props;
 
     //验证cyber表单输入情况
@@ -266,7 +268,8 @@ class CyberPayment extends React.Component {
           errMsgObj[item.key] = true;
         }
       });
-      if (Object.keys(errMsgObj).length > 0) {
+      if (Object.keys(errMsgObj).length > 0 || !subscriptionID) {
+        // can't submit while subscriptionID is empty
         isValidForCyberPayment = false;
       } else if (this.props.isCurrentBuyWaySubscription) {
         //订阅商品
@@ -274,6 +277,7 @@ class CyberPayment extends React.Component {
       } else {
         isValidForCyberPayment = true;
       }
+      console.info('isValidForCyberPayment', !isValidForCyberPayment);
       return !isValidForCyberPayment;
     };
 

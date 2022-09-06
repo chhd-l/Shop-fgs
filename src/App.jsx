@@ -301,6 +301,9 @@ const CouponAgreement = loadable(() =>
 const AssistanceDog = loadable(() =>
   import('@/views/StaticPage/AssistanceDog')
 );
+const CommeChienChat = loadable(() =>
+  import('@/views/StaticPage/CommeChienChat')
+);
 
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
 const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
@@ -1430,6 +1433,16 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_COUNTRY === 'fr') {
                       return <AssistanceDog {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/comme-chien-chat"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <CommeChienChat {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }
