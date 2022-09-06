@@ -107,6 +107,7 @@ class CommeChienChat extends React.Component {
                 <div className='flex justify-center'>
                   <button
                     className='rc-btn rc-btn--sm rc-btn--two'
+                    data-testid="scrollToView"
                     onClick={this.scrollToView}
                   >
                     Consultez les événements que nous proposons
