@@ -35,7 +35,6 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
-import { TopNavigation } from '@royal-canin-sitecore/react-components';
 
 function Divider() {
   return (
@@ -654,11 +653,6 @@ class Home extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
-          <TopNavigation
-            locale="en-us"
-            site="us"
-            apiHost="https://dev-weu-sitecore-01-rh.6952f9b6f3ab41099033.westeurope.aksapp.io"
-          />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={history} />
