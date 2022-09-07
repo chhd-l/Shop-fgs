@@ -207,7 +207,7 @@ class CommeChienChat extends React.Component {
                       href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                       target="_blank"
                     >
-                      Nous rendre visite
+                      Où nous trouver
                     </a>
                   </div>
                   <div className='desc-2'>
