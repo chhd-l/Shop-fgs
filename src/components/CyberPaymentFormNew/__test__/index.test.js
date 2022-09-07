@@ -123,6 +123,7 @@ class WrapComponent extends React.Component {
   componentDidMount() {
     this.ref.usGuestPaymentInfoEvent({});
     this.ref.usPaymentInfoEvent({});
+    this.ref.flexresponse = "111";
     this.ref.queryCyberCardTypeEvent({});
     this.ref.queryGuestCyberCardTypeEvent({});
   }
