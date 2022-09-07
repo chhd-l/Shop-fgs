@@ -850,7 +850,9 @@ class PayProductInfo extends React.Component {
                     })}
                     disabled={sessionItemRoyal.get('recommend_product')}
                     style={{ marginTop: '5px', float: 'right' }}
-                    onClick={() => this.handleClickPromotionApply(false)}
+                    onClick={() => {
+                      this.handleClickPromotionApply(false);
+                    }}
                   >
                     <FormattedMessage id="apply" />
                   </button>
