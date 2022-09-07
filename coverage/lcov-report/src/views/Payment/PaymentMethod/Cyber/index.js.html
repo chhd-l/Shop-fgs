@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">1.03% </span>
+                <span class="strong">1.02% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/97</span>
+                <span class='fraction'>1/98</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/33</span>
+                <span class='fraction'>0/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">1.04% </span>
+                <span class="strong">1.03% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/96</span>
+                <span class='fraction'>1/97</span>
             </div>
         
             
@@ -458,7 +458,14 @@
 <a name='L393'></a><a href='#L393'>393</a>
 <a name='L394'></a><a href='#L394'>394</a>
 <a name='L395'></a><a href='#L395'>395</a>
-<a name='L396'></a><a href='#L396'>396</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -492,6 +499,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -548,6 +556,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -749,6 +758,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -863,7 +873,9 @@ import { ADDRESS_RULE } from './constant/utils';
 import { validData } from '@/utils/utils';
 import CyberSaveCardCheckbox from '@/views/Payment/Address/CyberSaveCardCheckbox';
 import { getPaymentMethod } from '@/api/payment';
+import debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl-phraseapp';
+&nbsp;
 @inject('loginStore', 'paymentStore')
 @observer
 class CyberPayment extends React.Component {
@@ -875,6 +887,7 @@ class CyberPayment extends React.Component {
     saveBillingLoading: '',
     validForBilling: '',
     curPayWayInfo: {},
+    setCyberLoading: <span class="fstat-no" title="function not covered" >()</span> =&gt; {},
     isCurrentBuyWaySubscription: '',
     updateSelectedCardInfo: <span class="fstat-no" title="function not covered" >()</span> =&gt; {},
     reInputCVVBtn: <span class="fstat-no" title="function not covered" >()</span> =&gt; {},
@@ -943,6 +956,7 @@ class CyberPayment extends React.Component {
     };
 <span class="cstat-no" title="statement not covered" >    this.cyberCardRef = React.createRef();</span>
 <span class="cstat-no" title="statement not covered" >    this.cyberCardListRef = React.createRef();</span>
+<span class="cstat-no" title="statement not covered" >    this.sendCyberPaymentForm = debounce(this.props.sendCyberPaymentForm, 500);</span>
   }
 <span class="fstat-no" title="function not covered" >  ge</span>t isLogin() {
 <span class="cstat-no" title="statement not covered" >    return this.props.loginStore.isLogin;</span>
@@ -988,10 +1002,10 @@ class CyberPayment extends React.Component {
     }
 <span class="cstat-no" title="statement not covered" >    cyberPaymentForm[name] = value;</span>
 <span class="cstat-no" title="statement not covered" >    this.setState({ cyberPaymentForm });</span>
-<span class="cstat-no" title="statement not covered" >    this.props.sendCyberPaymentForm(cyberPaymentForm);</span>
+<span class="cstat-no" title="statement not covered" >    this.sendCyberPaymentForm(cyberPaymentForm);</span>
 <span class="cstat-no" title="statement not covered" >    this.inputBlur(e);</span>
   };
-  //失去焦点
+  // 失去焦点
   inputBlur = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (e) =&gt; {</span>
     const { intl } = <span class="cstat-no" title="statement not covered" >this.props;</span>
     const { cyberErrMsgObj } = <span class="cstat-no" title="statement not covered" >this.state;</span>
@@ -1026,7 +1040,7 @@ class CyberPayment extends React.Component {
     let obj = <span class="cstat-no" title="statement not covered" >Object.assign({}, cyberErrMsgObj, { [name]: '' });</span> //选择了值，就清空没填提示
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });</span>
-<span class="cstat-no" title="statement not covered" >    this.props.sendCyberPaymentForm(cyberPaymentForm);</span>
+<span class="cstat-no" title="statement not covered" >    this.sendCyberPaymentForm(cyberPaymentForm);</span>
   };
   //checkbox
   CyberSaveCardCheckboxJSX = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
@@ -1170,6 +1184,7 @@ class CyberPayment extends React.Component {
               // true?
               &lt;CyberPaymentFormNew
                 curPayWayInfo={this.props.curPayWayInfo}
+                setCyberLoading={this.props.setCyberLoading}
                 cardTypeVal={this.state.cardTypeVal}
                 cyberFormTitle={cyberFormTitle}
                 ref={this.cyberCardRef}
@@ -1255,7 +1270,7 @@ export default CyberPayment;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-07T02:02:20.931Z
+                at 2022-09-07T06:35:57.486Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>
