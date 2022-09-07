@@ -1,0 +1,619 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for src/views/RuLocal/OurHistory/mock.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/views/RuLocal/OurHistory</a> mock.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/34</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/34</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const path = <span class="cstat-no" title="statement not covered" >window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX;</span>
+export const hirtory10001 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/10001.jpg`;</span>
+export const hirtory10002 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/10002.jpg`;</span>
+export const hirtory4 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history4.png`;</span>
+export const history21 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history21.png`;</span>
+export const history2 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history2.png`;</span>
+export const history17 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history17.png`;</span>
+export const history9 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history9.png`;</span>
+export const history18 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history18.png`;</span>
+export const history19 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history19.png`;</span>
+export const history5 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history5.png`;</span>
+export const history12 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history12.png`;</span>
+export const history10 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history10.png`;</span>
+export const history6 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history6.png`;</span>
+export const history15 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history15.png`;</span>
+export const history13 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history13.png`;</span>
+export const history7 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history7.png`;</span>
+export const history27 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history27.png`;</span>
+export const history20 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history20.png`;</span>
+export const history24 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history24.png`;</span>
+export const history22 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history22.png`;</span>
+export const history3 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history3.png`;</span>
+export const history14 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history14.png`;</span>
+export const history8 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history8.png`;</span>
+export const history23 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history23.png`;</span>
+export const history28 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history28.png`;</span>
+export const history25 = <span class="cstat-no" title="statement not covered" >`${path}/img/ru-local/history1/history25.png`;</span>
+&nbsp;
+export const Tab1960Data = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    title:
+      '1968: Наша увлеченность идеей влияния питания на здоровье животных началась с одного человека',
+    path: hirtory4,
+    desc: ' Жан Катари родился в мае 1927 года в небольшом французском городке   Ле-Пюи-ан-Веле. Он начал свою карьеру в качестве ветеринарного врача,  работая с лошадьми и быками. С годами он пришел к выводу, что питание   может влиять на здоровье животных. В 1968 году он создал специальный корм для собак, так называемый «желтый суп». В этом же году была зарегистрирована торговая марка ROYAL CANIN®.'
+  }
+];
+export const Tab1970Data = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    title: "1972: Bienvenue a Le Groupe Guyomarc'h",
+    path: history21,
+    desc: "Компанию ROYAL CANIN® приобретает группа Guyomarc'h. Благодаря ее экспертному опыту мы внедряем гораздо более точный подход к разработке формул продуктов и удовлетворению особых потребностей животных. Группа Guyomarc’h предоставляет подразделениям ROYAL CANIN® значительную автономию. Guyomarc'h обеспечивает ROYAL CANIN® финансовую поддержку, выделяет ресурсы на научные исследования, оказывает помощь в разработке стратегий, в том числе маркетинговых. Еще одной отличительной чертой эпохи Guyomarc’h становится децентрализация управления компанией."
+  },
+  {
+    title: '1974: Выход на международный рынок',
+    path: history2,
+    desc: 'К началу 1974 года продукция ROYAL CANIN® продается в восьми странах Европы: Франции, Бельгии, Дании, Германии, Италии, Испании, Швеции и Нидерландах.'
+  }
+];
+export const Tab1980Data = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    title: '1980: Выпуск AGR, глобальной инновации',
+    path: history17,
+    desc: 'AGR — первый в мире полнорационный корм для щенков крупных пород, который получил высокую оценку заводчиков по всему миру и более 15 лет считался «эталонным кормом».'
+  },
+  {
+    title: '1982: Элемент французской культуры',
+    path: history9,
+    desc: 'Бегущая собака: легендарная реклама. Этот рекламный ролик, в котором была использована музыка Эннио Морриконе из фильма «Профессионал», стал частью французской поп-культуры.'
+  },
+  {
+    title: '1985',
+    path: history18,
+    desc: 'Бренд ROYAL CANIN® выходит на рынок США благодаря сотрудничеству с четырьмя импортерами.'
+  }
+];
+export const Tab1990Data = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    title: '1990: Новый владелец. Новая стратегия. Неизменная философия',
+    path: history19,
+    desc: "Paribas Affaires Industrielles покупает Guyomarc'h Groupe. Это приводит к серьезным изменениям стратегии, росту амбиций и глобальному развитию. Наша философия остается неизменной — сделать мир для домашних животных лучше."
+  },
+  {
+    title: '1994: Новаторский прорыв в питании для кошек',
+    path: history5,
+    desc: 'Выпуск гаммы продуктов RCFI, тройная революция в питании для кошек. Новое решение — это продукция класса премиум в виде сухого корма и специализированная дистрибуция через заводчиков и ветеринарных врачей в условиях, когда остальная часть рынка кормов для кошек представлена влажными кормами, реализуемыми через супермаркеты.'
+  },
+  {
+    title: '1997: Публикации компании ROYAL CANIN®: новая глава',
+    path: history12,
+    desc: 'Мы опубликовали энциклопедию ROYAL CANIN® о собаках, а через год — энциклопедию о кошках. Авторы энциклопедий получили Гран-при Ветеринарной академии.'
+  },
+  {
+    title: '1997: Питание с учетом размеров',
+    path: history10,
+    desc: 'После многих лет исследований и разработок был выпущена гамма продуктов RCCI SIZE. Это первая в мире программа питания, учитывающая размеры и возраст собак.'
+  },
+  {
+    title: '1999: Питание с учетом потребностей питомцев определенных пород',
+    path: history6,
+    desc: 'Наш первый продукт для животных определенной породы. Крокета миндалевидной формы была специально разработана с учетом строения челюстей и способа потребления корма, характерного для персидских кошек; при этом формула продукта позволяет удовлетворить их уникальные потребности, связанные с особенностями здоровья.'
+  }
+];
+export const Tab2000Data = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    title: '2001: Объединение знаний',
+    path: history15,
+    desc: 'Первая научная конференция в Монпелье собрала 150 ветеринарных врачей со всей Европы для обсуждения вопросов питания и обеспечения благополучия животных. Одновременно в Эмарге открылся Кампус ROYAL CANIN®. Это центр передовых технологий, объединяющий все направления деятельности в одном месте — в оснащенных по последнему слову техники зданиях, расположенных вокруг завода: в Кампусе разместились Научно-исследовательский центр ROYAL CANIN®, питомники собак и кошек, головной офис и французский филиал.'
+  },
+  {
+    title: '2002: Новая семья — Mars',
+    path: history13,
+    desc: 'ROYAL CANIN SAS становится частью корпорации Mars Inc.'
+  },
+  {
+    title: '2002: Корм для собак определенной породы',
+    path: history7,
+    desc: 'Мы запускаем первый корм для собак определенной породы — Mini Yorkshire Terrier YPR 28 для йоркширского терьера. Он обеспечивает питание, адаптированное к конкретным физиологическим особенностям и потребностям, связанным с особенностями здоровья собак этой породы.'
+  },
+  {
+    title: '2003: Сочетание преимуществ',
+    path: history27,
+    desc: 'Выпуск новой эксклюзивной ветеринарной гаммы продуктов VDiet — результат сотрудничества ROYAL CANIN® Research с Уолтемским центром питания домашних животных (WCPN).'
+  },
+  {
+    title: '2005',
+    path: history20,
+    desc: 'Современная клиника по лечению ожирения. В сотрудничестве с WCPN (Центром питания домашних жвотных Waltham) мы поддерживаем работу первой европейской клиники коррекции веса в Ливерпуле, Великобритания.'
+  },
+  {
+    title: '2009: Появление линейки влажных кормов',
+    path: history24,
+    desc: 'ROYAL CANIN® начинает производить влажные корма, которые поступают в продажу в зоомагазинах. Появляется линейка влажных продуктов для кошек Feline Health Nutrition.'
+  },
+  {
+    title: '2009: Последний континент',
+    path: history22,
+    desc: 'С момента открытия первой фабрики в Азии наша продукция стала выпускаться на девяти предприятиях. Теперь компания ROYAL CANIN® производит и поставляет продукцию на всех континентах, кроме Антарктиды.'
+  }
+];
+export const Tab2010Data = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    title: '2012: Anallergenic — революционная инновация',
+    desc: 'Мы посвятили 10 лет специальным исследованиям, чтобы предложить первое диагностическое питание, предназначенное для собак с аллергическими реакциями. Наш продукт является инновационным диетологическим решением для животных с тяжелыми формами пищевой аллергии. Это сухой корм на основе олигопептидов (белков, прошедших интенсивный гидролиз, то есть расщепление молекул до небольших фрагментов). Такой корм легко усваивается, причем гиперчувствительная иммунная система больной собаки не распознает олигопептиды как аллергенные вещества.',
+    path: history3
+  },
+  {
+    title: '2014: Каждая собака уникальна',
+    desc: 'Узнайте об особенностях здоровья вашей собаки. Благодаря новому исследованию GHA, в ходе которого сканируется ДНК животных, ветеринарные врачи могут составлять планы лечения и профилактики с учетом генетического кода каждой собаки.',
+    path: history14
+  },
+  {
+    title: 'Выпуск гаммы продуктов ICU в 2016 г.',
+    desc: 'Гамма продуктов ICU (жидкий полнорационный корм, специально разработанный для кормления через зонд) позволяет ветеринарным врачам оказывать помощь кошкам и собакам, находящимся в тяжелом состоянии. Благодаря этому корму кошки и собаки могут получать жизненно важное питание, необходимое для быстрого выздоровления.',
+    path: history8
+  },
+  {
+    title: '2016 г. — Кобрендинг',
+    desc: 'Вместе — лучше: дух совершенства — бренды ROYAL CANIN® и EUKANUBA™ объединяет общее стремление сделать мир для домашних животных лучше.',
+    path: history23
+  },
+  {
+    title: '2017 г. — Приведите собаку на работу',
+    desc: 'Теперь сотрудники нашего кампуса в Эмарге могут приходить на работу со своими питомцами. Каждая собака получает приветственный набор: миску для воды, табличку, информирующую о присутствии собаки, поводок для прогулок, одеяло, красный матрас и идентификационный значок, чтобы все сотрудники знали ее кличку. ',
+    path: history28
+  },
+  {
+    title: '2018 г. — Развитие инфраструктуры',
+    desc: 'Открытие 15-го завода в Кимдже (Южная Корея) позволяет нам расширить свою деятельность в Восточной Азии. В то же время расширение нашего кампуса за счет строительства Глобального инновационного центра поможет нам выполнять свою миссию — делать мир для домашних животных лучше.',
+    path: history25
+  }
+];
+&nbsp;
+export const linkList = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    title: 'Наши ценности',
+    desc: 'Узнайте больше об идеях и ценностях, определяющих роль компании ROYAL CANIN® в мире.',
+    path: hirtory10001,
+    buttonText: 'Узнайте больше',
+    link: '/about-us/our-values'
+  },
+  {
+    title: 'Питание, учитывающее особые потребности',
+    desc: 'Наша работа основана на всестороннем и постоянно развивающемся и дополняющемся изучении основ здоровья и правильного питания животных.',
+    path: hirtory10002,
+    buttonText: 'Узнайте больше',
+    link: '/tailored-nutrition'
+  }
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2022-09-07T02:02:20.931Z
+            </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
+</html>
+    
