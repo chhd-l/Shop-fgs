@@ -184,7 +184,7 @@ class CommeChienChat extends React.Component {
 
             <div className="section bg-gray" id="link1">
               <div className="section-content">
-                <div className="title-1">Consultez nos événements</div>
+                <div className="title-1">Venez assister à nos évènements !</div>
                 <ListCard />
               </div>
             </div>
