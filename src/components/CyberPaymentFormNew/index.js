@@ -61,6 +61,7 @@ class CyberPaymentForm extends React.Component {
       EXPYear: 'cyber.form.EXPYear',
       secureCode: 'cyber.form.secureCode'
     },
+    setCyberLoading: () => {},
     curPayWayInfo: {},
     CyberSaveCardCheckboxJSX: null,
     billingJSX: null,
@@ -212,6 +213,7 @@ class CyberPaymentForm extends React.Component {
       cardNumber.length >= 16 &&
       securityCode.length >= 3
     ) {
+      this.props.setCyberLoading();
       this.microform.createToken(options, function (err, token) {
         if (err) {
           // handle error

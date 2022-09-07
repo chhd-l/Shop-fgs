@@ -8,7 +8,9 @@ import { ADDRESS_RULE } from './constant/utils';
 import { validData } from '@/utils/utils';
 import CyberSaveCardCheckbox from '@/views/Payment/Address/CyberSaveCardCheckbox';
 import { getPaymentMethod } from '@/api/payment';
+import debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl-phraseapp';
+
 @inject('loginStore', 'paymentStore')
 @observer
 class CyberPayment extends React.Component {
@@ -20,6 +22,7 @@ class CyberPayment extends React.Component {
     saveBillingLoading: '',
     validForBilling: '',
     curPayWayInfo: {},
+    setCyberLoading: () => {},
     isCurrentBuyWaySubscription: '',
     updateSelectedCardInfo: () => {},
     reInputCVVBtn: () => {},
@@ -88,6 +91,7 @@ class CyberPayment extends React.Component {
     };
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
+    this.sendCyberPaymentForm = debounce(this.props.sendCyberPaymentForm, 500);
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -133,10 +137,10 @@ class CyberPayment extends React.Component {
     }
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
-    this.props.sendCyberPaymentForm(cyberPaymentForm);
+    this.sendCyberPaymentForm(cyberPaymentForm);
     this.inputBlur(e);
   };
-  //失去焦点
+  // 失去焦点
   inputBlur = async (e) => {
     const { intl } = this.props;
     const { cyberErrMsgObj } = this.state;
@@ -171,7 +175,7 @@ class CyberPayment extends React.Component {
     let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，就清空没填提示
 
     this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
-    this.props.sendCyberPaymentForm(cyberPaymentForm);
+    this.sendCyberPaymentForm(cyberPaymentForm);
   };
   //checkbox
   CyberSaveCardCheckboxJSX = () => {
@@ -315,6 +319,7 @@ class CyberPayment extends React.Component {
               // true?
               <CyberPaymentFormNew
                 curPayWayInfo={this.props.curPayWayInfo}
+                setCyberLoading={this.props.setCyberLoading}
                 cardTypeVal={this.state.cardTypeVal}
                 cyberFormTitle={cyberFormTitle}
                 ref={this.cyberCardRef}
