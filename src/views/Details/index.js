@@ -139,6 +139,7 @@ class Details extends React.Component {
       loading: true,
       errMsg: '',
       checkOutErrMsg: '',
+      errMsgFormattedKey: '',
       addToCartLoading: false,
       productRate: 0,
       backgroundSpaces: '🐕',
@@ -180,7 +181,8 @@ class Details extends React.Component {
       versionB: false,
       ossReceiveBackNotificationContentVisible: false,
       notifyMeConsent: [],
-      notifyMeStatus: false
+      notifyMeStatus: false,
+      notSelectFrequency: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -848,6 +850,13 @@ class Details extends React.Component {
       instockStatus: this.state.quantity <= this.state.stock
     });
   }
+
+  handleNoShowValue = (data) => {
+    this.setState({
+      notSelectFrequency: data
+    });
+  };
+
   handleSelectedItemChange = (data) => {
     const { form } = this.state;
     form.frequencyVal = data.value;
@@ -855,8 +864,9 @@ class Details extends React.Component {
     form.frequencyId = data.id;
     form.frequencyValueEn = data.valueEn;
 
-    this.setState({ form }, () => {
-      // this.props.updateSelectedData(this.state.form);
+    this.setState({
+      errMsgFormattedKey: '',
+      notSelectFrequency: false
     });
   };
   showPrescriberCodeBeforeAddCart = () => {
@@ -883,6 +893,13 @@ class Details extends React.Component {
       this.setState({ checkOutErrMsg: '' });
       await this.showPrescriberCodeBeforeAddCart();
       if (!this.state.showPrescriberCodeModal) {
+        // 'need choose frequency delivery',when data mismatch
+        const { form, notSelectFrequency } = this.state;
+        if ((form.buyWay === 1 || form.buyWay === 2) && notSelectFrequency) {
+          this.showCheckoutErrMsg('', 'chooseFrequency');
+          return;
+        }
+
         if (this.isLogin) {
           this.hanldeLoginAddToCart();
         } else {
@@ -993,14 +1010,16 @@ class Details extends React.Component {
     this.setState({ form });
     pushPurchaseGA(buyType);
   }
-  showCheckoutErrMsg(msg) {
+  showCheckoutErrMsg(msg, errMsgFormattedKey) {
     this.setState({
       checkOutErrMsg: msg,
+      errMsgFormattedKey: errMsgFormattedKey,
       addToCartLoading: false
     });
     setTimeout(() => {
       this.setState({
-        checkOutErrMsg: ''
+        checkOutErrMsg: '',
+        errMsgFormattedKey: ''
       });
     }, 5000);
     if (isMobile) {
@@ -1718,6 +1737,9 @@ class Details extends React.Component {
                                     changeFreqency={(data) => {
                                       this.handleSelectedItemChange(data);
                                     }}
+                                    handleNoShowValue={(data) => {
+                                      this.handleNoShowValue(data);
+                                    }}
                                   >
                                     {this.ButtonGroupDom(false)}
                                   </AutoshipBuyMethod>
@@ -1743,6 +1765,9 @@ class Details extends React.Component {
                                       this.handleSelectedItemChange(data);
                                     }}
                                     toClubTab={this.toClubTab}
+                                    handleNoShowValue={(data) => {
+                                      this.handleNoShowValue(data);
+                                    }}
                                   >
                                     {this.ButtonGroupDom(false)}
                                   </ClubBuyMethod>
@@ -1782,6 +1807,7 @@ class Details extends React.Component {
                               ) : null}
                               <ErrMsgForCheckoutPanel
                                 checkOutErrMsg={checkOutErrMsg}
+                                formattedKey={this.state.errMsgFormattedKey}
                               />
                               {isMobile &&
                               ((details.promotions &&

@@ -13,6 +13,7 @@ interface Props {
   currentSubscriptionPrice: any;
   changeMethod: Function;
   changeFreqency: Function;
+  handleNoShowValue:Function;
   children: any;
 }
 
@@ -25,6 +26,7 @@ const AutoshipBuyMethod = ({
   currentSubscriptionPrice,
   changeMethod,
   changeFreqency,
+  handleNoShowValue,
   children
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
@@ -177,6 +179,7 @@ const AutoshipBuyMethod = ({
                 }}
                 selectionCustomInnerStyle={{ height: '3rem!important' }}
                 textClassName="font-normal"
+                handleNoShowValue={(data:any)=>handleNoShowValue(data)}
               />
             )}
           </div>
