@@ -23,6 +23,9 @@ Object.defineProperty(window, '__', {
     }
   }
 });
+
+window.scrollTo = jest.fn();
+
 // const location = { pathname: '', }
 // Object.defineProperty(window, 'location', {
 //   value: {

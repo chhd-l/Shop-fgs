@@ -122,7 +122,7 @@ class ForgetPassword extends React.Component {
         <h1 className="text-3xl red text-center">
           <FormattedMessage id="forgetPassword" />
         </h1>
-        <div className="miaa-body px-6">
+        <div className="miaa-body px-6 md:px-0">
           {errorMsg ? (
             <aside className="rc-alert rc-alert--error mb-2" role="alert">
               <span className="pl-0">{errorMsg}</span>
