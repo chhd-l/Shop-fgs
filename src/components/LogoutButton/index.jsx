@@ -122,6 +122,7 @@ const LogoutButton = (props) => {
         style={(props && props.containerStyle) || { cursor: 'pointer' }}
       >
         <span
+          data-auto-testid="User-LoginOut"
           className="flex align-items-center ui-cursor-pointer"
           id="J-btn-logoff"
           onClick={clickLogoff}
@@ -143,6 +144,7 @@ const LogoutButton = (props) => {
         style={props.containerStyle || { cursor: 'pointer' }}
       >
         <span
+          data-auto-testid="User-LoginOut"
           id="J-btn-logoff"
           className={props.btnClassName}
           onClick={clickLogoff}

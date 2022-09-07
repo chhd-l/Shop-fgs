@@ -124,38 +124,62 @@ const UserJSX = (props) => {
                 <div className="container cart">
                   <div className="link-group">
                     <div className="link-style">
-                      <Link to="/account" className="click-hover">
+                      <Link
+                        to="/account"
+                        className="click-hover"
+                        data-auto-testid="User-HomeContainer"
+                      >
                         <span className="iconfont iconhome" />{' '}
                         <FormattedMessage id="account.home" />
                       </Link>
                     </div>
                     <div className="link-style">
-                      <Link to="/account/information" className="click-hover">
+                      <Link
+                        to="/account/information"
+                        className="click-hover"
+                        data-auto-testid="User-HomeContainer"
+                      >
                         <span className="iconfont iconInformation" />{' '}
                         <FormattedMessage id="account.profile" />
                       </Link>
                     </div>
                     <div className="link-style">
-                      <Link to="/account/pets" className="click-hover">
+                      <Link
+                        to="/account/pets"
+                        className="click-hover"
+                        data-auto-testid="User-HomeContainer"
+                      >
                         <span className="iconfont iconPets" />{' '}
                         <FormattedMessage id="account.pets" />
                       </Link>
                     </div>
                     <div className="link-style">
-                      <Link to="/account/orders" className="click-hover">
+                      <Link
+                        to="/account/orders"
+                        className="click-hover"
+                        data-auto-testid="User-HomeContainer"
+                      >
                         <span className="iconfont iconOrders" />{' '}
                         <FormattedMessage id="account.ordersTitle" />
                       </Link>
                     </div>
                     <div className="link-style">
-                      <Link to="/account/subscription" className="click-hover">
+                      <Link
+                        to="/account/subscription"
+                        className="click-hover"
+                        data-auto-testid="User-HomeContainer"
+                      >
                         <span className="iconfont iconSubscriptions" />{' '}
                         <FormattedMessage id="account.subscriptionTitle" />
                       </Link>
                     </div>
                     {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
                       <div className="link-style">
-                        <Link to="/account/loyalty" className="click-hover">
+                        <Link
+                          to="/account/loyalty"
+                          className="click-hover"
+                          data-auto-testid="User-HomeContainer"
+                        >
                           <span className="iconfont mr-1">&#xe608;</span>
                           <FormattedMessage id="account.loyalty.program" />
                         </Link>
@@ -166,6 +190,7 @@ const UserJSX = (props) => {
                         href="/about-us/faqs"
                         to="/faq"
                         className="click-hover"
+                        data-auto-testid="User-HomeContainer"
                       >
                         <span className="iconfont iconfaq" />{' '}
                         <FormattedMessage id="footer.FAQ" />
