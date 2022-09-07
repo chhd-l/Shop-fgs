@@ -709,9 +709,9 @@ class AddressList extends React.Component {
           settlementIdStr:
             pkaddr?.settlementFias || pickupFormData.settlementIdStr,
           postalCode: pkaddr?.zip || pickupFormData.postCode,
-          contractNumber: pickupFormData?.pickup?.contractNumber,
+          contractNumber: pickupFormData?.contractNumber,
           pickupName: pickupFormData?.pickupName, // 快递公司
-          courierCode: pickupFormData?.pickup?.courierCode
+          courierCode: pickupFormData?.courierCode
         }
       );
 
