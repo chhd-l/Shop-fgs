@@ -27,7 +27,9 @@ class ForgetPassword extends React.Component {
       loading: true
     });
     try {
-      const res = await forgetPassworSendEmail({ email: this.state.email });
+      const res = await forgetPassworSendEmail({
+        customerAccount: this.state.email
+      });
       if (res.code === 'K-000000') {
         this.props.history.push({
           pathname: '/forgot/success/email',
