@@ -1,0 +1,246 @@
+.comme-chien-chat-box {
+  width: 100%;
+
+  .title-1 {
+    padding-bottom: 16px;
+    font-size: 48px;
+    color: var(--rc-detail-red);
+    text-align: center;
+    line-height: 56px;
+  }
+
+  .title-2 {
+    padding-bottom: 16px;
+    font-size: 30px;
+    color: var(--rc-red);
+    line-height: 40px;
+  }
+
+  .desc-1 {
+    font-size: 20px;
+    color: #444;
+    text-align: center;
+    line-height: 32px;
+  }
+
+  .desc-2 {
+    font-size: 16px;
+    color: #666;
+    line-height: 22px;
+  }
+
+  .customized-desc {
+    line-height: 26px;
+  }
+
+  .section {
+    &.bg-gray {
+      background-color: #F9F9F9;
+    }
+
+    .section-content {
+      max-width: 1300px;
+      padding: 80px 0;
+      margin: 0 auto;
+    }
+
+    .section-content-item {
+      overflow: hidden;
+    }
+
+    .column-2 {
+      max-width: 1160px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 56px;
+    }
+  }
+
+  .w564 {
+    display: block;
+    max-width: 564px;
+    width: 100%;
+  }
+
+  .w538 {
+    display: block;
+    max-width: 538px;
+    width: 100%;
+  }
+
+  .w560 {
+    display: block;
+    max-width: 560px;
+    width: 100%;
+  }
+
+  .w556 {
+    display: block;
+    max-width: 556px;
+    width: 100%;
+  }
+
+  .content-justify-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .content-align-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .address {
+    padding-top: 20px;
+    font-size: 14px;
+    line-height: 22px;
+    color: #666;
+  }
+
+  .top-banner {
+    max-width: 1020px;
+    margin: 46px auto;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .list-card-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 60px 70px;
+    padding-top: 30px;
+
+    .list-item {
+      border-radius: 16px;
+      overflow: hidden;
+      background-color: #fff;
+
+      .list-img-box {
+        padding-top: 36%;
+        position: relative;
+        background-color: #eee;
+
+        img {
+          display: block;
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .list-main {
+        padding: 0 36px 30px;
+      }
+
+      .list-title {
+        font-weight: 400;
+        font-size: 26px;
+        line-height: 1.5;
+        text-align: center;
+        padding: 14px 0 8px;
+        color: #333;
+      }
+
+      .list-desc {
+        font-size: 16px;
+        line-height: 24px;
+        padding-bottom: 16px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .comme-chien-chat-box {
+    .section {
+      padding: 0 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .comme-chien-chat-box {
+    .title-1 {
+      font-size: 30px;
+      line-height: 1.25;
+      text-align: left;
+    }
+
+    .title-2 {
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .desc-1 {
+      font-size: 18px;
+      line-height: 26px;
+      text-align: left;
+    }
+
+    .customized-desc {
+      line-height: 22px;
+    }
+
+    .section {
+      .section-content {
+        padding: 40px 0;
+      }
+
+      .column-2 {
+        grid-template-columns: 1fr;
+        grid-gap: 30px;
+      }
+
+      .m-row-start-1 {
+        grid-row-start: 1;
+      }
+
+      .m-justify-center {
+        display: flex;
+        justify-content: center;
+      }
+
+      .address {
+        text-align: center;
+      }
+    }
+
+    .list-card-box {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding-top: 5px;
+      grid-gap: 20px;
+
+      .list-item {
+        .list-main {
+          padding: 0 12px 14px;
+        }
+
+        .list-title {
+          font-size: 18px;
+          line-height: 1.25;
+          text-align: left;
+          padding: 12px 0 8px;
+        }
+
+        .list-desc {
+          font-size: 16px;
+          line-height: 24px;
+          padding-bottom: 16px;
+          text-align: left;
+        }
+      }
+    }
+
+    .top-banner {
+      margin: 30px 10px;
+    }
+  }
+}

@@ -165,8 +165,8 @@ const HandledSpecSelect = ({
         setSubSkuItem(it)
       }
       //sku: addedFlag:0, don't display
-      if(!specId && !it.addedFlag){
-        it.needHidden = true  
+      if(defaultSkuId && !specId && !it.addedFlag){
+        it.needHidden = true
       }
       it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||(inModal && it?.isDisabled)
       it.selected = it.selected || specId //specId:When the default subscription sku is out of stock, it need displayed
