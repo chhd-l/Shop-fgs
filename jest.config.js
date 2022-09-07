@@ -10,6 +10,7 @@ const config = {
     "!src/**/*.d.ts",
     // "src/views/Account/SubscriptionDetail/components/HandledSpecSelect/**/*.{js,jsx,ts,tsx}",
     //"src/views/Account/Subscription/index.{js,jsx,ts,tsx}"
+    //"<rootDir>/src/views/Account/SubscriptionDetail/components/SubGoodsInfos/index.js"
 
   ],
   "setupFiles": [
@@ -27,6 +28,7 @@ const config = {
     // "<rootDir>src/views/Details/components/OSSReceiveBackNotificationContent/__test__/**/*.{js,jsx,ts,tsx}"
     //"<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}"
     //"<rootDir>/src/utils/__tests__/**/*.{js,jsx,ts,tsx}"
+    //"<rootDir>/src/views/Account/SubscriptionDetail/components/SubGoodsInfos/__tests__/index.test.js"
   ],
   "testEnvironment": "jest-environment-jsdom-fourteen",
   "transform": {
