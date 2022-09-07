@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -110,17 +110,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,28 +153,28 @@
 import './index.less';
 &nbsp;
 // 目前只有se有这种情况，因为文案什么滴都是写死的，如果后期有多个国家都有该情况，可以再优化。
-const ConsentToolTip = ({ consentInnerHtml, pageType }) =&gt; {
-  const [showToolTip, setShowToolTip] = useState(false);
-  const handleShowTooltip = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
+const ConsentToolTip = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> consentInnerHtml, pageType }) =&gt; {</span>
+  const [showToolTip, setShowToolTip] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const handleShowTooltip = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setShowToolTip(true);</span>
   };
 &nbsp;
-  const handleHiddenTooltip = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
+  const handleHiddenTooltip = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setShowToolTip(false);</span>
   };
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div class="se-consent-text"&gt;
       &lt;a
         data-auto-testid="consentTest"
         class={`se-consent-desc ${
-          pageType === 'account' ? <span class="branch-0 cbranch-no" title="branch not covered" >'account-consent' </span>: ''
+          pageType === 'account' ? 'account-consent' : ''
         }`}
         onMouseEnter={handleShowTooltip}
         onMouseLeave={handleHiddenTooltip}
         dangerouslySetInnerHTML={consentInnerHtml}
       &gt;&lt;/a&gt;
-      &lt;div class={`se-consent-tooltip-wrap ${showToolTip ? <span class="branch-0 cbranch-no" title="branch not covered" >'block' </span>: 'none'}`}&gt;
+      &lt;div class={`se-consent-tooltip-wrap ${showToolTip ? 'block' : 'none'}`}&gt;
         &lt;div class="se-consent-tooltip-inside"&gt;
           &lt;p class="se-consent-tooltip-text"&gt;
             Banfield®, VCA , BluePearl™, AniCura, LINNAEUS, Veterinary Specialty
@@ -199,7 +199,7 @@ export default ConsentToolTip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-07T06:35:57.486Z
+                at 2022-09-07T08:52:41.915Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

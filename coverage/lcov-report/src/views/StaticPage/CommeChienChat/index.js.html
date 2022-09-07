@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -315,8 +315,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -342,13 +342,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -370,19 +367,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -554,8 +554,8 @@ import img_dog2 from '@/assets/images/comme-chien-chat/dog2.png';
 import img_toy from '@/assets/images/comme-chien-chat/toy.png';
 import img_store from '@/assets/images/comme-chien-chat/store.png';
 &nbsp;
-const ListCard = () =&gt; {
-  const list = [
+const ListCard = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+  const list = <span class="cstat-no" title="statement not covered" >[</span>
     {
       imgSrc: img_store,
       title: 'Venez assister à nos évènements !',
@@ -581,10 +581,10 @@ const ListCard = () =&gt; {
       url: '/'
     }
   ];
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div className="list-card-box"&gt;
-      {list.map((item, index) =&gt; (
-        &lt;div className="list-item" key={index}&gt;
+      {list.map(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; (
+<span class="cstat-no" title="statement not covered" >        &lt;div className="list-item" key={index}&gt;</span>
           &lt;div className="list-img-box"&gt;
             &lt;img src={item.imgSrc} alt="image" /&gt;
           &lt;/div&gt;
@@ -609,19 +609,19 @@ const ListCard = () =&gt; {
 &nbsp;
 @seoHoc()
 class CommeChienChat extends React.Component {
-  scrollToView = () =&gt; {
-    const headerHeight = window.innerWidth &gt; 768 ? 120 : 66;
-    const { y } = document.getElementById('link1').getBoundingClientRect();
+  scrollToView = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const headerHeight = <span class="cstat-no" title="statement not covered" >window.innerWidth &gt; 768 ? 120 : 66;</span>
+    const top = <span class="cstat-no" title="statement not covered" >document.getElementById('link1').offsetTop;</span>
 &nbsp;
-    window.scrollTo({
-      top: y - headerHeight,
+<span class="cstat-no" title="statement not covered" >    window.scrollTo({</span>
+      top: top - headerHeight,
       left: 0,
       behavior: 'smooth'
     });
   };
 &nbsp;
-  render() {
-    return (
+<span class="fstat-no" title="function not covered" >  re</span>nder() {
+<span class="cstat-no" title="statement not covered" >    return (</span>
       &lt;div&gt;
         &lt;Canonical /&gt;
         &lt;Header {...this.props} showMiniIcons={true} showUserIcon={true} /&gt;
@@ -727,7 +727,7 @@ class CommeChienChat extends React.Component {
 &nbsp;
             &lt;div className="section bg-gray" id="link1"&gt;
               &lt;div className="section-content"&gt;
-                &lt;div className="title-1"&gt;Consultez nos événements&lt;/div&gt;
+                &lt;div className="title-1"&gt;Venez assister à nos évènements !&lt;/div&gt;
                 &lt;ListCard /&gt;
               &lt;/div&gt;
             &lt;/div&gt;
@@ -787,7 +787,7 @@ export default CommeChienChat;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-07T06:35:57.486Z
+                at 2022-09-07T08:52:41.915Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
