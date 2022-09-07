@@ -68,10 +68,10 @@ const ListCard = () => {
 class CommeChienChat extends React.Component {
   scrollToView = () => {
     const headerHeight = window.innerWidth > 768 ? 120 : 66;
-    const { y } = document.getElementById('link1').getBoundingClientRect();
+    const top = document.getElementById('link1').offsetTop;
 
     window.scrollTo({
-      top: y - headerHeight,
+      top: top - headerHeight,
       left: 0,
       behavior: 'smooth'
     });
