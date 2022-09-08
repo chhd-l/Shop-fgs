@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">0.97% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/98</span>
+                <span class='fraction'>1/103</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/54</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">0.98% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/97</span>
+                <span class='fraction'>1/102</span>
             </div>
         
             
@@ -463,7 +463,14 @@
 <a name='L398'></a><a href='#L398'>398</a>
 <a name='L399'></a><a href='#L399'>399</a>
 <a name='L400'></a><a href='#L400'>400</a>
-<a name='L401'></a><a href='#L401'>401</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -479,7 +486,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -599,10 +606,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -641,8 +653,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -738,7 +754,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -758,7 +773,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -879,7 +893,7 @@ import { injectIntl } from 'react-intl-phraseapp';
 @inject('loginStore', 'paymentStore')
 @observer
 class CyberPayment extends React.Component {
-  static defaultProps = <span class="cstat-no" title="statement not covered" >{</span>
+  static defaultProps = {
     renderBillingJSX: <span class="fstat-no" title="function not covered" >()</span> =&gt; {},
     renderSecurityCodeTipsJSX: <span class="fstat-no" title="function not covered" >()</span> =&gt; {},
     showErrorMsg: <span class="fstat-no" title="function not covered" >()</span> =&gt; {},
@@ -991,18 +1005,23 @@ class CyberPayment extends React.Component {
   }
   //input输入事件
   handleCyberInputChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    debugger;</span>
     const target = <span class="cstat-no" title="statement not covered" >e.target;</span>
     const { cyberPaymentForm } = <span class="cstat-no" title="statement not covered" >this.state;</span>
     const name = <span class="cstat-no" title="statement not covered" >target.name;</span>
+    let cardType = <span class="cstat-no" title="statement not covered" >undefined;</span>
     let value = <span class="cstat-no" title="statement not covered" >'';</span>
 <span class="cstat-no" title="statement not covered" >    value = target.value;</span>
 <span class="cstat-no" title="statement not covered" >    if (name === 'cardNumber') {</span>
+<span class="cstat-no" title="statement not covered" >      cardType = target.cybsCardType;</span>
 <span class="cstat-no" title="statement not covered" >      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');</span>
     }
 <span class="cstat-no" title="statement not covered" >    cyberPaymentForm[name] = value;</span>
 <span class="cstat-no" title="statement not covered" >    this.setState({ cyberPaymentForm });</span>
-<span class="cstat-no" title="statement not covered" >    this.sendCyberPaymentForm(cyberPaymentForm);</span>
+<span class="cstat-no" title="statement not covered" >    if (this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM') {</span>
+<span class="cstat-no" title="statement not covered" >      this.props.sendCyberPaymentForm(cyberPaymentForm, cardType);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      this.sendCyberPaymentForm(cyberPaymentForm);</span>
+    }
 <span class="cstat-no" title="statement not covered" >    this.inputBlur(e);</span>
   };
   // 失去焦点
@@ -1040,7 +1059,11 @@ class CyberPayment extends React.Component {
     let obj = <span class="cstat-no" title="statement not covered" >Object.assign({}, cyberErrMsgObj, { [name]: '' });</span> //选择了值，就清空没填提示
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });</span>
-<span class="cstat-no" title="statement not covered" >    this.sendCyberPaymentForm(cyberPaymentForm);</span>
+<span class="cstat-no" title="statement not covered" >    if (this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM') {</span>
+<span class="cstat-no" title="statement not covered" >      this.props.sendCyberPaymentForm(cyberPaymentForm);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      this.sendCyberPaymentForm(cyberPaymentForm);</span>
+    }
   };
   //checkbox
   CyberSaveCardCheckboxJSX = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
@@ -1138,7 +1161,6 @@ class CyberPayment extends React.Component {
         }
       });
 <span class="cstat-no" title="statement not covered" >      if (Object.keys(errMsgObj).length &gt; 0 || !subscriptionID) {</span>
-        // can't submit while subscriptionID is empty
 <span class="cstat-no" title="statement not covered" >        isValidForCyberPayment = false;</span>
       } else <span class="cstat-no" title="statement not covered" >if (this.props.isCurrentBuyWaySubscription) {</span>
         //订阅商品
@@ -1181,7 +1203,6 @@ class CyberPayment extends React.Component {
                 &lt;/div&gt;
               ))}
             {this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM' ? (
-              // true?
               &lt;CyberPaymentFormNew
                 curPayWayInfo={this.props.curPayWayInfo}
                 setCyberLoading={this.props.setCyberLoading}
@@ -1270,15 +1291,7 @@ export default CyberPayment;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-<<<<<<< HEAD
-                at 2022-09-07T08:18:35.614Z
-=======
-<<<<<<< HEAD
-                at 2022-09-07T08:52:41.915Z
-=======
-                at 2022-09-07T11:21:21.404Z
->>>>>>> 8c1e5a93e1cbffd62759336aa7ab2305d29ea35a
->>>>>>> b99367d04ddda8e49793e7b7bd97c9acaa537f5f
+                at 2022-09-08T10:34:19.629Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

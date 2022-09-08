@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>6/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>2/12</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>6/16</span>
             </div>
         
             
@@ -112,35 +112,35 @@
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,22 +159,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import axios from 'axios';
 &nbsp;
-let env = <span class="cstat-no" title="statement not covered" >process.env.NODE_ENV;</span>
+let env = process.env.NODE_ENV;
 let base_url;
-<span class="cstat-no" title="statement not covered" >if (env === 'development') {</span>
+<span class="missing-if-branch" title="if path not taken" >I</span>if (env === 'development') {
 <span class="cstat-no" title="statement not covered" >  base_url = '';</span>
-} else <span class="cstat-no" title="statement not covered" >if (env === 'production') {</span>
+} else <span class="missing-if-branch" title="if path not taken" >I</span>if (env === 'production') {
 <span class="cstat-no" title="statement not covered" >  base_url = window.__.env.REACT_APP_HUB_APIURL;</span>
 }
 &nbsp;
 // 创建 axios 实例
-const service = <span class="cstat-no" title="statement not covered" >axios.create({</span>
+const service = axios.create({
   baseURL: base_url,
   timeout: 600000 // 请求超时时间
 });
 &nbsp;
 // request interceptor
-<span class="cstat-no" title="statement not covered" >service.interceptors.request.use(<span class="fstat-no" title="function not covered" >(c</span>onfig) =&gt; {</span>
+service.interceptors.request.use(<span class="fstat-no" title="function not covered" >(c</span>onfig) =&gt; {
   // 添加取消标记
 <span class="cstat-no" title="statement not covered" >  config.cancelToken = new axios.CancelToken(<span class="fstat-no" title="function not covered" >(c</span>ancel) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    window.axiosCancel = window.axiosCancel || [];</span>
@@ -187,7 +187,7 @@ const service = <span class="cstat-no" title="statement not covered" >axios.crea
 });
 &nbsp;
 // response interceptor
-<span class="cstat-no" title="statement not covered" >service.interceptors.response.use(</span>
+service.interceptors.response.use(
 <span class="fstat-no" title="function not covered" >  (r</span>esponse) =&gt; {
 <span class="cstat-no" title="statement not covered" >    if (</span>
       response.status === 200 &amp;&amp;
@@ -211,15 +211,7 @@ export default service;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-<<<<<<< HEAD
-                at 2022-09-07T08:18:35.614Z
-=======
-<<<<<<< HEAD
-                at 2022-09-07T08:52:41.915Z
-=======
-                at 2022-09-07T11:21:21.404Z
->>>>>>> 8c1e5a93e1cbffd62759336aa7ab2305d29ea35a
->>>>>>> b99367d04ddda8e49793e7b7bd97c9acaa537f5f
+                at 2022-09-08T10:34:19.629Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
