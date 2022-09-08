@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.12% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/32</span>
+                <span class='fraction'>0/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/16</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.12% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/32</span>
+                <span class='fraction'>0/32</span>
             </div>
         
             
@@ -227,28 +227,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -256,6 +245,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -269,16 +269,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -382,9 +382,9 @@ import { startSubscription, pauseSubscription } from '@/api/subscription';
 import cn from 'classnames';
 import { Button } from '@/components/Common';
 &nbsp;
-const ButtonBox = () =&gt; {
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-  const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
+const ButtonBox = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+  const isMobile = <span class="cstat-no" title="statement not covered" >getDeviceType() !== 'PC' || getDeviceType() === 'Pad';</span>
+  const SubGoodsInfosValue = <span class="cstat-no" title="statement not covered" >useContext(SubGoodsInfosContext);</span>
   const {
     subDetail,
     handleSaveChange,
@@ -396,10 +396,10 @@ const ButtonBox = () =&gt; {
     isShowClub,
     triggerShowChangeProduct,
     handleClickChangeProduct
-  } = SubGoodsInfosValue;
-  const isIndv = subDetail.subscriptionType == 'Individualization';
-  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
-  const pauseOrStart = <span class="fstat-no" title="function not covered" >as</span>ync (subDetail) =&gt; {
+  } = <span class="cstat-no" title="statement not covered" >SubGoodsInfosValue;</span>
+  const isIndv = <span class="cstat-no" title="statement not covered" >subDetail.subscriptionType == 'Individualization';</span>
+  const isNotInactive = <span class="cstat-no" title="statement not covered" >subDetail.subscribeStatus !== 'INACTIVE';</span>
+  const pauseOrStart = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (subDetail) =&gt; {</span>
     let subscribeStatus = <span class="cstat-no" title="statement not covered" >'0';</span>
     let subscribeStatusText = <span class="cstat-no" title="statement not covered" >'Restart Subscription';</span>
     let action = <span class="cstat-no" title="statement not covered" >startSubscription;</span>
@@ -424,7 +424,7 @@ const ButtonBox = () =&gt; {
 <span class="cstat-no" title="statement not covered" >      setState({ loadingPage: false });</span>
     }
   };
-  const handleCancel = <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+  const handleCancel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
 <span class="cstat-no" title="statement not covered" >    setState({</span>
       modalType: 'cancelAll',
@@ -433,15 +433,15 @@ const ButtonBox = () =&gt; {
     });
   };
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div
       className="footerGroupButton pt-4 md:pt-7"
-      style={{ display: isNotInactive ? 'inline-block' : <span class="branch-1 cbranch-no" title="branch not covered" >'none' </span>}}
+      style={{ display: isNotInactive ? 'inline-block' : 'none' }}
     &gt;
       &lt;p className="flex justify-center md:justify-end md:items-center flex-wrap flex-col md:flex-row"&gt;
         {/* indv不会展示该按钮 */}
         {subDetail?.canChangeProductAtOuterBox ? (
-<span class="branch-0 cbranch-no" title="branch not covered" >          &lt;div className=" flex items-center"&gt;</span>
+          &lt;div className=" flex items-center"&gt;
             &lt;span
               style={{
                 width: 'auto',
@@ -469,7 +469,7 @@ const ButtonBox = () =&gt; {
         &lt;br className="rc-md-up" /&gt;
         &lt;div className="pause-btn flex items-center md:mx-4 mt-2"&gt;
           {subDetail.subscribeStatus === 'ACTIVE' ? (
-<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;em</span>
+            &lt;em
               className="iconfont iconzanting font-bold pb-2 md:pb-1"
               style={{
                 fontSize: '1.25rem',
@@ -495,7 +495,7 @@ const ButtonBox = () =&gt; {
             onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >pauseOrStart(subDetail)}</span>
           &gt;
             {subDetail.subscribeStatus === 'ACTIVE' ? (
-<span class="branch-0 cbranch-no" title="branch not covered" >              &lt;FormattedMessage id="subscription.pause" /&gt;</span>
+              &lt;FormattedMessage id="subscription.pause" /&gt;
             ) : (
               &lt;FormattedMessage id="subscription.restart" /&gt;
             )}
@@ -535,7 +535,7 @@ export default ButtonBox;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-07T06:35:57.486Z
+                at 2022-09-07T08:18:35.614Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>
