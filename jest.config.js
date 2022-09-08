@@ -6,12 +6,12 @@ const config = {
   collectCoverage: true,
   coverageProvider: 'babel',
   "collectCoverageFrom": [
-    "src/**/*.{js,jsx,ts,tsx}",
+    // "src/**/*.{js,jsx,ts,tsx}",
     "!src/**/*.d.ts",
     // "src/views/Account/SubscriptionDetail/components/HandledSpecSelect/**/*.{js,jsx,ts,tsx}",
     //"src/views/Account/Subscription/index.{js,jsx,ts,tsx}"
-    //"<rootDir>/src/views/Account/SubscriptionDetail/components/SubGoodsInfos/index.js"
-
+    // "src/utils/init.{js,jsx,ts,tsx}"
+    "src/views/Register/index.{js,jsx,ts,tsx}"
   ],
   "setupFiles": [
     "react-app-polyfill/jsdom"
@@ -22,13 +22,13 @@ const config = {
     "<rootDir>/node_modules/jest-enzyme/lib/index.js"
   ],
   "testMatch": [
-    "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-    "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+    // "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Account/SubscriptionDetail/components/HandledSpecSelect/__tests__/**/*.{js,jsx,ts,tsx}",
     // "<rootDir>src/views/Details/components/OSSReceiveBackNotificationContent/__test__/**/*.{js,jsx,ts,tsx}"
     //"<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}"
-    //"<rootDir>/src/utils/__tests__/**/*.{js,jsx,ts,tsx}"
-    //"<rootDir>/src/views/Account/SubscriptionDetail/components/SubGoodsInfos/__tests__/index.test.js"
+    // "<rootDir>/src/utils/__tests__/init.test.{js,jsx,ts,tsx}"
+    "<rootDir>/src/views/Register/__test__/index.test.{js,jsx,ts,tsx}"
   ],
   "testEnvironment": "jest-environment-jsdom-fourteen",
   "transform": {
