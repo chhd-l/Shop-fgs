@@ -2086,7 +2086,8 @@ class AddressList extends React.Component {
       let pkup = addres.context.filter((e) => {
         return e.receiveType == 'PICK_UP';
       });
-      console.log({ pkup });
+      // console.log({ pkup });
+      // debugger
 
       // 判断是否存在有 pickup 地址
       const tmpPromise = pkup.length ? editAddress : saveAddress;
@@ -2175,6 +2176,11 @@ class AddressList extends React.Component {
           }
         );
       }
+      let newAddres = await getAddressList();
+      let pickupAddress = newAddres.context.filter(
+        (e) => e.receiveType == 'PICK_UP'
+      );
+      this.setState({ pickupAddress });
     } catch (err) {
       this.setState({
         saveErrorMsg: err.message

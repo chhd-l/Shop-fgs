@@ -617,6 +617,9 @@ class UnLoginCart extends React.Component {
     const { intl, loginStore } = this.props;
     const { mixFeedings } = this.state;
 
+    const tradePriceLimit =
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? this.tradePrice !== 0 : true;
+
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -784,7 +787,7 @@ class UnLoginCart extends React.Component {
                 </div>
                 {pitem.subscriptionStatus &&
                 pitem.subscriptionPrice &&
-                this.tradePrice !== 0 ? (
+                tradePriceLimit ? (
                   <div className="rc-column  rc-padding-left--none--desktop">
                     {!pitem.promotions || !pitem.promotions.includes('club') ? (
                       <SubscriptionSelection
@@ -1325,6 +1328,7 @@ class UnLoginCart extends React.Component {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
+    console.log(promotionInputValue, 'promotionInputValue');
 
     let result = {};
     this.setState({
@@ -1351,9 +1355,6 @@ class UnLoginCart extends React.Component {
       ) {
         //表示输入apply promotionCode成功
         discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-        this.props.checkoutStore.setPromotionDesc(
-          this.state.promotionInputValue
-        );
         this.setState({ discount });
         // this.props.sendPromotionCode(
         //   this.state.promotionInputValue

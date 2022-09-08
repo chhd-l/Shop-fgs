@@ -33,6 +33,7 @@ if (
   window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
 ) {
   let dom = document.querySelector('#root');
+  console.log('dom', dom);
   dom.className += ' ui-custom-hub';
 }
 

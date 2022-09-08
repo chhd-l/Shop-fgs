@@ -30,6 +30,7 @@ class PickupMap extends React.Component {
 
         // 地图控件点击事件
         document.addEventListener('kaktusEvent', (e) => {
+          debugger;
           try {
             // 传递给父页面
             window.parent.postMessage(e.detail, location.origin);
