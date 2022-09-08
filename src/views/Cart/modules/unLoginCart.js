@@ -617,6 +617,9 @@ class UnLoginCart extends React.Component {
     const { intl, loginStore } = this.props;
     const { mixFeedings } = this.state;
 
+    const tradePriceLimit =
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? this.tradePrice !== 0 : true;
+
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -784,8 +787,7 @@ class UnLoginCart extends React.Component {
                 </div>
                 {pitem.subscriptionStatus &&
                 pitem.subscriptionPrice &&
-                window.__.env.REACT_APP_COUNTRY === 'fr' &&
-                this.tradePrice !== 0 ? (
+                tradePriceLimit ? (
                   <div className="rc-column  rc-padding-left--none--desktop">
                     {!pitem.promotions || !pitem.promotions.includes('club') ? (
                       <SubscriptionSelection
