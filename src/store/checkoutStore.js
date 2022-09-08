@@ -188,10 +188,6 @@ class CheckoutStore {
     this.selectDiscountWay = way;
   }
   @action.bound
-  setPromotionDesc(promotionCode) {
-    this.cartPrice.promotionDesc = promotionCode;
-  }
-  @action.bound
   setInputPoint(data) {
     this.inputPoint = data;
   }
