@@ -6,7 +6,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import stores from '@/store';
 import { Provider } from 'mobx-react';
-import { IntlProvider } from 'react-intl';
+// import { IntlProvider } from 'react-intl';
 import en_US from '@/lang/en_US';
 
 // jest.mock('react-router', () => {
@@ -19,7 +19,8 @@ jest.mock('react-intl', () => {
   return {
     FormattedMessage: ({ id }) => <span>{id}</span>,
     injectIntl: (e) => e,
-    intl: (e) => e
+    intl: (e) => e,
+    IntlProvider: (e) => e
   };
 });
 

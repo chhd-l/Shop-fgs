@@ -178,8 +178,7 @@ class CyberPaymentForm extends React.Component {
       this.onChange({ target: { name: 'securityCode', value: mockVal } });
     });
   };
-  // 监听事件变化
-  onChange = async (e, type = 'input', name) => {
+  cyberTokenGet = (cb) => {
     if (!this.microform) {
       return;
     }
@@ -206,44 +205,102 @@ class CyberPaymentForm extends React.Component {
       securityCode.length >= 3,
       '...........'
     );
-    if (
-      cardholderName &&
-      expirationMonth &&
-      expirationYear &&
-      cardNumber.length >= 16 &&
-      securityCode.length >= 3
-    ) {
-      this.props.setCyberLoading();
-      this.microform.createToken(options, function (err, token) {
-        if (err) {
-          // handle error
-          console.error(err);
-          that.flexresponse = '';
-          // throw new Error(err.message);
-          // errorsOutput.textContent = err.message;
-        } else {
-          console.log(JSON.stringify(token), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-          that.flexresponse = token;
-        }
-        if (type == 'input') {
-          that.props.handleInputChange(e);
-        }
-        if (type == 'select') {
-          // e就是data
-          that.props.handleSelectedItemChange(name, e);
-        }
-        // At this point you may pass the token back to your server as you wish.
-        // In this example we append a hidden input to the form and submit it.
-      });
-    } else {
-      if (type == 'input') {
-        this.props.handleInputChange(e);
+    this.microform.createToken(options, function (err, token) {
+      if (err) {
+        // handle error
+        console.error(err);
+        that.flexresponse = '';
+        // throw new Error(err.message);
+        // errorsOutput.textContent = err.message;
+      } else {
+        console.log(JSON.stringify(token), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        that.flexresponse = token;
+        cb && cb();
       }
-      if (type == 'select') {
-        // e就是data
-        this.props.handleSelectedItemChange(name, e);
-      }
+      // if (type == 'input') {
+      //   that.props.handleInputChange(e);
+      // }
+      // if (type == 'select') {
+      //   // e就是data
+      //   that.props.handleSelectedItemChange(name, e);
+      // }
+      // At this point you may pass the token back to your server as you wish.
+      // In this example we append a hidden input to the form and submit it.
+    });
+  };
+  // 监听事件变化
+  onChange = async (e, type = 'input', name) => {
+    if (!this.microform) {
+      return;
     }
+    if (type == 'input') {
+      this.props.handleInputChange(e);
+    }
+    if (type == 'select') {
+      // e就是data
+      this.props.handleSelectedItemChange(name, e);
+    }
+    // const {
+    //   cardholderName,
+    //   cardNumber,
+    //   expirationMonth,
+    //   expirationYear,
+    //   securityCode
+    // } = this.props.form;
+    // var options = {
+    //   expirationMonth: (expirationMonth < 10 ? '0' : '') + expirationMonth, //处理格式化日期02
+    //   expirationYear: expirationYear?.toString()
+    //   // expirationMonth: document.querySelector('#expMonth').value,
+    //   // expirationYear: document.querySelector('#expYear').value
+    // };
+    // console.info(this.props.form, options, 'this.props.formthis.props.form');
+    // let that = this;
+    // console.info(
+    //   cardholderName,
+    //   expirationMonth,
+    //   expirationYear,
+    //   cardNumber.length >= 16,
+    //   securityCode.length >= 3,
+    //   '...........'
+    // );
+    // if (
+    //   cardholderName &&
+    //   expirationMonth &&
+    //   expirationYear &&
+    //   cardNumber.length >= 16 &&
+    //   securityCode.length >= 3
+    // ) {
+    //   this.props.setCyberLoading();
+    //   this.microform.createToken(options, function (err, token) {
+    //     if (err) {
+    //       // handle error
+    //       console.error(err);
+    //       that.flexresponse = '';
+    //       // throw new Error(err.message);
+    //       // errorsOutput.textContent = err.message;
+    //     } else {
+    //       console.log(JSON.stringify(token), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    //       that.flexresponse = token;
+    //     }
+    //     if (type == 'input') {
+    //       that.props.handleInputChange(e);
+    //     }
+    //     if (type == 'select') {
+    //       // e就是data
+    //       that.props.handleSelectedItemChange(name, e);
+    //     }
+    //     // At this point you may pass the token back to your server as you wish.
+    //     // In this example we append a hidden input to the form and submit it.
+    //   });
+    // } else {
+    //   if (type == 'input') {
+    //     this.props.handleInputChange(e);
+    //   }
+    //   if (type == 'select') {
+    //     // e就是data
+    //     this.props.handleSelectedItemChange(name, e);
+    //   }
+    // }
   };
   //游客绑卡
   usGuestPaymentInfoEvent = async (params) => {
@@ -279,6 +336,7 @@ class CyberPaymentForm extends React.Component {
   };
   //查询卡类型-会员
   queryCyberCardTypeEvent = async (params) => {
+    console.info('this.flexresponse', this.flexresponse);
     if (!this.flexresponse) {
       return;
     }
@@ -326,8 +384,8 @@ class CyberPaymentForm extends React.Component {
             className="rc-input__control"
             id="cardNumberJSX"
             value={form.cardholderName}
-            onChange={this.props.handleInputChange}
-            // onChange={(e) => this.onChange(e, 'input', 'cardholderName')}
+            // onChange={this.props.handleInputChange}
+            onChange={(e) => this.onChange(e, 'input', 'cardholderName')}
             onBlur={this.props.inputBlur}
             name="cardholderName"
             maxLength="254"

@@ -5,20 +5,33 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
+import cn from 'classnames';
 import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 
 import { Button, Input } from '@/components/Common';
-//eg: https://shopuat.royalcanin.com/ru/reset?rc_content=eyJ0b2tlbiI6ICJkZnB6STZJNk
+import './index.less';
+
+const pass_word = 'pass' + 'word';
 class ForgetPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      customerPassword: '',
+      confirmPassword: '',
       errorMsg: '',
       emailValid: true,
       isWarning: false,
       correctEmail: false,
-      loading: false
+      loading: false,
+      passwordInputType: pass_word,
+      passwordValid: true,
+      passwordMessage: '',
+      passwordChanged: false,
+      ruleLength: false,
+      ruleLower: false,
+      ruleUpper: false,
+      ruleAname: false,
+      ruleSpecial: false
     };
   }
   sendEmail = async () => {
@@ -63,36 +76,75 @@ class ForgetPassword extends React.Component {
     history.push('/login');
   }
 
+  inputFocus = (e) => {
+    this.setState({
+      passwordChanged: true
+    });
+  };
+
   inputChange = (e) => {
     const value = e.target.value;
-    const emailTest = EMAIL_REGEXP.test(value);
-    this.setState({
-      correctEmail: emailTest,
-      email: value
-    });
-    if (value) {
-      this.setState({
-        isWarning: false
-      });
-    }
+    var lowerReg = /[a-z]+/;
+    var upperReg = /[A-Z]+/;
+    var nameReg = /[\d]+/;
+    var specialReg =
+      /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+    this.setState(
+      {
+        ruleLength: value.length >= 8,
+        ruleLower: lowerReg.test(value),
+        ruleUpper: upperReg.test(value),
+        ruleAname: nameReg.test(value),
+        ruleSpecial: specialReg.test(value),
+        customerPassword: value
+      },
+      () => this.validInput(value)
+    );
   };
 
   inputBlur = (e) => {
     const value = e.target.value;
-    if (!value) {
-      this.setState({
-        isWarning: true
-      });
-    }
+    this.setState({
+      passwordChanged: false
+    });
+    this.validInput(value);
   };
 
-  render(h) {
-    const { emailValid, email, isWarning, correctEmail, errorMsg, loading } =
+  validInput = (value) => {
+    const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
       this.state;
+    const valid =
+      ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
+    this.setState({
+      passwordValid: valid,
+      passwordMessage: value.trim()
+        ? this.props.intl.messages.registerPasswordFormat
+        : this.props.intl.messages.registerFillIn
+    });
+  };
+
+  deleteInput = (name) => {};
+
+  render() {
+    const {
+      passwordMessage,
+      passwordInputType,
+      passwordValid,
+      correctEmail,
+      errorMsg,
+      loading,
+      passwordChanged,
+      ruleLength,
+      ruleLower,
+      ruleUpper,
+      ruleAname,
+      ruleSpecial,
+      customerPassword
+    } = this.state;
     return (
-      <div className="flex flex-col items-center my-8">
+      <div className="flex flex-col items-center my-8 reset-password-wrap">
         {loading ? <Loading bgColor={'#fff'} /> : null}
-        <div className="my-5">
+        <div className="mt-5">
           <DistributeHubLinkOrATag
             href={''}
             to="/home"
@@ -118,7 +170,7 @@ class ForgetPassword extends React.Component {
             </h1>
           </DistributeHubLinkOrATag>
         </div>
-        <h1 className="text-3xl red text-center">
+        <h1 className="text-3xl red text-center mt-14 mb-24">
           <FormattedMessage id="setPassword" />
         </h1>
         <div className="miaa-body px-6 md:px-0">
@@ -127,24 +179,136 @@ class ForgetPassword extends React.Component {
               <span className="pl-0">{errorMsg}</span>
             </aside>
           ) : null}
-          <div className="text-gray-600 text-lg mb-16 text-center">
-            <FormattedMessage id="forgetPassword.forgetPasswordSubTitle" />
-          </div>
           <Input
-            id="email"
-            dataTestid="email"
-            autocomplete="off"
-            type="email"
-            maxLength="90"
-            name="email"
-            className="w-64 md:w-80 m-auto mb-14"
-            valid={emailValid}
-            isWarning={isWarning}
+            id="resetPassword"
+            type={passwordInputType}
+            maxLength="255"
+            minLength="8"
+            name="password"
+            valid={passwordValid}
             onChange={this.inputChange}
+            onFocus={this.inputFocus}
+            autoComplete="password"
+            dataTestid="reset_password"
             onBlur={this.inputBlur}
-            value={email}
-            label={<FormattedMessage id="forgetPassword.email" />}
-            inValidLabel={<FormattedMessage id="forgetPassword.validMessage" />}
+            value={customerPassword}
+            label={<FormattedMessage id="registerPassword" />}
+            inValidLabel={passwordMessage}
+            rightOperateBoxJSX={
+              <>
+                {/* {passwordValid ? null : (
+                  <ChaChaIcon
+                    onClick={() =>
+                      this.deleteInput('newPassword')
+                    }
+                  />
+                )} */}
+                <span
+                  style={{ color: '#666' }}
+                  className={cn(
+                    'iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2',
+                    passwordInputType === 'password'
+                      ? 'iconeye'
+                      : 'iconeye-close'
+                  )}
+                  onClick={() => {
+                    this.setState({
+                      passwordInputType:
+                        this.state.passwordInputType === 'password'
+                          ? 'text'
+                          : 'password'
+                    });
+                  }}
+                />
+                <button
+                  type="button"
+                  className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle hidden ${
+                    passwordInputType === 'password'
+                      ? 'rc-show--xs'
+                      : 'rc-hide--xs'
+                  }`}
+                  onClick={() => {
+                    this.setState({
+                      passwordInputType:
+                        this.state.passwordInputType === 'password'
+                          ? 'text'
+                          : 'password'
+                    });
+                  }}
+                >
+                  <span className="rc-screen-reader-text">
+                    <FormattedMessage id="registerTogglePassword" />
+                  </span>
+                </button>
+              </>
+            }
+            toolTip={
+              <div
+                className={cn('tippy-popper', {
+                  hidden: !passwordChanged
+                })}
+                role="tooltip"
+                id="password-tooltip"
+                x-placement="top"
+              >
+                <div
+                  className="tippy-tooltip brand4-theme rc-brand4-theme"
+                  data-size="regular"
+                  data-animation="shift-away"
+                  data-state="visible"
+                  data-interactive=""
+                >
+                  <div className="tippy-arrow" />
+                  <div className="tippy-arrow-border" />
+                  <div className="tippy-content" data-state="visible">
+                    <div
+                      id="password-tooltip"
+                      className="rc-tooltip rc-text--left"
+                    >
+                      <div className="rc-meta">
+                        <FormattedMessage id="registerRules" />
+                      </div>
+                      {[
+                        {
+                          stauts: ruleLength,
+                          label: <FormattedMessage id="registerLength" />
+                        },
+                        {
+                          stauts: ruleLower,
+                          label: <FormattedMessage id="registerLowercase" />
+                        },
+                        {
+                          stauts: ruleUpper,
+                          label: <FormattedMessage id="registerUppercase" />
+                        },
+                        {
+                          stauts: ruleAname,
+                          label: <FormattedMessage id="registerAname" />
+                        },
+                        {
+                          stauts: ruleSpecial,
+                          label: <FormattedMessage id="registerSpecial" />
+                        }
+                      ].map((item, i) => (
+                        <div
+                          key={i}
+                          className={cn('rc-badge--label', {
+                            'rc-text-colour--success': item.stauts
+                          })}
+                          data-password-strength="length"
+                        >
+                          {item.stauts ? (
+                            <span className="iconfont green mr-2 iconchenggong" />
+                          ) : null}
+                          <span className="icon-validation rc-epsilon rc-b rc-hidden" />
+                          <span>{item.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
           />
 
           <div className="flex items-end justify-center">
@@ -172,7 +336,7 @@ class ForgetPassword extends React.Component {
             className="align-self-center w-64 md:w-80"
             alt="forget password images"
             title="forget password"
-            srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/forget-password-pet.jpg`}
+            srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/forget-password-pet.jpg`}
             src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/forget-password-pet.jpg`}
           />
         </LazyLoad>
@@ -181,3 +345,16 @@ class ForgetPassword extends React.Component {
   }
 }
 export default injectIntl(ForgetPassword);
+
+const ChaChaIcon = ({ className, onClick = () => {} } = {}) => {
+  return (
+    <span
+      className={cn(
+        'iconfont iconchahao font-bold icon-unsuscribe cursor-pointer inline-block py-3 px-2',
+        className
+      )}
+      style={{ color: '#c03344' }}
+      onClick={onClick}
+    />
+  );
+};

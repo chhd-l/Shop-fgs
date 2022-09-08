@@ -831,21 +831,33 @@ class Payment extends React.Component {
       if (Object.keys(cyberParams).length > 0) {
         try {
           this.setState({ cyberBtnLoading: true });
-          let res = {};
-          if (this.isLogin) {
-            res = await this.queryCyberCardType(cyberParams);
-          } else {
-            res = await this.queryGuestCyberCardType(cyberParams);
-          }
+          this.cyberRef.current.cyberCardRef.current.cyberTokenGet(async () => {
+            try {
+              let res = {};
+              if (this.isLogin) {
+                res = await this.queryCyberCardType(cyberParams);
+              } else {
+                res = await this.queryGuestCyberCardType(cyberParams);
+              }
 
-          let authorizationCode = res.context.requestToken;
-          let subscriptionID = res.context.subscriptionID;
-          let cyberCardType = res.context.cardType;
-          this.setState({ authorizationCode, subscriptionID, cyberCardType });
+              let authorizationCode = res.context.requestToken;
+              let subscriptionID = res.context.subscriptionID;
+              let cyberCardType = res.context.cardType;
+              this.setState({
+                authorizationCode,
+                subscriptionID,
+                cyberCardType
+              });
+            } catch (err) {
+              this.setState({ subscriptionID: '' }); // subscriptionID set empty
+              this.showErrorMsg(err.message);
+            } finally {
+              this.setState({ cyberBtnLoading: false });
+            }
+          });
         } catch (err) {
           this.setState({ subscriptionID: '' }); // subscriptionID set empty
           this.showErrorMsg(err.message);
-        } finally {
           this.setState({ cyberBtnLoading: false });
         }
       }
@@ -2865,6 +2877,8 @@ class Payment extends React.Component {
       },
       shippingFeeAddress: shippingFeeAddress
     };
+    debugger;
+    console.log(param.promotionCode);
     if (this.isLogin) {
       param.subscriptionFlag = false;
     }
