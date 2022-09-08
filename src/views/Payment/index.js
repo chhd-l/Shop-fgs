@@ -3259,6 +3259,9 @@ class Payment extends React.Component {
   };
   confirmPaymentPanel = async () => {
     const { isLogin } = this;
+    const {
+      paymentStore: { currentCardTypeInfo, curPayWayInfo }
+    } = this.props;
     if (!currentCardTypeInfo && this.cyberRef?.current?.cyberCardRef?.current) {
       // cyber error update
       this.setState({ saveBillingLoading: false });
@@ -3267,9 +3270,6 @@ class Payment extends React.Component {
       this.showErrorMsg(message);
       return;
     }
-    const {
-      paymentStore: { currentCardTypeInfo, curPayWayInfo }
-    } = this.props;
     const {
       adyenPayParam,
       billingAddress,
