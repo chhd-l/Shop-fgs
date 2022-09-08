@@ -113,6 +113,7 @@ class CyberPaymentForm extends React.Component {
     }
     let { context } = await cyberClient(pspItemId);
     console.info('...', context);
+    // let context = `eyJraWQiOiJ6dSIsImFsZyI6IlJTMjU2In0.eyJmbHgiOnsicGF0aCI6Ii9mbGV4L3YyL3Rva2VucyIsImRhdGEiOiIxenFFYmFJcTVHOU9YVFVRSFRVRUtSQUFFUFhqc25wK292dUJlcWhodng3TXBGUTJjTUp2cXo2cHlTelVOdmJSV0d4UlRYclpZVkhZSUFUbWkwL2t0dU1ZTVdEa2VyMWNwdVJIZzh0MUxtazFCNUlcdTAwM2QiLCJvcmlnaW4iOiJodHRwczovL3Rlc3RmbGV4LmN5YmVyc291cmNlLmNvbSIsImp3ayI6eyJrdHkiOiJSU0EiLCJlIjoiQVFBQiIsInVzZSI6ImVuYyIsIm4iOiJ1QU5NeFpTeTEtbkEzeTUzN1ctTFNJR0JNOGZXYmU5dkdxdy1LNWRiSTl0dkJhdkFLakVlSGVvTXFTTGtocXJwX0RRY0p4MUowWEN0VGlISVZ2QU5jODdOZ2FQQU1EbTdsQnBBdmVQdU1RaWREOVVfUEctQnQ2YXNrR0NBTS1DeUQ5aHhNNUZyYjhxcmtZVjhaT1pYNV84cWhZNE93dXJRRG9XdE5WaTJwYVQxem9HVnZ3RDZ2TmdERUt1RXZvdmtJOHV5Y1pqWWdtUTgxU2FzWncwWEJVcEtvQ291LXlabS1KSVk3MEFTaVpXMElNOHozdm1USlA0UUZIcHlBeEU1ZUNRNmFDeFZGYTF0N05teld6bHA1M19wd3ZEaEVtQS1vUVBPYnBFQlIxUklYOEdUQnJYVmc3eVdpZl9UUDZDV0hEOFFfQnh6bXpoVnRCTXNDcHRpbHciLCJraWQiOiIwOEFUWVFNZ0Y2dGNnZzQ3Q3d0SU9uazZXUm5KZGhNYiJ9fSwiY3R4IjpbeyJkYXRhIjp7InRhcmdldE9yaWdpbnMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sIm1mT3JpZ2luIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20ifSwidHlwZSI6Im1mLTAuMTEuMCJ9XSwiaXNzIjoiRmxleCBBUEkiLCJleHAiOjE2NjI2MjU3NTcsImlhdCI6MTY2MjYyNDg1NywianRpIjoiR3B5UmZONERuUjZtQ3lraCJ9.LSXZ_NlbLOmXTNXgngqiKkwIF1dt1d0o0_4lPfVz_GztW4MT5AOiXBqppkMKbEO8Q5YAgOuBOhtzbg0wWuzGgstbV9fZAQQpTra9lYwDo2ONpwIp8q-ldvuTUhwO3n1x5_H2wWB3RqZeiCbI2NsHJomr_HJ4mokHlsiSF1f_kxKspnXB23Vt28TPGjfC472oyHU6f2-8w1ZiVWdotr6hBYbEnYBFW4aTcdpfdHKLYS3uhaSy1g8PtRMYlj3gdWMQGJEUlS0xqEqerqajARJbJt5oK__jo9OaJqmPgA5b8Mv3ATzMitYJ4R5kkywdj2ZDCAT6dSJAcptwzcoACyglzQ`
     var captureContext = context;
 
     // custom styles that will be applied to each field we create using Microform
@@ -156,7 +157,13 @@ class CyberPaymentForm extends React.Component {
         mockVal = 'xx';
       }
       this.props.form.cardNumber = mockVal;
-      this.onChange({ target: { name: 'cardNumber', value: mockVal } });
+      this.onChange({
+        target: {
+          name: 'cardNumber',
+          value: mockVal,
+          cybsCardType: data.card?.[0]?.cybsCardType
+        }
+      });
       // this.props.handleSelectedItemChange('expirationMonth', data)
       console.log(data);
     });
@@ -210,22 +217,15 @@ class CyberPaymentForm extends React.Component {
         // handle error
         console.error(err);
         that.flexresponse = '';
-        // throw new Error(err.message);
+        throw new Error(err.message);
         // errorsOutput.textContent = err.message;
       } else {
         console.log(JSON.stringify(token), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
         that.flexresponse = token;
-        cb && cb();
+        let decodedCardInfo = jwt_decode(token);
+        console.info('decodedCardInfo', decodedCardInfo);
+        cb && cb(decodedCardInfo.data);
       }
-      // if (type == 'input') {
-      //   that.props.handleInputChange(e);
-      // }
-      // if (type == 'select') {
-      //   // e就是data
-      //   that.props.handleSelectedItemChange(name, e);
-      // }
-      // At this point you may pass the token back to your server as you wish.
-      // In this example we append a hidden input to the form and submit it.
     });
   };
   // 监听事件变化

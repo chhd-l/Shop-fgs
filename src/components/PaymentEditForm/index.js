@@ -588,9 +588,11 @@ class PaymentEditForm extends React.Component {
       cardTypeValue: null,
       paymentVendor: currentCardTypeInfo.cardType
     });
-    this.cyberCardRef.current.cyberTokenGet(() => {
-      this.handlePayment(subscriptionParams, paymentForm);
-    });
+    this.cyberCardRef.current.cyberTokenGet
+      ? this.cyberCardRef.current.cyberTokenGet(() => {
+          this.handlePayment(subscriptionParams, paymentForm);
+        })
+      : this.handlePayment(subscriptionParams, paymentForm);
   }
   handlePayment = async (subscriptionParams, paymentForm) => {
     try {
