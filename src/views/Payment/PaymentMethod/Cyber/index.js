@@ -126,7 +126,6 @@ class CyberPayment extends React.Component {
   }
   //input输入事件
   handleCyberInputChange = (e) => {
-    debugger;
     const target = e.target;
     const { cyberPaymentForm } = this.state;
     const name = target.name;

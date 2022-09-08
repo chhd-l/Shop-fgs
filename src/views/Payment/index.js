@@ -612,6 +612,7 @@ class Payment extends React.Component {
       );
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
+      debugger;
       console.log('yyy');
       if (!recommendProductJson) {
         if (!this.computedCartData.length && !tid && !appointNo) {
@@ -2877,8 +2878,6 @@ class Payment extends React.Component {
       },
       shippingFeeAddress: shippingFeeAddress
     };
-    debugger;
-    console.log(param.promotionCode);
     if (this.isLogin) {
       param.subscriptionFlag = false;
     }
