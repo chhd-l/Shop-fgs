@@ -784,6 +784,7 @@ class UnLoginCart extends React.Component {
                 </div>
                 {pitem.subscriptionStatus &&
                 pitem.subscriptionPrice &&
+                window.__.env.REACT_APP_COUNTRY === 'fr' &&
                 this.tradePrice !== 0 ? (
                   <div className="rc-column  rc-padding-left--none--desktop">
                     {!pitem.promotions || !pitem.promotions.includes('club') ? (
@@ -1325,6 +1326,7 @@ class UnLoginCart extends React.Component {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
+    console.log(promotionInputValue, 'promotionInputValue');
 
     let result = {};
     this.setState({
