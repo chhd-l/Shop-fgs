@@ -87,6 +87,9 @@ class CyberPaymentForm extends React.Component {
       throw new Error(err.message);
     }
   };
+  cyberTokenGet = (cb) => {
+    cb && cb();
+  };
   //会员绑卡
   usPaymentInfoEvent = async (params) => {
     try {
