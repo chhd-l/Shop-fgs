@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/838</span>
+                <span class='fraction'>0/841</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/157</span>
+                <span class='fraction'>0/158</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/829</span>
+                <span class='fraction'>0/832</span>
             </div>
         
             
@@ -2991,7 +2991,15 @@
 <a name='L2926'></a><a href='#L2926'>2926</a>
 <a name='L2927'></a><a href='#L2927'>2927</a>
 <a name='L2928'></a><a href='#L2928'>2928</a>
-<a name='L2929'></a><a href='#L2929'>2929</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L2929'></a><a href='#L2929'>2929</a>
+<a name='L2930'></a><a href='#L2930'>2930</a>
+<a name='L2931'></a><a href='#L2931'>2931</a>
+<a name='L2932'></a><a href='#L2932'>2932</a>
+<a name='L2933'></a><a href='#L2933'>2933</a>
+<a name='L2934'></a><a href='#L2934'>2934</a>
+<a name='L2935'></a><a href='#L2935'>2935</a>
+<a name='L2936'></a><a href='#L2936'>2936</a>
+<a name='L2937'></a><a href='#L2937'>2937</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -5079,8 +5087,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -5164,9 +5174,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -5815,6 +5830,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -7997,9 +8013,9 @@ class AddressList extends React.Component {
         settlementIdStr:
           pkaddr?.settlementFias || pickupFormData.settlementIdStr,
         postalCode: pkaddr?.zip || pickupFormData.postCode,
-        contractNumber: pickupFormData?.pickup?.contractNumber,
+        contractNumber: pickupFormData?.contractNumber,
         pickupName: pickupFormData?.pickupName, // 快递公司
-        courierCode: pickupFormData?.pickup?.courierCode
+        courierCode: pickupFormData?.courierCode
       });
 &nbsp;
       // 查询地址列表，筛选 pickup 地址
@@ -8007,7 +8023,9 @@ class AddressList extends React.Component {
       let pkup = <span class="cstat-no" title="statement not covered" >addres.context.filter(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        return e.receiveType == 'PICK_UP';</span>
       });
-<span class="cstat-no" title="statement not covered" >      console.log({ pkup });</span>
+      // console.log({ pkup });
+      // debugger
+&nbsp;
       // 判断是否存在有 pickup 地址
       const tmpPromise = <span class="cstat-no" title="statement not covered" >pkup.length ? editAddress : saveAddress;</span>
 <span class="cstat-no" title="statement not covered" >      if (pkup.length) {</span>
@@ -8095,6 +8113,11 @@ class AddressList extends React.Component {
           }
         );
       }
+      let newAddres = <span class="cstat-no" title="statement not covered" >await getAddressList();</span>
+      let pickupAddress = <span class="cstat-no" title="statement not covered" >newAddres.context.filter(</span>
+<span class="fstat-no" title="function not covered" >        (e</span>) =&gt; <span class="cstat-no" title="statement not covered" >e.receiveType == 'PICK_UP'</span>
+      );
+<span class="cstat-no" title="statement not covered" >      this.setState({ pickupAddress });</span>
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      this.setState({</span>
         saveErrorMsg: err.message
@@ -8747,6 +8770,7 @@ class AddressList extends React.Component {
                                                 &lt;div className="pickup_point_info"&gt;
                                                   &lt;p className="tit font-weight-bold"&gt;
                                                     {ele.pickupName}
+                                                    {console.log(123, ele)}
                                                   &lt;/p&gt;
                                                   &lt;p&gt;{ele.address1}&lt;/p&gt;
                                                   &lt;p&gt;{ele.workTime}&lt;/p&gt;
@@ -8854,15 +8878,7 @@ export default AddressList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-<<<<<<< HEAD
-                at 2022-09-07T08:18:35.614Z
-=======
-<<<<<<< HEAD
-                at 2022-09-07T08:52:41.915Z
-=======
-                at 2022-09-07T11:21:21.404Z
->>>>>>> 8c1e5a93e1cbffd62759336aa7ab2305d29ea35a
->>>>>>> b99367d04ddda8e49793e7b7bd97c9acaa537f5f
+                at 2022-09-08T10:34:19.629Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
