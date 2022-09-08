@@ -522,7 +522,7 @@ class Login extends React.Component {
 
                           <p style={{ float: 'right' }}>
                             <Link
-                              to="/forgot"
+                              // to="/forgot"
                               className={
                                 'border-b text-gray-600 hover:border-red-600'
                               }
