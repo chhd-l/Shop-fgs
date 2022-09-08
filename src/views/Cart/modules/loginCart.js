@@ -714,6 +714,8 @@ class LoginCart extends React.Component {
   getProducts(plist) {
     const { intl, loginStore } = this.props;
     const { mixFeedings } = this.state;
+    const tradePriceLimit =
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? this.tradePrice !== 0 : true;
 
     const Lists = plist.map((pitem, index) => {
       {
@@ -875,7 +877,7 @@ class LoginCart extends React.Component {
                 </div>
                 {pitem.subscriptionStatus &&
                 pitem.subscriptionPrice &&
-                formatMoney(this.tradePrice) !== '0,00 €' ? (
+                tradePriceLimit ? (
                   <div className="rc-column  rc-padding-left--none--desktop">
                     {!pitem.goods.promotions ||
                     !pitem.goods.promotions.includes('club') ? (
