@@ -857,7 +857,10 @@ class Payment extends React.Component {
         } catch (err) {
           this.setState({ subscriptionID: '' }); // subscriptionID set empty
           this.showErrorMsg(err.message);
-          this.setState({ cyberBtnLoading: false });
+          this.setState({
+            cyberBtnLoading: false,
+            saveBillingLoading: false
+          });
         }
       }
     } else {
@@ -893,7 +896,10 @@ class Payment extends React.Component {
       this.setState({ subscriptionID: '' }); // subscriptionID set empty
       this.showErrorMsg(err.message);
     } finally {
-      this.setState({ cyberBtnLoading: false });
+      this.setState({
+        cyberBtnLoading: false,
+        saveBillingLoading: false
+      });
     }
   };
 
@@ -3230,7 +3236,7 @@ class Payment extends React.Component {
       },
       () => {
         setTimeout(() => {
-          if (this.cyberRef.current.cyberCardRef.current.cyberTokenGet) {
+          if (this.cyberRef?.current?.cyberCardRef?.current?.cyberTokenGet) {
             try {
               this.cyberRef.current.cyberCardRef.current.cyberTokenGet(() => {
                 try {
@@ -3253,6 +3259,13 @@ class Payment extends React.Component {
   };
   confirmPaymentPanel = async () => {
     const { isLogin } = this;
+    if (!currentCardTypeInfo) {
+      this.setState({ saveBillingLoading: false });
+      throw new Error(
+        'This card type is temporarily not supported, please try again with a different card'
+      );
+      return;
+    }
     const {
       paymentStore: { currentCardTypeInfo, curPayWayInfo }
     } = this.props;
