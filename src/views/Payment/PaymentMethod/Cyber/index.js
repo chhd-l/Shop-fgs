@@ -126,18 +126,23 @@ class CyberPayment extends React.Component {
   }
   //input输入事件
   handleCyberInputChange = (e) => {
-    debugger;
     const target = e.target;
     const { cyberPaymentForm } = this.state;
     const name = target.name;
+    let cardType = undefined;
     let value = '';
     value = target.value;
     if (name === 'cardNumber') {
+      cardType = target.cybsCardType;
       value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
     }
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
-    this.sendCyberPaymentForm(cyberPaymentForm);
+    if (this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM') {
+      this.props.sendCyberPaymentForm(cyberPaymentForm, cardType);
+    } else {
+      this.sendCyberPaymentForm(cyberPaymentForm);
+    }
     this.inputBlur(e);
   };
   // 失去焦点
@@ -175,7 +180,11 @@ class CyberPayment extends React.Component {
     let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，就清空没填提示
 
     this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
-    this.sendCyberPaymentForm(cyberPaymentForm);
+    if (this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM') {
+      this.props.sendCyberPaymentForm(cyberPaymentForm);
+    } else {
+      this.sendCyberPaymentForm(cyberPaymentForm);
+    }
   };
   //checkbox
   CyberSaveCardCheckboxJSX = () => {
@@ -273,7 +282,6 @@ class CyberPayment extends React.Component {
         }
       });
       if (Object.keys(errMsgObj).length > 0 || !subscriptionID) {
-        // can't submit while subscriptionID is empty
         isValidForCyberPayment = false;
       } else if (this.props.isCurrentBuyWaySubscription) {
         //订阅商品
@@ -316,7 +324,6 @@ class CyberPayment extends React.Component {
                 </div>
               ))}
             {this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM' ? (
-              // true?
               <CyberPaymentFormNew
                 curPayWayInfo={this.props.curPayWayInfo}
                 setCyberLoading={this.props.setCyberLoading}

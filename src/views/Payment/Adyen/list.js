@@ -287,7 +287,6 @@ class AdyenCreditCardList extends React.Component {
           _this.getBrowserInfo(state);
           const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
           let result = find(cardList, (ele) => ele.id === id);
-          debugger;
           result.encryptedSecurityCode = tmpCode;
           // ****************************************************************
           //el.encryptedSecurityCode = tmpCode;
