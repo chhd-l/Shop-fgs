@@ -15,6 +15,7 @@ interface Props {
   changeFreqency: Function;
   toClubTab: Function;
   children: any;
+  handleNoShowValue:Function;
 }
 
 const ClubBuyMethod = ({
@@ -27,7 +28,8 @@ const ClubBuyMethod = ({
   changeMethod,
   changeFreqency,
   toClubTab,
-  children
+  children,
+  handleNoShowValue
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
   const handleToClubTab = () => {
@@ -176,6 +178,7 @@ const ClubBuyMethod = ({
                 }}
                 selectionCustomInnerStyle={{ height: '3rem!important' }}
                 textClassName="font-normal"
+                handleNoShowValue={(data:any)=>handleNoShowValue(data)}
               />
             )}
             <div
