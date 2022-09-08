@@ -615,9 +615,7 @@ class PayProductInfo extends React.Component {
       if (!result?.context?.promotionFlag || result?.context?.couponCodeFlag) {
         //表示输入apply promotionCode成功
         discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-        this.props.checkoutStore.setPromotionDesc(
-          this.state.promotionInputValue
-        );
+
         this.setState({ discount });
         this.props.sendPromotionCode(this.state.promotionInputValue);
         this.setState({
