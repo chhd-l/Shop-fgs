@@ -588,7 +588,11 @@ class PaymentEditForm extends React.Component {
       cardTypeValue: null,
       paymentVendor: currentCardTypeInfo.cardType
     });
-
+    this.cyberCardRef.current.cyberTokenGet(() => {
+      this.handlePayment(subscriptionParams, paymentForm);
+    });
+  }
+  handlePayment = async (subscriptionParams, paymentForm) => {
     try {
       let res = await this.cyberCardRef.current.queryCyberCardTypeEvent(
         subscriptionParams
@@ -631,8 +635,7 @@ class PaymentEditForm extends React.Component {
     }
 
     this.showNextPanel();
-  }
-
+  };
   isAllFinish = () => {
     let errMsgObj = {};
     const paymentForm = this.state.paymentForm;
