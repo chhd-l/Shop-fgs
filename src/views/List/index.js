@@ -363,10 +363,7 @@ class List extends React.Component {
       sortList: [], // 排序信息
       selectedSortParam: null,
 
-      searchForm: {
-        // minMarketPrice: 0,
-        // maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
-      },
+      searchForm: {},
       defaultFilterSearchForm: {
         // 初始化filter查询参数
         attrList: [],

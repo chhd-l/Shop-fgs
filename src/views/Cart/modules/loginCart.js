@@ -1383,7 +1383,6 @@ class LoginCart extends React.Component {
   };
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
@@ -1414,6 +1413,9 @@ class LoginCart extends React.Component {
       ) {
         //表示输入apply promotionCode成功
         discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        this.props.checkoutStore.setPromotionDesc(
+          this.state.promotionInputValue
+        );
         this.setState({ discount });
         // this.props.sendPromotionCode(
         //   this.state.promotionInputValue

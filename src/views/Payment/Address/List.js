@@ -2076,9 +2076,9 @@ class AddressList extends React.Component {
         settlementIdStr:
           pkaddr?.settlementFias || pickupFormData.settlementIdStr,
         postalCode: pkaddr?.zip || pickupFormData.postCode,
-        contractNumber: pickupFormData?.pickup?.contractNumber,
+        contractNumber: pickupFormData?.contractNumber,
         pickupName: pickupFormData?.pickupName, // 快递公司
-        courierCode: pickupFormData?.pickup?.courierCode
+        courierCode: pickupFormData?.courierCode
       });
 
       // 查询地址列表，筛选 pickup 地址
@@ -2087,6 +2087,7 @@ class AddressList extends React.Component {
         return e.receiveType == 'PICK_UP';
       });
       console.log({ pkup });
+
       // 判断是否存在有 pickup 地址
       const tmpPromise = pkup.length ? editAddress : saveAddress;
       if (pkup.length) {
@@ -2826,6 +2827,7 @@ class AddressList extends React.Component {
                                                 <div className="pickup_point_info">
                                                   <p className="tit font-weight-bold">
                                                     {ele.pickupName}
+                                                    {console.log(123, ele)}
                                                   </p>
                                                   <p>{ele.address1}</p>
                                                   <p>{ele.workTime}</p>
