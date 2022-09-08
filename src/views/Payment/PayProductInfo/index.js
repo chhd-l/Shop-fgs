@@ -240,7 +240,6 @@ class PayProductInfo extends React.Component {
     }
     this.refs.applyButtton.click();
     let productList;
-
     if (this.props.data.length) {
       productList = this.props.data;
       if (isFromFelin) {
@@ -255,7 +254,6 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
-
     this.setState(
       Object.assign({
         productList: productList || []

@@ -18,6 +18,7 @@ class SalesCategory extends Component {
     const curListNum = categoryList.length;
     const _catogeryJXS2 = categoryList.map((ele, i) => (
       <div
+        data-auto-testid={`Home${ele.cateType === 'dog' ? 'Dog' : 'Cat'}List`}
         className={`col-6 ${
           curListNum >= 6
             ? curListNum >= 15
