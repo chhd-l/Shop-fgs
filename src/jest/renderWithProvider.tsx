@@ -7,7 +7,11 @@ import en_US from '@/lang/en_US';
 import { Provider } from 'mobx-react';
 import { IntlProvider } from 'react-intl';
 import Security from './Provider/Security';
-
+jest.mock('react-intl-phraseapp', () => {
+  return {
+    injectIntl: () => {}
+  };
+});
 const renderWithProvider = (
   ui: React.ReactElement,
   {
