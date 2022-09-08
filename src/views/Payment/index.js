@@ -3259,11 +3259,12 @@ class Payment extends React.Component {
   };
   confirmPaymentPanel = async () => {
     const { isLogin } = this;
-    if (!currentCardTypeInfo) {
+    if (!currentCardTypeInfo && this.cyberRef?.current?.cyberCardRef?.current) {
+      // cyber error update
       this.setState({ saveBillingLoading: false });
-      throw new Error(
-        'This card type is temporarily not supported, please try again with a different card'
-      );
+      let message =
+        'This card type is temporarily not supported, please try again with a different card';
+      this.showErrorMsg(message);
       return;
     }
     const {
