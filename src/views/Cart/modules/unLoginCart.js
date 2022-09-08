@@ -117,7 +117,7 @@ class UnLoginCart extends React.Component {
   }
   async componentDidMount() {
     console.log('unLoginPage');
-    const guestId = sessionItemRoyal.get('rc-guestId', guestId);
+    const guestId = sessionItemRoyal.get('rc-guestId');
     if (guestId) {
       this.setState({ circleLoading: true });
 
