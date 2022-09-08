@@ -2008,8 +2008,7 @@ class AddressList extends React.Component {
       deliveryAddress,
       pickupFormData,
       pickupCalculation,
-      wrongAddressMsg,
-      pickupAddress
+      wrongAddressMsg
     } = this.state;
     const { isShowBindPet } = this.props.checkoutStore;
     // 如果地址字段有缺失，提示错误信息
@@ -2077,9 +2076,9 @@ class AddressList extends React.Component {
         settlementIdStr:
           pkaddr?.settlementFias || pickupFormData.settlementIdStr,
         postalCode: pkaddr?.zip || pickupFormData.postCode,
-        contractNumber: pickupAddress?.contractNumber,
-        pickupName: pickupAddress?.pickupName, // 快递公司
-        courierCode: pickupAddress?.courierCode
+        contractNumber: pickupFormData?.contractNumber,
+        pickupName: pickupFormData?.pickupName, // 快递公司
+        courierCode: pickupFormData?.courierCode
       });
 
       // 查询地址列表，筛选 pickup 地址
@@ -2177,6 +2176,11 @@ class AddressList extends React.Component {
           }
         );
       }
+      let newAddres = await getAddressList();
+      let pickupAddress = newAddres.context.filter(
+        (e) => e.receiveType == 'PICK_UP'
+      );
+      this.setState({ pickupAddress });
     } catch (err) {
       this.setState({
         saveErrorMsg: err.message

@@ -2877,8 +2877,6 @@ class Payment extends React.Component {
       },
       shippingFeeAddress: shippingFeeAddress
     };
-    debugger;
-    console.log(param.promotionCode);
     if (this.isLogin) {
       param.subscriptionFlag = false;
     }
