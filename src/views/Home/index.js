@@ -576,11 +576,6 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await fetchNavigation('us', 'en-us', '/rc-api')?.siteSettings
-      ?.items;
-
-    console.log({ data });
-
     const { loginStore } = this.props;
     sessionItemRoyal.remove('refresh-confirm-page');
     if (funcUrl({ name: 'couponCode' })) {
@@ -662,8 +657,7 @@ class Home extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
-          {/* <TopNavigation locale="en-us" site="us"/> */}
-          <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
+          {/* <TopNavigation locale="en-us" site="us" apiHost="/rc-api" /> */}
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={history} />
