@@ -7,10 +7,10 @@ const config = {
     "src/**/*.{js,jsx,ts,tsx}",
     '!src/**/*.d.ts',
     // "src/views/Account/SubscriptionDetail/components/HandledSpecSelect/**/*.{js,jsx,ts,tsx}",
-    //"src/views/Account/Subscription/index.{js,jsx,ts,tsx}"
+    // 'src/views/Account/Subscription/index.{js,jsx,ts,tsx}'
     // "src/utils/init.{js,jsx,ts,tsx}"
     // "src/views/Register/index.{js,jsx,ts,tsx}"
-    //'src/components/RouteFilter/index.{js,jsx,ts,tsx}'
+    "src/views/ForgetPassword/index.{js,jsx,ts,tsx}"
   ],
   setupFiles: ['react-app-polyfill/jsdom'],
   setupFilesAfterEnv: [
@@ -23,10 +23,10 @@ const config = {
     "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Account/SubscriptionDetail/components/HandledSpecSelect/__tests__/**/*.{js,jsx,ts,tsx}",
     // "<rootDir>src/views/Details/components/OSSReceiveBackNotificationContent/__test__/**/*.{js,jsx,ts,tsx}"
-    //"<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}"
+    // '<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}'
     // "<rootDir>/src/utils/__tests__/init.test.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Register/__test__/index.test.{js,jsx,ts,tsx}"
-    //'<rootDir>/src/components/RouteFilter/__test__/*.{js,jsx,ts,tsx}'
+    "<rootDir>/src/views/ForgetPassword/__test__/index.test.{js,jsx,ts,tsx}"
   ],
   testEnvironment: 'jest-environment-jsdom-fourteen',
   transform: {
