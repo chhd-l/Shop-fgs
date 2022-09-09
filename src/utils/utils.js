@@ -38,7 +38,7 @@ export const getCurPickUpInfo = (item) => {
   let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
   let pickupItem = '';
   if (sitem) {
-    pickupItem = JSON.parse(sitem).pickup[item];
+    pickupItem = JSON.parse(sitem)?.pickup?.[item];
   }
   return pickupItem;
 };
