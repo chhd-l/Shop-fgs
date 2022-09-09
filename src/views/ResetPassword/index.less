@@ -11,7 +11,7 @@
     pointer-events: none;
     line-height: 1.4;
     max-width: calc(100% - 0.625rem);
-    transform: translateX(158%) translateY(-50%);
+    transform: translateX(140%) translateY(-50%);
   }
 
   .tippy-tooltip {
@@ -74,5 +74,17 @@
 
   [data-tooltip]+.tooltip {
     opacity: 0 !important;
+  }
+}
+
+@media (max-width: 769px) {
+  .reset-password-wrap {
+    .tippy-popper {
+      transform: inherit;
+      .tippy-arrow,.tippy-arrow-border {
+        display: none;
+      }
+    }
+
   }
 }
