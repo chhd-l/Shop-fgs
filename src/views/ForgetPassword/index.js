@@ -136,7 +136,8 @@ class ForgetPassword extends React.Component {
           <Input
             id="email"
             dataTestid="email"
-            autocomplete="off"
+            data-testid="email_input"
+            autoComplete="off"
             type="email"
             maxLength="90"
             name="email"
@@ -163,6 +164,7 @@ class ForgetPassword extends React.Component {
             <Button
               type="primary"
               size="small"
+              data-testid="sendEmail"
               disabled={!correctEmail}
               onClick={this.sendEmail}
             >
