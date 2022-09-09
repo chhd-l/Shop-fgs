@@ -303,7 +303,7 @@ class WrapComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.ref.productList = [{ selected: true, stock: true }];
+    this.ref.state.productList = [{ selected: true, stock: true }];
     this.ref.totalNum;
 
     this.ref.handleLoginCartDataUpdates();
