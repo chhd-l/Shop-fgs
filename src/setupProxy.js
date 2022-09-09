@@ -11,8 +11,19 @@ const baseUrlConfig = interfacePrefix[process.env.REACT_APP_START_ENV]({
 //     '亲爱的前端er, 您启动了开发模式，但接口代理未设置成功，请在.env文件中设置对应变量，以确保正常运行'
 //   );
 // }
+console.log({ baseUrlConfig });
 
 module.exports = function (app) {
+  app.use(
+    proxy('/rc-api', {
+      target: 'https://rh-sc-stg-weu-01.staging.royalcanin.com',
+      secure: false,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/rc-api': '/'
+      }
+    })
+  );
   app.use(
     proxy('/api', {
       target: baseUrlConfig.REACT_APP_BASEURL,
@@ -25,16 +36,16 @@ module.exports = function (app) {
   );
   if (baseUrlConfig.REACT_APP_HUB_APIURL) {
     app
-      .use(
-        proxy('/navigation', {
-          target: `${baseUrlConfig.REACT_APP_HUB_APIURL}/navigation`,
-          secure: false,
-          changeOrigin: true,
-          pathRewrite: {
-            '^/navigation': '/'
-          }
-        })
-      )
+      // .use(
+      //   proxy('/navigation', {
+      //     target: `${baseUrlConfig.REACT_APP_HUB_APIURL}/navigation`,
+      //     secure: false,
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       '^/navigation': '/'
+      //     }
+      //   })
+      // )
       .use(
         proxy('/footer', {
           target: `${baseUrlConfig.REACT_APP_HUB_APIURL}/footer`,

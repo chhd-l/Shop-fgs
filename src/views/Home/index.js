@@ -30,6 +30,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import renderLinkLang from './hreflang';
 import advantageIconList from './modules/advantageIconList';
+import {
+  TopNavigation,
+  fetchNavigation
+} from '@royal-canin-sitecore/react-components';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -571,7 +575,12 @@ class Home extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const data = await fetchNavigation('us', 'en-us', '/rc-api')?.siteSettings
+      ?.items;
+
+    console.log({ data });
+
     const { loginStore } = this.props;
     sessionItemRoyal.remove('refresh-confirm-page');
     if (funcUrl({ name: 'couponCode' })) {
@@ -653,6 +662,7 @@ class Home extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
+          {/* <TopNavigation locale="en-us" site="us"/> */}
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={history} />
