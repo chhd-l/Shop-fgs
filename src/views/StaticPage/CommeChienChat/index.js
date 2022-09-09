@@ -10,30 +10,34 @@ import img_dog from '@/assets/images/comme-chien-chat/dog.png';
 import img_dog2 from '@/assets/images/comme-chien-chat/dog2.png';
 import img_toy from '@/assets/images/comme-chien-chat/toy.png';
 import img_store from '@/assets/images/comme-chien-chat/store.png';
+import img_a1 from '@/assets/images/comme-chien-chat/a1.png';
+import img_a2 from '@/assets/images/comme-chien-chat/a2.png';
+import img_a3 from '@/assets/images/comme-chien-chat/a3.png';
+import img_a4 from '@/assets/images/comme-chien-chat/a4.png';
 
 const ListCard = () => {
   const list = [
     {
-      imgSrc: img_store,
-      title: 'Pet Tips',
+      imgSrc: img_a1,
+      title: 'Forum Conseils',
       desc: 'Venez découvrir des forums de discussion autour des tracas et de la gestion du quotidien de vos animaux !',
       url: 'https://www.eventbrite.com/cc/pet-tips-1053149?utm-campaign=social&utm-content=creatorshare&utm-medium=discovery&utm-term=odclsxcollection&utm-source=cp&aff=escb'
     },
     {
-      imgSrc: img_store,
-      title: 'Breed Talks',
+      imgSrc: img_a2,
+      title: 'Tout sur les races',
       desc: 'Des experts viennent vous parler de vos races préférées !',
       url: 'https://www.eventbrite.com/cc/breed-talk-1063519?utm-campaign=social&utm-content=creatorshare&utm-medium=discovery&utm-term=odclsxcollection&utm-source=cp&aff=escb'
     },
     {
-      imgSrc: img_store,
+      imgSrc: img_a3,
       title: 'Education Canine',
       desc: 'Besoin d’aide avec votre chien ? Apprendre les bases de l’éducation ? Participez à nos différents cours et balades éducatives !',
       url: 'https://www.eventbrite.com/cc/education-canine-1063529?utm-campaign=social&utm-content=creatorshare&utm-medium=discovery&utm-term=odclsxcollection&utm-source=cp&aff=escb'
     },
     {
-      imgSrc: img_store,
-      title: 'Workshops',
+      imgSrc: img_a4,
+      title: 'Ateliers',
       desc: 'Nous vous proposons différents workshop au sein de notre Concept Store, toilettage, ateliers avec les enfants et bien d’autres !',
       url: 'https://www.eventbrite.com/cc/workshop-1063539?utm-campaign=social&utm-content=creatorshare&utm-medium=discovery&utm-term=odclsxcollection&utm-source=cp&aff=escb'
     }
