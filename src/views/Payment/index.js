@@ -612,6 +612,7 @@ class Payment extends React.Component {
       );
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
+      debugger;
       console.log('yyy');
       if (!recommendProductJson) {
         if (!this.computedCartData.length && !tid && !appointNo) {
@@ -809,7 +810,7 @@ class Payment extends React.Component {
   /**
    * init panel prepare/edit/complete status
    */
-  sendCyberPaymentForm = async (cyberPaymentForm) => {
+  sendCyberPaymentForm = async (cyberPaymentForm, cardType) => {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---start---
     let {
       cardholderName,
@@ -818,7 +819,12 @@ class Payment extends React.Component {
       expirationYear,
       securityCode
     } = cyberPaymentForm;
-
+    debugger;
+    if (cardType !== undefined) {
+      this.setState({
+        cyberCardType: cardType
+      });
+    }
     if (
       cardholderName &&
       expirationMonth &&
@@ -830,40 +836,71 @@ class Payment extends React.Component {
 
       if (Object.keys(cyberParams).length > 0) {
         try {
-          this.setState({ cyberBtnLoading: true });
-          this.cyberRef.current.cyberCardRef.current.cyberTokenGet(async () => {
-            try {
-              let res = {};
-              if (this.isLogin) {
-                res = await this.queryCyberCardType(cyberParams);
-              } else {
-                res = await this.queryGuestCyberCardType(cyberParams);
-              }
-
-              let authorizationCode = res.context.requestToken;
-              let subscriptionID = res.context.subscriptionID;
-              let cyberCardType = res.context.cardType;
-              this.setState({
-                authorizationCode,
-                subscriptionID,
-                cyberCardType
-              });
-            } catch (err) {
-              this.setState({ subscriptionID: '' }); // subscriptionID set empty
-              this.showErrorMsg(err.message);
-            } finally {
-              this.setState({ cyberBtnLoading: false });
-            }
-          });
+          if (
+            this.props.paymentStore.curPayWayInfo.paymentFormType ==
+            'MICRO_FORM'
+          ) {
+            //MICRO_FORM can submit
+            this.setState({ subscriptionID: 'xxxx' });
+          } else {
+            this.setState({ cyberBtnLoading: true });
+            this.handlesubScriptionID();
+          }
+          // this.cyberRef.current.cyberCardRef.current.cyberTokenGet?this.cyberRef.current.cyberCardRef.current.cyberTokenGet(async (data) => {
+          //   let cyberCardType = data.type;
+          //   this.setState({
+          //     cyberCardType
+          //   });
+          //   this.setState({ cyberBtnLoading: false });
+          //   // this.handlesubScriptionID()
+          // }):this.handlesubScriptionID()
         } catch (err) {
           this.setState({ subscriptionID: '' }); // subscriptionID set empty
           this.showErrorMsg(err.message);
-          this.setState({ cyberBtnLoading: false });
+          this.setState({
+            cyberBtnLoading: false,
+            saveBillingLoading: false
+          });
         }
       }
+    } else {
+      this.setState({ subscriptionID: '' });
     }
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
     this.setState({ cyberPaymentForm });
+  };
+  handlesubScriptionID = async (cb) => {
+    try {
+      let cyberParams = this.getCyberParams();
+      let res = {};
+      if (this.isLogin) {
+        res = await this.queryCyberCardType(cyberParams);
+      } else {
+        res = await this.queryGuestCyberCardType(cyberParams);
+      }
+
+      let authorizationCode = res.context.requestToken;
+      let subscriptionID = res.context.subscriptionID;
+      let cyberCardType = res.context.cardType;
+      this.setState(
+        {
+          authorizationCode,
+          subscriptionID,
+          cyberCardType
+        },
+        () => {
+          cb && cb();
+        }
+      );
+    } catch (err) {
+      this.setState({ subscriptionID: '' }); // subscriptionID set empty
+      this.showErrorMsg(err.message);
+    } finally {
+      this.setState({
+        cyberBtnLoading: false,
+        saveBillingLoading: false
+      });
+    }
   };
 
   //判断是否是0元订单，0元订单处理：隐藏paymentMethod，用户不用填写支付信息
@@ -2877,8 +2914,6 @@ class Payment extends React.Component {
       },
       shippingFeeAddress: shippingFeeAddress
     };
-    debugger;
-    console.log(param.promotionCode);
     if (this.isLogin) {
       param.subscriptionFlag = false;
     }
@@ -3201,7 +3236,23 @@ class Payment extends React.Component {
       },
       () => {
         setTimeout(() => {
-          this.confirmPaymentPanel();
+          if (this.cyberRef?.current?.cyberCardRef?.current?.cyberTokenGet) {
+            try {
+              this.cyberRef.current.cyberCardRef.current.cyberTokenGet(() => {
+                try {
+                  this.handlesubScriptionID(this.confirmPaymentPanel);
+                } catch (err) {
+                  this.setState({ saveBillingLoading: false });
+                  throw new Error(err.message);
+                }
+              });
+            } catch (err) {
+              this.setState({ saveBillingLoading: false });
+              throw new Error(err.message);
+            }
+          } else {
+            this.confirmPaymentPanel();
+          }
         }, 800);
       }
     );
@@ -3211,6 +3262,14 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo, curPayWayInfo }
     } = this.props;
+    if (!currentCardTypeInfo && this.cyberRef?.current?.cyberCardRef?.current) {
+      // cyber error update
+      this.setState({ saveBillingLoading: false });
+      let message =
+        'This card type is temporarily not supported, please try again with a different card';
+      this.showErrorMsg(message);
+      return;
+    }
     const {
       adyenPayParam,
       billingAddress,

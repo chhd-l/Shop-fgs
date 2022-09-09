@@ -100,7 +100,7 @@ const OssReceiveBackNotificationContent = ({
     const detailName = details.goodsSpecs[0].chidren.find(
       (goods: any) => goods.selected
     )?.detailName;
-    const goodsInfoId = selectedSpecItem.goodsInfoId;
+    const goodsInfoId = selectedSpecItem?.goodsInfoId;
     const params: any = {
       email,
       goodsId:goodsId|| defalutGoodsId,
