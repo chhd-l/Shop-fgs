@@ -857,7 +857,10 @@ class Payment extends React.Component {
         } catch (err) {
           this.setState({ subscriptionID: '' }); // subscriptionID set empty
           this.showErrorMsg(err.message);
-          this.setState({ cyberBtnLoading: false });
+          this.setState({
+            cyberBtnLoading: false,
+            saveBillingLoading: false
+          });
         }
       }
     } else {
@@ -893,7 +896,10 @@ class Payment extends React.Component {
       this.setState({ subscriptionID: '' }); // subscriptionID set empty
       this.showErrorMsg(err.message);
     } finally {
-      this.setState({ cyberBtnLoading: false });
+      this.setState({
+        cyberBtnLoading: false,
+        saveBillingLoading: false
+      });
     }
   };
 
@@ -3230,7 +3236,7 @@ class Payment extends React.Component {
       },
       () => {
         setTimeout(() => {
-          if (this.cyberRef.current.cyberCardRef.current.cyberTokenGet) {
+          if (this.cyberRef?.current?.cyberCardRef?.current?.cyberTokenGet) {
             try {
               this.cyberRef.current.cyberCardRef.current.cyberTokenGet(() => {
                 try {
@@ -3256,6 +3262,14 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo, curPayWayInfo }
     } = this.props;
+    if (!currentCardTypeInfo && this.cyberRef?.current?.cyberCardRef?.current) {
+      // cyber error update
+      this.setState({ saveBillingLoading: false });
+      let message =
+        'This card type is temporarily not supported, please try again with a different card';
+      this.showErrorMsg(message);
+      return;
+    }
     const {
       adyenPayParam,
       billingAddress,

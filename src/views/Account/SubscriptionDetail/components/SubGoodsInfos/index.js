@@ -494,7 +494,12 @@ const SubGoodsInfos = ({
                                 >
                                   <QuantityPicker
                                     className={'inline-block align-middle	'}
-                                    max={skuLimitThreshold.skuMaxNum}
+                                    max={Math.min(
+                                      el.goodsInfos?.filter(
+                                        (ele) => ele.selected
+                                      )?.[0]?.stock,
+                                      skuLimitThreshold.skuMaxNum
+                                    )}
                                     initQuantity={el.subscribeNum}
                                     updateQuantity={(val) => {
                                       subDetail.goodsInfo[index].subscribeNum =

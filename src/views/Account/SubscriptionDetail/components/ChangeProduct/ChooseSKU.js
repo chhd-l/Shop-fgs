@@ -8,9 +8,7 @@ import {
   stockNoticeModify,
   queryStockNotice
 } from '@/api/subscription';
-import HandledSpec from '@/components/HandledSpec/index.tsx';
 import HandledSpecSelect from '../HandledSpecSelect';
-import InstockStatusComp from '@/components/InstockStatusComp';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import find from 'lodash/find';
@@ -312,6 +310,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
   };
 
   const quantityBox = () => {
+    const max = Math.min(skuLimitThreshold?.skuMaxNum, stock);
     return (
       <div
         className={cn(`line-item-quantity text-lg-center`, {
@@ -336,7 +335,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
               />
               <QuantityPicker
                 min={quantityMinLimit}
-                max={skuLimitThreshold?.skuMaxNum}
+                max={max}
                 initQuantity={quantity}
                 updateQuantity={(val) => {
                   setQuantity(val);
@@ -375,7 +374,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
   };
 
   const autoshipType = subDetail.subscriptionType?.toLowerCase() === 'autoship';
-  let seleced = quantity < stock && (skuPromotions == 'club' || autoshipType);
+  let seleced = quantity <= stock && (skuPromotions == 'club' || autoshipType);
   let outOfStockStatus = quantity > stock;
   return (
     <React.Fragment>
@@ -424,29 +423,6 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
               <div className="specAndQuantity rc-margin-bottom--xs text-left mt-6 md:mt-0">
                 {details.goodsInfos && (
                   <>
-                    {/* <div className="rc-md-up">
-                    <HandledSpec
-                      renderAgin={renderDetailAgin}
-                      details={details}
-                      disabledGoodsInfoIds={subDetail.goodsInfo.map(
-                        (g) => g.goodsInfoVO.goodsInfoId
-                      )}
-                      onIsSpecAvailable={(status) => {
-                        setIsSpecAvailable(status);
-                      }}
-                      setState={setState}
-                      updatedSku={matchGoods}
-                      canSelectedOutOfStock={true}
-                      canSelectedWhenAllSpecDisabled={true}
-                      showOffShelvesSpecs={false}
-                      updatedPriceOrCode={updatedPriceOrCode}
-                    />
-                    <InstockStatusComp
-                      status={!outOfStockStatus}
-                      className="subscription-stock"
-                    />
-                  </div> */}
-                    {/* <div className="rc-md-down relative"> */}
                     <HandledSpecSelect
                       renderAgin={renderDetailAgin}
                       details={details}
@@ -463,13 +439,6 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
                       canSelectedWhenAllSpecDisabled={true}
                       updatedChangeSku={updatedChangeSku}
                     />
-                    {/* <div className="absolute bottom-4 right-12">
-                      <InstockStatusComp
-                        status={!outOfStockStatus}
-                        className="subscription-stock"
-                      />
-                    </div> */}
-                    {/* </div> */}
                   </>
                 )}
               </div>
@@ -520,13 +489,9 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
         </div>
       </div>
       <div
-        className={cn(
-          // `d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0 flex-col-reverse md:flex-row`,
-          `d-flex  mt-3 md:mt-0 flex-col`,
-          {
-            'justify-center w-full pt-3 modal-change-btn': inModal
-          }
-        )}
+        className={cn(`d-flex  mt-3 md:mt-0 flex-col`, {
+          'justify-center w-full pt-3 modal-change-btn': inModal
+        })}
       >
         {outOfStockStatus ? (
           <div
