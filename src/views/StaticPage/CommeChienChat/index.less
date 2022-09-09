@@ -136,6 +136,18 @@
 
       .list-main {
         padding: 0 36px 30px;
+
+        a.rc-btn {
+          font-size: 18px;
+          padding: 7px 28px !important;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          span  {
+            font-size: 20px;
+          }
+        }
       }
 
       .list-title {
@@ -148,8 +160,8 @@
       }
 
       .list-desc {
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 20px;
+        line-height: 30px;
         padding-bottom: 16px;
         text-align: center;
       }
@@ -165,7 +177,7 @@
   }
 }
 
-@media screen and (max-width: 512px) {
+@media screen and (max-width: 750px) {
   .comme-chien-chat-box {
     .title-1 {
       font-size: 28px;
@@ -221,6 +233,15 @@
       .list-item {
         .list-main {
           padding: 0 12px 14px;
+
+          a.rc-btn {
+            font-size: 16px;
+            padding: 6px 32px !important;
+
+            span {
+              font-size: 18px;
+            }
+          }
         }
 
         .list-title {

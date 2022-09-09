@@ -50,11 +50,11 @@ const ListCard = () => {
             <div className="list-desc">{item.desc}</div>
             <div className="flex justify-center">
               <a
-                className="rc-btn rc-btn--sm rc-btn--two"
+                className="rc-btn rc-btn--two iconfont iconcalendar"
                 href={item.url}
                 target="_blank"
               >
-                Réservez vite
+                <span>Réservez vite</span>
               </a>
             </div>
           </div>
@@ -91,7 +91,11 @@ class CommeChienChat extends React.Component {
                   Comme chien et chat de Royal Canin
                 </div>
                 <div className="desc-1">
-                  Royal Canin réouvre dans le 3e arrondissement son Concept Store, un lieu unique en son genre pour vous, vos chiens et vos chats. Un espace de découvertes sur votre animal et ses besoins, allant de la recommandation nutritionnelle à des activités en tout genre.
+                  Royal Canin réouvre dans le 3e arrondissement son Concept
+                  Store, un lieu unique en son genre pour vous, vos chiens et
+                  vos chats. Un espace de découvertes sur votre animal et ses
+                  besoins, allant de la recommandation nutritionnelle à des
+                  activités en tout genre.
                 </div>
                 <div className="top-banner">
                   <img src={img_banner} alt="Comme chien & chat" />
@@ -115,13 +119,26 @@ class CommeChienChat extends React.Component {
                     Bienvenue chez Comme Chien et Chat
                   </div>
                   <div className="desc-2">
-                    "Vous connaissez votre animal sur le bout des doigts et pourtant, il n'est pas toujours évident de prendre soin de lui au quotidien, de trouver les bons produits pour lui, les bons conseils et surtout le bon interlocuteur. <br />
+                    "Vous connaissez votre animal sur le bout des doigts et
+                    pourtant, il n'est pas toujours évident de prendre soin de
+                    lui au quotidien, de trouver les bons produits pour lui, les
+                    bons conseils et surtout le bon interlocuteur. <br />
                     <br />
-                    Chez Comme Chien et Chat, laissez vous guider par nos conseillers, et découvrez tous les besoins spécifiques et insoupçonnés de votre chat ou de votre chien, accompagnés des conseils, produits et services qui leur sont les plus adaptés pour vivre en ville et ailleurs. <br />
+                    Chez Comme Chien et Chat, laissez vous guider par nos
+                    conseillers, et découvrez tous les besoins spécifiques et
+                    insoupçonnés de votre chat ou de votre chien, accompagnés
+                    des conseils, produits et services qui leur sont les plus
+                    adaptés pour vivre en ville et ailleurs. <br />
                     <br />
-                    Ici, vous rencontrez d'autres passionnés, des experts et des connaisseurs des chats et des chiens au travers de nos événements, que nous avons imaginés spécialement pour vous.<br />
+                    Ici, vous rencontrez d'autres passionnés, des experts et des
+                    connaisseurs des chats et des chiens au travers de nos
+                    événements, que nous avons imaginés spécialement pour vous.
                     <br />
-                    Car la santé et le bien-être de votre animal sont notre priorité, nous avions à cœur chez Royal Canin, de créer un lieu avec tout ce dont vous avez besoin pour prendre soin de votre compagnon à 4 pattes. " <br />
+                    <br />
+                    Car la santé et le bien-être de votre animal sont notre
+                    priorité, nous avions à cœur chez Royal Canin, de créer un
+                    lieu avec tout ce dont vous avez besoin pour prendre soin de
+                    votre compagnon à 4 pattes. " <br />
                     <br />
                   </div>
                   <div className="m-justify-center">
@@ -155,7 +172,11 @@ class CommeChienChat extends React.Component {
                     Conseils d'experts en nutrition et accessoires de bien-être
                   </div>
                   <div className="desc-2 customized-desc">
-                    Venez découvrir notre approche nutritionnelle ainsi que l'étendue de notre gamme sous les conseils de notre équipe sur place. Nous y proposons aussi un portefeuille d'accessoires divers pour le bien-être optimal de votre animal.
+                    Venez découvrir notre approche nutritionnelle ainsi que
+                    l'étendue de notre gamme sous les conseils de notre équipe
+                    sur place. Nous y proposons aussi un portefeuille
+                    d'accessoires divers pour le bien-être optimal de votre
+                    animal.
                   </div>
                 </div>
               </div>
