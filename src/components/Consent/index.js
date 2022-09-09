@@ -211,6 +211,9 @@ class Consent extends Component {
                   className="rc-text--left"
                   htmlFor={`id-checkbox-${id}-${item.id}`}
                   style={{ width: '100%' }}
+                  data-testid={
+                    item.isRequired ? 'consent_required' : 'consent_no_required'
+                  }
                 >
                   <div
                     className="d-flex flex-column"
