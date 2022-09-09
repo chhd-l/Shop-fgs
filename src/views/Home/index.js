@@ -663,6 +663,7 @@ class Home extends React.Component {
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
           {/* <TopNavigation locale="en-us" site="us"/> */}
+          <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={history} />
