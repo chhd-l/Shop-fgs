@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">90.9% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>10/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -598,28 +598,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1123,29 +1123,29 @@ import Table from './Table';
 import Address from './Address';
 import { formatDate } from '@/utils/utils';
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >Modal(</span>props) {
-  const value = <span class="cstat-no" title="statement not covered" >useContext(FullScreenModalContext);</span>
-  const { loginStore, paymentStore } = <span class="cstat-no" title="statement not covered" >useLocalStore(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >stores)</span>;</span>
-  const { isLogin, userInfo } = <span class="cstat-no" title="statement not covered" >loginStore;</span>
+export default function Modal(props) {
+  const value = useContext(FullScreenModalContext);
+  const { loginStore, paymentStore } = useLocalStore(() =&gt; stores);
+  const { isLogin, userInfo } = loginStore;
   const {
     fullScreenModalB,
     deliveryAddressInfo,
     billingAddressInfo,
     guestEmail
-  } = <span class="cstat-no" title="statement not covered" >paymentStore;</span>
+  } = paymentStore;
 &nbsp;
-  const { close } = <span class="cstat-no" title="statement not covered" >value;</span>
+  const { close } = value;
 &nbsp;
-  function <span class="fstat-no" title="function not covered" >getCurrentDate(</span>) {
-<span class="cstat-no" title="statement not covered" >    return formatDate({ date: new Date() });</span>
+  function getCurrentDate() {
+    return formatDate({ date: new Date() });
   }
 &nbsp;
-  const [currentDate] = <span class="cstat-no" title="statement not covered" >useState(getCurrentDate());</span>
+  const [currentDate] = useState(getCurrentDate());
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Observer&gt;
-      {<span class="fstat-no" title="function not covered" >()</span> =&gt; (
-<span class="cstat-no" title="statement not covered" >        &lt;div className={[fullScreenModalB ? '' : 'rc-hidden'].join(' ')}&gt;</span>
+      {() =&gt; (
+        &lt;div className={[fullScreenModalB ? <span class="branch-0 cbranch-no" title="branch not covered" >'' </span>: 'rc-hidden'].join(' ')}&gt;
           &lt;div
             className="rc-shade"
             style={{ backgroundColor: 'rgba(51,51,51,.5)' }}
@@ -1648,7 +1648,7 @@ export default function <span class="fstat-no" title="function not covered" >Mod
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-08T10:34:19.629Z
+                at 2022-09-09T11:18:16.138Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>
