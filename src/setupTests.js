@@ -46,7 +46,7 @@ Object.defineProperty(window, '__', {
       REACT_APP_VCONSOLE: true,
       REACT_APP_DISABLE_CLOUDFLARE_CDN: true,
       REACT_APP_CLOSE_PRODUCT_FINDER: '1',
-      REACT_APP_RU_LOCALIZATION_ENABLE: true,
+      REACT_APP_RU_LOCALIZATION_ENABLE: false,
 
       REACT_APP_IS_RULOCAL: true,
       REACT_APP_URLPREFIX: 'https://shopsit.royalcanin.com/ru',
