@@ -30,10 +30,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import renderLinkLang from './hreflang';
 import advantageIconList from './modules/advantageIconList';
-import {
-  TopNavigation,
-  fetchNavigation
-} from '@royal-canin-sitecore/react-components';
+// import {
+//   TopNavigation,
+//   fetchNavigation
+// } from '@royal-canin-sitecore/react-components';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
