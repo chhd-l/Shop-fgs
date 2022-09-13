@@ -390,7 +390,11 @@ class CyberPaymentForm extends React.Component {
             name="cardholderName"
             maxLength="254"
           />
-          <label className="rc-input__label" htmlFor="cardholderName" />
+          <label
+            className="rc-input__label"
+            htmlFor="cardholderName"
+            data-testid="input"
+          />
         </span>
         {errMsgObj.cardholderName && (
           <div className="text-danger-2">

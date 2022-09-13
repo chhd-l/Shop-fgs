@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/20</span>
+                <span class='fraction'>0/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.28% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/20</span>
+                <span class='fraction'>0/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -114,44 +114,44 @@
 <a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -162,44 +162,44 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { loadJS } from '@/utils/utils';
 // 限制启用了BazaarVoice ratings&amp;reviews才能add BV Loader
 &nbsp;
-<span class="missing-if-branch" title="if path not taken" >I</span>if (window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS === '1') {
+<span class="cstat-no" title="statement not covered" >if (window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS === '1') {</span>
 <span class="cstat-no" title="statement not covered" >  loadJS({</span>
     url: `https://apps.bazaarvoice.com/deployments/royal-canin/main_site/${window.__.env.REACT_APP_BAZAARVOICE_ENV}/en_US/bv.js`
   });
 }
 &nbsp;
 // seo is not searched
-<span class="missing-if-branch" title="else path not taken" >E</span>if (
+<span class="cstat-no" title="statement not covered" >if (</span>
   window.__.env.REACT_APP_COUNTRY === 'us' ||
   process.env.NODE_ENV !== 'production'
 ) {
-  var metaTag = document.createElement('meta');
-  metaTag.name = 'robots';
-  metaTag.content = 'noindex';
-  document.getElementsByTagName('head')[0].appendChild(metaTag);
+  var metaTag = <span class="cstat-no" title="statement not covered" >document.createElement('meta');</span>
+<span class="cstat-no" title="statement not covered" >  metaTag.name = 'robots';</span>
+<span class="cstat-no" title="statement not covered" >  metaTag.content = 'noindex';</span>
+<span class="cstat-no" title="statement not covered" >  document.getElementsByTagName('head')[0].appendChild(metaTag);</span>
 }
 &nbsp;
 // add hreflang for ru
-<span class="missing-if-branch" title="else path not taken" >E</span>if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-  const linkTag = document.createElement('link');
-  linkTag.rel = 'alternate';
+<span class="cstat-no" title="statement not covered" >if (window.__.env.REACT_APP_COUNTRY === 'ru') {</span>
+  const linkTag = <span class="cstat-no" title="statement not covered" >document.createElement('link');</span>
+<span class="cstat-no" title="statement not covered" >  linkTag.rel = 'alternate';</span>
   // var country = window.__.env.REACT_APP_COUNTRY?.charAt(0).toUpperCase() + window.__.env.REACT_APP_COUNTRY?.slice(1)
-  linkTag.hreflang = window.__.env.REACT_APP_COUNTRY;
-  linkTag.href = window.location.href;
-  document.getElementsByTagName('head')[0].appendChild(linkTag);
+<span class="cstat-no" title="statement not covered" >  linkTag.hreflang = window.__.env.REACT_APP_COUNTRY;</span>
+<span class="cstat-no" title="statement not covered" >  linkTag.href = window.location.href;</span>
+<span class="cstat-no" title="statement not covered" >  document.getElementsByTagName('head')[0].appendChild(linkTag);</span>
 }
 &nbsp;
-<span class="missing-if-branch" title="else path not taken" >E</span>if (
+<span class="cstat-no" title="statement not covered" >if (</span>
   window.__.env.REACT_APP_HUB ||
   window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
 ) {
-  let dom = document.querySelector('#root');
-  console.log('dom', dom);
-  dom.className += ' ui-custom-hub';
+  let dom = <span class="cstat-no" title="statement not covered" >document.querySelector('#root');</span>
+<span class="cstat-no" title="statement not covered" >  console.log('dom', dom);</span>
+<span class="cstat-no" title="statement not covered" >  dom.className += ' ui-custom-hub';</span>
 }
 &nbsp;
 //412385 KARTE block snippet
-<span class="missing-if-branch" title="if path not taken" >I</span>if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+<span class="cstat-no" title="statement not covered" >if (window.__.env.REACT_APP_COUNTRY === 'jp') {</span>
 <span class="cstat-no" title="statement not covered" >  console.log('builder.js ------------------------------');</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  loadJS({</span>
@@ -214,7 +214,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-08T10:34:19.629Z
+                at 2022-09-09T09:01:54.519Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

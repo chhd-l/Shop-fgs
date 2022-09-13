@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.09% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/21</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -212,11 +212,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -230,9 +228,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -314,8 +314,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -355,9 +355,9 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import PromotionCodeText from '../promotionCodeText';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
-const COUNTRY = window.__.env.REACT_APP_COUNTRY;
+const COUNTRY = <span class="cstat-no" title="statement not covered" >window.__.env.REACT_APP_COUNTRY;</span>
 &nbsp;
-const PriceDetailsList = ({
+const PriceDetailsList = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
   data: {
     totalPrice,
     taxFeePrice,
@@ -373,9 +373,9 @@ const PriceDetailsList = ({
   checkoutStore,
   paymentStore
 }) =&gt; {
-  const { curPayWayInfo } = paymentStore;
+  const { curPayWayInfo } = <span class="cstat-no" title="statement not covered" >paymentStore;</span>
 &nbsp;
-  const priceList = sortPriceList([
+  const priceList = <span class="cstat-no" title="statement not covered" >sortPriceList([</span>
     {
       key: 'totalPrice',
       val: totalPrice,
@@ -386,7 +386,7 @@ const PriceDetailsList = ({
     {
       key: 'consumptionTax',
       val: taxFeePrice,
-      visible: window.__.env.REACT_APP_COUNTRY === 'jp' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >taxFeePrice &gt; 0,</span>
+      visible: window.__.env.REACT_APP_COUNTRY === 'jp' &amp;&amp; taxFeePrice &gt; 0,
       title: &lt;FormattedMessage id="order.consumptionTax" /&gt;
     },
     // 订阅折扣
@@ -417,7 +417,7 @@ const PriceDetailsList = ({
       title: &lt;FormattedMessage id="payment.shippingDiscount" /&gt;,
       val:
         freeShippingDiscountPrice &gt; 0
-          ? <span class="branch-0 cbranch-no" title="branch not covered" >-freeShippingDiscountPrice</span>
+          ? -freeShippingDiscountPrice
           : freeShippingDiscountPrice,
       visible: freeShippingFlag,
       className: 'green'
@@ -425,10 +425,10 @@ const PriceDetailsList = ({
     {
       key: 'estimatedTax',
       title: &lt;FormattedMessage id="estimatedTax" /&gt;,
-      val: taxFeePrice &gt; 0 ? <span class="branch-0 cbranch-no" title="branch not covered" >taxFeePrice </span>: '-',
+      val: taxFeePrice &gt; 0 ? taxFeePrice : '-',
       visible:
         configStore?.customTaxSettingOpenFlag &amp;&amp;
-<span class="branch-1 cbranch-no" title="branch not covered" >        configStore?.enterPriceType === 'NO_TAX'</span>
+        configStore?.enterPriceType === 'NO_TAX'
     },
     {
       title: &lt;FormattedMessage id="installMent.additionalFee" /&gt;,
@@ -442,11 +442,11 @@ const PriceDetailsList = ({
       val: checkoutStore.serviceFeePrice,
       visible:
         configStore?.info?.serviceFeeFlag &amp;&amp;
-<span class="branch-1 cbranch-no" title="branch not covered" >        COUNTRY == 'jp' </span>&amp;&amp;
-        (<span class="branch-2 cbranch-no" title="branch not covered" >checkoutStore.serviceFeePrice === 0 </span>||
-<span class="branch-3 cbranch-no" title="branch not covered" >          checkoutStore.serviceFeePrice &gt; 0)</span> &amp;&amp;
-<span class="branch-4 cbranch-no" title="branch not covered" >        curPayWayInfo !== undefined </span>//选择了支付方式才显示服务费
-          ? <span class="branch-0 cbranch-no" title="branch not covered" >true</span>
+        COUNTRY == 'jp' &amp;&amp;
+        (checkoutStore.serviceFeePrice === 0 ||
+          checkoutStore.serviceFeePrice &gt; 0) &amp;&amp;
+        curPayWayInfo !== undefined //选择了支付方式才显示服务费
+          ? true
           : false,
       key: 'serviceFee'
     },
@@ -457,8 +457,8 @@ const PriceDetailsList = ({
       className: 'green',
       key: 'pointDiscount'
     }
-  ]).filter((el) =&gt; el.visible);
-  return priceList.map(<span class="fstat-no" title="function not covered" >(i</span>tem, idx) =&gt;
+  ]).filter(<span class="fstat-no" title="function not covered" >(e</span>l) =&gt; <span class="cstat-no" title="statement not covered" >el.visible)</span>;
+<span class="cstat-no" title="statement not covered" >  return priceList.map(<span class="fstat-no" title="function not covered" >(i</span>tem, idx) =&gt;</span>
 <span class="cstat-no" title="statement not covered" >    item.rowHtml ? (</span>
       item.rowHtml
     ) : (
@@ -499,7 +499,7 @@ export default inject(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-08T10:34:19.629Z
+                at 2022-09-09T09:01:54.519Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>
