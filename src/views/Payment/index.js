@@ -895,11 +895,18 @@ class Payment extends React.Component {
     } catch (err) {
       this.setState({ subscriptionID: '' }); // subscriptionID set empty
       this.showErrorMsg(err.message);
-    } finally {
       this.setState({
         cyberBtnLoading: false,
         saveBillingLoading: false
       });
+    } finally {
+      if (!this.cyberRef?.current?.cyberCardRef?.current?.cyberTokenGet) {
+        // if cyber by token,need loading for next await res
+        this.setState({
+          cyberBtnLoading: false,
+          saveBillingLoading: false
+        });
+      }
     }
   };
 
