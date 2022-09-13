@@ -31,6 +31,7 @@ export default function WeightSelect({
         style={{ width: '100px', borderBottom: '2px solid #d7d7d7' }}
       >
         <input
+          data-testid="weight"
           className="rc-input__control"
           type="number"
           value={weight}

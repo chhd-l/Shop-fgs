@@ -245,6 +245,7 @@ export default class Selection extends React.Component {
           style={{ cursor: this.props.disabled ? 'auto' : 'pointer' }}
           onClick={this.toggleShowOptions}
           data-auto-testid={dataAutoTestid || ''}
+          data-testid="select_options_item"
         >
           <div
             className={cn('choices__inner')}
@@ -304,6 +305,7 @@ export default class Selection extends React.Component {
                 onChange={(e) => this.handleSearchInputChange(e)}
                 ref={this.searchRef}
                 autoComplete="new-password"
+                data-testid="new-password"
               />
             ) : null}
 
@@ -338,6 +340,7 @@ export default class Selection extends React.Component {
                     } ${item.disabled ? 'disabled_item' : ''}`}
                     role="option"
                     aria-selected="false"
+                    data-testid={item?.value || item?.name}
                     key={i}
                     onClick={(e) => {
                       e.preventDefault();
