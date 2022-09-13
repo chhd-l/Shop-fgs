@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -126,16 +126,7 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,7 +135,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,13 +155,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,7 +187,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable no-unused-expressions */
 import capitalize from 'lodash/capitalize';
-export const GAForDailyPortionToolScreenPetInfo = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+export const GAForDailyPortionToolScreenPetInfo = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >  window.dataLayer?.push({</span>
     event: 'dailyPortionToolScreen', //String : constant
     dailyPortionToolScreen: {
@@ -196,8 +196,8 @@ export const GAForDailyPortionToolScreenPetInfo = <span class="cstat-no" title="
   });
 };
 &nbsp;
-export const GAForDailyPortionToolScreenBCS = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  window.dataLayer?.push({</span>
+export const GAForDailyPortionToolScreenBCS = () =&gt; {
+  window.dataLayer?.push({
     event: 'dailyPortionToolScreen', //String : constant
     dailyPortionToolScreen: {
       name: 'BCS' //String : constant
@@ -205,7 +205,7 @@ export const GAForDailyPortionToolScreenBCS = <span class="cstat-no" title="stat
   });
 };
 &nbsp;
-export const GAForDailyPortionToolScreenResults = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>aram) =&gt; {</span>
+export const GAForDailyPortionToolScreenResults = (param) =&gt; {
   const {
     breedCode,
     weight,
@@ -216,13 +216,13 @@ export const GAForDailyPortionToolScreenResults = <span class="cstat-no" title="
     neutered,
     petActivityCode,
     quantityPerDay
-  } = <span class="cstat-no" title="statement not covered" >param;</span>
-  const bcsMap = <span class="cstat-no" title="statement not covered" >{</span>
+  } = param;
+  const bcsMap = {
     3: 'Low',
     5: 'Medium',
     7: 'High'
   };
-<span class="cstat-no" title="statement not covered" >  window.dataLayer?.push({</span>
+  window.dataLayer?.push({
     event: 'dailyPortionToolScreen', //String : constant
     dailyPortionToolScreen: {
       name: 'Results',
@@ -233,9 +233,9 @@ export const GAForDailyPortionToolScreenResults = <span class="cstat-no" title="
 &nbsp;
         gender: capitalize(genderCode), //String : "Gender" field value coming from "Pet info" screen : "Male", "Female"
 &nbsp;
-        neutered: neutered ? 'Yes' : 'No', //String : "Neutered" field value coming from "Pet info" screen : "Yes" or "No"
+        neutered: neutered ? 'Yes' : <span class="branch-1 cbranch-no" title="branch not covered" >'No',</span> //String : "Neutered" field value coming from "Pet info" screen : "Yes" or "No"
 &nbsp;
-        age: year !== 0 ? `${year} Years` : `${month} Months`, //String : "Age" field value coming from "Pet info" screen, including the type of unit (Months / Years) selected
+        age: year !== 0 ? <span class="branch-0 cbranch-no" title="branch not covered" >`${year} Years` </span>: `${month} Months`, //String : "Age" field value coming from "Pet info" screen, including the type of unit (Months / Years) selected
 &nbsp;
         activityLevel: capitalize(petActivityCode), //String : "Activity Level" field value coming from "Pet info" screen : "Low", "Medium", "High"
 &nbsp;
@@ -253,7 +253,7 @@ export const GAForDailyPortionToolScreenResults = <span class="cstat-no" title="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-09T11:18:16.138Z
+                at 2022-09-13T08:42:05.085Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
