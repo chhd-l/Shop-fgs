@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">64.7% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>11/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>4/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">64.7% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>11/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -118,26 +118,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -153,7 +153,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,26 +165,26 @@ import { useLocation } from 'react-router-dom';
 /**
  * 富文本为script/link标签时，直接append整段html无效，需动态创建对应标签
  */
-const RouteFilterHook = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> configStore }) =&gt; {</span>
-  const { pathname } = <span class="cstat-no" title="statement not covered" >useLocation();</span>
+const RouteFilterHook = ({ configStore }) =&gt; {
+  const { pathname } = useLocation();
   // --- 处理onetrust(cookie banner)动态插入，包括script和css
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-    const cookieBannerConfigInfo = <span class="cstat-no" title="statement not covered" >configStore.info?.cookieBannerConfigInfo;</span>
-<span class="cstat-no" title="statement not covered" >    if (cookieBannerConfigInfo &amp;&amp; pathname !== '/pickupmap') {</span>
+  useEffect(() =&gt; {
+    const cookieBannerConfigInfo = configStore.info?.cookieBannerConfigInfo;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (cookieBannerConfigInfo &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >pathname !== '/pickupmap')</span> {
 <span class="cstat-no" title="statement not covered" >      renderScriptOrLinkHtmlStr({ htmlStr: cookieBannerConfigInfo });</span>
     }
   }, [configStore.info?.cookieBannerConfigInfo]);
 &nbsp;
   // --- 1.加载marsfooter 2.根据marsfooter状态，处理cookie settings button
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-    const marsFooterHtml = <span class="cstat-no" title="statement not covered" >configStore.info?.marsFooter;</span>
-<span class="cstat-no" title="statement not covered" >    if (</span>
+  useEffect(() =&gt; {
+    const marsFooterHtml = configStore.info?.marsFooter;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (
       !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page|^\/pickupmap|^\/survey/.test(
         pathname
       )
     ) {
-<span class="cstat-no" title="statement not covered" >      if (marsFooterHtml) {</span>
-<span class="cstat-no" title="statement not covered" >        renderScriptOrLinkHtmlStr({</span>
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (marsFooterHtml) {
+        renderScriptOrLinkHtmlStr({
           htmlStr: marsFooterHtml,
           callback: <span class="fstat-no" title="function not covered" >()</span> =&gt; {
             const cookieDomBox = <span class="cstat-no" title="statement not covered" >document.querySelector('.cookieSettingBox');</span>
@@ -200,7 +200,7 @@ const RouteFilterHook = <span class="cstat-no" title="statement not covered" ><s
     }
   }, [configStore.info?.marsFooter]);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return &lt;div /&gt;;</span>
+  return &lt;div /&gt;;
 };
 &nbsp;
 export default inject('configStore')(observer(RouteFilterHook));
@@ -211,7 +211,7 @@ export default inject('configStore')(observer(RouteFilterHook));
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-08T10:34:19.629Z
+                at 2022-09-09T11:18:16.138Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

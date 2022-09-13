@@ -177,7 +177,8 @@ class CyberPaymentForm extends React.Component {
         mockVal = 'x';
       }
       if (data.valid) {
-        mockVal = 'xxx';
+        mockVal = document.getElementById('securityCode')?.value;
+        console.info('mockValmockValmockVal', mockVal);
       } else {
         mockVal = 'x';
       }
