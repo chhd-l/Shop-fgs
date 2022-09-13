@@ -4,7 +4,7 @@ const config = {
   collectCoverage: true,
   coverageProvider: 'babel',
   collectCoverageFrom: [
-    "src/**/*.{js,jsx,ts,tsx}",
+    // "src/**/*.{js,jsx,ts,tsx}",
     '!src/**/*.d.ts',
     // "src/views/Account/SubscriptionDetail/components/HandledSpecSelect/**/*.{js,jsx,ts,tsx}",
     // 'src/views/Account/Subscription/index.{js,jsx,ts,tsx}'
@@ -14,9 +14,9 @@ const config = {
     // "src/components/Selection/index.{js,jsx,ts,tsx}"
     // "src/views/Account/Pet/index.{js,jsx,ts,tsx}"
     // "src/views/Details/components/DailyPortion/index.{js,jsx,ts,tsx}"
-
-
-
+    // "src/views/CartDEBreeder/index.{js,jsx,ts,tsx}"
+    // "src/views/Details/components/Ration/index.{js,jsx,ts,tsx}"
+    "src/views/Account/Subscription/components/ItemContainer/ItemContainer.{js,jsx,ts,tsx}"
   ],
   setupFiles: ['react-app-polyfill/jsdom'],
   setupFilesAfterEnv: [
@@ -25,8 +25,8 @@ const config = {
     '<rootDir>/node_modules/jest-enzyme/lib/index.js'
   ],
   testMatch: [
-    "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-    "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
+    // "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+    // "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
     // "<rootDir>/src/views/Account/SubscriptionDetail/components/HandledSpecSelect/__tests__/**/*.{js,jsx,ts,tsx}",
     // "<rootDir>src/views/Details/components/OSSReceiveBackNotificationContent/__test__/**/*.{js,jsx,ts,tsx}"
     // '<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}'
@@ -36,6 +36,9 @@ const config = {
     // "<rootDir>/src/components/Selection/__test__/index.test.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Account/Pet/__test__/index.test.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Details/components/DailyPortion/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/views/CartDEBreeder/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/views/Details/components/Ration/__test__/index.test.{js,jsx,ts,tsx}",
+    "<rootDir>/src/views/Account/Subscription/components/ItemContainer/__test__/ItemContainer.test.{js,jsx,ts,tsx}",
   ],
   testEnvironment: 'jest-environment-jsdom-fourteen',
   transform: {
