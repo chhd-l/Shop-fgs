@@ -134,11 +134,11 @@ function CardItem(props) {
       </div>
       {listVisible && (
         <div
-          className={`absolute p-2 ui-cursor-pointer-pure pdl-1`}
-          style={{
-            // top: '94%\ !important',
-            right: '-12%'
-          }}
+          className={`right-delete-icon absolute p-2 ui-cursor-pointer-pure pdl-1`}
+          // style={{
+          //   // top: '94%\ !important',
+          //   right: '-12%'
+          // }}
         >
           <Popover
             content={
