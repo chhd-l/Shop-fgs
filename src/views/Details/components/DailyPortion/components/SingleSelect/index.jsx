@@ -27,6 +27,7 @@ export default function RadioButton({
       <div className="radio-group">
         {options.map((item) => (
           <label
+            data-testid={item.key}
             key={item.key}
             className={`radio-button-wrapper p-2 ${
               selectValue === item.key ? 'radio-button-wrapper-checked' : ''
