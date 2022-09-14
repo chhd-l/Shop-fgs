@@ -123,7 +123,10 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -173,7 +176,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,7 +196,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
-&nbsp;
+import Footer from '@/components/Footer';
 import { Button, Input } from '@/components/Common';
 &nbsp;
 class ForgotSuccessEmail extends React.Component {
@@ -202,42 +208,45 @@ class ForgotSuccessEmail extends React.Component {
 <span class="fstat-no" title="function not covered" >  re</span>nder() {
     const email = <span class="cstat-no" title="statement not covered" >this.props.location?.state?.email || '';</span>
 <span class="cstat-no" title="statement not covered" >    return (</span>
-      &lt;div className="flex flex-col items-center my-12 px-4 text-center"&gt;
-        &lt;LazyLoad&gt;
-          &lt;img
-            className="align-self-center w-48 md:w-80"
-            alt="forget password images"
-            title="forget password"
-            srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/forget-password-success.jpg`}
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/forget-password-success.jpg`}
-          /&gt;
-        &lt;/LazyLoad&gt;
-        &lt;h1 className="red mt-8 mb-12 text-2xl md:text-3xl"&gt;
-          &lt;FormattedMessage id="forgetPassword.resetPasswordTip" /&gt;
-        &lt;/h1&gt;
-        &lt;p className="text-lg font-light"&gt;
-          &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp1" /&gt;
-        &lt;/p&gt;
-        &lt;p className="text-lg font-medium mb-4"&gt;{email}&lt;/p&gt;
-        &lt;p className="text-lg font-light mb-4"&gt;
-          &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp2" /&gt;
-        &lt;/p&gt;
-        &lt;p className="text-lg font-light"&gt;
-          &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp3" /&gt;
-        &lt;/p&gt;
-        &lt;p className="text-lg font-light mb-10"&gt;
-          &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp4" /&gt;
-        &lt;/p&gt;
-        &lt;Button
-          type="primary"
-          // size="small"
-          disabled={!email}
-          onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >            this.props.history.push('/forgot');</span>
-          }}
-        &gt;
-          &lt;FormattedMessage id="forgetPassword.send" /&gt;
-        &lt;/Button&gt;
+      &lt;div&gt;
+        &lt;div className="flex flex-col items-center mt-12 mb-28 px-4 text-center"&gt;
+          &lt;LazyLoad&gt;
+            &lt;img
+              className="align-self-center w-48 md:w-80"
+              alt="forget password images"
+              title="forget password"
+              srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/forget-password-success.jpg`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/forget-password-success.jpg`}
+            /&gt;
+          &lt;/LazyLoad&gt;
+          &lt;h1 className="red mt-8 mb-12 text-2xl md:text-3xl"&gt;
+            &lt;FormattedMessage id="forgetPassword.resetPasswordTip" /&gt;
+          &lt;/h1&gt;
+          &lt;p className="text-lg font-light"&gt;
+            &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp1" /&gt;
+          &lt;/p&gt;
+          &lt;p className="text-lg font-medium mb-4"&gt;{email}&lt;/p&gt;
+          &lt;p className="text-lg font-light mb-4"&gt;
+            &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp2" /&gt;
+          &lt;/p&gt;
+          &lt;p className="text-lg font-light"&gt;
+            &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp3" /&gt;
+          &lt;/p&gt;
+          &lt;p className="text-lg font-light mb-10"&gt;
+            &lt;FormattedMessage id="forgetPassword.forgotSuccessEmailp4" /&gt;
+          &lt;/p&gt;
+          &lt;Button
+            type="primary"
+            // size="small"
+            disabled={!email}
+            onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >              this.props.history.push('/forgot');</span>
+            }}
+          &gt;
+            &lt;FormattedMessage id="forgetPassword.send" /&gt;
+          &lt;/Button&gt;
+        &lt;/div&gt;
+        &lt;Footer showFooter={false} /&gt;
       &lt;/div&gt;
     );
   }
@@ -250,7 +259,7 @@ export default injectIntl(ForgotSuccessEmail);
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-14T02:39:28.026Z
+                at 2022-09-14T07:09:33.795Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
