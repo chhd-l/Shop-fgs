@@ -2036,11 +2036,6 @@
     "@babel/runtime" "^7.11.2"
     "@okta/okta-auth-js" "^4.8.0"
 
-"@royal-canin-sitecore/react-components@0.1.6":
-  version "0.1.6"
-  resolved "https://pkgs.dev.azure.com/MarsDevTeam/RoyalCaninSitecore/_packaging/rc-sc-exported-components/npm/registry/@royal-canin-sitecore/react-components/-/react-components-0.1.6.tgz#05201cf4731d76c4c41ee14d31b0af50154b9d52"
-  integrity sha1-BSAc9HMddsTEHuFNMbCvUBVLnVI=
-
 "@sheerun/mutationobserver-shim@^0.3.2":
   version "0.3.3"
   resolved "https://registry.npmmirror.com/@sheerun/mutationobserver-shim/-/mutationobserver-shim-0.3.3.tgz#5405ee8e444ed212db44e79351f0c70a582aae25"
