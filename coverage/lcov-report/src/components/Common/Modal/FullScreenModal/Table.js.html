@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -186,21 +186,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -301,22 +301,22 @@ import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import { FullScreenModalContext } from './index';
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >Table(</span>props) {
-  const value = <span class="cstat-no" title="statement not covered" >useContext(FullScreenModalContext);</span>
-  const { loginStore, checkoutStore } = <span class="cstat-no" title="statement not covered" >useLocalStore(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >stores)</span>;</span>
-  const { isLogin } = <span class="cstat-no" title="statement not covered" >loginStore;</span>
+export default function Table(props) {
+  const value = useContext(FullScreenModalContext);
+  const { loginStore, checkoutStore } = useLocalStore(() =&gt; stores);
+  const { isLogin } = loginStore;
   const {
     subscriptionDiscountPrice,
     deliveryPrice,
     tradePrice,
     promotionVOList,
     installMentParam
-  } = <span class="cstat-no" title="statement not covered" >checkoutStore;</span>
-  const { productList, calTotalNum } = <span class="cstat-no" title="statement not covered" >value;</span>
+  } = checkoutStore;
+  const { productList, calTotalNum } = value;
 &nbsp;
-  let addtionalFee = <span class="cstat-no" title="statement not covered" >installMentParam?.addtionalFee;</span> //分期费
+  let addtionalFee = installMentParam?.addtionalFee; //分期费
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;div className="rc-table"&gt;
       &lt;div className="rc-scroll--x"&gt;
         &lt;table
@@ -376,7 +376,7 @@ export default function <span class="fstat-no" title="function not covered" >Tab
               &lt;td className="rc-table__td"&gt;KDV Matrahi&lt;/td&gt;
               &lt;td className="rc-table__td"&gt;
                 {subscriptionDiscountPrice &gt; 0
-                  ? '-' + subscriptionDiscountPrice + ' TL'
+                  ? <span class="branch-0 cbranch-no" title="branch not covered" >'-' + subscriptionDiscountPrice + ' TL'</span>
                   : '0 TL'}
               &lt;/td&gt;
             &lt;/tr&gt;
@@ -388,7 +388,7 @@ export default function <span class="fstat-no" title="function not covered" >Tab
               &lt;td className="rc-table__td"&gt;{deliveryPrice} TL&lt;/td&gt;
             &lt;/tr&gt;
             {addtionalFee &amp;&amp; (
-              &lt;tr className="rc-table__row"&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;tr className="rc-table__row"&gt;</span>
                 &lt;td className="rc-table__td"&gt;&lt;/td&gt;
                 &lt;td className="rc-table__td"&gt;&lt;/td&gt;
                 &lt;td className="rc-table__td"&gt;&lt;/td&gt;
@@ -418,7 +418,7 @@ export default function <span class="fstat-no" title="function not covered" >Tab
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-08T10:34:19.629Z
+                at 2022-09-14T02:39:28.026Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

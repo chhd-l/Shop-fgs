@@ -5,12 +5,22 @@ const config = {
   coverageProvider: 'babel',
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
-    '!src/**/*.d.ts',
+    "!src/**/*.d.ts",
     // "src/views/Account/SubscriptionDetail/components/HandledSpecSelect/**/*.{js,jsx,ts,tsx}",
     // 'src/views/Account/Subscription/index.{js,jsx,ts,tsx}'
     // "src/utils/init.{js,jsx,ts,tsx}"
     // "src/views/Register/index.{js,jsx,ts,tsx}"
-    "src/views/ForgetPassword/index.{js,jsx,ts,tsx}"
+    // "src/views/ForgetPassword/index.{js,jsx,ts,tsx}"
+    // "src/components/Selection/index.{js,jsx,ts,tsx}"
+    // "src/views/Account/Pet/index.{js,jsx,ts,tsx}"
+    // "src/views/Details/components/DailyPortion/index.{js,jsx,ts,tsx}"
+    // "src/views/CartDEBreeder/index.{js,jsx,ts,tsx}"
+    // "src/views/Details/components/Ration/index.{js,jsx,ts,tsx}"
+    //"src/views/Account/Subscription/components/ItemContainer/ItemContainer.{js,jsx,ts,tsx}"
+    // "src/views/Details/components/ButtonGroup/index.{js,jsx,ts,tsx}"
+    // "src/views/Payment/Address/List.{js,jsx,ts,tsx}"
+
+
   ],
   setupFiles: ['react-app-polyfill/jsdom'],
   setupFilesAfterEnv: [
@@ -26,7 +36,15 @@ const config = {
     // '<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}'
     // "<rootDir>/src/utils/__tests__/init.test.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Register/__test__/index.test.{js,jsx,ts,tsx}"
-    "<rootDir>/src/views/ForgetPassword/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/views/ForgetPassword/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/components/Selection/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/views/Account/Pet/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/views/Details/components/DailyPortion/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/views/CartDEBreeder/__test__/index.test.{js,jsx,ts,tsx}"
+    // "<rootDir>/src/views/Details/components/Ration/__test__/index.test.{js,jsx,ts,tsx}",
+    //"<rootDir>/src/views/Account/Subscription/components/ItemContainer/__test__/ItemContainer.test.{js,jsx,ts,tsx}",
+    // "<rootDir>/src/views/Details/components/ButtonGroup/__test__/index.test.{js,jsx,ts,tsx}",
+    // "<rootDir>/src/views/Payment/Address/__test__/List.test.{js,jsx,ts,tsx}",
   ],
   testEnvironment: 'jest-environment-jsdom-fourteen',
   transform: {

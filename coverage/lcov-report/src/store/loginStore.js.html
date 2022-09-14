@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.77% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/18</span>
+                <span class='fraction'>14/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/16</span>
+                <span class='fraction'>8/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.77% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/18</span>
+                <span class='fraction'>14/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -118,21 +118,27 @@
 <a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -140,25 +146,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,16 +178,16 @@ class LoginStore {
   @observable userInfo = localItemRoyal.get('rc-userinfo') || null;
   @observable limitLoginModal = false;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  @a</span>ction.bound
+  @action.bound
   changeIsLogin(param) {
-<span class="cstat-no" title="statement not covered" >    if (typeof param === 'boolean') {</span>
-<span class="cstat-no" title="statement not covered" >      this.isLogin = param;</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof param === 'boolean') {
+      this.isLogin = param;
     }
   }
-<span class="fstat-no" title="function not covered" >  @a</span>ction.bound
+  @action.bound
   changeLoginModal(param) {
-<span class="cstat-no" title="statement not covered" >    if (typeof param === 'boolean') {</span>
-<span class="cstat-no" title="statement not covered" >      this.loginModal = param;</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof param === 'boolean') {
+      this.loginModal = param;
     }
   }
 <span class="fstat-no" title="function not covered" >  @a</span>ction.bound
@@ -196,21 +196,21 @@ class LoginStore {
 <span class="cstat-no" title="statement not covered" >      this.limitLoginModal = param;</span>
     }
   }
-<span class="fstat-no" title="function not covered" >  @a</span>ction.bound
+  @action.bound
   setUserInfo(data) {
-<span class="cstat-no" title="statement not covered" >    this.userInfo = data;</span>
-<span class="cstat-no" title="statement not covered" >    stores.clinicStore.setDefaultClinicId(</span>
-      data.defaultClinics ? data.defaultClinics.clinicsId : ''
+    this.userInfo = data;
+    stores.clinicStore.setDefaultClinicId(
+      data.defaultClinics ? <span class="branch-0 cbranch-no" title="branch not covered" >data.defaultClinics.clinicsId </span>: ''
     );
-<span class="cstat-no" title="statement not covered" >    stores.clinicStore.setDefaultClinicName(</span>
-      data.defaultClinics ? data.defaultClinics.clinicsName : ''
+    stores.clinicStore.setDefaultClinicName(
+      data.defaultClinics ? <span class="branch-0 cbranch-no" title="branch not covered" >data.defaultClinics.clinicsName </span>: ''
     );
-<span class="cstat-no" title="statement not covered" >    stores.clinicStore.setDefaultClinicCode(</span>
-      data.defaultClinics &amp;&amp; data.defaultClinics.recommendationCode
-        ? data.defaultClinics.recommendationCode
+    stores.clinicStore.setDefaultClinicCode(
+      data.defaultClinics &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >data.defaultClinics.recommendationCode</span>
+        ? <span class="branch-0 cbranch-no" title="branch not covered" >data.defaultClinics.recommendationCode</span>
         : ''
     );
-<span class="cstat-no" title="statement not covered" >    localItemRoyal.set('rc-userinfo', data);</span>
+    localItemRoyal.set('rc-userinfo', data);
   }
 <span class="fstat-no" title="function not covered" >  @a</span>ction.bound
   removeUserInfo() {
@@ -226,7 +226,7 @@ export default LoginStore;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-08T10:34:19.629Z
+                at 2022-09-14T02:39:28.026Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

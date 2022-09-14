@@ -12,6 +12,7 @@ import LazyLoad from 'react-lazyload';
 import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
 import { Point } from '@/views/Payment/Point';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -403,6 +404,12 @@ class AdyenCreditCardList extends React.Component {
                 <span className="creditCompleteInfo fontFitSCreen">
                   {data.cardType}
                 </span>
+              </div>
+              <div className="col-12">
+                <CardTips
+                  expirationDate={data.expirationDate}
+                  expireStatusEnum={data.expireStatusEnum}
+                />
               </div>
             </div>
           )}

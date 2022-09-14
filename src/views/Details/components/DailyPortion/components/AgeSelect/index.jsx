@@ -70,11 +70,19 @@ export default function AgeSelect({
       <div className="question-title">{label}</div>
       <div className="flex items-center">
         <div className="flex w-1/3 btn-wrap">
-          <div className="downBtn flex-1 hover:shadow" onClick={handleSubtract}>
+          <div
+            className="downBtn flex-1 hover:shadow"
+            data-testid="ageSub"
+            onClick={handleSubtract}
+          >
             -
           </div>
           <div className="flex-1">{type === 'year' ? year : month}</div>
-          <div className="addBtn flex-1 hover:shadow" onClick={handleAddition}>
+          <div
+            className="addBtn flex-1 hover:shadow"
+            data-testid="ageAdd"
+            onClick={handleAddition}
+          >
             +
           </div>
         </div>

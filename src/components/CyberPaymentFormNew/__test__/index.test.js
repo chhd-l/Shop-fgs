@@ -124,6 +124,29 @@ class WrapComponent extends React.Component {
     this.ref.flexresponse = '111';
     this.ref.queryCyberCardTypeEvent({});
     this.ref.queryGuestCyberCardTypeEvent({});
+
+    this.ref.microform = {
+      createField: () => {
+        return {
+          load: () => {},
+          on: (_, callback) => {
+            callback({
+              empty: true,
+              valid: true
+            });
+            callback({
+              empty: false,
+              valid: false
+            });
+          }
+        };
+      },
+      createToken: (_, callback) => {
+        callback(false, 'dfdsf');
+      }
+    };
+
+    this.ref.cyberTokenGet(() => {});
   }
 
   setRef = (ref) => {

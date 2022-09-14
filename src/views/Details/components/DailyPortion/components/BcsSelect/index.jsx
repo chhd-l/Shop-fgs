@@ -43,6 +43,7 @@ export default function BcsSelect({
               className={classNames('flex BcsSelect-box p-4', {
                 selected: bCSValue === item.key
               })}
+              data-testid={`BcsSelect-${item.key}`}
               onClick={() => handleChange(item.key)}
             >
               <img

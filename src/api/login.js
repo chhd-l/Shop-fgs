@@ -110,3 +110,11 @@ export function passwordByForgot(parameter) {
     data: parameter
   });
 }
+
+export function checkVerifyCode(parameter) {
+  return axios({
+    url: '/customer/checkVerifyCode',
+    method: 'post',
+    data: parameter
+  });
+}

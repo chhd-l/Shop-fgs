@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/1222</span>
+                <span class='fraction'>0/1227</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/997</span>
+                <span class='fraction'>0/1001</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/1209</span>
+                <span class='fraction'>0/1214</span>
             </div>
         
             
@@ -4765,7 +4765,21 @@
 <a name='L4700'></a><a href='#L4700'>4700</a>
 <a name='L4701'></a><a href='#L4701'>4701</a>
 <a name='L4702'></a><a href='#L4702'>4702</a>
-<a name='L4703'></a><a href='#L4703'>4703</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L4703'></a><a href='#L4703'>4703</a>
+<a name='L4704'></a><a href='#L4704'>4704</a>
+<a name='L4705'></a><a href='#L4705'>4705</a>
+<a name='L4706'></a><a href='#L4706'>4706</a>
+<a name='L4707'></a><a href='#L4707'>4707</a>
+<a name='L4708'></a><a href='#L4708'>4708</a>
+<a name='L4709'></a><a href='#L4709'>4709</a>
+<a name='L4710'></a><a href='#L4710'>4710</a>
+<a name='L4711'></a><a href='#L4711'>4711</a>
+<a name='L4712'></a><a href='#L4712'>4712</a>
+<a name='L4713'></a><a href='#L4713'>4713</a>
+<a name='L4714'></a><a href='#L4714'>4714</a>
+<a name='L4715'></a><a href='#L4715'>4715</a>
+<a name='L4716'></a><a href='#L4716'>4716</a>
+<a name='L4717'></a><a href='#L4717'>4717</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -5628,6 +5642,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -5671,6 +5688,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -8013,16 +8033,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -10326,7 +10354,10 @@ class Payment extends React.Component {
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >          this.setState({ subscriptionID: '' }); </span>// subscriptionID set empty
 <span class="cstat-no" title="statement not covered" >          this.showErrorMsg(err.message);</span>
-<span class="cstat-no" title="statement not covered" >          this.setState({ cyberBtnLoading: false });</span>
+<span class="cstat-no" title="statement not covered" >          this.setState({</span>
+            cyberBtnLoading: false,
+            saveBillingLoading: false
+          });
         }
       }
     } else {
@@ -10362,7 +10393,10 @@ class Payment extends React.Component {
 <span class="cstat-no" title="statement not covered" >      this.setState({ subscriptionID: '' }); </span>// subscriptionID set empty
 <span class="cstat-no" title="statement not covered" >      this.showErrorMsg(err.message);</span>
     } finally {
-<span class="cstat-no" title="statement not covered" >      this.setState({ cyberBtnLoading: false });</span>
+<span class="cstat-no" title="statement not covered" >      this.setState({</span>
+        cyberBtnLoading: false,
+        saveBillingLoading: false
+      });
     }
   };
 &nbsp;
@@ -12699,7 +12733,7 @@ class Payment extends React.Component {
       },
 <span class="fstat-no" title="function not covered" >      ()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          if (this.cyberRef.current.cyberCardRef.current.cyberTokenGet) {</span>
+<span class="cstat-no" title="statement not covered" >          if (this.cyberRef?.current?.cyberCardRef?.current?.cyberTokenGet) {</span>
 <span class="cstat-no" title="statement not covered" >            try {</span>
 <span class="cstat-no" title="statement not covered" >              this.cyberRef.current.cyberCardRef.current.cyberTokenGet(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                try {</span>
@@ -12725,6 +12759,14 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo, curPayWayInfo }
     } = <span class="cstat-no" title="statement not covered" >this.props;</span>
+<span class="cstat-no" title="statement not covered" >    if (!currentCardTypeInfo &amp;&amp; this.cyberRef?.current?.cyberCardRef?.current) {</span>
+      // cyber error update
+<span class="cstat-no" title="statement not covered" >      this.setState({ saveBillingLoading: false });</span>
+      let message =
+<span class="cstat-no" title="statement not covered" >        'This card type is temporarily not supported, please try again with a different card';</span>
+<span class="cstat-no" title="statement not covered" >      this.showErrorMsg(message);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
     const {
       adyenPayParam,
       billingAddress,
@@ -14176,7 +14218,7 @@ export default withOktaAuth(Payment);
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-08T10:34:19.629Z
+                at 2022-09-14T02:39:28.026Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
