@@ -721,6 +721,8 @@ class Payment extends React.Component {
     serCurPayWayVal(''); //清空支付方式
     setEarnedPoint(0); //清空挣得的积分
     setInputPoint(''); //清空输入的积分
+    // 清除purchases参数
+    localItemRoyal.remove('rc-payment-purchases-param');
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-swishQrcode');
@@ -3553,19 +3555,13 @@ class Payment extends React.Component {
     this.setState({ paymentPanelHasComplete: true });
     paymentStore.setStsToEdit({ key: 'confirmation' });
 
-    this.setState(
-      {
-        billingAddressAddOrEdit: false,
-        saveBillingLoading: false,
-        isShowValidationModal: true,
-        paymentValidationLoading: false,
-        btnLoading: false
-      },
-      () => {
-        // 清除purchases参数
-        localItemRoyal.remove('rc-payment-purchases-param');
-      }
-    );
+    this.setState({
+      billingAddressAddOrEdit: false,
+      saveBillingLoading: false,
+      isShowValidationModal: true,
+      paymentValidationLoading: false,
+      btnLoading: false
+    });
   };
 
   /***** 地址校验相关 *******/
