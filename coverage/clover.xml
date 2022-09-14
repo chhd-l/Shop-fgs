@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1663145969344" clover="3.2.0">
-  <project timestamp="1663145969344" name="All files">
-    <metrics statements="27711" coveredstatements="3988" conditionals="20805" coveredconditionals="2708" methods="8051" coveredmethods="983" elements="56567" coveredelements="7679" complexity="0" loc="27711" ncloc="27711" packages="397" files="730" classes="730"/>
+<coverage generated="1663146937203" clover="3.2.0">
+  <project timestamp="1663146937203" name="All files">
+    <metrics statements="27796" coveredstatements="4073" conditionals="20875" coveredconditionals="2778" methods="8076" coveredmethods="1008" elements="56747" coveredelements="7859" complexity="0" loc="27796" ncloc="27796" packages="397" files="730" classes="730"/>
     <package name="src">
       <metrics statements="537" coveredstatements="0" conditionals="240" coveredconditionals="0" methods="232" coveredmethods="0"/>
       <file name="App.jsx" path="C:\Deloitte\Projects\fgs\shop-front\src\App.jsx">
@@ -29389,9 +29389,9 @@
       </file>
     </package>
     <package name="src.waste">
-      <metrics statements="1700" coveredstatements="1700" conditionals="1400" coveredconditionals="1400" methods="500" coveredmethods="500"/>
+      <metrics statements="1785" coveredstatements="1785" conditionals="1470" coveredconditionals="1470" methods="525" coveredmethods="525"/>
       <file name="s15.js" path="C:\Deloitte\Projects\fgs\shop-front\src\waste\s15.js">
-        <metrics statements="1700" coveredstatements="1700" conditionals="1400" coveredconditionals="1400" methods="500" coveredmethods="500"/>
+        <metrics statements="1785" coveredstatements="1785" conditionals="1470" coveredconditionals="1470" methods="525" coveredmethods="525"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -31092,6 +31092,91 @@
         <line num="2096" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="2097" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="2098" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2101" count="1" type="stmt"/>
+        <line num="2102" count="2" type="stmt"/>
+        <line num="2103" count="2" type="stmt"/>
+        <line num="2104" count="2" type="stmt"/>
+        <line num="2105" count="2" type="stmt"/>
+        <line num="2106" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2107" count="1" type="stmt"/>
+        <line num="2108" count="1" type="stmt"/>
+        <line num="2109" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2111" count="1" type="stmt"/>
+        <line num="2112" count="1" type="stmt"/>
+        <line num="2113" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2115" count="2" type="stmt"/>
+        <line num="2116" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2117" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2118" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2119" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2122" count="1" type="stmt"/>
+        <line num="2123" count="2" type="stmt"/>
+        <line num="2124" count="2" type="stmt"/>
+        <line num="2125" count="2" type="stmt"/>
+        <line num="2126" count="2" type="stmt"/>
+        <line num="2127" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2128" count="1" type="stmt"/>
+        <line num="2129" count="1" type="stmt"/>
+        <line num="2130" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2132" count="1" type="stmt"/>
+        <line num="2133" count="1" type="stmt"/>
+        <line num="2134" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2136" count="2" type="stmt"/>
+        <line num="2137" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2138" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2139" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2140" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2143" count="1" type="stmt"/>
+        <line num="2144" count="2" type="stmt"/>
+        <line num="2145" count="2" type="stmt"/>
+        <line num="2146" count="2" type="stmt"/>
+        <line num="2147" count="2" type="stmt"/>
+        <line num="2148" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2149" count="1" type="stmt"/>
+        <line num="2150" count="1" type="stmt"/>
+        <line num="2151" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2153" count="1" type="stmt"/>
+        <line num="2154" count="1" type="stmt"/>
+        <line num="2155" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2157" count="2" type="stmt"/>
+        <line num="2158" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2159" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2160" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2161" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2164" count="1" type="stmt"/>
+        <line num="2165" count="2" type="stmt"/>
+        <line num="2166" count="2" type="stmt"/>
+        <line num="2167" count="2" type="stmt"/>
+        <line num="2168" count="2" type="stmt"/>
+        <line num="2169" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2170" count="1" type="stmt"/>
+        <line num="2171" count="1" type="stmt"/>
+        <line num="2172" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2174" count="1" type="stmt"/>
+        <line num="2175" count="1" type="stmt"/>
+        <line num="2176" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2178" count="2" type="stmt"/>
+        <line num="2179" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2180" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2181" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2182" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2185" count="1" type="stmt"/>
+        <line num="2186" count="2" type="stmt"/>
+        <line num="2187" count="2" type="stmt"/>
+        <line num="2188" count="2" type="stmt"/>
+        <line num="2189" count="2" type="stmt"/>
+        <line num="2190" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2191" count="1" type="stmt"/>
+        <line num="2192" count="1" type="stmt"/>
+        <line num="2193" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2195" count="1" type="stmt"/>
+        <line num="2196" count="1" type="stmt"/>
+        <line num="2197" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2199" count="2" type="stmt"/>
+        <line num="2200" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2201" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2202" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2203" count="2" type="cond" truecount="2" falsecount="0"/>
       </file>
     </package>
   </project>
