@@ -37,7 +37,7 @@ import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
-
+import ProductFinder3 from './views/ProductFinder3';
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
@@ -265,6 +265,8 @@ const register = loadable(() => import('@/views/Register'));
 const ForgetPassword = loadable(() => import('@/views/ForgetPassword'));
 const ForgotSuccessEmail = loadable(() => import('@/views/ForgotSuccessEmail'));
 const ResetPassword = loadable(() => import('@/views/ResetPassword'));
+const ResetSuccess = loadable(() => import('@/views/ResetSuccess'));
+const ResetError = loadable(() => import('@/views/ResetError'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
@@ -471,6 +473,7 @@ const App = () => {
   const [loading, dynamicLanguage] = useDynamicLanguage();
 
   return (
+    // <ProductFinder3/>
     <Provider {...stores}>
       <IntlProvider
         // locale={window.__.env.REACT_APP_LANG}
@@ -1261,6 +1264,28 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
                       return <ResetPassword {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/reset/success"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ResetSuccess {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/reset/error"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ResetError {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }

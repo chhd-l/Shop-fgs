@@ -17,6 +17,8 @@ const config = {
     // "src/views/CartDEBreeder/index.{js,jsx,ts,tsx}"
     // "src/views/Details/components/Ration/index.{js,jsx,ts,tsx}"
     //"src/views/Account/Subscription/components/ItemContainer/ItemContainer.{js,jsx,ts,tsx}"
+    //"src/views/Details/components/ButtonGroup/index.{js,jsx,ts,tsx}"
+
   ],
   setupFiles: ['react-app-polyfill/jsdom'],
   setupFilesAfterEnv: [
@@ -26,7 +28,7 @@ const config = {
   ],
   testMatch: [
     "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-    "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
+   "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
     // "<rootDir>/src/views/Account/SubscriptionDetail/components/HandledSpecSelect/__tests__/**/*.{js,jsx,ts,tsx}",
     // "<rootDir>src/views/Details/components/OSSReceiveBackNotificationContent/__test__/**/*.{js,jsx,ts,tsx}"
     // '<rootDir>src/views/Account/Subscription/__test__/**/*.{js,jsx,ts,tsx}'
@@ -39,6 +41,7 @@ const config = {
     // "<rootDir>/src/views/CartDEBreeder/__test__/index.test.{js,jsx,ts,tsx}"
     // "<rootDir>/src/views/Details/components/Ration/__test__/index.test.{js,jsx,ts,tsx}",
     //"<rootDir>/src/views/Account/Subscription/components/ItemContainer/__test__/ItemContainer.test.{js,jsx,ts,tsx}",
+    //"<rootDir>/src/views/Details/components/ButtonGroup/__test__/index.test.{js,jsx,ts,tsx}",
   ],
   testEnvironment: 'jest-environment-jsdom-fourteen',
   transform: {
