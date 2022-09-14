@@ -1404,3 +1404,318 @@ export const aaa67 = (v) => {
   (() => c && c)();
   (() => a && d)();
 };
+
+export const aaa68 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa69 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa70 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa71 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa72 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa73 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa74 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa75 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa76 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa77 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa78 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa79 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa80 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa81 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
+
+export const aaa82 = (v) => {
+  let a = 1;
+  let b = 2;
+  let c = 3;
+  let d = 4;
+  if (v) {
+    a = v;
+    b = !v;
+    c = a && b;
+  } else {
+    a = v;
+    b = !v;
+    c = !a && b;
+  }
+  d = !c;
+  (() => a && a)();
+  (() => b && b)();
+  (() => c && c)();
+  (() => a && d)();
+};
