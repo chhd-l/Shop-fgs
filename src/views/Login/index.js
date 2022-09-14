@@ -16,6 +16,7 @@ import bg2 from '@/assets/images/register-bg1.jpg';
 import LazyLoad from 'react-lazyload';
 import { Button } from '@/components/Common';
 import loginRedirection from '@/lib/login-redirection';
+import Footer from '@/components/Footer';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -522,7 +523,7 @@ class Login extends React.Component {
 
                           <p style={{ float: 'right' }}>
                             <Link
-                              // to="/forgot"
+                              to="/forgot"
                               className={
                                 'border-b text-gray-600 hover:border-red-600'
                               }
@@ -1501,6 +1502,7 @@ class Login extends React.Component {
         ) : (
           <Loading />
         )}
+        <Footer showFooter={false} />
       </div>
     );
   }

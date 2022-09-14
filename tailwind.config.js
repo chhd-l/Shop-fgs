@@ -143,8 +143,10 @@ module.exports = {
         'cs-520': '32.5rem',
         'cs-560': '35rem',
         'cs-600': '37.5rem',
+        'lxl-636': '39.75rem',
         'cs-680': '42.5rem',
         'cs-714': '44.62rem',
+        'lxl-814': '50.9rem',
         'cs-920': '57.5rem',
         'cs-960': '60rem',
         'cs-999': '62.43rem',
@@ -199,6 +201,8 @@ module.exports = {
         'cs-489': '30.56rem',
         'cs-500': '31.25rem',
         'cs-556': '34.75rem',
+        'cs-740': '46.25rem',
+        'cs-850': '53.13rem',
         'cs-1241': '77.56rem'
       },
       margin: {
@@ -225,7 +229,8 @@ module.exports = {
         'cs-340': '21.25rem',
         'cs-519': '32.43rem',
         'cs-521': '32.56rem',
-        'cs-680': '42.5rem'
+        'cs-680': '42.5rem',
+        'lxl-720': '45rem'
       },
       padding: {
         'cs-1': '1rem',
