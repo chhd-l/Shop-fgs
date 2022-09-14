@@ -3233,10 +3233,11 @@ class Payment extends React.Component {
   };
   // 点击confirm 1
   clickConfirmPaymentPanel = async (e) => {
+    console.info('clickConfirmPaymentPanelbefore');
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-
+    console.info('clickConfirmPaymentPanelafter');
     // 勾选，billingAddress = deliveryAddress
     this.setState(
       {
