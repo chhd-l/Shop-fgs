@@ -26,6 +26,7 @@ import cn from 'classnames';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import { handleEmailShow } from '@/utils/utils';
 import { Button, Popover } from '@/components/Common';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 function CardItem(props) {
   const { data, supportPaymentMethods } = props;
@@ -144,6 +145,10 @@ function CardItem(props) {
                         </p>
                       ) : null}
                       <p className="mb-0">{data.paymentVendor}</p>
+                      <CardTips
+                        expirationDate={data.expirationDate}
+                        expireStatusEnum={data.expireStatusEnum}
+                      />
                     </div>
                   )}
                 </>

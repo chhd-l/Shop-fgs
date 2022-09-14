@@ -17,6 +17,7 @@ import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 import { format } from 'date-fns';
 import * as date_fns_locale from 'date-fns/locale';
 import { Modal } from '@/components/Common';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 const country = window.__.env.REACT_APP_COUNTRY;
 
@@ -270,7 +271,6 @@ const UserPaymentInfo = ({
                             {currentCardInfo.lastFourDigits}
                           </span>
                         </p>
-
                         <LazyLoad
                           style={{
                             width: '20%',
@@ -331,6 +331,10 @@ const UserPaymentInfo = ({
                       </div>
                     ) : null} */}
                     {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
+                    <CardTips
+                      expirationDate={currentCardInfo.expirationDate}
+                      expireStatusEnum={currentCardInfo.expireStatusEnum}
+                    />
                   </>
                 )
               ) : (

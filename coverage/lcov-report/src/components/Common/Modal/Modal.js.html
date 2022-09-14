@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.36% </span>
+                <span class="strong">45.45% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/11</span>
+                <span class='fraction'>5/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.57% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/28</span>
+                <span class='fraction'>16/28</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.36% </span>
+                <span class="strong">45.45% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/11</span>
+                <span class='fraction'>5/11</span>
             </div>
         
             
@@ -210,7 +210,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -232,11 +232,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">255x</span>
-<span class="cline-any cline-yes">255x</span>
+<span class="cline-any cline-yes">287x</span>
+<span class="cline-any cline-yes">287x</span>
 <span class="cline-any cline-yes">255x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -374,24 +374,24 @@ export default class Modal extends React.Component {
   }
   render() {
     const { visible, type, modalBodyClass } = this.props;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (type === 'fullscreen') {
+    if (type === 'fullscreen') {
       return &lt;&gt;{&lt;FullScreenModal /&gt;}&lt;/&gt;;
     }
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
       &lt;React.Fragment&gt;
         {/* modal */}
         {visible ? (
-          &lt;div
+<span class="branch-0 cbranch-no" title="branch not covered" >          &lt;div</span>
             className={`rc-shade `}
             style={{ backgroundColor: 'rgba(51,51,51,.5)' }}
           /&gt;
         ) : null}
         &lt;div
-          className={`modal fade ${visible ? 'show' : ''}`}
+          className={`modal fade ${visible ? <span class="branch-0 cbranch-no" title="branch not covered" >'show' </span>: ''}`}
           tabIndex="-1"
           role="dialog"
           aria-labelledby="removeProductLineItemModal"
-          style={{ display: visible ? 'block' : 'none', overflow: 'hidden' }}
+          style={{ display: visible ? <span class="branch-0 cbranch-no" title="branch not covered" >'block' </span>: 'none', overflow: 'hidden' }}
           aria-hidden="true"
         &gt;
           &lt;div
@@ -401,7 +401,7 @@ export default class Modal extends React.Component {
           &gt;
             &lt;div className="modal-content mt-0 relative"&gt;
               {this.props.headerVisible &amp;&amp; (
-                &lt;div className="modal-header delete-confirmation-header"&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                &lt;div className="modal-header delete-confirmation-header"&gt;</span>
                   &lt;h2 className="modal-title" id="removeProductLineItemModal"&gt;
                     {this.props.modalTitle}
                   &lt;/h2&gt;
@@ -421,7 +421,7 @@ export default class Modal extends React.Component {
                 className={`modal-body delete-confirmation-body ${modalBodyClass}`}
                 style={{
                   // maxHeight: '50vh',
-                  overflowY: this.props.overflowVisible ? 'visible' : 'auto'
+                  overflowY: this.props.overflowVisible ? <span class="branch-0 cbranch-no" title="branch not covered" >'visible' </span>: 'auto'
                 }}
               &gt;
                 {this.props.modalText}
@@ -430,7 +430,7 @@ export default class Modal extends React.Component {
               {this.props.footerVisible &amp;&amp; (
                 &lt;div className="modal-footer"&gt;
                   {this.props.footerContentChildren ? (
-                    this.props.footerContentChildren
+<span class="branch-0 cbranch-no" title="branch not covered" >                    this.props.footerContentChildren</span>
                   ) : (
                     &lt;&gt;
                       {this.props.cancelBtnVisible &amp;&amp;
@@ -447,10 +447,10 @@ export default class Modal extends React.Component {
                         &gt;
                           {this.props.cancelBtnText}
                         &lt;/Button&gt;
-                      ) : null}
+                      ) : <span class="branch-1 cbranch-no" title="branch not covered" >null}</span>
                       {this.props.cancelBtnVisible &amp;&amp;
                       this.props.cancelBtnIsLink ? (
-                        &lt;a
+<span class="branch-0 cbranch-no" title="branch not covered" >                        &lt;a</span>
                           id="modalFooterCancel"
                           type="button"
                           className="rc-styled-link"
@@ -493,7 +493,7 @@ export default class Modal extends React.Component {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-09T11:18:16.138Z
+                at 2022-09-14T02:39:28.026Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

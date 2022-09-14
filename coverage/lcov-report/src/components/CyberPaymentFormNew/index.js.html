@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.91% </span>
+                <span class="strong">90.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>106/131</span>
+                <span class='fraction'>119/131</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.1% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>25/39</span>
+                <span class='fraction'>30/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.14% </span>
+                <span class="strong">89.28% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>23/28</span>
+                <span class='fraction'>25/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.91% </span>
+                <span class="strong">90.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>106/131</span>
+                <span class='fraction'>119/131</span>
             </div>
         
             
@@ -868,24 +868,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -894,19 +877,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1483,8 +1483,8 @@ class CyberPaymentForm extends React.Component {
       this.onChange({ target: { name: 'securityCode', value: mockVal } });
     });
   };
-  cyberTokenGet = <span class="fstat-no" title="function not covered" >(c</span>b) =&gt; {
-<span class="cstat-no" title="statement not covered" >    if (!this.microform) {</span>
+  cyberTokenGet = (cb) =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.microform) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
     const {
@@ -1493,16 +1493,16 @@ class CyberPaymentForm extends React.Component {
       expirationMonth,
       expirationYear,
       securityCode
-    } = <span class="cstat-no" title="statement not covered" >this.props.form;</span>
-    var options = <span class="cstat-no" title="statement not covered" >{</span>
-      expirationMonth: (expirationMonth &lt; 10 ? '0' : '') + expirationMonth, //处理格式化日期02
+    } = this.props.form;
+    var options = {
+      expirationMonth: (expirationMonth &lt; 10 ? '0' : <span class="branch-1 cbranch-no" title="branch not covered" >'')</span> + expirationMonth, //处理格式化日期02
       expirationYear: expirationYear?.toString()
       // expirationMonth: document.querySelector('#expMonth').value,
       // expirationYear: document.querySelector('#expYear').value
     };
-<span class="cstat-no" title="statement not covered" >    console.info(this.props.form, options, 'this.props.formthis.props.form');</span>
-    let that = <span class="cstat-no" title="statement not covered" >this;</span>
-<span class="cstat-no" title="statement not covered" >    console.info(</span>
+    console.info(this.props.form, options, 'this.props.formthis.props.form');
+    let that = this;
+    console.info(
       cardholderName,
       expirationMonth,
       expirationYear,
@@ -1510,19 +1510,19 @@ class CyberPaymentForm extends React.Component {
       securityCode.length &gt;= 3,
       '...........'
     );
-<span class="cstat-no" title="statement not covered" >    this.microform.createToken(options, <span class="fstat-no" title="function not covered" >fu</span>nction (err, token) {</span>
-<span class="cstat-no" title="statement not covered" >      if (err) {</span>
+    this.microform.createToken(options, function (err, token) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
         // handle error
 <span class="cstat-no" title="statement not covered" >        console.error(err);</span>
 <span class="cstat-no" title="statement not covered" >        that.flexresponse = '';</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(err.message);</span>
         // errorsOutput.textContent = err.message;
       } else {
-<span class="cstat-no" title="statement not covered" >        console.log(JSON.stringify(token), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');</span>
-<span class="cstat-no" title="statement not covered" >        that.flexresponse = token;</span>
-        let decodedCardInfo = <span class="cstat-no" title="statement not covered" >jwt_decode(token);</span>
-<span class="cstat-no" title="statement not covered" >        console.info('decodedCardInfo', decodedCardInfo);</span>
-<span class="cstat-no" title="statement not covered" >        cb &amp;&amp; cb(decodedCardInfo.data);</span>
+        console.log(JSON.stringify(token), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        that.flexresponse = token;
+        let decodedCardInfo = jwt_decode(token);
+        console.info('decodedCardInfo', decodedCardInfo);
+        cb &amp;&amp; cb(decodedCardInfo.data);
       }
     });
   };
@@ -1918,7 +1918,7 @@ export default CyberPaymentForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-09T11:18:16.138Z
+                at 2022-09-14T02:39:28.026Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

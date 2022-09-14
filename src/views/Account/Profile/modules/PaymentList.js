@@ -21,6 +21,7 @@ import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import getCardImg from '@/lib/get-card-img';
 import { handleEmailShow } from '@/utils/utils';
 import { Popover } from '@/components/Common';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 function CardItem(props) {
   const { data, listVisible, supportPaymentMethods } = props;
@@ -122,6 +123,10 @@ function CardItem(props) {
                     {data.lastFourDigits}
                   </p>
                   <p className="mb-0">{data.paymentVendor}</p>
+                  <CardTips
+                    expirationDate={data.expirationDate}
+                    expireStatusEnum={data.expireStatusEnum}
+                  />
                 </div>
               )}
             </>
