@@ -37,7 +37,7 @@ import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
-
+import ProductFinder3 from './views/ProductFinder3';
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
@@ -471,6 +471,7 @@ const App = () => {
   const [loading, dynamicLanguage] = useDynamicLanguage();
 
   return (
+    // <ProductFinder3/>
     <Provider {...stores}>
       <IntlProvider
         // locale={window.__.env.REACT_APP_LANG}
