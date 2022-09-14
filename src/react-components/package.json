@@ -1,0 +1,21 @@
+{
+  "name": "@royal-canin-sitecore/react-components",
+  "version": "0.1.6",
+  "module": "./index.js",
+  "main": "./index.js",
+  "type": "module",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^17.0.2 || ^18.0.0",
+    "styled-components": "5.3.5",
+    "classnames": "^2.3.1",
+    "use-debounce": "^8.0.3"
+  }
+}

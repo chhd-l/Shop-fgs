@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.34% </span>
+                <span class="strong">41.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/99</span>
+                <span class='fraction'>41/99</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/33</span>
+                <span class='fraction'>11/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">11.11% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/27</span>
+                <span class='fraction'>3/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.34% </span>
+                <span class="strong">41.41% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/99</span>
+                <span class='fraction'>41/99</span>
             </div>
         
             
@@ -882,22 +882,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1298,27 +1298,27 @@ export const phoneNumberMask = <span class="fstat-no" title="function not covere
 };
 &nbsp;
 //地址保存按钮是否disabled
-export const isSaveAddressBtnDisabled = <span class="fstat-no" title="function not covered" >(</span>
+export const isSaveAddressBtnDisabled = (
   isValid,
   formAddressValid,
   jpNameValid
 ) =&gt; {
-  let res = <span class="cstat-no" title="statement not covered" >false;</span>
-<span class="cstat-no" title="statement not covered" >  switch (window.__.env.REACT_APP_COUNTRY) {</span>
-    case 'jp':
+  let res = false;
+  switch (window.__.env.REACT_APP_COUNTRY) {
+<span class="branch-0 cbranch-no" title="branch not covered" >    case 'jp':</span>
 <span class="cstat-no" title="statement not covered" >      res = isValid &amp;&amp; formAddressValid &amp;&amp; jpNameValid ? false : true;</span>
 <span class="cstat-no" title="statement not covered" >      break;</span>
     default:
-<span class="cstat-no" title="statement not covered" >      res = isValid &amp;&amp; formAddressValid ? false : true;</span>
-<span class="cstat-no" title="statement not covered" >      break;</span>
+      res = isValid &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >formAddressValid </span>? <span class="branch-0 cbranch-no" title="branch not covered" >false </span>: true;
+      break;
   }
-<span class="cstat-no" title="statement not covered" >  return res;</span>
+  return res;
 };
 &nbsp;
 //日本 处理要显示的字段
-export const jpSetAddressFields = <span class="fstat-no" title="function not covered" >({</span> province, city, area, address1 }) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return [province, city, area, address1]</span>
-    .filter(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item &amp;&amp; item.trim())</span>
+export const jpSetAddressFields = ({ province, city, area, address1 }) =&gt; {
+  return [province, city, area, address1]
+    .filter((item) =&gt; item &amp;&amp; item.trim())
     .join('  ');
 };
 &nbsp;
@@ -1333,7 +1333,7 @@ export const nullToEmpty = <span class="fstat-no" title="function not covered" >
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-14T02:39:28.026Z
+                at 2022-09-14T09:15:28.189Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

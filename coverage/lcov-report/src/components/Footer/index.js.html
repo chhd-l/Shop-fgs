@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/31</span>
+                <span class='fraction'>0/32</span>
             </div>
         
             
@@ -279,7 +279,10 @@
 <a name='L214'></a><a href='#L214'>214</a>
 <a name='L215'></a><a href='#L215'>215</a>
 <a name='L216'></a><a href='#L216'>216</a>
-<a name='L217'></a><a href='#L217'>217</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -426,6 +429,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -641,7 +647,7 @@ class Footer extends React.Component {
     const { showHubFooter } = <span class="cstat-no" title="statement not covered" >this;</span>
     const { hubFooterInfo, isInitdQueryHubFooter } = <span class="cstat-no" title="statement not covered" >this.state;</span>
     const { showFooter } = <span class="cstat-no" title="statement not covered" >this.props;</span>
-<span class="cstat-no" title="statement not covered" >    return showFooter ? (</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
       &lt;FooterWrapper
         className={cn(
           'rc-bg-colour--interface-dark',
@@ -652,36 +658,38 @@ class Footer extends React.Component {
         id="footer"
         data-tms="Footer"
       &gt;
-        &lt;div
-          className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {
-            'hub-footer': isHub
-          })}
-        &gt;
-          {isInitdQueryHubFooter ? (
-            showHubFooter ? (
-              &lt;FooterHub
-                footerInfo={hubFooterInfo}
-                isLogin={this.isLogin}
-                history={this.props.history}
-              /&gt;
-            ) : (
-              &lt;&gt;
-                &lt;div className="rc-layout-container rc-three-column rc-md-up col-span-12"&gt;
-                  &lt;div className="rc-column rc-text--right"&gt;
-                    &lt;span
-                      className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
-                      onClick={this.scrollToTop}
-                      role="back to top"
-                    &gt;
-                      &lt;FormattedMessage id="footer.toTheTop" /&gt;
-                    &lt;/span&gt;
+        {showFooter &amp;&amp; (
+          &lt;div
+            className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {
+              'hub-footer': isHub
+            })}
+          &gt;
+            {isInitdQueryHubFooter ? (
+              showHubFooter ? (
+                &lt;FooterHub
+                  footerInfo={hubFooterInfo}
+                  isLogin={this.isLogin}
+                  history={this.props.history}
+                /&gt;
+              ) : (
+                &lt;&gt;
+                  &lt;div className="rc-layout-container rc-three-column rc-md-up col-span-12"&gt;
+                    &lt;div className="rc-column rc-text--right"&gt;
+                      &lt;span
+                        className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
+                        onClick={this.scrollToTop}
+                        role="back to top"
+                      &gt;
+                        &lt;FormattedMessage id="footer.toTheTop" /&gt;
+                      &lt;/span&gt;
+                    &lt;/div&gt;
                   &lt;/div&gt;
-                &lt;/div&gt;
-                &lt;DynamicFooter {...this.props} /&gt;
-              &lt;/&gt;
-            )
-          ) : null}
-        &lt;/div&gt;
+                  &lt;DynamicFooter {...this.props} /&gt;
+                &lt;/&gt;
+              )
+            ) : null}
+          &lt;/div&gt;
+        )}
         {window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
           &lt;div
             className="col-span-12"
@@ -690,23 +698,24 @@ class Footer extends React.Component {
         ) : null}
 &nbsp;
         {/* &lt;!-- OneTrust Cookies Settings button start --&gt; */}
-        {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) &amp;&amp; (
-          &lt;div
-            className="cookieSettingBox bg-white"
-            style={{
-              visibility: window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
-                ? 'visible'
-                : 'hidden'
-            }}
-          &gt;
-            &lt;button id="ot-sdk-btn" className="ot-sdk-show-settings"&gt;
-              &lt;FormattedMessage id="footer.cookieSettings" /&gt;
-            &lt;/button&gt;
-          &lt;/div&gt;
-        )}
+        {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) &amp;&amp;
+          showFooter &amp;&amp; (
+            &lt;div
+              className="cookieSettingBox bg-white"
+              style={{
+                visibility: window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
+                  ? 'visible'
+                  : 'hidden'
+              }}
+            &gt;
+              &lt;button id="ot-sdk-btn" className="ot-sdk-show-settings"&gt;
+                &lt;FormattedMessage id="footer.cookieSettings" /&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          )}
         {/* &lt;!-- OneTrust Cookies Settings button end --&gt; */}
       &lt;/FooterWrapper&gt;
-    ) : null;
+    );
   }
 }
 &nbsp;
@@ -718,7 +727,7 @@ export default withRouter(Footer);
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-14T02:39:28.026Z
+                at 2022-09-14T09:15:28.189Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

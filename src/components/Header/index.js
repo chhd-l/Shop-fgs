@@ -33,6 +33,7 @@ import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import classNames from 'classnames';
 import { isCountryMx } from '@/utils/country';
+import { TopNavigation } from '@/react-components';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -786,6 +787,19 @@ class Header extends React.Component {
               showNav={this.props.showNav}
               showLoginBtn={this.props.showLoginBtn}
             />
+          ) : // (
+          //   <DropDownMenu
+          //       activeTopParentId={this.state.activeTopParentId}
+          //       updateActiveTopParentId={this.updateActiveTopParentId}
+          //       headerNavigationList={headerNavigationList}
+          //       configStore={configStore}
+          //       toggleShowBodyMask={this.toggleShowBodyMask}
+          //       showNav={this.props.showNav}
+          //       showLoginBtn={this.props.showLoginBtn}
+          //     />
+          //   )
+          window.__.env.REACT_APP_COUNTRY == 'us' ? (
+            <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
           ) : (
             <DropDownMenu
               activeTopParentId={this.state.activeTopParentId}

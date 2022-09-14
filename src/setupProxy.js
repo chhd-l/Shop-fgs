@@ -14,16 +14,16 @@ const baseUrlConfig = interfacePrefix[process.env.REACT_APP_START_ENV]({
 // console.log({ baseUrlConfig });
 
 module.exports = function (app) {
-  // app.use(
-  //   proxy('/rc-api', {
-  //     target: 'https://rh-sc-stg-weu-01.staging.royalcanin.com',
-  //     secure: false,
-  //     changeOrigin: true,
-  //     pathRewrite: {
-  //       '^/rc-api': '/'
-  //     }
-  //   })
-  // );
+  app.use(
+    proxy('/rc-api', {
+      target: 'https://rh-sc-stg-weu-01.staging.royalcanin.com',
+      secure: false,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/rc-api': '/'
+      }
+    })
+  );
   app.use(
     proxy('/api', {
       target: baseUrlConfig.REACT_APP_BASEURL,
