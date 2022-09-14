@@ -573,19 +573,19 @@ const App = () => {
                 />
                 <Route
                   exact
-                  path="/checkoutnew"
-                  sensitive
-                  render={(props) => (
-                    <Checkout key={props.match.params.type} {...props} />
-                  )}
-                />
-                <Route
-                  exact
                   path="/checkout"
-                  sensitive
-                  render={(props) => (
-                    <Payment key={props.match.params.type} {...props} />
-                  )}
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'fr':
+                        return (
+                          <Checkout key={props.match.params.type} {...props} />
+                        );
+                      default:
+                        return (
+                          <Payment key={props.match.params.type} {...props} />
+                        );
+                    }
+                  }}
                 />
                 <Route
                   exact
