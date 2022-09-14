@@ -799,7 +799,15 @@ class Header extends React.Component {
           //     />
           //   )
           window.__.env.REACT_APP_COUNTRY == 'us' ? (
-            <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
+            process.env.NODE_ENV == 'production' ? (
+              <TopNavigation
+                locale="en-us"
+                site="us"
+                apiHost="https://rh-sc-stg-weu-01.staging.royalcanin.com/en-gb/rc-api/navigation"
+              />
+            ) : (
+              <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
+            )
           ) : (
             <DropDownMenu
               activeTopParentId={this.state.activeTopParentId}
