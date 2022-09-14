@@ -391,14 +391,17 @@ const LoginCallback = (props) => {
         window.location.search.indexOf('?code') >= 0 &&
         window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
       if (sessionToken && !authStateReady && !authCallBack) {
+        console.info('LoginCallback11');
         await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
       } else {
         if (authStateReady) {
+          console.info('LoginCallback22');
           props && props.history.push('/required');
         } else {
+          console.info('LoginCallback33');
           await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
         }
-        console.log(authState);
+        console.log('authStateauthState', authState);
         // props && props.history.push('/required');
       }
     };

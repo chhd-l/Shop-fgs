@@ -111,6 +111,8 @@ service.interceptors.response.use(
         response.data &&
         (response.data.code === 'K-000002' || response.data.code === 'E-000049')
       ) {
+        sessionItemRoyal.set('rc-token-expired-api', response.data.code);
+        sessionItemRoyal.set('rc-token-expired-url', window?.location?.href);
         sessionItemRoyal.set('rc-token-lose', 1);
         window.location.href = window.__.env.REACT_APP_HOMEPAGE;
       }
