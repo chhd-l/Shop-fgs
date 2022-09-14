@@ -583,6 +583,12 @@ class PaymentStore {
   }
 
   @action.bound
+  removePayWayNameArr() {
+    sessionItemRoyal.remove('rc-payWayNameArr');
+    this.payWayNameArr = [];
+  }
+
+  @action.bound
   serCurPayWayVal(val) {
     this.curPayWayVal = val;
   }

@@ -5,17 +5,14 @@ import { Point } from '@/views/Payment/Point';
 import { DistributeLinkOrATag } from '@/components/DistributeLink';
 
 const convenienceStoreList = [
-  {
-    label: <FormattedMessage id="Seven-Eleven" />,
-    value: 'Seven-Eleven'
-  },
+  // {
+  //   label: <FormattedMessage id="Seven-Eleven" />,
+  //   value: 'Seven-Eleven'
+  // },
   {
     label: (
       <>
-        <FormattedMessage id="Lawson" />、
-        <FormattedMessage id="Family Mart" />、
-        <FormattedMessage id="Seiko Mart" />、
-        <FormattedMessage id="Ministop" />
+        <FormattedMessage id="Lawson,Family Mart,Seiko Mart,Ministop" />
       </>
     ),
     value: 'Lawson,Family Mart,Seiko Mart,Ministop'

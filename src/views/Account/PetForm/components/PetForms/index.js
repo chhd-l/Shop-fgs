@@ -32,14 +32,16 @@ const purebredOpitons = [
     name: 'Is Purebred',
     label: 'account.yes',
     id: 'purebred',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'Purebred-yes'
   },
   {
     value: 0,
     name: 'Is Purebred',
     id: 'noPurebred',
     label: 'account.no',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'Purebred-no'
   }
 ];
 const genderOptions = [
@@ -48,14 +50,16 @@ const genderOptions = [
     name: 'gender',
     label: 'petFemale',
     id: 'female',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'gender-left'
   },
   {
     value: 0,
     name: 'gender',
     id: 'male',
     label: 'petMale',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'gender-right'
   }
 ];
 const sterilizedOptions = [
@@ -64,14 +68,16 @@ const sterilizedOptions = [
     name: 'sterilized',
     id: 'sterilized',
     label: 'account.yes',
-    checked: true
+    checked: true,
+    dataAutoTestid: 'sterilized-yes'
   },
   {
     value: 0,
     name: 'sterilized',
     label: 'account.no',
     id: 'noSterilized',
-    checked: false
+    checked: false,
+    dataAutoTestid: 'sterilized-no'
   }
 ];
 
@@ -133,7 +139,7 @@ const PetForms = ({
     weightObj: {
       measure: '',
       measureUnit: 'kg',
-      type: 2
+      type: 0
     },
     activity: '',
     lifestyle: '',
@@ -478,12 +484,12 @@ const PetForms = ({
         showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
         return;
       }
-      for (let k in petForm.weightObj) {
-        if (!petForm.weightObj[k]) {
-          showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
-          return;
-        }
+      // for (let k in petForm.weightObj) {
+      if (!petForm.weightObj.measure) {
+        showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
+        return;
       }
+      // }
       if (['se'].includes(window.__.env.REACT_APP_COUNTRY)) {
         const isstr =
           /^(\d+[,])*(\d+)$/.test(petForm.weightObj.measure) ||
@@ -706,6 +712,7 @@ const PetForms = ({
         <div className="formBox row">
           <div className="form-group col-12 col-lg-6 pull-left required">
             <InputBox
+              dataAutoTestid={'firstName'}
               htmlFor="name"
               FormattedMsg="petName"
               name="firstName"
@@ -732,6 +739,7 @@ const PetForms = ({
             <span
               className="rc-input rc-input--label rc-margin--none rc-input--full-width"
               input-setup="true"
+              data-auto-testid={'DatePicker-receiveDate'}
             >
               <DatePickerComponent
                 className="receiveDate"
@@ -755,6 +763,68 @@ const PetForms = ({
               radioChange={pruebredChange}
             />
           </div>
+          {['jp'].includes(window.__.env.REACT_APP_COUNTRY) && (
+            <div
+              className={`form-group col-12 col-lg-6 pull-left required ${
+                ['jp'].includes(window.__.env.REACT_APP_COUNTRY)
+                  ? 'block md:hidden'
+                  : ''
+              }`}
+            >
+              <label
+                className="form-control-label rc-full-width"
+                htmlFor="breed"
+              >
+                <FormattedMessage id="breed" />
+              </label>
+              <span
+                className="rc-input rc-input--label rc-input--full-width"
+                input-setup="true"
+                style={{ marginBottom: '.625rem' }}
+              >
+                <input
+                  data-auto-testid="breedName"
+                  type="text"
+                  autoComplete="off"
+                  id="dog-breed"
+                  placeholder={isCat ? enterCatBreed : enterDogBreed}
+                  className="form-control input-pet breed"
+                  value={petForm.breedName}
+                  onChange={inputBreed}
+                  style={{
+                    height: '40px',
+                    fontWeight: '300'
+                  }}
+                  disabled={isInputDisabled ? 'disabled' : null}
+                />
+                <ul
+                  className={`select-breed ${
+                    showBreedList ? '' : 'hidden no-border'
+                  }`}
+                >
+                  {breedListLoading ? (
+                    <div className="m-1">
+                      <Skeleton color="#f5f5f5" width="95%" count={2} />
+                    </div>
+                  ) : null}
+                  {breedList.map((item, i) => (
+                    <li
+                      value={item.value}
+                      key={item.id}
+                      className={`pl-2 pr-1 optionStyle ui-cursor-pointer ${
+                        i !== breedList.length - 1 ? 'border-bottom' : ''
+                      }`}
+                      onClick={() => selectedBreed(item)}
+                      style={{ whiteSpace: 'initial' }}
+                    >
+                      {item.name}
+                    </li>
+                  ))}
+                </ul>
+                <label className="rc-input__label" htmlFor="breed"></label>
+              </span>
+            </div>
+          )}
           <div className="form-group col-12 col-lg-6 pull-left required">
             <label
               className="form-control-label rc-full-width"
@@ -775,6 +845,7 @@ const PetForms = ({
               />
             ) : (
               <Selection
+                dataAutoTestid={'petForm-sensitivity'}
                 optionList={sensitivityLists}
                 selectedItemChange={(el) => specialNeedsOptionsChange(el)}
                 selectedItemData={{
@@ -811,6 +882,7 @@ const PetForms = ({
                   <FormattedMessage id="Size" />
                 </label>
                 <Selection
+                  dataAutoTestid={'petForm-selectedSizeObj'}
                   optionList={sizeOptions}
                   selectedItemChange={(el) => sizeOptionsChange(el)}
                   selectedItemData={{
@@ -821,7 +893,13 @@ const PetForms = ({
               </div>
             ) : null
           ) : (
-            <div className="form-group col-12 col-lg-6 pull-left required">
+            <div
+              className={`form-group col-12 col-lg-6 pull-left required ${
+                ['jp'].includes(window.__.env.REACT_APP_COUNTRY)
+                  ? 'hidden md:block'
+                  : ''
+              }`}
+            >
               <label
                 className="form-control-label rc-full-width"
                 htmlFor="breed"
@@ -834,6 +912,7 @@ const PetForms = ({
                 style={{ marginBottom: '.625rem' }}
               >
                 <input
+                  data-auto-testid="breedName"
                   type="text"
                   autoComplete="off"
                   id="dog-breed"
@@ -1058,6 +1137,7 @@ const PetForms = ({
               <p style={{ textAlign: 'right' }}>
                 {paramsId && currentPetParam.sourceType != 'individual' && (
                   <span
+                    data-auto-testid="deletePet"
                     className="rc-styled-link md:mr-9"
                     onClick={() => {
                       handleDelPets(false);
@@ -1090,7 +1170,11 @@ const PetForms = ({
                       <span className="md:mr-2">&nbsp;or&nbsp;</span>
                     </>
                   )}
-                <Button type="primary" onClick={() => savePet()}>
+                <Button
+                  data-auto-testid="saveChange-Pet"
+                  type="primary"
+                  onClick={() => savePet()}
+                >
                   <FormattedMessage id="saveChange" />
                 </Button>
               </p>

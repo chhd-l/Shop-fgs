@@ -207,7 +207,8 @@ class FAQ extends React.Component {
             </div>
             <div className="md:w-cs-920 m-auto pl-4 pr-4">
               <h1 className="font-semibold text-16 leading-7 mb-4 md:text-28  text-cs-gray">
-                よくあるお問合せ
+                {/* よくあるお問合せ */}
+                ご利用ガイドカテゴリー
               </h1>
 
               <p className="text-cs-gray text-18 leading-cs-26">

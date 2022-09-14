@@ -112,7 +112,11 @@ export default class HubSalesCategory extends Component {
                 ) : (
                   this.state.cateGoryList_cat.map((item, index) => {
                     return (
-                      <div className="rc-column category-goods" key={index}>
+                      <div
+                        data-auto-testid="HomeCatList"
+                        className="rc-column category-goods"
+                        key={index}
+                      >
                         <Link
                           className="rc-moblie-flex"
                           to={`${item.cateRouter}`}
@@ -170,7 +174,11 @@ export default class HubSalesCategory extends Component {
                 ) : (
                   this.state.cateGoryList_dog.map((item, index) => {
                     return (
-                      <div className="rc-column category-goods" key={index}>
+                      <div
+                        data-auto-testid="HomeDogList"
+                        className="rc-column category-goods"
+                        key={index}
+                      >
                         <Link
                           className="rc-moblie-flex"
                           to={`${item.cateRouter}`}

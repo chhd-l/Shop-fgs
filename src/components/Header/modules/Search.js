@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import find from 'lodash/find';
 import { getList, getSearchSuggestion } from '@/api/list';
-import { Loading } from '@/components';
+import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getSearch } from '@/api/hub';
 import querySearch from '../mock/search';
 import axios from 'axios';
-import { cancelPrevRequest, optimizeImage, isMobile } from '@/utils/utils';
+import { cancelPrevRequest, optimizeImage, getDeviceType } from '@/utils/utils';
 
 import {
   GAInstantSearchFieldClick,
@@ -17,7 +17,9 @@ import {
   GAInstantSearchResultClick
 } from '@/utils/GA';
 
-const isHub = window.__.env.REACT_APP_HUB;
+const isHub =
+  window.__.env.REACT_APP_HUB || window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE; // ru local use hubHeader;
+const isRuLocal = window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE; // ru local use hubHeader
 let sessionItemRoyal = window.__.sessionItemRoyal;
 
 const getSearchContainerMaxHeight = () => {
@@ -107,7 +109,7 @@ export default class Search extends React.Component {
   }
 
   setIosSafariSearchContainerHeight = () => {
-    if (isMobile && !isHub) {
+    if (getDeviceType() === 'H5' && (!isHub || isRuLocal)) {
       let suggestionResults =
         window.document.getElementsByClassName('suggestions');
       for (let i = 0; i < suggestionResults.length; i++) {
@@ -127,11 +129,11 @@ export default class Search extends React.Component {
         brandIds: [],
         pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
         esGoodsInfoDTOList: [],
-        companyType: '',
-        minMarketPrice: 0,
-        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
+        companyType: ''
+        // minMarketPrice: 0,
+        // maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       }),
-      isHub && getSearch({ keywords })
+      isHub && !isRuLocal && getSearch({ keywords })
       // isHub && querySearch()
     ])
       .then((res) => {
@@ -204,7 +206,7 @@ export default class Search extends React.Component {
         });
       })
       .finally(() => {
-        if (isMobile && !isHub) {
+        if (getDeviceType() === 'H5' && !isHub) {
           this.enterResultBox();
         }
       });
@@ -216,7 +218,7 @@ export default class Search extends React.Component {
       result: null
     });
     this.props.onClose();
-    if (isMobile && !isHub) {
+    if (getDeviceType() === 'H5' && !isHub) {
       this.leaveResultBox();
     }
   }
@@ -336,7 +338,11 @@ export default class Search extends React.Component {
           id="mainSuggestions"
           onMouseOver={() => this.enterResultBox()}
           onMouseOut={() => this.leaveResultBox()}
-          style={isMobile && !isHub ? { maxHeight: resultHeight } : {}}
+          style={
+            getDeviceType() === 'H5' && !isHub
+              ? { maxHeight: resultHeight }
+              : {}
+          }
         >
           <div className="container">
             <div className="row d-flex flex-sm-row">
@@ -505,6 +511,7 @@ export default class Search extends React.Component {
   render() {
     const { showSearchInput, result, keywords, loading, hiddenResult } =
       this.state;
+    const isMobile = getDeviceType() !== 'PC';
     return (
       <div
         className="inlineblock w-100"
@@ -526,6 +533,7 @@ export default class Search extends React.Component {
                 }}
               >
                 <button
+                  data-auto-testid="header_search_btn"
                   className="iconfont icon-search"
                   type="submit"
                   onClick={this.handleSearch}
@@ -547,6 +555,7 @@ export default class Search extends React.Component {
                       className="search-field rc-bg-colour--brand4 ui-cursor-pointer-pure font-weight-light limit-md-width"
                       type="search"
                       autoComplete="off"
+                      data-auto-testid="header_search_input"
                       placeholder={txt}
                       onFocus={this.hanldeSearchFocus}
                       onChange={this.handleSearchInputChange}
@@ -597,6 +606,7 @@ export default class Search extends React.Component {
                   <button
                     className="rc-input__submit rc-input__submit--search"
                     type="submit"
+                    data-auto-testid="header_search_btn"
                     onClick={this.handleSearch}
                   >
                     <span className="rc-screen-reader-text" />
@@ -604,6 +614,7 @@ export default class Search extends React.Component {
                   <FormattedMessage id="header.startTypingToSearch">
                     {(txt) => (
                       <input
+                        data-auto-testid="header_search_input"
                         id="startTypingToSearch"
                         ref={this.inputRef}
                         className="search-field"
@@ -654,6 +665,7 @@ export default class Search extends React.Component {
                   <button
                     className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
                     type="submit"
+                    data-auto-testid="header_search_btn"
                     aria-label="Search"
                   >
                     <span className="screen-reader-text">
@@ -667,6 +679,7 @@ export default class Search extends React.Component {
                     <input
                       ref={this.inputRefMobile}
                       type="search"
+                      data-auto-testid="header_search_input"
                       className="form-control search-field rc-header__input"
                       placeholder={txt}
                       autoComplete="off"

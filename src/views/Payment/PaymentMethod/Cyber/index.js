@@ -1,5 +1,6 @@
 import React from 'react';
 import CyberPaymentForm from '@/components/CyberPaymentForm';
+import CyberPaymentFormNew from '@/components/CyberPaymentFormNew';
 import CyberCardList from './list';
 import { cyberFormTitle, cyberCardTypeToValue } from '@/utils/constant/cyber';
 import { inject, observer } from 'mobx-react';
@@ -7,7 +8,9 @@ import { ADDRESS_RULE } from './constant/utils';
 import { validData } from '@/utils/utils';
 import CyberSaveCardCheckbox from '@/views/Payment/Address/CyberSaveCardCheckbox';
 import { getPaymentMethod } from '@/api/payment';
+import debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl-phraseapp';
+
 @inject('loginStore', 'paymentStore')
 @observer
 class CyberPayment extends React.Component {
@@ -18,6 +21,8 @@ class CyberPayment extends React.Component {
     payConfirmBtn: () => {},
     saveBillingLoading: '',
     validForBilling: '',
+    curPayWayInfo: {},
+    setCyberLoading: () => {},
     isCurrentBuyWaySubscription: '',
     updateSelectedCardInfo: () => {},
     reInputCVVBtn: () => {},
@@ -25,7 +30,8 @@ class CyberPayment extends React.Component {
     sendCyberPaymentForm: () => {},
     cyberCardType: '001',
     cyberBtnLoading: false,
-    cyberPaymentForm: {}
+    cyberPaymentForm: {},
+    subscriptionID: ''
   };
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -85,6 +91,7 @@ class CyberPayment extends React.Component {
     };
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
+    this.sendCyberPaymentForm = debounce(this.props.sendCyberPaymentForm, 500);
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -122,17 +129,23 @@ class CyberPayment extends React.Component {
     const target = e.target;
     const { cyberPaymentForm } = this.state;
     const name = target.name;
+    let cardType = undefined;
     let value = '';
     value = target.value;
     if (name === 'cardNumber') {
+      cardType = target.cybsCardType;
       value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
     }
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
-    this.props.sendCyberPaymentForm(cyberPaymentForm);
+    if (this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM') {
+      this.props.sendCyberPaymentForm(cyberPaymentForm, cardType);
+    } else {
+      this.sendCyberPaymentForm(cyberPaymentForm);
+    }
     this.inputBlur(e);
   };
-  //失去焦点
+  // 失去焦点
   inputBlur = async (e) => {
     const { intl } = this.props;
     const { cyberErrMsgObj } = this.state;
@@ -167,7 +180,11 @@ class CyberPayment extends React.Component {
     let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，就清空没填提示
 
     this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
-    this.props.sendCyberPaymentForm(cyberPaymentForm);
+    if (this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM') {
+      this.props.sendCyberPaymentForm(cyberPaymentForm);
+    } else {
+      this.sendCyberPaymentForm(cyberPaymentForm);
+    }
   };
   //checkbox
   CyberSaveCardCheckboxJSX = () => {
@@ -246,7 +263,8 @@ class CyberPayment extends React.Component {
   render() {
     const { isShowCardList } = this.state;
     const {
-      paymentStore: { supportPaymentMethods }
+      paymentStore: { supportPaymentMethods },
+      subscriptionID
     } = this.props;
 
     //验证cyber表单输入情况
@@ -263,7 +281,7 @@ class CyberPayment extends React.Component {
           errMsgObj[item.key] = true;
         }
       });
-      if (Object.keys(errMsgObj).length > 0) {
+      if (Object.keys(errMsgObj).length > 0 || !subscriptionID) {
         isValidForCyberPayment = false;
       } else if (this.props.isCurrentBuyWaySubscription) {
         //订阅商品
@@ -271,6 +289,7 @@ class CyberPayment extends React.Component {
       } else {
         isValidForCyberPayment = true;
       }
+      console.info('isValidForCyberPayment', !isValidForCyberPayment);
       return !isValidForCyberPayment;
     };
 
@@ -304,23 +323,46 @@ class CyberPayment extends React.Component {
                   </label>
                 </div>
               ))}
-            <CyberPaymentForm
-              cardTypeVal={this.state.cardTypeVal}
-              cyberFormTitle={cyberFormTitle}
-              ref={this.cyberCardRef}
-              form={this.state.cyberPaymentForm}
-              errMsgObj={this.state.cyberErrMsgObj}
-              handleInputChange={this.handleCyberInputChange}
-              handleSelectedItemChange={this.handleCyberSelectedItemChange}
-              inputBlur={this.inputBlur}
-              CyberSaveCardCheckboxJSX={this.CyberSaveCardCheckboxJSX()}
-              billingJSX={this.props.renderBillingJSX({
-                type: 'cyber'
-              })}
-              securityCodeTipsJSX={this.props.renderSecurityCodeTipsJSX()}
-              backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
-              showErrorMsg={this.props.showErrorMsg}
-            />
+            {this.props.curPayWayInfo.paymentFormType === 'MICRO_FORM' ? (
+              <CyberPaymentFormNew
+                curPayWayInfo={this.props.curPayWayInfo}
+                setCyberLoading={this.props.setCyberLoading}
+                cardTypeVal={this.state.cardTypeVal}
+                cyberFormTitle={cyberFormTitle}
+                ref={this.cyberCardRef}
+                form={this.state.cyberPaymentForm}
+                errMsgObj={this.state.cyberErrMsgObj}
+                handleInputChange={this.handleCyberInputChange}
+                handleSelectedItemChange={this.handleCyberSelectedItemChange}
+                inputBlur={this.inputBlur}
+                CyberSaveCardCheckboxJSX={this.CyberSaveCardCheckboxJSX()}
+                billingJSX={this.props.renderBillingJSX({
+                  type: 'cyber'
+                })}
+                securityCodeTipsJSX={this.props.renderSecurityCodeTipsJSX()}
+                backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
+                showErrorMsg={this.props.showErrorMsg}
+              />
+            ) : (
+              <CyberPaymentForm
+                cardTypeVal={this.state.cardTypeVal}
+                cyberFormTitle={cyberFormTitle}
+                ref={this.cyberCardRef}
+                form={this.state.cyberPaymentForm}
+                errMsgObj={this.state.cyberErrMsgObj}
+                handleInputChange={this.handleCyberInputChange}
+                handleSelectedItemChange={this.handleCyberSelectedItemChange}
+                inputBlur={this.inputBlur}
+                CyberSaveCardCheckboxJSX={this.CyberSaveCardCheckboxJSX()}
+                billingJSX={this.props.renderBillingJSX({
+                  type: 'cyber'
+                })}
+                securityCodeTipsJSX={this.props.renderSecurityCodeTipsJSX()}
+                backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
+                showErrorMsg={this.props.showErrorMsg}
+              />
+            )}
+
             {this.props.payConfirmBtn({
               disabled: validForCyberPayment() || this.props.validForBilling,
               loading:

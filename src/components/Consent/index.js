@@ -139,7 +139,7 @@ class Consent extends Component {
       <>
         {list?.map((item, index) => {
           return (
-            <div key={item.id}>
+            <div key={item.id} data-auto-testid="MyCommunicationsPreferences">
               {noIsRequired > -1 &&
               noIsRequired == index &&
               pageType === 'checkout' &&
@@ -175,6 +175,9 @@ class Consent extends Component {
               >
                 <input
                   style={{ zoom: zoom }}
+                  data-auto-testid={
+                    item.isRequired ? 'consent_required' : 'consent_no_required'
+                  }
                   className={[
                     'form-check-input',
                     'ui-cursor-pointer-pure',
@@ -204,6 +207,9 @@ class Consent extends Component {
                   className="rc-text--left"
                   htmlFor={`id-checkbox-${id}-${item.id}`}
                   style={{ width: '100%' }}
+                  data-testid={
+                    item.isRequired ? 'consent_required' : 'consent_no_required'
+                  }
                 >
                   <div
                     className="d-flex flex-column"

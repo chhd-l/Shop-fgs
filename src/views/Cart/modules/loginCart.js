@@ -58,6 +58,10 @@ import {
 } from '@/utils/GA/cart';
 import cn from 'classnames';
 import { Button, Popover } from '@/components/Common';
+import { getCustomerInfo } from '@/api/user';
+import { funcUrl } from '@/lib/url-utils';
+import { reaction } from 'mobx';
+import OssReceiveBackNotificationContent from '../../Details/components/OSSReceiveBackNotificationContent';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -110,7 +114,8 @@ class LoginCart extends React.Component {
         metaDescription: 'Royal canin'
       },
       relatedGoodsList: [],
-      mixFeedings: []
+      mixFeedings: [],
+      notifyMeStatus: false
     };
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
@@ -118,11 +123,23 @@ class LoginCart extends React.Component {
     this.showErrMsg = this.showErrMsg.bind(this);
   }
   async componentDidMount() {
+    // Monitor the changes of logincartdata data in mobx
+    this._notificationsReaction = reaction(
+      () => this.props.checkoutStore.loginCartData,
+      this.handleLoginCartDataUpdates
+    );
     try {
-      if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
+      const { loginStore } = this.props;
+      if (
+        sessionItemRoyal.get('rc-iframe-from-storepotal') &&
+        funcUrl({ name: 'scustomerId' })
+      ) {
+        const customerInfoRes = await getCustomerInfo({
+          customerId: funcUrl({ name: 'scustomerId' })
+        });
+        loginStore.setUserInfo(customerInfoRes.context);
         this.setState({ circleLoading: true });
       }
-
       setSeoConfig({
         pageName: 'Cart page'
       }).then((res) => {
@@ -167,9 +184,9 @@ class LoginCart extends React.Component {
           isReturnList: true
         })
       );
-      setTimeout(() => {
-        this.setData({ initPage: true });
-      }, 2000);
+      // setTimeout(() => {
+      //   this.setData({ initPage: true });
+      // }, 2000);
       // let indv = this.loginCartData.filter(el=>el.goodsInfoFlag==3)
       // if(indv.length){
       //   setTimeout(()=>{
@@ -178,6 +195,8 @@ class LoginCart extends React.Component {
       // }else{
       //   this.setData({ initPage: true });
       // }
+
+      this.handleNotifyMeStatus();
 
       //给代客下单用 start
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
@@ -194,9 +213,25 @@ class LoginCart extends React.Component {
       }
       //给代客下单用 end
     } catch (err) {
-      console.log(666);
+      console.log(666, err);
     }
   }
+
+  handleLoginCartDataUpdates = (newLoginCartData) => {
+    // if (newLoginCartData.length > 0) {
+    //   // After the data of logincartdata in mobx changes, update the page data
+    //   this.setData({ initPage: true });
+    //   this._notificationsReaction();
+    // }
+    this.setData({ initPage: true });
+    // The return value of reaction is a function. Updates that can be used to unsubscribe
+    this._notificationsReaction();
+  };
+
+  // componentWillUnmount() {
+  //   // The return value of reaction is a function. Updates that can be used to unsubscribe
+  //   this._notificationsReaction();
+  // }
   get loginCartData() {
     return this.props.checkoutStore.loginCartData.filter(
       (el) => !el.isNotShowCart
@@ -209,9 +244,11 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore;
   }
   get totalNum() {
-    return this.state.productList.reduce((prev, cur) => {
-      return prev + cur.buyCount;
-    }, 0);
+    return this.state.productList
+      .filter((ele) => ele.stock)
+      .reduce((prev, cur) => {
+        return prev + cur.buyCount;
+      }, 0);
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
@@ -283,6 +320,15 @@ class LoginCart extends React.Component {
     });
     return numFlag;
   }
+
+  handleNotifyMeStatus = async () => {
+    const { configStore } = this.props;
+    if (configStore?.info?.notifyMeStatus === '1') {
+      this.setState({
+        notifyMeStatus: true
+      });
+    }
+  };
 
   getGoodsIdArr = () => {
     let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
@@ -603,6 +649,7 @@ class LoginCart extends React.Component {
                 }
               }}
               showError={this.showErrMsg}
+              disabled={!pitem.stock}
             />
           </div>
         </div>
@@ -635,9 +682,10 @@ class LoginCart extends React.Component {
                                 !sdItem.selected && isGift ? 'none' : 'initial'
                               }`
                             }}
-                            className={`rc-swatch__item ${
-                              sdItem.selected ? 'selected' : ''
-                            } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
+                            className={cn(`rc-swatch__item`, {
+                              selected: sdItem.selected,
+                              canSelectedOutOfStockSku: sdItem.isEmpty
+                            })}
                             key={i2}
                             onClick={this.handleChooseSize.bind(
                               this,
@@ -660,8 +708,10 @@ class LoginCart extends React.Component {
     );
   };
   getProducts(plist) {
-    const { intl } = this.props;
+    const { intl, loginStore } = this.props;
     const { mixFeedings } = this.state;
+    const tradePriceLimit =
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? this.tradePrice !== 0 : true;
 
     const Lists = plist.map((pitem, index) => {
       {
@@ -799,85 +849,97 @@ class LoginCart extends React.Component {
                 </div>
               </div>
             </div>
-            <div
-              className={`buyMethodBox -mx-4 ${
-                pitem.subscriptionStatus && pitem.subscriptionPrice
-                  ? 'rc-two-column'
-                  : ''
-              }`}
-            >
-              <div className="rc-column">
-                <OneOffSelection
-                  isGift={isGift}
-                  pitem={pitem}
-                  isLogin={true}
-                  chooseOneOff={this.hanldeToggleOneOffOrSub.bind(this, {
-                    goodsInfoFlag: 0,
-                    periodTypeId: null,
-                    pitem
-                  })}
-                />
-                {isGift && this.getSizeBox(pitem, index)}
-                {isGift && this.getQuantityBox(pitem, index)}
-              </div>
-              {pitem.subscriptionStatus &&
-              pitem.subscriptionPrice &&
-              formatMoney(this.tradePrice) !== '0,00 €' ? (
-                <div className="rc-column  rc-padding-left--none--desktop">
-                  {!pitem.goods.promotions ||
-                  !pitem.goods.promotions.includes('club') ? (
-                    <SubscriptionSelection
-                      isGift={isGift}
-                      pitem={pitem}
-                      activeToolTipIndex={this.state.activeToolTipIndex}
-                      index={index}
-                      toolTipVisible={this.state.toolTipVisible}
-                      computedList={this.computedList.filter(
-                        (el) => el.goodsInfoFlag === 1
-                      )}
-                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                        this,
-                        {
-                          goodsInfoFlag: 1,
-                          periodTypeId: pitem.form.frequencyId,
-                          pitem
-                        }
-                      )}
-                      changeFrequency={(pitem, data) =>
-                        this.handleSelectedItemChange(pitem, data)
-                      }
-                      isLogin={true}
-                      setState={this.setState.bind(this)}
-                    />
-                  ) : null}
-                  {pitem.goods.promotions &&
-                  pitem.goods.promotions.includes('club') ? (
-                    <ClubSelection
-                      isGift={isGift}
-                      pitem={pitem}
-                      activeToolTipIndex={this.state.activeToolTipIndex}
-                      index={index}
-                      computedList={this.computedList.filter(
-                        (el) => el.goodsInfoFlag === 2
-                      )}
-                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                        this,
-                        {
-                          goodsInfoFlag: 2,
-                          periodTypeId: pitem.form.frequencyId,
-                          pitem
-                        }
-                      )}
-                      changeFrequency={(pitem, data) =>
-                        this.handleSelectedItemChange(pitem, data)
-                      }
-                      isLogin={true}
-                      setState={this.setState.bind(this)}
-                    />
-                  ) : null}
+            {pitem?.stock > 0 ? (
+              <div
+                className={`buyMethodBox -mx-4 ${
+                  pitem.subscriptionStatus && pitem.subscriptionPrice
+                    ? 'rc-two-column'
+                    : ''
+                }`}
+              >
+                <div className="rc-column">
+                  <OneOffSelection
+                    isGift={isGift}
+                    pitem={pitem}
+                    isLogin={true}
+                    chooseOneOff={this.hanldeToggleOneOffOrSub.bind(this, {
+                      goodsInfoFlag: 0,
+                      periodTypeId: null,
+                      pitem
+                    })}
+                  />
+                  {isGift && this.getSizeBox(pitem, index)}
+                  {isGift && this.getQuantityBox(pitem, index)}
                 </div>
-              ) : null}
-            </div>
+                {pitem.subscriptionStatus &&
+                pitem.subscriptionPrice &&
+                tradePriceLimit ? (
+                  <div className="rc-column  rc-padding-left--none--desktop">
+                    {!pitem.goods.promotions ||
+                    !pitem.goods.promotions.includes('club') ? (
+                      <SubscriptionSelection
+                        isGift={isGift}
+                        pitem={pitem}
+                        activeToolTipIndex={this.state.activeToolTipIndex}
+                        index={index}
+                        toolTipVisible={this.state.toolTipVisible}
+                        computedList={this.computedList.filter(
+                          (el) => el.goodsInfoFlag === 1
+                        )}
+                        chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                          this,
+                          {
+                            goodsInfoFlag: 1,
+                            periodTypeId: pitem.form.frequencyId,
+                            pitem
+                          }
+                        )}
+                        changeFrequency={(pitem, data) =>
+                          this.handleSelectedItemChange(pitem, data)
+                        }
+                        isLogin={true}
+                        setState={this.setState.bind(this)}
+                      />
+                    ) : null}
+                    {pitem.goods.promotions &&
+                    pitem.goods.promotions.includes('club') ? (
+                      <ClubSelection
+                        isGift={isGift}
+                        pitem={pitem}
+                        activeToolTipIndex={this.state.activeToolTipIndex}
+                        index={index}
+                        computedList={this.computedList.filter(
+                          (el) => el.goodsInfoFlag === 2
+                        )}
+                        chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                          this,
+                          {
+                            goodsInfoFlag: 2,
+                            periodTypeId: pitem.form.frequencyId,
+                            pitem
+                          }
+                        )}
+                        changeFrequency={(pitem, data) =>
+                          this.handleSelectedItemChange(pitem, data)
+                        }
+                        isLogin={true}
+                        setState={this.setState.bind(this)}
+                      />
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <OssReceiveBackNotificationContent
+                userInfo={loginStore.userInfo}
+                details={pitem}
+                form={pitem.form}
+                isLogin={loginStore.isLogin}
+                quantity={pitem.quantity}
+                selectedSpecItem={pitem}
+                visible={this.state.notifyMeStatus && !pitem.stock}
+              />
+            )}
           </div>
           {mixFeedings &&
           mixFeedings[index] &&
@@ -969,6 +1031,7 @@ class LoginCart extends React.Component {
       mobileCartVisibleKey
     } = this.state;
     const subtractionSign = '-';
+    console.log(this.tradePrice, 'this.tradePrice99');
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -992,6 +1055,7 @@ class LoginCart extends React.Component {
                     className="rc-input__control"
                     id="id-text2"
                     type="text"
+                    data-auto-testid="cart_promotion_input"
                     name="text"
                     placeholder={txt}
                     value={this.state.promotionInputValue}
@@ -1007,6 +1071,7 @@ class LoginCart extends React.Component {
             <p className="text-right sub-total mb-4">
               <button
                 id="promotionApply"
+                data-auto-testid="cart_promotion_btn"
                 className={`rc-btn rc-btn--sm rc-btn--two mr-0 my-2.5 float-right ${
                   this.state.isClickApply
                     ? 'ui-btn-loading ui-btn-loading-border-red'
@@ -1093,7 +1158,10 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
+              <p
+                className="text-right grand-total-sum medium mb-0 text-nowrap"
+                data-auto-testid="price_group_pay_price"
+              >
                 {this.props.configStore?.customTaxSettingOpenFlag &&
                 this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                   <>
@@ -1112,7 +1180,7 @@ class LoginCart extends React.Component {
 
           <div className="row checkout-proccess rc-md-up">
             <div className="col-lg-12 checkout-continue">
-              <a onClick={this.handleCheckout}>
+              <a onClick={this.handleCheckout} data-auto-testid="cart_buy_now">
                 <div className="rc-padding-y--xs rc-column">
                   <Button
                     data-oauthlogintargetendpoint="2"
@@ -1169,7 +1237,7 @@ class LoginCart extends React.Component {
               }
             />
             <div className="col-lg-12">
-              <a onClick={this.handleCheckout}>
+              <a onClick={this.handleCheckout} data-auto-testid="cart_buy_now">
                 <div className="rc-padding-y--xs rc-column">
                   <Button
                     type="primary"
@@ -1213,7 +1281,7 @@ class LoginCart extends React.Component {
   }
   async handleChooseSize(sdItem, pitem) {
     console.log('click handleChooseSize');
-    if (preventChangeSize || sdItem.isEmpty || sdItem.isUnitPriceZero) {
+    if (preventChangeSize || sdItem.isUnitPriceZero) {
       return false;
     }
     if (this.state.checkoutLoading) {
@@ -1313,7 +1381,6 @@ class LoginCart extends React.Component {
   };
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;

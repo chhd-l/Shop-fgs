@@ -332,7 +332,7 @@ class Form extends React.Component {
     let res = null;
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
-      const cutOffTime = Number(res.context.cutOffTime.substring(0, 2));
+      const cutOffTime = Number(res.context.cutOffTime?.substring(0, 2));
       localStorage.setItem('cutOffTime', cutOffTime);
       let flag = false;
       let alldata = {}; // 全部数据
@@ -507,7 +507,7 @@ class Form extends React.Component {
         phoneReg = [{ mask: '000-000-0000' }];
         break;
       case 'nl':
-        phoneReg = [{ mask: '(+31) 000 00 00 00' }];
+        phoneReg = '(+31) 000 00 00 00';
         break;
       case 'uk':
         phoneReg = [
@@ -743,7 +743,9 @@ class Form extends React.Component {
               ? (regExp = /^[0-9]{3}-[0-9]{4}$/)
               : (regExp = /^\d{5}$/);
           } else {
-            regExp = /\S/;
+            COUNTRY === 'nl'
+              ? (regExp = /^\d{4}\s?[a-zA-Z]{2}$/)
+              : (regExp = /\S/);
           }
           errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
@@ -776,6 +778,10 @@ class Form extends React.Component {
               /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else if (COUNTRY == 'jp') {
             regExp = /^[0]\d{9,10}$/;
+          } else if (COUNTRY === 'nl') {
+            // 荷兰
+            regExp =
+              /^\(\+[3][1]\)[\s][0-9]{3}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1709,6 +1715,7 @@ class Form extends React.Component {
       <>
         <SearchSelection
           {...this.props}
+          dataAutoTestid={`address_${item.fieldKey}_shipping`}
           queryList={async ({ inputVal }) => {
             let res = null;
             let robj = null;
@@ -1820,6 +1827,7 @@ class Form extends React.Component {
             className={`rc-input__control ${item.fieldKey}Shipping`}
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
+            data-auto-testid={`address_${item.fieldKey}_shipping`}
             //value={getInputValue(item)}
             value={caninForm[item.fieldKey] || ''}
             onChange={this.inputChange}
@@ -1877,6 +1885,7 @@ class Form extends React.Component {
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <textarea
+            data-auto-testid={`address_${item.fieldKey}_shipping`}
             className="rc_input_textarea"
             placeholder={`${this.props.intl.messages['payment.comment']}`}
             id={`${item.fieldKey}Shipping`}
@@ -1907,6 +1916,7 @@ class Form extends React.Component {
             defaultValue={caninForm[item.fieldKey]}
             key={caninForm[item.fieldKey]}
             name={item.fieldKey}
+            dataAutoTestid={`address_${item.fieldKey}_shipping`}
             freeText={item.inputFreeTextFlag == 1 ? true : false}
             onChange={this.handleCityInputChange}
             searchSelectionBlur={this.handleCitySearchSelectionBlur}
@@ -1935,6 +1945,7 @@ class Form extends React.Component {
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
+              dataAutoTestid={`address_${item.fieldKey}_shipping`}
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               emptyFirstItem={'State'}
@@ -1947,6 +1958,7 @@ class Form extends React.Component {
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
+              dataAutoTestid={`address_${item.fieldKey}_shipping`}
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               name={item.fieldKey}
@@ -1981,13 +1993,26 @@ class Form extends React.Component {
         {/* email */}
         <div className="col-md-6">
           <div className="form-group require">
-            <label className="form-control-label" htmlFor="emailShipping">
-              <FormattedMessage id="account.Email" />
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="form-control-label" htmlFor="emailShipping">
+                <FormattedMessage id="account.Email" />
+              </label>
+              {COUNTRY === 'jp' ? (
+                <a
+                  href="https://ncv.microsoft.com/23fH9DIr5C"
+                  className="underline"
+                  data-auto-testid="checkout_changeEmail"
+                  target="_blank"
+                >
+                  <FormattedMessage id="changeEmail" />
+                </a>
+              ) : null}
+            </div>
 
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
               <input
                 type="email"
+                data-auto-testid="checkout_birthday_email_input"
                 className="rc-input__control emailShipping"
                 id="email"
                 data-name="profile_personalInfo"

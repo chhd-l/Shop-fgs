@@ -85,7 +85,8 @@ class AdyenCreditCardForm extends React.Component {
   }
   async initForm() {
     const {
-      intl: { messages }
+      intl: { messages },
+      paymentStore
     } = this.props;
     const _this = this;
     const { translations } = packageTranslations({ messages });
@@ -104,7 +105,9 @@ class AdyenCreditCardForm extends React.Component {
         allowAddedLocales: true
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
-
+      const brands = paymentStore?.supportPaymentMethods?.map((el) =>
+        el.cardType?.toLowerCase()
+      ) || ['mc', 'visa', 'amex'];
       const checkout = await new AdyenCheckout(configuration);
       const card = checkout
         .create('card', {
@@ -279,6 +282,7 @@ class AdyenCreditCardForm extends React.Component {
         )}
         <div
           id="adyen-card-container"
+          data-auto-testid="adyen-card-container"
           ref={this.containerEl}
           className={`payment-method__container ${
             !isCheckoutPage ||
@@ -307,7 +311,10 @@ class AdyenCreditCardForm extends React.Component {
               </span>
             )}
             {showSetAsDefaultCheckobx ? (
-              <div className="rc-input rc-input--inline w-100 mw-100">
+              <div
+                className="rc-input rc-input--inline w-100 mw-100"
+                data-auto-testid="SetDefaultPayment"
+              >
                 <input
                   id="addr-default-checkbox"
                   type="checkbox"
@@ -331,6 +338,7 @@ class AdyenCreditCardForm extends React.Component {
               {showCancelBtn && (
                 <span>
                   <span
+                    data-auto-testid="editPersonalInfoBtn"
                     className="rc-styled-link editPersonalInfoBtn"
                     name="contactInformation"
                     onClick={this.handleClickCancel}
@@ -344,6 +352,7 @@ class AdyenCreditCardForm extends React.Component {
               )}
               {showSaveBtn && (
                 <Button
+                  data-auto-testid="submitBtn"
                   className={`submitBtn editAddress`}
                   loading={saveLoading}
                   data-sav="false"

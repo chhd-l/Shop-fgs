@@ -87,7 +87,7 @@ class AdyenCreditCardList extends React.Component {
   } = {}) => {
     showListLoading && this.setState({ listLoading: true });
     try {
-      debugger;
+      // debugger;
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
@@ -242,7 +242,7 @@ class AdyenCreditCardList extends React.Component {
   getBrowserInfo(state) {
     this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
-  loadCvv = (el) => {
+  loadCvv = async (el) => {
     const _this = this;
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
@@ -271,43 +271,75 @@ class AdyenCreditCardList extends React.Component {
 
     el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
-    loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      callback: function () {
-        if (!!window.AdyenCheckout) {
-          const AdyenCheckout = window.AdyenCheckout;
-          const checkout = new AdyenCheckout({
-            environment: process.env.REACT_APP_Adyen_ENV,
-            originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale
-          });
-          checkout
-            .create('card', {
-              brand: brand,
-              onChange: (state) => {
-                console.log(state);
-                _this.getBrowserInfo(state);
-                const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
-                let result = find(cardList, (ele) => ele.id === id);
-                result.encryptedSecurityCode = tmpCode;
-                // ****************************************************************
-                //el.encryptedSecurityCode = tmpCode;
-                // ****************************************************************
+    const configuration = {
+      environment: process.env.REACT_APP_Adyen_ENV,
+      clientKey: process.env.REACT_APP_AdyenOriginKEY,
+      locale: process.env.REACT_APP_Adyen_locale
+    };
+    console.info('configurationconfiguration', configuration);
+    const AdyenCheckout = (await import('@adyen/adyen-web')).default;
+    const checkout = await AdyenCheckout(configuration);
+    checkout
+      .create('card', {
+        // brand: brand,
+        onChange: (state) => {
+          console.log(state);
+          _this.getBrowserInfo(state);
+          const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
+          let result = find(cardList, (ele) => ele.id === id);
+          result.encryptedSecurityCode = tmpCode;
+          // ****************************************************************
+          //el.encryptedSecurityCode = tmpCode;
+          // ****************************************************************
 
-                updateSelectedCardInfo(result);
-                updateFormValidStatus(result);
-                // ****************************************************************
-                //_this.setState({ cardList: _this.state.cardList });
-                // ****************************************************************
-              },
-              onLoad: (state) => {
-                el.isLoadCvv = true;
-              }
-            })
-            .mount(element);
+          updateSelectedCardInfo(result);
+          updateFormValidStatus(result);
+          // ****************************************************************
+          //_this.setState({ cardList: _this.state.cardList });
+          // ****************************************************************
+        },
+        onLoad: (state) => {
+          el.isLoadCvv = true;
         }
-      }
-    });
+      })
+      .mount(element);
+    // loadJS({
+    //   url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+    //   callback: function () {
+    //     if (!!window.AdyenCheckout) {
+    //       const AdyenCheckout = window.AdyenCheckout;
+    //       const checkout = new AdyenCheckout({
+    //         environment: process.env.REACT_APP_Adyen_ENV,
+    //         originKey: process.env.REACT_APP_AdyenOriginKEY,
+    //         locale: process.env.REACT_APP_Adyen_locale
+    //       });
+    //       checkout
+    //         .create('card', {
+    //           brand: brand,
+    //           onChange: (state) => {
+    //             console.log(state);
+    //             _this.getBrowserInfo(state);
+    //             const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
+    //             let result = find(cardList, (ele) => ele.id === id);
+    //             result.encryptedSecurityCode = tmpCode;
+    //             // ****************************************************************
+    //             //el.encryptedSecurityCode = tmpCode;
+    //             // ****************************************************************
+
+    //             updateSelectedCardInfo(result);
+    //             updateFormValidStatus(result);
+    //             // ****************************************************************
+    //             //_this.setState({ cardList: _this.state.cardList });
+    //             // ****************************************************************
+    //           },
+    //           onLoad: (state) => {
+    //             el.isLoadCvv = true;
+    //           }
+    //         })
+    //         .mount(element);
+    //     }
+    //   }
+    // });
   };
   handleClickDeleteBtn(el, e) {
     e.preventDefault();
@@ -486,6 +518,7 @@ class AdyenCreditCardList extends React.Component {
               node.style.setProperty('border-style', 'dashed', 'important');
             }
           }}
+          data-auto-testid="payment_add_payment"
           onClick={this.handleClickAddBtn}
         >
           <a className="rc-styled-link">
@@ -512,7 +545,10 @@ class AdyenCreditCardList extends React.Component {
               this.updateConfirmTooltipVisible(el, status)
             }
           >
-            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+            <span
+              onClick={this.handleClickDeleteBtn.bind(this, el)}
+              data-auto-testid="payment_delete_payment"
+            >
               <FormattedMessage id="delete" />
             </span>
           </Popover>

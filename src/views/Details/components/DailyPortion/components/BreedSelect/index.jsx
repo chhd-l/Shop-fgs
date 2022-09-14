@@ -149,6 +149,7 @@ export default function BreedSelect({
                 onChange={handleSelectMixedBreedChange}
               />
               <label
+                data-testid="pf-checkbox-mixbreed"
                 className="rc-input__label--inline text-break"
                 htmlFor="pf-checkbox-mixbreed"
               >

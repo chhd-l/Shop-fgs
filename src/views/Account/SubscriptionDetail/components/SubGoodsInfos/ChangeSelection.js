@@ -3,11 +3,10 @@ import React, { useContext, useState } from 'react';
 import { FrequencySelection, FrequencyMatch } from '@/components';
 import { SubGoodsInfosContext } from './index';
 import { getZoneTime, formatDate } from '@/utils/utils';
-import { GAForChangeProductBtn } from '@/utils/GA';
 import { DatePickerComponent } from '@/components/Common';
 import cn from 'classnames';
 
-const ChangeSelection = ({ el, idx }) => {
+const ChangeSelection = ({ el, onChange, idx }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
   const {
     setState,
@@ -94,7 +93,7 @@ const ChangeSelection = ({ el, idx }) => {
                   if (el.periodTypeId !== data.id) {
                     el.periodTypeId = data.id;
                     // el.periodTypeValue = data.valueEn;
-                    setState({ isDataChange: true });
+                    onChange();
                   }
                 }}
                 childrenGridCls={girdConf}

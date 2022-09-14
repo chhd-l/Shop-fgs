@@ -25,6 +25,7 @@ import getCardImg from '@/lib/get-card-img';
 import cn from 'classnames';
 import { handleEmailShow } from '@/utils/utils';
 import { Button, Popover } from '@/components/Common';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 function CardItem(props) {
   const { data, supportPaymentMethods } = props;
@@ -143,6 +144,10 @@ function CardItem(props) {
                         </p>
                       ) : null}
                       <p className="mb-0">{data.paymentVendor}</p>
+                      <CardTips
+                        expirationDate={data.expirationDate}
+                        expireStatusEnum={data.expireStatusEnum}
+                      />
                     </div>
                   )}
                 </>
@@ -201,7 +206,7 @@ class PaymentComp extends React.Component {
       currentCardInfo: {},
       completeCardShow: false,
       currentEditOriginCardInfo: null,
-      paymentType: 'PAYU', // PAYU ADYEN
+      paymentWay: { name: 'PAYU' }, // PAYU ADYEN
       supportPaymentMethods: [],
       defaultCardTypeVal: ''
     };
@@ -216,7 +221,7 @@ class PaymentComp extends React.Component {
     } = this.props;
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name
+        paymentWay: res?.context
       });
       const payPspItemVOList = res?.context?.payPspItemVOList || [];
       setPayWayNameArr(payPspItemVOList);
@@ -1013,7 +1018,7 @@ class PaymentComp extends React.Component {
             backPage={this.state.fromPage}
             hideMyself={this.handleHideEditForm}
             refreshList={this.getPaymentMethodList}
-            paymentType={this.state.paymentType}
+            paymentWay={this.state.paymentWay}
             supportPaymentMethods={supportPaymentMethods}
             needEmail={this.props.needEmail}
             needPhone={this.props.needPhone}

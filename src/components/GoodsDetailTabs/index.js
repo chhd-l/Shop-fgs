@@ -657,6 +657,26 @@ const GoodsDetailTabs = function (props) {
     if (urlHash !== '#ConnectedPackDailyPortion') {
       return;
     }
+    //扫码访问跳转到食量计划tab
+
+    const country = window.__.env.REACT_APP_COUNTRY;
+    if (
+      country === 'ru' ||
+      country === 'mx' ||
+      country === 'jp' ||
+      country === 'tr'
+    ) {
+      goodsDetailTabsData.forEach((item, i) => {
+        if (item.descriptionName === 'Guide') {
+          changeTab({
+            idx: i,
+            type: 'switch',
+            ele: item
+          });
+        }
+      });
+    }
+
     const lifeStagesAttr = (goodsAttributesValueRelList ?? [])
       .filter((item) => item.goodsAttributeName === 'Lifestages')
       .map((item) => item?.goodsAttributeValue);
@@ -671,6 +691,7 @@ const GoodsDetailTabs = function (props) {
     const guideTabIndex = (goodsDetailTabsData ?? []).findIndex(
       (item) => item.descriptionName === 'Guide'
     );
+
     console.log(
       'ConnectedPackDailyPortion hash check:',
       growingCheck,
@@ -698,7 +719,11 @@ const GoodsDetailTabs = function (props) {
       }
     } else if (adultCheck) {
       window.setTimeout(() => {
-        scrollToTarget('j-details-dailyportion');
+        scrollToTarget('GoodsDetailTabs');
+      }, 500);
+    } else if (country === 'mx') {
+      window.setTimeout(() => {
+        scrollToTarget('GoodsDetailTabs');
       }, 500);
     }
   };
@@ -865,6 +890,7 @@ const GoodsDetailTabs = function (props) {
                 {goodsDetailTabsData.map((ele, index) => (
                   <li key={index}>
                     <button
+                      data-auto-testid={`pdp_tab_${ele.descriptionName}`}
                       className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                       data-toggle={`tab__panel-${index}`}
                       aria-selected={

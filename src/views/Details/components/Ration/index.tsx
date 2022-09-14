@@ -72,6 +72,11 @@ const Ration = ({ goodsNo, setState }: Props) => {
   useEffect(() => {
     getRationInfos();
   }, []);
+
+  // ru local need hide product-finder
+  if (window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) {
+    return null;
+  }
   return (
     <div>
       {isFromPF ? (
@@ -100,9 +105,8 @@ const Ration = ({ goodsNo, setState }: Props) => {
         </div>
       ) : (
         <div
-          className={`productFinderBox ${
-            isMobile ? '' : 'd-flex'
-          } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap`}
+          className={`productFinderBox ${isMobile ? '' : 'd-flex'
+            } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap`}
         >
           <div style={{ flex: '1' }}>
             <FormattedMessage
@@ -112,9 +116,8 @@ const Ration = ({ goodsNo, setState }: Props) => {
                   <DistributeHubLinkOrATag
                     href="/product-finder"
                     to="/product-finder"
-                    className={`rc-styled-link ${
-                      Tr || isMobile ? '' : 'backProductFinder'
-                    } mt-0 pb-0`}
+                    className={`rc-styled-link ${Tr || isMobile ? '' : 'backProductFinder'
+                      } mt-0 pb-0`}
                   >
                     <FormattedMessage id="details.findProductTips" />
                   </DistributeHubLinkOrATag>

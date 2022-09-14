@@ -12,6 +12,7 @@ import LazyLoad from 'react-lazyload';
 import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
 import { Point } from '@/views/Payment/Point';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -404,6 +405,12 @@ class AdyenCreditCardList extends React.Component {
                   {data.cardType}
                 </span>
               </div>
+              <div className="col-12">
+                <CardTips
+                  expirationDate={data.expirationDate}
+                  expireStatusEnum={data.expireStatusEnum}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -469,6 +476,7 @@ class AdyenCreditCardList extends React.Component {
         {unSavedCardListJSX}
         {cardListJSX}
         <div
+          data-auto-testid="payment_add_payment"
           className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
           ref={(node) => {
             if (node) {
@@ -502,7 +510,10 @@ class AdyenCreditCardList extends React.Component {
               this.updateConfirmTooltipVisible(el, status)
             }
           >
-            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+            <span
+              data-auto-testid="payment_delete_payment"
+              onClick={this.handleClickDeleteBtn.bind(this, el)}
+            >
               <FormattedMessage id="delete" />
             </span>
           </Popover>

@@ -13,6 +13,7 @@ interface Props {
   currentSubscriptionPrice: any;
   changeMethod: Function;
   changeFreqency: Function;
+  handleNoShowValue:Function;
   children: any;
 }
 
@@ -25,6 +26,7 @@ const AutoshipBuyMethod = ({
   currentSubscriptionPrice,
   changeMethod,
   changeFreqency,
+  handleNoShowValue,
   children
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
@@ -42,6 +44,7 @@ const AutoshipBuyMethod = ({
       className={`buy-method-box pb-2 ${form.buyWay === 1 ? 'border-red' : ''}`}
     >
       <div
+        data-tetsid="pdp_autoship_btn"
         className={`buyMethod autoship-buy-method rc-margin-bottom--xs d-flex row justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
           form.buyWay === 1 ? 'border-solid border-b border-d7d7d7' : ''
         }`}
@@ -175,6 +178,7 @@ const AutoshipBuyMethod = ({
                 }}
                 selectionCustomInnerStyle={{ height: '3rem!important' }}
                 textClassName="font-normal"
+                handleNoShowValue={(data:any)=>handleNoShowValue(data)}
               />
             )}
           </div>

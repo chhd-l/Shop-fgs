@@ -7,7 +7,8 @@ import { queryCityByName } from '@/api/address';
 class CitySearchSelection extends React.Component {
   static defaultProps = {
     name: '',
-    searchSelectionBlur: () => {}
+    searchSelectionBlur: () => {},
+    dataAutoTestid: 'city_searchSelection_input'
   };
   render() {
     return (
@@ -22,6 +23,7 @@ class CitySearchSelection extends React.Component {
               (ele) => Object.assign(ele, { name: ele.cityName })
             );
           }}
+          dataAutoTestid={this.props.dataAutoTestid}
           selectedItemChange={(data) => this.props.onChange(data)}
           defaultValue={this.props.defaultValue}
           key={this.props.defaultValue}

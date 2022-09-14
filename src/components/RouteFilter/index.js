@@ -185,7 +185,7 @@ class RouteFilter extends Component {
     sessionItemRoyal.set('prevPath', curPath);
 
     this.interceptToLogin();
-
+    this.ifEsauCodeTo404();
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');
       return null;
@@ -213,7 +213,15 @@ class RouteFilter extends Component {
       oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
     }
   }
-
+  ifEsauCodeTo404() {
+    const hash = window.location.hash;
+    const country = window.__.env.REACT_APP_COUNTRY;
+    const counterlist = ['fr', 'uk', 'nl', 'us', 'se', 'de'];
+    const bool = counterlist.includes(country);
+    if (hash === '#ConnectedPackDailyPortion' && bool) {
+      this.props.history.push('/404');
+    }
+  }
   render() {
     return <React.Fragment />;
   }

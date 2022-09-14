@@ -208,7 +208,7 @@ const HandledSpec = ({
       backgroundColor = '#ccc';
     } else if (
       shouldSkuGrayOutOfStock &&
-      sdItem.specDetailId === selectId &&
+      sdItem.selected &&
       sdItem.isEmpty
     ) {
       backgroundColor = '#ccc';
@@ -242,6 +242,7 @@ const HandledSpec = ({
                 .filter((el: any) => showOffShelvesSpecs || el.addedFlag)
                 .map((sdItem: any, i: number) => (
                   <div
+                    data-auto-testid="single-select-size"
                     key={i}
                     className={cn(`rc-swatch__item`, {
                       selected: sdItem.selected,
@@ -249,7 +250,6 @@ const HandledSpec = ({
                         sdItem.isDisabled && !sdItem.canSelectedOutOfStock
                     })}
                     onClick={() => {
-                      onClickSku();
                       setSelectId(sdItem.specDetailId);
                       if (
                         (sdItem.isDisabled && !sdItem.canSelectedOutOfStock) ||

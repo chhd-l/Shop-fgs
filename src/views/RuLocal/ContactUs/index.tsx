@@ -101,7 +101,7 @@ const ContactUs = () => {
           <div className="rc-padding-y--md rc-md-down"></div>
         </div>
         <HrLine />
-        <div
+        {/* <div
           className="rc-padding-x--sm rc-margin--none rc-bg-colour--brand3 hero-panel rc-animation-001--base rc-animation-001--active"
           data-component="content-animation"
           id="hero-panel-2-contact-us-page"
@@ -137,14 +137,9 @@ const ContactUs = () => {
                 vet-products-partial-path="/products/vet"
               >
                 <div className="content-container">
-                  <div className="img-container ">
-                    <img
-                      className="lazyautosizes lazyloaded"
-                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/contact-us/10004.jpg`}
-                    />
-                  </div>
+     
                   <div className="text-container">
-                    <div className="rc-full-width rc-text--left">
+                    <div className="rc-full-width rc-text--center">
                       <div className="rc-container-text">
                         <h2 className="rc-beta " data-en-title=""></h2>
                         <a
@@ -171,14 +166,9 @@ const ContactUs = () => {
                 vet-products-partial-path="/products/vet"
               >
                 <div className="content-container">
-                  <div className="img-container ">
-                    <img
-                      className="lazyautosizes lazyloaded"
-                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/contact-us/10005.jpg`}
-                    />
-                  </div>
+           
                   <div className="text-container">
-                    <div className="rc-full-width rc-text--left">
+                    <div className="rc-full-width rc-text--center">
                       <div className="rc-container-text">
                         <h2 className="rc-beta "></h2>
                         <p>
@@ -199,7 +189,7 @@ const ContactUs = () => {
             </div>
           </div>
           <div className="rc-padding-y--md rc-md-down rc-hidden"></div>
-        </div>
+        </div> */}
       </main>
       <Footer />
     </div>

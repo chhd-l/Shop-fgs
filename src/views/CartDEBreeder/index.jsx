@@ -2,7 +2,7 @@ import Cart from '../Cart';
 import React, { useEffect, useState } from 'react';
 import { funcUrl } from '@/lib/url-utils';
 import { inject, observer } from 'mobx-react';
-import { getRecommendation } from '@/api/recommendation';
+import { getRecommendation, saveShelterId } from '@/api/recommendation';
 import { injectIntl } from 'react-intl-phraseapp';
 import {
   AddItemsMember as AddCartItemsMember,
@@ -27,6 +27,15 @@ const CartDEBreeder = ({
       const deRecommendationGoodsId = localItemRoyal.get(
         'deRecommendationGoodsId'
       );
+      const products = funcUrl({ name: 'products' });
+      const customerId = funcUrl({ name: 'customerId' });
+      if (customerId && loginStore.isLogin) {
+        await saveShelterId({
+          shelterId: customerId,
+          customerId: loginStore.userInfo.customerId,
+          prescriberType: 'vet'
+        });
+      }
       if (deRecommendationGoodsId) {
         let cardGoodIds = [];
         if (loginStore.isLogin) {
@@ -45,8 +54,6 @@ const CartDEBreeder = ({
           return;
         }
       }
-      const products = funcUrl({ name: 'products' });
-      const customerId = funcUrl({ name: 'customerId' });
       const res = await getRecommendation(products, customerId);
       const recommendationGoodsInfoRels =
         res.context.recommendationGoodsInfoRels;

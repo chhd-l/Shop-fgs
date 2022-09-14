@@ -21,23 +21,34 @@ export default class AdyenOxxoModal extends Component {
     const adyenOriginKeyConf = tmpConfArr.filter(
       (t) => t.pspItemCode === this.props.pspItemCode
     )[0];
-    loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      callback: function () {
-        if (!!window.AdyenCheckout) {
-          const AdyenCheckout = window.AdyenCheckout;
-          const checkout = new AdyenCheckout({
-            environment: adyenOriginKeyConf?.environment,
-            originKey: adyenOriginKeyConf?.openPlatformSecret,
-            locale: adyenOriginKeyConf?.locale || 'en-US',
-            shopperLocale: adyenOriginKeyConf?.locale || 'en-US'
-          });
+    console.info('111111oxxoconfigurationconfiguration', configuration);
+    // debugger;
 
-          //Present the voucher
-          checkout.createFromAction(action).mount('#oxxo-container');
-        }
-      }
-    });
+    const configuration = {
+      environment: adyenOriginKeyConf?.environment,
+      clientKey: adyenOriginKeyConf?.openPlatformSecret,
+      locale: adyenOriginKeyConf?.locale || 'en-US'
+    };
+    const AdyenCheckout = (await import('@adyen/adyen-web')).default;
+    const checkout = await AdyenCheckout(configuration);
+    const card = checkout.createFromAction(action).mount('#oxxo-container');
+    // loadJS({
+    //   url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+    //   callback: function () {
+    //     if (!!window.AdyenCheckout) {
+    //       const AdyenCheckout = window.AdyenCheckout;
+    //       const checkout = new AdyenCheckout({
+    //         environment: adyenOriginKeyConf?.environment,
+    //         originKey: adyenOriginKeyConf?.openPlatformSecret,
+    //         locale: adyenOriginKeyConf?.locale || 'en-US',
+    //         shopperLocale: adyenOriginKeyConf?.locale || 'en-US'
+    //       });
+
+    //       //Present the voucher
+    //       checkout.createFromAction(action).mount('#oxxo-container');
+    //     }
+    //   }
+    // });
   }
   componentDidMount() {
     if (this.props.action && Object.keys(this.props.action).length > 0) {

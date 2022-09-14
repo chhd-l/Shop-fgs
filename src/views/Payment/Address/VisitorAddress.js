@@ -656,6 +656,7 @@ class VisitorAddress extends React.Component {
                       <Button
                         type="primary"
                         size="small"
+                        data-auto-testid="payment_address_confirm"
                         loading={this.state.btnConfirmLoading}
                         disabled={confirmBtnDisabled}
                         onClick={this.clickConfirmPickup}
@@ -668,6 +669,7 @@ class VisitorAddress extends React.Component {
                       <Button
                         type="primary"
                         size="small"
+                        data-auto-testid="payment_address_confirm"
                         className={`visitor_address_confirm`}
                         loading={this.state.btnConfirmLoading}
                         disabled={isValid && formAddressValid ? false : true}

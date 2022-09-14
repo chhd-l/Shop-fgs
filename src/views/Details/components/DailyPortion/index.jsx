@@ -497,7 +497,14 @@ export default function DailyPortion({
       neutered &&
       petActivityCode
     );
-
+    console.log({
+      breedBool,
+      gender,
+      ageBool,
+      weightBool,
+      neutered,
+      petActivityCode
+    });
     setStepOneDisabled(stepOneDisabled);
   }, [
     breedData,
@@ -556,6 +563,7 @@ export default function DailyPortion({
   };
 
   const handleBreedData = (data, isMixedBreed = false) => {
+    console.log({ data, isMixedBreed });
     setBreedData(data);
     setMixedBreed(!!isMixedBreed);
   };
@@ -839,6 +847,7 @@ export default function DailyPortion({
             <div className="py-10 text-center">
               <Button
                 type="primary"
+                data-testid="handleToStep2"
                 disabled={stepOneDisabled || errOperate}
                 className={classNames('rc-margin-right--xs--mobile')}
                 onClick={handleToStep2}
@@ -862,6 +871,7 @@ export default function DailyPortion({
             <div className="py-6 lg:py-10 text-center">
               <div className="pb-6">
                 <Button
+                  data-testid="bcsBtn"
                   style={{ minWidth: '200px' }}
                   disabled={!bcs}
                   onClick={() => getResult()}
@@ -911,7 +921,7 @@ export default function DailyPortion({
                 </div>
               </div>
               {bcs == 3 || bcs == 7 ? (
-                <p class="text-gray-600 text-base mt-3">
+                <p className="text-gray-600 text-base mt-3">
                   <span className="rc-iconography rc-icon rc-info--xs" />
                   <FormattedMessage id="dailyPortion.weightIssuesMessage" />
                 </p>
@@ -919,6 +929,7 @@ export default function DailyPortion({
             </div>
             <div className="mt-6">
               <button
+                data-testid="againCalculation"
                 onClick={() => againCalculation(true)}
                 className={classNames(
                   'rc-btn dailyPortion-startBtn  rc-margin-right--xs--mobile'
@@ -938,7 +949,8 @@ export default function DailyPortion({
     if (!speciesValue) return [];
 
     let param = {
-      countryCode: window.__.env.REACT_APP_COUNTRY,
+      countryCode:
+        window.__.env.REACT_APP_COUNTRY_CODE || window.__.env.REACT_APP_COUNTRY,
       species: String(speciesValue).toLowerCase()
     };
     let res = await productFinderDailyPortion(param);
@@ -951,22 +963,22 @@ export default function DailyPortion({
     }
   };
 
-  const handleInitBreedDisabled = (breeds) => {
-    if (Array.isArray(breeds) && breeds.length > 0 && initBreedValue) {
-      // const value = breeds.find((item) => item.breedCode === initBreedValue)
-      const value = breeds.find((item) => item.name === initBreedValue);
-      if (value) {
-        setPreselected(true);
-        setBreedData({
-          key: value.breedCode,
-          name: value.localName
-        });
-      } else {
-        setBreedData({});
-        setPreselected(false);
-      }
-    }
-  };
+  // const handleInitBreedDisabled = (breeds) => {
+  //   if (Array.isArray(breeds) && breeds.length > 0 && initBreedValue) {
+  //     // const value = breeds.find((item) => item.breedCode === initBreedValue)
+  //     const value = breeds.find((item) => item.name === initBreedValue);
+  //     if (value) {
+  //       setPreselected(true);
+  //       setBreedData({
+  //         key: value.breedCode,
+  //         name: value.localName
+  //       });
+  //     } else {
+  //       setBreedData({});
+  //       setPreselected(false);
+  //     }
+  //   }
+  // };
 
   const handleOk = () => {
     setVisible(false);

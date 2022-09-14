@@ -10,12 +10,14 @@ import {
   formatDate,
   getFormatDate
 } from '@/utils/utils';
+import { GAForSeeMorePromotionBtn } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
 import { AddressPreview } from '@/components/Address';
 import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 import { format } from 'date-fns';
 import * as date_fns_locale from 'date-fns/locale';
 import { Modal } from '@/components/Common';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 const country = window.__.env.REACT_APP_COUNTRY;
 
@@ -205,10 +207,7 @@ const UserPaymentInfo = ({
       ) : null}
 
       {currentCardInfo ? (
-        <div
-          className="col-12 col-md-4 mb-2"
-          style={{ padding: '5px', paddingRight: '0' }}
-        >
+        <div className="col-12 col-md-4 mb-2" style={{ padding: '5px' }}>
           <div className="h-100 border border-d7d7d7 p-5">
             <div className="align-items-center">
               <img
@@ -272,7 +271,6 @@ const UserPaymentInfo = ({
                             {currentCardInfo.lastFourDigits}
                           </span>
                         </p>
-
                         <LazyLoad
                           style={{
                             width: '20%',
@@ -333,6 +331,10 @@ const UserPaymentInfo = ({
                       </div>
                     ) : null} */}
                     {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
+                    <CardTips
+                      expirationDate={currentCardInfo.expirationDate}
+                      expireStatusEnum={currentCardInfo.expireStatusEnum}
+                    />
                   </>
                 )
               ) : (
@@ -360,10 +362,9 @@ const UserPaymentInfo = ({
       {/* promotion save */}
       {/* fr ru tr  us: 368369*/}
       {/* ['fr', 'ru', 'tr'].includes(country) */}
-      {promotionsArr?.length > 0 &&
-        ['fr', 'ru', 'tr'].includes(country) &&
+      {['fr', 'ru', 'tr'].includes(country) &&
         ['club'].includes(subDetail?.subscriptionType?.toLowerCase()) && (
-          <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
+          <div className="col-12 col-md-4 mb-2" style={{ padding: '5px' }}>
             <div className="h-100 border border-d7d7d7 p-5">
               {/* 头部标题和 more */}
               <div className="align-items-center">
@@ -374,7 +375,10 @@ const UserPaymentInfo = ({
                 <a
                   className="rc-styled-link text-rc-red float-right"
                   style={{ marginTop: '5px', overflow: 'visible' }}
-                  onClick={() => setVisible(true)}
+                  onClick={() => {
+                    GAForSeeMorePromotionBtn();
+                    setVisible(true);
+                  }}
                 >
                   <FormattedMessage id="subscription.Seemore" />
                 </a>
@@ -416,7 +420,9 @@ const UserPaymentInfo = ({
                       values={{
                         money: (
                           <span style={{ color: '#009700' }}>
-                            {formatMoney(promotionsArr[0].value ?? 0)}
+                            {promotionsArr.length > 0
+                              ? formatMoney(promotionsArr[0].value ?? 0)
+                              : formatMoney(0)}
                           </span>
                         ),
                         code: (
@@ -424,10 +430,16 @@ const UserPaymentInfo = ({
                             className="text-22 font-semibold"
                             style={{ color: '#009700' }}
                           >
-                            {promotionsArr[0].publicStatus === '1' ? (
-                              <FormattedMessage id="subscription.PROMOTION" />
+                            {promotionsArr.length > 0 ? (
+                              <>
+                                {promotionsArr[0].publicStatus === '1' ? (
+                                  <FormattedMessage id="subscription.PROMOTION" />
+                                ) : (
+                                  promotionsArr[0]?.code
+                                )}
+                              </>
                             ) : (
-                              promotionsArr[0]?.code
+                              <FormattedMessage id="subscription.PROMOTION" />
                             )}
                           </span>
                         )
@@ -436,17 +448,20 @@ const UserPaymentInfo = ({
                     <br />
                     <span>
                       {/* 日本是年 月 日  -----其他国家是日 月 年 */}
-                      <FormattedMessage
-                        id="Subscription.AddOn"
-                        values={{
-                          time: (
-                            <span>
-                              {getFormatDate(promotionsArr[0].useTime) ||
-                                getFormatDate(new Date())}
-                            </span>
-                          )
-                        }}
-                      />
+                      {promotionsArr.length > 0 && (
+                        <FormattedMessage
+                          id="Subscription.AddOn"
+                          values={{
+                            time: (
+                              <span>
+                                {getFormatDate(promotionsArr[0].useTime) ||
+                                  getFormatDate(new Date())}
+                              </span>
+                            )
+                          }}
+                        />
+                      )}
+
                       {/* {format(new Date("2022-7-29"), "MMMM do yyyy", { locale: date_fns_locale[window.__.env.REACT_APP_LANG_LOCALE] })} */}
                     </span>
                   </span>

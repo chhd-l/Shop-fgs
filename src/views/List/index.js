@@ -364,10 +364,7 @@ class List extends React.Component {
       sortList: [], // 排序信息
       selectedSortParam: null,
 
-      searchForm: {
-        minMarketPrice: 0,
-        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
-      },
+      searchForm: {},
       defaultFilterSearchForm: {
         // 初始化filter查询参数
         attrList: [],
@@ -1252,6 +1249,7 @@ class List extends React.Component {
       });
   }
   setSEO({ cateIds = [] } = {}) {
+    const { pathname, search } = this.props.history.location;
     const { keywords } = this.state;
     if (keywords) {
       setSeoConfig({ pageName: 'Search Results Page' }).then((res) => {
@@ -1261,14 +1259,19 @@ class List extends React.Component {
         });
       });
     } else if (cateIds && cateIds.length) {
+      // debugger;
       setSeoConfig({
         categoryId: cateIds[0],
-        pageName: 'Product List Page'
+        pageName: 'Product List Page',
+        navigationLink: pathname + search
       }).then((res) => {
         this.setState({ seoConfig: res });
       });
     } else {
-      setSeoConfig({ pageName: 'Product List Page' }).then((res) => {
+      setSeoConfig({
+        pageName: 'Product List Page',
+        navigationLink: pathname
+      }).then((res) => {
         this.setState({ seoConfig: res });
       });
     }
@@ -1554,18 +1557,18 @@ class List extends React.Component {
         ]
       });
     }
-    if (searchForm.maxMarketPrice === null) {
-      getConfig()
-        .then((res) => {
-          this.MygetList(
-            { ...params, maxMarketPrice: res?.context?.maxGoodsPrice },
-            type
-          );
-        })
-        .catch((err) => console.log(err));
-    } else {
-      this.MygetList(params, type);
-    }
+    // if (searchForm.maxMarketPrice === null) {
+    //   getConfig()
+    //     .then((res) => {
+    //       this.MygetList(
+    //         { ...params, maxMarketPrice: res?.context?.maxGoodsPrice },
+    //         type
+    //       );
+    //     })
+    //     .catch((err) => console.log(err));
+    // } else {
+    this.MygetList(params, type);
+    // }
   }
 
   MygetList(params, type) {
@@ -2062,9 +2065,9 @@ class List extends React.Component {
                               filterList={filterList}
                               key={`2-${filterList.length}`}
                               inputLabelKey={2}
-                              hanldePriceSliderChange={
-                                this.hanldePriceSliderChange
-                              }
+                              // hanldePriceSliderChange={
+                              //   this.hanldePriceSliderChange
+                              // }
                               markPriceAndSubscriptionLangDict={
                                 markPriceAndSubscriptionLangDict
                               }
@@ -2083,9 +2086,9 @@ class List extends React.Component {
                               filterList={filterList}
                               key={`2-${filterList.length}`}
                               inputLabelKey={2}
-                              hanldePriceSliderChange={
-                                this.hanldePriceSliderChange
-                              }
+                              // hanldePriceSliderChange={
+                              //   this.hanldePriceSliderChange
+                              // }
                               markPriceAndSubscriptionLangDict={
                                 markPriceAndSubscriptionLangDict
                               }

@@ -26,7 +26,7 @@ const PriceDetailsList = ({
   const priceList = sortPriceList([
     {
       key: 'totalPrice',
-      val: totalPrice + gifts?.marketPrice,
+      val: totalPrice + (gifts?.marketPrice ?? 0),
       visible: true,
       title: <FormattedMessage id="subscription.total" />
     },
@@ -127,7 +127,7 @@ const PriceDetailsList = ({
           {item.title}
         </label>
         <div className="col-6 text-right">
-          <strong>
+          <strong data-auto-testid={item.key}>
             {typeof item.val === 'number' ? formatMoney(item.val) : item.val}
           </strong>
         </div>

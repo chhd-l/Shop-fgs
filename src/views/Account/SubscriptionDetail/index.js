@@ -274,10 +274,11 @@ class SubscriptionDetail extends React.Component {
             this.props.intl.messages.saveSuccessfullly,
             'success'
           )
-        );
-        if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-          this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
-        }
+        ).then(() => {
+          if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+            this.doCheckPickUpActive(this.state.subDetail.deliveryAddressId);
+          }
+        });
       })
       .catch((err) => {
         this.setState({ loading: false });

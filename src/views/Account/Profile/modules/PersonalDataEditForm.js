@@ -424,6 +424,7 @@ class PersonalDataEditForm extends React.Component {
               className="ui-cursor-pointer text-xl"
               style={{ display: curPageAtCover ? 'none' : 'block' }}
               onClick={this.handleClickGoBack}
+              data-auto-testid="BackToMyDetails"
             >
               <span>&larr; </span>
               {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
@@ -442,6 +443,7 @@ class PersonalDataEditForm extends React.Component {
                   title={txt}
                   alt={txt}
                   onClick={this.handleClickEditBtn}
+                  data-auto-testid="PersonalDataEditForm"
                 >
                   {txt}
                 </button>
@@ -580,6 +582,7 @@ class PersonalDataEditForm extends React.Component {
               </span>
               <div className="text-right">
                 <span
+                  data-auto-testid="editPersonalInfoBtn"
                   className="rc-styled-link editPersonalInfoBtn"
                   name="personalInformation"
                   onClick={this.handleCancel}
@@ -590,6 +593,7 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="or" />
                 &nbsp;
                 <Button
+                  data-auto-testid="submitBtn"
                   type="primary"
                   loading={this.state.loading}
                   className="submitBtn"

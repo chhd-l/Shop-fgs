@@ -98,11 +98,11 @@ function AboutLoyaltyProgram(props) {
             <p className="font-PingFangSC text-16 w-cs-284 m-auto leading-24 grayColor mt-4 text-left md:text-18 md:left-26 md:w-auto md:text-center">
               現在の会員ステージと保有ポイントは、ログイン後のマイページでご確認いただけます。会員ステージは、毎月15日午前3時に集計して決定します。
             </p>
-            <img
+            {/* <img
               src={Bitmap2}
               alt=""
               className="mt-4 m-auto w-cs-284 md:w-cs-999"
-            ></img>
+            ></img> */}
           </div>
           <ThroughLine />
 
@@ -120,7 +120,8 @@ function AboutLoyaltyProgram(props) {
               月の同日、同日がなければ翌日となります。
             </p>
             <img
-              src={Bitmap3}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/loyaltyProgram/Bitmap3v2.png`}
+              // src={Bitmap3}
               alt=""
               className="mt-4 m-auto w-cs-284 md:w-cs-999"
             ></img>

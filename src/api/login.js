@@ -94,3 +94,19 @@ export function authToken(parameter) {
     data: parameter
   });
 }
+
+export function forgetPassworSendEmail(parameter) {
+  return axios({
+    url: '/customer/send-mail',
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function passwordByForgot(parameter) {
+  return axios({
+    url: '/customer/passwordByForgot',
+    method: 'post',
+    data: parameter
+  });
+}

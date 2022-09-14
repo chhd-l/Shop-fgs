@@ -86,9 +86,10 @@ function AboutMyRoyalCanin(props) {
             <div className="top">
               <div>
                 <img
-                  src={Bitmap1}
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/myroyalcanin/Bitmap1-v1.png`}
+                  // src={Bitmap1}
                   alt=""
-                  className="w-cs-53 h-cs-53 md:w-cs-110 md:h-cs-110 m-auto mb-4 md:mb-5"
+                  className="w-20 h-20 md:w-cs-110 md:h-cs-110 m-auto mb-4 md:mb-5"
                 />
               </div>
               <h1 className="font-PingFangSC text-rc-red w-cs-288 leading-7 text-22 md:w-cs-440 md:h-cs-40 mb-4 md:text-30 md:leading-10 font-semibold">
@@ -118,9 +119,10 @@ function AboutMyRoyalCanin(props) {
             <div className="bottom">
               <div>
                 <img
-                  src={Bitmap2}
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/myroyalcanin/Bitmap2-v2.png`}
+                  // src={Bitmap2}
                   alt=""
-                  className="w-cs-63 h-cs-53 md:w-cs-106 md:h-cs-88 m-auto mb-4 md:mb-10"
+                  className="w-20 h-20 md:w-cs-106 md:h-cs-88 m-auto mb-4 md:mb-10"
                 />
               </div>
               <h1 className="font-PingFangSC text-rc-red text-22 leading-7 md:w-cs-440 md:h-cs-40  mb-3 md:mb-4 md:text-30 md:leading-10 font-semibold">

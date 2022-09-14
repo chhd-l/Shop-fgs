@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { unique } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import cn from 'classnames';
-import { Selection } from '@/components';
+import Selection from '@/components/Selection';
 import { handleSizeList } from '@/framework/product';
-import './index.less';
+import './index.less'
 
 interface Props {
   renderAgin?: boolean;
@@ -17,8 +17,8 @@ interface Props {
   canSelectedOutOfStock?: boolean; //when sku out of stock, don't disabled sku, it's an optional status and displays 'out of stock' info.
   defaultSkuNo?: string;
   updatedChangeSku?: Function;
-  inModal?: boolean;
-  showCurrentOutOfStockSku?: string;
+  inModal?:boolean;
+  showCurrentOutOfStockSku?:string;
 }
 
 const HandledSpecSelect = ({
@@ -27,15 +27,17 @@ const HandledSpecSelect = ({
   updatedSku,
   defaultSkuId,
   disabledGoodsInfoIds = [],
-  onIsSpecAvailable = () => {},
+  onIsSpecAvailable = () => { },
   canSelectedWhenAllSpecDisabled = false,
   canSelectedOutOfStock = false,
   defaultSkuNo,
   inModal,
-  updatedChangeSku = () => {}
+  updatedChangeSku = () => { }
 }: Props) => {
-  const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } = details;
+  const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery } =
+    details;
   const [sizeList, setSizeList] = useState<any[]>([]);
+  const [subSkuItem,setSubSkuItem] = useState<any>({})
   const matchGoods = () => {
     let handledValues = {
       currentUnitPrice: 0,
@@ -111,7 +113,7 @@ const HandledSpecSelect = ({
     updatedSku(handledValues, sizeList);
   };
 
-  const handleChooseSize = async (sId: any, sdId: any) => {
+  const handleChooseSize = async(sId: any, sdId: any) => {
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -126,10 +128,11 @@ const HandledSpecSelect = ({
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.specDetailId;
     const skuInfo = goodsInfos.find((item: any) =>
-      item.mockSpecDetailIds.includes(specDetailId)
+      item.mockSpecDetailIds?.includes(specDetailId)
     );
     await matchGoods();
-    updatedChangeSku(skuInfo);
+    await updatedChangeSku(skuInfo)
+
   };
 
   useEffect(() => {
@@ -144,24 +147,30 @@ const HandledSpecSelect = ({
       canSelectedWhenAllSpecDisabled,
       canSelectedOutOfStock
     });
-    goodsSpecs?.forEach((el: any) =>
-      el?.chidren?.forEach((it: any) => {
-        it.value = it?.detailName;
-        it.name = it?.detailName;
-        it.name2 = 'details.inStock';
-        if (it?.isEmpty) {
-          it.name2 = 'details.outStock';
-        }
-        const mockSpecDetailIds = goodsInfos.filter(
-          (item: any) => item.goodsInfoId === defaultSkuId
-        )?.[0]?.mockSpecDetailIds;
-        const specId = mockSpecDetailIds.includes(it.specDetailId);
-        it.disabled =
-          (!canSelectedOutOfStock && it?.isEmpty) ||
-          (inModal && it?.isDisabled);
-        it.selected = it.selected || specId;
-      })
-    );
+    goodsSpecs?.forEach((el: any) => el?.chidren?.forEach((it: any) => {
+      it.value = it?.detailName
+      it.name = it?.detailName
+      it.name2 = 'details.inStock'
+      if (it?.isEmpty) {
+        it.name2 = 'details.outStock'
+      }
+      const defaultSkuGoods = goodsInfos.filter((item: any) => item.goodsInfoId ===defaultSkuId)?.[0]
+      const specId = defaultSkuGoods?.mockSpecDetailIds?.includes(it.specDetailId)
+      // addedFlag 是否上下架
+      const skuHidden = defaultSkuGoods?.subscriptionStatus && !defaultSkuGoods?.addedFlag
+
+      //defalutSubSku: goodInfo and goodsSpecDetails inconsistent,need delete goodsSpecDetails sku,because the current sku can no longer be subscribed
+      if(specId && Boolean(skuHidden)){
+        it.needHidden = true  
+        setSubSkuItem(it)
+      }
+      //sku: addedFlag:0, don't display
+      if(defaultSkuId && !specId && !it.addedFlag){
+        it.needHidden = true
+      }
+      it.disabled = (!canSelectedOutOfStock && it?.isEmpty) ||(inModal && it?.isDisabled)
+      it.selected = it.selected || specId //specId:When the default subscription sku is out of stock, it need displayed
+    }))
     setSizeList(handledGoodsInfos);
   }, [details.goodsNo, renderAgin]);
 
@@ -179,21 +188,34 @@ const HandledSpecSelect = ({
   }, [sizeList]);
 
   const selectStock = (sItem: any) => {
-    const v = sItem?.chidren?.filter((el: any) => el.selected)?.[0]?.value;
+    const v = sItem?.chidren?.filter((el: any) => el.selected)?.[0]?.value
+    const optionLists = sItem?.chidren?.filter((el: any) => !el?.needHidden)
     const selectChange = (el: any) => {
+      setSubSkuItem({})
       handleChooseSize(sItem.specId, el.specDetailId);
-    };
+    }
     return (
+      <div className="relative">
+        {Object.keys(subSkuItem)?.length > 0 && <div className="absolute bottom-4">
+          <span>{subSkuItem?.name}</span>
+          <span
+            className={`sku-stock ml-8 ${subSkuItem?.isEmpty?'sku-out-of-stock' : ''}`}
+          >
+            <FormattedMessage id={subSkuItem?.name2} />
+          </span>
+        </div>}
       <Selection
-        optionList={sItem.chidren}
+        optionList={optionLists}
         key={sItem.specName}
         selectedItemData={{
           value: v
         }}
         selectedItemChange={selectChange}
       />
-    );
-  };
+      </div>
+    )
+
+  }
 
   return (
     <div className="spec select-spec-wrap">

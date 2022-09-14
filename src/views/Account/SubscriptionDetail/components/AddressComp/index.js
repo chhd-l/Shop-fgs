@@ -13,21 +13,22 @@ import {
   getDictionary,
   validData,
   matchNamefromDict,
-  isMobile,
-  isCanVerifyBlacklistPostCode
+  getDeviceType,
+  isCanVerifyBlacklistPostCode,
+  getCurPickUpInfo
 } from '@/utils/utils';
-import { AddressForm, AddressPreview } from '@/components/Address';
-import {
-  Loading,
-  ValidationAddressModal,
-  HomeDeliveryOrPickUp
-} from '@/components';
+import { AddressForm } from '@/components/Address';
+import Loading from '@/components/Loading';
+import ValidationAddressModal from '@/components/validationAddressModal';
+import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
+import { AddressPreview } from '@/components/Address';
 import { getConsigneeNameByCountry } from '@/utils/constant';
 import { Button } from '@/components/Common';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 function CardItem(props) {
@@ -770,7 +771,10 @@ class AddressList extends React.Component {
         province: deliveryAddress.province,
         provinceId: deliveryAddress.provinceId,
         isValidated: deliveryAddress.validationResult,
-        type: this.props.type.toUpperCase()
+        type: this.props.type.toUpperCase(),
+        contractNumber: deliveryAddress?.contractNumber,
+        pickupName: deliveryAddress?.pickupName, // 快递公司
+        courierCode: deliveryAddress?.courierCode
       });
 
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {

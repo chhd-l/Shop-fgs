@@ -531,14 +531,15 @@ class Filter extends React.Component {
                         } ${parentItem.expand ? 'expand' : ''}`}
                         id={`accordion-content-${pIndex}`}
                       >
-                        {parentItem.attributeName === 'markPrice' ? (
-                          <PriceSlider
-                            max={this.props.maxGoodsPrice}
-                            defaultValue={[0, this.props.maxGoodsPrice]}
-                            // key={this.props.maxGoodsPrice}
-                            onChange={hanldePriceSliderChange}
-                          />
-                        ) : (
+                        {
+                          // parentItem.attributeName === 'markPrice' ? (
+                          //   <PriceSlider
+                          //     max={this.props.maxGoodsPrice}
+                          //     defaultValue={[0, this.props.maxGoodsPrice]}
+                          //     // key={this.props.maxGoodsPrice}
+                          //     onChange={hanldePriceSliderChange}
+                          //   />
+                          // ) : (
                           (
                             parentItem.attributesValueList ||
                             parentItem.storeGoodsFilterValueVOList ||
@@ -554,7 +555,8 @@ class Filter extends React.Component {
                                   childItem
                                 );
                           })
-                        )}
+                          // )
+                        }
                       </ul>
                     </>
                   </React.Fragment>
@@ -570,6 +572,7 @@ class Filter extends React.Component {
               this.props.prefnParamListSearch.length ? (
                 <div className="filter-button-groups  text-center">
                   <button
+                    data-auto-testid="clearFilters"
                     className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs w-100`}
                     onClick={this.handleFilterClearBtn}
                   >
@@ -577,6 +580,7 @@ class Filter extends React.Component {
                   </button>
                   {filterList.length ? (
                     <Button
+                      data-auto-testid="applyFilters"
                       type="primary"
                       size="small"
                       className={`rc-margin-left--none rc-margin-bottom--xs w-100`}

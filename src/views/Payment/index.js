@@ -36,7 +36,8 @@ import {
   generatePayUScript,
   validData,
   bindSubmitParam,
-  getAppointmentInfo
+  getAppointmentInfo,
+  getCurPickUpInfo
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP } from '@/utils/constant';
@@ -612,6 +613,8 @@ class Payment extends React.Component {
       );
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
+      debugger;
+      console.log('yyy');
       if (!recommendProductJson) {
         if (!this.computedCartData.length && !tid && !appointNo) {
           sessionItemRoyal.remove('rc-iframe-from-storepotal');
@@ -808,7 +811,7 @@ class Payment extends React.Component {
   /**
    * init panel prepare/edit/complete status
    */
-  sendCyberPaymentForm = async (cyberPaymentForm) => {
+  sendCyberPaymentForm = async (cyberPaymentForm, cardType) => {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---start---
     let {
       cardholderName,
@@ -817,7 +820,12 @@ class Payment extends React.Component {
       expirationYear,
       securityCode
     } = cyberPaymentForm;
-
+    debugger;
+    if (cardType !== undefined) {
+      this.setState({
+        cyberCardType: cardType
+      });
+    }
     if (
       cardholderName &&
       expirationMonth &&
@@ -829,27 +837,71 @@ class Payment extends React.Component {
 
       if (Object.keys(cyberParams).length > 0) {
         try {
-          this.setState({ cyberBtnLoading: true });
-          let res = {};
-          if (this.isLogin) {
-            res = await this.queryCyberCardType(cyberParams);
+          if (
+            this.props.paymentStore.curPayWayInfo.paymentFormType ==
+            'MICRO_FORM'
+          ) {
+            //MICRO_FORM can submit
+            this.setState({ subscriptionID: 'xxxx' });
           } else {
-            res = await this.queryGuestCyberCardType(cyberParams);
+            this.setState({ cyberBtnLoading: true });
+            this.handlesubScriptionID();
           }
-
-          let authorizationCode = res.context.requestToken;
-          let subscriptionID = res.context.subscriptionID;
-          let cyberCardType = res.context.cardType;
-          this.setState({ authorizationCode, subscriptionID, cyberCardType });
+          // this.cyberRef.current.cyberCardRef.current.cyberTokenGet?this.cyberRef.current.cyberCardRef.current.cyberTokenGet(async (data) => {
+          //   let cyberCardType = data.type;
+          //   this.setState({
+          //     cyberCardType
+          //   });
+          //   this.setState({ cyberBtnLoading: false });
+          //   // this.handlesubScriptionID()
+          // }):this.handlesubScriptionID()
         } catch (err) {
+          this.setState({ subscriptionID: '' }); // subscriptionID set empty
           this.showErrorMsg(err.message);
-        } finally {
-          this.setState({ cyberBtnLoading: false });
+          this.setState({
+            cyberBtnLoading: false,
+            saveBillingLoading: false
+          });
         }
       }
+    } else {
+      this.setState({ subscriptionID: '' });
     }
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
     this.setState({ cyberPaymentForm });
+  };
+  handlesubScriptionID = async (cb) => {
+    try {
+      let cyberParams = this.getCyberParams();
+      let res = {};
+      if (this.isLogin) {
+        res = await this.queryCyberCardType(cyberParams);
+      } else {
+        res = await this.queryGuestCyberCardType(cyberParams);
+      }
+
+      let authorizationCode = res.context.requestToken;
+      let subscriptionID = res.context.subscriptionID;
+      let cyberCardType = res.context.cardType;
+      this.setState(
+        {
+          authorizationCode,
+          subscriptionID,
+          cyberCardType
+        },
+        () => {
+          cb && cb();
+        }
+      );
+    } catch (err) {
+      this.setState({ subscriptionID: '' }); // subscriptionID set empty
+      this.showErrorMsg(err.message);
+    } finally {
+      this.setState({
+        cyberBtnLoading: false,
+        saveBillingLoading: false
+      });
+    }
   };
 
   //判断是否是0元订单，0元订单处理：隐藏paymentMethod，用户不用填写支付信息
@@ -894,9 +946,8 @@ class Payment extends React.Component {
   }
 
   initPanelStatus() {
-    const { paymentStore } = this.props;
+    const { paymentStore, checkoutStore } = this.props;
     const { tid, isFromFelin } = this.state;
-
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
     if (this.isSkipPaymentPanel && !tid) {
       paymentStore.setStsToCompleted({
@@ -924,10 +975,18 @@ class Payment extends React.Component {
       //   });
       // } else {
       // 下一个最近的未complete的panel
-      nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: 'deliveryAddr'
-      });
+      if (checkoutStore?.isShowBindPet) {
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: 'bindPet'
+        });
+      } else {
+        nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: 'bindPet'
+        });
+      }
+
       // }
       paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
@@ -1235,6 +1294,13 @@ class Payment extends React.Component {
       consumerEmail: params.email,
       consumerPhone: params.phone
     });
+    // 修复felin 填完电话号码不显示下个模块
+    this.props.paymentStore.setStsToCompleted({
+      key: 'paymentMethod',
+      isFirstLoad: true
+    });
+    this.props.paymentStore.setStsToEdit({ key: 'paymentMethod' });
+
     this.setState({
       visibleUpdate: false
     });
@@ -2170,7 +2236,10 @@ class Payment extends React.Component {
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
         sessionItemRoyal.remove('guestInfo');
-        localItemRoyal.remove('rc-promotionCode');
+        //localItemRoyal.remove('rc-promotionCode');
+        this.props.checkoutStore.removePromotionCode();
+        //清除支付方式
+        this.props.paymentStore.removePayWayNameArr();
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -2306,7 +2375,12 @@ class Payment extends React.Component {
 
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
         ...param,
-        ...submitParam
+        ...submitParam,
+        ...{
+          contractNumber: getCurPickUpInfo('contractNumber') || '',
+          pickupName: getCurPickUpInfo('courier') || '', // 快递公司
+          courierCode: getCurPickUpInfo('courierCode') || ''
+        }
       });
 
       //游客绑定consent 一定要在游客注册之后 start
@@ -2513,6 +2587,7 @@ class Payment extends React.Component {
               clinicStore.linkClinicRecommendationInfos.recommenderId
           });
         });
+        param.clinicsName = '';
       } else {
         param.tradeItems = cartData.map((ele) => {
           const recoProductParam = handleRecoProductParamByItem({
@@ -3162,7 +3237,23 @@ class Payment extends React.Component {
       },
       () => {
         setTimeout(() => {
-          this.confirmPaymentPanel();
+          if (this.cyberRef?.current?.cyberCardRef?.current?.cyberTokenGet) {
+            try {
+              this.cyberRef.current.cyberCardRef.current.cyberTokenGet(() => {
+                try {
+                  this.handlesubScriptionID(this.confirmPaymentPanel);
+                } catch (err) {
+                  this.setState({ saveBillingLoading: false });
+                  throw new Error(err.message);
+                }
+              });
+            } catch (err) {
+              this.setState({ saveBillingLoading: false });
+              throw new Error(err.message);
+            }
+          } else {
+            this.confirmPaymentPanel();
+          }
         }, 800);
       }
     );
@@ -3172,6 +3263,14 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo, curPayWayInfo }
     } = this.props;
+    if (!currentCardTypeInfo && this.cyberRef?.current?.cyberCardRef?.current) {
+      // cyber error update
+      this.setState({ saveBillingLoading: false });
+      let message =
+        'This card type is temporarily not supported, please try again with a different card';
+      this.showErrorMsg(message);
+      return;
+    }
     const {
       adyenPayParam,
       billingAddress,
@@ -3622,11 +3721,15 @@ class Payment extends React.Component {
 
     const payConfirmBtn = ({ disabled, loading = false } = {}) => {
       return (
-        <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
+        <div
+          data-auto-testid="payment_confirm_btn"
+          className="d-flex justify-content-end mt-3 rc_btn_payment_confirm"
+        >
           <Button
             type="primary"
             disabled={disabled}
             loading={loading}
+            data-auto-testid="payment_confirm_payment_method"
             className="rc_btn_payment_confirm"
             onClick={this.clickConfirmPaymentPanel}
           >
@@ -3708,6 +3811,7 @@ class Payment extends React.Component {
                         ? 'border-green'
                         : 'border-gray-300'
                     )}
+                    data-auto-testid={`payment_${item.code}`}
                     key={index}
                     onClick={() => this.handlePaymentTypeClick(item.code)}
                   >
@@ -4127,12 +4231,14 @@ class Payment extends React.Component {
                     renderBackToSavedPaymentsJSX={
                       this.renderBackToSavedPaymentsJSX
                     }
+                    curPayWayInfo={curPayWayInfo}
                     payConfirmBtn={payConfirmBtn}
                     saveBillingLoading={this.state.saveBillingLoading}
                     validForBilling={
                       !this.state.billingChecked &&
                       !this.state.validSts.billingAddr
                     }
+                    subscriptionID={this.state.subscriptionID}
                     billingChecked={this.state.billingChecked}
                     validBillingAddress={this.state.validForBilling}
                     isCurrentBuyWaySubscription={
@@ -4144,6 +4250,9 @@ class Payment extends React.Component {
                     sendCyberPaymentForm={this.sendCyberPaymentForm}
                     cyberCardType={this.state.cyberCardType}
                     cyberPaymentForm={this.state.cyberPaymentForm}
+                    setCyberLoading={() => {
+                      this.setState({ cyberBtnLoading: true });
+                    }}
                     cyberBtnLoading={this.state.cyberBtnLoading}
                     showErrorMsg={this.showErrorMsg}
                     ref={this.cyberRef}
@@ -4469,6 +4578,7 @@ class Payment extends React.Component {
                 <FormattedMessage id="payment.yourOrder" />
               </span>
               <span
+                data-auto-testid="payment_info_trade_price"
                 className={`grand-total-sum ${
                   COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
                 }`}

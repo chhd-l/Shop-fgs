@@ -187,7 +187,6 @@ class CheckoutStore {
   setSelectDiscountWay(way) {
     this.selectDiscountWay = way;
   }
-
   @action.bound
   setInputPoint(data) {
     this.inputPoint = data;

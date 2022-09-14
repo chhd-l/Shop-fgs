@@ -86,6 +86,15 @@ class PetForm extends React.Component {
     this.petsById();
     this.getPetList();
   }
+  componentWillUnmount() {
+    const isPrescriptiongGate = this.props.location.search
+      .substring(1)
+      .split('=')
+      .includes('isPrescriptiongGate');
+    if (isPrescriptiongGate) {
+      localItemRoyal.set('okta-redirectUrl', '/');
+    }
+  }
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
       delete ele.value;
@@ -163,7 +172,7 @@ class PetForm extends React.Component {
     let weightObj = {
       measure: '',
       measureUnit: 'kg',
-      type: 2
+      type: 0
     };
     try {
       if (currentPet.weight) {
@@ -368,7 +377,8 @@ class PetForm extends React.Component {
     let isChoosePetType = isCat !== null;
     const isPrescriptiongGate = this.props.location.search
       .substring(1)
-      .split('=')[1];
+      .split('=')
+      .includes('isPrescriptiongGate');
     console.log('isPrescriptiongGate', isPrescriptiongGate);
     return (
       <div className="petForm">
@@ -435,6 +445,7 @@ class PetForm extends React.Component {
                     </p>
                     <div>
                       <Button
+                        data-auto-testid="addDogPet"
                         type="primary"
                         size="small"
                         className="mr-5"
@@ -445,6 +456,7 @@ class PetForm extends React.Component {
                         <FormattedMessage id="Dog" />
                       </Button>
                       <Button
+                        data-auto-testid="addCatPet"
                         type="primary"
                         size="small"
                         onClick={() => {
@@ -461,6 +473,7 @@ class PetForm extends React.Component {
                         isPrescriptiongGate && (
                           <>
                             <a
+                              data-auto-testid="isPrescriptiongGate"
                               href="javascript;:"
                               className="font-medium text-16 md:mr-2 pt-4"
                               style={{

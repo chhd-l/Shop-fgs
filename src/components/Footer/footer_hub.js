@@ -1,8 +1,10 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import PaymentLogos from './paymentLogos';
-import { LoginButton, Language } from '@/components';
+import LoginButton from '@/components/LoginButton';
 import { withRouter } from 'react-router-dom';
+import Language from '@/components/Language';
+const isRuLocal = window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE;
 
 @injectIntl
 class FooterHub extends React.Component {
@@ -51,7 +53,9 @@ class FooterHub extends React.Component {
                 </React.Fragment>
               ))}
 
-              <Language className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3 text-white" />
+              {isRuLocal ? null : (
+                <Language className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3 text-white" />
+              )}
             </div>
             <a className="w-full md:w-auto">
               <span

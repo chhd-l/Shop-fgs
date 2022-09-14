@@ -293,6 +293,7 @@ class Register extends Component {
         break;
       case 'firstName':
         valid = !!value.trim() && !deIllegalSymbol;
+        console.log('firstNamevalid', valid);
         this.setState({
           firstNameValid: valid,
           illegalSymbol: deIllegalSymbol
@@ -314,6 +315,7 @@ class Register extends Component {
         break;
       case 'phoneticLastName':
         valid = !!value.trim() && !deIllegalSymbol && jpNameValid;
+        console.log('phoneticLastNamevalid', valid);
         this.setState({
           phoneticLastNameValid: valid,
           illegalSymbol: deIllegalSymbol
@@ -461,15 +463,16 @@ class Register extends Component {
             res.context.oktaSessionToken
           );
 
-          // PO bind shelterId, country:us
-          const shelterId = sessionItemRoyal.get('handled-shelter') || '';
+          // PO bind shelterId, country:de
+          const shelterId = localItemRoyal.get('customerId') || '';
           const customerId = res.context?.customerId || '';
-          // if (shelterId) {
-          //   await saveShelterId({
-          //     shelterId,
-          //     customerId
-          //   });
-          // }
+          if (shelterId) {
+            await saveShelterId({
+              shelterId,
+              customerId,
+              prescriberType: 'vet'
+            });
+          }
 
           var callOktaCallBack = getOktaCallBackUrl(
             res.context.oktaSessionToken
@@ -719,7 +722,6 @@ class Register extends Component {
                 </span>
                 <button
                   class="rc-alert__close rc-icon rc-icon rc-alert__close rc-close--xs rc-iconography"
-                  data-close=""
                   onClick={() => this.setState({ regError: false })}
                 >
                   <span class="rc-screen-reader-text">Close</span>
@@ -748,16 +750,43 @@ class Register extends Component {
               <h3>{<FormattedMessage id="jp.regTitleEight" />}</h3> */}
               <p className="text-center align-bottom gologin">
                 <a
+                  data-testid="jpgologin"
                   onClick={() =>
                     this.props.oktaAuth.signInWithRedirect(
                       window.__.env.REACT_APP_HOMEPAGE
                     )
                   }
-                  className="jp-reg-to-login-btn cursor-pointer text-rc-red text-22 md:text-30"
-                  // style={{ color: '#e2001a', fontSize: '1.875rem' }}
+                  className="jp-reg-to-login-btn cursor-pointer text-rc-red text-30"
                 >
                   {<FormattedMessage id="jp.regToLogin" />}
                 </a>
+              </p>
+              <p className="text-center">
+                {
+                  <FormattedMessage
+                    id="jp.goToAccount"
+                    values={{
+                      val: (
+                        <a
+                          data-testid="goToAccount"
+                          className="ui-cursor-pointer text-cs-gray text-16"
+                          // href="https://accountpreview.royalcanin.com/"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            this.props.oktaAuth.signInWithRedirect(
+                              window.__.env.REACT_APP_HOMEPAGE
+                            );
+                          }}
+                          target={'_blank'}
+                          style={{ borderBottom: '1px solid #666' }}
+                        >
+                          こちら
+                        </a>
+                      )
+                    }}
+                  />
+                }
               </p>
             </div>
             {/* SocialRegister */}
@@ -787,7 +816,7 @@ class Register extends Component {
                 <div className="regName">
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
                     maxLength="50"
                     name="lastName"
@@ -795,10 +824,13 @@ class Register extends Component {
                     onChange={this.registerChange}
                     onBlur={this.inputBlur}
                     value={registerForm.lastName}
+                    dataTestid="register_lastname"
+                    data-testid="register_lastname"
                     label={<FormattedMessage id="jp.lastName" />}
                     rightOperateBoxJSX={
                       lastNameValid ? null : (
                         <ChaChaIcon
+                          dataTestid={'register_lastname_ChaChaIcon'}
                           onClick={() => this.deleteInput('lastName')}
                         />
                       )
@@ -813,9 +845,11 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
                     maxLength="50"
+                    dataTestid="register_firstname"
+                    data-testid="register_firstname"
                     name="firstName"
                     valid={firstNameValid}
                     onChange={this.registerChange}
@@ -825,6 +859,7 @@ class Register extends Component {
                     rightOperateBoxJSX={
                       firstNameValid ? null : (
                         <ChaChaIcon
+                          dataTestid={'register_firstname_ChaChaIcon'}
                           onClick={() => this.deleteInput('firstName')}
                         />
                       )
@@ -839,8 +874,10 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
+                    dataTestid="register_phoneticlastname"
+                    data-testid="register_phoneticlastname"
                     maxLength="50"
                     name="phoneticLastName"
                     isWarning={!phoneticLastNameValid}
@@ -852,6 +889,7 @@ class Register extends Component {
                     rightOperateBoxJSX={
                       phoneticLastNameValid ? null : (
                         <ChaChaIcon
+                          dataTestid={'phoneticLastName_ChaChaIcon'}
                           onClick={() => this.deleteInput('phoneticLastName')}
                         />
                       )
@@ -866,9 +904,11 @@ class Register extends Component {
                   />
                   <Input
                     id="registerName"
-                    autocomplete="off"
+                    autoComplete="off"
                     type="text"
                     maxLength="50"
+                    dataTestid="register_phoneticfirstname"
+                    data-testid="register_phoneticfirstname"
                     name="phoneticFirstName"
                     valid={phoneticFirstNameValid}
                     onChange={this.registerChange}
@@ -879,6 +919,7 @@ class Register extends Component {
                     rightOperateBoxJSX={
                       phoneticFirstNameValid ? null : (
                         <ChaChaIcon
+                          dataTestid={'phoneticFirstName_ChaChaIcon'}
                           onClick={() => this.deleteInput('phoneticFirstName')}
                         />
                       )
@@ -895,7 +936,9 @@ class Register extends Component {
                 <div className="regNameTwo">
                   <Input
                     id="registerEmail"
-                    autocomplete="off"
+                    dataTestid="register_email"
+                    data-testid="register_email"
+                    autoComplete="off"
                     type="email"
                     maxLength="90"
                     name="email"
@@ -909,6 +952,7 @@ class Register extends Component {
                       formWarning.email ? (
                         <>
                           <ChaChaIcon
+                            dataTestid={'email_ChaChaIcon'}
                             onClick={() => this.deleteInput('email')}
                           />
                         </>
@@ -921,8 +965,10 @@ class Register extends Component {
                     id="registerPassword"
                     type={passwordInputType}
                     maxLength="255"
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                     minLength="8"
+                    dataTestid="register_password"
+                    data-testid="register_password"
                     name="password"
                     valid={passwordValid}
                     isWarning={formWarning.password}
@@ -936,11 +982,13 @@ class Register extends Component {
                       <>
                         {formWarning.password ? (
                           <ChaChaIcon
+                            dataTestid={'ChaChaIcon_password'}
                             onClick={() => this.deleteInput('password')}
                           />
                         ) : null}
                         <span
                           style={{ color: '#666' }}
+                          data-testid="passwordInputType_iconeye"
                           className={cn(
                             'iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2',
                             passwordInputType === 'password'
@@ -958,6 +1006,7 @@ class Register extends Component {
                         />
                         <button
                           type="button"
+                          data-testid="passwordInputType_btn"
                           className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle hidden ${
                             passwordInputType === 'password'
                               ? 'rc-show--xs'
@@ -1090,6 +1139,8 @@ class Register extends Component {
                   {/* 注册按钮 */}
                   <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
                     <Button
+                      dataTestid="register_submit_btn"
+                      data-testid="register_submit_btn"
                       type="primary"
                       id="registerSubmitBtn"
                       htmlType="button"
@@ -1162,7 +1213,7 @@ class Register extends Component {
                         }
                         role="alert"
                       >
-                        <p>
+                        <div>
                           <div>
                             {errorMessage ? (
                               errorMessage + ' '
@@ -1179,7 +1230,7 @@ class Register extends Component {
                               </Link>
                             </strong>
                           </div>
-                        </p>
+                        </div>
                         <button
                           className="rc-btn rc-alert__close rc-close--xs rc-iconography"
                           data-close=""
@@ -1209,6 +1260,7 @@ class Register extends Component {
                       <p className="text-center align-bottom">
                         <FormattedMessage id="registerHaveAccount" />{' '}
                         <span
+                          data-testid="registerHaveAccount"
                           onClick={() => {
                             if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
                               this.props.history.push('./login');
@@ -1262,8 +1314,10 @@ class Register extends Component {
                                   name="name"
                                   id="registerName"
                                   valid={nameValid}
+                                  dataTestid="register_name"
+                                  data-testid="register_name"
                                   isWarning={formWarning.name}
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   onChange={this.registerChange}
                                   onBlur={this.inputBlur}
                                   value={registerForm.name}
@@ -1271,6 +1325,7 @@ class Register extends Component {
                                   rightOperateBoxJSX={
                                     formWarning.name ? (
                                       <ChaChaIcon
+                                        dataTestid={'ChaChaIcon_name'}
                                         onClick={() => this.deleteInput('name')}
                                       />
                                     ) : null
@@ -1284,8 +1339,10 @@ class Register extends Component {
                               <>
                                 <Input
                                   id="registerName"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   type="text"
+                                  dataTestid="register_firstname"
+                                  data-testid="register_firstname"
                                   maxLength="50"
                                   name="firstName"
                                   valid={firstNameValid}
@@ -1298,6 +1355,7 @@ class Register extends Component {
                                   rightOperateBoxJSX={
                                     firstNameValid ? null : (
                                       <ChaChaIcon
+                                        dataTestid={'ChaChaIcon_firstName'}
                                         onClick={() =>
                                           this.deleteInput('firstName')
                                         }
@@ -1314,10 +1372,12 @@ class Register extends Component {
                                 />
                                 <Input
                                   id="registerName"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                   type="text"
                                   maxLength="50"
                                   name="lastName"
+                                  dataTestid="register_lastname"
+                                  data-testid="register_lastname"
                                   valid={lastNameValid}
                                   onChange={this.registerChange}
                                   onBlur={this.inputBlur}
@@ -1328,6 +1388,7 @@ class Register extends Component {
                                   rightOperateBoxJSX={
                                     firstNameValid ? null : (
                                       <ChaChaIcon
+                                        dataTestid={'ChaChaIcon_lastName'}
                                         onClick={() =>
                                           this.deleteInput('lastName')
                                         }
@@ -1347,10 +1408,12 @@ class Register extends Component {
 
                             <Input
                               id="registerEmail"
-                              autocomplete="off"
+                              autoComplete="off"
                               type="email"
                               maxLength="90"
                               name="email"
+                              dataTestid="register_email"
+                              data-testid="register_email"
                               valid={emailValid}
                               isWarning={formWarning.email}
                               onChange={this.registerChange}
@@ -1361,6 +1424,7 @@ class Register extends Component {
                                 formWarning.email ? (
                                   <>
                                     <ChaChaIcon
+                                      dataTestid={'ChaChaIcon_email'}
                                       onClick={() => this.deleteInput('email')}
                                     />
                                   </>
@@ -1378,7 +1442,9 @@ class Register extends Component {
                               valid={passwordValid}
                               onChange={this.registerChange}
                               onFocus={this.inputFocus}
-                              autocomplete="new-password"
+                              autoComplete="new-password"
+                              dataTestid="register_password"
+                              data-testid="register_password"
                               onBlur={this.inputBlur}
                               value={registerForm.password}
                               label={<FormattedMessage id="registerPassword" />}
@@ -1387,6 +1453,7 @@ class Register extends Component {
                                 <>
                                   {passwordValid ? null : (
                                     <ChaChaIcon
+                                      dataTestid={'ChaChaIcon_password'}
                                       onClick={() =>
                                         this.deleteInput('password')
                                       }
@@ -1394,6 +1461,7 @@ class Register extends Component {
                                   )}
                                   <span
                                     style={{ color: '#666' }}
+                                    data-testid="passwordInputType_iconeye"
                                     className={cn(
                                       'iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2',
                                       passwordInputType === 'password'
@@ -1412,6 +1480,7 @@ class Register extends Component {
                                   />
                                   <button
                                     type="button"
+                                    data-testid="passwordInputType_btn"
                                     className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle hidden ${
                                       passwordInputType === 'password'
                                         ? 'rc-show--xs'
@@ -1656,7 +1725,7 @@ class Register extends Component {
   }
 }
 export default withOktaAuth(Register);
-const ChaChaIcon = ({ className, onClick = () => {} } = {}) => {
+const ChaChaIcon = ({ className, onClick = () => {}, dataTestid } = {}) => {
   return (
     <span
       className={cn(
@@ -1665,6 +1734,7 @@ const ChaChaIcon = ({ className, onClick = () => {} } = {}) => {
       )}
       style={{ color: '#c03344' }}
       onClick={onClick}
+      data-testid={dataTestid}
     />
   );
 };

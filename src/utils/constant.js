@@ -1,4 +1,6 @@
 import visaImg from '@/assets/images/credit-cards/visa.svg';
+import dinersImg from '@/assets/images/credit-cards/diners.svg';
+import JCB_card from '@/assets/images/credit-cards/JCB_card.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
@@ -36,18 +38,22 @@ export const LOGO_ADYEN_IDEAL = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFI
 export const CREDIT_CARD_IMG_ENUM = {
   VISA: visaImg,
   MASTERCARD: mastercardImg,
-  'AMERICAN EXPRESS': amexImg,
+  AMERICANEXPRESS: amexImg,
   DISCOVER: discoverImg,
   OXXO: oxxo,
   AMEX: amexImg,
-  ADYEN_PAYPAL: LOGO_ADYEN_PAYPAL
+  ADYEN_PAYPAL: LOGO_ADYEN_PAYPAL,
+  JCB: JCB_card,
+  DINERSCLUB: dinersImg
 };
 
 export const ADYEN_CREDIT_CARD_BRANDS = {
   fr: ['mc', 'visa', 'cartebancaire'],
+  uk: ['mc', 'visa', 'cartebancaire'],
   ru: ['mc', 'visa', 'amex', 'discover'],
   us: ['mc', 'visa', 'amex', 'discover'],
-  de: ['mc', 'visa']
+  de: ['mc', 'visa', 'discover'],
+  jp: ['mc', 'visa', 'amex', 'jcb', 'diners']
 }[window.__.env.REACT_APP_COUNTRY] || ['mc', 'visa', 'amex'];
 
 export const EMAIL_REGEXP = /^[\w.+-]+@[\w.-]+\.[\w]{2,6}$/;
@@ -406,7 +412,7 @@ export const isSaveAddressBtnDisabled = (
 export const jpSetAddressFields = ({ province, city, area, address1 }) => {
   return [province, city, area, address1]
     .filter((item) => item && item.trim())
-    .join(', ');
+    .join('  ');
 };
 
 //null变为空

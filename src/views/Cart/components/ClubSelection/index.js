@@ -12,6 +12,7 @@ const ClubSelection = function (props) {
         borderColor: parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
         maxWidth: `${isGift ? '22rem' : 'initial'}`
       }}
+      data-auto-tetsid="cart_club_btn"
       onClick={props.chooseSubscription}
     >
       <div className="buyMethodInnerBox d-flex justify-content-between align-items-center flex-wrap">
@@ -19,8 +20,8 @@ const ClubSelection = function (props) {
           <span
             style={{
               color: '#333',
-              marginTop: '5px',
-              whiteSpace: 'nowrap'
+              marginTop: '5px'
+              // whiteSpace: 'nowrap'
             }}
             className="font-normal inline-block"
           >

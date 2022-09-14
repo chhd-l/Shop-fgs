@@ -1,8 +1,17 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import oktaConfig from '../oktaConfig';
 import { render, RenderOptions } from '@testing-library/react';
 import en_US from '@/lang/en_US';
 import { Provider } from 'mobx-react';
 import { IntlProvider } from 'react-intl';
+import Security from './Provider/Security';
+jest.mock('react-intl-phraseapp', () => {
+  return {
+    injectIntl: () => {}
+  };
+});
 const renderWithProvider = (
   ui: React.ReactElement,
   {
@@ -16,7 +25,9 @@ const renderWithProvider = (
     return (
       <Provider {...stores}>
         <IntlProvider locale="en" messages={en_US} defaultLocale={'en'}>
-          {children}
+          <Security>
+            <MemoryRouter>{children}</MemoryRouter>
+          </Security>
         </IntlProvider>
       </Provider>
     );

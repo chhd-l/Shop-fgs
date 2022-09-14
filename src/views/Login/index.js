@@ -325,14 +325,14 @@ class Login extends React.Component {
                         <img
                           src={LOGO_PRIMARY_RU}
                           alt="Royal Canin Flagship Store"
-                          className="w-36 md:w-40"
+                          className="w-36 md:w-44"
                         />
                       ) : (
                         <>
                           <img
                             src={LOGO}
                             alt=""
-                            className="inline-block w-40 md:w-auto"
+                            className="inline-block w-36 md:w-44"
                           />
                         </>
                       )}
@@ -456,7 +456,7 @@ class Login extends React.Component {
                               <span
                                 tabIndex="100"
                                 title="Show / hide password"
-                                className="add-on input-group-addon"
+                                className="add-on input-group-addon bg-white"
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
                                   let type =
@@ -521,21 +521,14 @@ class Login extends React.Component {
                           </div>
 
                           <p style={{ float: 'right' }}>
-                            <a
-                              className="rc-styled-link"
-                              href="#/"
-                              style={{ color: '#666', fontSize: '.875rem' }}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                // this.setState({ type: 'forgetPassword' });
-                                // localItemRoyal.set('loginType', 'forgetPassword');
-                              }}
+                            <Link
+                              // to="/forgot"
+                              className={
+                                'border-b text-gray-600 hover:border-red-600'
+                              }
                             >
-                              <FormattedMessage id="forgetPassword" />
-                            </a>
-                            {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: ".875rem" }}>
-                          <FormattedMessage id="login.forgetPassword" />
-                        </Link> */}
+                              <FormattedMessage id="login.forgetPassword" />
+                            </Link>
                           </p>
                         </div>
                         <div

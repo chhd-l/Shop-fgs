@@ -15,7 +15,7 @@ import { handleSizeList } from '@/framework/product';
 import { getFrequencyDict } from '@/utils/utils';
 const localItemRoyal = window.__.localItemRoyal;
 
-const CartFRBreeder = ({
+export const CartFRBreeder = ({
   loginStore,
   clinicStore,
   checkoutStore,

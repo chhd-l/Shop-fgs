@@ -21,6 +21,7 @@ import { userBindConsent } from '@/api/consent';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 import { useHistory } from 'react-router-dom';
 import cn from 'classnames';
+import { saveShelterId } from '@/api/recommendation';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -36,6 +37,7 @@ interface Props {
   btnStyle?: object;
   buttonRef?: any;
   children?: any;
+  dataTestid?:string;
 }
 
 const LoginButton = ({
@@ -43,6 +45,7 @@ const LoginButton = ({
   callbackUrl,
   beforeLoginCallback,
   btnClass,
+  dataTestid="login_btn",
   className,
   btnStyle,
   buttonRef,
@@ -181,15 +184,16 @@ const LoginButton = ({
                     }); // indv登录的时候需要查询到相应的数据
                   }
 
-                  // PO bind shelterId, country:us
-                  // const shelterId =
-                  //   sessionItemRoyal.get('handled-shelter') || '';
-                  // if (shelterId) {
-                  //   await saveShelterId({
-                  //     shelterId,
-                  //     customerId
-                  //   });
-                  // }
+                  // PO bind shelterId, country:de
+                  const shelterId =
+                  localItemRoyal.get('customerId') || '';
+                  if (shelterId) {
+                    await saveShelterId({
+                      shelterId,
+                      customerId,
+                      prescriberType: 'vet'
+                    });
+                  }
                   console.log('setIsGetUserInfoDown33');
                   setIsGetUserInfoDown(true);
                 })
@@ -249,6 +253,7 @@ const LoginButton = ({
     <>
       <LimitLoginModal />
       <button
+        data-auto-testid={dataTestid}
         className={cn(btnClass || className || 'rc-btn rc-btn--one bg-rc-red')}
         style={btnStyle || {}}
         onClick={login}

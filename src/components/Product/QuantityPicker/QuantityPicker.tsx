@@ -161,6 +161,7 @@ const QuantityPicker = ({
               'rc-btn-disabled': !subBtnStatus || disabled
             }
           )}
+          data-auto-testid="minus-quantity-btn"
           onClick={subQuantity}
         />
         <input
@@ -168,6 +169,7 @@ const QuantityPicker = ({
           value={quantity}
           min={min}
           max={max}
+          data-auto-testid="edit-quantity-input"
           onChange={handleAmountChange}
           onBlur={handleAmountChange}
           type="number"
@@ -178,6 +180,7 @@ const QuantityPicker = ({
             'rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus',
             { 'rc-btn-disabled': !addBtnStatus || disabled }
           )}
+          data-auto-testid="plus-quantity-btn"
           data-quantity-error-msg="Вы не можете заказать больше 10"
           onClick={addQuantity}
         />

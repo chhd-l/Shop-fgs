@@ -130,7 +130,8 @@ class Confirmation extends React.Component {
       setSelectClinicId(clinicsId);
       localItemRoyal.remove('deRecommendationGoodsId');
     }
-
+    this.props.clinicStore.removeLinkClinicInfo();
+    localItemRoyal.remove('customerId');
     const rcPrescriber = localItemRoyal.get('rc-prescriber') || '';
     const breedOrShelterId = sessionItemRoyal.get('BreedOrShelterId') || '';
     const handledShelter = sessionItemRoyal.get('handled-shelter') || '';
@@ -599,7 +600,10 @@ class Confirmation extends React.Component {
               <div
                 className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}
               >
-                <div className="d-flex align-items-center justify-content-center">
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                  data-auto-testid="confirmation_continueshopping"
+                >
                   {this.state.oxxoPayUrl || this.state.adyenOxxoAction ? (
                     <>
                       <Button

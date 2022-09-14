@@ -240,7 +240,6 @@ class PayProductInfo extends React.Component {
     }
     this.refs.applyButtton.click();
     let productList;
-
     if (this.props.data.length) {
       productList = this.props.data;
       if (isFromFelin) {
@@ -255,7 +254,6 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
-
     this.setState(
       Object.assign({
         productList: productList || []
@@ -604,14 +602,18 @@ class PayProductInfo extends React.Component {
       } else {
         purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
         //会员
+        if (sessionItemRoyal.get('rc-tid')) {
+          //repay不执行
+          return;
+        }
         result = await this.props.checkoutStore.updateLoginCart(tmpParam);
       }
 
       console.log(result);
-
       if (!result?.context?.promotionFlag || result?.context?.couponCodeFlag) {
         //表示输入apply promotionCode成功
         discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+
         this.setState({ discount });
         this.props.sendPromotionCode(this.state.promotionInputValue);
         this.setState({
@@ -814,6 +816,7 @@ class PayProductInfo extends React.Component {
                   <FormattedMessage id="promotionCode">
                     {(txt) => (
                       <input
+                        data-auto-testid="cart_promotion_input"
                         className="rc-input__control"
                         id="id-promotionCode"
                         type="text"
@@ -834,6 +837,7 @@ class PayProductInfo extends React.Component {
                 </span>
                 <div className="promo-code-submit">
                   <button
+                    data-auto-testid="cart_promotion_btn"
                     ref="applyButtton"
                     id="promotionApply"
                     className={cn(`rc-btn rc-btn--md rc-btn--two`, {
@@ -842,7 +846,9 @@ class PayProductInfo extends React.Component {
                     })}
                     disabled={sessionItemRoyal.get('recommend_product')}
                     style={{ marginTop: '5px', float: 'right' }}
-                    onClick={() => this.handleClickPromotionApply(false)}
+                    onClick={() => {
+                      this.handleClickPromotionApply(false);
+                    }}
                   >
                     <FormattedMessage id="apply" />
                   </button>
@@ -945,7 +951,10 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
             <div className="col-6 end-lines text-right">
-              <span className="grand-total-sum">
+              <span
+                className="grand-total-sum"
+                data-auto-testid="payment_info_trade_price"
+              >
                 {formatMoney(this.tradePrice)}
               </span>
             </div>

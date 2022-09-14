@@ -18,11 +18,14 @@ interface Props {
   selectionStyle?: any;
   selectionCustomInnerStyle?: any;
   childrenGridCls?: any;
+  dataAutoTestid?:string;
+  handleNoShowValue?:Function;
 }
 
 const FrequencyMatch = ({
   frequencyType,
   currentFrequencyId,
+  dataAutoTestid,
   disabled = false,
   className = '',
   contentClassName = '',
@@ -33,7 +36,8 @@ const FrequencyMatch = ({
   wrapStyle = {},
   selectionStyle = {},
   selectionCustomInnerStyle = {},
-  handleConfirm = () => {}
+  handleConfirm = () => {},
+  handleNoShowValue=()=>{},
 }: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
   const [handledCurrent, setHandledCurrent] = useState(false);
@@ -46,6 +50,14 @@ const FrequencyMatch = ({
       getFrequencyList();
     }
   }, [currentFrequencyId]);
+
+  useEffect(()=>{
+    const leng = frequencyList?.filter(
+      (ele:any) => ele.value == currentFrequencyId
+    ).length;
+    console.log(leng,frequencyList,currentFrequencyId,'currentFrequencyId')
+    handleNoShowValue(!Boolean(leng))
+  },[frequencyList])
   const getFrequencyList = () => {
     getFrequencyDict(currentFrequencyId).then((res: any) => {
       let frequencyList = res
@@ -85,6 +97,7 @@ const FrequencyMatch = ({
         <FormattedMessage id="subscription.deliveryEvery" />
         <Selection
           disabled={disabled}
+          dataAutoTestid={dataAutoTestid}
           customContainerStyle={{
             flex: 1,
             marginLeft: '.3rem',

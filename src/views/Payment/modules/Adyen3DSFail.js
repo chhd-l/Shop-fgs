@@ -23,6 +23,7 @@ class Adyen3DSFail extends Component {
         sessionItemRoyal.set('rc-tidList', JSON.stringify(tidList));
         history.push('/checkout');
       } else {
+        sessionItemRoyal.remove('rc-token');
         history.push('/cart');
       }
     } catch (err) {

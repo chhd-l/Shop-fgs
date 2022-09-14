@@ -11,49 +11,62 @@ Object.defineProperty(window, '__', {
   value: {
     sessionItemRoyal: {
       get: (key) => sessionItem[key],
-      set: (key, value) => (sessionItem[key] = value),
-      remove: (key) => (localItem[key] = null)
+      set: (key, value) => (sessionItem[key] = value)
     },
     localItemRoyal: {
       get: (key) => localItem[key],
-      set: (key, value) => (localItem[key] = value),
-      remove: (key) => (localItem[key] = null)
+      set: (key, value) => (localItem[key] = value)
     },
-    env: 'REACT_APP_STOREID'
+    // env: 'REACT_APP_STOREID'
+    env: {
+      REACT_APP_COUNTRY: 'ru',
+      REACT_APP_CUSTOM_REGISTER: '1',
+      REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1',
+      REACT_APP_PAYU_EMAIL: 0,
+      REACT_APP_PAYU_PHONE: 0,
+      REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
+      REACT_APP_GA_COUNTRY: 'RU',
+      REACT_APP_HTML_LANG: 'ru',
+      REACT_APP_NAVIGATOR_LANG: 'ru',
+      REACT_APP_DEFAULT_COUNTRYID: 1969,
+      REACT_APP_CHECKOUT_WITH_CLINIC: 'true',
+      REACT_APP_PDP_RATING_VISIBLE: 0,
+      REACT_APP_HIDE_ACCOUNT_BILLING_ADDR: 1,
+      REACT_APP_HIDE_CHECKOUT_BILLING_ADDR: 1,
+      REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: 0,
+      REACT_APP_SEARCH_LINK:
+        '/on/demandware.store/Sites-RU-Site/ru_RU/Search-Show',
+      REACT_APP_PaymentENV: 'test',
+      REACT_APP_PaymentKEY_MEMBER: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
+      REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.dev_mexico',
+      REACT_APP_PaymentKEY_VISITOR: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
+      REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
+      REACT_APP_GA_ENV: 'sit',
+      REACT_APP_HOMEPAGE: '/ru',
+      REACT_APP_VCONSOLE: true,
+      REACT_APP_DISABLE_CLOUDFLARE_CDN: true,
+      REACT_APP_CLOSE_PRODUCT_FINDER: '1',
+      REACT_APP_RU_LOCALIZATION_ENABLE: false,
+
+      REACT_APP_IS_RULOCAL: true,
+      REACT_APP_URLPREFIX: 'https://shopsit.royalcanin.com/ru',
+      REACT_APP_DATEPICKER_LOCALE:
+        '{"datePickerLocale":"ru","dateFnslocaleModuleLang":"ru"}'
+    }
   }
 });
-const localStorageMock = (function () {
-  let store = {};
 
-  return {
-    getItem: function (key) {
-      return store[key] || null;
-    },
-    setItem: function (key, value) {
-      store[key] = value.toString();
-    },
-    removeItem: function (key) {
-      delete store[key];
-    },
-    clear: function () {
-      store = {};
-    }
-  };
-})();
+window.scrollTo = jest.fn();
 
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock
-});
+// const location = { pathname: '', }
+// Object.defineProperty(window, 'location', {
+//   value: {
+//     ...location
+//   }
+// });
 
-Object.defineProperty(window, 'sessionStorage', {
-  value: localStorageMock
-});
-window.matchMedia =
-  window.matchMedia ||
-  function () {
-    return {
-      matches: false,
-      addListener: function () {},
-      removeListener: function () {}
-    };
-  };
+// Object.defineProperty(stores, {
+//   value: {
+//     checkoutStore: {cartData: {}},
+//   }
+// });

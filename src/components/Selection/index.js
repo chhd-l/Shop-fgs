@@ -16,6 +16,7 @@ export default class Selection extends React.Component {
     emptyFirstItem: '',
     selectedItemData: null,
     customCls: '',
+    dataAutoTestid: 'select_options_item',
     hasBorder: false,
     selectedItemChange: () => {}
   };
@@ -213,7 +214,7 @@ export default class Selection extends React.Component {
     }
   };
   render() {
-    const { optionList, customStyleType, wider } = this.props;
+    const { optionList, customStyleType, wider, dataAutoTestid } = this.props;
     const {
       dataList,
       selectedItem,
@@ -243,6 +244,8 @@ export default class Selection extends React.Component {
           data-type={customStyleType || (wider ? 'select-wider' : '')}
           style={{ cursor: this.props.disabled ? 'auto' : 'pointer' }}
           onClick={this.toggleShowOptions}
+          data-auto-testid={dataAutoTestid || ''}
+          data-testid="select_options_item"
         >
           <div
             className={cn('choices__inner')}
@@ -302,6 +305,7 @@ export default class Selection extends React.Component {
                 onChange={(e) => this.handleSearchInputChange(e)}
                 ref={this.searchRef}
                 autoComplete="new-password"
+                data-testid="new-password"
               />
             ) : null}
 
@@ -314,6 +318,7 @@ export default class Selection extends React.Component {
               {dataList.map((item, i) =>
                 item.value == '' ? (
                   <div
+                    data-auto-testid={this.props.dataAutoTestid}
                     className={`choices__item choices__item--choice choices__item--selectable ${
                       hoveredIdx === i ? 'is-highlighted' : ''
                     }`}
@@ -329,11 +334,13 @@ export default class Selection extends React.Component {
                   </div>
                 ) : (
                   <div
+                    data-auto-testid="select_options_item_one"
                     className={`choices__item choices__item--choice choices__item--selectable ${
                       hoveredIdx === i ? 'is-highlighted' : ''
                     } ${item.disabled ? 'disabled_item' : ''}`}
                     role="option"
                     aria-selected="false"
+                    data-testid={item?.value || item?.name}
                     key={i}
                     onClick={(e) => {
                       e.preventDefault();
@@ -355,6 +362,7 @@ export default class Selection extends React.Component {
                       <>
                         <span>{item.name}</span>
                         <span
+                          data-auto-testid="select_options_item_one"
                           className={`sku-stock ml-8 ${
                             item.isEmpty ? 'sku-out-of-stock' : ''
                           }`}

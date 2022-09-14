@@ -295,6 +295,7 @@ class SearchSelection extends React.Component {
               ref={this.searchText}
               name={this.props.name}
               autoComplete="off"
+              data-auto-testid="addressSearchSelectionJSX"
             />
             {this.props.customStyle && <label className="rc-input__label" />}
             {this.state.optionPanelVisible && (

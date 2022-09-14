@@ -41,61 +41,64 @@ export default function SubscriptionTab() {
           </p>
         </div>
         <div className="subscription-desc rc-margin-bottom--md">
-          <article className="rc-beta text-center">
-            {isMobile ? (
-              <>
-                <div style={{ margin: '10px 0' }}>
-                  <img
-                    src={optimizeImage({
-                      originImageUrl: clubDescImg,
-                      width: 350
-                    })}
-                    alt="clubDesc"
-                    className={Ru && 'm-auto'}
-                  />
-                </div>
-                <p className="sub-title">
+          {!['fr'].includes(window.__.env.REACT_APP_COUNTRY) && (
+            <article className="rc-beta text-center">
+              {isMobile ? (
+                <>
+                  <div style={{ margin: '10px 0' }}>
+                    <img
+                      src={optimizeImage({
+                        originImageUrl: clubDescImg,
+                        width: 350
+                      })}
+                      alt="clubDesc"
+                      className={Ru && 'm-auto'}
+                    />
+                  </div>
+                  <p className="sub-title">
+                    <FormattedMessage
+                      id={
+                        Ru
+                          ? 'ClubLP.SubscriptionTab.subtext'
+                          : 'ClubLP.SubscriptionTab.subtitle1'
+                      }
+                    />
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="sub-title ">
+                    <FormattedMessage
+                      id={
+                        Ru
+                          ? 'ClubLP.SubscriptionTab.subtext'
+                          : 'ClubLP.SubscriptionTab.subtitle1'
+                      }
+                    />
+                  </p>
+                  <div style={{ margin: Ru ? '6px 0 0' : '10px 0' }}>
+                    <img
+                      src={optimizeImage({
+                        originImageUrl: clubDescImg,
+                        width: 350
+                      })}
+                      alt="clubDesc"
+                      style={{ height: Ru ? 290 : null }}
+                    />
+                  </div>
+                </>
+              )}
+              {!Ru && (
+                <p className="sub-desc">
                   <FormattedMessage
-                    id={
-                      Ru
-                        ? 'ClubLP.SubscriptionTab.subtext'
-                        : 'ClubLP.SubscriptionTab.subtitle1'
-                    }
+                    id="ClubLP.SubscriptionTab.subtext"
+                    values={{ val: <br /> }}
                   />
                 </p>
-              </>
-            ) : (
-              <>
-                <p className="sub-title ">
-                  <FormattedMessage
-                    id={
-                      Ru
-                        ? 'ClubLP.SubscriptionTab.subtext'
-                        : 'ClubLP.SubscriptionTab.subtitle1'
-                    }
-                  />
-                </p>
-                <div style={{ margin: Ru ? '6px 0 0' : '10px 0' }}>
-                  <img
-                    src={optimizeImage({
-                      originImageUrl: clubDescImg,
-                      width: 350
-                    })}
-                    alt="clubDesc"
-                    style={{ height: Ru ? 290 : null }}
-                  />
-                </div>
-              </>
-            )}
-            {!Ru && (
-              <p className="sub-desc">
-                <FormattedMessage
-                  id="ClubLP.SubscriptionTab.subtext"
-                  values={{ val: <br /> }}
-                />
-              </p>
-            )}
-          </article>
+              )}
+            </article>
+          )}
+
           <article className="rc-beta">
             <p className="text-center sub-title">
               <FormattedMessage id="ClubLP.SubscriptionTab.subtitle2" />

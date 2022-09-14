@@ -319,10 +319,7 @@ class AddressList extends React.Component {
     this.deleteConfirmTooltipVisible(data, true);
   }
 
-  async deleteCard(el, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+  async deleteCard(el) {
     let { allAddressList } = this.state;
     el.confirmTooltipVisible = false;
     this.scrollToTop();
@@ -665,6 +662,7 @@ class AddressList extends React.Component {
   // 确认 pickup
   clickConfirmPickup = async () => {
     const { countryList, allAddressList, pickupFormData } = this.state;
+
     this.setState({
       saveBtnLoading: true,
       loading: true
@@ -690,7 +688,6 @@ class AddressList extends React.Component {
           pickupPrice: pickupFormData?.pickupPrice,
           pickupDescription: pickupFormData?.pickupDescription,
           pickupCode: pickupFormData?.pickupCode, // 快递公司code
-          pickupName: pickupFormData?.pickupName, // 快递公司
           paymentMethods: pickupFormData?.paymentMethods, // 支付方式
           workTime: pickupFormData.workTime, // 快递公司上班时间
           receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
@@ -709,7 +706,10 @@ class AddressList extends React.Component {
           areaIdStr: pkaddr?.areaFias || pickupFormData.areaIdStr,
           settlementIdStr:
             pkaddr?.settlementFias || pickupFormData.settlementIdStr,
-          postalCode: pkaddr?.zip || pickupFormData.postCode
+          postalCode: pkaddr?.zip || pickupFormData.postCode,
+          contractNumber: pickupFormData?.contractNumber,
+          pickupName: pickupFormData?.pickupName, // 快递公司
+          courierCode: pickupFormData?.courierCode
         }
       );
 
@@ -843,7 +843,10 @@ class AddressList extends React.Component {
                           ))}
 
                         {/* 新增地址按钮 */}
-                        <div className="col-12 p-2 rounded text-center p-2 ui-cursor-pointer">
+                        <div
+                          className="col-12 p-2 rounded text-center p-2 ui-cursor-pointer"
+                          data-auto-testid="AddressListAdd"
+                        >
                           {this.addBtnJSX('')}
                         </div>
 

@@ -43,7 +43,7 @@ import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
-
+import ProductFinder3 from './views/ProductFinder3';
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
@@ -270,6 +270,9 @@ const Consent2TR = loadable(() =>
 );
 const Login = loadable(() => import('@/views/Login'));
 const register = loadable(() => import('@/views/Register'));
+const ForgetPassword = loadable(() => import('@/views/ForgetPassword'));
+const ForgotSuccessEmail = loadable(() => import('@/views/ForgotSuccessEmail'));
+const ResetPassword = loadable(() => import('@/views/ResetPassword'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
@@ -305,6 +308,9 @@ const CouponAgreement = loadable(() =>
 );
 const AssistanceDog = loadable(() =>
   import('@/views/StaticPage/AssistanceDog')
+);
+const CommeChienChat = loadable(() =>
+  import('@/views/StaticPage/CommeChienChat')
 );
 
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
@@ -473,6 +479,7 @@ const App = () => {
   const [loading, dynamicLanguage] = useDynamicLanguage();
 
   return (
+    // <ProductFinder3/>
     <Provider {...stores}>
       <IntlProvider
         // locale={window.__.env.REACT_APP_LANG}
@@ -919,7 +926,7 @@ const App = () => {
                   component={ProductFinderNoResult}
                 />
 
-                {/*11111111  subscription-landing 重定向*/}
+                {/*1111111111  subscription-landing 重定向*/}
                 <Route
                   exact
                   path="/subscription-landing"
@@ -928,7 +935,7 @@ const App = () => {
                       case 'de':
                         return <DE_SubscriptionLanding {...props} />;
                       case 'uk':
-                        return <Redirect to={{ pathname: '/' }} {...props} />;
+                      // return <Redirect to={{ pathname: '/' }} {...props} />;
                       case 'se':
                       case 'us':
                         return <US_SubscriptionLanding {...props} />;
@@ -1235,6 +1242,39 @@ const App = () => {
                     }
                   }}
                 />
+                <Route
+                  path="/forgot"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ForgetPassword {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/forgot/success/email"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ForgotSuccessEmail {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/reset"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ResetPassword {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route path="/yandexmap" component={YandexMap} />
                 <Route
                   path="/welcome/:id"
@@ -1400,6 +1440,16 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_COUNTRY === 'fr') {
                       return <AssistanceDog {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/comme-chien-chat"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <CommeChienChat {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }

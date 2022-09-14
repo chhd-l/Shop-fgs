@@ -109,6 +109,7 @@ const ButtonBox = () => {
             />
           )}
           <a
+            data-auto-testid="subscription-pause"
             style={{
               paddingRight: '0.5rem',
               paddingLeft: '4px'
@@ -126,6 +127,7 @@ const ButtonBox = () => {
         <div className="flex items-center  mt-2">
           <span className="iconfont iconchahao text-rc-red font-bold text-lg mr-1 pb-2 md:pb-1" />
           <a
+            data-auto-testid="subscription-cancelAll"
             className="rc-styled-link"
             href="#/"
             onClick={(e) => {
@@ -136,6 +138,7 @@ const ButtonBox = () => {
           </a>
         </div>
         <Button
+          data-auto-testid="subscriptions-save-change"
           type="primary"
           className={cn(`md:mx-4 mt-2 w-full md:w-auto`)}
           disabled={!isDataChange}

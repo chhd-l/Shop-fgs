@@ -15,6 +15,7 @@ class SearchSelection extends React.Component {
     isLoadingList: true, // 是否显示loading
     freeText: false,
     name: '',
+    dataAutoTestid: 'searchSelection_input',
     isCitySearchSelection: false,
     searchSelectionBlur: () => {},
     searchInputChange: () => {}
@@ -266,6 +267,7 @@ class SearchSelection extends React.Component {
             <input
               disabled={this.props.disabled}
               type="text"
+              data-auto-testid={this.props.dataAutoTestid}
               placeholder={this.state.placeholder}
               className={`${
                 this.props.customStyle ? 'rc-input__control' : 'form-control'
@@ -277,6 +279,7 @@ class SearchSelection extends React.Component {
               ref={this.searchText}
               name={this.props.name}
               autoComplete="off"
+              data-testid="searchSelection_input"
             />
             {this.props.customStyle && <label className="rc-input__label" />}
             {this.state.optionPanelVisible && (

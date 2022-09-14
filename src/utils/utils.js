@@ -34,6 +34,15 @@ const formatjpWeek = {
   6: '土'
 };
 
+export const getCurPickUpInfo = (item) => {
+  let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+  let pickupItem = '';
+  if (sitem) {
+    pickupItem = JSON.parse(sitem)?.pickup?.[item];
+  }
+  return pickupItem;
+};
+
 /**
  *
  * @param {*} val
@@ -103,6 +112,51 @@ export async function hanldePurchases(goodsInfoDTOList) {
   }
 }
 
+/**
+ * 数组扁平化
+ * @param {Array} array - 数组
+ */
+export function flat(arr) {
+  var res = [];
+  for (let el of arr) {
+    if (Array.isArray(el)) {
+      res = res.concat(flat(el));
+    } else {
+      res.push(el);
+    }
+  }
+  return res;
+}
+
+/**
+ * 获取字典并存入session
+ * @param {type, name} type - 字典名
+ */
+export async function getDictionary({ type, name = '' }) {
+  let ret = [];
+  const tmpKey = `dict-${type}`;
+  if (sessionItemRoyal.get(tmpKey)) {
+    ret = JSON.parse(sessionItemRoyal.get(tmpKey));
+  } else {
+    let sysDictionaryVOS = [];
+    if (type === 'appointment_type' || type === 'expert_type') {
+      let res = await getAppointDict({ type });
+      sysDictionaryVOS = res?.context?.goodsDictionaryVOS || [];
+    } else {
+      let res = await getDict({
+        delFlag: 0,
+        storeId: window.__.env.REACT_APP_STOREID,
+        type,
+        name
+      });
+      sysDictionaryVOS = res?.context?.sysDictionaryVOS || [];
+    }
+    sessionItemRoyal.set(tmpKey, JSON.stringify(sysDictionaryVOS));
+    ret = sysDictionaryVOS;
+  }
+  return ret;
+}
+
 export function stgShowAuth() {
   return true; // 放开用户限制
   // charles_dw@139.com fr sit  以及anhao的三个环境账号
@@ -161,85 +215,7 @@ export function stgShowAuth() {
   // }
   // return false;
 }
-/**
- * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
- */
-export async function mergeUnloginCartData() {
-  let unloginCartData = checkoutStore.cartData;
-  unloginCartData = toJS(unloginCartData);
-  console.info('unloginCartData', unloginCartData);
-  // 线下店orderSource埋点L_ATELIER_FELIN
-  let orderSource = sessionItemRoyal.get('orderSource') || '';
-  let params = {
-    purchaseMergeDTOList: unloginCartData.map((ele) => {
-      return {
-        goodsInfoId: ele.goodsInfoId,
-        goodsNum: ele.buyCount,
-        goodsInfoFlag: ele.goodsInfoFlag,
-        periodTypeId: ele.periodTypeId,
-        invalid: false,
-        recommendationInfos: ele.recommendationInfos,
-        recommendationId: ele.recommendationId,
-        recommendationName: ele.recommendationName,
-        goodsCategory: ele.goodsCategory,
-        petsId: find(ele.sizeList, (s) => s.selected).petsId,
-        questionParams: ele.questionParams,
-        prefixFn: ele.prefixFn === 'shelter-page' ? ele.prefixFn : ''
-      };
-    })
-  };
-  if (orderSource) {
-    params.orderSource = orderSource;
-  }
 
-  await mergePurchase(params);
-  checkoutStore.removeCartData();
-}
-
-/**
- * 数组扁平化
- * @param {Array} array - 数组
- */
-export function flat(arr) {
-  var res = [];
-  for (let el of arr) {
-    if (Array.isArray(el)) {
-      res = res.concat(flat(el));
-    } else {
-      res.push(el);
-    }
-  }
-  return res;
-}
-
-/**
- * 获取字典并存入session
- * @param {type, name} type - 字典名
- */
-export async function getDictionary({ type, name = '' }) {
-  let ret = [];
-  const tmpKey = `dict-${type}`;
-  if (sessionItemRoyal.get(tmpKey)) {
-    ret = JSON.parse(sessionItemRoyal.get(tmpKey));
-  } else {
-    let sysDictionaryVOS = [];
-    if (type === 'appointment_type' || type === 'expert_type') {
-      let res = await getAppointDict({ type });
-      sysDictionaryVOS = res?.context?.goodsDictionaryVOS || [];
-    } else {
-      let res = await getDict({
-        delFlag: 0,
-        storeId: window.__.env.REACT_APP_STOREID,
-        type,
-        name
-      });
-      sysDictionaryVOS = res?.context?.sysDictionaryVOS || [];
-    }
-    sessionItemRoyal.set(tmpKey, JSON.stringify(sysDictionaryVOS));
-    ret = sysDictionaryVOS;
-  }
-  return ret;
-}
 export function getElementToPageTop(el) {
   if (el.parentElement) {
     return getElementToPageTop(el.parentElement) + el.offsetTop;
@@ -288,6 +264,42 @@ export async function validData({ rule, data, intl }) {
       }
     }
   }
+}
+
+/**
+ * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
+ */
+export async function mergeUnloginCartData() {
+  let unloginCartData = checkoutStore.cartData;
+  unloginCartData = toJS(unloginCartData);
+  console.info('unloginCartData', unloginCartData);
+  // 线下店orderSource埋点L_ATELIER_FELIN
+  let orderSource = sessionItemRoyal.get('orderSource') || '';
+  console.log({ orderSource });
+  let params = {
+    purchaseMergeDTOList: unloginCartData.map((ele) => {
+      return {
+        goodsInfoId: ele.goodsInfoId,
+        goodsNum: ele.buyCount,
+        goodsInfoFlag: ele.goodsInfoFlag,
+        periodTypeId: ele.periodTypeId,
+        invalid: false,
+        recommendationInfos: ele.recommendationInfos,
+        recommendationId: ele.recommendationId,
+        recommendationName: ele.recommendationName,
+        goodsCategory: ele.goodsCategory,
+        petsId: find(ele.sizeList, (s) => s.selected).petsId,
+        questionParams: ele.questionParams,
+        prefixFn: ele.prefixFn === 'shelter-page' ? ele.prefixFn : ''
+      };
+    })
+  };
+  if (orderSource) {
+    params.orderSource = orderSource;
+  }
+
+  await mergePurchase(params);
+  checkoutStore.removeCartData();
 }
 
 export function generatePayUScript(deviceSessionId) {
@@ -444,7 +456,12 @@ export function getParentNodesByChild({ data: arr1, id, matchIdName }) {
 }
 
 export async function setSeoConfig(
-  obj = { goodsId: '', categoryId: '', pageName: '' }
+  obj = {
+    goodsId: '',
+    categoryId: '',
+    pageName: '',
+    navigationLink: ''
+  }
 ) {
   // 如果页面调用了这个方法，就需要移除html里默认的字段
   document.getElementsByTagName('meta')[(name = 'description')] &&
@@ -458,9 +475,13 @@ export async function setSeoConfig(
   if (obj.goodsId && obj.pageName) {
     goodsSeo = await getGoodsSeo(obj.goodsId, obj.pageName);
   } else if (obj.categoryId && obj.pageName) {
-    cateSeo = await getCateSeo(obj.categoryId, obj.pageName);
+    cateSeo = await getCateSeo(
+      obj.categoryId,
+      obj.pageName,
+      obj.navigationLink
+    );
   } else if (obj.pageName) {
-    pageSeo = await getPageSeo(obj.pageName);
+    pageSeo = await getPageSeo(obj.pageName, obj.navigationLink);
   } else if (!sessionStorage.getItem('seoInfo')) {
     siteSeo = await getSiteSeo();
   } else {
@@ -504,11 +525,12 @@ async function getSiteSeo() {
   }
 }
 
-async function getPageSeo(pageName) {
+async function getPageSeo(pageName, navigationLink) {
   try {
     const res = await getSeoConfig({
       type: 3,
-      pageName: pageName,
+      pageName,
+      navigationLink,
       storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
@@ -516,12 +538,13 @@ async function getPageSeo(pageName) {
     return {};
   }
 }
-async function getCateSeo(categoryId, pageName) {
+async function getCateSeo(categoryId, pageName, navigationLink) {
   try {
     const res = await getSeoConfig({
       type: 2,
       pageName,
       storeCateId: categoryId,
+      navigationLink,
       storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
@@ -825,6 +848,13 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
       sessionKey == 'footer-hub' &&
       window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
     ) {
+      ruLocalFooter?.MenuItems.forEach((outerItem) => {
+        let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
+        if (outterisOtherUrl === false) {
+          outerItem.Link.Url =
+            window.__.env.REACT_APP_URLPREFIX + outerItem.Link.Url;
+        }
+      });
       ruLocalFooter?.MenuGroups.forEach((outerItem) => {
         let outterisOtherUrl = outerItem?.Link?.Url?.includes('http');
         if (outterisOtherUrl === false) {

@@ -37,7 +37,7 @@ const PayInfoPreview = ({
     case 'payu_ru':
     case 'payu_tu':
     case 'adyen_credit_card':
-    case 'CYBER':
+    case 'pc_web':
       return (
         <>
           <div className="col-12 col-md-6">
@@ -65,7 +65,6 @@ const PayInfoPreview = ({
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
         </>
       );
-
     case 'cod':
       return (
         <div className="col-12 col-md-6">
@@ -110,7 +109,7 @@ const PayInfoPreview = ({
     case 'adyen_convenience_store':
       return (
         <>
-          <div className="col-12 col-md-6">
+          <div className="col-12">
             <ConvenienceStorePayReview convenienceStore={convenienceStore} />
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
@@ -118,7 +117,7 @@ const PayInfoPreview = ({
             <p className="ml-4">
               <FormattedMessage
                 id="ForConvenienceStorePayment"
-                values={{ val: <span className="text-red-500">7</span> }}
+                values={{ val: <span>7</span> }}
               />
             </p>
           )}
@@ -144,7 +143,7 @@ const PayInfoPreview = ({
             </span>
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
-          <p className="text-red-500 ml-10">
+          <p className="ml-10">
             <FormattedMessage id="ForCashOnDelivery" />
           </p>
         </>

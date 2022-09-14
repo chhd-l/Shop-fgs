@@ -180,7 +180,10 @@ class Pet extends React.Component {
                             </p>
                           </div>
                           <div className="rc-margin-top--xs text-center md:text-left">
-                            <Link to="/account/pets/petForm">
+                            <Link
+                              to="/account/pets/petForm"
+                              data-auto-testid="addPet"
+                            >
                               <Button type="primary">
                                 <FormattedMessage id="account.addPet" />
                               </Button>
@@ -253,7 +256,11 @@ class Pet extends React.Component {
                             </div>
                           ))
                         : this.state.petList.map((el, i) => (
-                            <div className="petItem" key={i}>
+                            <div
+                              className="petItem"
+                              key={i}
+                              data-auto-testid="petItem"
+                            >
                               <div className="photo">
                                 <LazyLoad>
                                   <img
@@ -285,11 +292,15 @@ class Pet extends React.Component {
                                 <Link
                                   className="edit rc-styled-link overflow-visible"
                                   to={'/account/pets/petForm/' + el.petsId}
+                                  data-auto-testid="petItem-edit"
                                 >
                                   <FormattedMessage id="edit" />
                                 </Link>
                                 {this.isUk ? (
-                                  <button className="rc-btn weightTracker-btn">
+                                  <button
+                                    className="rc-btn weightTracker-btn"
+                                    data-auto-testid="petItem-weightTracker"
+                                  >
                                     <i className="iconfont iconLogoff" />
                                     <a
                                       className="pl-2"
@@ -306,6 +317,7 @@ class Pet extends React.Component {
                       <Link
                         className="petItem addNew text-center ui-cursor-pointer block"
                         to="/account/pets/petForm"
+                        data-auto-testid="addNewPet"
                       >
                         <span className="iconfont iconjia mr-1 font-bold" />
                         <span>

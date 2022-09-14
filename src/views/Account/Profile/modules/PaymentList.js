@@ -20,6 +20,7 @@ import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import getCardImg from '@/lib/get-card-img';
 import { handleEmailShow } from '@/utils/utils';
 import { Popover } from '@/components/Common';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 function CardItem(props) {
   const { data, listVisible, supportPaymentMethods } = props;
@@ -121,6 +122,10 @@ function CardItem(props) {
                     {data.lastFourDigits}
                   </p>
                   <p className="mb-0">{data.paymentVendor}</p>
+                  <CardTips
+                    expirationDate={data.expirationDate}
+                    expireStatusEnum={data.expireStatusEnum}
+                  />
                 </div>
               )}
             </>
@@ -192,7 +197,7 @@ class PaymentList extends React.Component {
       listLoading: false,
       creditCardList: [], //绑定的银行卡列表
       fromPage: 'cover',
-      paymentType: 'PAYU', //PAYU,ADYEN,CYBER 支付方式
+      paymentWay: { name: 'PAYU' }, //PAYU,ADYEN,CYBER 支付方式
       errorMsg: '',
       successMsg: '',
       getPaymentMethodListFlag: false,
@@ -212,7 +217,7 @@ class PaymentList extends React.Component {
     this.getPaymentMethodList(); //获取绑卡列表
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name
+        paymentWay: res?.context
       });
       const payPspItemVOList = res?.context?.payPspItemVOList || [];
       const supportPaymentMethods =
@@ -318,10 +323,7 @@ class PaymentList extends React.Component {
       });
     }, 5000);
   };
-  async deleteCard(el, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+  async deleteCard(el) {
     let { creditCardList } = this.state;
     el.confirmTooltipVisible = false;
     this.setState({
@@ -405,6 +407,7 @@ class PaymentList extends React.Component {
   addBtnJSX = ({ fromPage }) => {
     return (
       <div
+        data-auto-testid="AddPayment"
         className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
         onClick={this.handleClickAddBtn.bind(this, fromPage)}
         ref={(node) => {
@@ -480,6 +483,7 @@ class PaymentList extends React.Component {
                   <FormattedMessage id="account.myPayments" />
                 </h5>
                 <h5
+                  data-auto-testid="BackToPaymenList"
                   className="ui-cursor-pointer text-xl"
                   style={{ display: curPageAtCover ? 'none' : 'block' }}
                   onClick={this.handleClickGoBack}
@@ -499,6 +503,7 @@ class PaymentList extends React.Component {
                       title={txt}
                       alt={txt}
                       onClick={this.handleClickEditBtn}
+                      data-auto-testid="PaymenListEdit"
                     >
                       {txt}
                     </button>
@@ -569,7 +574,10 @@ class PaymentList extends React.Component {
                       </div>
                     ))}
                   {this.getOnlyCardTypeArr().slice(0, 2).length < 2 && (
-                    <div className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer">
+                    <div
+                      data-auto-testid="PaymentListAdd"
+                      className="col-12 col-md-4 p-2 rounded text-center ui-cursor-pointer"
+                    >
                       {this.addBtnJSX({ fromPage: 'cover' })}
                     </div>
                   )}
@@ -673,7 +681,7 @@ class PaymentList extends React.Component {
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
-                    paymentType={this.state.paymentType}
+                    paymentWay={this.state.paymentWay}
                     needEmail={this.props.needEmail}
                     needPhone={this.props.needPhone}
                     paymentStore={this.props.paymentStore}

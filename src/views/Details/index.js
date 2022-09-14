@@ -142,6 +142,7 @@ class Details extends React.Component {
       loading: true,
       errMsg: '',
       checkOutErrMsg: '',
+      errMsgFormattedKey: '',
       addToCartLoading: false,
       productRate: 0,
       backgroundSpaces: '🐕',
@@ -183,7 +184,8 @@ class Details extends React.Component {
       versionB: false,
       ossReceiveBackNotificationContentVisible: false,
       notifyMeConsent: [],
-      notifyMeStatus: false
+      notifyMeStatus: false,
+      notSelectFrequency: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
@@ -467,6 +469,17 @@ class Details extends React.Component {
     // bundle商品的ga初始化填充
     if (!details.goodsSpecs) {
       this.getPdpScreenLoadData();
+    }
+
+    const specDetailIds = details.goodsSpecs?.[0].specDetailIds || [];
+    if (!data.stock && specDetailIds.length) {
+      this.setState({
+        ossReceiveBackNotificationContentVisible: true
+      });
+    } else {
+      this.setState({
+        ossReceiveBackNotificationContentVisible: false
+      });
     }
   }
 
@@ -840,6 +853,13 @@ class Details extends React.Component {
       instockStatus: this.state.quantity <= this.state.stock
     });
   }
+
+  handleNoShowValue = (data) => {
+    this.setState({
+      notSelectFrequency: data
+    });
+  };
+
   handleSelectedItemChange = (data) => {
     const { form } = this.state;
     form.frequencyVal = data.value;
@@ -847,8 +867,9 @@ class Details extends React.Component {
     form.frequencyId = data.id;
     form.frequencyValueEn = data.valueEn;
 
-    this.setState({ form }, () => {
-      // this.props.updateSelectedData(this.state.form);
+    this.setState({
+      errMsgFormattedKey: '',
+      notSelectFrequency: false
     });
   };
   showPrescriberCodeBeforeAddCart = () => {
@@ -875,6 +896,13 @@ class Details extends React.Component {
       this.setState({ checkOutErrMsg: '' });
       await this.showPrescriberCodeBeforeAddCart();
       if (!this.state.showPrescriberCodeModal) {
+        // 'need choose frequency delivery',when data mismatch
+        const { form, notSelectFrequency } = this.state;
+        if ((form.buyWay === 1 || form.buyWay === 2) && notSelectFrequency) {
+          this.showCheckoutErrMsg('', 'chooseFrequency');
+          return;
+        }
+
         if (this.isLogin) {
           this.hanldeLoginAddToCart();
         } else {
@@ -985,14 +1013,16 @@ class Details extends React.Component {
     this.setState({ form });
     pushPurchaseGA(buyType);
   }
-  showCheckoutErrMsg(msg) {
+  showCheckoutErrMsg(msg, errMsgFormattedKey) {
     this.setState({
       checkOutErrMsg: msg,
+      errMsgFormattedKey: errMsgFormattedKey,
       addToCartLoading: false
     });
     setTimeout(() => {
       this.setState({
-        checkOutErrMsg: ''
+        checkOutErrMsg: '',
+        errMsgFormattedKey: ''
       });
     }, 5000);
     if (isMobile) {
@@ -1177,19 +1207,7 @@ class Details extends React.Component {
       </div>
     );
   };
-  handleClickSku = () => {
-    setTimeout(() => {
-      if (!this.state.instockStatus) {
-        this.setState({
-          ossReceiveBackNotificationContentVisible: true
-        });
-      } else {
-        this.setState({
-          ossReceiveBackNotificationContentVisible: false
-        });
-      }
-    }, 0);
-  };
+
   specAndQuantityDom = (selectedSpecItem) => {
     const {
       configStore: {
@@ -1209,7 +1227,6 @@ class Details extends React.Component {
             updatedPriceOrCode={this.updatedPriceOrCode}
             defaultSkuId={this.state.defaultSkuId}
             defaultSkuNo={this.state.goodsNo}
-            onClickSku={this.handleClickSku}
             shouldSkuGrayOutOfStock
             canSelectedOutOfStock
           />
@@ -1223,9 +1240,17 @@ class Details extends React.Component {
               selectedSpecItem={selectedSpecItem}
               notifyMeConsent={this.state.notifyMeConsent}
               visible={this.state.ossReceiveBackNotificationContentVisible}
+              className={'mb-3 border'}
+              pageType="pdp"
             />
           )}
-          <div className={`${this.skuOffShelves ? '' : 'hidden'} Quantity`}>
+          <div
+            className={`${this.skuOffShelves ? '' : 'hidden'} Quantity ${
+              window.location.hash === '#ConnectedPackDailyPortion'
+                ? 'hidden'
+                : ''
+            }`}
+          >
             <span className="amount">
               <FormattedMessage id="amount" />:
             </span>
@@ -1260,6 +1285,8 @@ class Details extends React.Component {
             notifyMeConsent={this.state.notifyMeConsent}
             selectedSpecItem={selectedSpecItem}
             visible={this.state.ossReceiveBackNotificationContentVisible}
+            className={'mb-3 border'}
+            pageType="pdp"
           />
         )}
       </>
@@ -1277,7 +1304,9 @@ class Details extends React.Component {
     } = this.state;
     const btnStatus = this.btnStatus;
     const vet =
-      (window.__.env.REACT_APP_HUB || Uk) &&
+      (window.__.env.REACT_APP_HUB ||
+        Uk ||
+        window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) &&
       !details.saleableFlag &&
       details.displayFlag;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
@@ -1351,7 +1380,9 @@ class Details extends React.Component {
       }) || [];
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      (window.__.env.REACT_APP_HUB || Uk) &&
+      (window.__.env.REACT_APP_HUB ||
+        Uk ||
+        window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
     const goodHeading = `<${headingTag || 'h1'}
@@ -1654,7 +1685,10 @@ class Details extends React.Component {
                           ) : (
                             <div
                               className={classNames({
-                                hidden: this.isNullGoodsInfos,
+                                hidden:
+                                  this.isNullGoodsInfos ||
+                                  window.location.hash ===
+                                    '#ConnectedPackDailyPortion',
                                 'w-full': isMobile,
                                 'col-md-5': !isMobile && this.skuOffShelves
                               })}
@@ -1705,6 +1739,9 @@ class Details extends React.Component {
                                     changeFreqency={(data) => {
                                       this.handleSelectedItemChange(data);
                                     }}
+                                    handleNoShowValue={(data) => {
+                                      this.handleNoShowValue(data);
+                                    }}
                                   >
                                     {this.ButtonGroupDom(false)}
                                   </AutoshipBuyMethod>
@@ -1730,6 +1767,9 @@ class Details extends React.Component {
                                       this.handleSelectedItemChange(data);
                                     }}
                                     toClubTab={this.toClubTab}
+                                    handleNoShowValue={(data) => {
+                                      this.handleNoShowValue(data);
+                                    }}
                                   >
                                     {this.ButtonGroupDom(false)}
                                   </ClubBuyMethod>
@@ -1769,6 +1809,7 @@ class Details extends React.Component {
                               ) : null}
                               <ErrMsgForCheckoutPanel
                                 checkOutErrMsg={checkOutErrMsg}
+                                formattedKey={this.state.errMsgFormattedKey}
                               />
                               {isMobile &&
                               ((details.promotions &&
