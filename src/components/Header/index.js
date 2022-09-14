@@ -33,7 +33,7 @@ import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import classNames from 'classnames';
 import { isCountryMx } from '@/utils/country';
-import { TopNavigation } from '@royal-canin-sitecore/react-components';
+import { TopNavigation } from '@/react-components';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
