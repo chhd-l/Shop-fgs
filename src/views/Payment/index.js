@@ -432,7 +432,7 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo }
     } = this.props;
-    const { tid, billingAddress } = this.state;
+    const { tid, billingAddress, orderDetails } = this.state;
     let cyberPaymentParam = {};
     let cyberParams = {};
     const {
