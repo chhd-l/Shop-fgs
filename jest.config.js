@@ -18,7 +18,7 @@ const config = {
     // "src/views/Details/components/Ration/index.{js,jsx,ts,tsx}"
     //"src/views/Account/Subscription/components/ItemContainer/ItemContainer.{js,jsx,ts,tsx}"
     // "src/views/Details/components/ButtonGroup/index.{js,jsx,ts,tsx}"
-    "src/views/Payment/Address/List.{js,jsx,ts,tsx}"
+    // "src/views/Payment/Address/List.{js,jsx,ts,tsx}"
 
 
   ],
@@ -44,7 +44,7 @@ const config = {
     // "<rootDir>/src/views/Details/components/Ration/__test__/index.test.{js,jsx,ts,tsx}",
     //"<rootDir>/src/views/Account/Subscription/components/ItemContainer/__test__/ItemContainer.test.{js,jsx,ts,tsx}",
     // "<rootDir>/src/views/Details/components/ButtonGroup/__test__/index.test.{js,jsx,ts,tsx}",
-    "<rootDir>/src/views/Payment/Address/__test__/List.test.{js,jsx,ts,tsx}",
+    // "<rootDir>/src/views/Payment/Address/__test__/List.test.{js,jsx,ts,tsx}",
   ],
   testEnvironment: 'jest-environment-jsdom-fourteen',
   transform: {
