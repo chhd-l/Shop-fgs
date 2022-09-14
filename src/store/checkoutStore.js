@@ -416,6 +416,9 @@ class CheckoutStore {
     notSeableProNames = this.notSeableProNames,
     purchasesRes = {}
   } = {}) {
+    if (!intl) {
+      initIntl();
+    }
     const { formatMessage } = intl;
     // 没达到下单额度，不能下单
     if (purchasesRes.canShipped === false && purchasesRes.cantShippedMessage) {
