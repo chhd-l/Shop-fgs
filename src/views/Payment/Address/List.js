@@ -1347,8 +1347,17 @@ class AddressList extends React.Component {
       });
     }
   };
+  //切换地址单选框
+  doHandleRadioChange = (receiveType) => {
+    const obj = {
+      HOME_DELIVERY: 'homeDelivery',
+      PICK_UP: 'pickup'
+    };
+    this.handleRadioChange(obj[receiveType]);
+  };
   // 编辑地址
   handleClickEdit = () => {
+    this.doHandleRadioChange(this.props.paymentStore.receiveType);
     this.handleJpUnspecified();
     this.props.paymentStore.setStsToEdit({
       key: this.curPanelKey,

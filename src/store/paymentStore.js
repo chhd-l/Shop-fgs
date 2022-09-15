@@ -132,6 +132,8 @@ class PaymentStore {
 
   @observable subscriptionDetail = [];
 
+  @observable receiveType = '';
+
   @computed get clinicPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'clinic').status;
   }
@@ -574,6 +576,11 @@ class PaymentStore {
   @action.bound
   setRreshCardList(bool) {
     this.isRreshList = bool;
+  }
+
+  @action.bound
+  setCurReceiveType(type) {
+    this.receiveType = type;
   }
 
   @action.bound
