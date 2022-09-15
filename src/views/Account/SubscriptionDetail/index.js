@@ -3,10 +3,14 @@ import './index.less';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
+import {
+  Header,
+  Footer,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  Loading,
+  GoogleTagManager
+} from '@/components';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
@@ -17,15 +21,13 @@ import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
 import DeliveryList from './components/DeliveryList';
 import { getDetailsBySpuNo } from '@/api/details';
-import Loading from '@/components/Loading';
 import { AddItemMember as AddCartItemMember } from '@/framework/cart';
 import { getDeliveryDateAndTimeSlot, checkPickUpActive } from '@/api/address';
-
 import {
   getRation,
   handleDateForIos,
   findKeyFromObject,
-  getDeviceType
+  isMobile
 } from '@/utils/utils';
 import GiftList from './components/GiftList';
 import { Link } from 'react-router-dom';
@@ -39,8 +41,6 @@ import {
   updateSubGoodsInfo,
   checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
-
-import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
 import { format } from 'date-fns';
@@ -52,7 +52,6 @@ import { Canonical, Button, Modal } from '@/components/Common';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 @inject('configStore', 'paymentStore', 'loginStore')
 @injectIntl

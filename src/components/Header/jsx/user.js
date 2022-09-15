@@ -3,15 +3,13 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import LoginButton from '@/components/LoginButton';
-import LogoutButton from '@/components/LogoutButton';
+import { LoginButton, LogoutButton } from '@/components';
 import { UnLoginUserBox, LoginUserBox } from './UserBox';
-import { getDeviceType } from '@/utils/utils.js';
+import { isMobile } from '@/utils/utils.js';
 import '../css/user.less';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const clientWidth = document.body.clientWidth;
 

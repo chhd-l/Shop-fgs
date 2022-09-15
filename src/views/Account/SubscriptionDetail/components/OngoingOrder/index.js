@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  getDeviceType,
+  isMobile,
   formatDate,
   optimizeImage,
   judgeIsIndividual
@@ -11,7 +11,6 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
 
 const OngoingOrder = ({ subDetail }) => {
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const gifts = subDetail.gifts;
   let onGoingTradeLists = subDetail.onGoingTradeList
     ? Array.from(subDetail.onGoingTradeList, (ele) => {

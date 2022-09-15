@@ -1,9 +1,7 @@
 import React from 'react';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 import './index.less';
-import { getDeviceType, loadJS } from '@/utils/utils';
-
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+import { isMobile, loadJS } from '@/utils/utils';
 
 class PickupMap extends React.Component {
   static defaultProps = {};

@@ -30,14 +30,20 @@ import { PDP_Regex } from '@/utils/constant';
 // import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth, getRandom } from '@/utils/utils';
-import ScrollToTop from '@/components/ScrollToTop';
 import { useDynamicLanguage } from '@/framework/common';
+import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
+// import {
+//   ScrollToTop,
+//   RouteFilter,
+//   RouteFilterHook,
+//   GoogleMapMakerHandle as MakerHandle
+// } from '@/components';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
-import ProductFinder3 from './views/ProductFinder3';
+
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
@@ -52,8 +58,10 @@ import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
 import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 // import register from '@/views/Register';
 import Welcome from '@/views/Register/welcome.js';
-import CancelEmail from '@/views/StaticPage/CancelEmail';
-
+// import CancelEmail from '@/views/StaticPage/CancelEmail';
+const CancelEmail = loadable(() => import('@/views/StaticPage/CancelEmail'));
+// import RCInput from './components/Form/Input';
+// import RCSelect from './components/Form/Downselect';
 const FelinTermsConditions = loadable(() =>
   import('@/views/StaticPage/FelinTermsConditions')
 );
@@ -77,7 +85,7 @@ const Cart = loadable(() => import('@/views/Cart'));
 const CartFRBreeder = loadable(() => import('@/views/CartFRBreeder'));
 // const CartInStock = loadable(() => import('@/views/CartInStock'));
 const Payment = loadable(() => import('@/views/Payment'));
-// const Checkout = loadable(() => import('@/views/Checkout'));
+const Checkout = loadable(() => import('@/views/Checkout'));
 const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
@@ -306,7 +314,7 @@ const AssistanceDog = loadable(() =>
 const CommeChienChat = loadable(() =>
   import('@/views/StaticPage/CommeChienChat')
 );
-
+const ProductFinder3 = loadable(() => import('@/views/ProductFinder3'));
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
 const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
 const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
@@ -473,7 +481,6 @@ const App = () => {
   const [loading, dynamicLanguage] = useDynamicLanguage();
 
   return (
-    // <ProductFinder3/>
     <Provider {...stores}>
       <IntlProvider
         // locale={window.__.env.REACT_APP_LANG}
@@ -536,6 +543,11 @@ const App = () => {
                   render={() => <ImplicitLogin />}
                 />
                 <Route
+                  path="/productfinder3"
+                  exact
+                  render={(props) => <ProductFinder3 {...props} a={0} />}
+                />
+                <Route
                   exact
                   path="/precise-cat-nutrition-recommendation"
                   sensitive
@@ -565,21 +577,21 @@ const App = () => {
                     return <Cart {...props} />;
                   }}
                 />
-                {/* <Route
-                  exact
-                  path="/checkoutnew"
-                  sensitive
-                  render={(props) => (
-                    <Checkout key={props.match.params.type} {...props} />
-                  )}
-                /> */}
                 <Route
                   exact
                   path="/checkout"
-                  sensitive
-                  render={(props) => (
-                    <Payment key={props.match.params.type} {...props} />
-                  )}
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'fr':
+                        return (
+                          <Checkout key={props.match.params.type} {...props} />
+                        );
+                      default:
+                        return (
+                          <Payment key={props.match.params.type} {...props} />
+                        );
+                    }
+                  }}
                 />
                 <Route
                   exact

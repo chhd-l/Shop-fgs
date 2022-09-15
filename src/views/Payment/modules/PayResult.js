@@ -4,7 +4,7 @@ import { adyenPaymentsDetails } from '@/api/payment';
 import url from 'url';
 import { inject, observer } from 'mobx-react';
 import { sleep } from '@/utils/utils';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;

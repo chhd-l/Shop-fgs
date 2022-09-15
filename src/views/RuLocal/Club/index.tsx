@@ -1,11 +1,10 @@
 import React from 'react';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { Header, Footer } from '@/components';
 import BreadCrumbs from '../components/BreadCrumbs';
 import HrLine from '../components/HrLine';
 import Collapse from '@/components/Collapse';
 import { ClubFAQ } from '../modules/club';
-import './index.less'
+import './index.less';
 import { Link } from 'react-router-dom';
 const Club = () => {
   const { Panel } = Collapse;
@@ -35,10 +34,7 @@ const Club = () => {
                       </strong>
                     </span>
                   </h1>
-                  <Link
-                    className="rc-btn rc-btn--one "
-                    to="/club/find-product"
-                  >
+                  <Link className="rc-btn rc-btn--one " to="/club/find-product">
                     ВЫБРАТЬ КОРМ
                   </Link>
                 </div>

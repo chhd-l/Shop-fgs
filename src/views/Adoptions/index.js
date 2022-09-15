@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Selection from '@/components/Selection';
+import {
+  Selection,
+  Header,
+  GoogleTagManager,
+  Footer,
+  BannerTip
+} from '@/components';
 import { useLocalStore } from 'mobx-react';
-import Header from '@/components/Header';
 import { Helmet } from 'react-helmet';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
 import { getList } from '@/api/list';
 import './index.less';
 import { injectIntl } from 'react-intl-phraseapp';

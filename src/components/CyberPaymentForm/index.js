@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
 import {
   usGuestPaymentInfo,
   usPaymentInfo,

@@ -10,11 +10,9 @@ import topCat from '../images/pfCat.png';
 import topCatEat from '../images/SacKRAFT-RVB-bis-det.png';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from '../images/img.png';
-import { getDeviceType } from '../../../utils/utils';
+import { isMobile } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Button } from '@/components/Common';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const toScroll = (anchorName) => {
   let anchorElement = document.getElementById(anchorName);

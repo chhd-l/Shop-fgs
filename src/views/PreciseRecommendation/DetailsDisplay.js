@@ -1,9 +1,7 @@
 // import { Modal } from 'bootstrap';
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import { getDeviceType } from '@/utils/utils';
-
-let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { isMobile } from '@/utils/utils';
 
 class DetailsDisplay extends React.Component {
   constructor(props) {

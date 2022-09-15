@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
-import ConsentToolTip from '@/components/Consent/ConsentToolTip';
+import { ConsentAdditionalText, ConsentToolTip } from '@/components';
 import { Link } from 'react-router-dom';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
@@ -83,9 +82,6 @@ const TrGuestCheckoutText = () => {
 class Consent extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isMobile: true
-    };
     this.renderCheckBox = this.renderCheckBox.bind(this);
   }
   componentDidMount() {}

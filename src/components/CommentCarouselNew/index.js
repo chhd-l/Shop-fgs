@@ -6,11 +6,10 @@ import newtrcommentthree from './img/CommentOne.webp';
 import newtrcommentFour from './img/FeedbackImage4.jpeg';
 
 import LazyLoad from 'react-lazyload';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;

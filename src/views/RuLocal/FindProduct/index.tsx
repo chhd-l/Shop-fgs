@@ -1,8 +1,7 @@
 import React from 'react';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { Header, Footer } from '@/components';
 import { Link } from 'react-router-dom';
-import './index.less'
+import './index.less';
 import BreadCrumbs from '../components/BreadCrumbs';
 const FindProduct = () => {
   return (
@@ -17,7 +16,8 @@ const FindProduct = () => {
                 <h2 className="rc-beta "></h2>
                 <p></p>
                 <h2>
-                  Чтобы вступить в Клуб, выберите корм, который вы хотите получать. Какой у Вас питомец?
+                  Чтобы вступить в Клуб, выберите корм, который вы хотите
+                  получать. Какой у Вас питомец?
                 </h2>
                 <p></p>
               </div>
@@ -40,9 +40,10 @@ const FindProduct = () => {
                 <div className="rc-layout-container rc-one-column rc-max-width--xl">
                   <div className="rc-column">
                     <div className="rc-full-width ">
-                      <img className="lazyautosizes lazyloaded" 
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/product/10001.png`}
-                />
+                      <img
+                        className="lazyautosizes lazyloaded"
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/product/10001.png`}
+                      />
                     </div>
                   </div>
                 </div>
@@ -74,16 +75,16 @@ const FindProduct = () => {
                 <div className="rc-layout-container rc-one-column rc-max-width--xl">
                   <div className="rc-column">
                     <div className="rc-full-width ">
-                      <img className="lazyautosizes lazyloaded" 
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/product/10002.png`}
-                />
+                      <img
+                        className="lazyautosizes lazyloaded"
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ru-local/product/10002.png`}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="rc-layout-container rc-one-column rc-max-width--xl">
                   <div className="rc-column">
                     <div className="rc-full-width rc-text--center ">
-                      
                       <div className="rc-container-text">
                         <h2 className="rc-beta "></h2>
                         <Link

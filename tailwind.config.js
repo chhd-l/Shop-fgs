@@ -22,6 +22,14 @@ module.exports = {
   },
   theme: {
     extend: {
+      placeholderColor: {
+        'primary': '#666666',
+      },
+      borderColor: {
+        'form': '#808285',
+        'form-ok': '#008900',
+        'form-err': '#C03344'
+      },
       colors: {
         'rc-red': 'var(--rc-red)',
         orange: 'var(--orange)',
@@ -47,7 +55,9 @@ module.exports = {
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
         'cs-gray': '#666666',
-        'cs-black': '#333333'
+        'cs-black': '#333333',
+        'form-ok': '#008900',
+        'form-err': '#C03344'
       },
       fontSize: {
         12: '12px',
@@ -124,6 +134,7 @@ module.exports = {
         'cs-186': '11.62rem',
         'cs-240': '15rem',
         'cs-244': '15.25rem',
+        'cs-250': '15.62rem',
         'cs-288': '18rem',
         'cs-284': '17.75rem',
         'cs-285': '17.81rem',
@@ -202,7 +213,9 @@ module.exports = {
         'cs-500': '31.25rem',
         'cs-556': '34.75rem',
         'cs-740': '46.25rem',
+        'cs-780': '48.75rem',
         'cs-850': '53.13rem',
+        'lxl-940': '58.75rem',
         'cs-1241': '77.56rem'
       },
       margin: {
@@ -225,6 +238,9 @@ module.exports = {
         'cs-80': '5rem',
         'cs-100': '6.25rem',
         'cs-120': '7.5rem',
+        'cs-232': '14.5rem',
+        'cs-264': '16.5rem',
+        'cs-272': '17rem',
         'cs-309': '19.31rem',
         'cs-340': '21.25rem',
         'cs-519': '32.43rem',

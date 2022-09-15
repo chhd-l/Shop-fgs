@@ -3,12 +3,10 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile as isMobilePhone } from '@/utils/utils';
 import PLPCover from '../PLPCover';
 import { settings } from './config';
 import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
-
-const isMobilePhone = getDeviceType() === 'H5';
 import './index.less';
 
 /**

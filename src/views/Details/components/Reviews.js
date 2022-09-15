@@ -1,14 +1,12 @@
 import React from 'react';
-import Pagination from '@/components/Pagination';
-import Rate from '@/components/Rate';
+import { Pagination, Rate } from '@/components';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details';
 import LazyLoad from 'react-lazyload';
 import '../index.css';
 import Skeleton from 'react-skeleton-loader';
-import { getDeviceType, handleDateForIos } from '@/utils/utils';
+import { isMobile, handleDateForIos } from '@/utils/utils';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 @injectIntl
 class Reviews extends React.Component {
   static defaultProps = {

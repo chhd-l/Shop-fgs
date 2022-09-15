@@ -1,11 +1,10 @@
 import BreadCrumbs from '../components/BreadCrumbs';
-import Header from '@/components/Header';
+import { Footer, Header } from '@/components';
 import React from 'react';
 import { Button } from '@/components/Common';
 import ExplanationTable from './components/ExplanationTable';
 import ShipmentConditionsTable from './components/ShipmentConditionsTable';
 import ReturnList from './components/ShipmentConditionsReturnList';
-import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
 
 const FileUrl =

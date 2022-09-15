@@ -1,8 +1,6 @@
 import { batchAdd } from '@/api/cart';
 import stores from '@/store';
-import { getDeviceType } from '@/utils/utils';
-
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+import { isMobile } from '@/utils/utils';
 
 let timer: any;
 

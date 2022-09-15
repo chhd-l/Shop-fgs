@@ -2,12 +2,15 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  BannerTip
+} from '@/components';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
 import PersonalDataEditForm from './modules/PersonalDataEditForm';
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm';
 import DeleteMyAccount from './modules/DeleteMyAccount';
@@ -17,7 +20,6 @@ import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { myAccountPushEvent } from '@/utils/GA';
-import BannerTip from '@/components/BannerTip';
 import './index.less';
 import { seoHoc } from '@/framework/common';
 import { Canonical, Modal } from '@/components/Common';

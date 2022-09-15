@@ -1,0 +1,5 @@
+.ACTION-SHEET + div {
+  height: 90%;
+  border-radius: 0 !important;
+  background-color: #f6f6f6 !important;
+}

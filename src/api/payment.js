@@ -55,11 +55,13 @@ export function valetGuestOrderPaymentResponse({ guest_id, parameter }) {
   });
 }
 
-export function queryPosOrder(tidList) {
+export function queryPosOrder(
+  { tid, posTypeEnum } = { tidList: [], posTypeEnum: null }
+) {
   return axios({
     url: `/all/order/queryPosOrder`,
     method: 'post',
-    data: { tidList: [tidList] }
+    data: { tidList: [tid], posTypeEnum }
   });
 }
 

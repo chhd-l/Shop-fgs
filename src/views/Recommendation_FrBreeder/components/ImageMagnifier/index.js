@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './index.less';
 import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
-import { getDeviceType } from '@/utils/utils.js';
+import { isMobile } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
 let H5Maxcount = 3;
 let PCMaxcount = 5;
@@ -360,7 +360,7 @@ class ImageMagnifier extends Component {
     if (video) {
       imgCount = imgCount + 1;
     }
-    const isMobile = getDeviceType() === 'H5';
+
     let MAXCOUNT = isMobile ? H5Maxcount : PCMaxcount;
     let MOVELENGTH = isMobile ? H5ImgSquare : PcImgSquare;
     console.info('MAXCOUNT', MAXCOUNT);

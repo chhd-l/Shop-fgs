@@ -219,17 +219,22 @@ class MegaMenuMobile extends React.Component {
     const { showMegaMenu, menuData } = this.state;
     return (
       <>
-        <button
-          className={`rc-btn rc-btn--icon rc-icon rc-menu--xs rc-iconography rc-md-down ${
-            showMegaMenu ? 'btn-close' : ''
-          }`}
-          aria-label="Menu"
-          onClick={this.toggleMenu}
-        >
-          <span className="rc-screen-reader-text">
-            <FormattedMessage id="menu" />
-          </span>
-        </button>
+        {
+          // 美国移动端导航用的是 react-components 所以此处隐藏菜单按钮
+          window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+            <button
+              className={`rc-btn rc-btn--icon rc-icon rc-menu--xs rc-iconography rc-md-down ${
+                showMegaMenu ? 'btn-close' : ''
+              }`}
+              aria-label="Menu"
+              onClick={this.toggleMenu}
+            >
+              <span className="rc-screen-reader-text">
+                <FormattedMessage id="menu" />
+              </span>
+            </button>
+          )
+        }
         <div className={`${showMegaMenu ? '' : 'rc-hidden'}`}>
           <section className="rc-max-width--xl">
             <nav

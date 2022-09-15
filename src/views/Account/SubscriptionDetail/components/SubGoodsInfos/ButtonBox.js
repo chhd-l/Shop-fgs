@@ -2,13 +2,11 @@ import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
 import { myAccountActionPushEvent, GAForChangeProductBtn } from '@/utils/GA';
-import { getDeviceType } from '@/utils/utils';
 import { startSubscription, pauseSubscription } from '@/api/subscription';
 import cn from 'classnames';
 import { Button } from '@/components/Common';
 
 const ButtonBox = () => {
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
   const {
     subDetail,

@@ -18,13 +18,11 @@ import {
   dimensionsByPackage
 } from '@/api/payment';
 import { shippingCalculation } from '@/api/cart';
-// import SearchSelection from '@/components/SearchSelection';
 import {
   getDictionary,
   validData,
   matchNamefromDict,
   formatMoney,
-  getDeviceType,
   isCanVerifyBlacklistPostCode,
   formatDate,
   formatJPDate,
@@ -34,8 +32,11 @@ import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import { AddressForm } from '@/components/Address';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
-import Loading from '@/components/Loading';
-import ValidationAddressModal from '@/components/validationAddressModal';
+import {
+  Loading,
+  // SearchSelection
+  ValidationAddressModal
+} from '@/components';
 import AddressPreview from './Preview';
 import './list.less';
 import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
@@ -1030,6 +1031,7 @@ class AddressList extends React.Component {
       console.log(8910);
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
+        debugger;
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
       });
@@ -1345,8 +1347,17 @@ class AddressList extends React.Component {
       });
     }
   };
+  //切换地址单选框
+  doHandleRadioChange = (receiveType) => {
+    const obj = {
+      HOME_DELIVERY: 'homeDelivery',
+      PICK_UP: 'pickup'
+    };
+    this.handleRadioChange(obj[receiveType]);
+  };
   // 编辑地址
   handleClickEdit = () => {
+    this.doHandleRadioChange(this.props.paymentStore.receiveType);
     this.handleJpUnspecified();
     this.props.paymentStore.setStsToEdit({
       key: this.curPanelKey,

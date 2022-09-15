@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { payu3dsPaymentsDetails } from '@/api/payment';
 import { transferToObject } from '@/lib/url-utils';
 import { sleep } from '@/utils/utils';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 import { inject, observer } from 'mobx-react';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

@@ -5,15 +5,17 @@ import { inject, observer } from 'mobx-react';
 import { toJS, reaction } from 'mobx';
 import Cookies from 'cookies-js';
 import md5 from 'js-md5';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import {
+  Header,
+  Footer,
+  Loading,
+  GoogleTagManager,
+  PayProductInfo as RePayProductInfo,
+  ValidationAddressModal
+} from '@/components';
 import PayProductInfo from './PayProductInfo';
-import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq';
-import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
-import ValidationAddressModal from '@/components/validationAddressModal';
 import {
   VisitorAddress,
   AddressList,
@@ -28,7 +30,7 @@ import {
   handleRecoProductParamByItem
 } from './modules/utils';
 import {
-  getDeviceType,
+  isMobile,
   payCountDown,
   formatMoney,
   generatePayUScript,
@@ -118,7 +120,6 @@ import Moto from './PaymentMethod/Moto';
 import Ideal from './PaymentMethod/Ideal/indes';
 import { openPromotionBox } from '@/views/Payment/modules/utils';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
@@ -279,6 +280,7 @@ class Payment extends React.Component {
       selectedCardInfo: null,
       adyenPayParam: null,
       payWayNameArr: [],
+      originPayNameArr: [],
       email: '',
       swishPhone: '',
       bank: '',
@@ -360,6 +362,7 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
+    this.memberAddListRef = React.createRef();
     this.confirmListValidationAddress =
       this.confirmListValidationAddress.bind(this);
   }
@@ -612,8 +615,7 @@ class Payment extends React.Component {
       );
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
-      debugger;
-      console.log('yyy');
+
       if (!recommendProductJson) {
         if (!this.computedCartData.length && !tid && !appointNo) {
           sessionItemRoyal.remove('rc-iframe-from-storepotal');
@@ -1160,7 +1162,8 @@ class Payment extends React.Component {
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
         {
-          payWayNameArr
+          payWayNameArr,
+          originPayNameArr: payWayNameArr
         },
         () => {
           setPayWayNameArr(payWayNameArr);
@@ -1171,10 +1174,6 @@ class Payment extends React.Component {
               : payWayNameArr[0]?.payPspItemCardTypeVOList || [];
           this.props.paymentStore.setSupportPaymentMethods(
             supportPaymentMethods
-          );
-          sessionItemRoyal.set(
-            'rc-payWayNameArr',
-            JSON.stringify(payWayNameArr)
           );
           this.initPaymentTypeVal();
         }
@@ -1582,6 +1581,14 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'CASH',
             wasFelinStore: true
+          });
+        },
+        // adyen_point_of_sale_onj ==>pos onj
+        adyen_point_of_sale_onj: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'ADYEN_POS_ONJ',
+            wasFelinStore: true,
+            posTypeEnum: 1
           });
         },
         adyen_moto: () => {
@@ -2034,6 +2041,133 @@ class Payment extends React.Component {
             const queryPos = async () => {
               i++;
               return queryPosOrder(tid)
+                .then(async (resp) => {
+                  if (resp.code == 'K-000000') {
+                    const isGuest = sessionItemRoyal.get('rc-guestId')
+                      ? true
+                      : false;
+                    if (isGuest) {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: {
+                          ...res?.context,
+                          queryPosOrderReturnCode: resp.code
+                        }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                    }
+                    subOrderNumberList = tidList.length
+                      ? tidList
+                      : res.context && res.context.tidList;
+                    subNumber = (res.context && res.context.subscribeId) || '';
+                    gotoConfirmationPage = true;
+                  } else {
+                    console.log('queryPosOrder', resp);
+                  }
+                })
+                .catch(async (err) => {
+                  // K-000001 还在支付中
+                  // K-000002 支付失败
+                  console.log('queryPosOrdererr', err);
+                  // 如果30秒都没有支付成功，支付状态可能是paying或者not paid
+                  // 30秒后的paying不需要repay
+
+                  const isGuest = sessionItemRoyal.get('rc-guestId')
+                    ? true
+                    : false;
+                  if (err.code == 'K-000001') {
+                    if (i < 10) {
+                      await sleep(3000);
+                      return await queryPos();
+                    } else {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: { ...res?.context }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                      subOrderNumberList = tidList.length
+                        ? tidList
+                        : res.context && res.context.tidList;
+                      subNumber =
+                        (res.context && res.context.subscribeId) || '';
+                      gotoConfirmationPage = true;
+                    }
+                  } else {
+                    this.showErrorMsg(err.message);
+                    if (!isGuest) {
+                      this.setState(
+                        {
+                          tid,
+                          tidList: res.context.tidList
+                        },
+                        () => {
+                          this.queryOrderDetails();
+                        }
+                      );
+                    } else {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: { ...res?.context }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                      subOrderNumberList = tidList.length
+                        ? tidList
+                        : res.context && res.context.tidList;
+                      subNumber =
+                        (res.context && res.context.subscribeId) || '';
+                      gotoConfirmationPage = true;
+                    }
+                  }
+                });
+            };
+            await queryPos();
+          }
+          break;
+        case 'adyen_point_of_sale_onj':
+          const payStatus =
+            res?.context?.trade?.tradeState?.payState == 'PAID' ? true : false;
+          // 支付成功
+          if (res.code == 'K-000000' && payStatus) {
+            const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
+            if (isGuest) {
+              valetGuestOrderPaymentResponse({
+                guest_id: sessionItemRoyal.get('rc-guestId'),
+                parameter: res.context
+              })
+                .then((res) => {
+                  console.log('res', res);
+                })
+                .catch((err) => {
+                  console.log('err', err);
+                });
+            }
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+            gotoConfirmationPage = true;
+          } else {
+            let i = 0;
+            const tid = res?.context?.tid;
+            // 根据订单号发送订单状态查询请求
+            const queryPos = async () => {
+              i++;
+              return queryPosOrder({ tid, posTypeEnum: 1 })
                 .then(async (resp) => {
                   if (resp.code == 'K-000000') {
                     const isGuest = sessionItemRoyal.get('rc-guestId')
@@ -2947,9 +3081,15 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    console.log(1234, data);
+
     const {
-      paymentStore: { setPayWayNameArr }
+      paymentStore: { setPayWayNameArr, setCurReceiveType }
     } = this.props;
+    const { originPayNameArr } = this.state;
+
+    setCurReceiveType(data?.receiveType);
+
     this.setState(
       {
         deliveryAddress: data
@@ -2962,17 +3102,16 @@ class Payment extends React.Component {
           // 1、cod: cash & card，则shop展示cod和卡支付
           // 2、cod: cash 或 card，则shop展示cod和卡支付
           // 3、无返回，则shop展示卡支付
-          let pmd = data?.paymentMethods || null;
-          let pickupPayMethods = null;
-          if (pmd == 'cod') {
-            pickupPayMethods = pmd;
+
+          // 如果pickup没有cod的时候过滤掉cod
+          let pmd = data?.paymentMethods;
+
+          if (data?.receiveType == 'PICK_UP' && pmd !== 'cod') {
+            newPayWayName = newPayWayName.filter((e) => {
+              return e.code !== 'cod';
+            });
           } else {
-            if (data?.receiveType == 'PICK_UP') {
-              // 如果pickup没有cod的时候过滤掉cod
-              newPayWayName = newPayWayName.filter((e) => {
-                return e.code !== 'cod';
-              });
-            }
+            newPayWayName = [...originPayNameArr];
           }
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
@@ -3040,6 +3179,7 @@ class Payment extends React.Component {
         onSearchSelectionFocus={GAonSearchSelectionFocus}
         onSearchSelectionChange={GAonSearchSelectionChange}
         onSearchSelectionError={GAonSearchSelectionError}
+        ref={this.memberAddListRef}
         // onSearchSelectionChange={() =>
         //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
         //   window?.dataLayer?.push({
@@ -3874,6 +4014,17 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
+                  {/* adyen_point_of_sale_onj ==> pos onj */}
+                  {item.code === 'adyen_point_of_sale_onj' &&
+                    curPayWayInfo?.code === 'adyen_point_of_sale_onj' && (
+                      <>
+                        <Pos
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyen_point_of_sale_onj'
+                          })}
+                        />
+                      </>
+                    )}
                   {item.code === 'cash' && curPayWayInfo?.code === 'cash' && (
                     <>
                       <Cash
@@ -3995,6 +4146,10 @@ class Payment extends React.Component {
               disabled: validForBilling
             })}
           {curPayWayInfo?.code === 'adyen_point_of_sale' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {curPayWayInfo?.code === 'adyen_point_of_sale_onj' &&
             payConfirmBtn({
               disabled: validForBilling
             })}
