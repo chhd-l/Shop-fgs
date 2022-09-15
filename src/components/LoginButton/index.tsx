@@ -102,6 +102,11 @@ const LoginButton = ({
             info?.email !== loginStore?.userInfo.email &&
             localItemRoyal.get('okta-session-token')
           ) {
+            //  6044 shop uk注册后进入了登录页面 因为远程的和本地的name不一致，然后退出了登录，不知道具体触发原因，有时候不出来
+            console.info(new Date().getTime(),'new Date().getTime()')
+            console.info('logintoLogoutemail=====',loginStore?.userInfo?.email)
+            console.info('logintoLogoutinfoemail=====',info?.email)
+            console.info('===========',localItemRoyal.get('okta-session-token'))
             localItemRoyal.set('login-again', true);
             const idToken = authState.idToken;
             const redirectUri =
