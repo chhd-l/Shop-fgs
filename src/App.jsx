@@ -54,6 +54,8 @@ import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 import Welcome from '@/views/Register/welcome.js';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 
+import { ExportedComponentsProvider } from '@/react-components';
+
 const FelinTermsConditions = loadable(() =>
   import('@/views/StaticPage/FelinTermsConditions')
 );
@@ -481,1110 +483,1183 @@ const App = () => {
         messages={dynamicLanguage}
         defaultLocale={'en'}
       >
-        <Router
-          basename={window.__.env.REACT_APP_HOMEPAGE}
-          path={'/'}
-          // forceRefresh={true}
-        >
-          <ScrollToTop>
-            <Security
-              oktaAuth={oktaConfig}
-              // onAuthRequired={customAuthHandler}
-              restoreOriginalUri={restoreOriginalUri}
-            >
-              <RouteFilter />
-              <RouteFilterHook />
-              <Switch>
-                <Route exact path={'/'} component={Home} />
-                <Route
-                  exact
-                  path={'/home'}
-                  render={(props) => (
-                    <Redirect to={{ pathname: '/' }} {...props} />
-                  )}
-                />
-                <Route exact path={'/demo'} component={demo} />
-                <Route exact path={'/cancelEmail'} component={CancelEmail} />
-                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+        <ExportedComponentsProvider>
+          <Router
+            basename={window.__.env.REACT_APP_HOMEPAGE}
+            path={'/'}
+            // forceRefresh={true}
+          >
+            <ScrollToTop>
+              <Security
+                oktaAuth={oktaConfig}
+                // onAuthRequired={customAuthHandler}
+                restoreOriginalUri={restoreOriginalUri}
+              >
+                <RouteFilter />
+                <RouteFilterHook />
+                <Switch>
+                  <Route exact path={'/'} component={Home} />
                   <Route
                     exact
-                    path={'/prescription-gate'}
-                    component={PrescriptiongGate}
+                    path={'/home'}
+                    render={(props) => (
+                      <Redirect to={{ pathname: '/' }} {...props} />
+                    )}
                   />
-                )}
+                  <Route exact path={'/demo'} component={demo} />
+                  <Route exact path={'/cancelEmail'} component={CancelEmail} />
+                  {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                    <Route
+                      exact
+                      path={'/prescription-gate'}
+                      component={PrescriptiongGate}
+                    />
+                  )}
 
-                <Route
-                  exact
-                  path={'/okta-login-page'}
-                  component={OktaLoginPage}
-                />
-                <Route
-                  exact
-                  path={'/okta-logout-page'}
-                  component={OktaLogoutPage}
-                />
-                <Route exact path={'/pickupmap'} component={PickupMap} />
-                <Route exact path={'/test/'} component={Test} />
-                <Route
-                  exact
-                  path="/implicit/callback"
-                  render={(props) => <LoginCallback {...props} />}
-                />
-                <Route
-                  exact
-                  path={'/implicit/login'}
-                  render={() => <ImplicitLogin />}
-                />
-                <Route
-                  exact
-                  path="/precise-cat-nutrition-recommendation"
-                  sensitive
-                  render={(props) =>
-                    stgShowAuth() ? (
-                      <PreciseRecommendation {...props} />
-                    ) : (
-                      <List key={props.location.search} {...props} />
-                    )
-                  }
-                />
-                <Route path="/requestinvoice" component={RequestInvoices} />
-                <Route
-                  exact
-                  sensitive
-                  path="/cart"
-                  render={(props) => {
-                    // if (props.location.search.includes('skuId')) {
-                    //   return <CartInStock {...props} />;
-                    // }
-                    if (
-                      props.location.search?.includes('prescription') &&
-                      window.__.env.REACT_APP_COUNTRY
-                    ) {
-                      return <CartFRBreeder {...props} />;
+                  <Route
+                    exact
+                    path={'/okta-login-page'}
+                    component={OktaLoginPage}
+                  />
+                  <Route
+                    exact
+                    path={'/okta-logout-page'}
+                    component={OktaLogoutPage}
+                  />
+                  <Route exact path={'/pickupmap'} component={PickupMap} />
+                  <Route exact path={'/test/'} component={Test} />
+                  <Route
+                    exact
+                    path="/implicit/callback"
+                    render={(props) => <LoginCallback {...props} />}
+                  />
+                  <Route
+                    exact
+                    path={'/implicit/login'}
+                    render={() => <ImplicitLogin />}
+                  />
+                  <Route
+                    exact
+                    path="/precise-cat-nutrition-recommendation"
+                    sensitive
+                    render={(props) =>
+                      stgShowAuth() ? (
+                        <PreciseRecommendation {...props} />
+                      ) : (
+                        <List key={props.location.search} {...props} />
+                      )
                     }
-                    return <Cart {...props} />;
-                  }}
-                />
-                {/* <Route
-                  exact
-                  path="/checkoutnew"
-                  sensitive
-                  render={(props) => (
-                    <Checkout key={props.match.params.type} {...props} />
-                  )}
-                /> */}
-                <Route
-                  exact
-                  path="/checkout"
-                  sensitive
-                  render={(props) => (
-                    <Payment key={props.match.params.type} {...props} />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/confirmation"
-                  sensitive
-                  render={(props) => {
-                    if (
-                      !sessionItemRoyal.get('subOrderNumberList') ||
-                      Boolean(sessionItemRoyal.get('refresh-confirm-page'))
-                    ) {
-                      if (window.__.env.REACT_APP_HUB) {
-                        window.location.href =
-                          window.__.env.REACT_APP_HUB_URLPREFIX;
-                      } else {
-                        return <Redirect to={{ pathname: '/' }} {...props} />;
+                  />
+                  <Route path="/requestinvoice" component={RequestInvoices} />
+                  <Route
+                    exact
+                    sensitive
+                    path="/cart"
+                    render={(props) => {
+                      // if (props.location.search.includes('skuId')) {
+                      //   return <CartInStock {...props} />;
+                      // }
+                      if (
+                        props.location.search?.includes('prescription') &&
+                        window.__.env.REACT_APP_COUNTRY
+                      ) {
+                        return <CartFRBreeder {...props} />;
                       }
-                    } else {
-                      return <Confirmation {...props} />;
-                    }
-                  }}
-                />
+                      return <Cart {...props} />;
+                    }}
+                  />
+                  {/* <Route
+                    exact
+                    path="/checkoutnew"
+                    sensitive
+                    render={(props) => (
+                      <Checkout key={props.match.params.type} {...props} />
+                    )}
+                  /> */}
+                  <Route
+                    exact
+                    path="/checkout"
+                    sensitive
+                    render={(props) => (
+                      <Payment key={props.match.params.type} {...props} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/confirmation"
+                    sensitive
+                    render={(props) => {
+                      if (
+                        !sessionItemRoyal.get('subOrderNumberList') ||
+                        Boolean(sessionItemRoyal.get('refresh-confirm-page'))
+                      ) {
+                        if (window.__.env.REACT_APP_HUB) {
+                          window.location.href =
+                            window.__.env.REACT_APP_HUB_URLPREFIX;
+                        } else {
+                          return <Redirect to={{ pathname: '/' }} {...props} />;
+                        }
+                      } else {
+                        return <Confirmation {...props} />;
+                      }
+                    }}
+                  />
 
-                <Route exact path="/PayResult" component={PayResult} />
-                <Route
-                  exact
-                  path="/Payu3dsPayResult"
-                  component={Payu3dsPayResult}
-                />
-                <Route
-                  exact
-                  path="/PaymentMethod3dsResult"
-                  component={PaymentMethod3dsResult}
-                />
-                <Route
-                  exact
-                  path="/kitten-nutrition"
-                  component={KittenNutrition}
-                />
-                <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
-                <Route exact path="/prescription" component={Prescription} />
-                {/* //77777 */}
-                <Route exact path="/sevenPay" component={sevenPay} />
-                {/*<Route exact path="/sevenPayResult" component={sevenPayResult} />*/}
-                {/* indv */}
-                <Route
-                  exact
-                  path="/precise-cat-nutrition"
-                  render={(props) =>
-                    stgShowAuth() ? (
-                      <PreciseCatNutrition {...props} />
-                    ) : (
-                      <List key={props.location.search} {...props} />
-                    )
-                  }
-                />
-                <Route exact path="/makerHandle" component={MakerHandle} />
-                <Route
-                  exact
-                  path="/prescriptionNavigate"
-                  component={PrescriptionNavigate}
-                />
-                {/* us: /help/contact, jp: /contact_us , others: /help */}
-                <Route
-                  exact
-                  path="/help/contact"
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'us':
-                        return <ContactUs {...props} />;
-                      case 'jp':
-                        return <Redirect to="/contact_us" {...props} />;
-                      default:
-                        return <Redirect to="/help" {...props} />;
+                  <Route exact path="/PayResult" component={PayResult} />
+                  <Route
+                    exact
+                    path="/Payu3dsPayResult"
+                    component={Payu3dsPayResult}
+                  />
+                  <Route
+                    exact
+                    path="/PaymentMethod3dsResult"
+                    component={PaymentMethod3dsResult}
+                  />
+                  <Route
+                    exact
+                    path="/kitten-nutrition"
+                    component={KittenNutrition}
+                  />
+                  <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
+                  <Route exact path="/prescription" component={Prescription} />
+                  {/* //77777 */}
+                  <Route exact path="/sevenPay" component={sevenPay} />
+                  {/*<Route exact path="/sevenPayResult" component={sevenPayResult} />*/}
+                  {/* indv */}
+                  <Route
+                    exact
+                    path="/precise-cat-nutrition"
+                    render={(props) =>
+                      stgShowAuth() ? (
+                        <PreciseCatNutrition {...props} />
+                      ) : (
+                        <List key={props.location.search} {...props} />
+                      )
                     }
-                  }}
-                />
-                <Route
-                  exact
-                  path="/contact_us"
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'us':
-                        return <Redirect to="/help/contact" {...props} />;
-                      case 'jp':
-                        return <JpContact {...props} />;
-                      default:
-                        return <Redirect to="/help" {...props} />;
+                  />
+                  <Route exact path="/makerHandle" component={MakerHandle} />
+                  <Route
+                    exact
+                    path="/prescriptionNavigate"
+                    component={PrescriptionNavigate}
+                  />
+                  {/* us: /help/contact, jp: /contact_us , others: /help */}
+                  <Route
+                    exact
+                    path="/help/contact"
+                    render={(props) => {
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'us':
+                          return <ContactUs {...props} />;
+                        case 'jp':
+                          return <Redirect to="/contact_us" {...props} />;
+                        default:
+                          return <Redirect to="/help" {...props} />;
+                      }
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/contact_us"
+                    render={(props) => {
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'us':
+                          return <Redirect to="/help/contact" {...props} />;
+                        case 'jp':
+                          return <JpContact {...props} />;
+                        default:
+                          return <Redirect to="/help" {...props} />;
+                      }
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/help"
+                    render={(props) => {
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'us':
+                          return <Redirect to="/help/contact" {...props} />;
+                        case 'jp':
+                          return <Redirect to="/contact_us" {...props} />;
+                        default:
+                          return <Help {...props} />;
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/shelter-landing-page"
+                    component={ShelterPrescription}
+                  />
+                  <Route
+                    exact
+                    path="/general-terms-conditions"
+                    render={(props) => {
+                      let fragment = '';
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'fr':
+                          fragment = <TermsConditions {...props} />;
+                          break;
+                        case 'tr':
+                          fragment = <TermsConditionsTr {...props} />;
+                          break;
+                        case 'jp':
+                          fragment = <TermsConditionJP {...props} />;
+                          break;
+                      }
+                      return fragment;
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/latelier/felin-terms-conditions"
+                    component={FelinTermsConditions}
+                  />
+                  <Route
+                    exact
+                    path="/pack-mix-feeding-wet-dry"
+                    component={Packfeed}
+                  />
+                  <Route
+                    exact
+                    path="/termsandconditions"
+                    component={
+                      window.__.env.REACT_APP_COUNTRY == 'fr'
+                        ? TermsConditions
+                        : TermsConditionsUs
                     }
-                  }}
-                />
-                <Route
-                  exact
-                  path="/help"
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'us':
-                        return <Redirect to="/help/contact" {...props} />;
-                      case 'jp':
-                        return <Redirect to="/contact_us" {...props} />;
-                      default:
-                        return <Help {...props} />;
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/faq"
+                    render={(props) =>
+                      window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                        <JpFAQ key={props.match.params.catogery} {...props} />
+                      ) : (
+                        <FAQ key={props.match.params.catogery} {...props} />
+                      )
                     }
-                  }}
-                />
-                <Route
-                  path="/shelter-landing-page"
-                  component={ShelterPrescription}
-                />
-                <Route
-                  exact
-                  path="/general-terms-conditions"
-                  render={(props) => {
-                    let fragment = '';
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'fr':
-                        fragment = <TermsConditions {...props} />;
-                        break;
-                      case 'tr':
-                        fragment = <TermsConditionsTr {...props} />;
-                        break;
-                      case 'jp':
-                        fragment = <TermsConditionJP {...props} />;
-                        break;
-                    }
-                    return fragment;
-                  }}
-                />
-                <Route
-                  exact
-                  path="/latelier/felin-terms-conditions"
-                  component={FelinTermsConditions}
-                />
-                <Route
-                  exact
-                  path="/pack-mix-feeding-wet-dry"
-                  component={Packfeed}
-                />
-                <Route
-                  exact
-                  path="/termsandconditions"
-                  component={
-                    window.__.env.REACT_APP_COUNTRY == 'fr'
-                      ? TermsConditions
-                      : TermsConditionsUs
-                  }
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/faq"
-                  render={(props) =>
-                    window.__.env.REACT_APP_COUNTRY === 'jp' ? (
-                      <JpFAQ key={props.match.params.catogery} {...props} />
-                    ) : (
-                      <FAQ key={props.match.params.catogery} {...props} />
-                    )
-                  }
-                />
-                <Route
-                  exact
-                  path="/Widerrufsbelehrung"
-                  component={Widerrufsbelehrung}
-                />
-                <Route
-                  exact
-                  path="/recommendation/:id"
-                  render={(props) => {
-                    return (
-                      <Recommendation key={props.match.params.id} {...props} />
-                    );
-                  }}
-                />
-                <Route
-                  exact
-                  path="/breeder/recommendation"
-                  render={(props) => (
-                    <Redirect
-                      to={{
-                        pathname: '/recommendation',
-                        search: props.location.search
-                      }}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/recommendation"
-                  render={(props) => {
-                    let recommendationPage = <Recommendation_US {...props} />;
-                    if (
-                      window.__.env.REACT_APP_COUNTRY == 'fr' &&
-                      props.location.search.includes('breeder')
-                    ) {
-                      recommendationPage = (
-                        <Recommendation_FrBreeder {...props} />
-                      );
-                    } else if (
-                      window.__.env.REACT_APP_COUNTRY === 'de' &&
-                      props.location.search.includes('utm_campaign')
-                    ) {
-                      // 德国推荐路由进入购物车界面
-                      recommendationPage = <CartDEBreeder {...props} />;
-                    }
-                    return recommendationPage;
-                  }}
-                />
-                <Route
-                  exact
-                  path="/decouverteroyalcanin"
-                  component={Decouverteroyalcanin}
-                />
-                <Route exact path="/termuse" component={TermUse} />
-                <Route
-                  exact
-                  path="/Terms-And-Conditions"
-                  component={TermsAndConditions}
-                />
-                <Route
-                  exact
-                  path="/terms-of-use-prescriber"
-                  component={TermsOfUsePrescriber}
-                />
-                <Route exact path="/privacypolicy" component={PrivacyPolicy} />
-                <Route path="/account" exact component={AccountHome} />
-                <Route
-                  path="/account/information"
-                  exact
-                  component={AccountProfile}
-                />
-                <Route path="/account/pets" exact component={AccountPets} />
-                <Route path="/account/orders" exact component={AccountOrders} />
-                <Route
-                  path="/account/appointments"
-                  exact
-                  component={AccountAppointments}
-                />
-                <Route
-                  path="/account/orders/detail/:orderNumber"
-                  exact
-                  render={(props) => (
-                    <AccountOrdersDetail
-                      key={props.match.params.orderNumber}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  path="/account/appointments/detail/:appointmentNo"
-                  exact
-                  render={(props) => (
-                    <AccountAppointmentsDetail
-                      key={props.match.params.appointmentNo}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  path="/account/pets/petForm/:id"
-                  exact
-                  render={(props) => (
-                    <AccountPetForm key={props.match.params.id} {...props} />
-                  )}
-                  // component={AccountPetForm}
-                />
-                {/* 日本需要fgs 不登录也能看到宠物创建页面 */}
-                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
-                  <Route path="/petForm" exact component={AccountPetForm} />
-                )}
-                <Route
-                  path="/account/pets/petForm/"
-                  exact
-                  component={AccountPetForm}
-                />
-                <Route
-                  path="/account/pets/petList"
-                  exact
-                  component={AccountPetList}
-                />
-                <Route
-                  path="/account/subscription"
-                  exact
-                  component={AccountSubscription}
-                />
-                <Route path="/account/loyalty" exact component={Loyalty} />
-                <Route
-                  path="/account/subscription/order/detail/:subscriptionNumber"
-                  exact
-                  render={(props) => (
-                    <AccountSubscriptionDetail
-                      key={props.match.params.subscriptionNumber}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  path="/account/productReview/:tid"
-                  exact
-                  render={(props) => (
-                    <ProductReview key={props.match.params.tid} {...props} />
-                  )}
-                />
-                <Route
-                  path="/account/productReviewService/:tid"
-                  exact
-                  render={(props) => (
-                    <ProductReviewService
-                      key={props.match.params.tid}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route path="/whistlefit" exact component={Whistlefit} />
-                <Route path="/required" exact component={RegisterRequired} />
-                <Route
-                  path="/conoce-mas-de-evet"
-                  exact
-                  component={ConoceMasDeEvet}
-                />
-                <Route
-                  path="/product-finder/tree"
-                  exact
-                  component={ProductFinder2}
-                />
-                <Route
-                  path="/product-finder/recommendation"
-                  exact
-                  component={ProductFinder2}
-                />
-                {/* <Route
-                  exact
-                  path="/product-finder-recommendation"
-                  component={ProductFinderResult}
-                />
-                <Route
-                  exact
-                  path="/product-finder-noresult"
-                  component={ProductFinderNoResult}
-                />
-
-                {/*1111111111  subscription-landing 重定向*/}
-                <Route
-                  exact
-                  path="/subscription-landing"
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'de':
-                        return <DE_SubscriptionLanding {...props} />;
-                      case 'uk':
-                      // return <Redirect to={{ pathname: '/' }} {...props} />;
-                      case 'se':
-                      case 'us':
-                        return <US_SubscriptionLanding {...props} />;
-                      case 'ru':
-                        return <VetLandingPage {...props} />;
-                      case 'tr':
-                        return <TR_SubscriptionLanding {...props} />;
-                      case 'jp':
-                        return (
-                          <Redirect
-                            to={{ pathname: '/subscription' }}
-                            {...props}
-                          />
-                        );
-                      case 'fr':
-                        return (
-                          <Redirect
-                            to={{ pathname: '/club-subscription' }}
-                            {...props}
-                          />
-                        );
-                      default:
-                        return <SubscriptionLanding {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/club-subscription"
-                  exact
-                  component={ClubLandingPageNew}
-                />
-                <Route
-                  path="/how-to-order"
-                  exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY == 'de'
-                      ? ClubLandingPageDe
-                      : Exception
-                  }
-                />
-                <Route
-                  path="/vet-diets"
-                  exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY == 'de'
-                      ? ClubLandingPageDeVet
-                      : Exception
-                  }
-                />
-                <Route
-                  path="/adoptant/:id"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                  />
+                  <Route
+                    exact
+                    path="/Widerrufsbelehrung"
+                    component={Widerrufsbelehrung}
+                  />
+                  <Route
+                    exact
+                    path="/recommendation/:id"
+                    render={(props) => {
                       return (
-                        <DedicatedLandingPage
+                        <Recommendation
                           key={props.match.params.id}
                           {...props}
                         />
                       );
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/general-conditions"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <GeneralConditions {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/general-conditions-tr"
-                  exact
-                  component={TR_GeneralConditions}
-                />
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/breeder/recommendation"
+                    render={(props) => (
+                      <Redirect
+                        to={{
+                          pathname: '/recommendation',
+                          search: props.location.search
+                        }}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/recommendation"
+                    render={(props) => {
+                      let recommendationPage = <Recommendation_US {...props} />;
+                      if (
+                        window.__.env.REACT_APP_COUNTRY == 'fr' &&
+                        props.location.search.includes('breeder')
+                      ) {
+                        recommendationPage = (
+                          <Recommendation_FrBreeder {...props} />
+                        );
+                      } else if (
+                        window.__.env.REACT_APP_COUNTRY === 'de' &&
+                        props.location.search.includes('utm_campaign')
+                      ) {
+                        // 德国推荐路由进入购物车界面
+                        recommendationPage = <CartDEBreeder {...props} />;
+                      }
+                      return recommendationPage;
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/decouverteroyalcanin"
+                    component={Decouverteroyalcanin}
+                  />
+                  <Route exact path="/termuse" component={TermUse} />
+                  <Route
+                    exact
+                    path="/Terms-And-Conditions"
+                    component={TermsAndConditions}
+                  />
+                  <Route
+                    exact
+                    path="/terms-of-use-prescriber"
+                    component={TermsOfUsePrescriber}
+                  />
+                  <Route
+                    exact
+                    path="/privacypolicy"
+                    component={PrivacyPolicy}
+                  />
+                  <Route path="/account" exact component={AccountHome} />
+                  <Route
+                    path="/account/information"
+                    exact
+                    component={AccountProfile}
+                  />
+                  <Route path="/account/pets" exact component={AccountPets} />
+                  <Route
+                    path="/account/orders"
+                    exact
+                    component={AccountOrders}
+                  />
+                  <Route
+                    path="/account/appointments"
+                    exact
+                    component={AccountAppointments}
+                  />
+                  <Route
+                    path="/account/orders/detail/:orderNumber"
+                    exact
+                    render={(props) => (
+                      <AccountOrdersDetail
+                        key={props.match.params.orderNumber}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Route
+                    path="/account/appointments/detail/:appointmentNo"
+                    exact
+                    render={(props) => (
+                      <AccountAppointmentsDetail
+                        key={props.match.params.appointmentNo}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Route
+                    path="/account/pets/petForm/:id"
+                    exact
+                    render={(props) => (
+                      <AccountPetForm key={props.match.params.id} {...props} />
+                    )}
+                    // component={AccountPetForm}
+                  />
+                  {/* 日本需要fgs 不登录也能看到宠物创建页面 */}
+                  {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                    <Route path="/petForm" exact component={AccountPetForm} />
+                  )}
+                  <Route
+                    path="/account/pets/petForm/"
+                    exact
+                    component={AccountPetForm}
+                  />
+                  <Route
+                    path="/account/pets/petList"
+                    exact
+                    component={AccountPetList}
+                  />
+                  <Route
+                    path="/account/subscription"
+                    exact
+                    component={AccountSubscription}
+                  />
+                  <Route path="/account/loyalty" exact component={Loyalty} />
+                  <Route
+                    path="/account/subscription/order/detail/:subscriptionNumber"
+                    exact
+                    render={(props) => (
+                      <AccountSubscriptionDetail
+                        key={props.match.params.subscriptionNumber}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Route
+                    path="/account/productReview/:tid"
+                    exact
+                    render={(props) => (
+                      <ProductReview key={props.match.params.tid} {...props} />
+                    )}
+                  />
+                  <Route
+                    path="/account/productReviewService/:tid"
+                    exact
+                    render={(props) => (
+                      <ProductReviewService
+                        key={props.match.params.tid}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Route path="/whistlefit" exact component={Whistlefit} />
+                  <Route path="/required" exact component={RegisterRequired} />
+                  <Route
+                    path="/conoce-mas-de-evet"
+                    exact
+                    component={ConoceMasDeEvet}
+                  />
+                  <Route
+                    path="/product-finder/tree"
+                    exact
+                    component={ProductFinder2}
+                  />
+                  <Route
+                    path="/product-finder/recommendation"
+                    exact
+                    component={ProductFinder2}
+                  />
+                  {/* <Route
+                    exact
+                    path="/product-finder-recommendation"
+                    component={ProductFinderResult}
+                  />
+                  <Route
+                    exact
+                    path="/product-finder-noresult"
+                    component={ProductFinderNoResult}
+                  />
 
-                <Route
-                  path="/tailored-nutrition"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RuLocalTailoredNutrition {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                  {/*1111111111  subscription-landing 重定向*/}
+                  <Route
+                    exact
+                    path="/subscription-landing"
+                    render={(props) => {
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'de':
+                          return <DE_SubscriptionLanding {...props} />;
+                        case 'uk':
+                        // return <Redirect to={{ pathname: '/' }} {...props} />;
+                        case 'se':
+                        case 'us':
+                          return <US_SubscriptionLanding {...props} />;
+                        case 'ru':
+                          return <VetLandingPage {...props} />;
+                        case 'tr':
+                          return <TR_SubscriptionLanding {...props} />;
+                        case 'jp':
+                          return (
+                            <Redirect
+                              to={{ pathname: '/subscription' }}
+                              {...props}
+                            />
+                          );
+                        case 'fr':
+                          return (
+                            <Redirect
+                              to={{ pathname: '/club-subscription' }}
+                              {...props}
+                            />
+                          );
+                        default:
+                          return <SubscriptionLanding {...props} />;
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/club-subscription"
+                    exact
+                    component={ClubLandingPageNew}
+                  />
+                  <Route
+                    path="/how-to-order"
+                    exact
+                    component={
+                      window.__.env.REACT_APP_COUNTRY == 'de'
+                        ? ClubLandingPageDe
+                        : Exception
                     }
-                  }}
-                />
-                <Route
-                  path="/contact-us"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RuLocalContactUs {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                  />
+                  <Route
+                    path="/vet-diets"
+                    exact
+                    component={
+                      window.__.env.REACT_APP_COUNTRY == 'de'
+                        ? ClubLandingPageDeVet
+                        : Exception
                     }
-                  }}
-                />
-                <Route
-                  path="/club"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RuLocalClub {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/club/find-product"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RuLocalFindProduct {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/About-Us"
-                  exact
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'de':
-                        return <AboutUsDe {...props} />;
-                      case 'ru':
-                        return <RuLocalAboutUs {...props} />;
-                      default:
-                        return <AboutUs {...props} />;
-                    }
-                  }}
-                  // component={
-                  //   window.__.env.REACT_APP_COUNTRY === 'de'
-                  //     ? AboutUsDe
-                  //     : AboutUs
-                  // }
-                />
-                <Route
-                  path="/myroyalcanin"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-                      return <AboutMyRoyalCanin {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/subscription"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-                      return <AboutSubscription {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/loyalty_program"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-                      return <AboutLoyaltyProgram {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                {/* AboutLoyaltyProgram */}
-                <Route
-                  path="/policy/legal"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-                      return <LegalNotice {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route path="/cat-nutrition" exact component={CatNutrition} />
-                <Route
-                  path="/cadeau-coussin-chat"
-                  exact
-                  component={CadeauCoussinChat}
-                />
-                <Route
-                  exact
-                  path="/promotion-refuge"
-                  component={PromotionRefuge}
-                />
-                <Route
-                  exact
-                  path="/Values"
-                  component={
-                    { fr: FR_Values, us: US_Values, ru: RU_Values }[
-                      window.__.env.REACT_APP_COUNTRY
-                    ] || Values
-                  }
-                />
-                <Route
-                  exact
-                  path="/policy-point"
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-                      return <CouponAgreement {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  sensitive
-                  path="/Tailorednutrition"
-                  exact
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'us':
-                      case 'uk':
-                        return <US_Tailorednutrition {...props} />;
-                      case 'mx':
-                        return <MX_Tailorednutrition {...props} />;
-                      case 'fr':
-                        return <Tailorednutrition {...props} />;
-                      default:
+                  />
+                  <Route
+                    path="/adoptant/:id"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                        return (
+                          <DedicatedLandingPage
+                            key={props.match.params.id}
+                            {...props}
+                          />
+                        );
+                      } else {
                         return (
                           <Redirect to={{ pathname: '/404' }} {...props} />
                         );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/general-conditions"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <GeneralConditions {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/general-conditions-tr"
+                    exact
+                    component={TR_GeneralConditions}
+                  />
+
+                  <Route
+                    path="/tailored-nutrition"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RuLocalTailoredNutrition {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/contact-us"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RuLocalContactUs {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/club"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RuLocalClub {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/club/find-product"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RuLocalFindProduct {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/About-Us"
+                    exact
+                    render={(props) => {
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'de':
+                          return <AboutUsDe {...props} />;
+                        case 'ru':
+                          return <RuLocalAboutUs {...props} />;
+                        default:
+                          return <AboutUs {...props} />;
+                      }
+                    }}
+                    // component={
+                    //   window.__.env.REACT_APP_COUNTRY === 'de'
+                    //     ? AboutUsDe
+                    //     : AboutUs
+                    // }
+                  />
+                  <Route
+                    path="/myroyalcanin"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                        return <AboutMyRoyalCanin {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/subscription"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                        return <AboutSubscription {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/loyalty_program"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                        return <AboutLoyaltyProgram {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  {/* AboutLoyaltyProgram */}
+                  <Route
+                    path="/policy/legal"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                        return <LegalNotice {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route path="/cat-nutrition" exact component={CatNutrition} />
+                  <Route
+                    path="/cadeau-coussin-chat"
+                    exact
+                    component={CadeauCoussinChat}
+                  />
+                  <Route
+                    exact
+                    path="/promotion-refuge"
+                    component={PromotionRefuge}
+                  />
+                  <Route
+                    exact
+                    path="/Values"
+                    component={
+                      { fr: FR_Values, us: US_Values, ru: RU_Values }[
+                        window.__.env.REACT_APP_COUNTRY
+                      ] || Values
                     }
-                  }}
-                />
-                {/* fr定制 */}
-                <Route
-                  exact
-                  path="/retail-products"
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                      return <OnlineStore {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/Quality-safety"
-                  exact
-                  // component={
-                  //   window.__.env.REACT_APP_COUNTRY == 'us' ||
-                  //   window.__.env.REACT_APP_COUNTRY == 'uk'
-                  //     ? US_QualitySafety
-                  //     : QualitySafety
-                  // }
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'us':
-                        return <US_QualitySafety {...props} />;
-                      case 'uk':
-                        return <US_QualitySafety {...props} />;
-                      case 'mx':
-                        return <MX_QualitySafety {...props} />;
-                      default:
-                        return <QualitySafety {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/shipmentConditions"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <ShipmentConditions {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route path="/404" component={Exception} />
-                <Route path="/tr/:id" component={Exception} />
-                <Route path="/ru/:id" component={Exception} />
-                <Route path="/403" component={Page403} />
-                <Route path="/500" component={Page500} />
-                <Route path="/mentionslegales" component={Mentionslegales} />
-                <Route path="/consent1-tr" component={Consent1TR} />
-                <Route path="/consent2-tr" component={Consent2TR} />
-                <Route path="/register" component={register} />
-                <Route
-                  path="/login"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
-                      return <Login {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/forgot"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
-                      return <ForgetPassword {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/forgot/success/email"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
-                      return <ForgotSuccessEmail {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/reset"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
-                      return <ResetPassword {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/reset/success"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
-                      return <ResetSuccess {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/reset/error"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
-                      return <ResetError {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route path="/yandexmap" component={YandexMap} />
-                <Route
-                  path="/welcome/:id"
-                  render={(props) => (
-                    <Welcome key={props.match.params.id} {...props} />
-                  )}
-                />
-                <Route
-                  path="/survey/:id?"
-                  render={(props) => (
-                    <Survey key={props.match.params.id} {...props} />
-                  )}
-                />
-                {/* <Route
-                  path="/smart-feeder-subscription"
-                  component={smartFeederSubscription}
-                /> */}
-                {/* 特殊处理匹配PLP/PDP页面 */}
-                <Route
-                  exact
-                  path="/list/:category/:keywords"
-                  render={(props) => {
-                    return (
+                  />
+                  <Route
+                    exact
+                    path="/policy-point"
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                        return <CouponAgreement {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    sensitive
+                    path="/Tailorednutrition"
+                    exact
+                    render={(props) => {
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'us':
+                        case 'uk':
+                          return <US_Tailorednutrition {...props} />;
+                        case 'mx':
+                          return <MX_Tailorednutrition {...props} />;
+                        case 'fr':
+                          return <Tailorednutrition {...props} />;
+                        default:
+                          return (
+                            <Redirect to={{ pathname: '/404' }} {...props} />
+                          );
+                      }
+                    }}
+                  />
+                  {/* fr定制 */}
+                  <Route
+                    exact
+                    path="/retail-products"
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                        return <OnlineStore {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/Quality-safety"
+                    exact
+                    // component={
+                    //   window.__.env.REACT_APP_COUNTRY == 'us' ||
+                    //   window.__.env.REACT_APP_COUNTRY == 'uk'
+                    //     ? US_QualitySafety
+                    //     : QualitySafety
+                    // }
+                    render={(props) => {
+                      switch (window.__.env.REACT_APP_COUNTRY) {
+                        case 'us':
+                          return <US_QualitySafety {...props} />;
+                        case 'uk':
+                          return <US_QualitySafety {...props} />;
+                        case 'mx':
+                          return <MX_QualitySafety {...props} />;
+                        default:
+                          return <QualitySafety {...props} />;
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/shipmentConditions"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <ShipmentConditions {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route path="/404" component={Exception} />
+                  <Route path="/tr/:id" component={Exception} />
+                  <Route path="/ru/:id" component={Exception} />
+                  <Route path="/403" component={Page403} />
+                  <Route path="/500" component={Page500} />
+                  <Route path="/mentionslegales" component={Mentionslegales} />
+                  <Route path="/consent1-tr" component={Consent1TR} />
+                  <Route path="/consent2-tr" component={Consent2TR} />
+                  <Route path="/register" component={register} />
+                  <Route
+                    path="/login"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                        return <Login {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/forgot"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                        return <ForgetPassword {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/forgot/success/email"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                        return <ForgotSuccessEmail {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/reset"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                        return <ResetPassword {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/reset/success"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                        return <ResetSuccess {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/reset/error"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                        return <ResetError {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route path="/yandexmap" component={YandexMap} />
+                  <Route
+                    path="/welcome/:id"
+                    render={(props) => (
+                      <Welcome key={props.match.params.id} {...props} />
+                    )}
+                  />
+                  <Route
+                    path="/survey/:id?"
+                    render={(props) => (
+                      <Survey key={props.match.params.id} {...props} />
+                    )}
+                  />
+                  {/* <Route
+                    path="/smart-feeder-subscription"
+                    component={smartFeederSubscription}
+                  /> */}
+                  {/* 特殊处理匹配PLP/PDP页面 */}
+                  <Route
+                    exact
+                    path="/list/:category/:keywords"
+                    render={(props) => {
+                      return (
+                        <List
+                          key={
+                            props.match.params.category +
+                            props.match.params.keywords
+                          }
+                          {...props}
+                        />
+                      );
+                    }}
+                  />
+                  <Route
+                    exact
+                    path={window.__.env.REACT_APP_SEARCH_LINK}
+                    render={(props) => {
+                      if (props.location?.state?.noresult) {
+                        return <SearchShow {...props} />;
+                      } else {
+                        return <List key={props.location.search} {...props} />;
+                      }
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/details/:id"
+                    render={(props) => (
+                      <Details key={props.match.params.id} {...props} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/about-us/our-history"
+                    component={RU_Local_OurHistory}
+                  />
+                  <Route
+                    exact
+                    path="/about-us/our-values"
+                    component={RU_Local_OurValues}
+                  />
+                  <Route
+                    exact
+                    path="/about-us/sustainability"
+                    component={RU_Local_Sustainability}
+                  />
+
+                  <Route
+                    path="/list/:category"
+                    render={(props) => (
                       <List
                         key={
-                          props.match.params.category +
-                          props.match.params.keywords
+                          props.match.params.category + props.location.search
                         }
                         {...props}
                       />
-                    );
-                  }}
-                />
-                <Route
-                  exact
-                  path={window.__.env.REACT_APP_SEARCH_LINK}
-                  render={(props) => {
-                    if (props.location?.state?.noresult) {
-                      return <SearchShow {...props} />;
-                    } else {
-                      return <List key={props.location.search} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  exact
-                  path="/details/:id"
-                  render={(props) => (
-                    <Details key={props.match.params.id} {...props} />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/about-us/our-history"
-                  component={RU_Local_OurHistory}
-                />
-                <Route
-                  exact
-                  path="/about-us/our-values"
-                  component={RU_Local_OurValues}
-                />
-                <Route
-                  exact
-                  path="/about-us/sustainability"
-                  component={RU_Local_Sustainability}
-                />
-
-                <Route
-                  path="/list/:category"
-                  render={(props) => (
-                    <List
-                      key={props.match.params.category + props.location.search}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  path="/about-us/special-works-conditions"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RULocalSpecialWorksConditions {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/about-us/shipment-conditions"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RULocalShipmentConditions {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/about-us/terms-and-conditions"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RULocalTermsConditions {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/about-us/faq"
-                  exact
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <RULocalFaq {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route exact sensitive path="/FAQ" component={Exception} />
-                <Route
-                  render={(props) => (
-                    <FelinRecommendation
-                      key={props.match.params.id}
-                      {...props}
-                    />
-                  )}
-                  path="/FelinRecommendation/:id"
-                />
-                <Route
-                  path="/adoptions"
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'us') {
-                      return <Adoptions {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/felin"
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                      return <Felin {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/felin/event"
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                      return <Felin {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/chiens-guides-aveugles"
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                      return <AssistanceDog {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/comme-chien-chat"
-                  render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                      return <CommeChienChat {...props} />;
-                    } else {
-                      return <Redirect to={{ pathname: '/404' }} {...props} />;
-                    }
-                  }}
-                />
-                <Route
-                  path="/"
-                  render={(props) => {
-                    const { location } = props;
-                    const { pathname, search } = location;
-
-                    //为了匹配/refuge108785 这种数字动态的短链接
-                    if (/^\/refuge/.test(pathname))
-                      return <RefugeSource key={getRandom()} {...props} />;
-
-                    // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
-                    if (PDP_Regex.test(pathname)) {
-                      let redirectUrl = '';
-                      const splitName = { fr: '_FR.html', us: '_US.html' }[
-                        window.__.env.REACT_APP_COUNTRY
-                      ];
-                      const productNameMappping = {
-                        '/ageing-12+-en-gelÃ©e-4153':
-                          '/ageing-12+-en-gelee-4153',
-                        '/british-shorthair-bouchÃ©es-spÃ©cial-2032':
-                          '/british-shorthair-bouchees-special-2032',
-                        '/intense-beauty-en-gelÃ©e-4151':
-                          '/intense-beauty-en-gelee-4151',
-                        '/kitten-en-gelÃ©e-4150': '/kitten-en-gelee-4150',
-                        '/kitten-sterilised-en-gelÃ©e-1072':
-                          '/kitten-sterilised-en-gelee-1072',
-                        '/maine-coon-bouchÃ©es-spÃ©cial-2031':
-                          '/maine-coon-bouchees-special-2031',
-                        '/persan-bouchÃ©es-spÃ©cial-2030':
-                          '/persan-bouchees-special-2030'
-                      };
-                      // PDP文件重定向
-                      // const specailPlpUrlMapping = {
-                      //   ...redirectFun()
-                      // };
-                      if (productNameMappping[pathname]) {
-                        redirectUrl = productNameMappping[pathname];
-                      } else if (pathname.split('--').length > 1) {
-                        redirectUrl = pathname.split('--').join('-');
-                      } else if (pathname.split(splitName).length > 1) {
-                        redirectUrl = pathname.split(splitName)[0];
-                      } else if (pathname.split('.html').length > 1) {
-                        redirectUrl = pathname.split('.html')[0];
-                      }
-                      // else if (specailPlpUrlMapping[pathname + search]) {
-                      //   redirectUrl = specailPlpUrlMapping[pathname + search];
-                      // }
-
-                      if (redirectUrl) {
-                        return (
-                          <Redirect
-                            to={{
-                              pathname: redirectUrl,
-                              search: props?.location?.search || '',
-                              state: props?.location?.state
-                            }}
-                            {...props}
-                          />
-                        );
+                    )}
+                  />
+                  <Route
+                    path="/about-us/special-works-conditions"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RULocalSpecialWorksConditions {...props} />;
                       } else {
-                        return <Details key={props.location.key} {...props} />;
-                      }
-                    } else {
-                      // 除去PDP页面文件重定向start
-                      // const specailPlpUrlMapping = {
-                      //   ...redirectFun()
-                      // };
-
-                      let redirectUrl = '';
-                      //redirectUrl = specailPlpUrlMapping[pathname + search];
-
-                      // 除去PDP页面文件重定向end
-                      if (redirectUrl) {
-                        console.log(`匹配${redirectUrl}路由`);
                         return (
-                          <Redirect
-                            to={{
-                              pathname: redirectUrl,
-                              search: props?.location?.search || '',
-                              state: props?.location?.state
-                            }}
-                            {...props}
-                          />
+                          <Redirect to={{ pathname: '/404' }} {...props} />
                         );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/about-us/shipment-conditions"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RULocalShipmentConditions {...props} />;
                       } else {
-                        // PLP
                         return (
-                          <List
-                            key={
-                              props.match.params.category +
-                              props.location.search +
-                              props.location.key
-                            }
-                            {...props}
-                          />
+                          <Redirect to={{ pathname: '/404' }} {...props} />
                         );
                       }
-                    }
-                  }}
-                />
-                <Route
-                  path="*"
-                  render={(props) => {
-                    const { location } = props;
-                    const { pathname, search } = location;
-                    console.log('进入了404路由', { pathname, search });
-                    return <Exception {...props} />;
-                  }}
-                  // component={Exception}
-                />
-              </Switch>
-            </Security>
-          </ScrollToTop>
-        </Router>
+                    }}
+                  />
+                  <Route
+                    path="/about-us/terms-and-conditions"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RULocalTermsConditions {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/about-us/faq"
+                    exact
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                        return <RULocalFaq {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route exact sensitive path="/FAQ" component={Exception} />
+                  <Route
+                    render={(props) => (
+                      <FelinRecommendation
+                        key={props.match.params.id}
+                        {...props}
+                      />
+                    )}
+                    path="/FelinRecommendation/:id"
+                  />
+                  <Route
+                    path="/adoptions"
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'us') {
+                        return <Adoptions {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/felin"
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                        return <Felin {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/felin/event"
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                        return <Felin {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/chiens-guides-aveugles"
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                        return <AssistanceDog {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/comme-chien-chat"
+                    render={(props) => {
+                      if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                        return <CommeChienChat {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/"
+                    render={(props) => {
+                      const { location } = props;
+                      const { pathname, search } = location;
+
+                      //为了匹配/refuge108785 这种数字动态的短链接
+                      if (/^\/refuge/.test(pathname))
+                        return <RefugeSource key={getRandom()} {...props} />;
+
+                      // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
+                      if (PDP_Regex.test(pathname)) {
+                        let redirectUrl = '';
+                        const splitName = { fr: '_FR.html', us: '_US.html' }[
+                          window.__.env.REACT_APP_COUNTRY
+                        ];
+                        const productNameMappping = {
+                          '/ageing-12+-en-gelÃ©e-4153':
+                            '/ageing-12+-en-gelee-4153',
+                          '/british-shorthair-bouchÃ©es-spÃ©cial-2032':
+                            '/british-shorthair-bouchees-special-2032',
+                          '/intense-beauty-en-gelÃ©e-4151':
+                            '/intense-beauty-en-gelee-4151',
+                          '/kitten-en-gelÃ©e-4150': '/kitten-en-gelee-4150',
+                          '/kitten-sterilised-en-gelÃ©e-1072':
+                            '/kitten-sterilised-en-gelee-1072',
+                          '/maine-coon-bouchÃ©es-spÃ©cial-2031':
+                            '/maine-coon-bouchees-special-2031',
+                          '/persan-bouchÃ©es-spÃ©cial-2030':
+                            '/persan-bouchees-special-2030'
+                        };
+                        // PDP文件重定向
+                        // const specailPlpUrlMapping = {
+                        //   ...redirectFun()
+                        // };
+                        if (productNameMappping[pathname]) {
+                          redirectUrl = productNameMappping[pathname];
+                        } else if (pathname.split('--').length > 1) {
+                          redirectUrl = pathname.split('--').join('-');
+                        } else if (pathname.split(splitName).length > 1) {
+                          redirectUrl = pathname.split(splitName)[0];
+                        } else if (pathname.split('.html').length > 1) {
+                          redirectUrl = pathname.split('.html')[0];
+                        }
+                        // else if (specailPlpUrlMapping[pathname + search]) {
+                        //   redirectUrl = specailPlpUrlMapping[pathname + search];
+                        // }
+
+                        if (redirectUrl) {
+                          return (
+                            <Redirect
+                              to={{
+                                pathname: redirectUrl,
+                                search: props?.location?.search || '',
+                                state: props?.location?.state
+                              }}
+                              {...props}
+                            />
+                          );
+                        } else {
+                          return (
+                            <Details key={props.location.key} {...props} />
+                          );
+                        }
+                      } else {
+                        // 除去PDP页面文件重定向start
+                        // const specailPlpUrlMapping = {
+                        //   ...redirectFun()
+                        // };
+
+                        let redirectUrl = '';
+                        //redirectUrl = specailPlpUrlMapping[pathname + search];
+
+                        // 除去PDP页面文件重定向end
+                        if (redirectUrl) {
+                          console.log(`匹配${redirectUrl}路由`);
+                          return (
+                            <Redirect
+                              to={{
+                                pathname: redirectUrl,
+                                search: props?.location?.search || '',
+                                state: props?.location?.state
+                              }}
+                              {...props}
+                            />
+                          );
+                        } else {
+                          // PLP
+                          return (
+                            <List
+                              key={
+                                props.match.params.category +
+                                props.location.search +
+                                props.location.key
+                              }
+                              {...props}
+                            />
+                          );
+                        }
+                      }
+                    }}
+                  />
+                  <Route
+                    path="*"
+                    render={(props) => {
+                      const { location } = props;
+                      const { pathname, search } = location;
+                      console.log('进入了404路由', { pathname, search });
+                      return <Exception {...props} />;
+                    }}
+                    // component={Exception}
+                  />
+                </Switch>
+              </Security>
+            </ScrollToTop>
+          </Router>
+        </ExportedComponentsProvider>
       </IntlProvider>
     </Provider>
   );

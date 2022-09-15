@@ -33,12 +33,16 @@ import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import classNames from 'classnames';
 import { isCountryMx } from '@/utils/country';
-import { TopNavigation } from '@/react-components';
+import { TopNavigation, CountrySelector } from '@/react-components';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const isProd = process.env.NODE_ENV === 'production';
+const RcApiHost = isProd
+  ? 'https://rh-sc-stg-weu-01.staging.royalcanin.com'
+  : '/rc-api';
 
 const isFromStorePortal = sessionItemRoyal.get('rc-iframe-from-storepotal');
 
@@ -675,7 +679,10 @@ class Header extends React.Component {
               </div>
             </div>
           ) : null}
-          <nav className="rc-header__nav rc-header__nav--primary">
+          <nav
+            className="rc-header__nav rc-header__nav--primary"
+            style={{ zIndex: 1000 }}
+          >
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align"
               role="menubar"
@@ -798,16 +805,11 @@ class Header extends React.Component {
           //       showLoginBtn={this.props.showLoginBtn}
           //     />
           //   )
-          window.__.env.REACT_APP_COUNTRY == 'us' ? (
-            process.env.NODE_ENV == 'production' ? (
-              <TopNavigation
-                locale="en-us"
-                site="us"
-                apiHost="https://rh-sc-stg-weu-01.staging.royalcanin.com/en-gb/rc-api/navigation"
-              />
-            ) : (
-              <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
-            )
+          window.__.env.REACT_APP_COUNTRY === 'us' ? (
+            <>
+              {/*<CountrySelector locale="en-us" site="us" apiHost={RcApiHost}/>*/}
+              <TopNavigation locale="en-us" site="us" apiHost={RcApiHost} />
+            </>
           ) : (
             <DropDownMenu
               activeTopParentId={this.state.activeTopParentId}

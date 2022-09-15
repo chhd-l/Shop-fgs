@@ -9,9 +9,11 @@ import { getFooter } from '@/api/hub';
 import cn from 'classnames';
 import { FooterWrapper } from './style';
 import { marsFooter } from '@/utils/constant/ru-local-data';
+import { Footer as RcFooter } from '@/react-components';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isHub = window.__.env.REACT_APP_HUB;
+const isProd = process.env.NODE_ENV === 'production';
 
 /**
  * footer控制
@@ -144,6 +146,11 @@ class Footer extends React.Component {
     const { showHubFooter } = this;
     const { hubFooterInfo, isInitdQueryHubFooter } = this.state;
     const { showFooter } = this.props;
+
+    const apiHost = isProd
+      ? 'https://rh-sc-stg-weu-01.staging.royalcanin.com'
+      : '/rc-api';
+
     return (
       <FooterWrapper
         className={cn(
@@ -155,38 +162,41 @@ class Footer extends React.Component {
         id="footer"
         data-tms="Footer"
       >
-        {showFooter && (
-          <div
-            className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {
-              'hub-footer': isHub
-            })}
-          >
-            {isInitdQueryHubFooter ? (
-              showHubFooter ? (
-                <FooterHub
-                  footerInfo={hubFooterInfo}
-                  isLogin={this.isLogin}
-                  history={this.props.history}
-                />
-              ) : (
-                <>
-                  <div className="rc-layout-container rc-three-column rc-md-up col-span-12">
-                    <div className="rc-column rc-text--right">
-                      <span
-                        className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
-                        onClick={this.scrollToTop}
-                        role="back to top"
-                      >
-                        <FormattedMessage id="footer.toTheTop" />
-                      </span>
+        {showFooter &&
+          (window.__.env.REACT_APP_COUNTRY === 'us' ? (
+            <RcFooter locale="en-us" site="us" apiHost={apiHost} />
+          ) : (
+            <div
+              className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {
+                'hub-footer': isHub
+              })}
+            >
+              {isInitdQueryHubFooter ? (
+                showHubFooter ? (
+                  <FooterHub
+                    footerInfo={hubFooterInfo}
+                    isLogin={this.isLogin}
+                    history={this.props.history}
+                  />
+                ) : (
+                  <>
+                    <div className="rc-layout-container rc-three-column rc-md-up col-span-12">
+                      <div className="rc-column rc-text--right">
+                        <span
+                          className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
+                          onClick={this.scrollToTop}
+                          role="back to top"
+                        >
+                          <FormattedMessage id="footer.toTheTop" />
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <DynamicFooter {...this.props} />
-                </>
-              )
-            ) : null}
-          </div>
-        )}
+                    <DynamicFooter {...this.props} />
+                  </>
+                )
+              ) : null}
+            </div>
+          ))}
         {window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
           <div
             className="col-span-12"
