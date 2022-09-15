@@ -266,7 +266,7 @@ const ChooseSKU = ({ intl, configStore, inModal, ...restProps }) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       setErrorMsgSureChange('');
-    }, 1000);
+    }, 3500);
   };
 
   const handleEmailChange = (e) => {

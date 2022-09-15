@@ -52,7 +52,7 @@ class ForgotSuccessEmail extends React.Component {
               this.props.history.push('/forgot');
             }}
           >
-            <FormattedMessage id="forgetPassword.send" />
+            <FormattedMessage id="forgetPassword.retry" />
           </Button>
         </div>
         <Footer showFooter={false} />
