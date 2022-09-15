@@ -219,6 +219,8 @@ const LoginButton = ({
     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // 该token的旧值不存在，新值存在，表示登录
       if (!e.oldValue && e.newValue && !localItemRoyal.get('rc-register')) {
+        console.info('login.oldValue=====',e.oldValue)
+        console.info('login.newValue=====',e.newValue)
         login();
       }
     }
