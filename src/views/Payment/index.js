@@ -280,6 +280,7 @@ class Payment extends React.Component {
       selectedCardInfo: null,
       adyenPayParam: null,
       payWayNameArr: [],
+      originPayNameArr: [],
       email: '',
       swishPhone: '',
       bank: '',
@@ -361,6 +362,7 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
+    this.memberAddListRef = React.createRef();
     this.confirmListValidationAddress =
       this.confirmListValidationAddress.bind(this);
   }
@@ -1160,7 +1162,8 @@ class Payment extends React.Component {
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
         {
-          payWayNameArr
+          payWayNameArr,
+          originPayNameArr: payWayNameArr
         },
         () => {
           setPayWayNameArr(payWayNameArr);
@@ -1171,10 +1174,6 @@ class Payment extends React.Component {
               : payWayNameArr[0]?.payPspItemCardTypeVOList || [];
           this.props.paymentStore.setSupportPaymentMethods(
             supportPaymentMethods
-          );
-          sessionItemRoyal.set(
-            'rc-payWayNameArr',
-            JSON.stringify(payWayNameArr)
           );
           this.initPaymentTypeVal();
         }
@@ -2947,9 +2946,15 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    console.log(1234, data);
+
     const {
-      paymentStore: { setPayWayNameArr }
+      paymentStore: { setPayWayNameArr, setCurReceiveType }
     } = this.props;
+    const { originPayNameArr } = this.state;
+
+    setCurReceiveType(data?.receiveType);
+
     this.setState(
       {
         deliveryAddress: data
@@ -2962,17 +2967,16 @@ class Payment extends React.Component {
           // 1、cod: cash & card，则shop展示cod和卡支付
           // 2、cod: cash 或 card，则shop展示cod和卡支付
           // 3、无返回，则shop展示卡支付
-          let pmd = data?.paymentMethods || null;
-          let pickupPayMethods = null;
-          if (pmd == 'cod') {
-            pickupPayMethods = pmd;
+
+          // 如果pickup没有cod的时候过滤掉cod
+          let pmd = data?.paymentMethods;
+
+          if (data?.receiveType == 'PICK_UP' && pmd !== 'cod') {
+            newPayWayName = newPayWayName.filter((e) => {
+              return e.code !== 'cod';
+            });
           } else {
-            if (data?.receiveType == 'PICK_UP') {
-              // 如果pickup没有cod的时候过滤掉cod
-              newPayWayName = newPayWayName.filter((e) => {
-                return e.code !== 'cod';
-              });
-            }
+            newPayWayName = [...originPayNameArr];
           }
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
@@ -3040,6 +3044,7 @@ class Payment extends React.Component {
         onSearchSelectionFocus={GAonSearchSelectionFocus}
         onSearchSelectionChange={GAonSearchSelectionChange}
         onSearchSelectionError={GAonSearchSelectionError}
+        ref={this.memberAddListRef}
         // onSearchSelectionChange={() =>
         //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
         //   window?.dataLayer?.push({
