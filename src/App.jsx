@@ -37,7 +37,7 @@ import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
-import ProductFinder3 from './views/ProductFinder3';
+
 import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
@@ -304,7 +304,7 @@ const AssistanceDog = loadable(() =>
 const CommeChienChat = loadable(() =>
   import('@/views/StaticPage/CommeChienChat')
 );
-
+const ProductFinder3 = loadable(() => import('@/views/ProductFinder3'));
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
 const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
 const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
@@ -471,7 +471,6 @@ const App = () => {
   const [loading, dynamicLanguage] = useDynamicLanguage();
 
   return (
-    // <ProductFinder3/>
     <Provider {...stores}>
       <IntlProvider
         // locale={window.__.env.REACT_APP_LANG}
@@ -532,6 +531,11 @@ const App = () => {
                   exact
                   path={'/implicit/login'}
                   render={() => <ImplicitLogin />}
+                />
+                <Route
+                  path="/productfinder3"
+                  exact
+                  render={(props) => <ProductFinder3 {...props} a={0} />}
                 />
                 <Route
                   exact
