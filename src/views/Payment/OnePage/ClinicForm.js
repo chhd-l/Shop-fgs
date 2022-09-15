@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import SearchSelection from '@/components/SearchSelection';
+import { SearchSelection } from '@/components';
 import { getPrescriberByCode } from '@/api/clinic';
 import { searchNextConfirmPanel } from '../modules/utils';
 import ClinicPanelContainer from './ClinicPanelContainer';

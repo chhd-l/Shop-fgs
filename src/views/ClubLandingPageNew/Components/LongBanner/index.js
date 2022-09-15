@@ -10,11 +10,9 @@ import clubru from './image/Clubru.png';
 import clubfr from './image/clublogofr.png';
 import Bitmapru from './image/Bitmapru.webp';
 import CLUBmobbackgroundru from './image/CLUBmobbackgroundru@4x.jpg';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Button } from '@/components/Common';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const SubTitles = {
   title: (

@@ -2,15 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-import BannerTip from '@/components/BannerTip';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import {
+  BannerTip,
+  GoogleTagManager,
+  Header,
+  Footer,
+  Loading
+} from '@/components';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import './index.css';
-import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import stores from '@/store';
 
@@ -44,7 +46,6 @@ import { Canonical, Button } from '@/components/Common';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
-const deviceType = getDeviceType();
 const country = window.__.env.REACT_APP_COUNTRY;
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
@@ -119,8 +120,6 @@ const FrhowitworksnewListmobile = [
     HowitworksStep: frhowitworknewmobile4
   }
 ];
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 @seoHoc('club subscription landing')
 class ClubLandingPageNew extends React.Component {

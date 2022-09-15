@@ -5,12 +5,12 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getList } from '@/api/list';
 import cloneDeep from 'lodash/cloneDeep';
-import { getDeviceType, fetchFilterList } from '@/utils/utils';
+import { isMobile as isMobilePhone, fetchFilterList } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { getFoodType } from '@/lib/get-technology-or-breedsAttr';
 import { Filters, FiltersPC, SelectFilters } from '@/views/List/modules';
-import Pagination from '@/components/Pagination';
+import { Pagination } from '@/components';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { useHistory } from 'react-router-dom';
 import { ChangeProductContext } from '../index';
@@ -99,8 +99,6 @@ function bSort(arr) {
   }
   return arr;
 }
-
-const isMobilePhone = getDeviceType() === 'H5';
 
 const subType = {
   1: 'autoship',

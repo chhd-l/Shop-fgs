@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import Selection from '@/components/Selection';
-import CitySearchSelection from '@/components/CitySearchSelection';
+import { Selection, CitySearchSelection } from '@/components';
 import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { getProvincesList } from '@/api/address';

@@ -1,8 +1,6 @@
 import React, { Component, useState } from 'react';
-import Consent from '@/components/Consent';
-import Footer from '@/components/Footer';
+import { Footer, GoogleTagManager, Loading, Consent } from '@/components';
 import { getStoreOpenConsentList } from '@/api/consent';
-import Loading from '@/components/Loading';
 import './index.less';
 import SocialRegister from './components/socialRegister';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
@@ -12,10 +10,9 @@ import {
   mergeUnloginCartData,
   getOktaCallBackUrl,
   bindSubmitParam,
-  getDeviceType
+  isMobile as isMobilePhone
 } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import { userBindConsent } from '@/api/consent';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
@@ -31,8 +28,7 @@ import './components/notification.less';
 
 // 日本logo
 import jpLogo from '@/assets/images/register/jp_logo.svg';
-const isMobilePhone = getDeviceType() === 'H5';
-console.log(isMobilePhone, 'isMobilePhone');
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;

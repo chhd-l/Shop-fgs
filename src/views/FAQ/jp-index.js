@@ -1,13 +1,15 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BannerTip,
+  BreadCrumbs
+} from '@/components';
 import { getFaq } from '@/api/staticPageApi';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
-import BreadCrumbs from '@/components/BreadCrumbs';
 import { Link } from 'react-router-dom';
 import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';

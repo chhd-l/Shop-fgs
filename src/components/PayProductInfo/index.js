@@ -7,7 +7,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import './index.css';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { FrequencyMatch } from '@/components';
 import { PriceDetailsList } from './components';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

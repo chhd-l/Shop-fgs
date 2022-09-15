@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import findIndex from 'lodash/findIndex';
-import Selection from '@/components/Selection';
-import CitySearchSelection from '@/components/CitySearchSelection';
+import { Selection, CitySearchSelection } from '@/components';
 import { getDictionary } from '@/utils/utils';
 import { getProvincesList } from '@/api/address';
 

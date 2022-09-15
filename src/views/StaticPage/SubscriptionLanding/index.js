@@ -1,9 +1,6 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import { Footer, Header, BannerTip, GoogleTagManager } from '@/components';
 import Help from './Fr/help';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';

@@ -3,9 +3,9 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
 import {
-  getDeviceType,
+  isMobile,
   formatMoney,
   getZoneTime,
   formatDate,
@@ -231,7 +231,6 @@ const NextDelivery = ({
     // setState({isDataChange:true})
     handleSaveChange(subDetail, true);
   };
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
     <div className="card-container border rounded border-d7d7d7">
       <div className="card rc-margin-y--none ml-0 border-0">

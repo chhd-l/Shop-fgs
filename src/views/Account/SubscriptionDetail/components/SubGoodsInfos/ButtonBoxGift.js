@@ -2,10 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
 import { getRemainings } from '@/api/dispenser';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import { Button } from '@/components/Common';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const ButtonBoxGift = () => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
   const {

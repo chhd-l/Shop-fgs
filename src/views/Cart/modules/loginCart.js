@@ -3,16 +3,14 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, Loading, BannerTip } from '@/components';
 import { Link } from 'react-router-dom';
-import Loading from '@/components/Loading';
 import {
   formatMoney,
   mergeUnloginCartData,
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType,
+  isMobile,
   unique,
   handleRecommendation,
   isShowMixFeeding,
@@ -38,7 +36,6 @@ import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
 import PayProductInfo from '@/views/Payment/PayProductInfo';
-import BannerTip from '@/components/BannerTip';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
@@ -68,7 +65,6 @@ import OssReceiveBackNotificationContent from '../../Details/components/OSSRecei
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 let preventChangeSize = false; // 修改bug: 先选中数量框，再直接点击切换规则，引起的购物车数据重复
 

@@ -1,9 +1,11 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import {
+  Header,
+  BreadCrumbs,
+  Footer,
+  BannerTip,
+  GoogleTagManager
+} from '@/components';
 import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule2 } from '@/components/HubSalesCategory/utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';

@@ -5,6 +5,7 @@ import FrequencyStore from './frequencyStore';
 import ConfigStore from './configStore';
 import HeaderCartStore from './headerCartStore';
 import PaymentStore from './paymentStore';
+import paymentStoreNew from './paymentStoreNew';
 import HeaderSearchStore from './headerSearchStore';
 import AddressStore from './addressStore';
 
@@ -16,6 +17,7 @@ const stores = {
   configStore: new ConfigStore(),
   headerCartStore: new HeaderCartStore(),
   paymentStore: new PaymentStore(),
+  paymentStoreNew: new paymentStoreNew(),
   headerSearchStore: new HeaderSearchStore(),
   addressStore: new AddressStore()
 };

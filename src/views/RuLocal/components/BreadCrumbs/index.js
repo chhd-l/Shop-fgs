@@ -3,7 +3,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
+
 const BreadCrumbs = withRouter((props) => {
   const { location, match } = props;
   const breadcrumbNameMap = BreadcrumbNameMap;
@@ -11,7 +12,6 @@ const BreadCrumbs = withRouter((props) => {
   const url = location.pathname?.toLocaleLowerCase();
 
   let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || [];
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   if (isMobile && mapData.length > 1) {
     // 移动端只展示倒数第二层
     mapData = mapData.splice(mapData.length - 2, 1);

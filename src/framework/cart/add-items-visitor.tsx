@@ -5,9 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { toJS } from 'mobx';
-import { getDeviceType } from '@/utils/utils';
-
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+import { isMobile } from '@/utils/utils';
 
 let intl: any;
 let timer: any;

@@ -7,7 +7,7 @@ import './index.css';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
-import Consent from '@/components/Consent';
+import { Consent } from '@/components';
 import { addEventListenerArr } from './addEventListener';
 
 @inject('paymentStore', 'loginStore')

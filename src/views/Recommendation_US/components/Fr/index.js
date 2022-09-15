@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
@@ -11,7 +11,6 @@ import recommendation4 from '@/assets/images/fr_recommendation4.png';
 import cn from 'classnames';
 import { Button } from '@/components/Common';
 
-const isMobile = getDeviceType() === 'H5';
 const FrDefault = (props) => {
   return (
     <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">

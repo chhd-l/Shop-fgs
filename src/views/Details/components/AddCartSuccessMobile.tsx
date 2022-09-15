@@ -5,15 +5,13 @@ import { Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import cn from 'classnames';
 import LazyLoad from 'react-lazyload';
-import { getDeviceType, formatMoney } from '@/utils/utils';
+import { isMobile, formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import {
   AddItemMember as AddCartItemMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
 import { Button } from '@/components/Common';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
   visible?: boolean;

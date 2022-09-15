@@ -1,9 +1,11 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
+import {
+  Header,
+  BreadCrumbs,
+  Footer,
+  BannerTip,
+  GoogleTagManager
+} from '@/components';
 import LazyLoad from 'react-lazyload';
 import { ProductCarousel } from '@/components/Product';
 import { list1, list2, list3, list4 } from './goods';

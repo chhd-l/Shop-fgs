@@ -1,12 +1,14 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
-import Pagination from '@/components/Pagination';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BannerTip,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  Pagination
+} from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { formatMoney } from '@/utils/utils';

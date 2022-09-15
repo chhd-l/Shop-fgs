@@ -6,7 +6,8 @@ import LazyLoad from 'react-lazyload';
 import { LOGO_POINT } from '@/utils/constant';
 import './index.less';
 
-const LoyaltyPoint = ({ checkoutStore }) => {
+const LoyaltyPoint = (props) => {
+  const { checkoutStore } = props;
   const { earnedPoint } = checkoutStore;
   return (
     <div className={cn('loyaltyPointEarned', earnedPoint > 0 ? '' : 'hidden')}>

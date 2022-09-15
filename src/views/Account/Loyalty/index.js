@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import BannerTip from '@/components/BannerTip';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import {
+  BannerTip,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  Header,
+  Footer,
+  GoogleTagManager
+} from '@/components';
 import { Canonical } from '@/components/Common';
-import { getDeviceType } from '@/utils/utils';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import { isMobile } from '@/utils/utils';
 import Table from './components/table';
 import Pagination from './components/pagination';
 import { FormattedMessage } from 'react-intl-phraseapp';
@@ -17,7 +19,6 @@ import './index.less';
 import { ownerTotalPoints } from '@/api/payment';
 import { myAccountPushEvent } from '@/utils/GA';
 
-const isMobile = getDeviceType() !== 'PC';
 const country = window.__.env.REACT_APP_GA_COUNTRY;
 
 const Loyalty = (props) => {

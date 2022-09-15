@@ -1,21 +1,24 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  Header,
+  Footer,
+  Loading,
+  BannerTip,
+  GoogleTagManager,
+  LoginButton,
+  ImageMagnifierForUS as ImageMagnifier
+} from '@/components';
 import Skeleton from 'react-skeleton-loader';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import BannerTip from '@/components/BannerTip';
-import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
 import {
   formatMoney,
-  getDeviceType,
+  isMobile,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import Loading from '@/components/Loading';
 import { DivWrapper } from './style';
 import './index.css';
 import { inject, observer } from 'mobx-react';
@@ -36,7 +39,6 @@ import {
   AddItemsMember as AddCartItemsMember,
   AddItemsVisitor as AddCartItemsVisitor
 } from '@/framework/cart';
-import LoginButton from '@/components/LoginButton';
 import cn from 'classnames';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -120,7 +122,6 @@ class Recommendation extends React.Component {
       outOfStockProducts: [],
       inStockProducts: [],
       needLogin: false,
-      isMobile: false,
       currentBenefit: '',
       checkPromotionCodeAndCopy: false, // 控制点击查看promotion code并复制按钮
       viewShoppingCartWidth: 0
@@ -158,7 +159,6 @@ class Recommendation extends React.Component {
     let promotionCodeText = promotionCode?.toUpperCase() || '';
     let prescription = funcUrl({ name: 'prescription' });
     this.setState({
-      isMobile: getDeviceType() === 'H5',
       promotionCodeText,
       loading: true
     });
@@ -800,7 +800,7 @@ class Recommendation extends React.Component {
     <div>
       <section
         className="text-center"
-        style={{ width: this.state.isMobile ? '95%' : '60%', margin: '0 auto' }}
+        style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
       >
         <h1
           style={{ color: '#E2001A', margin: '1.25rem' }}
@@ -842,7 +842,6 @@ class Recommendation extends React.Component {
   commonUp = () => {
     const {
       promotionCodeText,
-      isMobile,
       checkPromotionCodeAndCopy,
       viewShoppingCartWidth
     } = this.state;
@@ -1100,7 +1099,6 @@ class Recommendation extends React.Component {
       productList,
       activeIndex,
       currentModalObj,
-      isMobile,
       promotionCode,
       promotionCodeText,
       isSPT,

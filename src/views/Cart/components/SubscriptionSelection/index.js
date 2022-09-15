@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import FrequencySelection from '@/components/FrequencySelection';
+import { FrequencySelection } from '@/components';
 import { Popover } from '@/components/Common';
 
 const SubscriptionSelection = function (props) {

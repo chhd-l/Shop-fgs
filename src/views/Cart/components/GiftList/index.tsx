@@ -3,10 +3,8 @@ import OneOffSelection from '../OneOffSelection';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import { QuantityPicker } from '@/components/Product';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const GiftList = ({ pitem }: { pitem: any }) => {
   const listJsx = pitem?.isHidden ? (

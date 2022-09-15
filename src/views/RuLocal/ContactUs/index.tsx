@@ -1,6 +1,5 @@
 import React from 'react';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { Header, Footer } from '@/components';
 import './index.less';
 import HrLine from '../components/HrLine';
 const ContactUs = () => {
@@ -144,7 +143,7 @@ const ContactUs = () => {
                       <div className="rc-container-text">
                         <h2 className="rc-beta " data-en-title=""></h2>
                         <a
-                          className='a-link-color'
+                          className="a-link-color"
                           rel="noopener noreferrer"
                           href="https://vk.com/royalcaninru"
                           target="_blank"
@@ -174,7 +173,7 @@ const ContactUs = () => {
                         <h2 className="rc-beta "></h2>
                         <p>
                           <a
-                          className='a-link-color'
+                            className="a-link-color"
                             rel="noopener noreferrer"
                             href="https://ok.ru/royalcanin/"
                             target="_blank"

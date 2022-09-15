@@ -1,17 +1,19 @@
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import SideMenu from '@/components/SideMenu';
-import BannerTip from '@/components/BannerTip';
-import Rate from '@/components/Rate';
+import {
+  GoogleTagManager,
+  Header,
+  Footer,
+  BreadCrumbs,
+  AccountSideMenu as SideMenu,
+  BannerTip,
+  Rate,
+  // ImgUpload
+  NormalSkeleton as Skeleton
+} from '@/components';
 import ReviewForm from './components/ReviewForm';
 import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 //import ReviewList from './components/ReviewList';
-//import ImgUpload from '@/components/ImgUpload';
-import Skeleton from 'react-skeleton-loader';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
 import { Canonical, Button } from '@/components/Common';
@@ -308,7 +310,7 @@ class ProductReview extends React.Component {
                 </div>
                 {/*main*/}
                 {this.state.loading ? (
-                  <Skeleton color="#f5f5f5" width="100%" height="100%" />
+                  <Skeleton height="100%" count={1} />
                 ) : (
                   <div>
                     <div
