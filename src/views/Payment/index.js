@@ -432,7 +432,7 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo }
     } = this.props;
-    const { tid, billingAddress } = this.state;
+    const { tid, billingAddress, orderDetails } = this.state;
     let cyberPaymentParam = {};
     let cyberParams = {};
     const {
@@ -612,7 +612,7 @@ class Payment extends React.Component {
       );
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
-      debugger;
+      // debugger;
       console.log('yyy');
       if (!recommendProductJson) {
         if (!this.computedCartData.length && !tid && !appointNo) {
@@ -1593,6 +1593,14 @@ class Payment extends React.Component {
             wasFelinStore: true
           });
         },
+        // adyen_point_of_sale_onj ==>pos onj
+        adyen_point_of_sale_onj: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'ADYEN_POS_ONJ',
+            wasFelinStore: true,
+            posTypeEnum: 1
+          });
+        },
         adyen_moto: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: '',
@@ -2043,6 +2051,133 @@ class Payment extends React.Component {
             const queryPos = async () => {
               i++;
               return queryPosOrder(tid)
+                .then(async (resp) => {
+                  if (resp.code == 'K-000000') {
+                    const isGuest = sessionItemRoyal.get('rc-guestId')
+                      ? true
+                      : false;
+                    if (isGuest) {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: {
+                          ...res?.context,
+                          queryPosOrderReturnCode: resp.code
+                        }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                    }
+                    subOrderNumberList = tidList.length
+                      ? tidList
+                      : res.context && res.context.tidList;
+                    subNumber = (res.context && res.context.subscribeId) || '';
+                    gotoConfirmationPage = true;
+                  } else {
+                    console.log('queryPosOrder', resp);
+                  }
+                })
+                .catch(async (err) => {
+                  // K-000001 还在支付中
+                  // K-000002 支付失败
+                  console.log('queryPosOrdererr', err);
+                  // 如果30秒都没有支付成功，支付状态可能是paying或者not paid
+                  // 30秒后的paying不需要repay
+
+                  const isGuest = sessionItemRoyal.get('rc-guestId')
+                    ? true
+                    : false;
+                  if (err.code == 'K-000001') {
+                    if (i < 10) {
+                      await sleep(3000);
+                      return await queryPos();
+                    } else {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: { ...res?.context }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                      subOrderNumberList = tidList.length
+                        ? tidList
+                        : res.context && res.context.tidList;
+                      subNumber =
+                        (res.context && res.context.subscribeId) || '';
+                      gotoConfirmationPage = true;
+                    }
+                  } else {
+                    this.showErrorMsg(err.message);
+                    if (!isGuest) {
+                      this.setState(
+                        {
+                          tid,
+                          tidList: res.context.tidList
+                        },
+                        () => {
+                          this.queryOrderDetails();
+                        }
+                      );
+                    } else {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: { ...res?.context }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                      subOrderNumberList = tidList.length
+                        ? tidList
+                        : res.context && res.context.tidList;
+                      subNumber =
+                        (res.context && res.context.subscribeId) || '';
+                      gotoConfirmationPage = true;
+                    }
+                  }
+                });
+            };
+            await queryPos();
+          }
+          break;
+        case 'adyen_point_of_sale_onj':
+          const payStatus =
+            res?.context?.trade?.tradeState?.payState == 'PAID' ? true : false;
+          // 支付成功
+          if (res.code == 'K-000000' && payStatus) {
+            const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
+            if (isGuest) {
+              valetGuestOrderPaymentResponse({
+                guest_id: sessionItemRoyal.get('rc-guestId'),
+                parameter: res.context
+              })
+                .then((res) => {
+                  console.log('res', res);
+                })
+                .catch((err) => {
+                  console.log('err', err);
+                });
+            }
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+            gotoConfirmationPage = true;
+          } else {
+            let i = 0;
+            const tid = res?.context?.tid;
+            // 根据订单号发送订单状态查询请求
+            const queryPos = async () => {
+              i++;
+              return queryPosOrder({ tid, posTypeEnum: 1 })
                 .then(async (resp) => {
                   if (resp.code == 'K-000000') {
                     const isGuest = sessionItemRoyal.get('rc-guestId')
@@ -3233,10 +3368,11 @@ class Payment extends React.Component {
   };
   // 点击confirm 1
   clickConfirmPaymentPanel = async (e) => {
+    console.info('clickConfirmPaymentPanelbefore');
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-
+    console.info('clickConfirmPaymentPanelafter');
     // 勾选，billingAddress = deliveryAddress
     this.setState(
       {
@@ -3877,6 +4013,17 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
+                  {/* adyen_point_of_sale_onj ==> pos onj */}
+                  {item.code === 'adyen_point_of_sale_onj' &&
+                    curPayWayInfo?.code === 'adyen_point_of_sale_onj' && (
+                      <>
+                        <Pos
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyen_point_of_sale_onj'
+                          })}
+                        />
+                      </>
+                    )}
                   {item.code === 'cash' && curPayWayInfo?.code === 'cash' && (
                     <>
                       <Cash
@@ -3998,6 +4145,10 @@ class Payment extends React.Component {
               disabled: validForBilling
             })}
           {curPayWayInfo?.code === 'adyen_point_of_sale' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {curPayWayInfo?.code === 'adyen_point_of_sale_onj' &&
             payConfirmBtn({
               disabled: validForBilling
             })}

@@ -43,15 +43,21 @@ export function getPrescriberByPrescriberIdAndStoreId(data) {
 
 export function getRecommendationList_token(data) {
   return axios({
-    url: `${api.getRecommendations}/token=${data}`,
-    method: 'get'
+    url: `${api.getRecommendations}/token=${data.id}`,
+    method: 'get',
+    params: {
+      allGoods: data.allGoods || false
+    }
   });
 }
 
 export function getRecommendationList_prescriberId(data) {
   return axios({
-    url: `${api.getRecommendations}/prescriberId=${data}`,
-    method: 'get'
+    url: `${api.getRecommendations}/prescriberId=${data.id}`,
+    method: 'get',
+    params: {
+      allGoods: data.allGoods || false
+    }
   });
 }
 
@@ -65,7 +71,10 @@ export function getShelterList(data) {
 export function getRecommendation(products, customerId) {
   return axios({
     url: `${api.recommendation}?products=${products}&customerId=${customerId}`,
-    method: 'get'
+    method: 'get',
+    params: {
+      allGoods: true
+    }
   });
 }
 

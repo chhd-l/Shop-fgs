@@ -162,11 +162,16 @@ class Recommendation extends React.Component {
       promotionCodeText,
       loading: true
     });
-    let params = token;
+    let params = { id: token };
     let requestName = getRecommendationList_token;
     if ((isFr || isRu || isUs) && !token) {
       requestName = getRecommendationList_prescriberId;
-      params = prescription;
+      params = { id: prescription };
+    }
+
+    if (isRu) {
+      // to cart directly,need return all goods
+      params.allGoods = true;
     }
 
     // 如果ru先下普通单（vet商品），选择了诊所，然后再下推荐单，需要移除前一次下的vet商品绑定的clinicsName

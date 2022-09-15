@@ -86,6 +86,13 @@ const PayInfoPreview = ({
         </div>
       );
 
+    case 'adyen_point_of_sale_onj':
+      return (
+        <div className="col-12 col-md-6">
+          <img src={LOGO_POS} className="w-10 ml-8" />
+        </div>
+      );
+
     case 'cash':
       return (
         <div className="col-12 col-md-6">

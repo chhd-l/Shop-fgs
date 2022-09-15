@@ -47,9 +47,10 @@ export function handleRecoProductParamByItem({
   paymentStore,
   checkoutStore,
   loginStore,
+  clinicStore,
   ...rest
 }) {
-  let recommendationInfos = {};
+  let recommendationInfos = clinicStore.linkClinicRecommendationInfos || {};
   if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
     recommendationInfos =
       typeof ele.recommendationInfos == 'string'
