@@ -45,10 +45,7 @@ export const CartFRBreeder = ({
 
     try {
       let res = await requestName(params);
-      // const productLists =
-      //   res?.context?.recommendationGoodsInfoRels?.filter(
-      //     (product) => product.goodsInfo?.stock
-      //   ) || [];
+      const productLists = res?.context?.recommendationGoodsInfoRels || [];
       // if (!productLists?.length) {
       //   setLoadingRecommendation(false);
       //   return;
