@@ -37,7 +37,7 @@ interface Props {
   btnStyle?: object;
   buttonRef?: any;
   children?: any;
-  dataTestid?:string;
+  dataTestid?: string;
 }
 
 const LoginButton = ({
@@ -45,7 +45,7 @@ const LoginButton = ({
   callbackUrl,
   beforeLoginCallback,
   btnClass,
-  dataTestid="login_btn",
+  dataTestid = 'header_login_btn',
   className,
   btnStyle,
   buttonRef,
@@ -185,8 +185,7 @@ const LoginButton = ({
                   }
 
                   // PO bind shelterId, country:de
-                  const shelterId =
-                  localItemRoyal.get('customerId') || '';
+                  const shelterId = localItemRoyal.get('customerId') || '';
                   if (shelterId) {
                     await saveShelterId({
                       shelterId,
