@@ -2,13 +2,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { withOktaAuth } from '@okta/okta-react';
-import Consent from '@/components/Consent';
+import { Consent, ConsentAdditionalText } from '@/components';
 import Skeleton from 'react-skeleton-loader';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
-import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 import { Button } from '@/components/Common';
 
 const localItemRoyal = window.__.localItemRoyal;

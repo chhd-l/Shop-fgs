@@ -9,7 +9,7 @@ import { getClubLogo, formatMoney } from '@/utils/utils';
 import ProductDailyRation from './ProductDailyRation';
 import { ChangeProductContext } from '../index';
 import { SubDetailHeaderContext } from '../../SubDetailHeader';
-import InstockStatusComp from '@/components/InstockStatusComp';
+import { InstockStatusComp } from '@/components';
 
 const RecommendationList = ({ productDetail, goMoreProducts }) => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);

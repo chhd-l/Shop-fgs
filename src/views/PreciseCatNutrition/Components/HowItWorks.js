@@ -13,9 +13,8 @@ import borderBG2 from '../images/borderBG2.jpg';
 import borderBG5 from '../images/borderBG5.jpg';
 import borderBG3 from '../images/borderBG3.jpg';
 import borderBG6 from '../images/borderBG6.jpg';
+import { isMobile } from '@/utils/utils';
 
-import { getDeviceType } from '../../../utils/utils';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const HowItWorks = () => {
   return (
     <div className="experience-component experience-layouts-1column">

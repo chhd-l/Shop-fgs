@@ -1,8 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
-import ValidationAddressModal from '@/components/validationAddressModal';
-import Loading from '@/components/Loading';
+import { ValidationAddressModal, Loading } from '@/components';
 import { AddressForm } from '@/components/Address';
 import {
   isSaveAddressBtnDisabled,

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import Selection from '@/components/Selection';
+import { Selection } from '@/components';
 import NextDelivery from './NextDelivery';
 import CompletedDelivery from './CompletedDelivery';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 
 const DeliveryList = ({
   subDetail,
@@ -22,7 +22,6 @@ const DeliveryList = ({
   slotTimeChanged,
   intl
 }) => {
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const changeYearOption = (el) => {
     if (activeTabIdx === 0) {

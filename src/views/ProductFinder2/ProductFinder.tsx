@@ -1,9 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import BreadCrumbs from '@/components/BreadCrumbs';
+import { Header, Footer, BreadCrumbs, BannerTip } from '@/components';
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 
 const ProductFinder = (props: any) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import cn from 'classnames';
 
 interface Props {
@@ -16,43 +16,49 @@ interface Props {
 /**
  * Button component
  */
-const Button = ({
-  type,
-  size,
-  loading,
-  className,
-  disabled,
-  children,
-  htmlType,
-  ...rest
-}: Props) => {
-  return (
-    <button
-      className={cn(
-        `rc-btn`,
-        className,
-        type === 'primary' ? 'rc-btn--one' : 'rc-btn--two',
-        {
-          'opacity-50 border-rc-red': loading,
-          'bg-rc-red': !disabled && type === 'primary',
-          'text-rc-red': loading && type !== 'primary',
-          'rc-btn--sm': size === 'small'
-        }
-      )}
-      disabled={loading || disabled}
-      type={htmlType}
-      {...rest}
-    >
-      {loading ? (
-        <span
-          className={cn('ui-btn-loading opacity-100', {
-            'ui-btn-loading-border-red': type !== 'primary'
-          })}
-        />
-      ) : null}
-      <span>{children}</span>
-    </button>
-  );
-};
+const Button = forwardRef(
+  (
+    {
+      type,
+      size,
+      loading,
+      className,
+      disabled,
+      children,
+      htmlType,
+      ...rest
+    }: Props,
+    ref?: any
+  ) => {
+    return (
+      <button
+        className={cn(
+          `rc-btn`,
+          className,
+          type === 'primary' ? 'rc-btn--one' : 'rc-btn--two',
+          {
+            'opacity-50 border-rc-red': loading,
+            'bg-rc-red': !disabled && type === 'primary',
+            'text-rc-red': loading && type !== 'primary',
+            'rc-btn--sm': size === 'small'
+          }
+        )}
+        disabled={loading || disabled}
+        type={htmlType}
+        ref={ref}
+        {...rest}
+      >
+        {loading ? (
+          <span
+            className={cn('ui-btn-loading opacity-100', {
+              'ui-btn-loading-border-red': type !== 'primary'
+            })}
+          />
+        ) : null}
+        <span>{children}</span>
+      </button>
+    );
+  }
+);
 
 export default Button;

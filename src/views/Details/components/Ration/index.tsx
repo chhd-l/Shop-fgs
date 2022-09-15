@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   matchNamefromDict,
-  getDeviceType,
+  isMobile,
   getClubFlag,
   getRation
 } from '@/utils/utils';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { ObjectConstructor } from '@/utils/types';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 
 interface Props {

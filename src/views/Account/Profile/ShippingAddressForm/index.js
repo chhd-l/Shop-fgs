@@ -1,10 +1,8 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
-// import CitySearchSelection from '@/components/CitySearchSelection';
-import ValidationAddressModal from '@/components/validationAddressModal';
+import { ValidationAddressModal, Loading } from '@/components';
 import { AddressForm } from '@/components/Address';
-import Loading from '@/components/Loading';
 import './index.less';
 import {
   saveAddress,
@@ -15,7 +13,6 @@ import {
 } from '@/api/address';
 import { validData, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
-// import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';

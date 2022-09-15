@@ -1,0 +1,223 @@
+.payment-addressList {
+  .addr-container-scroll {
+
+    &::-webkit-scrollbar {
+      width: .625rem;
+      height: 1px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: .625rem;
+      background: #c7c7c7;
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: .625rem;
+      background: #ebebeb;
+    }
+  }
+
+  .address-item {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    border: 2px solid #FFF !important;
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .address-item.address-item-none {
+    display: none;
+  }
+
+  .address-item .align_items_wrap {
+    width: 100%;
+    border-bottom: 2px solid #e5e5e5;
+    .address-item-forbid {
+      color: #e2001a;
+      font-size: 14px;
+      padding: 6px 0;
+    }
+  }
+
+  .address-item:hover,
+  .address-item.selected {
+    border-bottom: 2px solid #FFF !important;
+  }
+
+  .address-item.selected {
+    border: 2px solid #008900 !important;
+  }
+
+  .address-item.forbid {
+    border: 2px solid #e2001a !important;
+  }
+
+  .address-item.selected .select_this_address {
+    display: none;
+  }
+
+  .address-item.selected .align_items_wrap {
+    width: 100%;
+    border: none;
+  }
+
+  .address-item .addr-btn-edit {
+    white-space: nowrap;
+    position: relative;
+    top: 1px;
+  }
+
+  .address-item .addr-btn-edit .rc-edit--xs {
+    opacity: 0.6;
+  }
+
+  .address-item .addr-btn-edit .rc-edit--xs:after {
+    transform: scale(0.9);
+  }
+
+  .address-item .address-name {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .address-item .icon-default {
+    margin: 5px .625rem;
+    padding: 0 .625rem;
+    line-height: 1.25rem;
+    font-size: 0.9em;
+    border-radius: 1em;
+    border: 1px solid;
+  }
+
+  .address-item .address-name:hover,
+  .address-item.selected .address-name {
+    color: red;
+  }
+
+  .address-item .address_opt_btn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    // height: 100%;
+  }
+
+  .addr-switch {
+    display: inline-block;
+    vertical-align: middle;
+    height: .625rem;
+    line-height: .625rem;
+    width: 9px;
+    margin-left: 5px;
+    background: url(../../../assets/images/addr-i.png) no-repeat 0 0;
+
+    &.switch-on {
+      background-position: 0 0;
+    }
+
+    &.switch-off {
+      background-position: 0 -.625rem;
+    }
+  }
+
+  .more_addr_box {
+    .rc-up--xs {
+      &::after {
+        background-position: 55.36% 100%;
+      }
+    }
+
+    .rc-down--xs,
+    .rc-up--xs {
+      &::after {
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .address-btn-plus {
+    position: relative;
+    top: 1px;
+  }
+
+  .address-btn-plus:after {
+    transform: scale(0.7);
+  }
+}
+
+.dwfrm_shipping_shippingAddress_addressFields_province {
+  .choices__list.choices__list--dropdown {
+    .choices__item {
+      &:nth-child(1) {
+        cursor: not-allowed;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.add_address_pk_btn {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+
+  &.pd_r1 {
+    padding-right: 1rem;
+  }
+
+  p {
+    cursor: pointer;
+  }
+}
+
+.home_delivery_box {
+  position: relative;
+
+  &.home_delivery_box_border {
+    border: 1px solid #e5e5e5;
+    padding: 1rem;
+    border-radius: 3px;
+    margin-top: 1rem;
+  }
+
+  .hdpk_input_label {
+    margin-bottom: 0;
+  }
+
+  .rc_list_radio_box {
+    width: 100%;
+    max-width: 100% !important;
+
+    &.radio_mb1 {
+      margin-bottom: 1rem;
+    }
+
+    .delivery_date_price {
+      position: absolute;
+      right: 1rem;
+      top: 0;
+    }
+  }
+
+  .pickup_point_info {
+    margin-top: .5rem;
+
+    p {
+      margin-bottom: 0;
+      padding-left: 2rem;
+    }
+  }
+
+  .change_pickup_point_btn {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 1rem;
+    margin: 2rem 0 1rem;
+  }
+}

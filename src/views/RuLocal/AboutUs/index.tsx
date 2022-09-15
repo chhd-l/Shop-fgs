@@ -1,6 +1,5 @@
 import React from 'react';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { Header, Footer } from '@/components';
 import BreadCrumbs from '../components/BreadCrumbs';
 import './index.less';
 import { Link } from 'react-router-dom';
@@ -38,9 +37,7 @@ const AboutUs = () => {
           </div>
         </div>
         <HrLine />
-        <div
-          className="rc-padding-x--sm rc-margin--none rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active"
-        >
+        <div className="rc-padding-x--sm rc-margin--none rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active">
           <div className="rc-padding-y--md rc-md-down"></div>
           <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
             <div className="rc-column rc-padding-y--none rc-single ">
@@ -126,7 +123,7 @@ const AboutUs = () => {
           <div className="rc-padding-y--md rc-md-down rc-hidden"></div>
         </div>
         <HrLine />
-{/* 
+        {/* 
         <div
           className="content-block-variation-1 rc_center_on_mobile rc-padding--sm rc-margin--none rc-bg-colour--brand3 rc-full-width rc-animation-001--base rc-animation-001--active"
           id="content-block-with-text-and-image-10-about-us-page"
@@ -167,9 +164,7 @@ const AboutUs = () => {
         </div>
         <HrLine /> */}
 
-        <div
-          className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active"
-        >
+        <div className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active">
           <div className="rc-padding-y--md rc-md-down"></div>
           <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
             <div className="rc-column rc-single ">

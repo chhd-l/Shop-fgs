@@ -1,8 +1,7 @@
 import { FormattedMessage } from 'react-intl-phraseapp';
 import React, { useContext, useState } from 'react';
-import FrequencySelection from '@/components/FrequencySelection';
+import { FrequencySelection, FrequencyMatch } from '@/components';
 import { SubGoodsInfosContext } from './index';
-import FrequencyMatch from '@/components/FrequencyMatch';
 import { getZoneTime, formatDate } from '@/utils/utils';
 import { DatePickerComponent } from '@/components/Common';
 import cn from 'classnames';

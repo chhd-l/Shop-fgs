@@ -1,4 +1,4 @@
-import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
+import { isMobile, formatMoney, optimizeImage } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
 import React, { useEffect, useState, createContext } from 'react';
@@ -44,7 +44,6 @@ const SubGoodsInfos = ({
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const isIndv = subDetail.subscriptionType === 'Individualization';
-  const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
   const [isSpecAvailable, setIsSpecAvailable] = useState(false);
   const [renderAgin, setRenderAgin] = useState(true);

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { linkTransform } from '@/api/staticPageApi';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 
 // 这个组件的目的  是为了输入/refuge108782 这种短链接 去通过接口获取长链接，再跳转到promotion-refuge.html页面
 class RefugeSource extends Component {

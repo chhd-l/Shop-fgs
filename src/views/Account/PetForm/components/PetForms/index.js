@@ -7,8 +7,7 @@ import {
 } from '@/utils/GA';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
-import Selection from '@/components/Selection';
-import SelectMultiple from '@/components/SelectMultiple';
+import { Selection, SelectMultiple } from '@/components';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import InputBox from '../FormItem/InputBox';
@@ -19,7 +18,7 @@ import { changeSubscriptionDetailPets } from '@/api/subscription';
 import { addPet, delPets, editPets, upLoadPetsImage } from '@/api/pet';
 import {
   getZoneTime,
-  getDeviceType,
+  isMobile,
   getDictionary,
   handleDateForIos
 } from '@/utils/utils';
@@ -117,7 +116,6 @@ const PetForms = ({
   const notUsUk =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
     window.__.env.REACT_APP_COUNTRY !== 'uk';
-  const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
   const isInputDisabled =
     currentPetParam?.petsBreed === 'unknown Breed' ? true : false;
