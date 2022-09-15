@@ -803,7 +803,7 @@ class Header extends React.Component {
               <TopNavigation
                 locale="en-us"
                 site="us"
-                apiHost="https://rh-sc-stg-weu-01.staging.royalcanin.com/en-gb/rc-api/navigation"
+                apiHost="https://rh-sc-stg-weu-01.staging.royalcanin.com"
               />
             ) : (
               <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
