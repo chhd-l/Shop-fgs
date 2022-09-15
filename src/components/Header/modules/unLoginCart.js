@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { formatMoney, getDeviceType, optimizeImage } from '@/utils/utils';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { formatMoney, isMobile, optimizeImage } from '@/utils/utils';
+import { FrequencyMatch } from '@/components';
 import { inject, observer } from 'mobx-react';
 import './index.css';
 import { FOOD_DISPENSER_PIC, IMG_DEFAULT } from '@/utils/constant';
@@ -180,7 +180,7 @@ class UnloginCart extends React.Component {
               </div>
             </div>
           </div>
-        ) : getDeviceType() === 'PC' ? (
+        ) : !isMobile ? (
           <div
             className={[
               'popover',

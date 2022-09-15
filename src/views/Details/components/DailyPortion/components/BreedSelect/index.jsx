@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SearchSelection from '@/components/SearchSelection';
-import Selection from '@/components/Selection';
+import { SearchSelection, Selection } from '@/components';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';

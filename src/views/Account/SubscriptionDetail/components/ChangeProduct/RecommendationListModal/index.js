@@ -13,7 +13,7 @@ import { SubDetailHeaderContext } from '../../SubDetailHeader';
 import ProductDailyRation from './ProductDailyRation';
 import RelateProductList from './RelateProductList';
 import { Modal, Button } from '@/components/Common';
-import InstockStatusComp from '@/components/InstockStatusComp';
+import { InstockStatusComp } from '@/components';
 import { funcUrl } from '@/lib/url-utils';
 import { getDetailsBySpuNo } from '@/api/details';
 

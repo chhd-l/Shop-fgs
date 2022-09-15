@@ -1,8 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header, Footer, GoogleTagManager } from '@/components';
 import { useSeo } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { Canonical, Button } from '@/components/Common';

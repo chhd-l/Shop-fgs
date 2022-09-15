@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { FrequencyMatch } from '@/components';
 import cn from 'classnames';
 import './index.less';
 

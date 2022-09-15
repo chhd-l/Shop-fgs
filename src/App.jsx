@@ -30,10 +30,16 @@ import { PDP_Regex } from '@/utils/constant';
 // import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth, getRandom } from '@/utils/utils';
-import ScrollToTop from '@/components/ScrollToTop';
 import { useDynamicLanguage } from '@/framework/common';
+import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
+// import {
+//   ScrollToTop,
+//   RouteFilter,
+//   RouteFilterHook,
+//   GoogleMapMakerHandle as MakerHandle
+// } from '@/components';
 import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
@@ -52,8 +58,10 @@ import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
 import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 // import register from '@/views/Register';
 import Welcome from '@/views/Register/welcome.js';
-import CancelEmail from '@/views/StaticPage/CancelEmail';
-
+// import CancelEmail from '@/views/StaticPage/CancelEmail';
+const CancelEmail = loadable(() => import('@/views/StaticPage/CancelEmail'));
+// import RCInput from './components/Form/Input';
+// import RCSelect from './components/Form/Downselect';
 const FelinTermsConditions = loadable(() =>
   import('@/views/StaticPage/FelinTermsConditions')
 );
@@ -77,7 +85,7 @@ const Cart = loadable(() => import('@/views/Cart'));
 const CartFRBreeder = loadable(() => import('@/views/CartFRBreeder'));
 // const CartInStock = loadable(() => import('@/views/CartInStock'));
 const Payment = loadable(() => import('@/views/Payment'));
-// const Checkout = loadable(() => import('@/views/Checkout'));
+const Checkout = loadable(() => import('@/views/Checkout'));
 const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
@@ -265,6 +273,8 @@ const register = loadable(() => import('@/views/Register'));
 const ForgetPassword = loadable(() => import('@/views/ForgetPassword'));
 const ForgotSuccessEmail = loadable(() => import('@/views/ForgotSuccessEmail'));
 const ResetPassword = loadable(() => import('@/views/ResetPassword'));
+const ResetSuccess = loadable(() => import('@/views/ResetSuccess'));
+const ResetError = loadable(() => import('@/views/ResetError'));
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
@@ -567,21 +577,21 @@ const App = () => {
                     return <Cart {...props} />;
                   }}
                 />
-                {/* <Route
-                  exact
-                  path="/checkoutnew"
-                  sensitive
-                  render={(props) => (
-                    <Checkout key={props.match.params.type} {...props} />
-                  )}
-                /> */}
                 <Route
                   exact
                   path="/checkout"
-                  sensitive
-                  render={(props) => (
-                    <Payment key={props.match.params.type} {...props} />
-                  )}
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'fr':
+                        return (
+                          <Checkout key={props.match.params.type} {...props} />
+                        );
+                      default:
+                        return (
+                          <Payment key={props.match.params.type} {...props} />
+                        );
+                    }
+                  }}
                 />
                 <Route
                   exact
@@ -1266,6 +1276,28 @@ const App = () => {
                   render={(props) => {
                     if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
                       return <ResetPassword {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/reset/success"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ResetSuccess {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/reset/error"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
+                      return <ResetError {...props} />;
                     } else {
                       return <Redirect to={{ pathname: '/404' }} {...props} />;
                     }

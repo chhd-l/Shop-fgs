@@ -13,20 +13,22 @@
  *********/
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import Skeleton from 'react-skeleton-loader';
-import Selection from '@/components/Selection';
-import CitySearchSelection from '@/components/CitySearchSelection';
-import SearchSelection from '@/components/DqeSearchSelection';
+import {
+  Selection,
+  CitySearchSelection,
+  DqeSearchSelection as SearchSelection,
+  Loading,
+  NormalSkeleton as Skeleton
+} from '@/components';
 import {
   getDictionary,
   validData,
   getZoneTime,
-  getDeviceType,
+  isMobile,
   isCanVerifyBlacklistPostCode,
   formatDate
 } from '@/utils/utils';
 import find from 'lodash/find';
-import Loading from '@/components/Loading';
 import {
   getRegionByCityId,
   getProvincesList,
@@ -49,7 +51,6 @@ import { format } from 'date-fns';
 import { DatePickerComponent, Input } from '@/components/Common';
 import { phoneNumberMask } from '@/utils/constant';
 
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
 var compositionFlag = true;
@@ -2060,7 +2061,7 @@ class Form extends React.Component {
     return (
       <>
         {formLoading ? (
-          <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
+          <Skeleton height="10%" count={4} />
         ) : (
           <div
             className="row rc_form_box"

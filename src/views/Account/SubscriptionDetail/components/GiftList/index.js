@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate, optimizeImage } from '@/utils/utils';
+import { formatDate, optimizeImage, isMobile } from '@/utils/utils';
 
 const GiftList = ({
   modalList,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { funcUrl } from '@/lib/url-utils';
+// import { Loading } from '@/components';
 import Loading from '@/components/Loading';
 
 const localItemRoyal = window.__.localItemRoyal;

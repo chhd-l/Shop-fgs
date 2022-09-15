@@ -4,10 +4,8 @@ import Help from './HelpForHub';
 import NavItem from './NavItemForHub';
 import PromotionPanel from '../modules/PromotionPanel';
 import LazyLoad from 'react-lazyload';
-import LoginButton from '@/components/LoginButton';
-import LogoutButton from '@/components/LogoutButton';
 import { Link } from 'react-router-dom';
-import Language from '@/components/Language';
+import { Language, LoginButton, LogoutButton } from '@/components';
 
 function SecondItemContainer(props) {
   const { item } = props;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Loading from '@/components/Loading';
+import { Loading } from '@/components';
 import Selection from './Selection';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getCountries } from '@/api/hub';

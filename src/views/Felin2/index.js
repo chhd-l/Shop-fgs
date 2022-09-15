@@ -1,7 +1,5 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import { GoogleTagManager, Header, Footer, Rate } from '@/components';
 import Pcexperts from './experts/pcexperts';
 import Hexperts from './experts/hexperts';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
@@ -14,7 +12,6 @@ import thak from './image/thak.png';
 import cat1 from './image/new.png';
 import header1 from './image/header1.png';
 import LazyLoad from 'react-lazyload';
-import Rate from '@/components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';

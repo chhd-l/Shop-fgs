@@ -22,6 +22,14 @@ module.exports = {
   },
   theme: {
     extend: {
+      placeholderColor: {
+        'primary': '#666666',
+      },
+      borderColor: {
+        'form': '#808285',
+        'form-ok': '#008900',
+        'form-err': '#C03344'
+      },
       colors: {
         'rc-red': 'var(--rc-red)',
         orange: 'var(--orange)',
@@ -47,7 +55,9 @@ module.exports = {
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
         'cs-gray': '#666666',
-        'cs-black': '#333333'
+        'cs-black': '#333333',
+        'form-ok': '#008900',
+        'form-err': '#C03344'
       },
       fontSize: {
         12: '12px',

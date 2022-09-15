@@ -2,13 +2,12 @@ import React from 'react';
 import callImgNew from '../images/phone icon@2x.png';
 import emailImgNew from '../images/email icon@2x.png';
 import faqImgNew from '../images/FAQ icon@2x.png';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import '../index.less';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
-import { getDeviceType } from '../../../utils/utils';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { isMobile } from '@/utils/utils';
 
 const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
 const tr = window.__.env.REACT_APP_COUNTRY == 'tr';

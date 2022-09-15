@@ -4,7 +4,7 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
 import { doGetGAVal } from '@/utils/GA';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import { GoogleTagManager } from '@/components';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
 

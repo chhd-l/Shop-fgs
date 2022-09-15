@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import {
   getFrequencyDict,
-  getDeviceType,
+  isMobile,
   getClubLogo,
   formatDate
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubListForPet } from '@/api/subscription';
 import { changeSubscriptionGoodsByPets } from '@/api/pet';
-import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
-import FrequencyMatch from '@/components/FrequencyMatch';
+import { FrequencyMatch, NormalSkeleton as Skeleton } from '@/components';
 import { Button } from '@/components/Common';
 import './index.css';
 
@@ -23,7 +22,6 @@ const LinkedSubs = (props) => {
   let [btnLoading, setBtnLoading] = useState(false);
   let [isShowAll, setIsShowAll] = useState(false);
   const { loading, errorMsg } = props;
-  const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
     props.setState({ loading: true });
     // let param = {
@@ -70,7 +68,7 @@ const LinkedSubs = (props) => {
         <div className="order-list-container">
           {loading ? (
             <div className="mt-4">
-              <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+              <Skeleton height="50%" count={4} />
             </div>
           ) : errorMsg ? (
             <div className="text-center mt-5">

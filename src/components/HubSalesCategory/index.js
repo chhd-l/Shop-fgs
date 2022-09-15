@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { queryStoreCateList } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import Skeleton from 'react-skeleton-loader';
+import { NormalSkeleton as Skeleton } from '@/components';
 import { Link } from 'react-router-dom';
 import './css/HubSalesCategory.less';
 import { optimizeImage } from '@/utils/utils';
@@ -107,12 +107,7 @@ export default class HubSalesCategory extends Component {
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
                   <div style={{ width: '100%' }}>
-                    <Skeleton
-                      color="#f5f5f5"
-                      width="100%"
-                      height="10%"
-                      count={4}
-                    />
+                    <Skeleton height="10%" count={4} />
                   </div>
                 ) : (
                   this.state.cateGoryList_cat.map((item, index) => {
@@ -174,12 +169,7 @@ export default class HubSalesCategory extends Component {
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
                   <div style={{ width: '100%' }}>
-                    <Skeleton
-                      color="#f5f5f5"
-                      width="100%"
-                      height="10%"
-                      count={4}
-                    />
+                    <Skeleton height="10%" count={4} />
                   </div>
                 ) : (
                   this.state.cateGoryList_dog.map((item, index) => {

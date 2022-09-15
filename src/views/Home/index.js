@@ -2,22 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-import BannerTip from '@/components/BannerTip';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import HeroCarousel from '@/components/HeroCarousel';
+import {
+  BannerTip,
+  GoogleTagManager,
+  Header,
+  Footer,
+  HeroCarousel
+} from '@/components';
 import FooterImage from './modules/FooterImage';
 import SalesCategory from './modules/SalesCategory';
 import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
 import { TopAds, Ads } from './ad';
 import { Advantage, JpAdvantage } from './advantage';
-import {
-  getDeviceType,
-  getOktaCallBackUrl,
-  optimizeImage
-} from '@/utils/utils';
+import { isMobile, getOktaCallBackUrl, optimizeImage } from '@/utils/utils';
 import './index.css';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
@@ -30,14 +28,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import renderLinkLang from './hreflang';
 import advantageIconList from './modules/advantageIconList';
-// import {
-//   TopNavigation,
-//   fetchNavigation
-// } from '@royal-canin-sitecore/react-components';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
 function Divider() {
@@ -657,7 +650,6 @@ class Home extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
-          {/* <TopNavigation locale="en-us" site="us" apiHost="/rc-api" /> */}
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={history} />

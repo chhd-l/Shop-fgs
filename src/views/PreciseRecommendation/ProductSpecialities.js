@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-import { getDeviceType } from '../../utils/utils';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { isMobile } from '@/utils/utils';
 
 class ProductSpecialities extends React.Component {
   render() {

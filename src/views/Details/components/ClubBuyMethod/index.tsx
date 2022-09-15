@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import FrequencySelection from '@/components/FrequencySelection';
+import { FrequencySelection } from '@/components';
 import { formatMoney } from '@/utils/utils';
 import { Decimal } from 'decimal.js';
 

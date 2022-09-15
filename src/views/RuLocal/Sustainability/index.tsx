@@ -1,6 +1,5 @@
 import BreadCrumbs from '../components/BreadCrumbs';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { Footer, Header } from '@/components';
 import React from 'react';
 import Slick from '../components/Slick';
 import Card from './components/Card';

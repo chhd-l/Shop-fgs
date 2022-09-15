@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './index.less';
 import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
-import { getDeviceType } from '@/utils/utils';
+import { isMobile } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
 class ImageMagnifier extends Component {
@@ -411,7 +411,7 @@ class ImageMagnifier extends Component {
             )}
             {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
 
-            {!videoShow && getDeviceType() === 'PC' && (
+            {!videoShow && !isMobile && (
               <div
                 style={cssStyle.maskBlock}
                 onMouseEnter={this.mouseEnter}

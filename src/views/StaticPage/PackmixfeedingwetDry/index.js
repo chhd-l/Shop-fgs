@@ -1,9 +1,12 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import {
+  Header,
+  BreadCrumbs,
+  Footer,
+  BannerTip,
+  GoogleTagManager
+} from '@/components';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import Footer from '@/components/Footer';
 import image1 from './images/image1.jpg';
 import image4B from './images/4B.png';
 import image4C from './images/4C.png';
@@ -11,7 +14,6 @@ import image4D from './images/4D.png';
 import image4E from './images/4E.png';
 import imagecat from './images/cat-autoship.png';
 import imagedog from './images/dog-autoship.png';
-import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { list1, list2 } from './goods';
 import { ProductCarousel } from '@/components/Product';

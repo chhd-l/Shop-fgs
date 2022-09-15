@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import FrequencySelection from '@/components/FrequencySelection';
+import { FrequencySelection } from '@/components';
 import { formatMoney } from '@/utils/utils';
 import { Decimal } from 'decimal.js';
 
@@ -78,7 +78,6 @@ const AutoshipBuyMethod = ({
               >
                 {/* <span className="iconfont mr-2">&#xe675;</span> */}
                 <FormattedMessage id="autoship" />
-               
               </span>
             </label>
           </div>

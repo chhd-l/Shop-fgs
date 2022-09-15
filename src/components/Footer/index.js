@@ -144,7 +144,7 @@ class Footer extends React.Component {
     const { showHubFooter } = this;
     const { hubFooterInfo, isInitdQueryHubFooter } = this.state;
     const { showFooter } = this.props;
-    return showFooter ? (
+    return (
       <FooterWrapper
         className={cn(
           'rc-bg-colour--interface-dark',
@@ -155,36 +155,38 @@ class Footer extends React.Component {
         id="footer"
         data-tms="Footer"
       >
-        <div
-          className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {
-            'hub-footer': isHub
-          })}
-        >
-          {isInitdQueryHubFooter ? (
-            showHubFooter ? (
-              <FooterHub
-                footerInfo={hubFooterInfo}
-                isLogin={this.isLogin}
-                history={this.props.history}
-              />
-            ) : (
-              <>
-                <div className="rc-layout-container rc-three-column rc-md-up col-span-12">
-                  <div className="rc-column rc-text--right">
-                    <span
-                      className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
-                      onClick={this.scrollToTop}
-                      role="back to top"
-                    >
-                      <FormattedMessage id="footer.toTheTop" />
-                    </span>
+        {showFooter && (
+          <div
+            className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {
+              'hub-footer': isHub
+            })}
+          >
+            {isInitdQueryHubFooter ? (
+              showHubFooter ? (
+                <FooterHub
+                  footerInfo={hubFooterInfo}
+                  isLogin={this.isLogin}
+                  history={this.props.history}
+                />
+              ) : (
+                <>
+                  <div className="rc-layout-container rc-three-column rc-md-up col-span-12">
+                    <div className="rc-column rc-text--right">
+                      <span
+                        className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
+                        onClick={this.scrollToTop}
+                        role="back to top"
+                      >
+                        <FormattedMessage id="footer.toTheTop" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <DynamicFooter {...this.props} />
-              </>
-            )
-          ) : null}
-        </div>
+                  <DynamicFooter {...this.props} />
+                </>
+              )
+            ) : null}
+          </div>
+        )}
         {window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
           <div
             className="col-span-12"
@@ -193,23 +195,24 @@ class Footer extends React.Component {
         ) : null}
 
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) && (
-          <div
-            className="cookieSettingBox bg-white"
-            style={{
-              visibility: window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
-                ? 'visible'
-                : 'hidden'
-            }}
-          >
-            <button id="ot-sdk-btn" className="ot-sdk-show-settings">
-              <FormattedMessage id="footer.cookieSettings" />
-            </button>
-          </div>
-        )}
+        {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) &&
+          showFooter && (
+            <div
+              className="cookieSettingBox bg-white"
+              style={{
+                visibility: window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
+                  ? 'visible'
+                  : 'hidden'
+              }}
+            >
+              <button id="ot-sdk-btn" className="ot-sdk-show-settings">
+                <FormattedMessage id="footer.cookieSettings" />
+              </button>
+            </div>
+          )}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </FooterWrapper>
-    ) : null;
+    );
   }
 }
 

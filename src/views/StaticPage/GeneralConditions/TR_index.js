@@ -1,8 +1,5 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import BreadCrumbs from '@/components/BreadCrumbs';
-import Footer from '@/components/Footer';
+import { Header, BreadCrumbs, Footer, GoogleTagManager } from '@/components';
 import { seoHoc } from '@/framework/common';
 import { Canonical } from '@/components/Common';
 

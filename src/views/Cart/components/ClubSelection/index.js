@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import FrequencySelection from '@/components/FrequencySelection';
+import { FrequencySelection } from '@/components';
 
 const ClubSelection = function (props) {
   const { isGift, pitem, isLogin } = props;

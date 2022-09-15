@@ -2,10 +2,9 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
-import Loading from '@/components/Loading';
-import Logo from '@/components/Logo';
+import { Loading, Logo, Language } from '@/components';
 import { toJS } from 'mobx';
-import { getDeviceType, generateOptions, unique } from '@/utils/utils';
+import { isMobile, generateOptions, unique } from '@/utils/utils';
 import {
   getPrescriptionById,
   getPrescriberByEncryptCode,
@@ -18,7 +17,6 @@ import DropDownMenu from './modules/DropDownMenu';
 import DropDownMenuForHub from './hub/DropDownMenuForHub';
 import MegaMenuMobile from './modules/MegaMenuMobile';
 import MegaMenuMobileForHub from './hub/MegaMenuMobileForHub';
-import Language from '@/components/Language';
 import Search from './modules/Search';
 import UserJSX from './jsx/user';
 import { inject, observer } from 'mobx-react';
@@ -33,11 +31,11 @@ import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import classNames from 'classnames';
 import { isCountryMx } from '@/utils/country';
+import { TopNavigation } from '@/react-components';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const isFromStorePortal = sessionItemRoyal.get('rc-iframe-from-storepotal');
 
@@ -786,6 +784,27 @@ class Header extends React.Component {
               showNav={this.props.showNav}
               showLoginBtn={this.props.showLoginBtn}
             />
+          ) : // (
+          //   <DropDownMenu
+          //       activeTopParentId={this.state.activeTopParentId}
+          //       updateActiveTopParentId={this.updateActiveTopParentId}
+          //       headerNavigationList={headerNavigationList}
+          //       configStore={configStore}
+          //       toggleShowBodyMask={this.toggleShowBodyMask}
+          //       showNav={this.props.showNav}
+          //       showLoginBtn={this.props.showLoginBtn}
+          //     />
+          //   )
+          window.__.env.REACT_APP_COUNTRY == 'us' ? (
+            process.env.NODE_ENV == 'production' ? (
+              <TopNavigation
+                locale="en-us"
+                site="us"
+                apiHost="https://rh-sc-stg-weu-01.staging.royalcanin.com"
+              />
+            ) : (
+              <TopNavigation locale="en-us" site="us" apiHost="/rc-api" />
+            )
           ) : (
             <DropDownMenu
               activeTopParentId={this.state.activeTopParentId}

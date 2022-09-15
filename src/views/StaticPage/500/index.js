@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import GoogleTagManager from '@/components/GoogleTagManager';
+import { GoogleTagManager } from '@/components';
 import image from '@/assets/images/500.png';
 import { seoHoc } from '@/framework/common';
 import { LOGO } from '@/utils/constant';

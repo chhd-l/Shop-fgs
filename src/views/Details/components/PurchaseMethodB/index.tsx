@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, isMobile } from '@/utils/utils';
 
 type PurchaseMethodType = {
   form: {
@@ -11,7 +11,6 @@ type PurchaseMethodType = {
     frequencyId: number;
   };
   fromPrice: string;
-  isMobile: boolean;
   specAndQuantityDom: () => void;
   isNullGoodsInfos: () => void;
 };
@@ -19,7 +18,6 @@ type PurchaseMethodType = {
 const PurchaseMethodB = ({
   form,
   fromPrice,
-  isMobile,
   specAndQuantityDom,
   isNullGoodsInfos
 }: PurchaseMethodType) => {
