@@ -48,7 +48,8 @@ import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
-import { ExportedComponentsProvider } from '@/react-components';
+//import { ExportedComponentsProvider } from '@/react-components';
+import { ExportedComponentsProvider } from '@royal-canin-sitecore/react-components';
 
 // import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';

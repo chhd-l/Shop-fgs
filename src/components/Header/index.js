@@ -34,15 +34,18 @@ import './index.less';
 import classNames from 'classnames';
 import { isCountryMx } from '@/utils/country';
 import { TopNavigation, CountrySelector } from '@/react-components';
+// import {
+//   TopNavigation,
+//   CountrySelector
+// } from '@royal-canin-sitecore/react-components';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isProd = process.env.NODE_ENV === 'production';
-const RcApiHost = isProd
-  ? 'https://rh-sc-stg-weu-01.staging.royalcanin.com'
-  : '/rc-api';
+
+const RcApiHost = 'https://rh-sc-stg-weu-01.staging.royalcanin.com';
 
 const isFromStorePortal = sessionItemRoyal.get('rc-iframe-from-storepotal');
 
