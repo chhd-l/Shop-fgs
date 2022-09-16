@@ -95,7 +95,7 @@ function JpContactUs(props) {
                     className="text-18 font-medium leading-8 font-font-PingFangSC"
                     style={{ color: '#666' }}
                   >
-                    受付時間：月曜～土曜 09:30～16:00
+                    受付時間：月曜～金曜 09:30～16:00
                     <br />
                     {/* 土曜・日曜・祝日。弊社指定定休日を除く */}
                     土曜・日曜・祝日・弊社指定定休日を除く
@@ -117,7 +117,7 @@ function JpContactUs(props) {
                     className="text-18 font-medium leading-8 font-font-PingFangSC"
                     style={{ color: '#666' }}
                   >
-                    受付時間：月曜～土曜 09:30～16:00
+                    受付時間：月曜～金曜 09:30～16:00
                     <br />
                     {/* 土曜・日曜・祝日。弊社指定定休日を除く */}
                     土曜・日曜・祝日・弊社指定定休日を除く
