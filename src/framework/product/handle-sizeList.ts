@@ -96,7 +96,7 @@ const handleSizeList = ({
       // 规格默认选中逻辑:
       if (defaultSelcetdSku > -1) {
         // 1. 如果是sku进来的，需要默认当前sku被选择
-        if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+        if (sItem.chidren[defaultSelcetdSku]) {
           sItem.chidren[defaultSelcetdSku].selected = true;
         }
       } else if (isSelectedDefaultSkuItem > -1) {
