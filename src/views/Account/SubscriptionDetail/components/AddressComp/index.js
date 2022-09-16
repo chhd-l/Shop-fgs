@@ -752,8 +752,11 @@ class AddressList extends React.Component {
   // 下一步
   async showNextPanel() {
     try {
-      const { deliveryAddress, addressList } = this.state;
+      const { deliveryAddress, addressList, pickupFormData } = this.state;
       const originData = addressList[this.currentOperateIdx];
+
+      console.log(pickupFormData);
+      debugger;
 
       this.setState({
         validationModalVisible: false,
@@ -772,9 +775,9 @@ class AddressList extends React.Component {
         provinceId: deliveryAddress.provinceId,
         isValidated: deliveryAddress.validationResult,
         type: this.props.type.toUpperCase(),
-        contractNumber: deliveryAddress?.contractNumber,
-        pickupName: deliveryAddress?.pickupName, // 快递公司
-        courierCode: deliveryAddress?.courierCode
+        contractNumber: pickupFormData?.contractNumber,
+        pickupName: pickupFormData?.pickupName, // 快递公司
+        courierCode: pickupFormData?.courierCode
       });
 
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {
