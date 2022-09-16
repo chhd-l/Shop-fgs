@@ -16,7 +16,6 @@ import AddressPreview from './Preview';
 import AddressPanelContainer from './AddressPanelContainer';
 import { Button } from '@/components/Common';
 import './VisitorAddress.css';
-import Demo from './demo';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;

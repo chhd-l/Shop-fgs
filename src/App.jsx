@@ -600,6 +600,13 @@ const App = () => {
                     }}
                   />
                   <Route
+                    path="/checkoutnew"
+                    exact
+                    render={(props) => (
+                      <Checkout key={props.match.params.type} {...props} />
+                    )}
+                  />
+                  <Route
                     exact
                     path="/confirmation"
                     sensitive
