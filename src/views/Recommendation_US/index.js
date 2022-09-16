@@ -382,6 +382,12 @@ class Recommendation extends React.Component {
             this.checkoutStock();
           }
         );
+        let referenceObject = res.context?.structureType || '';
+        if (isRu && token) {
+          // ru,default type "vet"
+          referenceObject = 'vet';
+        }
+
         let recommendationInfos = {
           recommenderName: res.context?.recommendationName || '',
           recommenderId: res.context?.recommendationId || '',
