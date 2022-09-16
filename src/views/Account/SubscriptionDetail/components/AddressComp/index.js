@@ -1055,7 +1055,10 @@ class AddressList extends React.Component {
           areaIdStr: pkaddr?.areaFias || pickupFormData.areaIdStr,
           settlementIdStr:
             pkaddr?.settlementFias || pickupFormData.settlementIdStr,
-          postalCode: pkaddr?.zip || pickupFormData.postCode
+          postalCode: pkaddr?.zip || pickupFormData.postCode,
+          contractNumber: pickupFormData?.contractNumber,
+          pickupName: pickupFormData?.pickupName, // 快递公司
+          courierCode: pickupFormData?.courierCode
         }
       );
 

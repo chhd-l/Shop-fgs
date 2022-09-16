@@ -664,7 +664,6 @@ class AddressList extends React.Component {
   // 确认 pickup
   clickConfirmPickup = async () => {
     const { countryList, allAddressList, pickupFormData } = this.state;
-    debugger;
 
     this.setState({
       saveBtnLoading: true,
