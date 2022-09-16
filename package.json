@@ -10,7 +10,6 @@
     "@googlemaps/markerclustererplus": "^1.2.0",
     "@okta/okta-auth-js": "^4.8.0",
     "@okta/okta-react": "^5.0.0",
-    "@royal-canin-sitecore/react-components": "0.1.8",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "12.1.2",
