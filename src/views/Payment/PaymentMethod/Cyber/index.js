@@ -220,6 +220,7 @@ class CyberPayment extends React.Component {
         ].join(' ')}
       >
         <a
+          data-testid="showCyberList"
           class="rc-styled-link"
           href="javascript:;"
           onClick={this.showCyberList}

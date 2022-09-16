@@ -49,6 +49,7 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
         <div className="w-full flex justify-center md:justify-end mt-4">
           <div className="flex items-center flex-col md:flex-row">
             <span
+              data-testid="CancelOrderForJp-BTN"
               className="rc-styled-link border-b border-gray-300 hover:border-rc-red mt-2"
               onClick={() => {
                 setCancelJpOrderModalVisible(true);

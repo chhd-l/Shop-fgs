@@ -126,7 +126,8 @@ class UnLoginCart extends React.Component {
           goodsInfos: item.goodsInfos,
           goodsSpecDetails: item.goodsSpecDetails,
           goodsSpecs: item.goodsSpecs,
-          defaultSkuNo: item.goodsInfoNo
+          defaultSkuNo: item.goodsInfoNo,
+          canSelectedOutOfStock: true
         });
         return item;
       });
