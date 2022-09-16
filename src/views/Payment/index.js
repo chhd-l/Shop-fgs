@@ -1008,7 +1008,10 @@ class Payment extends React.Component {
     if (data?.cardCvv) {
       if (curPayWayInfo?.code === 'pc_web') {
         cyberMd5Cvv = md5(data.lastFourDigits + data.cardCvv);
-        data = Object.assign({}, data, { cardCvv: cyberMd5Cvv });
+        data = Object.assign({}, data, {
+          cardCvv: cyberMd5Cvv,
+          Cvv: data.cardCvv
+        });
       }
       this.setState({
         isShowCyberBindCardBtn: true,
@@ -1623,12 +1626,13 @@ class Payment extends React.Component {
         },
         pc_web: () => {
           const {
-            cyberPayParam: { id, cardCvv, accessToken }
+            cyberPayParam: { id, cardCvv, accessToken, Cvv }
           } = this.state;
           parameters = Object.assign({}, commonParameter, {
             payPspItemEnum: 'CYBER',
             paymentMethodId: id,
             securityCode: cardCvv,
+            originCode: Cvv,
             accessToken: accessToken
           });
         },
