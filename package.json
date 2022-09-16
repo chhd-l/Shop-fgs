@@ -127,7 +127,7 @@
   "scripts": {
     "test": "jest",
     "start": "dotenv -e .env node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "cross-env CI=false node scripts/build.js",
     "build:dev": "dotenv -e .env -e .env.development node scripts/build.js",
     "analyze": "cross-env NODE_ENV=production npm_config_report=true npm run build",
     "pub:dev_mx": "npm run build:dev && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@121.36.199.41:/data/nginx/html_mx && rm -rf build_tmp",
