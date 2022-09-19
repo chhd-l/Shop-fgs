@@ -4916,7 +4916,7 @@ const StyledFooter = styled.footer(
     pxToRem(1),
     ({ theme: a }) => a.colors.greys.middle,
     ({ theme: a }) => a.devices.tablet,
-    pxToRem(15, 20, 20, 0)
+    pxToRem(20, 40, 20, 0)
   ),
   StyledFooterColumnHead = styled.div(
     _t10 ||
@@ -4927,8 +4927,15 @@ const StyledFooter = styled.footer(
   width: 100%;
   text-transform: uppercase;
 
+  @media ${0} {
+    display: inline-block;
+    padding-bottom: ${0};
+  }
+
   ${0};
 `),
+    ({ theme: a }) => a.devices.tablet,
+    pxToRem(8),
     ({ isOpen: a }) => !0 === a && `margin-bottom: ${pxToRem(0)}`
   ),
   StyledFooterColumnItems = styled.ul(
@@ -4977,11 +4984,16 @@ const StyledFooter = styled.footer(
     height: ${0};
     fill: currentColor;
   }
+
+  @media ${0} {
+    display: none;
+  }
 `),
     pxToRem(40),
     pxToRem(40),
     pxToRem(9),
-    pxToRem(5)
+    pxToRem(5),
+    ({ theme: a }) => a.devices.tablet
   ),
   expandedStyles = css(
     _t14 ||
@@ -5000,8 +5012,8 @@ const StyledFooter = styled.footer(
       (_t16 = _$c`
   transition: 0.15s ease-in-out;
   transition-property: transform;
-  ${0}
   transform: rotate(180deg);
+  ${0}
 
   @media ${0} {
     display: none;
@@ -5218,38 +5230,38 @@ const FooterColumn = ({
   },
   isOpen: a
 }) => {
-  var d, e, f;
-  const { renderLink: g } = useLinkContext(),
-    { isMobile: h } = useIsMobile(),
-    [i, j] = useState(a),
-    k = () => {
-      h && j(!i);
+  var d;
+  const { renderLink: e } = useLinkContext(),
+    { isMobile: f } = useIsMobile(),
+    [g, h] = useState(a),
+    i = () => {
+      f && h(!g);
     },
-    l = null == c || null == (d = c.value) ? void 0 : d.text;
+    j = null == c || null == (d = c.value) ? void 0 : d.text;
   return /*#__PURE__*/ jsxs(StyledFooterColumn, {
-    title: null == c || null == (e = c.value) ? void 0 : e.text,
+    title: j,
     'data-qa': `footer-column`,
-    isOpen: h && i,
-    'aria-haspopup': 'true',
-    'aria-controls': null == c || null == (f = c.value) ? void 0 : f.text,
-    'aria-expanded': h ? i : a,
+    isOpen: f && g,
+    'aria-haspopup': !!f || void 0,
+    'aria-expanded': f ? g : void 0,
     children: [
       /*#__PURE__*/ jsxs(StyledFooterColumnHead, {
-        isOpen: h && i,
+        isOpen: f && g,
         children: [
-          !!l &&
-            g(null == c ? void 0 : c.value, null, () =>
-              pushFooterAnalyticsEvent(l)
+          !!j &&
+            e(null == c ? void 0 : c.value, null, () =>
+              pushFooterAnalyticsEvent(j)
             ),
           /*#__PURE__*/ jsx(StyledFooterColumnIconWrapper, {
             'data-qa': 'column-toggle',
-            onClick: () => k(),
+            'aria-controls': f ? j : void 0,
+            onClick: () => i(),
             children: /*#__PURE__*/ jsx(StyledFooterColumnIcon, {
               preserveAspectRatio: 'xMidYMid meet',
               focusable: 'false',
               'aria-hidden': 'true',
               viewBox: '0 0 7 3',
-              isOpen: h && i,
+              isOpen: f && g,
               children: /*#__PURE__*/ jsx('path', {
                 d: 'M6.8,2.2l-2.5-2c-0.4-0.3-1.1-0.3-1.6,0l-2.5,2C0,2.3,0,2.5,0,2.6C0,2.8,0.2,2.9,0.3,3c0.1,0,0.1,0,0.2,0 c0.1,0,0.3,0,0.4-0.1l2.5-2c0,0,0.1,0,0.1,0l2.5,2C6.3,3,6.6,3,6.8,2.9C6.9,2.8,7,2.7,7,2.6S6.9,2.3,6.8,2.2z'
               })
@@ -5258,14 +5270,15 @@ const FooterColumn = ({
         ]
       }),
       /*#__PURE__*/ jsx(StyledFooterColumnItems, {
-        isOpen: h && i,
+        id: j,
+        isOpen: f && g,
         children:
           null == b
             ? void 0
             : b.map((a) =>
                 /*#__PURE__*/ jsx(
                   FooterColumnChild,
-                  { item: a, parentLinkText: l },
+                  { item: a, parentLinkText: j },
                   a.id
                 )
               )
@@ -5297,12 +5310,14 @@ const StyledFooterContact = styled.div(
   display: flex;
   flex-direction: column;
   padding: ${0};
+  font-weight: ${0};
 
   @media ${0} {
     padding: ${0};
   }
 `),
     pxToRem(20),
+    ({ theme: a }) => a.fonts.main.medium,
     ({ theme: a }) => a.devices.tablet,
     pxToRem(20, 0)
   ),
@@ -6928,7 +6943,7 @@ const TopNavPrimaryItemWithSubmenu = ({ item: a, isOpen: b }) => {
           a.fields.PrimaryTitle.value,
           c && d
             ? /*#__PURE__*/ jsx(StyledBaseIcon, {
-                viewBox: '0 0 16 16',
+                viewBox: '0 0 32 32',
                 preserveAspectRatio: 'xMidYMid meet',
                 focusable: !1,
                 styles: { display: 'block', width: '', height: '', fill: '' },
@@ -7350,6 +7365,7 @@ export {
   TopNavigation as TopNavigationDecoupled,
   fetchCountriesContentDelivery,
   fetchFooterContentDelivery,
+  fetchNavigationRenderingHost as fetchNavigation,
   fetchNavigationContentDelivery,
   useCountrySelectorContext
 };

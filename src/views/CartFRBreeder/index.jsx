@@ -35,22 +35,21 @@ export const CartFRBreeder = ({
     });
     let token = funcUrl({ name: 'token' });
     let prescription = funcUrl({ name: 'prescription' });
-    let params = token;
+    let params = { id: token };
     let requestName = getRecommendationList_token;
     if (!token) {
       requestName = getRecommendationList_prescriberId;
-      params = prescription;
+      params = { id: prescription };
     }
+    params.allGoods = true;
+
     try {
       let res = await requestName(params);
-      const productLists =
-        res?.context?.recommendationGoodsInfoRels?.filter(
-          (product) => product.goodsInfo?.stock
-        ) || [];
-      if (!productLists?.length) {
-        setLoadingRecommendation(false);
-        return;
-      }
+      const productLists = res?.context?.recommendationGoodsInfoRels || [];
+      // if (!productLists?.length) {
+      //   setLoadingRecommendation(false);
+      //   return;
+      // }
       if (res.context.structureType != 'breeder') {
         // 法国区分stp和breeder
         setIsSPT(true);
@@ -135,7 +134,8 @@ export const CartFRBreeder = ({
           goodsInfos: item.goodsInfos,
           goodsSpecDetails: item.goodsSpecDetails,
           goodsSpecs: item.goodsSpecs,
-          defaultSkuNo: item.goodsInfo.goodsInfoNo
+          defaultSkuNo: item.goodsInfo.goodsInfoNo,
+          canSelectedOutOfStock: true
         });
         return item;
       });

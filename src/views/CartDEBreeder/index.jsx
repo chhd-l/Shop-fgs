@@ -89,7 +89,8 @@ const CartDEBreeder = ({
             goodsInfos: item.goodsInfos,
             goodsSpecDetails: item.goodsSpecDetails,
             goodsSpecs: item.goodsSpecs,
-            defaultSkuNo: item.goodsInfo.goodsInfoNo
+            defaultSkuNo: item.goodsInfo.goodsInfoNo,
+            canSelectedOutOfStock: true
           });
           return item;
         });

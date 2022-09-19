@@ -399,7 +399,7 @@ export const marsFooter = `<div class="col-span-12 ru-local-marsfooter">
     <div class="mars-footer-container">
         <ul class="mars-footer-list-right" style="font-size: 0.625rem">
             <li>
-                <a href="https://www.mars.com/privacy-policy-russian" rel="nofollow" target="_blank">
+                <a href="https://www.mars.com/privacy-policy-russia" rel="nofollow" target="_blank">
                     <span class="mars-footer-label">
                     Конфиденциальность
                     </span>

@@ -99,7 +99,7 @@ To use when the component is served on a different domain to the API:
 
 #### Known Issues
 
-##### v0.1.4
+##### v0.1.8
 
 - **CORS**: Cross-origin testing (API and component served on different domains) is not currently possible
 - Mobile UI renders with entire header; this still needs to be decoupled
