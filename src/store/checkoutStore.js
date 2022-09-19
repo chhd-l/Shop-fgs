@@ -822,6 +822,7 @@ class CheckoutStore {
         sitePurchasesRes.couponCodeFlag
       ) {
         if (
+          false &&
           sitePurchasesRes.couponCodeFlag &&
           !sitePurchasesRes.couponCodeDiscount &&
           !sitePurchasesRes.freeShippingDiscountPrice
