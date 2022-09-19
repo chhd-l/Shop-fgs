@@ -604,6 +604,15 @@ const App = () => {
                   />
                   <Route
                     exact
+                    path="/checkoutnew"
+                    render={(props) => {
+                      return (
+                        <Payment key={props.match.params.type} {...props} />
+                      );
+                    }}
+                  />
+                  <Route
+                    exact
                     path="/confirmation"
                     sensitive
                     render={(props) => {
