@@ -48,8 +48,7 @@ import PickupMap from '@/views/PickupMap';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
-//import { ExportedComponentsProvider } from '@/react-components';
-//import { ExportedComponentsProvider } from '@royal-canin-sitecore/react-components';
+import { ExportedComponentsProvider } from '@/react-components';
 
 // import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
@@ -88,7 +87,7 @@ const Cart = loadable(() => import('@/views/Cart'));
 const CartFRBreeder = loadable(() => import('@/views/CartFRBreeder'));
 // const CartInStock = loadable(() => import('@/views/CartInStock'));
 const Payment = loadable(() => import('@/views/Payment'));
-// const Checkout = loadable(() => import('@/views/Checkout'));
+const Checkout = loadable(() => import('@/views/Checkout'));
 const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
@@ -590,7 +589,7 @@ const App = () => {
                     switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'fr':
                         return (
-                          <Payment key={props.match.params.type} {...props} />
+                          <Checkout key={props.match.params.type} {...props} />
                         );
                       default:
                         return (
@@ -598,13 +597,6 @@ const App = () => {
                         );
                     }
                   }}
-                />
-                <Route
-                  path="/checkoutnew"
-                  exact
-                  render={(props) => (
-                    <Payment key={props.match.params.type} {...props} />
-                  )}
                 />
                 <Route
                   exact
