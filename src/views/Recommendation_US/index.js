@@ -126,6 +126,7 @@ class Recommendation extends React.Component {
       checkPromotionCodeAndCopy: false, // 控制点击查看promotion code并复制按钮
       viewShoppingCartWidth: 0
     };
+    this.cartPath = isRu ? `/cart${location.search}` : '/cart';
   }
 
   handleSelect(id) {
@@ -512,7 +513,7 @@ class Recommendation extends React.Component {
           ),
           showPCMiniCartPop: false
         });
-        this.props.history.push('/cart');
+        this.props.history.push(this.cartPath);
       }
     } catch (err) {
     } finally {
@@ -672,7 +673,7 @@ class Recommendation extends React.Component {
         ),
         showPCMiniCartPop: false
       });
-      history.push('/cart');
+      history.push(this.cartPath);
     } else if (currentModalObj.type === 'payNow') {
       inStockProducts.forEach((el) => {
         el.goodsInfo.buyCount = el.recommendationNumber;
@@ -697,7 +698,7 @@ class Recommendation extends React.Component {
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
     } else {
-      this.hanldeUnloginAddToCart(productList, '/cart');
+      this.hanldeUnloginAddToCart(productList, this.cartPath);
     }
   };
 
