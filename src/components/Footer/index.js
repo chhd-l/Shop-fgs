@@ -147,9 +147,7 @@ class Footer extends React.Component {
     const { hubFooterInfo, isInitdQueryHubFooter } = this.state;
     const { showFooter } = this.props;
 
-    const apiHost = isProd
-      ? 'https://rh-sc-stg-weu-01.staging.royalcanin.com'
-      : '/rc-api';
+    const apiHost = 'https://rh-sc-stg-weu-01.staging.royalcanin.com';
 
     return (
       <FooterWrapper

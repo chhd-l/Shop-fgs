@@ -174,11 +174,11 @@ class Recommendation extends React.Component {
       promotionCodeText,
       loading: true
     });
-    let params = token;
+    let params = { id: token };
     let requestName = getRecommendationList_token;
     if ((isFr || isRu || isUs) && !token) {
       requestName = getRecommendationList_prescriberId;
-      params = prescription;
+      params = { id: prescription };
     }
     console.timeEnd('begin');
     console.time('接口请求');

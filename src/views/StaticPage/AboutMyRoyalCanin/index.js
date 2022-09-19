@@ -6,8 +6,6 @@ import './index.less';
 import { Canonical } from '@/components/Common';
 import ScreenHot1 from './images/Screenshot.png';
 import ScreenHot2 from './images/Screenshot2.png';
-import Bitmap1 from './images/Bitmap1.png';
-import Bitmap2 from './images/Bitmap2.png';
 import Bitmap3 from './images/Bitmap3.png';
 import Bitmap4 from './images/Bitmap4.png';
 import Bitmap5 from './images/Bitmap5.png';
@@ -46,7 +44,7 @@ function AboutMyRoyalCanin(props) {
             </div>
             <div className="mt-8 md:mt-0">
               <img
-                src={ScreenHot1}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/jp/static/media/food.png`}
                 alt=""
                 className="w-cs-302 h-cs-174 m-auto md:w-cs-440 md:h-cs-262 md:mt-8 md:transform md:scale-125"
               />
@@ -63,7 +61,7 @@ function AboutMyRoyalCanin(props) {
               最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
             </h1>
             <img
-              src={ScreenHot2}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/jp/static/media/box.png`}
               alt=""
               className="w-cs-186 h-cs-143 mb-4 m-auto md:w-cs-479 md:h-cs-334"
             />

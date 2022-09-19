@@ -132,80 +132,141 @@ const ProductFinder3 = (props: any) => {
             </p>
           </div>
         </div>
-        <div
-          style={{ boxShadow: '0px 0px 20px #eee' }}
-          className="md:shadow-none md:border-0 mt-20 md:mt-8 pt-8 md:pt-16 relative md:w-cs-77/100 w-4/5 m-auto rounded-3xl h-cs-369 md:h-cs-500 md:rounded-none overflow-x-hidden"
-        >
-          <div
-            style={{ left: `-${idx * 300}px`, transition: '.5s' }}
-            className={`
+
+        {props.a ? (
+          <>
+            <div
+              style={{ boxShadow: '0px 0px 20px #eee' }}
+              className="md:shadow-none md:border-0 mt-20 md:mt-8 pt-8 md:pt-16 relative md:w-cs-77/100 w-4/5 m-auto rounded-3xl h-cs-369 md:h-cs-500 md:rounded-none overflow-x-hidden"
+            >
+              <div
+                style={{ left: `-${idx * 300}px`, transition: '.5s' }}
+                className={`
           flex md:justify-between text-center relative 
           `}
-            onTouchStart={() => {
-              touchStart();
-            }}
-            onTouchEnd={() => {
-              touchEnd();
-            }}
-          >
-            {meritList.map((item, i) => {
-              return (
-                <div
-                  key={i}
-                  className={`${
-                    i === idx ? 'flex' : ''
-                  } md:flex flex-col items-center flex-shrink-0 md:w-64 w-5/6 mx-7 md:mx-0`}
-                >
-                  <img className="m-auto md:m-0" src={item.img} alt="" />
-                  <p className="mt-6 text-20 mb-2 font-normal">{item.title}</p>
-                  <p className="leading-cs-24 text-16 text-black">
-                    {item.titleTwo}
-                  </p>
-                  <p
-                    className="leading-cs-24 text-16"
-                    dangerouslySetInnerHTML={{ __html: item.content }}
-                  ></p>
-                  {item.render ? (
-                    <p>
-                      <a
-                        className="m-auto mt-3 w-48 h-9 flex justify-center items-center text-red-700 rounded-full border-2 border-red-700 text-16"
-                        href={item.render.src}
-                        target="_blank"
-                      >
-                        {item.render.text}
-                      </a>
-                    </p>
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
+                onTouchStart={() => {
+                  touchStart();
+                }}
+                onTouchEnd={() => {
+                  touchEnd();
+                }}
+              >
+                {meritList.map((item, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className={`${
+                        i === idx ? 'flex' : ''
+                      } md:flex flex-col items-center flex-shrink-0 md:w-64 w-5/6 mx-7 md:mx-0`}
+                    >
+                      <img className="m-auto md:m-0" src={item.img} alt="" />
+                      <p className="mt-6 text-20 mb-2 font-normal">
+                        {item.title}
+                      </p>
+                      <p className="leading-cs-24 text-16 text-black">
+                        {item.titleTwo}
+                      </p>
+                      <p
+                        className="leading-cs-24 text-16"
+                        dangerouslySetInnerHTML={{ __html: item.content }}
+                      ></p>
+                      {item.render ? (
+                        <p>
+                          <a
+                            className="m-auto mt-3 w-48 h-9 flex justify-center items-center text-red-700 rounded-full border-2 border-red-700 text-16"
+                            href={item.render.src}
+                            target="_blank"
+                          >
+                            {item.render.text}
+                          </a>
+                        </p>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
 
-          <p className="absolute bottom-12 left-2/4 -ml-28 hidden md:block">
-            <a
-              className="w-60 h-10 flex justify-center items-center bg-cs-primary text-cs-gray-f6 rounded-full"
-              href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
-              target="_blank"
+              <p className="absolute bottom-12 left-2/4 -ml-28 hidden md:block">
+                <a
+                  className="w-60 h-10 flex justify-center items-center bg-cs-primary text-cs-gray-f6 rounded-full"
+                  href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
+                  target="_blank"
+                >
+                  S’inscrire gratuitement
+                </a>
+              </p>
+            </div>
+            <ul className="flex md:hidden justify-center m-auto mt-10 mb-11">
+              {meritList.map((item, i) => {
+                return (
+                  <li
+                    key={i}
+                    className={`${
+                      idx === i ? 'bg-red-600' : 'bg-gray-200'
+                    } w-2 h-2 rounded-full mr-2`}
+                    onClick={() => setIdx(i)}
+                  ></li>
+                );
+              })}
+            </ul>
+          </>
+        ) : (
+          <div className="mt-8 pt-16 relative md:w-cs-77/100 w-full md:m-auto md:h-cs-500">
+            <div
+              className={`
+                md:flex md:justify-between md:text-center relative w-5/6 md:w-full m-auto md:m-0 pb-16  md:pb-0
+              `}
             >
-              S’inscrire gratuitement
-            </a>
-          </p>
-        </div>
-        {props.a ? (
-          <ul className="flex md:hidden justify-center m-auto mt-10 mb-11">
-            {meritList.map((item, i) => {
-              return (
-                <li
-                  key={i}
-                  className={`${
-                    idx === i ? 'bg-red-600' : 'bg-gray-200'
-                  } w-2 h-2 rounded-full mr-2`}
-                  onClick={() => setIdx(i)}
-                ></li>
-              );
-            })}
-          </ul>
-        ) : null}
+              {meritList.map((item, i) => {
+                return (
+                  <div
+                    key={i}
+                    className={`flex md:flex-col md:items-center md:w-64 mx-0`}
+                  >
+                    <img
+                      className="w-20 h-20 md:w-auto md:h-auto relative md:sticky top-16 md:top-0 mr-6 md:mr-0"
+                      src={item.img}
+                      alt=""
+                    />
+                    <div className="">
+                      <p className="md:mt-6 mt-14 md:text-20 text-18 mb-2 font-normal">
+                        {item.title}
+                      </p>
+                      <p className="md:leading-cs-24 text-16 text-black">
+                        {item.titleTwo}
+                      </p>
+                      <p
+                        className="md:leading-cs-24 text-16"
+                        dangerouslySetInnerHTML={{ __html: item.content }}
+                      ></p>
+                      {item.render ? (
+                        <p>
+                          <a
+                            className="md:m-auto mt-3 w-44 h-8 md:w-48 md:h-9 flex justify-center items-center text-red-700 rounded-full border-2 border-red-700 md:text-16 text-14"
+                            href={item.render.src}
+                            target="_blank"
+                          >
+                            {item.render.text}
+                          </a>
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <p className="absolute bottom-12 left-2/4 -ml-28 hidden md:block">
+              <a
+                className="w-60 h-10 flex justify-center items-center bg-cs-primary text-cs-gray-f6 rounded-full"
+                href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
+                target="_blank"
+              >
+                S’inscrire gratuitement
+              </a>
+            </p>
+          </div>
+        )}
         <div className="w-full md:h-cs-850 h-cs-780 pt-12 relative bg-gray-100 flex flex-col items-center">
           <p className="text-26 md:text-30 md:text-black mb-11 text-center md:font-normal">
             Profitez des nombreuses fonctionalités du Club

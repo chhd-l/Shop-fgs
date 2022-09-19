@@ -37,7 +37,7 @@ interface Props {
   btnStyle?: object;
   buttonRef?: any;
   children?: any;
-  dataTestid?:string;
+  dataTestid?: string;
 }
 
 const LoginButton = ({
@@ -45,7 +45,7 @@ const LoginButton = ({
   callbackUrl,
   beforeLoginCallback,
   btnClass,
-  dataTestid="login_btn",
+  dataTestid = 'header_login_btn',
   className,
   btnStyle,
   buttonRef,
@@ -102,6 +102,11 @@ const LoginButton = ({
             info?.email !== loginStore?.userInfo.email &&
             localItemRoyal.get('okta-session-token')
           ) {
+            //  6044 shop uk注册后进入了登录页面 因为远程的和本地的name不一致，然后退出了登录，不知道具体触发原因，有时候不出来
+            console.info(new Date().getTime(),'new Date().getTime()')
+            console.info('logintoLogoutemail=====',loginStore?.userInfo?.email)
+            console.info('logintoLogoutinfoemail=====',info?.email)
+            console.info('===========',localItemRoyal.get('okta-session-token'))
             localItemRoyal.set('login-again', true);
             const idToken = authState.idToken;
             const redirectUri =
@@ -185,8 +190,7 @@ const LoginButton = ({
                   }
 
                   // PO bind shelterId, country:de
-                  const shelterId =
-                  localItemRoyal.get('customerId') || '';
+                  const shelterId = localItemRoyal.get('customerId') || '';
                   if (shelterId) {
                     await saveShelterId({
                       shelterId,
@@ -219,6 +223,8 @@ const LoginButton = ({
     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // 该token的旧值不存在，新值存在，表示登录
       if (!e.oldValue && e.newValue && !localItemRoyal.get('rc-register')) {
+        console.info('login.oldValue=====',e.oldValue)
+        console.info('login.newValue=====',e.newValue)
         login();
       }
     }

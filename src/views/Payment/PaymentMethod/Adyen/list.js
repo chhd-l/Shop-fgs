@@ -25,7 +25,7 @@ function CardItemCover({
 }) {
   return (
     <div
-      className={`rounded creditCompleteInfoBox position-relative ui-cursor-pointer-pure border p-4 ${
+      className={`payment-method-adyen rounded creditCompleteInfoBox position-relative ui-cursor-pointer-pure border p-4 ${
         selectedSts ? 'active border-blue' : ''
       }`}
       onClick={hanldeClickCardItem}
@@ -230,9 +230,11 @@ class AdyenCreditCardList extends React.Component {
     }
   }
   hanldeClickCardItem(el, e) {
+    console.info('hanldeClickCardItemhanldeClickCardItembefore');
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+    console.info('hanldeClickCardItemhanldeClickCardItemafter');
     let { cardList, memberUnsavedCardList, selectedId } = this.state;
     if (el.id === selectedId) return false;
     this.setState(

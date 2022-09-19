@@ -38,6 +38,8 @@ const LogoutButton = (props) => {
     if (e.key === `${window.__.env.REACT_APP_COUNTRY}-rc-token`) {
       // 该token的旧值存在，新值不存在，表示登出
       if (e.oldValue && !e.newValue) {
+        console.info('logout.oldValue=====', e.oldValue);
+        console.info('logout.newValue=====', e.newValue);
         clickLogoff();
       }
     }

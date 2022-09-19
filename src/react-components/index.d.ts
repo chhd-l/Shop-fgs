@@ -8,7 +8,7 @@ export { HeaderMobileMenuContext, HeaderMobileMenuContextProvider, } from './com
 export { HeaderMenuOverlay } from './components/HeaderMenuOverlay';
 export { HeaderOverlayContext, HeaderOverlayContextProvider, } from './components/HeaderOverlayContextProvider';
 export { fetchCountriesContentDelivery } from './api/fetchCountries';
-export { fetchNavigationContentDelivery } from './api/fetchNavigation';
+export { fetchNavigationRenderingHost as fetchNavigation, fetchNavigationContentDelivery, } from './api/fetchNavigation';
 export { TopNavigation as TopNavigationDecoupled } from './components/TopNavigation';
 export { default as TopNavigation } from './components/TopNavigation/clones/Header/HeaderWrapper';
 export { CountrySelectorProvider, useCountrySelectorContext, } from './components/CountrySelectorProvider';
