@@ -33,11 +33,7 @@ import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import classNames from 'classnames';
 import { isCountryMx } from '@/utils/country';
-// import { TopNavigation, CountrySelector } from '@/react-components';
-// import {
-//   TopNavigation,
-//   CountrySelector
-// } from '@royal-canin-sitecore/react-components';
+import { TopNavigation, CountrySelector } from '@/react-components';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -811,8 +807,7 @@ class Header extends React.Component {
           window.__.env.REACT_APP_COUNTRY === 'us' ? (
             <>
               {/*<CountrySelector locale="en-us" site="us" apiHost={RcApiHost}/>*/}
-              {/* <TopNavigation locale="en-us" site="us" apiHost={RcApiHost} /> */}
-              <></>
+              <TopNavigation locale="en-us" site="us" apiHost={RcApiHost} />
             </>
           ) : (
             <DropDownMenu

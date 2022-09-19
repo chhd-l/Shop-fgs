@@ -383,6 +383,7 @@ class Recommendation extends React.Component {
             this.checkoutStock();
           }
         );
+
         let recommendationInfos = {
           recommenderName: res.context?.recommendationName || '',
           recommenderId: res.context?.recommendationId || '',
@@ -428,12 +429,19 @@ class Recommendation extends React.Component {
       prescriberId,
       storeId: window.__.env.REACT_APP_STOREID
     }).then((res) => {
+      console.log(232323);
+      let token = funcUrl({ name: 'token' });
+      let referenceObject = res.context?.structureType || '';
+      if (isRu && token) {
+        // ru,default type "vet"
+        referenceObject = 'vet';
+      }
       let recommendationInfos = {
         recommenderName: res.context?.recommendationName || '',
         recommenderId: res.context?.recommendationId || '',
         recommendationName: res.context?.prescriberName || '',
         recommendationId: res.context?.id || res.context?.prescriberId || '',
-        referenceObject: res.context?.structureType || '',
+        referenceObject: referenceObject,
         referenceData: res.context?.prescriptionJson || ''
       };
       this.props.clinicStore.setLinkClinicRecommendationInfos(
