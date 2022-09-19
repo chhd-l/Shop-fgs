@@ -65,6 +65,7 @@ export function handleRecoProductParamByItem({
     referenceData = '',
     recommenderName = ''
   } = recommendationInfos;
+  console.log(recommendationInfos, 'recommendationInfos123');
   const referenceId = recommenderId || recommendationId;
   let newRecommendationId =
     ele.recommendationId == 'Felin'
