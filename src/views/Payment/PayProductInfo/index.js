@@ -837,7 +837,7 @@ class PayProductInfo extends React.Component {
                 </span>
                 <div className="promo-code-submit">
                   <button
-                    data-auto-testid="cart_promotion_btn"
+                    data-auto-testid="cart_promotion_btn 1"
                     ref="applyButtton"
                     id="promotionApply"
                     className={cn(`rc-btn rc-btn--md rc-btn--two`, {

@@ -1046,44 +1046,46 @@ class LoginCart extends React.Component {
             />
           </div>
         </div>
-        <div className="row">
-          <div className="col-6">
-            <span className="rc-input rc-input--inline rc-input--label mr-0 w-full mt-0 overflow-hidden mb-2.5">
-              <FormattedMessage id="promotionCode">
-                {(txt) => (
-                  <input
-                    className="rc-input__control"
-                    id="id-text2"
-                    type="text"
-                    data-auto-testid="cart_promotion_input"
-                    name="text"
-                    placeholder={txt}
-                    value={this.state.promotionInputValue}
-                    onChange={this.handlerChange}
-                  />
-                )}
-              </FormattedMessage>
+        {window.__.env.REACT_APP_COUNTRY !== 'us' ? (
+          <div className="row">
+            <div className="col-6">
+              <span className="rc-input rc-input--inline rc-input--label mr-0 w-full mt-0 overflow-hidden mb-2.5">
+                <FormattedMessage id="promotionCode">
+                  {(txt) => (
+                    <input
+                      className="rc-input__control"
+                      id="id-text2"
+                      type="text"
+                      data-auto-testid="cart_promotion_input"
+                      name="text"
+                      placeholder={txt}
+                      value={this.state.promotionInputValue}
+                      onChange={this.handlerChange}
+                    />
+                  )}
+                </FormattedMessage>
 
-              <label className="rc-input__label" htmlFor="id-text2" />
-            </span>
+                <label className="rc-input__label" htmlFor="id-text2" />
+              </span>
+            </div>
+            <div className="col-6 no-padding-left">
+              <p className="text-right sub-total mb-4">
+                <button
+                  id="promotionApply"
+                  data-auto-testid="cart_promotion_btn"
+                  className={`rc-btn rc-btn--sm rc-btn--two mr-0 my-2.5 float-right ${
+                    this.state.isClickApply
+                      ? 'ui-btn-loading ui-btn-loading-border-red'
+                      : ''
+                  }`}
+                  onClick={() => this.handleClickPromotionApply(false)}
+                >
+                  <FormattedMessage id="apply" />
+                </button>
+              </p>
+            </div>
           </div>
-          <div className="col-6 no-padding-left">
-            <p className="text-right sub-total mb-4">
-              <button
-                id="promotionApply"
-                data-auto-testid="cart_promotion_btn"
-                className={`rc-btn rc-btn--sm rc-btn--two mr-0 my-2.5 float-right ${
-                  this.state.isClickApply
-                    ? 'ui-btn-loading ui-btn-loading-border-red'
-                    : ''
-                }`}
-                onClick={() => this.handleClickPromotionApply(false)}
-              >
-                <FormattedMessage id="apply" />
-              </button>
-            </p>
-          </div>
-        </div>
+        ) : null}
         {validPromotionCodeErrMsg ? (
           <div className="red pl-3 pb-3 pt-2 text-sm">
             {validPromotionCodeErrMsg}
