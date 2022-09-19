@@ -228,6 +228,15 @@ class AdyenCreditCardForm extends React.Component {
             component
           );
           indexT++;
+        },
+        completePayment: (completePayment) => {
+          console.info(
+            indexT,
+            'completePayment:',
+            new Date().getSeconds(),
+            completePayment
+          );
+          indexT++;
         }
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
@@ -250,24 +259,90 @@ class AdyenCreditCardForm extends React.Component {
         //       reject();
         //     });
         // },
-        completePayment: (completePayment) => {
+        onPaymentCompleted: (result, component) => {
           console.info(
             indexT,
-            'completePayment:',
+            'onPaymentCompleted22',
             new Date().getSeconds(),
-            completePayment
+            result
+          );
+          console.info('......', component);
+          indexT++;
+        },
+        onAuthorized: (onAuthorized) => {
+          console.info(
+            indexT,
+            'onAuthorized22:',
+            new Date().getSeconds(),
+            onAuthorized
           );
           indexT++;
         },
         onPaymentAuthorized: (onPaymentAuthorized) => {
           console.info(
             indexT,
-            'onpaymentauthorized2222:',
+            'onpaymentauthorized222:',
             new Date().getSeconds(),
             onPaymentAuthorized
           );
           indexT++;
         },
+        onClick: (resolve, reject) => {
+          console.info(
+            indexT,
+            'onClick22',
+            new Date().getSeconds(),
+            resolve,
+            reject
+          );
+          indexT++;
+          console.info('');
+          resolve();
+        },
+        onChange: (state) => {
+          console.info(
+            indexT,
+            'onChangestate22',
+            new Date().getSeconds(),
+            state
+          );
+          indexT++;
+        },
+        onSubmit: (state, dropin) => {
+          console.info(
+            indexT,
+            'onSubmitstate22',
+            new Date().getSeconds(),
+            state
+          );
+          console.info('onSubmitdropin', dropin);
+          indexT++;
+        },
+        onError: (error, component) => {
+          console.error(
+            indexT,
+            new Date().getSeconds(),
+            'onError===name22',
+            error.name,
+            'onError===message',
+            error.message,
+            'onError===stack',
+            error.stack,
+            'onError===component',
+            component
+          );
+          indexT++;
+        },
+        completePayment: (completePayment) => {
+          console.info(
+            indexT,
+            'completePayment22:',
+            new Date().getSeconds(),
+            completePayment
+          );
+          indexT++;
+        },
+
         amount: {
           value: 1000,
           currency: 'EUR'
