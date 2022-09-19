@@ -9,8 +9,7 @@ import { getFooter } from '@/api/hub';
 import cn from 'classnames';
 import { FooterWrapper } from './style';
 import { marsFooter } from '@/utils/constant/ru-local-data';
-// import { Footer as RcFooter } from '@/react-components';
-//import { Footer as RcFooter } from '@royal-canin-sitecore/react-components';
+import { Footer as RcFooter } from '@/react-components';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isHub = window.__.env.REACT_APP_HUB;
@@ -163,8 +162,7 @@ class Footer extends React.Component {
       >
         {showFooter &&
           (window.__.env.REACT_APP_COUNTRY === 'us' ? (
-            // <RcFooter locale="en-us" site="us" apiHost={apiHost} />
-            <></>
+            <RcFooter locale="en-us" site="us" apiHost={apiHost} />
           ) : (
             <div
               className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {

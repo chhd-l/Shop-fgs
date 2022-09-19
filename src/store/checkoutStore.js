@@ -491,8 +491,10 @@ class CheckoutStore {
       if (!data) {
         data = recommend_data || this.cartData;
       }
+      // If you are not logged in, you need to exclude the situation of no inventory when calculating the price
       let param = data
         .filter((ele) => ele.selected)
+        .filter((el) => el.stock)
         .map((ele) => {
           return {
             goodsInfoId: ele.goodsInfoId,

@@ -20,6 +20,7 @@ import MegaMenuMobile from './modules/MegaMenuMobile';
 import MegaMenuMobileForHub from './hub/MegaMenuMobileForHub';
 import Language from '@/components/Language';
 import Search from './modules/Search';
+//import Search from './Search';
 import UserJSX from './jsx/user';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
@@ -33,11 +34,7 @@ import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import classNames from 'classnames';
 import { isCountryMx } from '@/utils/country';
-// import { TopNavigation, CountrySelector } from '@/react-components';
-// import {
-//   TopNavigation,
-//   CountrySelector
-// } from '@royal-canin-sitecore/react-components';
+import { TopNavigation, CountrySelector } from '@/react-components';
 // import LogRocket from 'logrocket';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -811,8 +808,7 @@ class Header extends React.Component {
           window.__.env.REACT_APP_COUNTRY === 'us' ? (
             <>
               {/*<CountrySelector locale="en-us" site="us" apiHost={RcApiHost}/>*/}
-              {/* <TopNavigation locale="en-us" site="us" apiHost={RcApiHost} /> */}
-              <></>
+              <TopNavigation locale="en-us" site="us" apiHost={RcApiHost} />
             </>
           ) : (
             <DropDownMenu
