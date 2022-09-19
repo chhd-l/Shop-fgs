@@ -276,6 +276,7 @@ class Payment extends React.Component {
       paymentTypeVal: '',
       errorMsg: '',
       loading: false,
+      initLoading: false,
       payosdata: null,
       selectedCardInfo: null,
       adyenPayParam: null,
@@ -711,6 +712,9 @@ class Payment extends React.Component {
     this.initPaymentWay();
     this.initPanelStatus();
     resetPriceData();
+    setTimeout(() => {
+      this.setState({ initLoading: true });
+    }, 3000);
   }
 
   componentWillUnmount() {
@@ -4523,7 +4527,8 @@ class Payment extends React.Component {
       validationModalVisible,
       billingAddress,
       selectValidationOption,
-      pet
+      pet,
+      initLoading
     } = this.state;
     const event = {
       page: {
@@ -4539,330 +4544,345 @@ class Payment extends React.Component {
 
     return (
       <div>
-        <GoogleTagManager
-          key={this.props.location.key}
-          additionalEvents={event}
-        />
-        <Canonical />
-        <Header
-          {...this.props}
-          showNav={false}
-          showLoginBtn={false}
-          showMiniIcons={false}
-          showUserIcon={true}
-        />
-        {loading ? <Loading /> : null}
-        {this.state.visibleUpdate ? (
-          <div className="modal-upadt">
-            <UpdatModal
-              userInfo={this.userInfo}
-              visible={this.state.visibleUpdate}
-              handleUpdate={this.handleUpdate}
+        {initLoading ? (
+          <>
+            <GoogleTagManager
+              key={this.props.location.key}
+              additionalEvents={event}
             />
-          </div>
-        ) : null}
-        <main className="rc-content--fixed-header rc-bg-colour--brand4">
-          <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
-            {/*<Progress type="payment" />*/}
-            {/*checkout页面所有国家都不用流程图*/}
-            <div className="rc-padding--sm rc-padding-top--none11 px-4 md:p-8">
-              <div className="title">
-                <h4 className="text-2xl">
-                  <FormattedMessage id="payment.checkout" />
-                </h4>
-                <p className="mb-0">
-                  <FormattedMessage
-                    id="checkoutTip"
-                    values={{
-                      val1: <br />
-                    }}
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:-mt-6">
-              <div className="rc-column rc-double-width shipping__address">
-                {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
-                <ErrorMessage
-                  msg={
-                    errorMsg && errorMsg !== 'This Error No Display'
-                      ? errorMsg
-                      : ''
-                  }
+            <Canonical />
+            <Header
+              {...this.props}
+              showNav={false}
+              showLoginBtn={false}
+              showMiniIcons={false}
+              showUserIcon={true}
+            />
+            {loading ? <Loading /> : null}
+            {this.state.visibleUpdate ? (
+              <div className="modal-upadt">
+                <UpdatModal
+                  userInfo={this.userInfo}
+                  visible={this.state.visibleUpdate}
+                  handleUpdate={this.handleUpdate}
                 />
-                {tid ? (
-                  <RepayAddressPreview details={orderDetails} />
-                ) : (
-                  <>
-                    <div className="shipping-form" id="J_checkout_panel_email">
-                      <OnePageClinicForm
-                        key={this.state.needPrescriber}
-                        needPrescriber={this.state.needPrescriber}
-                        history={history}
+              </div>
+            ) : null}
+            <main className="rc-content--fixed-header rc-bg-colour--brand4">
+              <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
+                {/*<Progress type="payment" />*/}
+                {/*checkout页面所有国家都不用流程图*/}
+                <div className="rc-padding--sm rc-padding-top--none11 px-4 md:p-8">
+                  <div className="title">
+                    <h4 className="text-2xl">
+                      <FormattedMessage id="payment.checkout" />
+                    </h4>
+                    <p className="mb-0">
+                      <FormattedMessage
+                        id="checkoutTip"
+                        values={{
+                          val1: <br />
+                        }}
                       />
-                      <OnePageEmailForm
-                        history={history}
-                        currentEmailVal={guestEmail}
-                        onChange={this.updateGuestEmail}
-                      />
+                    </p>
+                  </div>
+                </div>
+                <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:-mt-6">
+                  <div className="rc-column rc-double-width shipping__address">
+                    {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
+                    <ErrorMessage
+                      msg={
+                        errorMsg && errorMsg !== 'This Error No Display'
+                          ? errorMsg
+                          : ''
+                      }
+                    />
+                    {tid ? (
+                      <RepayAddressPreview details={orderDetails} />
+                    ) : (
+                      <>
+                        <div
+                          className="shipping-form"
+                          id="J_checkout_panel_email"
+                        >
+                          <OnePageClinicForm
+                            key={this.state.needPrescriber}
+                            needPrescriber={this.state.needPrescriber}
+                            history={history}
+                          />
+                          <OnePageEmailForm
+                            history={history}
+                            currentEmailVal={guestEmail}
+                            onChange={this.updateGuestEmail}
+                          />
 
-                      {this.renderAddressPanel()}
-                    </div>
+                          {this.renderAddressPanel()}
+                        </div>
+                      </>
+                    )}
+                    {/* {COUNTRY === 'jp' && ( */}
+                    <SelectPet
+                      recommendData={this.state.recommend_data}
+                      updateRecommendData={(data) => {
+                        this.setState({ recommend_data: data });
+                      }}
+                      isRepay={tid}
+                    />
+                    {/* // )} */}
+
+                    <PanelContainer
+                      panelStatus={paymentMethodPanelStatus}
+                      containerConf={{
+                        className: cn('px-0', {
+                          hidden: this.isSkipPaymentPanel,
+                          'pb-0': !paymentMethodPanelStatus.isPrepare
+                        }),
+                        id: 'J_checkout_panel_paymentMethod'
+                      }}
+                      titleConf={{
+                        className: 'mx-5',
+                        icon: {
+                          defaultIcon: (
+                            <em
+                              className={`rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform`}
+                            />
+                          ),
+                          highlighIcon: (
+                            <em
+                              className={`rc-icon rc-payment--sm rc-brand1 inlineblock origin-left paymentIconTransform`}
+                            />
+                          )
+                        },
+                        text: {
+                          title: (
+                            <FormattedMessage id="payment.paymentInformation" />
+                          )
+                        },
+                        onEdit: this.handleClickPaymentPanelEdit
+                      }}
+                      previewJSX={<PaymentPanelInfoPreview {...this.state} />}
+                    >
+                      {this.renderPayTab()}
+                    </PanelContainer>
+
+                    <Confirmation
+                      clickPay={this.clickPay}
+                      listData={listData}
+                      checkRequiredItem={this.checkRequiredItem}
+                      checkoutStore={checkoutStore}
+                      tradePrice={
+                        tid && orderDetails
+                          ? orderDetails.tradePrice.totalPrice
+                          : this.tradePrice
+                      }
+                    />
+                  </div>
+                  <div className="rc-column md:pl-0 hidden md:block">
+                    {tid ? (
+                      <RePayProductInfo
+                        fixToHeader={false}
+                        style={{ background: '#fff' }}
+                        details={orderDetails}
+                        navigateToProDetails={true}
+                        location={location}
+                        history={history}
+                        isRepay={true}
+                      />
+                    ) : (
+                      <PayProductInfo
+                        data={recommend_data}
+                        fixToHeader={false}
+                        style={{ background: '#fff' }}
+                        ref="payProductInfo"
+                        location={location}
+                        history={history}
+                        buyWay={subForm.buyWay}
+                        sendPromotionCode={this.savePromotionCode}
+                        promotionCode={promotionCode}
+                        operateBtnVisible={!tid}
+                        currentPage="checkout"
+                        guestEmail={guestEmail}
+                        isCheckOut={true}
+                        deliveryAddress={deliveryAddress}
+                        welcomeBoxChange={(value) => {
+                          this.setState({ welcomeBoxValue: value });
+                        }}
+                        confirmCalculateServiceFeeAndLoyaltyPoints={
+                          this.confirmCalculateServiceFeeAndLoyaltyPoints
+                        }
+                      />
+                    )}
+
+                    <Faq />
+                  </div>
+                </div>
+                <Adyen3DForm
+                  {...this.props}
+                  action={this.state.adyenAction}
+                  key={curPayWayInfo?.code}
+                />
+              </div>
+              <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
+                <div
+                  className={cn(
+                    `order-summary-title align-items-center justify-content-between text-center`,
+                    mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                  )}
+                  onClick={this.toggleMobileCart.bind(this, 'more')}
+                >
+                  <span
+                    className="rc-icon rc-up rc-iconography"
+                    style={{ transform: 'scale(.7)' }}
+                  />
+                  <span
+                    className={`${
+                      COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
+                    }`}
+                  >
+                    <FormattedMessage id="payment.yourOrder" />
+                  </span>
+                  <span
+                    data-auto-testid="payment_info_trade_price"
+                    className={`grand-total-sum ${
+                      COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
+                    }`}
+                  >
+                    {formatMoney(this.tradePrice)}
+                  </span>
+                </div>
+                <PayProductInfo
+                  data={recommend_data}
+                  fixToHeader={false}
+                  style={{
+                    background: '#fff',
+                    maxHeight: '80vh'
+                  }}
+                  className={cn(
+                    mobileCartVisibleKey === 'more' ? '' : 'hidden'
+                  )}
+                  ref="payProductInfo"
+                  location={location}
+                  history={history}
+                  buyWay={subForm.buyWay}
+                  sendPromotionCode={this.savePromotionCode}
+                  promotionCode={promotionCode}
+                  operateBtnVisible={!tid}
+                  onClickHeader={this.toggleMobileCart.bind(this, 'less')}
+                  headerIcon={
+                    <span className="rc-icon rc-down--xs rc-iconography" />
+                  }
+                  isCheckOut={true}
+                  welcomeBoxChange={(value) => {
+                    this.setState({ welcomeBoxValue: value });
+                  }}
+                />
+              </div>
+
+              <>
+                {/* 地址校验弹框 */}
+                {paymentValidationLoading && <Loading positionFixed="true" />}
+                {validationModalVisible && (
+                  <>
+                    <ValidationAddressModal
+                      btnLoading={this.state.btnLoading}
+                      address={billingAddress}
+                      updateValidationData={this.getValidationData}
+                      selectValidationOption={selectValidationOption}
+                      handleChooseValidationAddress={(e) =>
+                        this.chooseValidationAddress(e)
+                      }
+                      hanldeClickConfirm={() =>
+                        this.confirmListValidationAddress()
+                      }
+                      validationModalVisible={validationModalVisible}
+                      close={() => {
+                        this.setState({
+                          validationModalVisible: false,
+                          paymentValidationLoading: false,
+                          btnLoading: false,
+                          saveLoading: false
+                        });
+                      }}
+                    />
                   </>
                 )}
-                {/* {COUNTRY === 'jp' && ( */}
-                <SelectPet
-                  recommendData={this.state.recommend_data}
-                  updateRecommendData={(data) => {
-                    this.setState({ recommend_data: data });
-                  }}
-                  isRepay={tid}
-                />
-                {/* // )} */}
-
-                <PanelContainer
-                  panelStatus={paymentMethodPanelStatus}
-                  containerConf={{
-                    className: cn('px-0', {
-                      hidden: this.isSkipPaymentPanel,
-                      'pb-0': !paymentMethodPanelStatus.isPrepare
-                    }),
-                    id: 'J_checkout_panel_paymentMethod'
-                  }}
-                  titleConf={{
-                    className: 'mx-5',
-                    icon: {
-                      defaultIcon: (
-                        <em
-                          className={`rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform`}
-                        />
-                      ),
-                      highlighIcon: (
-                        <em
-                          className={`rc-icon rc-payment--sm rc-brand1 inlineblock origin-left paymentIconTransform`}
-                        />
-                      )
-                    },
-                    text: {
-                      title: (
-                        <FormattedMessage id="payment.paymentInformation" />
-                      )
-                    },
-                    onEdit: this.handleClickPaymentPanelEdit
-                  }}
-                  previewJSX={<PaymentPanelInfoPreview {...this.state} />}
-                >
-                  {this.renderPayTab()}
-                </PanelContainer>
-
-                <Confirmation
-                  clickPay={this.clickPay}
-                  listData={listData}
-                  checkRequiredItem={this.checkRequiredItem}
-                  checkoutStore={checkoutStore}
-                  tradePrice={
-                    tid && orderDetails
-                      ? orderDetails.tradePrice.totalPrice
-                      : this.tradePrice
-                  }
-                />
-              </div>
-              <div className="rc-column md:pl-0 hidden md:block">
-                {tid ? (
-                  <RePayProductInfo
-                    fixToHeader={false}
-                    style={{ background: '#fff' }}
-                    details={orderDetails}
-                    navigateToProDetails={true}
-                    location={location}
-                    history={history}
-                    isRepay={true}
-                  />
-                ) : (
-                  <PayProductInfo
-                    data={recommend_data}
-                    fixToHeader={false}
-                    style={{ background: '#fff' }}
-                    ref="payProductInfo"
-                    location={location}
-                    history={history}
-                    buyWay={subForm.buyWay}
-                    sendPromotionCode={this.savePromotionCode}
-                    promotionCode={promotionCode}
-                    operateBtnVisible={!tid}
-                    currentPage="checkout"
-                    guestEmail={guestEmail}
-                    isCheckOut={true}
-                    deliveryAddress={deliveryAddress}
-                    welcomeBoxChange={(value) => {
-                      this.setState({ welcomeBoxValue: value });
-                    }}
-                    confirmCalculateServiceFeeAndLoyaltyPoints={
-                      this.confirmCalculateServiceFeeAndLoyaltyPoints
-                    }
-                  />
-                )}
-
-                <Faq />
-              </div>
-            </div>
-            <Adyen3DForm
-              {...this.props}
-              action={this.state.adyenAction}
-              key={curPayWayInfo?.code}
-            />
-          </div>
-          <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
-            <div
-              className={cn(
-                `order-summary-title align-items-center justify-content-between text-center`,
-                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-              )}
-              onClick={this.toggleMobileCart.bind(this, 'more')}
-            >
-              <span
-                className="rc-icon rc-up rc-iconography"
-                style={{ transform: 'scale(.7)' }}
-              />
-              <span
-                className={`${
-                  COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
-                }`}
-              >
-                <FormattedMessage id="payment.yourOrder" />
-              </span>
-              <span
-                data-auto-testid="payment_info_trade_price"
-                className={`grand-total-sum ${
-                  COUNTRY === 'jp' ? 'font-semibold text-cs-primary' : ''
-                }`}
-              >
-                {formatMoney(this.tradePrice)}
-              </span>
-            </div>
-            <PayProductInfo
-              data={recommend_data}
-              fixToHeader={false}
-              style={{
-                background: '#fff',
-                maxHeight: '80vh'
-              }}
-              className={cn(mobileCartVisibleKey === 'more' ? '' : 'hidden')}
-              ref="payProductInfo"
-              location={location}
-              history={history}
-              buyWay={subForm.buyWay}
-              sendPromotionCode={this.savePromotionCode}
-              promotionCode={promotionCode}
-              operateBtnVisible={!tid}
-              onClickHeader={this.toggleMobileCart.bind(this, 'less')}
-              headerIcon={
-                <span className="rc-icon rc-down--xs rc-iconography" />
-              }
-              isCheckOut={true}
-              welcomeBoxChange={(value) => {
-                this.setState({ welcomeBoxValue: value });
-              }}
-            />
-          </div>
-
-          <>
-            {/* 地址校验弹框 */}
-            {paymentValidationLoading && <Loading positionFixed="true" />}
-            {validationModalVisible && (
-              <>
-                <ValidationAddressModal
-                  btnLoading={this.state.btnLoading}
-                  address={billingAddress}
-                  updateValidationData={this.getValidationData}
-                  selectValidationOption={selectValidationOption}
-                  handleChooseValidationAddress={(e) =>
-                    this.chooseValidationAddress(e)
-                  }
-                  hanldeClickConfirm={() => this.confirmListValidationAddress()}
-                  validationModalVisible={validationModalVisible}
-                  close={() => {
-                    this.setState({
-                      validationModalVisible: false,
-                      paymentValidationLoading: false,
-                      btnLoading: false,
-                      saveLoading: false
-                    });
-                  }}
-                />
               </>
-            )}
-          </>
 
-          <Footer />
-        </main>
-        <Modal
-          type="fullscreen"
-          visible={true}
-          footerVisible={false}
-          modalTitle={<FormattedMessage id="addPet" />}
-          confirmBtnText={<FormattedMessage id="continue" />}
-          // close={() => this.handelClose()}
-          // hanldeClickConfirm={() => this.hanldeConfirm()}
-        />
-        {/* Swish Qrcode Modal */}
-        <Modal
-          visible={this.state.swishQrcodeModal ? true : false}
-          footerVisible={false}
-          modalTitle=""
-          close={() => this.handelQrcodeModalClose()}
-        >
-          {this.state.swishQrcodeError ? (
-            <div className="h-64 flex flex-col justify-center items-center">
-              <img src={swishError}></img>
-              <div className="mt-6 text-black text-base">Payment failed</div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center">
-              <div className="pt-1 pb-6 text-black text-base">
-                <FormattedMessage id="payment.scanQrcode" />
-              </div>
-              <QRCode
-                value={this.state.swishQrcode}
-                size={256}
-                bgColor={'#ffffff'}
-                fgColor={'#000000'}
-                level={'L'}
-                includeMargin={false}
-                renderAs={'svg'}
-                imageSettings={{
-                  src: swishIcon,
-                  x: null,
-                  y: null,
-                  height: 36,
-                  width: 36,
-                  excavate: true
-                }}
-              />
-              <div className="text-black font-bold text-base pt-6">
-                {formatMoney(this.tradePrice)}
-              </div>
-              <div className="text-sm pt-6">
-                <FormattedMessage
-                  id="payment.countdowning"
-                  values={{ val: this.state.countDown }}
-                />
-              </div>
-              <div className="w-64 md:w-96 text-center py-6 text-gray-600">
-                <FormattedMessage id="payment.countdown" />
-              </div>
-              <Button
-                type="primary"
-                className="md:hidden mt-2"
-                onClick={() => {
-                  window.location = this.state.swishAppRedirectUrl;
-                }}
-              >
-                Pay By Swish App
-              </Button>
-            </div>
-          )}
-        </Modal>
+              <Footer />
+            </main>
+            <Modal
+              type="fullscreen"
+              visible={true}
+              footerVisible={false}
+              modalTitle={<FormattedMessage id="addPet" />}
+              confirmBtnText={<FormattedMessage id="continue" />}
+              // close={() => this.handelClose()}
+              // hanldeClickConfirm={() => this.hanldeConfirm()}
+            />
+            {/* Swish Qrcode Modal */}
+            <Modal
+              visible={this.state.swishQrcodeModal ? true : false}
+              footerVisible={false}
+              modalTitle=""
+              close={() => this.handelQrcodeModalClose()}
+            >
+              {this.state.swishQrcodeError ? (
+                <div className="h-64 flex flex-col justify-center items-center">
+                  <img src={swishError}></img>
+                  <div className="mt-6 text-black text-base">
+                    Payment failed
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <div className="pt-1 pb-6 text-black text-base">
+                    <FormattedMessage id="payment.scanQrcode" />
+                  </div>
+                  <QRCode
+                    value={this.state.swishQrcode}
+                    size={256}
+                    bgColor={'#ffffff'}
+                    fgColor={'#000000'}
+                    level={'L'}
+                    includeMargin={false}
+                    renderAs={'svg'}
+                    imageSettings={{
+                      src: swishIcon,
+                      x: null,
+                      y: null,
+                      height: 36,
+                      width: 36,
+                      excavate: true
+                    }}
+                  />
+                  <div className="text-black font-bold text-base pt-6">
+                    {formatMoney(this.tradePrice)}
+                  </div>
+                  <div className="text-sm pt-6">
+                    <FormattedMessage
+                      id="payment.countdowning"
+                      values={{ val: this.state.countDown }}
+                    />
+                  </div>
+                  <div className="w-64 md:w-96 text-center py-6 text-gray-600">
+                    <FormattedMessage id="payment.countdown" />
+                  </div>
+                  <Button
+                    type="primary"
+                    className="md:hidden mt-2"
+                    onClick={() => {
+                      window.location = this.state.swishAppRedirectUrl;
+                    }}
+                  >
+                    Pay By Swish App
+                  </Button>
+                </div>
+              )}
+            </Modal>
+          </>
+        ) : (
+          <Loading />
+        )}
       </div>
     );
   }
