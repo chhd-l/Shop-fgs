@@ -166,32 +166,58 @@ class AdyenCreditCardForm extends React.Component {
         buttonColor: 'black',
         paymentMethodsResponse,
         onPaymentCompleted: (result, component) => {
-          console.info(indexT, 'onPaymentCompleted', new Date(), result);
+          console.info(
+            indexT,
+            'onPaymentCompleted',
+            new Date().getSeconds(),
+            result
+          );
           console.info('......', component);
+          indexT++;
+        },
+        onAuthorized: (onAuthorized) => {
+          console.info(
+            indexT,
+            'onAuthorized:',
+            new Date().getSeconds(),
+            onAuthorized
+          );
           indexT++;
         },
         onpaymentauthorized: (onpaymentauthorized) => {
           console.info(
             indexT,
             'onpaymentauthorized1111:',
-            new Date(),
+            new Date().getSeconds(),
             onpaymentauthorized
           );
           indexT++;
         },
+        onClick: (resolve, reject) => {
+          console.info(
+            indexT,
+            'onClick',
+            new Date().getSeconds(),
+            resolve,
+            reject
+          );
+          indexT++;
+          console.info('');
+          resolve();
+        },
         onChange: (state) => {
-          console.info(indexT, 'onChangestate', new Date(), state);
+          console.info(indexT, 'onChangestate', new Date().getSeconds(), state);
           indexT++;
         },
         onSubmit: (state, dropin) => {
-          console.info(indexT, 'onSubmitstate', new Date(), state);
+          console.info(indexT, 'onSubmitstate', new Date().getSeconds(), state);
           console.info('onSubmitdropin', dropin);
           indexT++;
         },
         onError: (error, component) => {
           console.error(
             indexT,
-            new Date(),
+            new Date().getSeconds(),
             'onError===name',
             error.name,
             'onError===message',
@@ -225,14 +251,19 @@ class AdyenCreditCardForm extends React.Component {
         //     });
         // },
         completePayment: (completePayment) => {
-          console.info(indexT, 'completePayment:', new Date(), completePayment);
+          console.info(
+            indexT,
+            'completePayment:',
+            new Date().getSeconds(),
+            completePayment
+          );
           indexT++;
         },
         onpaymentauthorized: (onpaymentauthorized) => {
           console.info(
             indexT,
             'onpaymentauthorized2222:',
-            new Date(),
+            new Date().getSeconds(),
             onpaymentauthorized
           );
           indexT++;
