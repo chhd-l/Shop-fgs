@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import {
   NOTUSEPOINT,
   USEPOINT
-} from '@/views/Checkout/PaymentMethod/paymentMethodsConstant';
+} from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 import './Point.less';
 import {
   openPromotionBox,
