@@ -79,11 +79,11 @@ import {
   Moto,
   Ideal,
   Cover as PaymentMethodCover
-} from '@/views/Payment/PaymentMethod';
+} from './PaymentMethod';
 import './Modules/adyenCopy.css';
 import './index.css';
 import Adyen3DForm from '@/components/Adyen/3d';
-import { ADDRESS_RULE } from '@/views/Payment/PaymentMethod/Cyber/constant/utils';
+import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import {
   doGetGAVal,
   GAonSearchSelectionFocus,
@@ -107,7 +107,7 @@ import {
   felinAddr,
   USEPOINT,
   NOTUSEPOINT
-} from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+} from './PaymentMethod/paymentMethodsConstant';
 import { ErrorMessage } from '@/components/Message';
 import { Canonical, Button, Modal } from '@/components/Common';
 import { DivWrapper } from './style';

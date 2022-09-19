@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { formatDate } from '@/utils/utils';
-import { USEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+import { USEPOINT } from '@/views/Checkout/PaymentMethod/paymentMethodsConstant';
 import LazyLoad from 'react-lazyload';
-import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod/index';
+import { ConvenienceStorePayReview } from '@/views/Checkout/PaymentMethod/index';
 import {
   LOGO_ADYEN_COD,
   LOGO_POINT,
