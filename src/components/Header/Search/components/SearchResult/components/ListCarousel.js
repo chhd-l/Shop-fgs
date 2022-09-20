@@ -34,7 +34,7 @@ const mobileSettings = {
   variableWidth: true
 };
 
-const ListCarousel = () => {
+const ListCarousel = ({ title = '', total = '', list = [], onViewMore }) => {
   const sliderRef = useRef();
 
   const handlePrev = () => {
@@ -45,33 +45,50 @@ const ListCarousel = () => {
     sliderRef.current?.slickNext();
   };
 
-  const renderMoreAction = () => {
-    return <div className="list-carousel-actions">View more (23)</div>;
-  };
+  const renderList = () => {
+    if (list.length === 0) {
+      return <div className="list-carousel-empty">No results</div>;
+    }
 
-  const settings = window.innerWidth > 640 ? pcSettings : mobileSettings;
-
-  return (
-    <div className="search-list-carousel-box">
-      <div className="list-carousel-title">Article</div>
+    return (
       <div className="list-carousel-list">
         <div
           className="carousel-arrow-prev iconfont iconjiantouyou1"
           onClick={handlePrev}
         />
         <Slider ref={(ref) => (sliderRef.current = ref)} {...settings}>
-          <CardImage />
-          <CardImage />
-          <CardImage />
-          <CardImage />
-          <CardImage />
-          <CardImage />
+          {list.map((item, index) => {
+            if (index > 11) {
+              return null;
+            }
+            return <CardImage item={item} key={index} />;
+          })}
         </Slider>
         <div
           className="carousel-arrow-next iconfont iconjiantouyou1"
           onClick={handleNext}
         />
       </div>
+    );
+  };
+
+  const renderMoreAction = () => {
+    if (list.length <= 3) {
+      return null;
+    }
+    return (
+      <div className="list-carousel-actions" onClick={() => onViewMore?.()}>
+        {`View more (${total})`}
+      </div>
+    );
+  };
+
+  const settings = window.innerWidth > 640 ? pcSettings : mobileSettings;
+
+  return (
+    <div className="search-list-carousel-box">
+      <div className="list-carousel-title">{title}</div>
+      {renderList()}
       {renderMoreAction()}
     </div>
   );

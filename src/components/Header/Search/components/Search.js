@@ -5,6 +5,7 @@ import SearchInput from './SearchInput';
 import SearchRecent from './SearchRecent';
 import SearchResult from './SearchResult';
 import SearchEmpty from './SearchEmpty';
+import * as api from './api';
 
 import './index.less';
 
