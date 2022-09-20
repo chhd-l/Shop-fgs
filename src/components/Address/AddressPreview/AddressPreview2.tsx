@@ -76,7 +76,8 @@ const AddressPreview = ({
         firstNameKatakana,
         lastNameKatakana,
         consigneeNumber,
-        showDeliveryDateAndTimeSlot = true
+        showDeliveryDateAndTimeSlot = true,
+        email
     } = data;
 
     /**
@@ -105,6 +106,10 @@ const AddressPreview = ({
     const arrangedList = useMemo(() => {
         const tmpList: ListType[] = [
             {
+                fieldKey: 'postCode',
+                value: postCode
+            },
+            {
                 fieldKey: 'city',
                 value: city
             },
@@ -116,15 +121,11 @@ const AddressPreview = ({
                 fieldKey: 'state',
                 value: province
             },
-            {
-                fieldKey: 'county',
-                value: county
-            },
-            {
-                fieldKey: 'postCode',
-                value: postCode
-            },
-            { fieldKey: 'country', value: countryName }
+            // {
+            //     fieldKey: 'county',
+            //     value: county
+            // },
+            // { fieldKey: 'country', value: countryName }
         ];
         return handleSortAndFilter(tmpList);
     }, [city, area, province, county, postCode, countryName]);
@@ -151,9 +152,9 @@ const AddressPreview = ({
                             {arrangedList.map((t) => t.value).join(', ')}
                         </p>
                     )}
-                    {phone && (<p>{phone}</p>)}
-                    {rfc && (<p>{rfc}</p>)}
-                    {buyerRemark && (<p>{buyerRemark}</p>)}
+                    <p><span className='pr-1'>{email}</span>-<span className='pl-1'>{phone}</span></p>
+                    {/* {rfc && (<p>{rfc}</p>)}
+                    {buyerRemark && (<p>{buyerRemark}</p>)} */}
                 </div>
             </div>
 

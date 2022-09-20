@@ -112,7 +112,7 @@ export const CartFRBreeder = ({
           goodsInfoId: item.goodsInfo.goodsInfoId,
           goodsNum: item.recommendationNumber,
           goodsCategory: '',
-          goodsInfoFlag: 2,
+          goodsInfoFlag: 0, //修改为默认single purchase
           periodTypeId: item.defaultFrequencyId,
           recommendationId:
             clinicStore.linkClinicRecommendationInfos?.recommendationId ||
@@ -147,7 +147,7 @@ export const CartFRBreeder = ({
           {
             selected: true,
             quantity: item.recommendationNumber,
-            goodsInfoFlag: item.goodsInfoFlag,
+            goodsInfoFlag: 0, // item.goodsInfoFlag, 修改为默认single purchase
             periodTypeId: item.defaultFrequencyId,
             recommendationInfos: clinicStore.linkClinicRecommendationInfos,
             recommendationId:

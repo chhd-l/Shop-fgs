@@ -16,13 +16,14 @@ const regs = {
 @injectIntl
 class PasswordInput extends React.Component {
   static defaultProps = {
-    onChange() {}
+    onChange() {},
+    sendIsValidPassWord() {}
   };
 
   state = {
     passwordValue: '',
     passwordInputType: pass_word,
-    passwordValid: true,
+    passwordValid: false,
     passwordMessage: '',
     passwordChanged: false,
 
@@ -32,6 +33,11 @@ class PasswordInput extends React.Component {
     ruleAname: false,
     ruleSpecial: false
   };
+  componentDidUpdate() {
+    const { passwordValid } = this.state;
+    const { sendIsValidPassWord } = this.props;
+    sendIsValidPassWord(passwordValid);
+  }
 
   getInputState = () => {
     const { passwordValue, passwordValid } = this.state;
@@ -99,6 +105,7 @@ class PasswordInput extends React.Component {
   deleteInput = () => {
     this.setState({
       passwordValue: '',
+      passwordValid: false,
       passwordMessage: this.props.intl.messages.registerFillIn,
       ruleLength: false,
       ruleLower: false,

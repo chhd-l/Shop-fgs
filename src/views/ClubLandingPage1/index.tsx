@@ -3,10 +3,10 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React, { useState } from 'react';
 import './index.css';
-const ProductFinder3 = (props: any) => {
+const ClubLandingPage1 = (props: any) => {
   const [idx, setIdx] = useState(0);
   const [startTouchx, setStartTouchx] = useState(0);
-  // const [endTouchx, setEndTouchx] = useState(0);
+  const [versionB, setVersionB] = useState(false);
   const meritList = [
     {
       img: 'https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/shipping copy 3.svg',
@@ -53,6 +53,10 @@ const ProductFinder3 = (props: any) => {
       }
     }
   };
+  const switchClubLandingPageVersionB = () => {
+    setVersionB(true);
+  };
+  (window as any).switchClubLandingPageVersionB = switchClubLandingPageVersionB;
   return (
     <>
       <Canonical />
@@ -133,7 +137,7 @@ const ProductFinder3 = (props: any) => {
           </div>
         </div>
 
-        {props.a ? (
+        {versionB ? (
           <>
             <div
               style={{ boxShadow: '0px 0px 20px #eee' }}
@@ -563,7 +567,7 @@ const ProductFinder3 = (props: any) => {
             <p className="text-26 text-red-600 font-normal">0800415161</p>
           </div>
         </div>
-        {props.a ? (
+        {versionB ? (
           <div className="md:h-52 pt-14 hidden md:block">
             <p className="w-cs-470 text-black text-18 text-center m-auto mb-6 font-normal">
               Gratuit, sans engagement, annulable à tout moment, Activez
@@ -585,4 +589,4 @@ const ProductFinder3 = (props: any) => {
     </>
   );
 };
-export default ProductFinder3;
+export default ClubLandingPage1;
