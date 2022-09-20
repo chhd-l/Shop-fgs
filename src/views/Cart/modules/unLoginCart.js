@@ -59,6 +59,7 @@ import OssReceiveBackNotificationContent from '../../Details/components/OSSRecei
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 @injectIntl
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
@@ -1009,6 +1010,46 @@ class UnLoginCart extends React.Component {
       promotionInputValue: e.target.value
     });
   };
+  newCheckoutBtn = (COUNTRY) => {
+    const { checkoutLoading } = this.state;
+    let template = '';
+    switch (COUNTRY) {
+      case 'fr':
+        template = (
+          <Button
+            type="primary"
+            size="small"
+            className={`btn-block checkout-btn cart__checkout-btn rc-full-width newCheckout`}
+            onClick={() => {
+              this.props.history.push('/checkout');
+            }}
+          >
+            <FormattedMessage id="checkout" />
+          </Button>
+        );
+        break;
+      default:
+        template = (
+          <LoginButton
+            dataTestid="cart_buy_now"
+            beforeLoginCallback={async () => {
+              try {
+                await this.handleCheckout({ needLogin: true });
+              } catch (err) {
+                throw new Error(err);
+              }
+            }}
+            btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
+              checkoutLoading ? 'ui-btn-loading' : ''
+            } rc-btn rc-btn--one rc-btn--lg btn-block checkout-btn cart__checkout-btn rc-full-width`}
+          >
+            <FormattedMessage id="checkout" />
+          </LoginButton>
+        );
+        break;
+    }
+    return template;
+  };
   getCheckotBtn = () => {
     const { configStore } = this.props;
     const { paymentAuthority } = configStore;
@@ -1017,21 +1058,7 @@ class UnLoginCart extends React.Component {
       <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
         <div className="rc-padding-y--xs rc-column">
           {this.totalNum > 0 ? (
-            <LoginButton
-              dataTestid="cart_buy_now"
-              beforeLoginCallback={async () => {
-                try {
-                  await this.handleCheckout({ needLogin: true });
-                } catch (err) {
-                  throw new Error(err);
-                }
-              }}
-              btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
-                checkoutLoading ? 'ui-btn-loading' : ''
-              } rc-btn rc-btn--one rc-btn--lg btn-block checkout-btn cart__checkout-btn rc-full-width`}
-            >
-              <FormattedMessage id="checkout" />
-            </LoginButton>
+            this.newCheckoutBtn(COUNTRY)
           ) : (
             <Button
               type="primary"
@@ -1050,7 +1077,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : paymentAuthority === 'MEMBER_AND_VISITOR' ? (
+            ) : paymentAuthority === 'MEMBER_AND_VISITOR' && COUNTRY != 'fr' ? (
               <div
                 className="text-center"
                 data-auto-testid="cart_guestCheckout"
