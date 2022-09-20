@@ -1,9 +1,12 @@
 import React from 'react';
 import ListText from './components/ListText';
+import ListCarousel from './components/ListCarousel';
 
 const ResultAll = () => {
   return (
-    <div>
+    <div className="search-result-all-box">
+      <ListText />
+      <ListCarousel />
       <ListText />
     </div>
   );

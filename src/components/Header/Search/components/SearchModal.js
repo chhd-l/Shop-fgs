@@ -15,6 +15,7 @@ const SearchModal = ({ children }) => {
           <button
             className="search-btn iconfont iconguan"
             onClick={() => {
+              document.querySelector('body').style.overflowY = 'auto';
               setModalVisible(false);
             }}
           />

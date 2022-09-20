@@ -9,13 +9,18 @@ function useSearchHook() {
 
   const [recentSearches, setRecentSearches] = useState([]);
 
+  // All, Breeds, Products, Articles
+  const [resultCurrentTab, setResultCurrentTab] = useState('All');
+
   return {
     modalVisible,
     setModalVisible,
     inputValue,
     setInputValue,
     recentSearches,
-    setRecentSearches
+    setRecentSearches,
+    resultCurrentTab,
+    setResultCurrentTab
   };
 }
 

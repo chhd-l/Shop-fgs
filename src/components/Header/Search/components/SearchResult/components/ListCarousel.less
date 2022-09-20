@@ -1,0 +1,71 @@
+@searchPrimaryColor: #ec001a;
+
+.search-list-carousel-box {
+  padding-bottom: 46px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #666;
+
+  .list-carousel-title {
+    color: @searchPrimaryColor;
+    font-weight: 500;
+  }
+
+  .list-carousel-list {
+    position: relative;
+    padding: 0 20px 10px;
+    margin-left: -40px;
+    margin-right: -40px;
+  }
+
+  .carousel-arrow-prev,
+  .carousel-arrow-next {
+    position: absolute;
+    top: 45%;
+    width: 38px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      color: @searchPrimaryColor;
+    }
+  }
+
+  .carousel-arrow-prev {
+    left: 0;
+    transform: rotateZ(180deg);
+  }
+
+  .carousel-arrow-next {
+    right: 0;
+  }
+
+  .list-carousel-actions {
+    font-size: 14px;
+    color: #444;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-underline-color: #D7D7D7;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .search-list-carousel-box {
+    overflow-x: hidden;
+
+    .carousel-arrow-prev,
+    .carousel-arrow-next {
+      display: none;
+    }
+  }
+
+  .search-card-image-box {
+    width: calc(100vw - 100px);
+  }
+}

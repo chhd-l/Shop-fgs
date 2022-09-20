@@ -160,19 +160,48 @@
       color: #666;
     }
   }
+
+  .search-result-all-box {
+    max-width: @searchMidMaxWidth;
+    margin: 0 auto;
+  }
+
+  .result-list-page-box {
+    .result-list-page-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .result-list-page-footer {
+      display: flex;
+      justify-content: center;
+      padding: 30px 0;
+    }
+  }
 }
 
 @media screen and (max-width: 640px) {
   .rc-search-box {
     .search-section-wrap {
       .search-section-content {
-        padding: 0 10px;
+        padding: 0 12px;
       }
     }
 
     .search-find-box {
       padding: 20px;
       grid-template-columns: 1fr;
+    }
+
+    .result-list-page-box {
+      .result-list-page-content {
+        grid-template-columns: repeat(1, 1fr);
+        justify-items: center;
+
+        .search-card-image-box {
+          width: 80%;
+        }
+      }
     }
   }
 }

@@ -15,7 +15,10 @@ const Search = () => {
     <div className="rc-search-box">
       <button
         className="search-btn iconfont iconSearch"
-        onClick={() => setModalVisible(true)}
+        onClick={() => {
+          document.querySelector('body').style.overflowY = 'hidden';
+          setModalVisible(true);
+        }}
       />
 
       <SearchModal>
@@ -23,9 +26,9 @@ const Search = () => {
 
         {/*<SearchRecent/>*/}
 
-        {/*<SearchResult/>*/}
+        <SearchResult />
 
-        <SearchEmpty />
+        {/*<SearchEmpty />*/}
       </SearchModal>
     </div>
   );
