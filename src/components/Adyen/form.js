@@ -14,7 +14,7 @@ import '@adyen/adyen-web/dist/adyen.css';
 
 let adyenFormData = {};
 
-@inject('loginStore', 'paymentStoreNew')
+@inject('loginStore', 'paymentStoreNew', 'paymentStore')
 @observer
 class AdyenCreditCardForm extends React.Component {
   static defaultProps = {
@@ -54,8 +54,13 @@ class AdyenCreditCardForm extends React.Component {
       })
     });
   }
+  get paymentStores() {
+    return window.__.env.REACT_APP_COUNTRY === 'fr'
+      ? this.props.paymentStoreNew
+      : this.props.paymentStore;
+  }
   get paymentMethodPanelStatus() {
-    return this.props.paymentStoreNew.paymentMethodPanelStatus;
+    return this.paymentStores.paymentMethodPanelStatus;
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -64,7 +69,7 @@ class AdyenCreditCardForm extends React.Component {
     return this.props.loginStore.isLogin;
   }
   getBrowserInfo(state) {
-    this.props.paymentStoreNew.setBrowserInfo(state.data.browserInfo);
+    this.paymentStores.setBrowserInfo(state.data.browserInfo);
   }
   async initAdyenConf() {
     const {
@@ -202,7 +207,7 @@ class AdyenCreditCardForm extends React.Component {
         });
         tmpSelectedId = res.context.id;
         this.props.updateSelectedId(tmpSelectedId);
-        this.props.paymentStoreNew.updateFirstSavedCardCvv(tmpSelectedId);
+        this.paymentStores.updateFirstSavedCardCvv(tmpSelectedId);
         //把绑卡的encryptedSecurityCode传入
         await this.props.queryList({
           currentCardEncryptedSecurityCode,
