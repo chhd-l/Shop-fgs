@@ -532,7 +532,7 @@ class Recommendation extends React.Component {
           goodsInfoId: item.goodsInfo.goodsInfoId,
           goodsNum: item.recommendationNumber,
           goodsCategory: '',
-          goodsInfoFlag: 2,
+          goodsInfoFlag: 0, //修改为默认single purchase
           periodTypeId: item.defaultFrequencyId,
           recommendationId:
             this.props.clinicStore.linkClinicRecommendationInfos
@@ -585,7 +585,7 @@ class Recommendation extends React.Component {
           {
             selected: true,
             quantity: p.recommendationNumber,
-            goodsInfoFlag: p.goodsInfoFlag,
+            goodsInfoFlag: 0, //p.goodsInfoFlag, 修改为默认signle purchase
             periodTypeId: p.defaultFrequencyId,
             recommendationInfos:
               this.props.clinicStore.linkClinicRecommendationInfos,
