@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSearch } from '../../index';
 import Tabs from './Tabs';
 import ResultAll from './ResultAll';
 import ResultBreeds from './ResultBreeds';
@@ -6,11 +7,13 @@ import ResultProducts from './ResultProducts';
 import ResultArticles from './ResultArticles';
 
 const SearchResult = () => {
+  const { resultCurrentTab, setResultCurrentTab } = useSearch();
+
   return (
     <div className="search-section-wrap">
       <div className="search-section-content">
         <div className="search-result-box">
-          <Tabs defaultActiveKey="All">
+          <Tabs current={resultCurrentTab} onChange={setResultCurrentTab}>
             <Tabs.TabPanel tabKey="All" title="All Results (111)">
               <ResultAll />
             </Tabs.TabPanel>
