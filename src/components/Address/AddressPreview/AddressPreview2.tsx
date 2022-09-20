@@ -105,6 +105,10 @@ const AddressPreview = ({
     const arrangedList = useMemo(() => {
         const tmpList: ListType[] = [
             {
+                fieldKey: 'postCode',
+                value: postCode
+            },
+            {
                 fieldKey: 'city',
                 value: city
             },
@@ -116,15 +120,11 @@ const AddressPreview = ({
                 fieldKey: 'state',
                 value: province
             },
-            {
-                fieldKey: 'county',
-                value: county
-            },
-            {
-                fieldKey: 'postCode',
-                value: postCode
-            },
-            { fieldKey: 'country', value: countryName }
+            // {
+            //     fieldKey: 'county',
+            //     value: county
+            // },
+            // { fieldKey: 'country', value: countryName }
         ];
         return handleSortAndFilter(tmpList);
     }, [city, area, province, county, postCode, countryName]);
@@ -152,8 +152,8 @@ const AddressPreview = ({
                         </p>
                     )}
                     {phone && (<p>{phone}</p>)}
-                    {rfc && (<p>{rfc}</p>)}
-                    {buyerRemark && (<p>{buyerRemark}</p>)}
+                    {/* {rfc && (<p>{rfc}</p>)}
+                    {buyerRemark && (<p>{buyerRemark}</p>)} */}
                 </div>
             </div>
 
