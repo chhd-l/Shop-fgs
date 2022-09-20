@@ -1020,6 +1020,9 @@ class UnLoginCart extends React.Component {
             type="primary"
             size="small"
             className={`btn-block checkout-btn cart__checkout-btn rc-full-width newCheckout`}
+            onClick={() => {
+              this.props.history.push('/checkout');
+            }}
           >
             <FormattedMessage id="checkout" />
           </Button>
