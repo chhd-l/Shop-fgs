@@ -3,6 +3,42 @@
 @searchMidMaxWidth: 890px;
 
 .rc-search-box {
+  form, ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+  }
+
+  input {
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: #666;
+  }
+
+  .slick-slide {
+    height: auto;
+  }
+
+  .search-btn {
+    padding: 10px;
+    color: #666;
+
+    &:hover {
+      color: @searchPrimaryColor;
+    }
+  }
+
   .search-btn {
     padding: 10px;
 
