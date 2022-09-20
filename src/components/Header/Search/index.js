@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { createContainer } from './unstated-next';
 import Search from './components/Search';
+
+const initData = {
+  total: 0,
+  content: [],
+  pageNum: 0
+};
 
 function useSearchHook() {
   // Modal visible state
@@ -9,8 +15,13 @@ function useSearchHook() {
   const [inputValue, setInputValue] = useState('');
   // Input Search history
   const [recentSearches, setRecentSearches] = useState([]);
-  // All Result State:  All, Breeds, Products, Articles
+  // All Result State:  All, Articles, Breeds, Products,
   const [resultCurrentTab, setResultCurrentTab] = useState('All');
+
+  // three tabs search data
+  const [dataArticles, setDataArticles] = useState(initData);
+  const [dataBreeds, setDataBreeds] = useState(initData);
+  const [dataProducts, setSataProducts] = useState(initData);
 
   return {
     modalVisible,
@@ -20,7 +31,14 @@ function useSearchHook() {
     recentSearches,
     setRecentSearches,
     resultCurrentTab,
-    setResultCurrentTab
+    setResultCurrentTab,
+
+    dataArticles,
+    setDataArticles,
+    dataBreeds,
+    setDataBreeds,
+    dataProducts,
+    setSataProducts
   };
 }
 

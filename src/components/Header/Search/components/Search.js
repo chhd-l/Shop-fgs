@@ -10,7 +10,50 @@ import * as api from './api';
 import './index.less';
 
 const Search = () => {
-  const { setModalVisible } = useSearch();
+  const { setModalVisible, setDataArticles, setDataBreeds, setSataProducts } =
+    useSearch();
+
+  const getAllList = (keywords) => {
+    getArticles(keywords);
+    getBreeds(keywords);
+    getProducts(keywords);
+  };
+
+  const getArticles = async (keywords, pageNum = 0) => {
+    const { total = 0, content = [] } = await api.fetchArticles({
+      keywords,
+      pageNum
+    });
+    setDataArticles({
+      total,
+      content,
+      pageNum
+    });
+  };
+
+  const getBreeds = async (keywords, pageNum = 0) => {
+    const { total = 0, content = [] } = await api.fetchBreeds({
+      keywords,
+      pageNum
+    });
+    setDataBreeds({
+      total,
+      content,
+      pageNum
+    });
+  };
+
+  const getProducts = async (keywords, pageNum = 0) => {
+    const { total = 0, content = [] } = await api.fetchProducts({
+      keywords,
+      pageNum
+    });
+    setSataProducts({
+      total,
+      content,
+      pageNum
+    });
+  };
 
   return (
     <div className="rc-search-box">
@@ -23,9 +66,9 @@ const Search = () => {
       />
 
       <SearchModal>
-        <SearchInput />
+        <SearchInput onSearch={getAllList} />
 
-        {/*<SearchRecent/>*/}
+        <SearchRecent onClickChange={getAllList} />
 
         <SearchResult />
 

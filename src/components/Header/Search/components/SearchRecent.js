@@ -13,7 +13,7 @@ const SearchFindLink = () => {
   );
 };
 
-const SearchRecentTag = ({ label }) => {
+const SearchRecentTag = ({ label, onClick }) => {
   const { setInputValue, recentSearches, setRecentSearches } = useSearch();
 
   const handleSearch = () => {
@@ -25,6 +25,8 @@ const SearchRecentTag = ({ label }) => {
     const listSort = [label, ...listFilter];
 
     handleSearchList(listSort);
+
+    onClick?.(label);
   };
 
   const handleDeleteTag = () => {
@@ -56,7 +58,7 @@ const SearchRecentTag = ({ label }) => {
   );
 };
 
-const SearchRecentList = () => {
+const SearchRecentList = ({ onClick }) => {
   const { recentSearches, setRecentSearches } = useSearch();
 
   useEffect(() => {
@@ -75,19 +77,19 @@ const SearchRecentList = () => {
       <div className="search-recent-title">Recent searches</div>
       <div className="search-recent-tags">
         {recentSearches.map((item, index) => (
-          <SearchRecentTag label={item} key={index} />
+          <SearchRecentTag label={item} key={index} onClick={onClick} />
         ))}
       </div>
     </>
   );
 };
 
-const SearchRecent = () => {
+const SearchRecent = ({ onClickChange }) => {
   return (
     <div className="search-section-wrap">
       <div className="search-section-content">
         <div className="search-recent-box">
-          <SearchRecentList />
+          <SearchRecentList onClick={onClickChange} />
           <SearchFindLink />
         </div>
       </div>

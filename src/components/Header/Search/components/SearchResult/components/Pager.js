@@ -4,6 +4,12 @@ import './Pager.less';
 const regNum = /^[1-9]\d*$/;
 
 const Pager = ({ total, current, onChange }) => {
+  if (!total) {
+    return null;
+  }
+
+  const totalPage = Math.ceil(total / 12);
+
   const handleClick = (type) => {
     let pageNum = current;
     if (type === 'prev') {
@@ -22,15 +28,11 @@ const Pager = ({ total, current, onChange }) => {
     if (!regNum.test(val)) {
       return;
     }
-    if (val > total) {
+    if (val > totalPage) {
       return;
     }
     onChange?.(val);
   };
-
-  if (!total) {
-    return null;
-  }
 
   return (
     <div className="search-result-pager-box">
@@ -42,11 +44,11 @@ const Pager = ({ total, current, onChange }) => {
       <div className="search-result-pager-info">
         <input type="text" value={current} onChange={handleChange} />
         of
-        <div className="search-result-pager-all">{total}</div>
+        <div className="search-result-pager-all">{totalPage}</div>
       </div>
       <button
         className="search-btn iconfont iconjiantouyou1 search-result-pager-next"
-        disabled={current === total}
+        disabled={current === totalPage}
         onClick={() => handleClick('next')}
       />
     </div>

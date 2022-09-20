@@ -14,7 +14,7 @@ const ListText = ({ title = '', total = '', list = [], onViewMore }) => {
           }
           return (
             <li key={index}>
-              <a href="/">How to link?</a>
+              <a href={item.url}>{item.title}</a>
             </li>
           );
         })}
