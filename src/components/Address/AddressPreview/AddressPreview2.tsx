@@ -76,7 +76,8 @@ const AddressPreview = ({
         firstNameKatakana,
         lastNameKatakana,
         consigneeNumber,
-        showDeliveryDateAndTimeSlot = true
+        showDeliveryDateAndTimeSlot = true,
+        email
     } = data;
 
     /**
@@ -151,7 +152,7 @@ const AddressPreview = ({
                             {arrangedList.map((t) => t.value).join(', ')}
                         </p>
                     )}
-                    {phone && (<p>{phone}</p>)}
+                    <p><span className='pr-1'>{email}</span>-<span className='pl-1'>{phone}</span></p>
                     {/* {rfc && (<p>{rfc}</p>)}
                     {buyerRemark && (<p>{buyerRemark}</p>)} */}
                 </div>

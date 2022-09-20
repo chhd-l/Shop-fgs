@@ -118,6 +118,8 @@ class PaymentStore {
 
   @observable subscriptionDetail = [];
 
+  @observable needRegisterWarning = false;
+
   @computed get clinicPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'clinic').status;
   }
@@ -611,6 +613,11 @@ class PaymentStore {
   @action.bound
   setIsStudentPurchase(val) {
     this.isStudentPurchase = val;
+  }
+
+  @action.bound
+  setNeedRegisterWarning(val) {
+    this.needRegisterWarning = val;
   }
 }
 export default PaymentStore;
