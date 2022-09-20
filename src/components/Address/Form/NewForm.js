@@ -1975,7 +1975,7 @@ class Form extends React.Component {
           //     ? this.props.intl.messages.inputSearchText
           //     : ''
           // }
-          placeholder={item.fieldKey}
+          placeholder={this.getIntlMsg(`payment.${item.fieldKey}`)}
           customStyle={true}
           isLoadingList={false}
           isBottomPaging={true}
@@ -2145,8 +2145,8 @@ class Form extends React.Component {
                   invisible: !statusObj['showLabel']
                 })}
               >
-                {/* <FormattedMessage id={`payment.${item.fieldKey}`} /> */}
-                {item.fieldKey}
+                <FormattedMessage id={`payment.${item.fieldKey}`} />
+                {/* {item.fieldKey} */}
               </span>
             }
 
@@ -2171,7 +2171,7 @@ class Form extends React.Component {
                 disabled={item?.disabled ? true : false}
                 maxLength={this.maxLengthFun(item)}
                 autocomplete="new-password"
-                placeholder={item.fieldKey}
+                placeholder={this.getIntlMsg(`payment.${item.fieldKey}`)}
               />
               <i
                 className={cn(
@@ -2219,7 +2219,7 @@ class Form extends React.Component {
       <>
         {/* 城市搜索框 value = fieldkey */}
         <CitySearchSelection
-          placeholder={item.fieldKey}
+          placeholder={this.getIntlMsg(`payment.${item.fieldKey}`)}
           defaultValue={caninForm[item.fieldKey]}
           key={caninForm[item.fieldKey]}
           name={item.fieldKey}
@@ -2390,7 +2390,7 @@ class Form extends React.Component {
             {!isLogin && (
               <div className={cn(`flex flex-col md:flex-row`)}>
                 <div
-                  className={cn(`w-full md:w-1/2 flex flex-col mr-0 md:mr-20`)}
+                  className={cn(`w-full md:w-1/2 flex flex-col mr-0 md:mr-16`)}
                 >
                   <div className="mb-1 md:mb-10 w-100">
                     {this.newInputJSX({ item: this.emailItem?.[0] })}
