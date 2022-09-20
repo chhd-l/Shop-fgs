@@ -3,7 +3,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React, { useState } from 'react';
 import './index.css';
-const ProductFinder3 = (props: any) => {
+const ClubLandingPage1 = (props: any) => {
   const [idx, setIdx] = useState(0);
   const [startTouchx, setStartTouchx] = useState(0);
   const [versionB, setVersionB] = useState(false);
@@ -53,10 +53,10 @@ const ProductFinder3 = (props: any) => {
       }
     }
   };
-  const switchPFVersionB = () => {
+  const switchClubLandingPageVersionB = () => {
     setVersionB(true);
   };
-  (window as any).switchPFVersionB = switchPFVersionB;
+  (window as any).switchClubLandingPageVersionB = switchClubLandingPageVersionB;
   return (
     <>
       <Canonical />
@@ -589,4 +589,4 @@ const ProductFinder3 = (props: any) => {
     </>
   );
 };
-export default ProductFinder3;
+export default ClubLandingPage1;
