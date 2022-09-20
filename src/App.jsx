@@ -551,7 +551,7 @@ const App = () => {
                   <Route
                     path="/productfinder3"
                     exact
-                    render={(props) => <ProductFinder3 {...props} a={0} />}
+                    render={(props) => <ProductFinder3 {...props} />}
                   />
                   <Route
                     exact
@@ -600,6 +600,15 @@ const App = () => {
                             <Payment key={props.match.params.type} {...props} />
                           );
                       }
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/checkoutnew"
+                    render={(props) => {
+                      return (
+                        <Payment key={props.match.params.type} {...props} />
+                      );
                     }}
                   />
                   <Route
