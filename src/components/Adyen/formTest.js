@@ -181,12 +181,12 @@ class AdyenCreditCardForm extends React.Component {
           console.info('......', component);
           indexT++;
         },
-        onpaymentauthorized: (onpaymentauthorized) => {
+        onPaymentAuthorized: (onPaymentAuthorized) => {
           console.info(
             indexT,
             'onpaymentauthorized1111:',
             new Date(),
-            onpaymentauthorized
+            onPaymentAuthorized
           );
           indexT++;
         },
@@ -239,12 +239,12 @@ class AdyenCreditCardForm extends React.Component {
           console.info(indexT, 'completePayment:', new Date(), completePayment);
           indexT++;
         },
-        onpaymentauthorized: (onpaymentauthorized) => {
+        onPaymentAuthorized: (onPaymentAuthorized) => {
           console.info(
             indexT,
             'onpaymentauthorized2222:',
             new Date(),
-            onpaymentauthorized
+            onPaymentAuthorized
           );
           indexT++;
         },
