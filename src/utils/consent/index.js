@@ -2,7 +2,8 @@ import stores from '@/store';
 import {
   findUserConsentList,
   getStoreOpenConsentList,
-  findUserSelectedList
+  findUserSelectedList,
+  findUserCheckOutSelectedList
 } from '@/api/consent';
 const { loginStore, checkoutStore } = stores;
 
@@ -10,14 +11,17 @@ const { isLogin, userInfo } = loginStore;
 const customerId = userInfo?.customerId;
 // us /fr /de/mx/tr在checkout的consent接口调用selected的接口，并且选中状态根据接口来
 const customConsentCountry =
-  ['fr', 'us', 'de', 'mx', 'tr'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  ['us', 'de', 'mx', 'tr'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 function isExistListFun(result) {
   let listData = [];
   let optionalList = result.context.optionalList.map((item) => {
     return {
       id: item.id,
       consentTitle: item.consentTitle,
-      isChecked: customConsentCountry ? item.selectedFlag : false,
+      isChecked:
+        customConsentCountry || window.__.env.REACT_APP_COUNTRY === 'fr'
+          ? item.selectedFlag
+          : false,
       isRequired: false,
       detailList: item.detailList,
       consentDesc: item.consentDesc
@@ -27,7 +31,10 @@ function isExistListFun(result) {
     return {
       id: item.id,
       consentTitle: item.consentTitle,
-      isChecked: customConsentCountry ? item.selectedFlag : false,
+      isChecked:
+        customConsentCountry || window.__.env.REACT_APP_COUNTRY === 'fr'
+          ? item.selectedFlag
+          : false,
       isRequired: true,
       detailList: item.detailList,
       consentDesc: item.consentDesc
@@ -113,9 +120,13 @@ function isExistListFun(result) {
 
 const ConsentData = async (props) => {
   let params = {};
-  const customConsentList = customConsentCountry
+  let countrySelectedList = customConsentCountry
     ? findUserSelectedList
     : findUserConsentList;
+  const customConsentList =
+    window.__.env.REACT_APP_COUNTRY === 'fr'
+      ? findUserCheckOutSelectedList
+      : countrySelectedList;
   // add subscriptionPlan consent
   let subscriptionPlanIds = checkoutStore.loginCartData?.filter(
     (item) => item.subscriptionPlanId?.length > 0
