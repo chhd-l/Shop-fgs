@@ -1127,7 +1127,7 @@ class UnLoginCart extends React.Component {
           </div>
           <div
             className={`row ${
-              window.__.env.REACT_APP_COUNTRY === 'us' ? 'hidden' : 'block'
+              window.__.env.REACT_APP_COUNTRY === 'us' ? 'hidden' : ''
             }`}
           >
             <div className="col-6">

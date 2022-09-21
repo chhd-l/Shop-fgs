@@ -26,7 +26,6 @@ import userEvent from '@testing-library/user-event';
 //     )
 //   };
 // });
-debugger;
 describe('PromotionCode Test', () => {
   test('PromotionCode Test', async () => {
     await stores.checkoutStore.setPromotionCode('');
