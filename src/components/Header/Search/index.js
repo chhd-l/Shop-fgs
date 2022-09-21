@@ -13,6 +13,8 @@ function useSearchHook() {
   const [countryCode, setCountryCode] = useState('');
   // Modal visible state
   const [modalVisible, setModalVisible] = useState(true);
+  // is search end
+  const [searchEnd, setSearchEnd] = useState(false);
   // Current input value
   const [inputValue, setInputValue] = useState('');
   // Input Search history

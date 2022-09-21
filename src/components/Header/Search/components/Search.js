@@ -12,8 +12,16 @@ import 'slick-carousel/slick/slick-theme.css';
 import './index.less';
 
 const Search = () => {
-  const { setModalVisible, setDataArticles, setDataBreeds, setSataProducts } =
-    useSearch();
+  const {
+    setModalVisible,
+    searchEnd,
+    dataArticles,
+    setDataArticles,
+    dataBreeds,
+    setDataBreeds,
+    dataProducts,
+    setSataProducts
+  } = useSearch();
 
   const getAllList = (keywords) => {
     getArticles(keywords);
@@ -72,9 +80,17 @@ const Search = () => {
 
         <SearchRecent onClickChange={getAllList} />
 
-        <SearchResult />
-
-        <SearchEmpty />
+        {dataArticles.total > 0 ||
+        dataBreeds.total > 0 ||
+        dataProducts.total > 0 ? (
+          <SearchResult
+            getArticles={getArticles}
+            getBreeds={getBreeds}
+            getProducts={getProducts}
+          />
+        ) : searchEnd ? (
+          <SearchEmpty />
+        ) : null}
       </SearchModal>
     </div>
   );
