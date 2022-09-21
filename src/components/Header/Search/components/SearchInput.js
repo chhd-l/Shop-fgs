@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSearch, RECENT_SEARCH_LIST } from '../index';
 
-const SearchInput = () => {
+const SearchInput = ({ onSearch }) => {
   const inputRef = useRef();
   const {
     setModalVisible,
@@ -18,6 +18,8 @@ const SearchInput = () => {
   const handleSearch = () => {
     if (inputValue && inputValue.trim().length >= 3) {
       handleRecordSearch();
+      console.log(inputValue, 'inputValue');
+      onSearch?.(inputValue);
     }
   };
 
@@ -40,6 +42,7 @@ const SearchInput = () => {
           name="search"
           onSubmit={(e) => {
             e.preventDefault();
+            console.log('xxxxxxx');
             handleSearch();
           }}
         >
@@ -61,7 +64,9 @@ const SearchInput = () => {
                 }
               }}
               onChange={(e) => {
-                setInputValue(e.target.value);
+                const val = e.target.value;
+                console.log('aaaaaaaaaa');
+                setInputValue(val);
               }}
             />
             <button

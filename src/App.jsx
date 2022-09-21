@@ -316,7 +316,7 @@ const AssistanceDog = loadable(() =>
 const CommeChienChat = loadable(() =>
   import('@/views/StaticPage/CommeChienChat')
 );
-const ProductFinder3 = loadable(() => import('@/views/ProductFinder3'));
+const ClubLandingPage1 = loadable(() => import('@/views/ClubLandingPage1'));
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
 const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
 const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
@@ -549,9 +549,9 @@ const App = () => {
                     render={() => <ImplicitLogin />}
                   />
                   <Route
-                    path="/productfinder3"
+                    path="/clublandingpage1"
                     exact
-                    render={(props) => <ProductFinder3 {...props} a={0} />}
+                    render={(props) => <ClubLandingPage1 {...props} />}
                   />
                   <Route
                     exact
