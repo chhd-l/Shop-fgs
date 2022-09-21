@@ -10,6 +10,7 @@ import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
 import { usPaymentInfo } from '@/api/payment';
 import './list.css';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 function CardItemCover({
   selectedSts,
@@ -344,6 +345,12 @@ class CyberCardList extends React.Component {
                 <span className="creditCompleteInfo fontFitSCreen">
                   {data.paymentVendor}
                 </span>
+              </div>
+              <div className="col-12">
+                <CardTips
+                  expirationDate={data.expirationDate}
+                  expireStatusEnum={data.expireStatusEnum}
+                />
               </div>
             </div>
           )}

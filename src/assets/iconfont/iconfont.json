@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "31962947",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "31961274",
+      "name": "path-1 2",
+      "font_class": "a-path-12",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "31961312",
+      "name": "card",
+      "font_class": "card",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
       "icon_id": "19728182",
       "name": "print",
       "font_class": "print",

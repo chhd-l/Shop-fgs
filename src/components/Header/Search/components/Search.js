@@ -11,9 +11,27 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './index.less';
 
-const Search = () => {
-  const { setModalVisible, setDataArticles, setDataBreeds, setSataProducts } =
-    useSearch();
+const Search = (props) => {
+  const {
+    config,
+    setConfig,
+    setModalVisible,
+    searchEnd,
+    dataArticles,
+    setDataArticles,
+    dataBreeds,
+    setDataBreeds,
+    dataProducts,
+    setSataProducts
+  } = useSearch();
+
+  useEffect(() => {
+    setConfig({
+      countryCode: props?.countryCode ?? 'fr',
+      baseRouterPrefixForFgs: props?.baseRouterPrefixForFgs ?? '',
+      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api'
+    });
+  }, []);
 
   const getAllList = (keywords) => {
     getArticles(keywords);
@@ -23,8 +41,10 @@ const Search = () => {
 
   const getArticles = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchArticles({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
-      pageNum
+      pageNum,
+      countryCode: config.countryCode
     });
     setDataArticles({
       total,
@@ -35,8 +55,10 @@ const Search = () => {
 
   const getBreeds = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchBreeds({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
-      pageNum
+      pageNum,
+      countryCode: config.countryCode
     });
     setDataBreeds({
       total,
@@ -47,8 +69,11 @@ const Search = () => {
 
   const getProducts = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchProducts({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
-      pageNum
+      pageNum,
+      countryCode: config.countryCode,
+      itemBaseUrl: config.baseRouterPrefixForFgs
     });
     setSataProducts({
       total,
@@ -70,11 +95,19 @@ const Search = () => {
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        <SearchRecent onClickChange={getAllList} />
-
-        <SearchResult />
-
-        {/*<SearchEmpty />*/}
+        {dataArticles.total > 0 ||
+        dataBreeds.total > 0 ||
+        dataProducts.total > 0 ? (
+          <SearchResult
+            getArticles={getArticles}
+            getBreeds={getBreeds}
+            getProducts={getProducts}
+          />
+        ) : searchEnd ? (
+          <SearchEmpty />
+        ) : (
+          <SearchRecent onClickChange={getAllList} />
+        )}
       </SearchModal>
     </div>
   );

@@ -3,7 +3,7 @@
 @searchMidMaxWidth: 890px;
 
 .rc-search-box {
-  form, ul {
+  form, ul, p {
     margin: 0;
     padding: 0;
   }
@@ -68,6 +68,10 @@
       background-color: transparent;
     }
 
+    &.bg-color-black {
+      background-color: #333;
+    }
+
     .search-section-content {
       max-width: @searchMaxWidth;
       margin: 0 auto;
@@ -96,6 +100,7 @@
 
     .search-modal-content-wrap {
       background-color: rgba(0,0,0, .6);
+      overflow-x: hidden;
       overflow-y: auto;
     }
 
@@ -110,6 +115,7 @@
     display: grid;
     grid-template-columns: 44px 1fr 44px;
     max-width: 660px;
+    height: 44px;
     margin: 0 auto;
     color: #979797;
     font-size: 16px;
@@ -205,7 +211,7 @@
   .result-list-page-box {
     .result-list-page-content {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .result-list-page-footer {
@@ -220,22 +226,30 @@
   .rc-search-box {
     .search-section-wrap {
       .search-section-content {
-        padding: 0 12px;
+        padding: 0 16px;
       }
     }
 
     .search-find-box {
       padding: 20px;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 
     .result-list-page-box {
       .result-list-page-content {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(1, minmax(0, 1fr));
         justify-items: center;
 
         .search-card-image-box {
           width: 80%;
+        }
+
+        .search-card-image-full {
+          width: 90%;
+
+          .card-image-desc {
+            height: auto;
+          }
         }
       }
     }

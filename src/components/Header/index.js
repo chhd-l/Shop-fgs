@@ -242,6 +242,12 @@ class Header extends React.Component {
       ? this.initNavigationsForHub
       : this.initNavigations)();
   }
+  componentWillUpdate() {
+    console.log(
+      ' shouldComponentUpdatefetchHeaderNavigations',
+      'sssssssssssssssssssssssssssss'
+    );
+  }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
     window.removeEventListener('scroll', this.handleScroll);
@@ -783,8 +789,14 @@ class Header extends React.Component {
             </nav>
           )}
 
-          {window.__.env.REACT_APP_HUB ||
-          window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
+          {window.__.env.REACT_APP_HUB &&
+          window.__.env.REACT_APP_COUNTRY === 'us' ? (
+            <>
+              {/*<CountrySelector locale="en-us" site="us" apiHost={RcApiHost}/>*/}
+              <TopNavigation locale="en-us" site="us" apiHost={RcApiHost} />
+            </>
+          ) : window.__.env.REACT_APP_HUB ||
+            window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
@@ -794,22 +806,6 @@ class Header extends React.Component {
               showNav={this.props.showNav}
               showLoginBtn={this.props.showLoginBtn}
             />
-          ) : // (
-          //   <DropDownMenu
-          //       activeTopParentId={this.state.activeTopParentId}
-          //       updateActiveTopParentId={this.updateActiveTopParentId}
-          //       headerNavigationList={headerNavigationList}
-          //       configStore={configStore}
-          //       toggleShowBodyMask={this.toggleShowBodyMask}
-          //       showNav={this.props.showNav}
-          //       showLoginBtn={this.props.showLoginBtn}
-          //     />
-          //   )
-          window.__.env.REACT_APP_COUNTRY === 'us' ? (
-            <>
-              {/*<CountrySelector locale="en-us" site="us" apiHost={RcApiHost}/>*/}
-              <TopNavigation locale="en-us" site="us" apiHost={RcApiHost} />
-            </>
           ) : (
             <DropDownMenu
               activeTopParentId={this.state.activeTopParentId}

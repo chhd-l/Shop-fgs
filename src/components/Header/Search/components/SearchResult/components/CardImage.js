@@ -2,13 +2,18 @@ import React from 'react';
 import './CardImage.less';
 
 const CardImage = ({ fullImage = false, item = {} }) => {
+  const handleClickItem = () => {};
   return (
     <div
       className={`search-card-image-box ${
         fullImage ? 'search-card-image-full' : ''
       }`}
     >
-      <a href={item.url} className="search-card-image-wrap">
+      <a
+        href={item.url}
+        onClick={handleClickItem}
+        className="search-card-image-wrap"
+      >
         <div className="card-image-content">
           <img src={item.img} alt="" />
         </div>

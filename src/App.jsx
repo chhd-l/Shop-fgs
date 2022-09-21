@@ -275,6 +275,7 @@ const register = loadable(() => import('@/views/Register'));
 const ForgetPassword = loadable(() => import('@/views/ForgetPassword'));
 const ForgotSuccessEmail = loadable(() => import('@/views/ForgotSuccessEmail'));
 const ResetPassword = loadable(() => import('@/views/ResetPassword'));
+const ResetFailure = loadable(() => import('@/views/ResetFailure'));
 const ResetSuccess = loadable(() => import('@/views/ResetSuccess'));
 const ResetError = loadable(() => import('@/views/ResetError'));
 const KittenNutrition = loadable(() =>
@@ -549,7 +550,7 @@ const App = () => {
                     render={() => <ImplicitLogin />}
                   />
                   <Route
-                    path="/clublandingpage1"
+                    path="/club-landing"
                     exact
                     render={(props) => <ClubLandingPage1 {...props} />}
                   />
@@ -1337,6 +1338,22 @@ const App = () => {
                     render={(props) => {
                       if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
                         return <ResetPassword {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/reset/failure"
+                    exact
+                    render={(props) => {
+                      if (
+                        window.__.env.REACT_APP_FGS_SELF_LOGIN &&
+                        window.__.env.REACT_APP_COUNTRY === 'ru'
+                      ) {
+                        return <ResetFailure {...props} />;
                       } else {
                         return (
                           <Redirect to={{ pathname: '/404' }} {...props} />

@@ -156,7 +156,7 @@ class Cover extends React.Component {
           id: 'J_checkout_panel_paymentMethod'
         }}
         titleConf={{
-          className: 'mx-5',
+          className: 'mx-10',
           icon: {
             defaultIcon: (
               <em

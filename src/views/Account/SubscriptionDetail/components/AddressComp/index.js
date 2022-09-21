@@ -756,7 +756,6 @@ class AddressList extends React.Component {
       const originData = addressList[this.currentOperateIdx];
 
       console.log(pickupFormData);
-      debugger;
 
       this.setState({
         validationModalVisible: false,

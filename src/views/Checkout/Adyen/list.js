@@ -86,7 +86,6 @@ class AdyenCreditCardList extends React.Component {
   } = {}) => {
     showListLoading && this.setState({ listLoading: true });
     try {
-      debugger;
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
@@ -241,7 +240,7 @@ class AdyenCreditCardList extends React.Component {
   getBrowserInfo(state) {
     this.props.paymentStoreNew.setBrowserInfo(state.data.browserInfo);
   }
-  loadCvv = (el) => {
+  loadCvv = async (el) => {
     const _this = this;
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
@@ -270,43 +269,45 @@ class AdyenCreditCardList extends React.Component {
 
     el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
-    loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      callback: function () {
-        if (!!window.AdyenCheckout) {
-          const AdyenCheckout = window.AdyenCheckout;
-          const checkout = new AdyenCheckout({
-            environment: process.env.REACT_APP_Adyen_ENV,
-            originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale
-          });
-          checkout
-            .create('card', {
-              brand: brand,
-              onChange: (state) => {
-                console.log(state);
-                _this.getBrowserInfo(state);
-                const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
-                let result = find(cardList, (ele) => ele.id === id);
-                result.encryptedSecurityCode = tmpCode;
-                // ****************************************************************
-                //el.encryptedSecurityCode = tmpCode;
-                // ****************************************************************
-
-                updateSelectedCardInfo(result);
-                updateFormValidStatus(result);
-                // ****************************************************************
-                //_this.setState({ cardList: _this.state.cardList });
-                // ****************************************************************
-              },
-              onLoad: (state) => {
-                el.isLoadCvv = true;
-              }
-            })
-            .mount(element);
-        }
-      }
+    const AdyenCheckout = (await import('@adyen/adyen-web')).default;
+    const checkout = new AdyenCheckout({
+      environment: process.env.REACT_APP_Adyen_ENV,
+      originKey: process.env.REACT_APP_AdyenOriginKEY,
+      locale: process.env.REACT_APP_Adyen_locale
     });
+    checkout
+      .create('card', {
+        brand: brand,
+        onChange: (state) => {
+          console.log(state);
+          _this.getBrowserInfo(state);
+          const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
+          let result = find(cardList, (ele) => ele.id === id);
+          result.encryptedSecurityCode = tmpCode;
+          // ****************************************************************
+          //el.encryptedSecurityCode = tmpCode;
+          // ****************************************************************
+
+          updateSelectedCardInfo(result);
+          updateFormValidStatus(result);
+          // ****************************************************************
+          //_this.setState({ cardList: _this.state.cardList });
+          // ****************************************************************
+        },
+        onLoad: (state) => {
+          el.isLoadCvv = true;
+        }
+      })
+      .mount(element);
+    // loadJS({
+    //   url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+    //   callback: function () {
+    //     if (!!window.AdyenCheckout) {
+    //       const AdyenCheckout = window.AdyenCheckout;
+
+    //     }
+    //   }
+    // });
   };
   handleClickDeleteBtn(el, e) {
     e.preventDefault();
@@ -329,11 +330,11 @@ class AdyenCreditCardList extends React.Component {
       this.hanldeUpdateSelectedCardInfo();
     });
   };
-  renderOneCard = ({ data, showLastFour = true }) => {
+  renderOneCard = ({ data, showLastFour = true, idx }) => {
     let cvvId = data.id;
     return (
       <div className="row">
-        <div className="col-6 col-sm-4 d-flex flex-column pb-1 pb-md-0">
+        <div className="col-3 col-sm-4 d-flex flex-column pb-1 pb-md-0">
           <LazyLoad>
             <img
               alt=""
@@ -355,7 +356,7 @@ class AdyenCreditCardList extends React.Component {
             />
           </LazyLoad>
         </div>
-        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 pb-md-0">
+        <div className="col-6 col-sm-8 flex-column d-flex pb-1 pb-md-0">
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">
@@ -380,13 +381,16 @@ class AdyenCreditCardList extends React.Component {
               )}
             </div>
           </div>
+          <div className="col-3">
+            {this.renderCardDeleteBtnJSX({ el, idx })}
+          </div>
           {showLastFour && (
             <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
               <div className="col-6">
-                <span style={{ fontSize: '14px' }}>
+                {/* <span style={{ fontSize: '14px' }}>
                   <FormattedMessage id="payment.cardNumber2" />
                 </span>
-                <br />
+                <br /> */}
                 <span
                   className="creditCompleteInfo fontFitSCreen"
                   style={{ fontSize: '14px' }}
@@ -451,7 +455,6 @@ class AdyenCreditCardList extends React.Component {
           data: el,
           showLastFour: false
         })}
-        {this.renderCardDeleteBtnJSX({ el, idx })}
       </CardItemCover>
     ));
     const cardListJSX = cardList.map((el, idx) => {
@@ -469,7 +472,6 @@ class AdyenCreditCardList extends React.Component {
           savedToBackend={true}
         >
           {this.renderOneCard({ data: el })}
-          {this.renderCardDeleteBtnJSX({ el, idx })}
         </CardItemCover>
       );
     });

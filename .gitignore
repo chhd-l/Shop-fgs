@@ -2,10 +2,10 @@ node_modules
 build
 .idea
 debug.log
-# .env.development.local
 feature_0523_sprint12
 build_tmp
 package-lock.json
 .vscode
 demo_index.html
 .templates
+.env.development.local

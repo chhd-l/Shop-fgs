@@ -3,8 +3,8 @@ import { useSearch } from '../../index';
 import CardImage from './components/CardImage';
 import Pager from './components/Pager';
 
-const ResultProducts = () => {
-  const { dataProducts } = useSearch();
+const ResultProducts = (props) => {
+  const { inputValue, dataProducts } = useSearch();
 
   return (
     <div className="result-list-page-box">
@@ -15,10 +15,11 @@ const ResultProducts = () => {
       </div>
       <div className="result-list-page-footer">
         <Pager
-          current={dataProducts.pageNum}
+          current={dataProducts.pageNum + 1}
           total={dataProducts.total}
           onChange={(e) => {
             console.log(e);
+            props.getProducts(inputValue, e - 1);
           }}
         />
       </div>

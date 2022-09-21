@@ -3,8 +3,8 @@ import { useSearch } from '../../index';
 import CardImage from './components/CardImage';
 import Pager from './components/Pager';
 
-const ResultBreeds = () => {
-  const { dataBreeds } = useSearch();
+const ResultBreeds = (props) => {
+  const { inputValue, dataBreeds } = useSearch();
 
   return (
     <div className="result-list-page-box">
@@ -15,10 +15,11 @@ const ResultBreeds = () => {
       </div>
       <div className="result-list-page-footer">
         <Pager
-          current={dataBreeds.pageNum}
+          current={dataBreeds.pageNum + 1}
           total={dataBreeds.total}
           onChange={(e) => {
             console.log(e);
+            props.getBreeds(inputValue, e - 1);
           }}
         />
       </div>
