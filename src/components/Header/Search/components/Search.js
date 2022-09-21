@@ -74,7 +74,7 @@ const Search = () => {
 
         <SearchResult />
 
-        {/*<SearchEmpty />*/}
+        <SearchEmpty />
       </SearchModal>
     </div>
   );
