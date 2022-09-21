@@ -1,10 +1,13 @@
 import React from 'react';
+import { useSearch } from '../../index';
 
 import img_left from './images/left.jpg';
 import img_center from './images/center.png';
 import img_right from './images/right.png';
 
 const Content = () => {
+  const { countryCode } = useSearch();
+
   return (
     <div className="search-empty-content-box">
       <div className="empty-content-tips">
@@ -48,10 +51,10 @@ const Content = () => {
             them.
           </div>
           <div className="empty-content-link-action">
-            <a className="empty-circle-btn" href="/">
+            <a className="empty-circle-btn" href={`${countryCode}/cats/breeds`}>
               Cat breeds
             </a>
-            <a className="empty-circle-btn" href="/">
+            <a className="empty-circle-btn" href={`${countryCode}/dogs/breeds`}>
               Dog breeds
             </a>
           </div>
@@ -69,10 +72,10 @@ const Content = () => {
             kittens and puppies.
           </div>
           <div className="empty-content-link-action">
-            <a className="empty-circle-btn" href="/">
+            <a className="empty-circle-btn" href={`${countryCode}/dogs/puppy`}>
               Puppies
             </a>
-            <a className="empty-circle-btn" href="/">
+            <a className="empty-circle-btn" href={`${countryCode}/cats/kitten`}>
               Kittens
             </a>
           </div>
