@@ -117,8 +117,10 @@ class PaymentStore {
   @observable isStudentPurchase = false; //是否填写了学生购student promotion 50% discount
 
   @observable subscriptionDetail = [];
+  @observable regPwdValid = true;
+  @observable regPwd = '';
 
-  @observable needRegisterWarning = false;
+  @observable existEmailErrMsg = '';
 
   @computed get clinicPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'clinic').status;
@@ -616,8 +618,18 @@ class PaymentStore {
   }
 
   @action.bound
-  setNeedRegisterWarning(val) {
-    this.needRegisterWarning = val;
+  setRegPwdValid(val) {
+    this.regPwdValid = val;
+  }
+
+  @action.bound
+  setRegPwd(val) {
+    this.regPwd = val;
+  }
+
+  @action.bound
+  setExistEmailErrMsg(val) {
+    this.existEmailErrMsg = val;
   }
 }
 export default PaymentStore;

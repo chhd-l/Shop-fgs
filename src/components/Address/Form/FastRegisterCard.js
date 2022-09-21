@@ -2,27 +2,25 @@ import React, {
   useRef,
   useImperativeHandle,
   forwardRef,
-  useState
+  useState,
+  useEffect
 } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import PasswordInput from '@/components/Address/Form/PasswordInput';
 import { inject, observer } from 'mobx-react';
-import cn from 'classnames';
 
 const FastRegisterCard = (
-  { paymentStoreNew, loginStore, onChange = () => {} },
+  { paymentStoreNew, loginStore, onChange = () => {}, email },
   ref
 ) => {
   const history = useHistory();
   const { oktaAuth } = useOktaAuth();
   const localItemRoyal = window.__.localItemRoyal;
   const sessionItemRoyal = window.__.sessionItemRoyal;
-  const { subForm, setNeedRegisterWarning } = paymentStoreNew;
-  const { isLogin } = loginStore;
+  const { subForm, regPwdValid, existEmailErrMsg } = paymentStoreNew;
 
-  const [passwordValid, setPasswordValid] = useState(false);
   const [passwordErrMsg, setPasswordErrMsg] = useState('');
 
   const inputRef = useRef();
@@ -30,6 +28,14 @@ const FastRegisterCard = (
     getInputState: inputRef.current.getInputState,
     setInputValue: inputRef.current.setInputValue
   }));
+
+  useEffect(() => {
+    if (regPwdValid) {
+      setPasswordErrMsg('');
+    } else {
+      setPasswordErrMsg('The password is invalid');
+    }
+  }, [regPwdValid]);
 
   const handleLogin = () => {
     localStorage.setItem(
@@ -52,33 +58,12 @@ const FastRegisterCard = (
     //console.log(value);
   };
 
-  const sendIsValidPassWord = (isValid) => {
-    setPasswordValid(isValid);
-  };
-
-  const showNeedRegisterWarning = () => {
-    let result = false;
-    if (
-      !isLogin &&
-      subForm.buyWay == 'frequency' &&
-      (!passwordValid || passwordErrMsg)
-    ) {
-      result = true;
-    }
-    setNeedRegisterWarning(result);
-    return result;
-  };
-
-  const sendPasswordErrMsg = (errMsg) => {
-    setPasswordErrMsg(errMsg);
-  };
-
   return (
     <div
       className="fast-register-card py-4 border rounded border-gray-300"
       style={{ height: 'auto' }}
     >
-      {showNeedRegisterWarning() && (
+      {subForm.buyWay == 'frequency' && (
         <div className="flex border-b px-4 pb-2">
           <div className="iconfont iconinfo mr-3 text-24 text-yellow-500"></div>
           <div className="flex-1 text-14 font-medium text-cs-gray leading-tight">
@@ -106,15 +91,17 @@ const FastRegisterCard = (
         apres letapa de confirmation
       </div>
       <div className="register-pass px-4">
-        <PasswordInput
-          ref={inputRef}
-          onChange={onChangeEvent}
-          sendIsValidPassWord={sendIsValidPassWord}
-          sendErrMsg={sendPasswordErrMsg}
-        />
+        <PasswordInput ref={inputRef} onChange={onChangeEvent} />
       </div>
       {passwordErrMsg && (
-        <div className="text-center text-rc-red">{passwordErrMsg}</div>
+        <div className="text-left text-rc-red px-5 leading-tight text-14">
+          {passwordErrMsg}
+        </div>
+      )}
+      {existEmailErrMsg && (
+        <div className="text-left text-rc-red px-5 leading-tight text-14">
+          {existEmailErrMsg}
+        </div>
       )}
     </div>
   );

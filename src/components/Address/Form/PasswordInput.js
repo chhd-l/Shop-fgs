@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { Input } from '@/components/Common';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import './PasswordInput.less';
+import { inject, observer } from 'mobx-react';
 import { emailExsit } from '@/api/payment';
 
 const pass_word = 'pass' + 'word';
@@ -15,17 +16,17 @@ const regs = {
 };
 
 @injectIntl
+@inject('paymentStoreNew')
+@observer
 class PasswordInput extends React.Component {
   static defaultProps = {
-    onChange() {},
-    sendIsValidPassWord() {},
-    sendErrMsg() {}
+    onChange() {}
   };
 
   state = {
     passwordValue: '',
     passwordInputType: pass_word,
-    passwordValid: false,
+    passwordValid: true,
     passwordMessage: '',
     passwordChanged: false,
 
@@ -36,9 +37,10 @@ class PasswordInput extends React.Component {
     ruleSpecial: false
   };
   componentDidUpdate() {
-    const { passwordValid } = this.state;
-    const { sendIsValidPassWord } = this.props;
-    sendIsValidPassWord(passwordValid);
+    // const {setRegPwd} = this.props.paymentStoreNew
+    // if(this.state.passwordValue){
+    //   setRegPwd(this.state.passwordValue)
+    // }
   }
 
   getInputState = () => {
@@ -56,7 +58,9 @@ class PasswordInput extends React.Component {
   inputChange = (e) => {
     const value = e.target.value;
     const { onChange } = this.props;
+
     const { lowerReg, upperReg, nameReg, specialReg } = regs;
+    const { setRegPwd, setExistEmailErrMsg } = this.props.paymentStoreNew;
 
     onChange(value);
 
@@ -71,16 +75,28 @@ class PasswordInput extends React.Component {
       },
       () => {
         this.validInput(value);
+        setRegPwd(value);
+        setExistEmailErrMsg('');
       }
     );
   };
 
   validInput = (value) => {
-    const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-      this.state;
+    const {
+      ruleLength,
+      ruleLower,
+      ruleUpper,
+      ruleAname,
+      ruleSpecial,
+      passwordValue
+    } = this.state;
+    const { setRegPwdValid } = this.props.paymentStoreNew;
 
-    const valid =
-      ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
+    const valid = passwordValue
+      ? ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial
+      : true;
+
+    setRegPwdValid(valid);
 
     this.setState({
       passwordValid: valid,
@@ -88,11 +104,9 @@ class PasswordInput extends React.Component {
         ? this.props.intl.messages.registerPasswordFormat
         : this.props.intl.messages.registerFillIn
     });
-    return valid;
   };
 
   inputFocus = () => {
-    this.props.sendErrMsg('');
     this.setState({
       passwordChanged: true
     });
@@ -103,29 +117,25 @@ class PasswordInput extends React.Component {
     this.setState({
       passwordChanged: false
     });
-    const valid = this.validInput(value);
-    if (valid) {
-      emailExsit({ email: value })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          this.props.sendErrMsg('The Email is Exist');
-        });
-    }
+    this.validInput(value);
   };
 
   deleteInput = () => {
-    this.setState({
-      passwordValue: '',
-      passwordValid: false,
-      passwordMessage: this.props.intl.messages.registerFillIn,
-      ruleLength: false,
-      ruleLower: false,
-      ruleUpper: false,
-      ruleAname: false,
-      ruleSpecial: false
-    });
+    const { setRegPwd } = this.props.paymentStoreNew;
+    this.setState(
+      {
+        passwordValue: '',
+        passwordMessage: this.props.intl.messages.registerFillIn,
+        ruleLength: false,
+        ruleLower: false,
+        ruleUpper: false,
+        ruleAname: false,
+        ruleSpecial: false
+      },
+      () => {
+        setRegPwd('');
+      }
+    );
   };
 
   render() {
