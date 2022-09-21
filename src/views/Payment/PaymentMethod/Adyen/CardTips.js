@@ -15,13 +15,7 @@ import './CardTips.less';
 
 const CardTips = ({ expirationDate = '', expireStatusEnum = '' }) => {
   if (!expirationDate) {
-    return (
-      <div className="card-tips-wrapper">
-        <span className="iconfont iconinfo color-red">
-          00/29 - <FormattedMessage id="cardTips.expired" />
-        </span>
-      </div>
-    );
+    return null;
   }
 
   const formatExpirationDate = moment(expirationDate).format('MM/YY');
