@@ -703,7 +703,6 @@ class Checkout extends React.Component {
       console.warn(err);
     }
     let consentData = await ConsentData(this.props);
-    debugger;
     this.rebindListData(consentData);
     this.initPaymentWay();
     this.initPanelStatus();
