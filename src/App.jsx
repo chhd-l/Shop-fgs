@@ -549,7 +549,7 @@ const App = () => {
                     render={() => <ImplicitLogin />}
                   />
                   <Route
-                    path="/clublandingpage1"
+                    path="/club-landing"
                     exact
                     render={(props) => <ClubLandingPage1 {...props} />}
                   />
