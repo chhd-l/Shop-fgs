@@ -32,7 +32,7 @@ class PanelContainer extends React.Component {
     return (
       <div
         className={cn(
-          'card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border shadow-lg',
+          'card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 shadow-lg',
           // panelStatus.isEdit ? 'border-333' : 'border-transparent',
           panelStatus.isEdit ? '-mx-4 md:mx-0' : 'border-transparent',
           cClassName

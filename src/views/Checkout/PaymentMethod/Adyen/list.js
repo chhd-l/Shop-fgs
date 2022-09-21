@@ -25,19 +25,13 @@ function CardItemCover({
   return (
     <div
       className={`adyen rounded-lg creditCompleteInfoBox position-relative cursor-pointer mb-2 border p-4 ${
-        selectedSts ? 'active borderColor-979797' : 'border-transparent'
+        selectedSts ? 'active border-333' : 'border-transparent'
       }`}
       style={{ backgroundColor: '#F6F6F6' }}
       onClick={hanldeClickCardItem}
     >
       {selectedSts && (!savedToBackend || el.encryptedSecurityCode) && (
-        <span
-          className="position-absolute iconfont font-weight-bold green"
-          style={{
-            right: '3%',
-            bottom: '4%'
-          }}
-        >
+        <span className="position-absolute iconfont font-weight-bold green card-cvv-checked">
           &#xe68c;
         </span>
       )}
@@ -356,7 +350,7 @@ class AdyenCreditCardList extends React.Component {
     return (
       <div className="row items-center">
         <div className="col-4 col-sm-3 d-flex  pb-1 md:pb-0">
-          <div>
+          <div className="flex items-center">
             <input
               className="rc-input__radio hidden"
               id="type_once"
@@ -392,12 +386,12 @@ class AdyenCreditCardList extends React.Component {
           <LazyLoad>
             <img
               alt="card background"
-              className="PayCardImgFitScreen"
+              className="PayCardImgFitScreen w-full md:w-4/5"
               src={getCardImg({
                 supportPaymentMethods: this.props.supportPaymentMethods,
                 currentVendor: data.paymentVendor
               })}
-              style={{ width: '80%' }}
+              // style={{ width: '80%' }}
             />
           </LazyLoad>
         </div>
@@ -450,7 +444,11 @@ class AdyenCreditCardList extends React.Component {
           {type == 1 ? this.renderCardDeleteBtnJSX({ el: data, idx }) : null}
         </div>
         <div className="col-4 col-sm-3" />
-        <div className="col-8 col-sm-8 pt-3">
+        <div
+          className={`col-6 col-sm-8 ${
+            data.id === this.state.selectedId ? 'pt-3' : ''
+          }`}
+        >
           <div id={`cvv_${cvvId}`} className="cvv" />
         </div>
         <div className="col-8" />
