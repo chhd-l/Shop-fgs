@@ -16,7 +16,8 @@ const Search = (props) => {
     config,
     setConfig,
     setModalVisible,
-    searchEnd,
+    isSearched,
+    setIsSearched,
     dataArticles,
     setDataArticles,
     dataBreeds,
@@ -33,10 +34,11 @@ const Search = (props) => {
     });
   }, []);
 
-  const getAllList = (keywords) => {
-    getArticles(keywords);
-    getBreeds(keywords);
-    getProducts(keywords);
+  const getAllList = async (keywords) => {
+    await getArticles(keywords);
+    await getBreeds(keywords);
+    await getProducts(keywords);
+    setIsSearched(true);
   };
 
   const getArticles = async (keywords, pageNum = 0) => {
@@ -82,6 +84,9 @@ const Search = (props) => {
     });
   };
 
+  const hasSomeData =
+    dataArticles.total > 0 || dataBreeds.total > 0 || dataProducts.total > 0;
+
   return (
     <div className="rc-search-box">
       <button
@@ -95,19 +100,22 @@ const Search = (props) => {
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        {dataArticles.total > 0 ||
-        dataBreeds.total > 0 ||
-        dataProducts.total > 0 ? (
+        {/*没有数据 && 搜索状态是false = 才展示*/}
+        {!hasSomeData && !isSearched && (
+          <SearchRecent onClickChange={getAllList} />
+        )}
+
+        {/*有数据 = 才展示*/}
+        {hasSomeData && (
           <SearchResult
             getArticles={getArticles}
             getBreeds={getBreeds}
             getProducts={getProducts}
           />
-        ) : searchEnd ? (
-          <SearchEmpty />
-        ) : (
-          <SearchRecent onClickChange={getAllList} />
         )}
+
+        {/*没有数据 && 搜索状态是true = 才展示*/}
+        {!hasSomeData && isSearched && <SearchEmpty />}
       </SearchModal>
     </div>
   );
