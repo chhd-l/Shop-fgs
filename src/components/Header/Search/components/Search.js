@@ -70,9 +70,9 @@ const Search = () => {
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        {/*<SearchRecent onClickChange={getAllList} />
+        <SearchRecent onClickChange={getAllList} />
 
-        <SearchResult />*/}
+        <SearchResult />
 
         <SearchEmpty />
       </SearchModal>
