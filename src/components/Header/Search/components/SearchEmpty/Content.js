@@ -6,7 +6,7 @@ import img_center from './images/center.png';
 import img_right from './images/right.png';
 
 const Content = () => {
-  const { countryCode } = useSearch();
+  const { config } = useSearch();
 
   return (
     <div className="search-empty-content-box">
@@ -34,7 +34,7 @@ const Content = () => {
             Take our online survey to find the right food for your pet.
           </div>
           <div className="empty-content-link-action empty-columns-1">
-            <a className="empty-circle-btn" href={`${countryCode}/`}>
+            <a className="empty-circle-btn" href={`${config.countryCode}/`}>
               Find the right food
             </a>
           </div>
@@ -51,10 +51,16 @@ const Content = () => {
             them.
           </div>
           <div className="empty-content-link-action">
-            <a className="empty-circle-btn" href={`${countryCode}/cats/breeds`}>
+            <a
+              className="empty-circle-btn"
+              href={`${config.countryCode}/cats/breeds`}
+            >
               Cat breeds
             </a>
-            <a className="empty-circle-btn" href={`${countryCode}/dogs/breeds`}>
+            <a
+              className="empty-circle-btn"
+              href={`${config.countryCode}/dogs/breeds`}
+            >
               Dog breeds
             </a>
           </div>
@@ -72,10 +78,16 @@ const Content = () => {
             kittens and puppies.
           </div>
           <div className="empty-content-link-action">
-            <a className="empty-circle-btn" href={`${countryCode}/dogs/puppy`}>
+            <a
+              className="empty-circle-btn"
+              href={`${config.countryCode}/dogs/puppy`}
+            >
               Puppies
             </a>
-            <a className="empty-circle-btn" href={`${countryCode}/cats/kitten`}>
+            <a
+              className="empty-circle-btn"
+              href={`${config.countryCode}/cats/kitten`}
+            >
               Kittens
             </a>
           </div>

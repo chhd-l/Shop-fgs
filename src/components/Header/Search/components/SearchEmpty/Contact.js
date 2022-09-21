@@ -6,25 +6,31 @@ import img_email from './images/email.png';
 import img_msg from './images/msg.png';
 
 const Contact = () => {
-  const { countryCode } = useSearch();
+  const { config } = useSearch();
 
   return (
     <div className="search-empty-contact-box">
       <div className="empty-contact-title">Any questions?</div>
       <div className="empty-contact-desc">
-        Visit <a href={`${countryCode}/contact-us`}>our contact page</a> or
-        reach us directly.
+        Visit <a href={`${config.countryCode}/contact-us`}>our contact page</a>{' '}
+        or reach us directly.
       </div>
       <div className="empty-contact-link">
         <a className="empty-circle-btn" href="tel:+1-800-592-6687">
           <img src={img_phone} alt="phone" />
           0845 300 5011
         </a>
-        <a className="empty-circle-btn" href={`${countryCode}/contact-us`}>
+        <a
+          className="empty-circle-btn"
+          href={`${config.countryCode}/contact-us`}
+        >
           <img src={img_email} alt="email" />
           Send a message
         </a>
-        <a className="empty-circle-btn" href={`${countryCode}/about-us/faqs`}>
+        <a
+          className="empty-circle-btn"
+          href={`${config.countryCode}/about-us/faqs`}
+        >
           <img src={img_msg} alt="message" />
           Access to FAQs
         </a>
