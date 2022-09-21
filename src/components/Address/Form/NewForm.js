@@ -97,7 +97,7 @@ const style = {
   }
 };
 
-@inject('configStore', 'loginStore')
+@inject('configStore', 'loginStore', 'paymentStoreNew')
 @injectIntl
 @observer
 class Form extends React.Component {
@@ -160,6 +160,9 @@ class Form extends React.Component {
       this.address1Item[0]?.inputFreeTextFlag == 1 &&
       this.address1Item[0]?.inputSearchBoxFlag == 0
     );
+  }
+  get needRegisterWarning() {
+    return this.props.paymentStoreNew.needRegisterWarning;
   }
 
   constructor(props) {
@@ -1496,6 +1499,9 @@ class Form extends React.Component {
       if (formErrMsgArr.length > 0) {
         this.setState({ errMsgObj: newErrMsgObj });
         this.scrollTo(`${formErrMsgArr[0]}Shipping`);
+      } else if (this.needRegisterWarning) {
+        //快速注册需要填
+        this.scrollTo('emailShipping');
       } else {
         this.props.getFormAddressValidFlag(true);
       }
