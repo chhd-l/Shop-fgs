@@ -86,7 +86,6 @@ class AdyenCreditCardList extends React.Component {
   } = {}) => {
     showListLoading && this.setState({ listLoading: true });
     try {
-      debugger;
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
