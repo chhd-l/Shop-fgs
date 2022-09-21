@@ -965,6 +965,7 @@ const PetForms = ({
                     <FormattedMessage id="Lifestyle" />
                   </label>
                   <Selection
+                    dataAutoTestid="select_options_item_Lifestyle"
                     optionList={lifestyleOptions}
                     selectedItemChange={(el) => lifestyleChange(el)}
                     selectedItemData={{
@@ -982,6 +983,7 @@ const PetForms = ({
                   <FormattedMessage id="Activity" />
                 </label>
                 <Selection
+                  dataAutoTestid={'select_options_item_activity'}
                   optionList={activityOptions}
                   selectedItemChange={(el) => activityChange(el)}
                   selectedItemData={{
@@ -1038,6 +1040,7 @@ const PetForms = ({
                   ></label>
                 </span>
                 <Selection
+                  dataAutoTestid={'select_options_item_weight'}
                   customContainerStyle={{
                     display: 'inline-block',
                     height: '48px'

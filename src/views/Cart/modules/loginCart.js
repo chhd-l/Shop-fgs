@@ -1046,7 +1046,11 @@ class LoginCart extends React.Component {
             />
           </div>
         </div>
-        <div className="row">
+        <div
+          className={`row ${
+            window.__.env.REACT_APP_COUNTRY === 'us' ? 'hidden' : 'block'
+          }`}
+        >
           <div className="col-6">
             <span className="rc-input rc-input--inline rc-input--label mr-0 w-full mt-0 overflow-hidden mb-2.5">
               <FormattedMessage id="promotionCode">

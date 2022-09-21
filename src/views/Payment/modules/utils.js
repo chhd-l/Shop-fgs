@@ -47,9 +47,10 @@ export function handleRecoProductParamByItem({
   paymentStore,
   checkoutStore,
   loginStore,
+  clinicStore,
   ...rest
 }) {
-  let recommendationInfos = {};
+  let recommendationInfos = clinicStore.linkClinicRecommendationInfos || {};
   if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
     recommendationInfos =
       typeof ele.recommendationInfos == 'string'
@@ -64,6 +65,7 @@ export function handleRecoProductParamByItem({
     referenceData = '',
     recommenderName = ''
   } = recommendationInfos;
+  console.log(recommendationInfos, 'recommendationInfos123');
   const referenceId = recommenderId || recommendationId;
   let newRecommendationId =
     ele.recommendationId == 'Felin'

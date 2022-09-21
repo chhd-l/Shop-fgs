@@ -10,7 +10,6 @@ import cn from 'classnames';
 import { FooterWrapper } from './style';
 import { marsFooter } from '@/utils/constant/ru-local-data';
 import { Footer as RcFooter } from '@/react-components';
-//import { Footer as RcFooter } from '@royal-canin-sitecore/react-components';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isHub = window.__.env.REACT_APP_HUB;

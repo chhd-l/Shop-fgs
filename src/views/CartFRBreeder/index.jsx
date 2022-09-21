@@ -35,22 +35,21 @@ export const CartFRBreeder = ({
     });
     let token = funcUrl({ name: 'token' });
     let prescription = funcUrl({ name: 'prescription' });
-    let params = token;
+    let params = { id: token };
     let requestName = getRecommendationList_token;
     if (!token) {
       requestName = getRecommendationList_prescriberId;
-      params = prescription;
+      params = { id: prescription };
     }
+    params.allGoods = true;
+
     try {
       let res = await requestName(params);
-      const productLists =
-        res?.context?.recommendationGoodsInfoRels?.filter(
-          (product) => product.goodsInfo?.stock
-        ) || [];
-      if (!productLists?.length) {
-        setLoadingRecommendation(false);
-        return;
-      }
+      const productLists = res?.context?.recommendationGoodsInfoRels || [];
+      // if (!productLists?.length) {
+      //   setLoadingRecommendation(false);
+      //   return;
+      // }
       if (res.context.structureType != 'breeder') {
         // 法国区分stp和breeder
         setIsSPT(true);
@@ -113,7 +112,7 @@ export const CartFRBreeder = ({
           goodsInfoId: item.goodsInfo.goodsInfoId,
           goodsNum: item.recommendationNumber,
           goodsCategory: '',
-          goodsInfoFlag: 2,
+          goodsInfoFlag: 0, //修改为默认single purchase
           periodTypeId: item.defaultFrequencyId,
           recommendationId:
             clinicStore.linkClinicRecommendationInfos?.recommendationId ||
@@ -135,7 +134,8 @@ export const CartFRBreeder = ({
           goodsInfos: item.goodsInfos,
           goodsSpecDetails: item.goodsSpecDetails,
           goodsSpecs: item.goodsSpecs,
-          defaultSkuNo: item.goodsInfo.goodsInfoNo
+          defaultSkuNo: item.goodsInfo.goodsInfoNo,
+          canSelectedOutOfStock: true
         });
         return item;
       });
@@ -147,7 +147,7 @@ export const CartFRBreeder = ({
           {
             selected: true,
             quantity: item.recommendationNumber,
-            goodsInfoFlag: item.goodsInfoFlag,
+            goodsInfoFlag: 0, // item.goodsInfoFlag, 修改为默认single purchase
             periodTypeId: item.defaultFrequencyId,
             recommendationInfos: clinicStore.linkClinicRecommendationInfos,
             recommendationId:

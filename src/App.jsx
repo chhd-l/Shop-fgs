@@ -49,7 +49,6 @@ import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
 import { ExportedComponentsProvider } from '@/react-components';
-//import { ExportedComponentsProvider } from '@royal-canin-sitecore/react-components';
 
 // import ProductFinder from '@/views/ProductFinder';
 import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
@@ -276,6 +275,7 @@ const register = loadable(() => import('@/views/Register'));
 const ForgetPassword = loadable(() => import('@/views/ForgetPassword'));
 const ForgotSuccessEmail = loadable(() => import('@/views/ForgotSuccessEmail'));
 const ResetPassword = loadable(() => import('@/views/ResetPassword'));
+const ResetFailure = loadable(() => import('@/views/ResetFailure'));
 const ResetSuccess = loadable(() => import('@/views/ResetSuccess'));
 const ResetError = loadable(() => import('@/views/ResetError'));
 const KittenNutrition = loadable(() =>
@@ -317,7 +317,7 @@ const AssistanceDog = loadable(() =>
 const CommeChienChat = loadable(() =>
   import('@/views/StaticPage/CommeChienChat')
 );
-const ProductFinder3 = loadable(() => import('@/views/ProductFinder3'));
+const ClubLandingPage1 = loadable(() => import('@/views/ClubLandingPage1'));
 const RuLocalAboutUs = loadable(() => import('@/views/RuLocal/AboutUs'));
 const RuLocalContactUs = loadable(() => import('@/views/RuLocal/ContactUs'));
 const RuLocalClub = loadable(() => import('@/views/RuLocal/Club'));
@@ -404,14 +404,17 @@ const LoginCallback = (props) => {
         window.location.search.indexOf('?code') >= 0 &&
         window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
       if (sessionToken && !authStateReady && !authCallBack) {
+        console.info('LoginCallback11');
         await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
       } else {
         if (authStateReady) {
+          console.info('LoginCallback22');
           props && props.history.push('/required');
         } else {
+          console.info('LoginCallback33');
           await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
         }
-        console.log(authState);
+        console.log('authStateauthState', authState);
         // props && props.history.push('/required');
       }
     };
@@ -547,9 +550,9 @@ const App = () => {
                     render={() => <ImplicitLogin />}
                   />
                   <Route
-                    path="/productfinder3"
+                    path="/club-landing"
                     exact
-                    render={(props) => <ProductFinder3 {...props} a={0} />}
+                    render={(props) => <ClubLandingPage1 {...props} />}
                   />
                   <Route
                     exact
@@ -601,11 +604,13 @@ const App = () => {
                     }}
                   />
                   <Route
-                    path="/checkoutnew"
                     exact
-                    render={(props) => (
-                      <Checkout key={props.match.params.type} {...props} />
-                    )}
+                    path="/checkoutnew"
+                    render={(props) => {
+                      return (
+                        <Payment key={props.match.params.type} {...props} />
+                      );
+                    }}
                   />
                   <Route
                     exact
@@ -1333,6 +1338,22 @@ const App = () => {
                     render={(props) => {
                       if (window.__.env.REACT_APP_FGS_SELF_LOGIN) {
                         return <ResetPassword {...props} />;
+                      } else {
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                      }
+                    }}
+                  />
+                  <Route
+                    path="/reset/failure"
+                    exact
+                    render={(props) => {
+                      if (
+                        window.__.env.REACT_APP_FGS_SELF_LOGIN &&
+                        window.__.env.REACT_APP_COUNTRY === 'ru'
+                      ) {
+                        return <ResetFailure {...props} />;
                       } else {
                         return (
                           <Redirect to={{ pathname: '/404' }} {...props} />

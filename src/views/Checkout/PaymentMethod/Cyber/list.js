@@ -10,6 +10,7 @@ import { scrollPaymentPanelIntoView } from '../../Modules/utils';
 import LazyLoad from 'react-lazyload';
 import { usPaymentInfo } from '@/api/payment';
 import './list.css';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 function CardItemCover({
   selectedSts,
@@ -20,7 +21,7 @@ function CardItemCover({
 }) {
   return (
     <div
-      className={`rounded creditCompleteInfoBox position-relative cursor-pointer border p-4 ${
+      className={`cyber rounded creditCompleteInfoBox position-relative cursor-pointer border p-4 ${
         selectedSts ? 'active border-blue' : ''
       }`}
       onClick={hanldeClickCardItem}
@@ -334,6 +335,10 @@ class CyberCardList extends React.Component {
                 >
                   xxxx xxxx xxxx {data.lastFourDigits}
                 </span>
+                <CardTips
+                  expirationDate={data.expirationDate}
+                  expireStatusEnum={data.expireStatusEnum}
+                />
               </div>
               <div className={`col-6 border-left`}>
                 <span style={{ fontSize: '.875rem' }}>

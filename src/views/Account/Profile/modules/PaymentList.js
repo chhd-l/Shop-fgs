@@ -138,11 +138,11 @@ function CardItem(props) {
       </div>
       {listVisible && (
         <div
-          className={`absolute p-2 ui-cursor-pointer-pure pdl-1`}
-          style={{
-            // top: '94%\ !important',
-            right: '-12%'
-          }}
+          className={`right-delete-icon absolute p-2 ui-cursor-pointer-pure pdl-1`}
+          // style={{
+          //   // top: '94%\ !important',
+          //   right: '-12%'
+          // }}
         >
           <Popover
             content={
@@ -170,8 +170,8 @@ function CardItem(props) {
               <div
                 className="iconfont iconshanchu"
                 style={{
-                  fontSize: '2rem',
-                  lineHeight: '2rem'
+                  fontSize: '1.5rem',
+                  lineHeight: '1.5rem'
                   // fontWeight: '600'
                 }}
               />
@@ -612,7 +612,7 @@ class PaymentList extends React.Component {
                             <>
                               {el.isDefault === 1 ? (
                                 <div
-                                  className="red flex -mt-10 mr-4 w-100 justify-end"
+                                  className="red flex -mt-8 mr-4 w-100 justify-end items-center"
                                   onClick={this.toggleSetDefault.bind(this, el)}
                                 >
                                   <span className="iconfont mr-1">
@@ -640,7 +640,7 @@ class PaymentList extends React.Component {
                                 ) : el.paymentItem?.toLowerCase() ===
                                   'adyen_ideal' ? null : (
                                   <div
-                                    className={`ui-cursor-pointer flex -mt-10 mr-4 w-100 justify-end`}
+                                    className={`ui-cursor-pointer flex -mt-8 mr-4 w-100 justify-end`}
                                     onClick={this.toggleSetDefault.bind(
                                       this,
                                       el

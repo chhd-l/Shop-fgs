@@ -2,37 +2,75 @@ import { Canonical } from '@/components/Common';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.css';
-const ProductFinder3 = (props: any) => {
+const ClubLandingPage1 = (props: any) => {
   const [idx, setIdx] = useState(0);
   const [startTouchx, setStartTouchx] = useState(0);
-  // const [endTouchx, setEndTouchx] = useState(0);
+  const [versionB, setVersionB] = useState(false);
   const meritList = [
     {
       img: 'https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/shipping copy 3.svg',
-      title: 'Créez votre abonnement',
-      titleTwo: 'Trouvez la formule Royal',
-      content: `<strong>Canin adaptée</strong> et définissez la fréquence de livraison qui vous correspond`
+      title: <FormattedMessage id="clublandingpage1.Introduce1.title" />,
+      titleTwo: <FormattedMessage id="clublandingpage1.Introduce1.titleTwo" />,
+      content: <FormattedMessage id="clublandingpage1.Introduce1.content" />,
+      contentStrong: (
+        <FormattedMessage id="clublandingpage1.Introduce1.contentStrong" />
+      )
     },
     {
       img: 'https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/Discount.svg',
-      title: "Économisez du temps et de l'argent",
-      titleTwo: '',
-      content: `Profitez de <strong>10% de réduction</strong> sur votre commande et des <strong>frais de ports offerts</strong>.`
+      title: <FormattedMessage id="clublandingpage1.Introduce2.title" />,
+      titleTwo: <FormattedMessage id="clublandingpage1.Introduce2.titleTwo" />,
+      contentStrong: (
+        <FormattedMessage id="clublandingpage1.Introduce2.contentStrong" />
+      ),
+      content: (
+        <FormattedMessage
+          id="clublandingpage1.Introduce2.content"
+          values={{
+            val: (
+              <strong>
+                {
+                  <FormattedMessage id="clublandingpage1.Introduce2.content.strong1" />
+                }
+              </strong>
+            ),
+            val2: (
+              <strong>
+                {
+                  <FormattedMessage id="clublandingpage1.Introduce2.content.strong2" />
+                }
+              </strong>
+            )
+          }}
+        />
+      )
     },
     {
       img: 'https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/shipping copy 2.svg',
-      title: 'Facile à gérer',
-      titleTwo: 'Livré où vous voulez à votre rythme.',
-      content: `Annulez votre abonnement à tout moment gratuitement`
+      title: <FormattedMessage id="clublandingpage1.Introduce3.title" />,
+      titleTwo: <FormattedMessage id="clublandingpage1.Introduce3.titleTwo" />,
+      content: <FormattedMessage id="clublandingpage1.Introduce3.content" />
     },
     {
       img: 'https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/Bitmap Copy.svg',
-      title: 'Nombreuses récompenses pour votre animal.',
-      titleTwo: '',
-      content: `Recevez chez vous,<strong>un accessoire offert toute les 3 livraisons.</strong> Faite le bonheur de votre animal !`,
+      title: <FormattedMessage id="clublandingpage1.Introduce4.title" />,
+      titleTwo: <FormattedMessage id="clublandingpage1.Introduce4.titleTwo" />,
+      content: (
+        <FormattedMessage
+          id="clublandingpage1.Introduce4.content"
+          values={{
+            val: (
+              <strong>
+                <FormattedMessage id="clublandingpage1.Introduce4.content.strong" />
+              </strong>
+            )
+          }}
+        />
+      ),
       render: {
-        text: 'Révéler les cadeaux',
+        text: <FormattedMessage id="clublandingpage1.Introduce4.render" />,
         src: 'https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498'
       }
     }
@@ -53,6 +91,10 @@ const ProductFinder3 = (props: any) => {
       }
     }
   };
+  const switchClubLandingPageVersionB = () => {
+    setVersionB(true);
+  };
+  (window as any).switchClubLandingPageVersionB = switchClubLandingPageVersionB;
   return (
     <>
       <Canonical />
@@ -79,11 +121,24 @@ const ProductFinder3 = (props: any) => {
               alt=""
             />
             <p className="my-5 text-26 md:text-30 text-red-600 font-normal">
-              Simplifiez-vous la vie !
+              <FormattedMessage id="clublandingpage1.bannerTitle" />
             </p>
             <p className="text-18 md:text-20 text-gray-600 w-80 mb-4 md:mb-8 text-center md:text-left">
-              Recevez votre colis tous les mois, et{' '}
-              <strong>choisissez vous-même</strong> la datede votre commande !
+              {/* Recevez votre colis tous les mois, et */}
+              <FormattedMessage
+                id="clublandingpage1.bannerContent"
+                values={{
+                  val: (
+                    <strong>
+                      {' '}
+                      {
+                        <FormattedMessage id="clublandingpage1.bannerContent.strong" />
+                      }{' '}
+                    </strong>
+                  )
+                }}
+              />
+              {/* <strong>choisissez vous-même</strong> la datede votre commande ! */}
             </p>
             <p className="text-16 text-gray-700 flex mb-10">
               <img
@@ -91,7 +146,9 @@ const ProductFinder3 = (props: any) => {
                 alt=""
               />
               <span className="ml-1">
-                <strong>Gratuit et sans engagement !</strong>
+                <strong>
+                  <FormattedMessage id="clublandingpage1.bannerCheckout" />
+                </strong>
               </span>
             </p>
             <p className="hidden md:block">
@@ -100,7 +157,7 @@ const ProductFinder3 = (props: any) => {
                 href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                 target="_blank"
               >
-                S’inscrire gratuitement
+                <FormattedMessage id="clublandingpage1.bannerBtn" />
               </a>
             </p>
           </div>
@@ -117,9 +174,11 @@ const ProductFinder3 = (props: any) => {
             alt=""
           />
           <div className="md:w-3/4 w-4/5 h-56 pt-9 bg-gray-100 m-auto flex items-center flex-col rounded-3xl">
-            <p className="md:text-7xl text-5xl text-red-600">10 000</p>
+            <p className="md:text-7xl text-5xl text-red-600">
+              <FormattedMessage id="clublandingpage1.SignUp.number" />
+            </p>
             <p className="text-22 text-black md:-mt-2 mb-6 font-normal text-center w-44 md:w-full">
-              animaux comblés chaque mois
+              <FormattedMessage id="clublandingpage1.SignUp.content" />
             </p>
             <p className="hidden md:block">
               <a
@@ -127,13 +186,13 @@ const ProductFinder3 = (props: any) => {
                 href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                 target="_blank"
               >
-                S’inscrire gratuitement
+                <FormattedMessage id="clublandingpage1.SignUp.btn" />
               </a>
             </p>
           </div>
         </div>
 
-        {props.a ? (
+        {versionB ? (
           <>
             <div
               style={{ boxShadow: '0px 0px 20px #eee' }}
@@ -166,10 +225,10 @@ const ProductFinder3 = (props: any) => {
                       <p className="leading-cs-24 text-16 text-black">
                         {item.titleTwo}
                       </p>
-                      <p
-                        className="leading-cs-24 text-16"
-                        dangerouslySetInnerHTML={{ __html: item.content }}
-                      ></p>
+                      <p className="leading-cs-24 text-16">
+                        <strong>{item.contentStrong}</strong>
+                        {item.content}
+                      </p>
                       {item.render ? (
                         <p>
                           <a
@@ -192,7 +251,7 @@ const ProductFinder3 = (props: any) => {
                   href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                   target="_blank"
                 >
-                  S’inscrire gratuitement
+                  <FormattedMessage id="clublandingpage1.Merit.btn" />
                 </a>
               </p>
             </div>
@@ -235,10 +294,10 @@ const ProductFinder3 = (props: any) => {
                       <p className="md:leading-cs-24 text-16 text-black">
                         {item.titleTwo}
                       </p>
-                      <p
-                        className="md:leading-cs-24 text-16"
-                        dangerouslySetInnerHTML={{ __html: item.content }}
-                      ></p>
+                      <p className="md:leading-cs-24 text-16">
+                        <strong>{item.contentStrong}</strong>
+                        {item.content}
+                      </p>
                       {item.render ? (
                         <p>
                           <a
@@ -262,14 +321,14 @@ const ProductFinder3 = (props: any) => {
                 href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                 target="_blank"
               >
-                S’inscrire gratuitement
+                <FormattedMessage id="clublandingpage1.Merit.btn" />
               </a>
             </p>
           </div>
         )}
         <div className="w-full md:h-cs-850 h-cs-780 pt-12 relative bg-gray-100 flex flex-col items-center">
           <p className="text-26 md:text-30 md:text-black mb-11 text-center md:font-normal">
-            Profitez des nombreuses fonctionalités du Club
+            <FormattedMessage id="clublandingpage1.Club.title" />
           </p>
           <div className="w-full md:w-cs-680 flex justify-around h-cs-556 items-center">
             <img
@@ -297,32 +356,12 @@ const ProductFinder3 = (props: any) => {
                       className="mr-2"
                     />
                     <strong className="text-black">
-                      Remise sur les produits
+                      <FormattedMessage id="clublandingpage1.Club.title1" />
                     </strong>
                   </p>
-                  <p>-10 % pour chaque commande</p>
-                </li>
-                <li className="h-cs-80 flex justify-center items-center text-center flex-col myli">
-                  <p className="flex">
-                    <img
-                      src="https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/32 Copy.svg"
-                      alt=""
-                      className="mr-2"
-                    />
-                    <strong className="text-black">Cadeaux</strong>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.content1" />
                   </p>
-                  <p>Toutes les 3 commandes</p>
-                </li>
-                <li className="h-cs-80 flex justify-center items-center text-center flex-col myli">
-                  <p className="flex">
-                    <img
-                      src="https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/32 Copy.svg"
-                      alt=""
-                      className="mr-2"
-                    />
-                    <strong className="text-black">Livraison offerte</strong>
-                  </p>
-                  <p></p>
                 </li>
                 <li className="h-cs-80 flex justify-center items-center text-center flex-col myli">
                   <p className="flex">
@@ -332,10 +371,42 @@ const ProductFinder3 = (props: any) => {
                       className="mr-2"
                     />
                     <strong className="text-black">
-                      Livraison automatique
+                      <FormattedMessage id="clublandingpage1.Club.title2" />
                     </strong>
                   </p>
-                  <p></p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.content2" />
+                  </p>
+                </li>
+                <li className="h-cs-80 flex justify-center items-center text-center flex-col myli">
+                  <p className="flex">
+                    <img
+                      src="https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/32 Copy.svg"
+                      alt=""
+                      className="mr-2"
+                    />
+                    <strong className="text-black">
+                      <FormattedMessage id="clublandingpage1.Club.title3" />
+                    </strong>
+                  </p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.content3" />
+                  </p>
+                </li>
+                <li className="h-cs-80 flex justify-center items-center text-center flex-col myli">
+                  <p className="flex">
+                    <img
+                      src="https://fgs-cdn.azureedge.net/cdn/img/ProductFinder3/32 Copy.svg"
+                      alt=""
+                      className="mr-2"
+                    />
+                    <strong className="text-black">
+                      <FormattedMessage id="clublandingpage1.Club.title4" />
+                    </strong>
+                  </p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.content4" />
+                  </p>
                 </li>
                 <li className="h-cs-80 flex justify-center items-center text-center flex-col">
                   <p className="flex">
@@ -345,11 +416,12 @@ const ProductFinder3 = (props: any) => {
                       className="mr-2"
                     />
                     <strong className="text-black">
-                      Recommandation
-                      <br /> de produits
+                      <FormattedMessage id="clublandingpage1.Club.title5" />
                     </strong>
                   </p>
-                  <p></p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.content5" />
+                  </p>
                 </li>
               </ul>
             </div>
@@ -370,9 +442,13 @@ const ProductFinder3 = (props: any) => {
                       alt=""
                       className="mr-2"
                     />
-                    <strong>Recommandation de produits</strong>
+                    <strong>
+                      <FormattedMessage id="clublandingpage1.Club.Title1" />
+                    </strong>
                   </p>
-                  <p></p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.Content1" />
+                  </p>
                 </li>
                 <li className="h-cs-74 flex justify-center items-center text-center flex-col myli">
                   <p className="flex">
@@ -381,9 +457,13 @@ const ProductFinder3 = (props: any) => {
                       alt=""
                       className="mr-2"
                     />
-                    <strong></strong>
+                    <strong>
+                      <FormattedMessage id="clublandingpage1.Club.Title2" />
+                    </strong>
                   </p>
-                  <p></p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.Content2" />
+                  </p>
                 </li>
                 <li className="h-cs-74 flex justify-center items-center text-center flex-col myli">
                   <p className="flex">
@@ -392,9 +472,13 @@ const ProductFinder3 = (props: any) => {
                       alt=""
                       className="mr-2"
                     />
-                    <strong></strong>
+                    <strong>
+                      <FormattedMessage id="clublandingpage1.Club.Title3" />
+                    </strong>
                   </p>
-                  <p></p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.Content3" />
+                  </p>
                 </li>
                 <li className="h-cs-74 flex justify-center items-center text-center flex-col myli">
                   <p className="flex">
@@ -403,9 +487,13 @@ const ProductFinder3 = (props: any) => {
                       alt=""
                       className="mr-2"
                     />
-                    <strong></strong>
+                    <strong>
+                      <FormattedMessage id="clublandingpage1.Club.Title4" />
+                    </strong>
                   </p>
-                  <p></p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.Content4" />
+                  </p>
                 </li>
                 <li className="h-cs-74 flex justify-center items-center text-center flex-col">
                   <p className="flex">
@@ -414,9 +502,13 @@ const ProductFinder3 = (props: any) => {
                       alt=""
                       className="mr-2"
                     />
-                    <strong></strong>
+                    <strong>
+                      <FormattedMessage id="clublandingpage1.Club.Title5" />
+                    </strong>
                   </p>
-                  <p></p>
+                  <p>
+                    <FormattedMessage id="clublandingpage1.Club.Content5" />
+                  </p>
                 </li>
               </ul>
             </div>
@@ -427,7 +519,7 @@ const ProductFinder3 = (props: any) => {
               href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
               target="_blank"
             >
-              S’inscrire gratuitement
+              <FormattedMessage id="clublandingpage1.Club.btn" />
             </a>
           </p>
           <img
@@ -444,12 +536,12 @@ const ProductFinder3 = (props: any) => {
         <div className=" w-full md:h-cs-556 h-cs-740 md:pt-28 md:bg-gray-100 relative flex justify-center items-center">
           <div className="md:w-cs-1160 w-full md:h-cs-340 h-cs-740 bg-white md:rounded-3xl pt-11 relative z-10">
             <div className="md:w-cs-560 w-72 m-auto text-center text-red-600 md:mt-0 text-26 md:text-30 font-normal mb-7 md:mb-11">
-              Faites confiance à Royal Canin pour trouver la formule adaptée
+              <FormattedMessage id="clublandingpage1.Recipe.title" />
             </div>
             <div className="md:w-cs-560 w-full m-auto md:flex md:justify-around text-20 md:text-black">
               <div className="w-64 flex flex-col items-center m-auto">
                 <p className="mb-5 text-18 text-center h-11">
-                  Découvrez la formule idéale pour votre animal en 2 minutes
+                  <FormattedMessage id="clublandingpage1.Recipe.contentLeft" />
                 </p>
                 <p className="">
                   <a
@@ -457,13 +549,13 @@ const ProductFinder3 = (props: any) => {
                     href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                     target="_blank"
                   >
-                    Trouver l’aliment idéal
+                    <FormattedMessage id="clublandingpage1.Recipe.contentLeftBtn" />
                   </a>
                 </p>
               </div>
               <div className="w-60 flex flex-col items-center md:sticky md:bottom-0 m-auto relative -bottom-80">
                 <p className=" text-18 text-center h-11">
-                  Je connais mon produit !
+                  <FormattedMessage id="clublandingpage1.Recipe.contentRight" />
                 </p>
                 <p className="">
                   <a
@@ -471,7 +563,7 @@ const ProductFinder3 = (props: any) => {
                     href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                     target="_blank"
                   >
-                    Parcourir les produits
+                    <FormattedMessage id="clublandingpage1.Recipe.contentRightBtn" />
                   </a>
                 </p>
               </div>
@@ -495,12 +587,12 @@ const ProductFinder3 = (props: any) => {
         </div>
         <div className="md:pt-9 pt-28 w-full md:h-cs-780 h-lxl-940 bg-gray-100">
           <p className="text-center m-auto text-26 md:mb-12 mb-8">
-            Questions fréquentes
+            <FormattedMessage id="clublandingpage1.Issue.title" />
           </p>
           <ul className="md:w-lxl-814 w-80 m-auto mb-14 font-black">
             <li className="md:h-20 h-24 border-b-2 border-gray-200 flex justify-between items-center">
               <p className="text-18 md:text-20 w-cs-250 md:w-full">
-                Comment puis-je résilier mon abonnement ?
+                <FormattedMessage id="clublandingpage1.Issue.content1" />
               </p>
               <img
                 className="w-4 md:w-6 md:h-3 h-2"
@@ -510,7 +602,7 @@ const ProductFinder3 = (props: any) => {
             </li>
             <li className="md:h-20 h-24 border-b-2 border-gray-200 flex justify-between items-center">
               <p className="text-18 md:text-20 w-cs-244 md:w-full">
-                Comment fonctionne le CLUB Royal Canin ?
+                <FormattedMessage id="clublandingpage1.Issue.content2" />
               </p>
               <img
                 className="w-4 md:w-6 md:h-3 h-2"
@@ -520,7 +612,7 @@ const ProductFinder3 = (props: any) => {
             </li>
             <li className="md:h-20 h-24 border-b-2 border-gray-200 flex justify-between items-center">
               <p className="text-18 md:text-20 w-cs-244 md:w-full">
-                Quel est le prix du service ?
+                <FormattedMessage id="clublandingpage1.Issue.content3" />
               </p>
               <img
                 className="w-4 md:w-6 md:h-3 h-2"
@@ -530,7 +622,7 @@ const ProductFinder3 = (props: any) => {
             </li>
             <li className="md:h-20 h-24 border-b-2 border-gray-200 flex justify-between items-center">
               <p className="text-18 md:text-20 w-cs-244 md:w-full">
-                Comment démarrer un abonnement CLUB Royal Canin ?
+                <FormattedMessage id="clublandingpage1.Issue.content4" />
               </p>
               <img
                 className="w-4 md:w-6 md:h-3 h-2"
@@ -540,7 +632,7 @@ const ProductFinder3 = (props: any) => {
             </li>
             <li className="md:h-20 h-24 border-b-2 border-gray-200 flex justify-between items-center">
               <p className="text-18 md:text-20 w-cs-244 md:w-full">
-                Comment sauter ou modifier ma prochaine livraison ?
+                <FormattedMessage id="clublandingpage1.Issue.content5" />
               </p>
               <img
                 className="w-4 md:w-6 md:h-3 h-2"
@@ -554,20 +646,20 @@ const ProductFinder3 = (props: any) => {
             className="md:w-cs-439 w-80 md:h-cs-157 h-44 pt-6 md:px-10 text-center flex flex-col items-center bg-white m-auto rounded-3xl"
           >
             <p className="md:text-20 mb-1 md:mb-0 text-18 md:w-full w-44 text-black">
-              Une équipe d’experts et de passionnés,{' '}
+              <FormattedMessage id="clublandingpage1.Contact.title" />
             </p>
             <p className="md:text-16 mb-1 md:mb-0 text-14 md:w-full w-64">
-              heureux de vous aider entre 8h30 et 19h en semaine ou le samedi de
-              9h à 13h.
+              <FormattedMessage id="clublandingpage1.Contact.content" />
             </p>
-            <p className="text-26 text-red-600 font-normal">0800415161</p>
+            <p className="text-26 text-red-600 font-normal">
+              <FormattedMessage id="clublandingpage1.Contact.number" />
+            </p>
           </div>
         </div>
-        {props.a ? (
+        {versionB ? (
           <div className="md:h-52 pt-14 hidden md:block">
             <p className="w-cs-470 text-black text-18 text-center m-auto mb-6 font-normal">
-              Gratuit, sans engagement, annulable à tout moment, Activez
-              maintenant votre livraison automatique !
+              <FormattedMessage id="clublandingpage1.Contact.activate" />
             </p>
             <p className="">
               <a
@@ -575,7 +667,7 @@ const ProductFinder3 = (props: any) => {
                 href="https://www.google.com/maps/place/Royal+Canin+:+Exposition+Instinct/@48.8640126,2.3627913,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640091!4d2.36498"
                 target="_blank"
               >
-                S’inscrire gratuitement
+                <FormattedMessage id="clublandingpage1.Contact.activateBtn" />
               </a>
             </p>
           </div>
@@ -585,4 +677,4 @@ const ProductFinder3 = (props: any) => {
     </>
   );
 };
-export default ProductFinder3;
+export default ClubLandingPage1;

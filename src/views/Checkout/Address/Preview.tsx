@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { matchNamefromDict, getDictionary, formatDate } from '@/utils/utils';
-import { AddressPreview } from '@/components/Address';
+//import { AddressPreview } from '@/components/Address';
+import { AddressPreview } from '@/components/Address/index2';
 import cn from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -29,7 +30,7 @@ const AddrPreview = ({ form, boldName = true, titleJSX }: Props) => {
   return form ? (
     <>
       {titleJSX ? titleJSX : null}
-      <div className="children-nomargin preview12">
+      <div className="children-nomargin preview12 pt-5">
         <AddressPreview
           nameCls={cn('font-weight-bold', { medium: boldName })}
           pickupNameCls={cn('font-weight-bold flex justify-between', {

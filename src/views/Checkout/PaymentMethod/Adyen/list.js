@@ -12,6 +12,7 @@ import LazyLoad from 'react-lazyload';
 import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
 import { Point } from '@/views/Checkout/Components';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -24,19 +25,14 @@ function CardItemCover({
 }) {
   return (
     <div
-      className={`rounded creditCompleteInfoBox position-relative cursor-pointer border p-4 ${
-        selectedSts ? 'active border-blue' : ''
+      className={`adyen rounded-lg creditCompleteInfoBox position-relative cursor-pointer mb-2 border p-4 ${
+        selectedSts ? 'active border-333' : 'border-transparent'
       }`}
+      style={{ backgroundColor: '#F6F6F6' }}
       onClick={hanldeClickCardItem}
     >
       {selectedSts && (!savedToBackend || el.encryptedSecurityCode) && (
-        <span
-          className="position-absolute iconfont font-weight-bold green"
-          style={{
-            right: '3%',
-            bottom: '4%'
-          }}
-        >
+        <span className="position-absolute iconfont font-weight-bold green card-cvv-checked">
           &#xe68c;
         </span>
       )}
@@ -350,55 +346,97 @@ class AdyenCreditCardList extends React.Component {
       this.hanldeUpdateSelectedCardInfo();
     });
   };
-  renderOneCard = ({ data, showLastFour = true }) => {
+  renderOneCard = ({ data, showLastFour = true }, idx, type) => {
     let cvvId = data.id;
     return (
-      <div className="row">
-        <div className="col-6 col-sm-4 d-flex flex-column pb-1 md:pb-0">
+      <div className="row items-center">
+        <div className="col-4 col-sm-3 d-flex  pb-1 md:pb-0">
+          <div className="flex items-center">
+            <input
+              className="rc-input__radio hidden"
+              id="type_once"
+              type="radio"
+              name="buyWay"
+              value="0"
+              key="0"
+              // checked
+              checked={data.id === this.state.selectedId}
+            />
+            <label
+              className="rc-input__label--inline"
+              htmlFor="type_once"
+              style={{
+                height: '1.5rem',
+                marginBottom: ' 0 !important',
+                verticalAlign: 'middle',
+                marginRight: '5px',
+                marginBottom: 0,
+                overflow: 'hidden'
+              }}
+              // onClick={(e) => e.stopPropagation()}
+            >
+              {/* <span
+              style={{
+                fontWeight: 400,
+                color: '#333'
+              }}
+            >
+            </span> */}
+            </label>
+          </div>
           <LazyLoad>
             <img
               alt="card background"
-              className="PayCardImgFitScreen"
+              className="PayCardImgFitScreen w-full md:w-4/5"
               src={getCardImg({
                 supportPaymentMethods: this.props.supportPaymentMethods,
                 currentVendor: data.paymentVendor
               })}
-              style={{ width: '89%' }}
+              // style={{ width: '80%' }}
             />
           </LazyLoad>
         </div>
-        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 md:pb-0">
-          <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
-            <div className={`col-12 mb-1`}>
-              <div className="row align-items-center">
-                <div className="col-12">{data.holderName}</div>
-              </div>
-              {!showLastFour && (
+        <div className="col-8 col-sm-7 flex-column d-flex pb-1 md:pb-0">
+          {!showLastFour && (
+            <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
+              <div className={`col-12 mb-1`}>
+                (
                 <div className="row align-items-center">
                   <div className="col-12">{data.cardType}</div>
                 </div>
-              )}
+                )
+              </div>
             </div>
-          </div>
+          )}
+
           {showLastFour && (
             <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
-              <div className="col-6">
-                <span style={{ fontSize: '.875rem' }}>
+              <div className="col-12 col-sm-6 flex items-center">
+                {/* <span style={{ fontSize: '.875rem' }}>
                   <FormattedMessage id="payment.cardNumber2" />
                 </span>
-                <br />
+                <br /> */}
                 <span
                   className="creditCompleteInfo fontFitSCreen"
-                  style={{ fontSize: '.875rem' }}
+                  // style={{ fontSize: '.875rem' }}
                 >
                   xxxx xxxx xxxx {data.lastFourDigits}
                 </span>
+                <CardTips
+                  expirationDate={data.expirationDate}
+                  expireStatusEnum={data.expireStatusEnum}
+                />
               </div>
-              <div className={`col-6 border-left`}>
-                <span style={{ fontSize: '.875rem' }}>
+              <div className={`col-12 col-sm-6 md:border-left`}>
+                {/* <span style={{ fontSize: '.875rem' }}>
                   <FormattedMessage id="payment.cardType" />
                 </span>
-                <br />
+                <br /> */}
+                <div className="row align-items-center">
+                  <div className="col-12 text-xs md:text-base">
+                    {data.holderName || 'holderName'}
+                  </div>
+                </div>
                 <span className="creditCompleteInfo fontFitSCreen">
                   {data.cardType}
                 </span>
@@ -406,9 +444,22 @@ class AdyenCreditCardList extends React.Component {
             </div>
           )}
         </div>
-        <div className="col-sm-4" />
-        <div className="col-12 col-sm-8">
+        <div className="col-2 rc-md-up" style={{ paddingLeft: 0 }}>
+          {type == 2 ? this.renderCardEditBtnJSX() : null}
+          {type == 1 ? this.renderCardDeleteBtnJSX({ el: data, idx }) : null}
+        </div>
+        <div className="col-4 col-sm-3" />
+        <div
+          className={`col-6 col-sm-8 ${
+            data.id === this.state.selectedId ? 'pt-3' : ''
+          }`}
+        >
           <div id={`cvv_${cvvId}`} className="cvv" />
+        </div>
+        <div className="col-8" />
+        <div className="col-4 rc-md-down pt-3" style={{ paddingLeft: 0 }}>
+          {type == 2 ? this.renderCardEditBtnJSX() : null}
+          {type == 1 ? this.renderCardDeleteBtnJSX({ el: data, idx }) : null}
         </div>
       </div>
     );
@@ -424,11 +475,15 @@ class AdyenCreditCardList extends React.Component {
             selectedSts={visitorAdyenFormData.id === selectedId}
             key={0}
           >
-            {this.renderOneCard({
-              data: visitorAdyenFormData,
-              showLastFour: false
-            })}
-            {this.renderCardEditBtnJSX()}
+            {this.renderOneCard(
+              {
+                data: visitorAdyenFormData,
+                showLastFour: false
+              },
+              idx,
+              2
+            )}
+            {/* {this.renderCardEditBtnJSX()} */}
           </CardItemCover>
         )}
       </>
@@ -442,11 +497,15 @@ class AdyenCreditCardList extends React.Component {
         selectedSts={el.id === selectedId}
         hanldeClickCardItem={this.hanldeClickCardItem.bind(this, el)}
       >
-        {this.renderOneCard({
-          data: el,
-          showLastFour: false
-        })}
-        {this.renderCardDeleteBtnJSX({ el, idx })}
+        {this.renderOneCard(
+          {
+            data: el,
+            showLastFour: false
+          },
+          idx,
+          1
+        )}
+        {/* {this.renderCardDeleteBtnJSX({ el, idx })} */}
       </CardItemCover>
     ));
     const cardListJSX = cardList.map((el, idx) => {
@@ -458,8 +517,8 @@ class AdyenCreditCardList extends React.Component {
           el={el}
           savedToBackend={true}
         >
-          {this.renderOneCard({ data: el })}
-          {this.renderCardDeleteBtnJSX({ el, idx })}
+          {this.renderOneCard({ data: el }, idx, 1)}
+          {/* {this.renderCardDeleteBtnJSX({ el, idx })} */}
         </CardItemCover>
       );
     });
@@ -487,11 +546,11 @@ class AdyenCreditCardList extends React.Component {
   renderCardDeleteBtnJSX = ({ el, idx = -1 }) => {
     return (
       <div
-        className="position-absolute"
-        style={{
-          right: '3%',
-          top: '2%'
-        }}
+      // className="position-absolute"
+      // style={{
+      //   right: '3%',
+      //   top: '2%'
+      // }}
       >
         <span className={`position-relative pl-2 cursor-pointer`}>
           <Popover
@@ -501,7 +560,12 @@ class AdyenCreditCardList extends React.Component {
               this.updateConfirmTooltipVisible(el, status)
             }
           >
-            <span onClick={this.handleClickDeleteBtn.bind(this, el)}>
+            <span
+              onClick={this.handleClickDeleteBtn.bind(this, el)}
+              className={
+                'border-b text-gray-600 hover:border-red-600  font-medium pb-0.5'
+              }
+            >
               <FormattedMessage id="delete" />
             </span>
           </Popover>
