@@ -346,6 +346,12 @@ class CyberCardList extends React.Component {
                   {data.paymentVendor}
                 </span>
               </div>
+              <div className="col-12">
+                <CardTips
+                  expirationDate={data.expirationDate}
+                  expireStatusEnum={data.expireStatusEnum}
+                />
+              </div>
             </div>
           )}
           {selectedSts ? (

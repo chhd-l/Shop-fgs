@@ -13,8 +13,8 @@ import './index.less';
 
 const Search = (props) => {
   const {
-    countryCode,
-    setCountryCode,
+    config,
+    setConfig,
     setModalVisible,
     searchEnd,
     dataArticles,
@@ -26,7 +26,11 @@ const Search = (props) => {
   } = useSearch();
 
   useEffect(() => {
-    setCountryCode(props?.countryCode ?? '');
+    setConfig({
+      countryCode: props?.countryCode ?? 'fr',
+      baseRouterPrefixForFgs: props?.baseRouterPrefixForFgs ?? '',
+      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api'
+    });
   }, []);
 
   const getAllList = (keywords) => {
@@ -37,9 +41,10 @@ const Search = (props) => {
 
   const getArticles = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchArticles({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
       pageNum,
-      countryCode
+      countryCode: config.countryCode
     });
     setDataArticles({
       total,
@@ -50,9 +55,10 @@ const Search = (props) => {
 
   const getBreeds = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchBreeds({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
       pageNum,
-      countryCode
+      countryCode: config.countryCode
     });
     setDataBreeds({
       total,
@@ -63,9 +69,11 @@ const Search = (props) => {
 
   const getProducts = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchProducts({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
       pageNum,
-      countryCode
+      countryCode: config.countryCode,
+      itemBaseUrl: config.baseRouterPrefixForFgs
     });
     setSataProducts({
       total,
@@ -87,8 +95,6 @@ const Search = (props) => {
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        <SearchRecent onClickChange={getAllList} />
-
         {dataArticles.total > 0 ||
         dataBreeds.total > 0 ||
         dataProducts.total > 0 ? (
@@ -99,7 +105,9 @@ const Search = (props) => {
           />
         ) : searchEnd ? (
           <SearchEmpty />
-        ) : null}
+        ) : (
+          <SearchRecent onClickChange={getAllList} />
+        )}
       </SearchModal>
     </div>
   );

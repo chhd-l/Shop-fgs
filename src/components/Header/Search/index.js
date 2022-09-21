@@ -10,9 +10,13 @@ const initData = {
 
 function useSearchHook() {
   // Country code
-  const [countryCode, setCountryCode] = useState('');
+  const [config, setConfig] = useState({
+    countryCode: '',
+    baseRouterPrefixForFgs: '',
+    baseApiPrefixForFgs: ''
+  });
   // Modal visible state
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   // is search end
   const [searchEnd, setSearchEnd] = useState(false);
   // Current input value
@@ -28,8 +32,8 @@ function useSearchHook() {
   const [dataProducts, setSataProducts] = useState(initData);
 
   return {
-    countryCode,
-    setCountryCode,
+    config,
+    setConfig,
     modalVisible,
     setModalVisible,
     inputValue,
