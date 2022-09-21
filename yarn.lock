@@ -2125,11 +2125,6 @@
   resolved "https://registry.npmmirror.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
-"@royal-canin-sitecore/react-components@0.1.8":
-  version "0.1.8"
-  resolved "https://pkgs.dev.azure.com/MarsDevTeam/RoyalCaninSitecore/_packaging/rc-sc-exported-components/npm/registry/@royal-canin-sitecore/react-components/-/react-components-0.1.8.tgz#fcca023434bd8cf11cc3b2366ac62bf420aec75d"
-  integrity sha1-/MoCNDS9jPEcw7I2asYr9CCux10=
-
 "@sinclair/typebox@^0.24.1":
   version "0.24.41"
   resolved "https://registry.npmmirror.com/@sinclair/typebox/-/typebox-0.24.41.tgz#45470b8bae32a28f1e0501066d0bacbd8b772804"
