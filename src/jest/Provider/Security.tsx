@@ -50,7 +50,7 @@ const restoreOriginalUri: RestoreOriginalUriFunction = async (
 ) => {
   (window.history as any).replace(toRelativeUrl(originalUri, window.location.origin));
 };
-const Security: React.FC<{ authorized?: boolean }> = ({
+const Security: React.FC<{ authorized?: boolean, children?: any }> = ({
   authorized = true,
   children
 }) => {

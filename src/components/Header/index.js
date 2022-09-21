@@ -19,8 +19,8 @@ import DropDownMenuForHub from './hub/DropDownMenuForHub';
 import MegaMenuMobile from './modules/MegaMenuMobile';
 import MegaMenuMobileForHub from './hub/MegaMenuMobileForHub';
 import Language from '@/components/Language';
-// import Search from './modules/Search';
-import Search from './Search';
+import Search from './modules/Search';
+//import Search from './Search';
 import UserJSX from './jsx/user';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
@@ -241,6 +241,12 @@ class Header extends React.Component {
       window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE
       ? this.initNavigationsForHub
       : this.initNavigations)();
+  }
+  componentWillUpdate() {
+    console.log(
+      ' shouldComponentUpdatefetchHeaderNavigations',
+      'sssssssssssssssssssssssssssss'
+    );
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);

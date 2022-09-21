@@ -10,6 +10,7 @@ import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
 import { usPaymentInfo } from '@/api/payment';
 import './list.css';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 function CardItemCover({
   selectedSts,
