@@ -51,7 +51,7 @@ class PanelContainer extends React.Component {
               <span className="flex justify-start">
                 {/* {panelStatus.isEdit ? highlighIcon : defaultIcon}{' '} */}
                 <span>
-                  <span className="text-30 text-cs-black font-medium">
+                  <span className="text-26 md:text-30 text-cs-black font-medium">
                     {title}
                   </span>
                   {panelStatus.isCompleted ? (

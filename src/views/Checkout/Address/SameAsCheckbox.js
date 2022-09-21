@@ -48,7 +48,7 @@ class SameAsCheckbox extends React.Component {
           </label>
         </div>
         {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
-          <div className="normalDelivery fit-mobile-normalDelivery">
+          <div className="normalDelivery fit-mobile-normalDelivery m-0">
             <span>
               <FormattedMessage id="payment.normalDelivery2" />
             </span>

@@ -81,7 +81,7 @@ import {
   Cover as PaymentMethodCover
 } from './PaymentMethod';
 import './Modules/adyenCopy.css';
-import './index.css';
+import './index.less';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import {
@@ -3007,7 +3007,8 @@ class Checkout extends React.Component {
 
         {/* 勾选， deliveryAddress = billingAddress */}
         {billingChecked ? (
-          <div className="ml-custom mr-custom">
+          // <div className="ml-custom mr-custom">
+          <div>
             <AddressPreview form={this.state.billingAddress} />
           </div>
         ) : null}
@@ -3623,7 +3624,7 @@ class Checkout extends React.Component {
     };
 
     return (
-      <div className={`pb-3`}>
+      <div className={`pb-5 md:pb-6`}>
         {chooseRadioType() === 'circle' && payWayNameArr.length > 1 && (
           <InputCirclePaymethords
             payWayNameArr={payWayNameArr}
@@ -3631,15 +3632,20 @@ class Checkout extends React.Component {
           />
         )}
 
-        <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
+        <div className="ml-custom mr-custom rounded">
+          <div className="pt-4 md:pt-7 w-auto md:w-4/6">
+            Le méthode de paiement séléctionné sera également utilisé pour la
+            souscription à l’abonnement
+          </div>
+          <div className="pt-7">Paiement sécurisé</div>
           {chooseRadioType() === 'box' && (
-            <>
+            <div>
               {payWayNameArr.map((item, index) => (
                 <>
                   {/* 选择支付方式横条 */}
                   <div
                     className={cn(
-                      'flex justify-between items-center text-grey-400 w-full border rounded-md pl-5 pr-2 py-2 my-4 cursor-pointer',
+                      'flex justify-between items-center text-grey-400 w-full border rounded-md pl-5 pr-2 py-3 text-sm my-4 cursor-pointer',
                       curPayWayInfo?.code === item.code
                         ? 'border-green'
                         : 'border-gray-300'
@@ -3647,7 +3653,7 @@ class Checkout extends React.Component {
                     key={index}
                     onClick={() => this.handlePaymentTypeClick(item.code)}
                   >
-                    <div className="text-sm md:text-lg">
+                    <div className="">
                       <FormattedMessage id={item.code} />
                     </div>
                     {/* adyenCard 支持卡的类型logo */}
@@ -3809,7 +3815,7 @@ class Checkout extends React.Component {
                     )}
                 </>
               ))}
-            </>
+            </div>
           )}
           {chooseRadioType() === 'box' &&
             curPayWayInfo?.code === 'adyen_credit_card' &&
@@ -4202,7 +4208,7 @@ class Checkout extends React.Component {
         <main className="rc-content--fixed-header not-include-navigation rc-bg-colour--brand4">
           <Progress type="payment" />
           <div className="rc-bottom-spacing rc-max-width--lg mt-5 md:mt-8">
-            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3">
+            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 new-checkout-container">
               <div className="rc-column rc-double-width shipping__address order-3 md:order-1">
                 {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
                 <ErrorMessage
@@ -4240,7 +4246,7 @@ class Checkout extends React.Component {
                       id: 'J_checkout_panel_paymentMethod'
                     }}
                     titleConf={{
-                      className: 'mx-5',
+                      className: 'mx-10',
                       icon: {
                         defaultIcon: (
                           <em
