@@ -73,8 +73,8 @@ class AdyenCreditCardForm extends React.Component {
   }
   async initAdyenConf() {
     const {
-      paymentStoreNew: { curPayWayInfo }
-    } = this.props;
+      paymentStores: { curPayWayInfo }
+    } = this;
     const tmp = await getPaymentConf();
     console.info('curPayWayInfo', curPayWayInfo);
     this.setState(
@@ -89,9 +89,9 @@ class AdyenCreditCardForm extends React.Component {
     );
   }
   async initForm() {
+    const { paymentStores } = this;
     const {
-      intl: { messages },
-      paymentStoreNew
+      intl: { messages }
     } = this.props;
     const _this = this;
     const { translations } = packageTranslations({ messages });
@@ -110,7 +110,7 @@ class AdyenCreditCardForm extends React.Component {
         allowAddedLocales: true
       };
       const AdyenCheckout = (await import('@adyen/adyen-web')).default;
-      const brands = paymentStoreNew?.supportPaymentMethods?.map((el) =>
+      const brands = paymentStores?.supportPaymentMethods?.map((el) =>
         el.cardType?.toLowerCase()
       ) || ['mc', 'visa', 'amex'];
       const checkout = await new AdyenCheckout(configuration);
@@ -257,7 +257,6 @@ class AdyenCreditCardForm extends React.Component {
       isCheckoutPage,
       showCancelBtn,
       showSaveBtn,
-      paymentStoreNew,
       mustSaveForFutherPayments,
       cardList,
       isShowEnableStoreDetails,
@@ -265,7 +264,7 @@ class AdyenCreditCardForm extends React.Component {
       supportPaymentMethodsVisible
     } = this.props;
     const { saveLoading, isValid } = this.state;
-    const { supportPaymentMethods } = paymentStoreNew;
+    const { supportPaymentMethods } = this.paymentStores;
     return (
       <div>
         {/* 支持卡的类型 Visa和master */}
