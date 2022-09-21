@@ -1,6 +1,6 @@
 import React from 'react';
 
-import img_left from './images/left.png';
+import img_left from './images/left.jpg';
 import img_center from './images/center.png';
 import img_right from './images/right.png';
 
