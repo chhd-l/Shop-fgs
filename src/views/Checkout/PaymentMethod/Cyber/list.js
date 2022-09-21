@@ -20,7 +20,7 @@ function CardItemCover({
 }) {
   return (
     <div
-      className={`rounded creditCompleteInfoBox position-relative cursor-pointer border p-4 ${
+      className={`cyber rounded creditCompleteInfoBox position-relative cursor-pointer border p-4 ${
         selectedSts ? 'active border-blue' : ''
       }`}
       onClick={hanldeClickCardItem}

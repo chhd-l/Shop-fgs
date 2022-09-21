@@ -123,6 +123,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    gap: 4px;
     height: 38px;
     padding: 0 32px;
     border: 2px solid #fff;
@@ -130,9 +131,15 @@
     color: #fff;
     white-space: nowrap;
     font-size: 14px;
+
+    img {
+      filter: brightness(2);
+    }
   }
 
   .empty-contact-legal {
+    max-width: 570px;
+    margin: 0 auto;
     font-size: 14px;
     line-height: 18px;
     text-align: center;
@@ -158,8 +165,27 @@
 
 @media screen and (max-width: 640px) {
   .search-empty-content-box {
+    padding: 0 0 48px;
+
     .empty-content-link {
       grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .empty-content-link-item {
+      position: relative;
+      padding-top: 24px;
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -24px;
+        right: -24px;
+        height: 8px;
+        background-color: #F6F6F6;
+      }
     }
 
     .empty-content-link-action {
