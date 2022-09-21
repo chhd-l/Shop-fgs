@@ -11,7 +11,7 @@ const SearchEmpty = () => {
           <Content />
         </div>
       </div>
-      <div className="search-section-wrap transparent">
+      <div className="search-section-wrap bg-black">
         <div className="search-section-content">
           <Contact />
         </div>

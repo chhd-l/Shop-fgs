@@ -23,10 +23,7 @@ const FastRegisterCard = (
   const { isLogin } = loginStore;
 
   const [passwordValid, setPasswordValid] = useState(false);
-
-  console.log({ isLogin });
-  console.log(subForm.buyWay);
-  console.log(passwordValid);
+  const [passwordErrMsg, setPasswordErrMsg] = useState('');
 
   const inputRef = useRef();
   useImperativeHandle(ref, () => ({
@@ -52,7 +49,7 @@ const FastRegisterCard = (
     }
   };
   const onChangeEvent = (value) => {
-    console.log(value);
+    //console.log(value);
   };
 
   const sendIsValidPassWord = (isValid) => {
@@ -61,11 +58,19 @@ const FastRegisterCard = (
 
   const showNeedRegisterWarning = () => {
     let result = false;
-    if (!isLogin && subForm.buyWay == 'frequency' && !passwordValid) {
+    if (
+      !isLogin &&
+      subForm.buyWay == 'frequency' &&
+      (!passwordValid || passwordErrMsg)
+    ) {
       result = true;
     }
     setNeedRegisterWarning(result);
     return result;
+  };
+
+  const sendPasswordErrMsg = (errMsg) => {
+    setPasswordErrMsg(errMsg);
   };
 
   return (
@@ -105,8 +110,12 @@ const FastRegisterCard = (
           ref={inputRef}
           onChange={onChangeEvent}
           sendIsValidPassWord={sendIsValidPassWord}
+          sendErrMsg={sendPasswordErrMsg}
         />
       </div>
+      {passwordErrMsg && (
+        <div className="text-center text-rc-red">{passwordErrMsg}</div>
+      )}
     </div>
   );
 };
