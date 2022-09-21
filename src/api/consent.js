@@ -6,6 +6,7 @@ const api = {
   userBindConsent: '/consent/binds/customer-id=',
   getStoreOpenConsentList: `/consents/enable/store-id=${window.__.env.REACT_APP_STOREID}`,
   findUserSelectedList: '/consents/selected',
+  findUserCheckOutSelectedList: '/consents/checkOutSelected',
   getConsentGroupList: `/consents/group/store-id=${window.__.env.REACT_APP_STOREID}`,
   getAppointPageSelected: '/consents/appointPageSelected'
 };
@@ -47,6 +48,13 @@ export function getStoreOpenConsentList(parameter) {
 export function findUserSelectedList(parameter) {
   return axios({
     url: `${api.findUserSelectedList}`,
+    method: 'post',
+    data: parameter
+  });
+}
+export function findUserCheckOutSelectedList(parameter) {
+  return axios({
+    url: `${api.findUserCheckOutSelectedList}`,
     method: 'post',
     data: parameter
   });

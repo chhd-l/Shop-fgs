@@ -702,7 +702,6 @@ class Checkout extends React.Component {
     } catch (err) {
       console.warn(err);
     }
-
     let consentData = await ConsentData(this.props);
     this.rebindListData(consentData);
     this.initPaymentWay();
@@ -4189,7 +4188,6 @@ class Checkout extends React.Component {
       },
       pet
     };
-
     return (
       <DivWrapper>
         <GoogleTagManager

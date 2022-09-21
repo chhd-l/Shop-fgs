@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 @inject('paymentStore')
 @observer

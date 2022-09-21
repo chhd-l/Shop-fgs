@@ -825,7 +825,6 @@ class Payment extends React.Component {
       expirationYear,
       securityCode
     } = cyberPaymentForm;
-    debugger;
     if (cardType !== undefined) {
       this.setState({
         cyberCardType: cardType
