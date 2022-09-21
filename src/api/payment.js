@@ -42,7 +42,8 @@ const api = {
     '/site/calculateServiceFeeAndLoyaltyPoints', //切换支付方式，重新计算价格
   ownerTotalPoints: '/points/owner-total-points', //获取总积分
   ownerPointsInfo: '/points/owner-points-info', //历史使用和挣得积分
-  valetGuestOrderPaymentResponse: ''
+  valetGuestOrderPaymentResponse: '',
+  emailExsit: '/customerDetail/customer-email-modify/email-exsit' //快速注册邮箱是否存在
 };
 
 export default api;
@@ -365,6 +366,14 @@ export function ownerTotalPoints(parameter) {
 export function ownerPointsInfo(parameter) {
   return axios({
     url: api.ownerPointsInfo,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function emailExsit(parameter) {
+  return axios({
+    url: api.emailExsit,
     method: 'post',
     data: parameter
   });
