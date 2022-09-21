@@ -10,7 +10,10 @@ const CardImage = ({ fullImage = false, item = {} }) => {
     >
       <a href={item.url} className="search-card-image-wrap">
         <div className="card-image-content">
-          <img src={item.img} alt="" />
+          <img
+            src={`https://d2cstgstorage.z13.web.core.windows.net/202102240856559776.jpg`}
+            alt=""
+          />
         </div>
         <div className="card-image-title">{item.title}</div>
         <div className="card-image-desc">{item.desc}</div>
