@@ -803,7 +803,7 @@ class AccountOrders extends React.Component {
                                         {order.canRePurchase && (
                                           <Button
                                             size="primary"
-                                            className={` ord-list-operation-btn block md:hidden w-full h-10 pl-2 pr-2`}
+                                            className={`block md:hidden w-full h-10 pl-2 pr-2`}
                                             loading={order.addToCartLoading}
                                             onClick={this.rePurchase.bind(
                                               this,
@@ -819,7 +819,7 @@ class AccountOrders extends React.Component {
                                           <>
                                             <Button
                                               type="primay"
-                                              className={`ord-list-operation-btn block md:hidden w-full h-10 pl-2 pr-2`}
+                                              className={`block md:hidden w-full h-10 pl-2 pr-2`}
                                               loading={order.payNowLoading}
                                               onClick={this.handleClickPayNow.bind(
                                                 this,
