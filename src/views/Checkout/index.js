@@ -3636,7 +3636,10 @@ class Checkout extends React.Component {
             Le méthode de paiement séléctionné sera également utilisé pour la
             souscription à l’abonnement
           </div>
-          <div className="pt-7">Paiement sécurisé</div>
+          <div className="pt-7">
+            <span className="iconfont icona-path-12 pr-1"></span>
+            Paiement sécurisé
+          </div>
           {chooseRadioType() === 'box' && (
             <div>
               {payWayNameArr.map((item, index) => (
@@ -3650,7 +3653,7 @@ class Checkout extends React.Component {
                   {/* 选择支付方式横条 */}
                   <div
                     className={cn(
-                      'flex justify-between items-center text-grey-400 w-fullpr-2 py-4 text-sm cursor-pointer',
+                      'flex justify-between items-center text-grey-400 w-fullpr-2 py-4 pr-2 text-sm cursor-pointer',
                       curPayWayInfo?.code === item.code
                         ? 'border-green'
                         : 'border-gray-300 pl-4'

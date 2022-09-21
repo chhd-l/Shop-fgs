@@ -85,8 +85,8 @@ const PaymentPanelInfoPreview = ({
   }
 
   return (
-    <div className="ml-custom mr-custom mb-3">
-      <div className="row">
+    <div className="ml-custom mr-custom pb-3 md:pb-12">
+      <div className="">
         <PayInfoPreview
           selectDiscountWay={checkoutStore.selectDiscountWay}
           convenienceStore={convenienceStore}
@@ -101,15 +101,15 @@ const PaymentPanelInfoPreview = ({
           buyWay={subForm.buyWay}
         />
         {!tid && !hideBillingAddr && !isFromFelin && (
-          <div className="col-12 col-md-6 mt-2 md:mt-0 visitor_address_preview">
+          <div className="mt-2 md:mt-0 visitor_address_preview">
             <AddressPreview
               form={form}
               boldName={false}
-              titleJSX={
-                <p className="mb-0 medium">
-                  <FormattedMessage id="billingAddress" />
-                </p>
-              }
+              // titleJSX={
+              //   <p className="mb-0 medium">
+              //     <FormattedMessage id="billingAddress" />
+              //   </p>
+              // }
             />
           </div>
         )}
