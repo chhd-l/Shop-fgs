@@ -9,7 +9,7 @@ const fetchApi = (url, keywords, pageNum) => {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ keywords, page: pageNum, size: 12 })
+    body: JSON.stringify({ keywords, pageNum: pageNum, pageSize: 12 })
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));

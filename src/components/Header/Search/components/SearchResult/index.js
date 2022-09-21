@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSearch } from '../../index';
-import Tabs from './Tabs';
+import Tabs from './Tabs/index.js';
 import ResultAll from './ResultAll';
 import ResultBreeds from './ResultBreeds';
 import ResultProducts from './ResultProducts';
