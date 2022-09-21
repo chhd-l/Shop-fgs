@@ -114,6 +114,9 @@ class Consent extends Component {
     const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
     const Us = window.__.env.REACT_APP_COUNTRY === 'us';
     const De = window.__.env.REACT_APP_COUNTRY === 'de';
+    const requiredList = list.filter((item) => {
+      return item.isRequired === true;
+    });
     //组件传参end
     const createMarkup = (text, isRequired, isNoChecked) => {
       if (isRequired && text && !isNoChecked) {
@@ -167,7 +170,6 @@ class Consent extends Component {
                   </div>
                 )
               ) : null}
-
               <div key={index} id={index} style={{ display: 'flex' }}>
                 <input
                   style={{ zoom: zoom }}
@@ -263,10 +265,13 @@ class Consent extends Component {
                   </p>
                 </div>
               ) : null}
+              {requiredList.length - 1 === index ? (
+                <hr className="w-full h-1 my-6 -ml-6" />
+              ) : null}
             </div>
           );
         })}
-        {/* {noIsRequired === -1 &&
+        {noIsRequired === -1 &&
         pageType === 'checkout' &&
         window.__.env.REACT_APP_COUNTRY === 'de' ? (
           <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
@@ -303,7 +308,7 @@ class Consent extends Component {
             </span>
             <FormattedMessage id="registerMandatory" />
           </p>
-        ) : null} */}
+        ) : null}
       </>
     );
   }
