@@ -218,6 +218,7 @@ class ResetPassword extends React.Component {
         this.props.history.push('/reset/success');
       }
     } catch (err) {
+      this.props.history.push('/reset/failure');
     } finally {
       this.setState({
         loading: false
