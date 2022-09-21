@@ -40,15 +40,16 @@ const PayInfoPreview = ({
     case 'CYBER':
       return (
         <>
-          <div className="col-12 col-md-6">
-            <p className="medium">
-              <FormattedMessage id="bankCard" />
-            </p>
-            <p>{cardData.holderNameDeco}</p>
-            <p>{cardData.brandDeco}</p>
-            {cardData.lastFourDeco ? (
-              <p>{`************${cardData.lastFourDeco}`}</p>
+          <div className="">
+            <p className="mt-8">
+              <span className="iconfont iconcard pr-1" style={{color:'#808285'}}></span>
+              <span className='medium '><FormattedMessage id="bankCard" /> <span className='px-1'>-</span></span>
+              {cardData.lastFourDeco ? (
+              `************${cardData.lastFourDeco}`
             ) : null}
+            </p>
+            {/* <p>{cardData.holderNameDeco}</p> */}
+            {/* <p>{cardData.brandDeco}</p>
             {cardData.expirationDate ? (
               <p>
                 {formatDate({
@@ -60,7 +61,7 @@ const PayInfoPreview = ({
                   }
                 })}
               </p>
-            ) : null}
+            ) : null} */}
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
         </>
@@ -75,8 +76,8 @@ const PayInfoPreview = ({
 
     case 'adyen_paypal':
       return (
-        <div className="col-12 col-md-6">
-          <img src={LOGO_ADYEN_PAYPAL} className="w-24 ml-8" />
+        <div className="col-12 col-md-6 pt-3">
+          <img src={LOGO_ADYEN_PAYPAL} className="w-24" />
         </div>
       );
 
@@ -157,7 +158,7 @@ const PayInfoPreview = ({
 
 const ShowUsePoint = () => {
   return (
-    <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
+    <div className="flex items-center pt-1 pb-3">
       <LazyLoad>
         <img src={LOGO_POINT} className="w-5 ml-8 mr-8" />
       </LazyLoad>
