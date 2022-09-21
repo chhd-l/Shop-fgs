@@ -6,7 +6,8 @@ import img_center from './images/center.png';
 import img_right from './images/right.png';
 
 const Content = () => {
-  const { countryCode } = useSearch();
+  const { config } = useSearch();
+  const countryCode = config.countryCode;
 
   return (
     <div className="search-empty-content-box">

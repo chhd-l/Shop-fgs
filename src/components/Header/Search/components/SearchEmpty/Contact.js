@@ -6,7 +6,8 @@ import img_email from './images/email.png';
 import img_msg from './images/msg.png';
 
 const Contact = () => {
-  const { countryCode } = useSearch();
+  const { config } = useSearch();
+  const countryCode = config.countryCode;
 
   return (
     <div className="search-empty-contact-box">
