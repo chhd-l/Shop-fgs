@@ -242,6 +242,12 @@ class Header extends React.Component {
       ? this.initNavigationsForHub
       : this.initNavigations)();
   }
+  componentWillUpdate() {
+    console.log(
+      ' shouldComponentUpdatefetchHeaderNavigations',
+      'sssssssssssssssssssssssssssss'
+    );
+  }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
     window.removeEventListener('scroll', this.handleScroll);

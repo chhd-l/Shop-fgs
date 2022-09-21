@@ -9,7 +9,7 @@ import { IntlProvider } from 'react-intl';
 import Security from './Provider/Security';
 jest.mock('react-intl-phraseapp', () => {
   return {
-    injectIntl: () => {}
+    injectIntl: () => { }
   };
 });
 const renderWithProvider = (
@@ -21,7 +21,7 @@ const renderWithProvider = (
     stores?: any;
   }
 ) => {
-  const renderProvider: React.ComponentType = ({ children }) => {
+  const renderProvider: React.ComponentType = ({ children }: any) => {
     return (
       <Provider {...stores}>
         <IntlProvider locale="en" messages={en_US} defaultLocale={'en'}>
