@@ -34,7 +34,7 @@ const Content = () => {
             Take our online survey to find the right food for your pet.
           </div>
           <div className="empty-content-link-action empty-columns-1">
-            <a className="empty-circle-btn" href="/">
+            <a className="empty-circle-btn" href={`${countryCode}/`}>
               Find the right food
             </a>
           </div>

@@ -1,4 +1,28 @@
-export const fetchArticles = () => {
+const BASE_URL =
+  process.env.NODE_ENV === 'development'
+    ? '/api'
+    : window.__.env.REACT_APP_BASEURL;
+const fetchApi = (url, keywords, pageNum) => {
+  return fetch(`${BASE_URL}${url}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ keywords, pageNum: pageNum, pageSize: 12 })
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
+export const fetchArticles = ({ keywords, pageNum }) => {
+  return fetchApi('/search/article/goods', keywords, pageNum).then((data) => {
+    console.log(data);
+    return {
+      total: data?.context?.totalElements ?? 0,
+      content: data?.context?.context ?? []
+    };
+  });
   return Promise.resolve({
     total: 2,
     content: [
