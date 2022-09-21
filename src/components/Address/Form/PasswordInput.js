@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { Input } from '@/components/Common';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import './PasswordInput.less';
+import { emailExsit } from '@/api/payment';
 
 const pass_word = 'pass' + 'word';
 const regs = {
@@ -17,7 +18,8 @@ const regs = {
 class PasswordInput extends React.Component {
   static defaultProps = {
     onChange() {},
-    sendIsValidPassWord() {}
+    sendIsValidPassWord() {},
+    sendErrMsg() {}
   };
 
   state = {
@@ -86,9 +88,11 @@ class PasswordInput extends React.Component {
         ? this.props.intl.messages.registerPasswordFormat
         : this.props.intl.messages.registerFillIn
     });
+    return valid;
   };
 
   inputFocus = () => {
+    this.props.sendErrMsg('');
     this.setState({
       passwordChanged: true
     });
@@ -99,7 +103,16 @@ class PasswordInput extends React.Component {
     this.setState({
       passwordChanged: false
     });
-    this.validInput(value);
+    const valid = this.validInput(value);
+    if (valid) {
+      emailExsit({ email: value })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          this.props.sendErrMsg('The Email is Exist');
+        });
+    }
   };
 
   deleteInput = () => {
