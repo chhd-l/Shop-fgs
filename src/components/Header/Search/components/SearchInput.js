@@ -48,6 +48,7 @@ const SearchInput = ({ onSearch }) => {
         >
           <div className="search-input-box">
             <button
+              type="button"
               className="search-btn iconfont iconSearch"
               onClick={handleSearch}
             />
@@ -70,6 +71,7 @@ const SearchInput = ({ onSearch }) => {
               }}
             />
             <button
+              type="button"
               className="search-btn iconfont iconguan"
               onClick={() => {
                 setInputValue('');

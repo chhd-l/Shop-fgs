@@ -11,9 +11,23 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './index.less';
 
-const Search = () => {
-  const { setModalVisible, setDataArticles, setDataBreeds, setSataProducts } =
-    useSearch();
+const Search = (props) => {
+  const {
+    countryCode,
+    setCountryCode,
+    setModalVisible,
+    searchEnd,
+    dataArticles,
+    setDataArticles,
+    dataBreeds,
+    setDataBreeds,
+    dataProducts,
+    setSataProducts
+  } = useSearch();
+
+  useEffect(() => {
+    setCountryCode(props?.countryCode ?? '');
+  }, []);
 
   const getAllList = (keywords) => {
     getArticles(keywords);
@@ -24,7 +38,8 @@ const Search = () => {
   const getArticles = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchArticles({
       keywords,
-      pageNum
+      pageNum,
+      countryCode
     });
     setDataArticles({
       total,
@@ -36,7 +51,8 @@ const Search = () => {
   const getBreeds = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchBreeds({
       keywords,
-      pageNum
+      pageNum,
+      countryCode
     });
     setDataBreeds({
       total,
@@ -48,7 +64,8 @@ const Search = () => {
   const getProducts = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchProducts({
       keywords,
-      pageNum
+      pageNum,
+      countryCode
     });
     setSataProducts({
       total,
@@ -72,9 +89,17 @@ const Search = () => {
 
         <SearchRecent onClickChange={getAllList} />
 
-        <SearchResult />
-
-        <SearchEmpty />
+        {dataArticles.total > 0 ||
+        dataBreeds.total > 0 ||
+        dataProducts.total > 0 ? (
+          <SearchResult
+            getArticles={getArticles}
+            getBreeds={getBreeds}
+            getProducts={getProducts}
+          />
+        ) : searchEnd ? (
+          <SearchEmpty />
+        ) : null}
       </SearchModal>
     </div>
   );
