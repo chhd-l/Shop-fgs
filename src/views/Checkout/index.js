@@ -3641,14 +3641,20 @@ class Checkout extends React.Component {
           {chooseRadioType() === 'box' && (
             <div>
               {payWayNameArr.map((item, index) => (
-                <>
+                <div
+                  className={`border rounded my-4 ${
+                    curPayWayInfo?.code === item.code
+                      ? 'border-slate-500 md:border-slate-300 p-4 md:p-5 pt-0 md:pt-0'
+                      : ''
+                  }`}
+                >
                   {/* 选择支付方式横条 */}
                   <div
                     className={cn(
-                      'flex justify-between items-center text-grey-400 w-full border rounded-md pl-5 pr-2 py-3 text-sm my-4 cursor-pointer',
+                      'flex justify-between items-center text-grey-400 w-fullpr-2 py-4 text-sm cursor-pointer',
                       curPayWayInfo?.code === item.code
                         ? 'border-green'
-                        : 'border-gray-300'
+                        : 'border-gray-300 pl-4'
                     )}
                     key={index}
                     onClick={() => this.handlePaymentTypeClick(item.code)}
@@ -3813,7 +3819,7 @@ class Checkout extends React.Component {
                           })} */}
                       </>
                     )}
-                </>
+                </div>
               ))}
             </div>
           )}
