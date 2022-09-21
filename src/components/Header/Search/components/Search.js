@@ -95,8 +95,6 @@ const Search = (props) => {
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        {<SearchRecent onClickChange={getAllList} />}
-
         {dataArticles.total > 0 ||
         dataBreeds.total > 0 ||
         dataProducts.total > 0 ? (
@@ -107,7 +105,9 @@ const Search = (props) => {
           />
         ) : searchEnd ? (
           <SearchEmpty />
-        ) : null}
+        ) : (
+          <SearchRecent onClickChange={getAllList} />
+        )}
       </SearchModal>
     </div>
   );
