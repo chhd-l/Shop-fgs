@@ -336,10 +336,6 @@ class CyberCardList extends React.Component {
                 >
                   xxxx xxxx xxxx {data.lastFourDigits}
                 </span>
-                <CardTips
-                  expirationDate={data.expirationDate}
-                  expireStatusEnum={data.expireStatusEnum}
-                />
               </div>
               <div className={`col-6 border-left`}>
                 <span style={{ fontSize: '.875rem' }}>
