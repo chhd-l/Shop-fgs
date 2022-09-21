@@ -5,7 +5,7 @@ const TabPanel = (props) => {
   const { active, tabKey, title, handleSetTable } = props;
   useEffect(() => {
     handleSetTable(tabKey, title);
-  }, []);
+  }, [title]);
   return (
     <div
       className={`r-tabs-tab-pane ${
@@ -29,8 +29,16 @@ const Tabs = (props) => {
   };
 
   const handleSetTable = (tab, title) => {
-    setTabs((pre) => [...pre, tab]);
-    setTabTitle((pre) => [...pre, title]);
+    const idx = tabs.indexOf(tab);
+    if (idx < 0) {
+      tabs.push(tab);
+      tabTitle.push(title);
+    } else {
+      tabs[idx] = tab;
+      tabTitle[idx] = title;
+    }
+    setTabs(tabs.slice());
+    setTabTitle(tabTitle.slice());
   };
 
   const renderHeader = () => {

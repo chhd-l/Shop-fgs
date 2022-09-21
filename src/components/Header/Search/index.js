@@ -12,7 +12,7 @@ function useSearchHook() {
   // Country code
   const [countryCode, setCountryCode] = useState('');
   // Modal visible state
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   // is search end
   const [searchEnd, setSearchEnd] = useState(false);
   // Current input value
