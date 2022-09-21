@@ -1,5 +1,5 @@
 import React from 'react';
-import ResetFailure from '../../ResetPassword/index';
+import ResetFailure from '../index';
 import { render, act, screen, fireEvent } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -42,17 +42,20 @@ const propsData = {
   }
 };
 
-describe('Register Index Test', () => {
-  test('Register test1 nl', async () => {
+describe('ResetFailure Index Test', () => {
+  test('ResetFailure test1 nl', async () => {
     const history = createMemoryHistory();
-    window.__.env.REACT_APP_COUNTRY = 'ru';
     const { debug } = await render(
-      // <Provider>
       <Router history={{ ...history }}>
         <ResetFailure {...propsData} />
       </Router>
-      // </Provider>
     );
+
+    const button1 = document.getElementById('button1');
+    fireEvent.click(button1);
+    const button2 = document.getElementById('button2');
+    fireEvent.click(button2);
+
     debug();
   });
 });

@@ -104,7 +104,7 @@ export const fetchProducts = ({ keywords, pageNum }) => {
     propDetails: [],
     pageNum,
     brandIds: [],
-    pageSize: 12,
+    pageSize: 6,
     esGoodsInfoDTOList: [],
     companyType: ''
   })

@@ -168,11 +168,7 @@ class Consent extends Component {
                 )
               ) : null}
 
-              <div
-                key={index}
-                id={index}
-                style={{ display: item.notShow ? 'none' : 'flex' }}
-              >
+              <div key={index} id={index} style={{ display: 'flex' }}>
                 <input
                   style={{ zoom: zoom }}
                   data-auto-testid={
@@ -270,7 +266,7 @@ class Consent extends Component {
             </div>
           );
         })}
-        {noIsRequired === -1 &&
+        {/* {noIsRequired === -1 &&
         pageType === 'checkout' &&
         window.__.env.REACT_APP_COUNTRY === 'de' ? (
           <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
@@ -307,7 +303,7 @@ class Consent extends Component {
             </span>
             <FormattedMessage id="registerMandatory" />
           </p>
-        ) : null}
+        ) : null} */}
       </>
     );
   }

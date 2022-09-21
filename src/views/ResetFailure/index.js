@@ -1,5 +1,4 @@
 import React from 'react';
-import { injectIntl } from 'react-intl-phraseapp';
 import { Footer } from '@/react-components';
 import './index.less';
 
@@ -20,6 +19,7 @@ const ResetFailure = ({ history }) => {
         <div>Повторите попытку или обратитесь в службу поддержки.</div>
         <div className="button mt-10 mb-14">
           <button
+            id="button1"
             onClick={() => {
               history.push('/forgot');
             }}
@@ -27,6 +27,7 @@ const ResetFailure = ({ history }) => {
             Попробуйте еще раз
           </button>
           <button
+            id="button2"
             onClick={() => {
               history.push('/contact-us');
             }}
@@ -40,4 +41,4 @@ const ResetFailure = ({ history }) => {
   );
 };
 
-export default injectIntl(ResetFailure);
+export default ResetFailure;

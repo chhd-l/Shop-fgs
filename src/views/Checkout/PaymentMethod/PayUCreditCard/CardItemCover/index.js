@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+import CardTips from '@/views/Payment/PaymentMethod/Adyen/CardTips';
 
 @inject('paymentStoreNew')
 @observer
@@ -164,6 +165,10 @@ class CardItemCover extends React.Component {
                   <span className="creditCompleteInfo fontFitSCreen">
                     xxxx xxxx xxxx {el.lastFourDigits}
                   </span>
+                  <CardTips
+                    expirationDate={el.expirationDate}
+                    expireStatusEnum={el.expireStatusEnum}
+                  />
                 </div>
                 <div className="col-6 border-left color-999">
                   <span style={{ fontSize: '.875rem' }}>
