@@ -57,6 +57,7 @@ import SearchAddressPreview from './SearchAddressPreview';
 import ActionSheet from 'actionsheet-react';
 import './ActionSheet.css';
 import './NewForm.less';
+import { emailExsit } from '@/api/payment';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
@@ -160,9 +161,6 @@ class Form extends React.Component {
       this.address1Item[0]?.inputFreeTextFlag == 1 &&
       this.address1Item[0]?.inputSearchBoxFlag == 0
     );
-  }
-  get needRegisterWarning() {
-    return this.props.paymentStoreNew.needRegisterWarning;
   }
 
   constructor(props) {
@@ -1494,16 +1492,47 @@ class Form extends React.Component {
   };
 
   validDataAll = async () => {
+    const { subForm, regPwd, regPwdValid, setExistEmailErrMsg } =
+      this.props.paymentStoreNew;
+    const { email } = this.state.caninForm;
     try {
       const [newErrMsgObj, formErrMsgArr] = await this.getTotalErrMsg();
       if (formErrMsgArr.length > 0) {
         this.setState({ errMsgObj: newErrMsgObj });
         this.scrollTo(`${formErrMsgArr[0]}Shipping`);
-      } else if (this.needRegisterWarning) {
-        //快速注册需要填
-        this.scrollTo('emailShipping');
+      } else if (subForm?.buyWay == 'once' && regPwd != '' && !regPwdValid) {
+        this.scrollTo(`emailShipping`);
+      } else if (subForm?.buyWay == 'once' && regPwd != '' && regPwdValid) {
+        const { context } = await emailExsit({ email });
+        if (context) {
+          this.scrollTo(`emailShipping`);
+        }
+        setExistEmailErrMsg(
+          'An error occured. We will not be able to create your account. Please try another email or login'
+        );
+      } else if (subForm?.buyWay == 'frequency' && regPwd == '') {
+        this.scrollTo(`emailShipping`);
+      } else if (
+        subForm?.buyWay == 'frequency' &&
+        regPwd != '' &&
+        !regPwdValid
+      ) {
+        this.scrollTo(`emailShipping`);
+      } else if (
+        subForm?.buyWay == 'frequency' &&
+        regPwd != '' &&
+        regPwdValid
+      ) {
+        const { context } = await emailExsit({ email });
+        if (context) {
+          this.scrollTo(`emailShipping`);
+        }
+        setExistEmailErrMsg(
+          'An error occured. We will not be able to create your account. Please try another email or login'
+        );
       } else {
         this.props.getFormAddressValidFlag(true);
+        setExistEmailErrMsg('');
       }
     } catch (err) {
       console.log(222, err.message);
@@ -2373,7 +2402,6 @@ class Form extends React.Component {
       caninForm: { email }
     } = this.state;
     const { isLogin } = this;
-
     return (
       <>
         {formLoading ? (
@@ -2403,7 +2431,7 @@ class Form extends React.Component {
                   </div>
                   <div className="md:hidden mb-3">
                     {this.emailItem?.[0]?.Status == 'inputOk' && (
-                      <FastRegisterCard />
+                      <FastRegisterCard email={this.state.caninForm.email} />
                     )}
                   </div>
                   <div className="mb-1 md:mb-10 w-100">
@@ -2415,7 +2443,7 @@ class Form extends React.Component {
                 </div>
                 <div className="hidden md:flex md:w-1/2">
                   {this.emailItem?.[0]?.Status == 'inputOk' && (
-                    <FastRegisterCard />
+                    <FastRegisterCard email={this.state.caninForm.email} />
                   )}
                 </div>
               </div>
