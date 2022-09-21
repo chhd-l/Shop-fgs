@@ -2,7 +2,7 @@ node_modules
 build
 .idea
 debug.log
-# .env.development.local
+.env.development.local
 feature_0523_sprint12
 build_tmp
 package-lock.json
