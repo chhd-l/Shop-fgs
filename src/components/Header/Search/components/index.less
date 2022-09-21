@@ -68,6 +68,10 @@
       background-color: transparent;
     }
 
+    &.bg-black {
+      background-color: #333;
+    }
+
     .search-section-content {
       max-width: @searchMaxWidth;
       margin: 0 auto;
@@ -79,6 +83,7 @@
     inset: 0;
     display: grid;
     grid-template-rows: 56px 1fr;
+    background-color: #fff;
     z-index: 123456;
 
     .search-modal-header-wrap {
@@ -237,6 +242,14 @@
 
         .search-card-image-box {
           width: 80%;
+        }
+
+        .search-card-image-full {
+          width: 90%;
+
+          .card-image-desc {
+            height: auto;
+          }
         }
       }
     }

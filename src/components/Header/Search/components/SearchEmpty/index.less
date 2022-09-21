@@ -133,6 +133,8 @@
   }
 
   .empty-contact-legal {
+    max-width: 570px;
+    margin: 0 auto;
     font-size: 14px;
     line-height: 18px;
     text-align: center;
@@ -158,8 +160,27 @@
 
 @media screen and (max-width: 640px) {
   .search-empty-content-box {
+    padding: 0 0 48px;
+
     .empty-content-link {
       grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .empty-content-link-item {
+      position: relative;
+      padding-top: 24px;
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -24px;
+        right: -24px;
+        height: 8px;
+        background-color: #F6F6F6;
+      }
     }
 
     .empty-content-link-action {
