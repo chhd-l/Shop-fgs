@@ -368,6 +368,7 @@ class AccountOrders extends React.Component {
             </FormattedMessage>
           </Button>
         ) : null}
+        {/* 再次下单 */}
         {order.canRePurchase ? (
           <Button
             size="small"
@@ -758,13 +759,15 @@ class AccountOrders extends React.Component {
                                                 {order.appointmentType}
                                               </span>
                                             ) : (
-                                              <FormattedMessage
-                                                id="order.quantityText"
-                                                values={{
-                                                  specText: item.specDetails,
-                                                  buyCount: item.num
-                                                }}
-                                              />
+                                              <div className="flex justify-between items-center">
+                                                <FormattedMessage
+                                                  id="order.quantityText"
+                                                  values={{
+                                                    specText: item.specDetails,
+                                                    buyCount: item.num
+                                                  }}
+                                                />
+                                              </div>
                                             )}
                                           </div>
                                           <div className="col-2 col-md-2 rc-md-up">
@@ -782,18 +785,52 @@ class AccountOrders extends React.Component {
                                         style={{ fontSize: '20px' }}
                                       />
                                     </div>
-                                    <div className="col-12 text-right md:hidden">
-                                      {order.canDownInvoice ? (
-                                        <span
-                                          className="rc-styled-link"
-                                          onClick={this.handleDownInvoice.bind(
-                                            this,
-                                            order
-                                          )}
-                                        >
-                                          <FormattedMessage id="invoice" />
-                                        </span>
-                                      ) : null}
+                                    <div className="w-full flex flex-wrap justify-center  md:hidden">
+                                      <div className="mb-4 w-4/5 flex-shrink-0">
+                                        {order.canDownInvoice ? (
+                                          <span
+                                            className="rc-styled-link"
+                                            onClick={this.handleDownInvoice.bind(
+                                              this,
+                                              order
+                                            )}
+                                          >
+                                            <FormattedMessage id="invoice" />
+                                          </span>
+                                        ) : null}
+                                      </div>
+                                      <div className="mb-4 w-4/5 flex-shrink-0">
+                                        {order.canRePurchase && (
+                                          <Button
+                                            size="primary"
+                                            className={`block md:hidden w-full h-10 pl-2 pr-2`}
+                                            loading={order.addToCartLoading}
+                                            onClick={this.rePurchase.bind(
+                                              this,
+                                              order
+                                            )}
+                                          >
+                                            <FormattedMessage id="rePurchase" />
+                                          </Button>
+                                        )}
+                                      </div>
+                                      <div className="mb-4 w-4/5 flex-shrink-0">
+                                        {order.canPayNow && (
+                                          <>
+                                            <Button
+                                              type="primay"
+                                              className={`block md:hidden w-full h-10 pl-2 pr-2`}
+                                              loading={order.payNowLoading}
+                                              onClick={this.handleClickPayNow.bind(
+                                                this,
+                                                order
+                                              )}
+                                            >
+                                              <FormattedMessage id="order.payNow" />
+                                            </Button>
+                                          </>
+                                        )}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>

@@ -62,16 +62,18 @@ const PurchaseMethodB = ({
         hidden: isNullGoodsInfos
       })}
     >
-      {isMobile ? specAndQuantityDom() : null}
-      <div>
-        <span className="text-3xl font-normal">
-          <FormattedMessage id="plpFromText" /> {formatMoney(fromPrice)}
-        </span>
-        <span className="ml-5">
-          *<FormattedMessage id="WithSubscription" />
-        </span>
-      </div>
-      {freeshippingBox()}
+      <>
+        {isMobile ? specAndQuantityDom() : null}
+        <div>
+          <span className="text-3xl font-normal">
+            <FormattedMessage id="plpFromText" /> {formatMoney(fromPrice)}
+          </span>
+          <span className="ml-5">
+            *<FormattedMessage id="WithSubscription" />
+          </span>
+        </div>
+        {freeshippingBox()}
+      </>
     </div>
   );
 };
