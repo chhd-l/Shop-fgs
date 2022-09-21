@@ -58,12 +58,13 @@ export function handleOrderItem(ele, res) {
       ele.tradeDelivers &&
       ele.tradeDelivers.length,
     //兼容feline order 预约状态为 arrived 时可下载发票
-    canDownInvoice:
-      window.__.env.REACT_APP_CAN_DOWNLOAD_INVOICE &&
-      (tradeState.deliverStatus === 'SHIPPED' ||
-        tradeState.deliverStatus === 'DELIVERED' ||
-        ele.appointmentStatus === 1) &&
-      tradeState.invoiceState === 1,
+    canDownInvoice: window.__.env.REACT_APP_CAN_DOWNLOAD_INVOICE,
+    // &&
+    // (tradeState.deliverStatus === 'SHIPPED' ||
+    //   tradeState.deliverStatus === 'DELIVERED' ||
+    //   ele.appointmentStatus === 1)
+    //   &&
+    // tradeState.invoiceState === 1,
     showOrderDeliverTip:
       (tradeState.payState === 'PAID' &&
         tradeState.auditState === 'CHECKED' &&

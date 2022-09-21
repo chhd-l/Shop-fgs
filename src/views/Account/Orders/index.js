@@ -654,7 +654,10 @@ class AccountOrders extends React.Component {
                                           )}
                                           className="text-nowrap col-12 col-md-1"
                                         >
-                                          <span className="rc-icon rc-pdf--xs rc-iconography" />
+                                          <span
+                                            className="iconfont icondownload pr-2"
+                                            style={{ color: '#767676' }}
+                                          />
                                           <FormattedMessage id="invoice">
                                             {(txt) => (
                                               <span
@@ -786,18 +789,24 @@ class AccountOrders extends React.Component {
                                       />
                                     </div>
                                     <div className="w-full flex flex-wrap justify-center  md:hidden">
-                                      <div className="mb-4 w-4/5 flex-shrink-0">
-                                        {order.canDownInvoice ? (
-                                          <span
-                                            className="rc-styled-link"
-                                            onClick={this.handleDownInvoice.bind(
-                                              this,
-                                              order
-                                            )}
-                                          >
-                                            <FormattedMessage id="invoice" />
-                                          </span>
-                                        ) : null}
+                                      <div className="mt-4 mb-4 w-4/5 flex-shrink-0 text-center">
+                                        {order.canDownInvoice && (
+                                          <>
+                                            <span
+                                              className="iconfont icondownload pr-2"
+                                              style={{ color: '#767676' }}
+                                            />
+                                            <span
+                                              className="rc-styled-link"
+                                              onClick={this.handleDownInvoice.bind(
+                                                this,
+                                                order
+                                              )}
+                                            >
+                                              <FormattedMessage id="invoice" />
+                                            </span>
+                                          </>
+                                        )}
                                       </div>
                                       <div className="mb-4 w-4/5 flex-shrink-0">
                                         {order.canRePurchase && (
