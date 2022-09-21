@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { createContainer } from './unstated-next';
 import Search from './components/Search';
 
@@ -9,6 +9,8 @@ const initData = {
 };
 
 function useSearchHook() {
+  // Country code
+  const [countryCode, setCountryCode] = useState('');
   // Modal visible state
   const [modalVisible, setModalVisible] = useState(true);
   // Current input value
@@ -24,6 +26,8 @@ function useSearchHook() {
   const [dataProducts, setSataProducts] = useState(initData);
 
   return {
+    countryCode,
+    setCountryCode,
     modalVisible,
     setModalVisible,
     inputValue,

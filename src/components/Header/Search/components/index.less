@@ -3,7 +3,7 @@
 @searchMidMaxWidth: 890px;
 
 .rc-search-box {
-  form, ul {
+  form, ul, p {
     margin: 0;
     padding: 0;
   }
@@ -68,6 +68,10 @@
       background-color: transparent;
     }
 
+    &.bg-color-black {
+      background-color: #333;
+    }
+
     .search-section-content {
       max-width: @searchMaxWidth;
       margin: 0 auto;
@@ -79,6 +83,7 @@
     inset: 0;
     display: grid;
     grid-template-rows: 56px 1fr;
+    background-color: #fff;
     z-index: 123456;
 
     .search-modal-header-wrap {
@@ -96,6 +101,7 @@
 
     .search-modal-content-wrap {
       background-color: rgba(0,0,0, .6);
+      overflow-x: hidden;
       overflow-y: auto;
     }
 
@@ -110,6 +116,7 @@
     display: grid;
     grid-template-columns: 44px 1fr 44px;
     max-width: 660px;
+    height: 44px;
     margin: 0 auto;
     color: #979797;
     font-size: 16px;
@@ -220,7 +227,7 @@
   .rc-search-box {
     .search-section-wrap {
       .search-section-content {
-        padding: 0 12px;
+        padding: 0 16px;
       }
     }
 
@@ -236,6 +243,14 @@
 
         .search-card-image-box {
           width: 80%;
+        }
+
+        .search-card-image-full {
+          width: 90%;
+
+          .card-image-desc {
+            height: auto;
+          }
         }
       }
     }

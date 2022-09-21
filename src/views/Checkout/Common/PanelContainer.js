@@ -33,7 +33,8 @@ class PanelContainer extends React.Component {
       <div
         className={cn(
           'card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border shadow-lg',
-          panelStatus.isEdit ? 'border-333' : 'border-transparent',
+          // panelStatus.isEdit ? 'border-333' : 'border-transparent',
+          panelStatus.isEdit ? '-mx-4 md:mx-0' : 'border-transparent',
           cClassName
         )}
         {...cRest}
@@ -51,7 +52,7 @@ class PanelContainer extends React.Component {
               <span className="flex justify-start">
                 {/* {panelStatus.isEdit ? highlighIcon : defaultIcon}{' '} */}
                 <span>
-                  <span className="text-30 text-cs-black font-medium">
+                  <span className="text-26 md:text-30 text-cs-black font-medium">
                     {title}
                   </span>
                   {panelStatus.isCompleted ? (
