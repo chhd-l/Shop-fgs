@@ -13,7 +13,8 @@ function useSearchHook() {
   const [config, setConfig] = useState({
     countryCode: '',
     baseRouterPrefixForFgs: '',
-    baseApiPrefixForFgs: ''
+    baseApiPrefixForFgs: '',
+    productFinderLink: ''
   });
   // Modal visible state
   const [modalVisible, setModalVisible] = useState(false);

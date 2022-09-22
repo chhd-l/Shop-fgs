@@ -37,7 +37,7 @@ const Content = () => {
           <div className="empty-content-link-action empty-columns-1">
             <a
               className="empty-circle-btn"
-              href={`${config.countryCode}/`}
+              href={config.productFinderLink}
               onClick={() => GAEventClickNoResultItem('Product')}
             >
               Find the right food
