@@ -25,6 +25,7 @@ export const fetchArticles = ({ baseUrl, keywords, pageNum, countryCode }) => {
         total: data?.context?.totalElements ?? 0,
         content: (data?.context?.content ?? []).map((item, idx) => ({
           id: idx,
+          type: 'Article',
           title: item.title || item.thumbnailAltText,
           desc: item.thumbnailAltText,
           url: item.url,
@@ -55,6 +56,7 @@ export const fetchBreeds = ({ baseUrl, keywords, pageNum, countryCode }) => {
         total: data?.context?.totalElements ?? 0,
         content: (data?.context?.content ?? []).map((item, idx) => ({
           id: idx,
+          type: 'Breed',
           title: item.title || item.thumbnailAltText,
           desc: item.thumbnailAltText,
           url: item.url,
@@ -97,6 +99,7 @@ export const fetchProducts = ({
         total: esGoodsPage?.totalElements ?? 0,
         content: (esGoodsPage?.content ?? []).map((item, idx) => ({
           id: idx,
+          type: 'Product',
           title: item.goodsName,
           desc: item.goodsNewSubtitle,
           goodsNo: item.goodsNo,
