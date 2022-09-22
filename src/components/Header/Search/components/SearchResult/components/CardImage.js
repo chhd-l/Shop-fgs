@@ -1,5 +1,5 @@
 import React from 'react';
-import { GAEventClickOnResult } from '../../GA';
+import { GAEventClickOnResult } from '../../../GA';
 import './CardImage.less';
 
 const CardImage = ({ fullImage = false, item = {} }) => {
