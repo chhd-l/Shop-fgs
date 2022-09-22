@@ -10,11 +10,15 @@ const initData = {
 
 function useSearchHook() {
   // Country code
-  const [countryCode, setCountryCode] = useState('');
+  const [config, setConfig] = useState({
+    countryCode: '',
+    baseRouterPrefixForFgs: '',
+    baseApiPrefixForFgs: ''
+  });
   // Modal visible state
   const [modalVisible, setModalVisible] = useState(false);
-  // is search end
-  const [searchEnd, setSearchEnd] = useState(false);
+  // 是否搜索过 或 清除过搜索
+  const [isSearched, setIsSearched] = useState(false);
   // Current input value
   const [inputValue, setInputValue] = useState('');
   // Input Search history
@@ -28,10 +32,12 @@ function useSearchHook() {
   const [dataProducts, setSataProducts] = useState(initData);
 
   return {
-    countryCode,
-    setCountryCode,
+    config,
+    setConfig,
     modalVisible,
     setModalVisible,
+    isSearched,
+    setIsSearched,
     inputValue,
     setInputValue,
     recentSearches,

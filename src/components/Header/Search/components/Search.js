@@ -13,10 +13,11 @@ import './index.less';
 
 const Search = (props) => {
   const {
-    countryCode,
-    setCountryCode,
+    config,
+    setConfig,
     setModalVisible,
-    searchEnd,
+    isSearched,
+    setIsSearched,
     dataArticles,
     setDataArticles,
     dataBreeds,
@@ -26,20 +27,26 @@ const Search = (props) => {
   } = useSearch();
 
   useEffect(() => {
-    setCountryCode(props?.countryCode ?? '');
+    setConfig({
+      countryCode: props?.countryCode ?? 'fr',
+      baseRouterPrefixForFgs: props?.baseRouterPrefixForFgs ?? '',
+      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api'
+    });
   }, []);
 
-  const getAllList = (keywords) => {
-    getArticles(keywords);
-    getBreeds(keywords);
-    getProducts(keywords);
+  const getAllList = async (keywords) => {
+    await getArticles(keywords);
+    await getBreeds(keywords);
+    await getProducts(keywords);
+    setIsSearched(true);
   };
 
   const getArticles = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchArticles({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
       pageNum,
-      countryCode
+      countryCode: config.countryCode
     });
     setDataArticles({
       total,
@@ -50,9 +57,10 @@ const Search = (props) => {
 
   const getBreeds = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchBreeds({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
       pageNum,
-      countryCode
+      countryCode: config.countryCode
     });
     setDataBreeds({
       total,
@@ -63,9 +71,11 @@ const Search = (props) => {
 
   const getProducts = async (keywords, pageNum = 0) => {
     const { total = 0, content = [] } = await api.fetchProducts({
+      baseUrl: config.baseApiPrefixForFgs,
       keywords,
       pageNum,
-      countryCode
+      countryCode: config.countryCode,
+      itemBaseUrl: config.baseRouterPrefixForFgs
     });
     setSataProducts({
       total,
@@ -73,6 +83,9 @@ const Search = (props) => {
       pageNum
     });
   };
+
+  const hasSomeData =
+    dataArticles.total > 0 || dataBreeds.total > 0 || dataProducts.total > 0;
 
   return (
     <div className="rc-search-box">
@@ -87,19 +100,22 @@ const Search = (props) => {
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        <SearchRecent onClickChange={getAllList} />
+        {/*没有数据 && 搜索状态是false = 才展示*/}
+        {!hasSomeData && !isSearched && (
+          <SearchRecent onClickChange={getAllList} />
+        )}
 
-        {dataArticles.total > 0 ||
-        dataBreeds.total > 0 ||
-        dataProducts.total > 0 ? (
+        {/*有数据 = 才展示*/}
+        {hasSomeData && (
           <SearchResult
             getArticles={getArticles}
             getBreeds={getBreeds}
             getProducts={getProducts}
           />
-        ) : searchEnd ? (
-          <SearchEmpty />
-        ) : null}
+        )}
+
+        {/*没有数据 && 搜索状态是true = 才展示*/}
+        {!hasSomeData && isSearched && <SearchEmpty />}
       </SearchModal>
     </div>
   );

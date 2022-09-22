@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useSearch, RECENT_SEARCH_LIST } from '../index';
 
 const SearchFindLink = () => {
-  const { countryCode } = useSearch();
+  const { config } = useSearch();
 
   return (
-    <a className="search-find-box" href={`${countryCode}/`}>
+    <a className="search-find-box" href={`${config.countryCode}/`}>
       <div className="search-find-content">
         <div className="search-find-title">Need help to find a product ?</div>
         <div className="search-find-desc">Try our product finder</div>

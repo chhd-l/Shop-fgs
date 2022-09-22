@@ -37,7 +37,9 @@ const Pager = ({ total, current, onChange }) => {
   return (
     <div className="search-result-pager-box">
       <button
-        className="search-btn iconfont iconjiantouyou1 search-result-pager-prev disabled"
+        className={`search-btn iconfont iconjiantouyou1 search-result-pager-prev ${
+          current === 1 ? 'disabled' : ''
+        }`}
         disabled={current === 1}
         onClick={() => handleClick('prev')}
       />
@@ -47,7 +49,9 @@ const Pager = ({ total, current, onChange }) => {
         <div className="search-result-pager-all">{totalPage}</div>
       </div>
       <button
-        className="search-btn iconfont iconjiantouyou1 search-result-pager-next"
+        className={`search-btn iconfont iconjiantouyou1 search-result-pager-next ${
+          current === totalPage ? 'disabled' : ''
+        }`}
         disabled={current === totalPage}
         onClick={() => handleClick('next')}
       />

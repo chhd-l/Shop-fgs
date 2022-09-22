@@ -1,14 +1,6 @@
-import { getList } from '@/api/list';
-import { optimizeImage } from '@/utils/utils';
-import { IMG_DEFAULT } from '@/utils/constant';
-
-const BASE_URL =
-  process.env.NODE_ENV === 'development'
-    ? '/api'
-    : window.__.env.REACT_APP_BASEURL;
-const fetchApi = (url, keywords, pageNum) => {
+const fetchApi = ({ baseUrl, url, keywords, pageNum, countryCode }) => {
   return fetch(
-    `${BASE_URL}${url}?keywords=${keywords}&page=${pageNum}&size=12`,
+    `${baseUrl}${url}?keywords=${keywords}&pageNum=${pageNum}&pageSize=12&countryCode=${countryCode}`,
     {
       method: 'GET',
       headers: {
@@ -19,63 +11,85 @@ const fetchApi = (url, keywords, pageNum) => {
   ).then((response) => response.json());
 };
 
-export const fetchArticles = ({ keywords, pageNum }) => {
-  return fetchApi('/search/articles', keywords, pageNum)
-    .then((data) => {
-      console.log(data);
-      return {
-        total: data?.context?.totalElements ?? 0,
-        content: (data?.context?.content ?? []).map((item, idx) => ({
-          id: idx,
-          title: item.title || item.thumbnailAltText,
-          desc: item.thumbnailAltText,
-          url: item.url,
-          img: item.thumbnailUrl
-        }))
-      };
-    })
-    .catch((err) => {
-      console.log(err);
-      return {
-        total: 0,
-        content: []
-      };
-    });
-};
-
-export const fetchBreeds = ({ keywords, pageNum }) => {
-  return fetchApi('/search/breeds', keywords, pageNum)
-    .then((data) => {
-      console.log(data);
-      return {
-        total: data?.context?.totalElements ?? 0,
-        content: (data?.context?.content ?? []).map((item, idx) => ({
-          id: idx,
-          title: item.title || item.thumbnailAltText,
-          desc: item.thumbnailAltText,
-          url: item.url,
-          img: item.thumbnailUrl
-        }))
-      };
-    })
-    .catch((err) => {
-      console.log(err);
-      return {
-        total: 0,
-        content: []
-      };
-    });
-};
-
-export const fetchProducts = ({ keywords, pageNum }) => {
-  return getList({
+export const fetchArticles = ({ baseUrl, keywords, pageNum, countryCode }) => {
+  return fetchApi({
+    baseUrl,
+    url: '/search/articles',
     keywords,
-    propDetails: [],
     pageNum,
-    brandIds: [],
-    pageSize: 6,
-    esGoodsInfoDTOList: [],
-    companyType: ''
+    countryCode
+  })
+    .then((data) => {
+      console.log(data);
+      return {
+        total: data?.context?.totalElements ?? 0,
+        content: (data?.context?.content ?? []).map((item, idx) => ({
+          id: idx,
+          title: item.title || item.thumbnailAltText,
+          desc: item.thumbnailAltText,
+          url: item.url,
+          img: item.thumbnailUrl
+        }))
+      };
+    })
+    .catch((err) => {
+      console.log(err);
+      return {
+        total: 0,
+        content: []
+      };
+    });
+};
+
+export const fetchBreeds = ({ baseUrl, keywords, pageNum, countryCode }) => {
+  return fetchApi({
+    baseUrl,
+    url: '/search/breeds',
+    keywords,
+    pageNum,
+    countryCode
+  })
+    .then((data) => {
+      console.log(data);
+      return {
+        total: data?.context?.totalElements ?? 0,
+        content: (data?.context?.content ?? []).map((item, idx) => ({
+          id: idx,
+          title: item.title || item.thumbnailAltText,
+          desc: item.thumbnailAltText,
+          url: item.url,
+          img: item.thumbnailUrl
+        }))
+      };
+    })
+    .catch((err) => {
+      console.log(err);
+      return {
+        total: 0,
+        content: []
+      };
+    });
+};
+
+export const fetchProducts = ({
+  baseUrl,
+  keywords,
+  pageNum,
+  countryCode,
+  itemBaseUrl
+}) => {
+  return fetch(`${baseUrl}/goods/spuListFront`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      keywords,
+      pageNum,
+      pageSize: 12,
+      countryCode
+    })
   })
     .then((res) => {
       const esGoodsPage = res?.context?.esGoodsPage ?? [];
@@ -87,15 +101,14 @@ export const fetchProducts = ({ keywords, pageNum }) => {
           desc: item.goodsNewSubtitle,
           goodsNo: item.goodsNo,
           lowGoodsName: item.lowGoodsName,
+          url: `${itemBaseUrl}/${item.lowGoodsName
+            .split(' ')
+            .join('-')
+            .replace('/', '')}-${item.goodsNo}`,
           img:
-            optimizeImage({
-              originImageUrl:
-                item.goodsImg ||
-                item.goodsInfos?.sort(
-                  (a, b) => a.marketPrice - b.marketPrice
-                )[0]?.goodsInfoImg,
-              width: 300
-            }) || IMG_DEFAULT
+            item.goodsImg ||
+            item.goodsInfos?.sort((a, b) => a.marketPrice - b.marketPrice)[0]
+              ?.goodsInfoImg
         }))
       };
     })

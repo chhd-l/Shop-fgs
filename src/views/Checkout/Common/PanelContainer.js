@@ -47,25 +47,23 @@ class PanelContainer extends React.Component {
           )}
           {...tRest}
         >
-          <h5 className="mb-0 text-xl">
+          <h5 className="mb-0 text-xl flex-1">
             {titleVisible ? (
-              <span className="flex justify-start">
+              <span className="flex justify-between md:justify-start">
                 {/* {panelStatus.isEdit ? highlighIcon : defaultIcon}{' '} */}
-                <span>
-                  <span className="text-26 md:text-30 text-cs-black font-medium">
-                    {title}
-                  </span>
-                  {panelStatus.isCompleted ? (
-                    <span className="iconfont font-weight-bold green ml-4 iconchenggong" />
-                  ) : null}
+                <span className="text-26 md:text-30 text-cs-black font-medium">
+                  {title}
                 </span>
+                {panelStatus.isCompleted ? (
+                  <span className="iconfont font-weight-bold green ml-4 iconchenggong" />
+                ) : null}
               </span>
             ) : null}
           </h5>
           {panelStatus.isCompleted && onEdit ? (
             <p
               onClick={onEdit}
-              className="rc-styled-link mb-1 leading-tight edit_payment_method cursor-pointer qhx"
+              className="rc-md-up rc-styled-link mb-1 leading-tight edit_payment_method cursor-pointer qhx"
             >
               {edit || <FormattedMessage id="edit" />}
             </p>
@@ -73,6 +71,16 @@ class PanelContainer extends React.Component {
         </div>
         <div className={cn({ hidden: !panelStatus.isEdit })}>{children}</div>
         {panelStatus.isCompleted ? previewJSX : null}
+        {panelStatus.isCompleted && onEdit ? (
+          <p className="pb-4 ml-custom mr-custom justify-end flex md:hidden">
+            <p
+              onClick={onEdit}
+              className="rc-styled-link mb-1 leading-tight edit_payment_method cursor-pointer qhx "
+            >
+              {edit || <FormattedMessage id="edit" />}
+            </p>
+          </p>
+        ) : null}
       </div>
     );
   }

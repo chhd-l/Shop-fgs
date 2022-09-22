@@ -5,6 +5,7 @@ const SearchInput = ({ onSearch }) => {
   const inputRef = useRef();
   const {
     setModalVisible,
+    setIsSearched,
     inputValue,
     setInputValue,
     recentSearches,
@@ -42,7 +43,6 @@ const SearchInput = ({ onSearch }) => {
           name="search"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log('xxxxxxx');
             handleSearch();
           }}
         >
@@ -75,6 +75,7 @@ const SearchInput = ({ onSearch }) => {
               className="search-btn iconfont iconguan"
               onClick={() => {
                 setInputValue('');
+                setIsSearched(false);
               }}
             />
           </div>
