@@ -291,6 +291,7 @@ class Payment extends React.Component {
         ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
         : [],
       rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId'),
+      serviceFeeEnabled: sessionItemRoyal.get('rc-serviceFeeEnabled'),
       recommend_data: [],
       isAdd: 0,
       listData: [],
@@ -736,6 +737,7 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('appointment-no');
     sessionItemRoyal.remove('isChangeAppoint');
     sessionItemRoyal.remove('oldAppointNo');
+    sessionItemRoyal.remove('serviceFeeEnabled');
   }
 
   get isInputPointDisabled() {
@@ -2404,11 +2406,17 @@ class Payment extends React.Component {
           'rc-tidList',
           JSON.stringify(err.errorData.tidList)
         );
+        sessionItemRoyal.set(
+          'rc-serviceFeeEnabled',
+          JSON.stringify(err?.errorData?.trade?.tradePrice?.serviceFeeEnabled)
+        );
         this.setState(
           {
             tid: err.errorData.tid,
             tidList: err.errorData.tidList,
-            rePaySubscribeId: err.errorData.subscribeId
+            rePaySubscribeId: err.errorData.subscribeId,
+            serviceFeeEnabled:
+              err?.errorData?.trade?.tradePrice?.serviceFeeEnabled
           },
           () => {
             this.state.tidList &&
@@ -2926,6 +2934,7 @@ class Payment extends React.Component {
     });
   };
   handlePaymentTypeCommon = (paymentTypeCode) => {
+    if (this.state.serviceFeeEnabled) return; //如果有服务费不能切换支付方式
     const {
       paymentStore: { serCurPayWayVal },
       checkoutStore: { setInputPoint }

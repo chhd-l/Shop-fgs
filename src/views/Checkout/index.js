@@ -500,7 +500,8 @@ class Checkout extends React.Component {
           isFromFelin: true,
           deliveryAddress: felinAddress,
           billingAddress: felinAddress,
-          guestEmail: guestInfo?.email || ''
+          //guestEmail: guestInfo?.email || ''
+          guestEmail: this.props.paymentStoreNew.regEmail
         },
         () => {
           this.props.paymentStoreNew.setStsToCompleted({
