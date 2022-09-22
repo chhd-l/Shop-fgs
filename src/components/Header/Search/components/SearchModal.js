@@ -8,7 +8,9 @@ const SearchModal = ({ children }) => {
     setIsSearched,
     setDataArticles,
     setDataBreeds,
-    setSataProducts
+    setSataProducts,
+    setInputValue,
+    setResultCurrentTab
   } = useSearch();
 
   if (!modalVisible) {
@@ -26,6 +28,8 @@ const SearchModal = ({ children }) => {
               setDataArticles(initData);
               setDataBreeds(initData);
               setSataProducts(initData);
+              setInputValue('');
+              setResultCurrentTab('All');
               setIsSearched(false);
               setModalVisible(false);
             }}

@@ -19,6 +19,7 @@ const Search = (props) => {
     setModalVisible,
     isSearched,
     setIsSearched,
+    setResultCurrentTab,
     dataArticles,
     setDataArticles,
     dataBreeds,
@@ -42,6 +43,7 @@ const Search = (props) => {
       getProducts(keywords)
     ]);
     setIsSearched(true);
+    setResultCurrentTab('All');
     GAEventDisplayResult(breeds, products, articles);
   };
 
