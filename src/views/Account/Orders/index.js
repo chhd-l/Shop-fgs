@@ -661,8 +661,13 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="invoice">
                                             {(txt) => (
                                               <span
-                                                className="medium pull-right--desktop rc-styled-link text-wrap"
+                                                className="redColor medium pull-right--desktop rc-styled-link text-wrap"
                                                 title={txt}
+                                                style={{
+                                                  padding: '2px 0px',
+                                                  borderBottom:
+                                                    '1px solid #767676'
+                                                }}
                                               >
                                                 {txt}
                                               </span>
@@ -802,6 +807,11 @@ class AccountOrders extends React.Component {
                                                 this,
                                                 order
                                               )}
+                                              style={{
+                                                padding: '2px 0px',
+                                                borderBottom:
+                                                  '1px solid #767676'
+                                              }}
                                             >
                                               <FormattedMessage id="invoice" />
                                             </span>
