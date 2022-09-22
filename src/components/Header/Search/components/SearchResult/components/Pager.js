@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Pager.less';
 
 const regNum = /^[1-9]\d*$/;

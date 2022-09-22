@@ -1,34 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSearch, initData } from '../../index';
 import ListText from './components/ListText';
 import ListCarousel from './components/ListCarousel';
+
+// only display first page
+let firstPageDataArticles = initData;
+let firstPageDataBreeds = initData;
+let firstPageDataProducts = initData;
 
 const ResultAll = () => {
   const { setResultCurrentTab, dataArticles, dataBreeds, dataProducts } =
     useSearch();
 
-  // only display first page
-  const [firstPageDataArticles, setFirstPageDataArticles] = useState(initData);
-  const [firstPageDataBreeds, setFirstPageDataBreeds] = useState(initData);
-  const [firstPageDataProducts, setFirstPageDataProducts] = useState(initData);
-
-  useEffect(() => {
-    if (dataArticles.pageNum === 0) {
-      setFirstPageDataArticles({ ...dataArticles });
-    }
-  }, [dataArticles]);
-
-  useEffect(() => {
-    if (dataBreeds.pageNum === 0) {
-      setFirstPageDataBreeds({ ...dataBreeds });
-    }
-  }, [dataBreeds]);
-
-  useEffect(() => {
-    if (dataProducts.pageNum === 0) {
-      setFirstPageDataProducts({ ...dataProducts });
-    }
-  }, [dataProducts]);
+  if (dataArticles.pageNum === 0) {
+    firstPageDataArticles = { ...dataArticles };
+  }
+  if (dataBreeds.pageNum === 0) {
+    firstPageDataBreeds = { ...dataBreeds };
+  }
+  if (dataProducts.pageNum === 0) {
+    firstPageDataProducts = { ...dataProducts };
+  }
 
   return (
     <div className="search-result-all-box">
