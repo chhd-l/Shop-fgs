@@ -1506,10 +1506,13 @@ class Form extends React.Component {
         const { context } = await emailExsit({ email });
         if (context) {
           this.scrollTo(`emailShipping`);
+          setExistEmailErrMsg(
+            'An error occured. We will not be able to create your account. Please try another email or login'
+          );
+        } else {
+          this.props.getFormAddressValidFlag(true);
+          setExistEmailErrMsg('');
         }
-        setExistEmailErrMsg(
-          'An error occured. We will not be able to create your account. Please try another email or login'
-        );
       } else if (subForm?.buyWay == 'frequency' && regPwd == '') {
         this.scrollTo(`emailShipping`);
       } else if (
@@ -1526,10 +1529,13 @@ class Form extends React.Component {
         const { context } = await emailExsit({ email });
         if (context) {
           this.scrollTo(`emailShipping`);
+          setExistEmailErrMsg(
+            'An error occured. We will not be able to create your account. Please try another email or login'
+          );
+        } else {
+          this.props.getFormAddressValidFlag(true);
+          setExistEmailErrMsg('');
         }
-        setExistEmailErrMsg(
-          'An error occured. We will not be able to create your account. Please try another email or login'
-        );
       } else {
         this.props.getFormAddressValidFlag(true);
         setRegEmail(email);

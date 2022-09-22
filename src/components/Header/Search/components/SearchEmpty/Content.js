@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSearch } from '../../index';
+import { GAEventClickNoResultItem } from '../../GA';
 
 import img_left from './images/left.jpg';
 import img_center from './images/center.png';
@@ -34,7 +35,11 @@ const Content = () => {
             Take our online survey to find the right food for your pet.
           </div>
           <div className="empty-content-link-action empty-columns-1">
-            <a className="empty-circle-btn" href={`${config.countryCode}/`}>
+            <a
+              className="empty-circle-btn"
+              href={config.productFinderLink}
+              onClick={() => GAEventClickNoResultItem('Product')}
+            >
               Find the right food
             </a>
           </div>
@@ -54,12 +59,14 @@ const Content = () => {
             <a
               className="empty-circle-btn"
               href={`${config.countryCode}/cats/breeds`}
+              onClick={() => GAEventClickNoResultItem('Breed')}
             >
               Cat breeds
             </a>
             <a
               className="empty-circle-btn"
               href={`${config.countryCode}/dogs/breeds`}
+              onClick={() => GAEventClickNoResultItem('Breed')}
             >
               Dog breeds
             </a>
@@ -81,12 +88,14 @@ const Content = () => {
             <a
               className="empty-circle-btn"
               href={`${config.countryCode}/dogs/puppy`}
+              onClick={() => GAEventClickNoResultItem('Article')}
             >
               Puppies
             </a>
             <a
               className="empty-circle-btn"
               href={`${config.countryCode}/cats/kitten`}
+              onClick={() => GAEventClickNoResultItem('Article')}
             >
               Kittens
             </a>

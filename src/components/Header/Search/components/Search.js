@@ -6,6 +6,7 @@ import SearchRecent from './SearchRecent';
 import SearchResult from './SearchResult';
 import SearchEmpty from './SearchEmpty';
 import * as api from './api';
+import { GAEventClickSearchBar, GAEventDisplayResult } from '../GA';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -16,7 +17,9 @@ const Search = (props) => {
     config,
     setConfig,
     setModalVisible,
-    searchEnd,
+    isSearched,
+    setIsSearched,
+    setResultCurrentTab,
     dataArticles,
     setDataArticles,
     dataBreeds,
@@ -29,14 +32,22 @@ const Search = (props) => {
     setConfig({
       countryCode: props?.countryCode ?? 'fr',
       baseRouterPrefixForFgs: props?.baseRouterPrefixForFgs ?? '',
-      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api'
+      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api',
+      productFinderLink:
+        props?.productFinderUrl ??
+        `/${props?.countryCode ?? 'fr'}/product-finder`
     });
   }, []);
 
-  const getAllList = (keywords) => {
-    getArticles(keywords);
-    getBreeds(keywords);
-    getProducts(keywords);
+  const getAllList = async (keywords) => {
+    const [articles, breeds, products] = await Promise.all([
+      getArticles(keywords),
+      getBreeds(keywords),
+      getProducts(keywords)
+    ]);
+    setIsSearched(true);
+    setResultCurrentTab('All');
+    GAEventDisplayResult(breeds, products, articles);
   };
 
   const getArticles = async (keywords, pageNum = 0) => {
@@ -51,6 +62,7 @@ const Search = (props) => {
       content,
       pageNum
     });
+    return total;
   };
 
   const getBreeds = async (keywords, pageNum = 0) => {
@@ -65,6 +77,7 @@ const Search = (props) => {
       content,
       pageNum
     });
+    return total;
   };
 
   const getProducts = async (keywords, pageNum = 0) => {
@@ -80,7 +93,11 @@ const Search = (props) => {
       content,
       pageNum
     });
+    return total;
   };
+
+  const hasSomeData =
+    dataArticles.total > 0 || dataBreeds.total > 0 || dataProducts.total > 0;
 
   return (
     <div className="rc-search-box">
@@ -89,25 +106,27 @@ const Search = (props) => {
         onClick={() => {
           document.querySelector('body').style.overflowY = 'hidden';
           setModalVisible(true);
+          GAEventClickSearchBar();
         }}
       />
 
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        {dataArticles.total > 0 ||
-        dataBreeds.total > 0 ||
-        dataProducts.total > 0 ? (
+        {/*搜索状态是false = 才展示*/}
+        {!isSearched && <SearchRecent onClickChange={getAllList} />}
+
+        {/*有数据 && 搜索状态是true = 才展示*/}
+        {hasSomeData && isSearched && (
           <SearchResult
             getArticles={getArticles}
             getBreeds={getBreeds}
             getProducts={getProducts}
           />
-        ) : searchEnd ? (
-          <SearchEmpty />
-        ) : (
-          <SearchRecent onClickChange={getAllList} />
         )}
+
+        {/*没有数据 && 搜索状态是true = 才展示*/}
+        {!hasSomeData && isSearched && <SearchEmpty />}
       </SearchModal>
     </div>
   );

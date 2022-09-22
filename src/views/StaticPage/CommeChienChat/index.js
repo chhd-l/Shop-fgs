@@ -6,10 +6,10 @@ import { Canonical } from '@/components/Common';
 import './index.less';
 
 import img_banner from '@/assets/images/comme-chien-chat/banner.png';
-import img_dog from '@/assets/images/comme-chien-chat/dog.png';
-import img_dog2 from '@/assets/images/comme-chien-chat/dog2.png';
-import img_toy from '@/assets/images/comme-chien-chat/toy.png';
-import img_store from '@/assets/images/comme-chien-chat/store.png';
+import img_dog from '@/assets/images/comme-chien-chat/dog_new.png';
+import img_dog2 from '@/assets/images/comme-chien-chat/dog2_new.png';
+import img_toy from '@/assets/images/comme-chien-chat/toy_new.png';
+import img_store from '@/assets/images/comme-chien-chat/store_new.png';
 import img_a1 from '@/assets/images/comme-chien-chat/a1.png';
 import img_a2 from '@/assets/images/comme-chien-chat/a2.png';
 import img_a3 from '@/assets/images/comme-chien-chat/a3.png';
@@ -142,7 +142,7 @@ class CommeChienChat extends React.Component {
                     Car la santé et le bien-être de votre animal sont notre
                     priorité, nous avions à cœur chez Royal Canin, de créer un
                     lieu avec tout ce dont vous avez besoin pour prendre soin de
-                    votre compagnon à 4 pattes. " <br />
+                    votre compagnon à 4 pattes. "<br />
                     <br />
                   </div>
                   <div className="m-justify-center">
@@ -196,7 +196,7 @@ class CommeChienChat extends React.Component {
             <div className="section">
               <div className="section-content column-2">
                 <div className="section-content-item content-justify-center">
-                  <div className="title-2">Faites leurs plaisir !</div>
+                  <div className="title-2">Faites leurs plaisir ! </div>
                   <div className="desc-2">
                     Profitez d'avantages exceptionnels en achetant dans notre
                     Concept Store.

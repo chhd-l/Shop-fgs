@@ -1,8 +1,11 @@
 import React from 'react';
+import { GAEventClickOnResult } from '../../../GA';
 import './CardImage.less';
 
 const CardImage = ({ fullImage = false, item = {} }) => {
-  const handleClickItem = () => {};
+  const handleClickItem = () => {
+    GAEventClickOnResult(item.type, item.title);
+  };
   return (
     <div
       className={`search-card-image-box ${

@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSearch, RECENT_SEARCH_LIST } from '../index';
+import { GAEventClickRecentSearchItem, GAEventClickFindAProduct } from '../GA';
 
 const SearchFindLink = () => {
   const { config } = useSearch();
 
   return (
-    <a className="search-find-box" href={`${config.countryCode}/`}>
+    <a
+      className="search-find-box"
+      href={config.productFinderLink}
+      onClick={GAEventClickFindAProduct}
+    >
       <div className="search-find-content">
         <div className="search-find-title">Need help to find a product ?</div>
         <div className="search-find-desc">Try our product finder</div>
@@ -29,6 +34,8 @@ const SearchRecentTag = ({ label, onClick }) => {
     handleSearchList(listSort);
 
     onClick?.(label);
+
+    GAEventClickRecentSearchItem(label);
   };
 
   const handleDeleteTag = () => {
