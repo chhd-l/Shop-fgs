@@ -25,14 +25,17 @@ const Search = (props) => {
     dataBreeds,
     setDataBreeds,
     dataProducts,
-    setSataProducts
+    setDataProducts
   } = useSearch();
 
   useEffect(() => {
     setConfig({
       countryCode: props?.countryCode ?? 'fr',
       baseRouterPrefixForFgs: props?.baseRouterPrefixForFgs ?? '',
-      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api'
+      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api',
+      productFinderLink:
+        props?.productFinderUrl ??
+        `/${props?.countryCode ?? 'fr'}/product-finder`
     });
   }, []);
 
@@ -85,7 +88,7 @@ const Search = (props) => {
       countryCode: config.countryCode,
       itemBaseUrl: config.baseRouterPrefixForFgs
     });
-    setSataProducts({
+    setDataProducts({
       total,
       content,
       pageNum

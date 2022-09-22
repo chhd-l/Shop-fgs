@@ -8,7 +8,7 @@ const SearchModal = ({ children }) => {
     setIsSearched,
     setDataArticles,
     setDataBreeds,
-    setSataProducts,
+    setDataProducts,
     setInputValue,
     setResultCurrentTab
   } = useSearch();
@@ -27,7 +27,7 @@ const SearchModal = ({ children }) => {
               document.querySelector('body').style.overflowY = 'auto';
               setDataArticles(initData);
               setDataBreeds(initData);
-              setSataProducts(initData);
+              setDataProducts(initData);
               setInputValue('');
               setResultCurrentTab('All');
               setIsSearched(false);

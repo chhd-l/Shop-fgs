@@ -1,30 +1,45 @@
-import React, { useEffect } from 'react';
-import { useSearch } from '../../index';
+import React from 'react';
+import { useSearch, initData } from '../../index';
 import ListText from './components/ListText';
 import ListCarousel from './components/ListCarousel';
+
+// only display first page
+let firstPageDataArticles = initData;
+let firstPageDataBreeds = initData;
+let firstPageDataProducts = initData;
 
 const ResultAll = () => {
   const { setResultCurrentTab, dataArticles, dataBreeds, dataProducts } =
     useSearch();
 
+  if (dataArticles.pageNum === 0) {
+    firstPageDataArticles = { ...dataArticles };
+  }
+  if (dataBreeds.pageNum === 0) {
+    firstPageDataBreeds = { ...dataBreeds };
+  }
+  if (dataProducts.pageNum === 0) {
+    firstPageDataProducts = { ...dataProducts };
+  }
+
   return (
     <div className="search-result-all-box">
       <ListText
         title="Breeds"
-        total={dataBreeds.total}
-        list={dataBreeds.content}
+        total={firstPageDataBreeds.total}
+        list={firstPageDataBreeds.content}
         onViewMore={() => setResultCurrentTab('Breeds')}
       />
       <ListCarousel
         title="Products"
-        total={dataProducts.total}
-        list={dataProducts.content}
+        total={firstPageDataProducts.total}
+        list={firstPageDataProducts.content}
         onViewMore={() => setResultCurrentTab('Products')}
       />
       <ListText
         title="Articles"
-        total={dataArticles.total}
-        list={dataArticles.content}
+        total={firstPageDataArticles.total}
+        list={firstPageDataArticles.content}
         onViewMore={() => setResultCurrentTab('Articles')}
       />
     </div>
