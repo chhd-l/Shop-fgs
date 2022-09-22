@@ -6,6 +6,7 @@ import SearchRecent from './SearchRecent';
 import SearchResult from './SearchResult';
 import SearchEmpty from './SearchEmpty';
 import * as api from './api';
+import { GAEventClickSearchBar, GAEventDisplayResult } from '../GA';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -35,12 +36,13 @@ const Search = (props) => {
   }, []);
 
   const getAllList = async (keywords) => {
-    await Promise.all([
+    const [articles, breeds, products] = await Promise.all([
       getArticles(keywords),
       getBreeds(keywords),
       getProducts(keywords)
     ]);
     setIsSearched(true);
+    GAEventDisplayResult(breeds, products, articles);
   };
 
   const getArticles = async (keywords, pageNum = 0) => {
@@ -55,6 +57,7 @@ const Search = (props) => {
       content,
       pageNum
     });
+    return total;
   };
 
   const getBreeds = async (keywords, pageNum = 0) => {
@@ -69,6 +72,7 @@ const Search = (props) => {
       content,
       pageNum
     });
+    return total;
   };
 
   const getProducts = async (keywords, pageNum = 0) => {
@@ -84,6 +88,7 @@ const Search = (props) => {
       content,
       pageNum
     });
+    return total;
   };
 
   const hasSomeData =
@@ -96,6 +101,7 @@ const Search = (props) => {
         onClick={() => {
           document.querySelector('body').style.overflowY = 'hidden';
           setModalVisible(true);
+          GAEventClickSearchBar();
         }}
       />
 
