@@ -25,7 +25,7 @@ const Search = (props) => {
     dataBreeds,
     setDataBreeds,
     dataProducts,
-    setSataProducts
+    setDataProducts
   } = useSearch();
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const Search = (props) => {
       countryCode: config.countryCode,
       itemBaseUrl: config.baseRouterPrefixForFgs
     });
-    setSataProducts({
+    setDataProducts({
       total,
       content,
       pageNum

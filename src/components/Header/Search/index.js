@@ -30,7 +30,7 @@ function useSearchHook() {
   // three tabs search data
   const [dataArticles, setDataArticles] = useState(initData);
   const [dataBreeds, setDataBreeds] = useState(initData);
-  const [dataProducts, setSataProducts] = useState(initData);
+  const [dataProducts, setDataProducts] = useState(initData);
 
   return {
     config,
@@ -51,7 +51,7 @@ function useSearchHook() {
     dataBreeds,
     setDataBreeds,
     dataProducts,
-    setSataProducts
+    setDataProducts
   };
 }
 
