@@ -19,6 +19,7 @@ const Search = (props) => {
     setModalVisible,
     isSearched,
     setIsSearched,
+    setResultCurrentTab,
     dataArticles,
     setDataArticles,
     dataBreeds,
@@ -31,7 +32,10 @@ const Search = (props) => {
     setConfig({
       countryCode: props?.countryCode ?? 'fr',
       baseRouterPrefixForFgs: props?.baseRouterPrefixForFgs ?? '',
-      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api'
+      baseApiPrefixForFgs: props?.baseApiPrefixForFgs ?? '/api',
+      productFinderLink:
+        props?.productFinderUrl ??
+        `/${props?.countryCode ?? 'fr'}/product-finder`
     });
   }, []);
 
@@ -42,6 +46,7 @@ const Search = (props) => {
       getProducts(keywords)
     ]);
     setIsSearched(true);
+    setResultCurrentTab('All');
     GAEventDisplayResult(breeds, products, articles);
   };
 

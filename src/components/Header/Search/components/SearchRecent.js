@@ -8,7 +8,7 @@ const SearchFindLink = () => {
   return (
     <a
       className="search-find-box"
-      href={`${config.countryCode}/`}
+      href={config.productFinderLink}
       onClick={GAEventClickFindAProduct}
     >
       <div className="search-find-content">
