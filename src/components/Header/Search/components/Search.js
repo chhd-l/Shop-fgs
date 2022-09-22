@@ -35,9 +35,11 @@ const Search = (props) => {
   }, []);
 
   const getAllList = async (keywords) => {
-    await getArticles(keywords);
-    await getBreeds(keywords);
-    await getProducts(keywords);
+    await Promise.all([
+      getArticles(keywords),
+      getBreeds(keywords),
+      getProducts(keywords)
+    ]);
     setIsSearched(true);
   };
 
@@ -100,13 +102,11 @@ const Search = (props) => {
       <SearchModal>
         <SearchInput onSearch={getAllList} />
 
-        {/*没有数据 && 搜索状态是false = 才展示*/}
-        {!hasSomeData && !isSearched && (
-          <SearchRecent onClickChange={getAllList} />
-        )}
+        {/*搜索状态是false = 才展示*/}
+        {!isSearched && <SearchRecent onClickChange={getAllList} />}
 
-        {/*有数据 = 才展示*/}
-        {hasSomeData && (
+        {/*有数据 && 搜索状态是true = 才展示*/}
+        {hasSomeData && isSearched && (
           <SearchResult
             getArticles={getArticles}
             getBreeds={getBreeds}
