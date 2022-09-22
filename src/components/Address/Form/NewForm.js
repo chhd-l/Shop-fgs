@@ -1492,7 +1492,7 @@ class Form extends React.Component {
   };
 
   validDataAll = async () => {
-    const { subForm, regPwd, regPwdValid, setExistEmailErrMsg } =
+    const { subForm, regPwd, regPwdValid, setExistEmailErrMsg, setRegEmail } =
       this.props.paymentStoreNew;
     const { email } = this.state.caninForm;
     try {
@@ -1532,6 +1532,7 @@ class Form extends React.Component {
         );
       } else {
         this.props.getFormAddressValidFlag(true);
+        setRegEmail(email);
         setExistEmailErrMsg('');
       }
     } catch (err) {

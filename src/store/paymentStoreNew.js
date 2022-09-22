@@ -120,6 +120,8 @@ class PaymentStore {
   @observable regPwdValid = true;
   @observable regPwd = '';
 
+  @observable regEmail = '';
+
   @observable existEmailErrMsg = '';
 
   @computed get clinicPanelStatus() {
@@ -625,6 +627,11 @@ class PaymentStore {
   @action.bound
   setRegPwd(val) {
     this.regPwd = val;
+  }
+
+  @action.bound
+  setRegEmail(val) {
+    this.regEmail = val;
   }
 
   @action.bound
