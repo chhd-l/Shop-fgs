@@ -32,10 +32,6 @@ jest.mock('react-intl', () => {
   };
 });
 
-jest.mock('@/components/Footer', () => {
-  return () => <div>Footer</div>;
-});
-
 const propsData = {
   history: {
     push: jest.fn()
