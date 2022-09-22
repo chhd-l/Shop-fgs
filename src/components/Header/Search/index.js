@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createContainer } from './unstated-next';
 import Search from './components/Search';
 
-const initData = {
+export const initData = {
   total: 0,
   content: [],
   pageNum: 0
